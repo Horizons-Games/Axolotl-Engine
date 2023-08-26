@@ -60,10 +60,6 @@ public:
 
 	void DrawQuadtree(const Quadtree* quadtree);
 
-	float2 ParallelReduction(Program* program, int width, int height);
-	void RenderShadowMap(const GameObject* light, const float2& minMax);
-	void ShadowDepthVariacne(int width, int height);
-
 private:
 
 	enum class ModeRender {
@@ -92,6 +88,13 @@ private:
 
 	void KawaseDualFiltering();
 
+	float2 ParallelReduction(Program* program, int width, int height);
+	void RenderShadowMap(const GameObject* light, const float2& minMax);
+	void ShadowDepthVariacne(int width, int height);
+	void GaussianBlur(int width, int height);
+
+private:
+
 	void* context;
 
 	float4 backgroundColor;
@@ -113,8 +116,8 @@ private:
 
 	// 0: used in game and engine 
 	// 1: only in engine, stores the final result, to avoid writing and reading at the same time
-	GLuint frameBuffer[2];
-	GLuint renderedTexture[2];
+	GLuint frameBuffer[2] = {0, 0};
+	GLuint renderedTexture[2] = {0, 0};
 
 	// Ping-pong buffers to kawase dual filtering bloom
 	GLuint bloomBlurFramebuffers[BLOOM_BLUR_PING_PONG];
@@ -131,7 +134,7 @@ private:
 	// Variance Shadow Mapping buffers and textures
 	GLuint shadowVarianceTexture = 0;
 	GLuint blurShadowMapBuffer = 0;
-	GLuint gBlurShadowMap = 0;
+	GLuint gBluredShadowMap = 0;
 
 	bool renderShadows;
 

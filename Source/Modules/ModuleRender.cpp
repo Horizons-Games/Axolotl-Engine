@@ -196,8 +196,11 @@ bool ModuleRender::Init()
 	glGenTextures(BLOOM_BLUR_PING_PONG, bloomBlurTextures);
 	glGenRenderbuffers(1, &depthStencilRenderBuffer);
 
+	// Shadow Buffers
 	glGenFramebuffers(1, &shadowMapBuffer);
 	glGenTextures(1, &gShadowMap);
+	glGenFramebuffers(1, &blurShadowMapBuffer);
+	glGenTextures(1, &gBluredShadowMap);
 
 	glGenTextures(1, &parallelReductionInTexture);
 	glGenTextures(1, &parallelReductionOutTexture);
@@ -322,8 +325,8 @@ UpdateStatus ModuleRender::Update()
 		float2 minMax = ParallelReduction(shadowProgram, w, h);
 
 		RenderShadowMap(loadedScene->GetDirectionalLight(), minMax);
-
 		ShadowDepthVariacne(w, h);
+		GaussianBlur(w, h);
 	}
 
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
@@ -523,6 +526,12 @@ bool ModuleRender::CleanUp()
 
 	glDeleteFramebuffers(1, &shadowMapBuffer);
 	glDeleteTextures(1, &gShadowMap);
+	glDeleteFramebuffers(1, &blurShadowMapBuffer);
+	glDeleteTextures(1, &gBluredShadowMap);
+
+	glDeleteTextures(1, &parallelReductionInTexture);
+	glDeleteTextures(1, &parallelReductionOutTexture);
+	glDeleteTextures(1, &shadowVarianceTexture);
 
 	return true;
 }
@@ -557,6 +566,22 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
 		LOG_ERROR("ERROR::FRAMEBUFFER:: Shadow Map framebuffer not completed!");
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, blurShadowMapBuffer);
+
+	glBindTexture(GL_TEXTURE_2D, gBluredShadowMap);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RG32F, width, height, 0, GL_RG, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gBluredShadowMap, 0);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		LOG_ERROR("ERROR::FRAMEBUFFER:: Blured Shadow Map framebuffer not completed!");
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
@@ -634,7 +659,6 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RG32F, width, height);
 	glBindTexture(GL_TEXTURE_2D, parallelReductionOutTexture);
 	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RG32F, width, height);
-
 	glBindTexture(GL_TEXTURE_2D, shadowVarianceTexture);
 	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RG32F, width, height);
 
@@ -925,6 +949,36 @@ void ModuleRender::ShadowDepthVariacne(int width, int height)
 
 	glDispatchCompute(numGroupsX, numGroupsY, 1);
 	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+
+	program->Deactivate();
+
+	glPopDebugGroup();
+}
+
+void ModuleRender::GaussianBlur(int width, int height)
+{
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::GAUSSIAN_BLUR);
+
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Gaussian Blur"), "Gaussian Blur");
+
+	program->Activate();
+
+	glBindFramebuffer(GL_FRAMEBUFFER, blurShadowMapBuffer);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, shadowVarianceTexture);
+
+	program->BindUniformFloat2("invSize", float2(width, height));
+	program->BindUniformFloat2("blurDirection", float2(0.0f, 1.0f));
+
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, gBluredShadowMap);
+
+	program->BindUniformFloat2("blurDirection", float2(1.0f, 0.0f));
+
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 
 	program->Deactivate();
 
