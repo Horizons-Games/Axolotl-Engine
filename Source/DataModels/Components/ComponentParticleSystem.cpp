@@ -115,7 +115,7 @@ void ComponentParticleSystem::Stop()
 
 void ComponentParticleSystem::Update()
 {
-	if (IsEnabled() && isPlaying && !pause)
+if (IsEnabled() && isPlaying && !pause)
 	{
 		for (EmitterInstance* emitter : emitters)
 		{

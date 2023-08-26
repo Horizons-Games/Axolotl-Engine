@@ -17,7 +17,10 @@ class ComponentRigidBody;
 class ComponentTransform;
 class ComponentAgent;
 class ComponentAudioSource;
-class HealthSystem;
+class ComponentAnimation;
+class ComponentParticleSystem;
+class EnemyDeathScript;
+class AIMovement;
 
 class MeleeHeavyAttackBehaviourScript : public Script
 {
@@ -27,8 +30,6 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
-
-	void SetExplosionPosition(const float3& explosionPos);
 
 	void TriggerExplosion();
 	void UpdateDroneColor();
@@ -44,11 +45,15 @@ private:
 	GameObject* targetPlayer;
 
 	ComponentRigidBody* rigidBody;
-	ComponentTransform* parentTransform;
-	HealthSystem* parentHealthSystem;
+	ComponentTransform* transform;
+	EnemyDeathScript* parentDeathScript;
 	ComponentAudioSource* componentAudioSource;
 	ComponentAgent* ownerAgent;
+	ComponentAnimation* componentAnimation;
+	ComponentParticleSystem* particleSystem;
+	AIMovement* aiMovement;
 
 	float explosionDamage;
 	float explosionTime;
+	float explosionDistance;
 };

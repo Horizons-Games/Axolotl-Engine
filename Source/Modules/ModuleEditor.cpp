@@ -21,6 +21,7 @@
 #include "Windows/WindowMainMenu.h"
 #ifdef ENGINE
 	#include "Auxiliar/GameBuilder.h"
+	#include "Animation/StateMachine.h"
 	#include "Resources/ResourceStateMachine.h"
 	#include "Windows/EditorWindows/WindowAssetFolder.h"
 	#include "Windows/EditorWindows/WindowConfiguration.h"
@@ -301,10 +302,10 @@ UpdateStatus ModuleEditor::PostUpdate()
 	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-void ModuleEditor::SetStateMachineWindowEditor(const std::weak_ptr<ResourceStateMachine>& resource)
+void ModuleEditor::SetStateMachineWindowEditor(StateMachine* resourceInstance, const std::string& instanceName)
 {
 #ifdef ENGINE
-	this->stateMachineEditor->SetStateMachine(resource);
+	this->stateMachineEditor->SetStateMachine(resourceInstance, instanceName);
 	stateMachineWindowEnable = true;
 #endif
 }

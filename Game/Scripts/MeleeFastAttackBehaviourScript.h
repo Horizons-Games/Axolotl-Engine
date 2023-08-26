@@ -6,6 +6,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform;
+class ComponentAudioSource;
 
 class MeleeFastAttackBehaviourScript : public Script
 {
@@ -43,4 +44,6 @@ private:
 	//--Provisional
 
 	ComponentTransform* ownerTransform;
+
+	ComponentAudioSource* audioSource;
 };

@@ -8,7 +8,6 @@
 #include "Geometry/Sphere.h"
 #include "ModulePhysics.h"
 #include "debugdraw.h"
-#include <ImGui/imgui.h>
 
 #include "ComponentScript.h"
 
@@ -105,7 +104,7 @@ void ComponentRigidBody::OnCollisionEnter(ComponentRigidBody* other)
 
 void ComponentRigidBody::OnCollisionStay(ComponentRigidBody* other)
 {
-	// TODO: Implement delegate for this
+	AXO_TODO("Implement delegate for this")
 	assert(other);
 }
 
@@ -155,25 +154,12 @@ void ComponentRigidBody::Update()
 
 	if (usePositionController)
 	{
-		float3 x = transform->GetGlobalPosition();
-		float3 positionError = targetPosition - x;
-		float3 velocityPosition = positionError * KpForce;
-
-		btVector3 velocity(velocityPosition.x, velocityPosition.y, velocityPosition.z);
-		rigidBody->setLinearVelocity(velocity);
+		SimulatePositionController();
 	}
 
 	if (useRotationController)
 	{
-		float3 axis;
-		float angle;
-		targetRotation.ToAxisAngle(axis, angle);
-		axis.Normalize();
-
-		float3 angularVelocity = axis * angle * KpTorque;
-		btVector3 bulletAngularVelocity(0.0f, angularVelocity.y, 0.0f);
-		rigidBody->setAngularFactor(btVector3(0.0f, 1.0f, 0.0f));
-		rigidBody->setAngularVelocity(bulletAngularVelocity);
+		SimulateRotationController();
 	}
 }
 
@@ -231,7 +217,7 @@ void ComponentRigidBody::SetUpMobility()
 		rigidBody->setMassProps(0, { 0, 0, 0 }); // Toreview: is this necessary here?
 	}
 	else if (IsStatic())
-	{
+	{	
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_KINEMATIC_OBJECT);
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DYNAMIC_OBJECT);
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
@@ -310,6 +296,12 @@ void ComponentRigidBody::InternalSave(Json& meta)
 	meta["rbPos_X"] = static_cast<float>(GetRigidBodyOrigin().getX());
 	meta["rbPos_Y"] = static_cast<float>(GetRigidBodyOrigin().getY());
 	meta["rbPos_Z"] = static_cast<float>(GetRigidBodyOrigin().getZ());
+	meta["xAxisBlocked"] = static_cast<bool>(IsXAxisBlocked());
+	meta["yAxisBlocked"] = static_cast<bool>(IsYAxisBlocked());
+	meta["zAxisBlocked"] = static_cast<bool>(IsZAxisBlocked());
+	meta["xRotationAxisBlocked"] = static_cast<bool>(IsXRotationAxisBlocked());
+	meta["yRotationAxisBlocked"] = static_cast<bool>(IsYRotationAxisBlocked());
+	meta["zRotationAxisBlocked"] = static_cast<bool>(IsZRotationAxisBlocked());
 }
 
 void ComponentRigidBody::InternalLoad(const Json& meta)
@@ -347,6 +339,14 @@ void ComponentRigidBody::InternalLoad(const Json& meta)
 
 	SetUpMobility();
 	SetGravity({ 0, static_cast<float>(meta["gravity_Y"]), 0 });
+
+	SetXAxisBlocked(static_cast<bool>(meta["xAxisBlocked"]));
+	SetYAxisBlocked(static_cast<bool>(meta["yAxisBlocked"]));
+	SetZAxisBlocked(static_cast<bool>(meta["zAxisBlocked"]));
+
+	SetXRotationAxisBlocked(static_cast<bool>(meta["xRotationAxisBlocked"]));
+	SetYRotationAxisBlocked(static_cast<bool>(meta["yRotationAxisBlocked"]));
+	SetZRotationAxisBlocked(static_cast<bool>(meta["zRotationAxisBlocked"]));
 }
 
 void ComponentRigidBody::SignalEnable()
@@ -439,7 +439,57 @@ void ComponentRigidBody::SetDefaultPosition()
 	UpdateRigidBody();
 }
 
+
 bool ComponentRigidBody::IsStatic() const
 {
 	return GetOwner()->IsStatic();
+}
+
+void ComponentRigidBody::SetStatic(bool newStatic)
+{
+	GetOwner()->SetStatic(newStatic);
+
+}
+
+
+void ComponentRigidBody::UpdateBlockedAxis()
+{
+	rigidBody->setLinearFactor(btVector3(!IsXAxisBlocked(), !IsYAxisBlocked(), !IsZAxisBlocked()));
+}
+
+void ComponentRigidBody::UpdateBlockedRotationAxis()
+{
+	rigidBody->setAngularFactor(
+		btVector3(!IsXRotationAxisBlocked(), !IsYRotationAxisBlocked(), !IsZRotationAxisBlocked()));
+}
+
+void ComponentRigidBody::SetAngularFactor(btVector3 rotation)
+{
+	rigidBody->setAngularFactor(btVector3(rotation.getX() * !IsXRotationAxisBlocked(),
+										  rotation.getY() *!IsYRotationAxisBlocked(),
+										  rotation.getZ() * !IsZRotationAxisBlocked()));
+}
+
+void ComponentRigidBody::SimulatePositionController()
+{
+	float3 x = transform->GetGlobalPosition();
+	float3 positionError = targetPosition - x;
+	float3 velocityPosition = positionError * KpForce;
+
+	btVector3 velocity(velocityPosition.x * !IsXAxisBlocked(),
+					   velocityPosition.y * !IsYAxisBlocked(),
+					   velocityPosition.z * !IsZAxisBlocked());
+	rigidBody->setLinearVelocity(velocity);
+}
+
+void ComponentRigidBody::SimulateRotationController()
+{
+	float3 axis;
+	float angle;
+	targetRotation.ToAxisAngle(axis, angle);
+	axis.Normalize();
+
+	float3 angularVelocity = axis * angle * KpTorque;
+	btVector3 bulletAngularVelocity(0.0f, angularVelocity.y * !IsYRotationAxisBlocked(), 0.0f);
+	rigidBody->setAngularVelocity(bulletAngularVelocity);
 }

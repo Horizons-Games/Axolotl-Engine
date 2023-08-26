@@ -160,6 +160,11 @@
                                     "name": "YFocusOffset",
                                     "value": 0.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "InCombat",
+                                    "value": false,
+                                    "type": 5
                                 }
                             ]
                         }
@@ -529,7 +534,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.0,
                             "rbPos_Y": -1.500262975692749,
-                            "rbPos_Z": 0.0
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     }
                 ]
@@ -605,7 +616,13 @@
                             "height": 0.699999988079071,
                             "rbPos_X": 0.0,
                             "rbPos_Y": 0.6499999761581421,
-                            "rbPos_Z": -14.259493827819824
+                            "rbPos_Z": -14.259493827819824,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -689,7 +706,7 @@
                                 },
                                 {
                                     "name": "IsImmortal",
-                                    "value": false,
+                                    "value": true,
                                     "type": 5
                                 },
                                 {
@@ -6542,7 +6559,7 @@
                             "isKinematic": false,
                             "isTrigger": true,
                             "drawCollider": true,
-                            "mass": 100.0,
+                            "mass": 1.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
@@ -6560,7 +6577,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.0003662109375,
                             "rbPos_Y": 0.0,
-                            "rbPos_Z": -14.259493827819824
+                            "rbPos_Z": -14.259493827819824,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -6793,10 +6816,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 362.5,
-                            "worldAABB_min_y": 232.5,
-                            "worldAABB_max_x": 362.5,
-                            "worldAABB_max_y": 232.5
+                            "worldAABB_min_x": 528.0,
+                            "worldAABB_min_y": 239.5,
+                            "worldAABB_max_x": 528.0,
+                            "worldAABB_max_y": 239.5
                         }
                     },
                     {
@@ -6888,10 +6911,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 324.7395935058594,
-                            "worldAABB_min_y": 194.73959350585938,
-                            "worldAABB_max_x": 400.2604064941406,
-                            "worldAABB_max_y": 270.2604064941406
+                            "worldAABB_min_x": 483.64813232421875,
+                            "worldAABB_min_y": 195.1481475830078,
+                            "worldAABB_max_x": 572.3518676757813,
+                            "worldAABB_max_y": 283.85186767578125
                         }
                     }
                 ]
@@ -6926,10 +6949,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 28.59375,
-                            "worldAABB_max_x": 725.0,
-                            "worldAABB_max_y": 436.40625
+                            "worldAABB_min_x": 102.22222900390625,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 953.7777709960938,
+                            "worldAABB_max_y": 479.0
                         }
                     },
                     {
@@ -6979,10 +7002,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 324.7395935058594,
-                            "worldAABB_min_y": 194.73959350585938,
-                            "worldAABB_max_x": 400.2604064941406,
-                            "worldAABB_max_y": 270.2604064941406
+                            "worldAABB_min_x": 483.64813232421875,
+                            "worldAABB_min_y": 195.1481475830078,
+                            "worldAABB_max_x": 572.3518676757813,
+                            "worldAABB_max_y": 283.85186767578125
                         }
                     }
                 ]
@@ -7017,10 +7040,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 324.7395935058594,
-                            "worldAABB_min_y": 194.73959350585938,
-                            "worldAABB_max_x": 400.2604064941406,
-                            "worldAABB_max_y": 270.2604064941406
+                            "worldAABB_min_x": 483.64813232421875,
+                            "worldAABB_min_y": 195.1481475830078,
+                            "worldAABB_max_x": 572.3518676757813,
+                            "worldAABB_max_y": 283.85186767578125
                         }
                     }
                 ]
@@ -7055,10 +7078,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 324.7395935058594,
-                            "worldAABB_min_y": 194.73959350585938,
-                            "worldAABB_max_x": 400.2604064941406,
-                            "worldAABB_max_y": 270.2604064941406
+                            "worldAABB_min_x": 483.64813232421875,
+                            "worldAABB_min_y": 195.1481475830078,
+                            "worldAABB_max_x": 572.3518676757813,
+                            "worldAABB_max_y": 283.85186767578125
                         }
                     }
                 ]
@@ -7093,10 +7116,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 28.59375,
-                            "worldAABB_max_x": 725.0,
-                            "worldAABB_max_y": 436.40625
+                            "worldAABB_min_x": 102.22222900390625,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 953.7777709960938,
+                            "worldAABB_max_y": 479.0
                         }
                     },
                     {
@@ -7146,10 +7169,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 324.7395935058594,
-                            "worldAABB_min_y": 194.73959350585938,
-                            "worldAABB_max_x": 400.2604064941406,
-                            "worldAABB_max_y": 270.2604064941406
+                            "worldAABB_min_x": 483.64813232421875,
+                            "worldAABB_min_y": 195.1481475830078,
+                            "worldAABB_max_x": 572.3518676757813,
+                            "worldAABB_max_y": 283.85186767578125
                         }
                     }
                 ]
@@ -7184,10 +7207,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 28.59375,
-                            "worldAABB_max_x": 725.0,
-                            "worldAABB_max_y": 436.40625
+                            "worldAABB_min_x": 102.22222900390625,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 953.7777709960938,
+                            "worldAABB_max_y": 479.0
                         }
                     },
                     {
@@ -7237,10 +7260,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 324.7395935058594,
-                            "worldAABB_min_y": 194.73959350585938,
-                            "worldAABB_max_x": 400.2604064941406,
-                            "worldAABB_max_y": 270.2604064941406
+                            "worldAABB_min_x": 483.64813232421875,
+                            "worldAABB_min_y": 195.1481475830078,
+                            "worldAABB_max_x": 572.3518676757813,
+                            "worldAABB_max_y": 283.85186767578125
                         }
                     }
                 ]
@@ -7275,10 +7298,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 297.36328125,
-                            "worldAABB_min_y": 132.1150360107422,
-                            "worldAABB_max_x": 427.63671875,
-                            "worldAABB_max_y": 164.4001922607422
+                            "worldAABB_min_x": 451.4930419921875,
+                            "worldAABB_min_y": 121.59188842773438,
+                            "worldAABB_max_x": 604.5069580078125,
+                            "worldAABB_max_y": 159.51272583007813
                         }
                     },
                     {
@@ -7328,10 +7351,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 312.1842346191406,
-                            "worldAABB_min_y": 194.57131958007813,
-                            "worldAABB_max_x": 412.8157653808594,
-                            "worldAABB_max_y": 224.96844482421875
+                            "worldAABB_min_x": 468.9011535644531,
+                            "worldAABB_min_y": 194.95050048828125,
+                            "worldAABB_max_x": 587.0988159179688,
+                            "worldAABB_max_y": 230.65374755859375
                         }
                     },
                     {
@@ -7453,10 +7476,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 312.1842346191406,
-                            "worldAABB_min_y": 232.60057067871094,
-                            "worldAABB_max_x": 412.8157653808594,
-                            "worldAABB_max_y": 262.9977111816406
+                            "worldAABB_min_x": 468.9011535644531,
+                            "worldAABB_min_y": 239.61810302734375,
+                            "worldAABB_max_x": 587.0988159179688,
+                            "worldAABB_max_y": 275.32135009765625
                         }
                     },
                     {
@@ -7578,10 +7601,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 324.7395935058594,
-                            "worldAABB_min_y": 194.73959350585938,
-                            "worldAABB_max_x": 400.2604064941406,
-                            "worldAABB_max_y": 270.2604064941406
+                            "worldAABB_min_x": 483.64813232421875,
+                            "worldAABB_min_y": 195.1481475830078,
+                            "worldAABB_max_x": 572.3518676757813,
+                            "worldAABB_max_y": 283.85186767578125
                         }
                     }
                 ]
@@ -7616,10 +7639,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 324.7395935058594,
-                            "worldAABB_min_y": 194.73959350585938,
-                            "worldAABB_max_x": 400.2604064941406,
-                            "worldAABB_max_y": 270.2604064941406
+                            "worldAABB_min_x": 483.64813232421875,
+                            "worldAABB_min_y": 195.1481475830078,
+                            "worldAABB_max_x": 572.3518676757813,
+                            "worldAABB_max_y": 283.85186767578125
                         }
                     }
                 ]
@@ -7654,10 +7677,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 312.1842346191406,
-                            "worldAABB_min_y": 270.62982177734375,
-                            "worldAABB_max_x": 412.8157653808594,
-                            "worldAABB_max_y": 301.0269775390625
+                            "worldAABB_min_x": 468.9011535644531,
+                            "worldAABB_min_y": 284.2857360839844,
+                            "worldAABB_max_x": 587.0988159179688,
+                            "worldAABB_max_y": 319.9889831542969
                         }
                     },
                     {
@@ -7779,10 +7802,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 312.1842346191406,
-                            "worldAABB_min_y": 308.6590576171875,
-                            "worldAABB_max_x": 412.8157653808594,
-                            "worldAABB_max_y": 339.05621337890625
+                            "worldAABB_min_x": 468.9011535644531,
+                            "worldAABB_min_y": 328.953369140625,
+                            "worldAABB_max_x": 587.0988159179688,
+                            "worldAABB_max_y": 364.6566162109375
                         }
                     },
                     {
@@ -7904,10 +7927,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 312.1842346191406,
-                            "worldAABB_min_y": 194.57135009765625,
-                            "worldAABB_max_x": 412.8157653808594,
-                            "worldAABB_max_y": 224.96847534179688
+                            "worldAABB_min_x": 468.9011535644531,
+                            "worldAABB_min_y": 194.95053100585938,
+                            "worldAABB_max_x": 587.0988159179688,
+                            "worldAABB_max_y": 230.65377807617188
                         }
                     },
                     {
@@ -7957,10 +7980,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 312.1842346191406,
-                            "worldAABB_min_y": 232.60057067871094,
-                            "worldAABB_max_x": 412.8157653808594,
-                            "worldAABB_max_y": 262.9977111816406
+                            "worldAABB_min_x": 468.9011535644531,
+                            "worldAABB_min_y": 239.61813354492188,
+                            "worldAABB_max_x": 587.0988159179688,
+                            "worldAABB_max_y": 275.3213806152344
                         }
                     },
                     {
@@ -8010,10 +8033,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 312.1842346191406,
-                            "worldAABB_min_y": 270.62982177734375,
-                            "worldAABB_max_x": 412.8157653808594,
-                            "worldAABB_max_y": 301.0269775390625
+                            "worldAABB_min_x": 468.9011535644531,
+                            "worldAABB_min_y": 284.2857360839844,
+                            "worldAABB_max_x": 587.0988159179688,
+                            "worldAABB_max_y": 319.9889831542969
                         }
                     },
                     {
@@ -8063,10 +8086,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 312.1842346191406,
-                            "worldAABB_min_y": 308.6590881347656,
-                            "worldAABB_max_x": 412.8157653808594,
-                            "worldAABB_max_y": 339.0562438964844
+                            "worldAABB_min_x": 468.9011535644531,
+                            "worldAABB_min_y": 328.953369140625,
+                            "worldAABB_max_x": 587.0988159179688,
+                            "worldAABB_max_y": 364.6566162109375
                         }
                     },
                     {
@@ -8116,10 +8139,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 324.7395935058594,
-                            "worldAABB_min_y": 194.73959350585938,
-                            "worldAABB_max_x": 400.2604064941406,
-                            "worldAABB_max_y": 270.2604064941406
+                            "worldAABB_min_x": 483.64813232421875,
+                            "worldAABB_min_y": 195.1481475830078,
+                            "worldAABB_max_x": 572.3518676757813,
+                            "worldAABB_max_y": 283.85186767578125
                         }
                     }
                 ]
@@ -8154,10 +8177,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 28.59375,
-                            "worldAABB_max_x": 725.0,
-                            "worldAABB_max_y": 436.40625
+                            "worldAABB_min_x": 102.22222900390625,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 953.7777709960938,
+                            "worldAABB_max_y": 479.0
                         }
                     },
                     {
@@ -8207,10 +8230,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 613.6514282226563,
-                            "worldAABB_min_y": 51.4918327331543,
-                            "worldAABB_max_x": 655.9430541992188,
-                            "worldAABB_max_y": 62.06474685668945
+                            "worldAABB_min_x": 822.9921875,
+                            "worldAABB_min_y": 26.8951416015625,
+                            "worldAABB_max_x": 872.666259765625,
+                            "worldAABB_max_y": 39.31365966796875
                         }
                     },
                     {
@@ -8332,10 +8355,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 28.59375,
-                            "worldAABB_max_x": 725.0,
-                            "worldAABB_max_y": 436.40625
+                            "worldAABB_min_x": 102.22222900390625,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 953.7777709960938,
+                            "worldAABB_max_y": 479.0
                         }
                     },
                     {
@@ -8385,10 +8408,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 324.7395935058594,
-                            "worldAABB_min_y": 194.73959350585938,
-                            "worldAABB_max_x": 400.2604064941406,
-                            "worldAABB_max_y": 270.2604064941406
+                            "worldAABB_min_x": 483.64813232421875,
+                            "worldAABB_min_y": 195.1481475830078,
+                            "worldAABB_max_x": 572.3518676757813,
+                            "worldAABB_max_y": 283.85186767578125
                         }
                     }
                 ]
@@ -8423,10 +8446,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 324.7395935058594,
-                            "worldAABB_min_y": 194.73959350585938,
-                            "worldAABB_max_x": 400.2604064941406,
-                            "worldAABB_max_y": 270.2604064941406
+                            "worldAABB_min_x": 483.64813232421875,
+                            "worldAABB_min_y": 195.1481475830078,
+                            "worldAABB_max_x": 572.3518676757813,
+                            "worldAABB_max_y": 283.85186767578125
                         }
                     }
                 ]
@@ -8461,10 +8484,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 8.854545593261719,
-                            "worldAABB_min_y": 77.60114288330078,
-                            "worldAABB_max_x": 118.92615509033203,
-                            "worldAABB_max_y": 109.5086898803711
+                            "worldAABB_min_x": 112.62240600585938,
+                            "worldAABB_min_y": 57.56208038330078,
+                            "worldAABB_max_x": 241.90805053710938,
+                            "worldAABB_max_y": 95.03939056396484
                         }
                     },
                     {
@@ -8514,10 +8537,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 734.5217895507813,
-                            "worldAABB_min_y": 45.774742126464844,
-                            "worldAABB_max_x": 951.0778198242188,
-                            "worldAABB_max_y": 104.30338287353516
+                            "worldAABB_min_x": 964.961669921875,
+                            "worldAABB_min_y": 20.180095672607422,
+                            "worldAABB_max_x": 1219.319580078125,
+                            "worldAABB_max_y": 88.92546081542969
                         }
                     },
                     {
@@ -8584,10 +8607,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 50.915367126464844,
-                            "worldAABB_min_y": 18.087852478027344,
-                            "worldAABB_max_x": 126.43619537353516,
-                            "worldAABB_max_y": 93.60868072509766
+                            "worldAABB_min_x": 162.0253448486328,
+                            "worldAABB_min_y": -12.339813232421875,
+                            "worldAABB_max_x": 250.7290496826172,
+                            "worldAABB_max_y": 76.3638916015625
                         }
                     },
                     {
@@ -8636,10 +8659,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 8.529296875,
-                            "worldAABB_min_y": 33.097618103027344,
-                            "worldAABB_max_x": 168.822265625,
-                            "worldAABB_max_y": 78.59891510009766
+                            "worldAABB_min_x": 112.24039459228516,
+                            "worldAABB_min_y": 5.290048599243164,
+                            "worldAABB_max_x": 300.5140075683594,
+                            "worldAABB_max_y": 58.734031677246094
                         }
                     },
                     {
@@ -8689,10 +8712,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 74.31317901611328,
-                            "worldAABB_min_y": 59.84831619262695,
-                            "worldAABB_max_x": 156.63088989257813,
-                            "worldAABB_max_y": 67.40039825439453
+                            "worldAABB_min_x": 189.50743103027344,
+                            "worldAABB_min_y": 36.7103385925293,
+                            "worldAABB_max_x": 286.1944580078125,
+                            "worldAABB_max_y": 45.58070755004883
                         }
                     },
                     {
@@ -8742,10 +8765,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 163.46664428710938,
-                            "worldAABB_min_y": 44.5201416015625,
-                            "worldAABB_max_x": 172.90673828125,
-                            "worldAABB_max_y": 67.1763916015625
+                            "worldAABB_min_x": 294.2234802246094,
+                            "worldAABB_min_y": 18.706483840942383,
+                            "worldAABB_max_x": 305.3114318847656,
+                            "worldAABB_max_y": 45.317596435546875
                         }
                     },
                     {
@@ -8811,10 +8834,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 50.91539764404297,
-                            "worldAABB_min_y": 18.087684631347656,
-                            "worldAABB_max_x": 126.43622589111328,
-                            "worldAABB_max_y": 93.60851287841797
+                            "worldAABB_min_x": 162.02537536621094,
+                            "worldAABB_min_y": -12.340011596679688,
+                            "worldAABB_max_x": 250.7290802001953,
+                            "worldAABB_max_y": 76.36369323730469
                         }
                     },
                     {
@@ -8863,10 +8886,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 13.154983520507813,
-                            "worldAABB_min_y": 46.407997131347656,
-                            "worldAABB_max_x": 164.19664001464844,
-                            "worldAABB_max_y": 65.28820037841797
+                            "worldAABB_min_x": 117.67352294921875,
+                            "worldAABB_min_y": 20.923877716064453,
+                            "worldAABB_max_x": 295.0809326171875,
+                            "worldAABB_max_y": 43.09980392456055
                         }
                     },
                     {
@@ -8916,10 +8939,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 74.31327056884766,
-                            "worldAABB_min_y": 59.84804153442383,
-                            "worldAABB_max_x": 156.6309814453125,
-                            "worldAABB_max_y": 67.4001235961914
+                            "worldAABB_min_x": 189.50755310058594,
+                            "worldAABB_min_y": 36.710018157958984,
+                            "worldAABB_max_x": 286.194580078125,
+                            "worldAABB_max_y": 45.580387115478516
                         }
                     },
                     {
@@ -8969,10 +8992,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 158.9017791748047,
-                            "worldAABB_min_y": 44.51997375488281,
-                            "worldAABB_max_x": 168.3418731689453,
-                            "worldAABB_max_y": 67.17622375488281
+                            "worldAABB_min_x": 288.8617858886719,
+                            "worldAABB_min_y": 18.70628547668457,
+                            "worldAABB_max_x": 299.9497375488281,
+                            "worldAABB_max_y": 45.31739807128906
                         }
                     },
                     {
@@ -9038,10 +9061,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 324.7395935058594,
-                            "worldAABB_min_y": 194.73959350585938,
-                            "worldAABB_max_x": 400.2604064941406,
-                            "worldAABB_max_y": 270.2604064941406
+                            "worldAABB_min_x": 483.64813232421875,
+                            "worldAABB_min_y": 195.1481475830078,
+                            "worldAABB_max_x": 572.3518676757813,
+                            "worldAABB_max_y": 283.85186767578125
                         }
                     }
                 ]
@@ -9076,10 +9099,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 575.4686889648438,
-                            "worldAABB_min_y": 338.2291564941406,
-                            "worldAABB_max_x": 650.9895629882813,
-                            "worldAABB_max_y": 413.7499694824219
+                            "worldAABB_min_x": 778.1444702148438,
+                            "worldAABB_min_y": 363.6851806640625,
+                            "worldAABB_max_x": 866.8482055664063,
+                            "worldAABB_max_y": 452.388916015625
                         }
                     },
                     {
@@ -9128,10 +9151,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 568.6718139648438,
-                            "worldAABB_min_y": 331.4322814941406,
-                            "worldAABB_max_x": 657.7864379882813,
-                            "worldAABB_max_y": 420.5468444824219
+                            "worldAABB_min_x": 770.1611328125,
+                            "worldAABB_min_y": 355.7018737792969,
+                            "worldAABB_max_x": 874.83154296875,
+                            "worldAABB_max_y": 460.3722229003906
                         }
                     },
                     {
@@ -9181,10 +9204,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 568.6718139648438,
-                            "worldAABB_min_y": 331.4322814941406,
-                            "worldAABB_max_x": 657.7864379882813,
-                            "worldAABB_max_y": 420.5468444824219
+                            "worldAABB_min_x": 770.1611328125,
+                            "worldAABB_min_y": 355.7018737792969,
+                            "worldAABB_max_x": 874.83154296875,
+                            "worldAABB_max_y": 460.3722229003906
                         }
                     },
                     {
@@ -9234,10 +9257,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 608.5090942382813,
-                            "worldAABB_min_y": 364.66143798828125,
-                            "worldAABB_max_x": 617.9491577148438,
-                            "worldAABB_max_y": 387.31768798828125
+                            "worldAABB_min_x": 816.9523315429688,
+                            "worldAABB_min_y": 394.73150634765625,
+                            "worldAABB_max_x": 828.0403442382813,
+                            "worldAABB_max_y": 421.34259033203125
                         }
                     },
                     {
@@ -9303,10 +9326,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 575.4686889648438,
-                            "worldAABB_min_y": 338.2291564941406,
-                            "worldAABB_max_x": 650.9895629882813,
-                            "worldAABB_max_y": 413.7499694824219
+                            "worldAABB_min_x": 778.1444702148438,
+                            "worldAABB_min_y": 363.6851806640625,
+                            "worldAABB_max_x": 866.8482055664063,
+                            "worldAABB_max_y": 452.388916015625
                         }
                     },
                     {
@@ -9355,10 +9378,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 568.6718139648438,
-                            "worldAABB_min_y": 331.4322814941406,
-                            "worldAABB_max_x": 657.7864379882813,
-                            "worldAABB_max_y": 420.5468444824219
+                            "worldAABB_min_x": 770.1611328125,
+                            "worldAABB_min_y": 355.7018737792969,
+                            "worldAABB_max_x": 874.83154296875,
+                            "worldAABB_max_y": 460.3722229003906
                         }
                     },
                     {
@@ -9408,10 +9431,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 568.6718139648438,
-                            "worldAABB_min_y": 331.4322814941406,
-                            "worldAABB_max_x": 657.7864379882813,
-                            "worldAABB_max_y": 420.5468444824219
+                            "worldAABB_min_x": 770.1611328125,
+                            "worldAABB_min_y": 355.7018737792969,
+                            "worldAABB_max_x": 874.83154296875,
+                            "worldAABB_max_y": 460.3722229003906
                         }
                     },
                     {
@@ -9461,10 +9484,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 652.4745483398438,
-                            "worldAABB_min_y": 364.66143798828125,
-                            "worldAABB_max_x": 661.9146118164063,
-                            "worldAABB_max_y": 387.31768798828125
+                            "worldAABB_min_x": 868.5922241210938,
+                            "worldAABB_min_y": 394.73150634765625,
+                            "worldAABB_max_x": 879.6802368164063,
+                            "worldAABB_max_y": 421.34259033203125
                         }
                     },
                     {
@@ -9530,10 +9553,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 575.4686889648438,
-                            "worldAABB_min_y": 338.2291564941406,
-                            "worldAABB_max_x": 650.9895629882813,
-                            "worldAABB_max_y": 413.7499694824219
+                            "worldAABB_min_x": 778.1444702148438,
+                            "worldAABB_min_y": 363.6851806640625,
+                            "worldAABB_max_x": 866.8482055664063,
+                            "worldAABB_max_y": 452.388916015625
                         }
                     },
                     {
@@ -9582,10 +9605,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 568.6718139648438,
-                            "worldAABB_min_y": 331.4322814941406,
-                            "worldAABB_max_x": 657.7864379882813,
-                            "worldAABB_max_y": 420.5468444824219
+                            "worldAABB_min_x": 770.1611328125,
+                            "worldAABB_min_y": 355.7018737792969,
+                            "worldAABB_max_x": 874.83154296875,
+                            "worldAABB_max_y": 460.3722229003906
                         }
                     },
                     {
@@ -9635,10 +9658,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 568.6718139648438,
-                            "worldAABB_min_y": 331.4322814941406,
-                            "worldAABB_max_x": 657.7864379882813,
-                            "worldAABB_max_y": 420.5468444824219
+                            "worldAABB_min_x": 770.1611328125,
+                            "worldAABB_min_y": 355.7018737792969,
+                            "worldAABB_max_x": 874.83154296875,
+                            "worldAABB_max_y": 460.3722229003906
                         }
                     },
                     {
@@ -9688,10 +9711,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 652.7550659179688,
-                            "worldAABB_min_y": 364.66143798828125,
-                            "worldAABB_max_x": 662.1951293945313,
-                            "worldAABB_max_y": 387.31768798828125
+                            "worldAABB_min_x": 868.9216918945313,
+                            "worldAABB_min_y": 394.73150634765625,
+                            "worldAABB_max_x": 880.0097045898438,
+                            "worldAABB_max_y": 421.34259033203125
                         }
                     },
                     {
@@ -9757,10 +9780,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 575.4686889648438,
-                            "worldAABB_min_y": 338.2291564941406,
-                            "worldAABB_max_x": 650.9895629882813,
-                            "worldAABB_max_y": 413.7499694824219
+                            "worldAABB_min_x": 778.1444702148438,
+                            "worldAABB_min_y": 363.6851806640625,
+                            "worldAABB_max_x": 866.8482055664063,
+                            "worldAABB_max_y": 452.388916015625
                         }
                     },
                     {
@@ -9809,10 +9832,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 568.6718139648438,
-                            "worldAABB_min_y": 331.4322814941406,
-                            "worldAABB_max_x": 657.7864379882813,
-                            "worldAABB_max_y": 420.5468444824219
+                            "worldAABB_min_x": 770.1611328125,
+                            "worldAABB_min_y": 355.7018737792969,
+                            "worldAABB_max_x": 874.83154296875,
+                            "worldAABB_max_y": 460.3722229003906
                         }
                     },
                     {
@@ -9862,10 +9885,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 568.6718139648438,
-                            "worldAABB_min_y": 331.4322814941406,
-                            "worldAABB_max_x": 657.7864379882813,
-                            "worldAABB_max_y": 420.5468444824219
+                            "worldAABB_min_x": 770.1611328125,
+                            "worldAABB_min_y": 355.7018737792969,
+                            "worldAABB_max_x": 874.83154296875,
+                            "worldAABB_max_y": 460.3722229003906
                         }
                     },
                     {
@@ -9915,10 +9938,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 682.2632446289063,
-                            "worldAABB_min_y": 364.66143798828125,
-                            "worldAABB_max_x": 691.7033081054688,
-                            "worldAABB_max_y": 387.31768798828125
+                            "worldAABB_min_x": 903.5808715820313,
+                            "worldAABB_min_y": 394.73150634765625,
+                            "worldAABB_max_x": 914.6688842773438,
+                            "worldAABB_max_y": 421.34259033203125
                         }
                     },
                     {
@@ -10006,7 +10029,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.0,
                             "rbPos_Y": 0.0,
-                            "rbPos_Z": -14.0
+                            "rbPos_Z": -14.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -10057,7 +10086,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.4251004159450531,
+                            "localPos_Y": 1.5,
                             "localPos_Z": 1.1187258958816528,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
@@ -10150,6 +10179,16 @@
                                     "name": "ExplosionGameObject",
                                     "value": 1435588834732233720,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ExclamationVFX",
+                                    "value": 8240929297822109787,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EnemyDetectionDuration",
+                                    "value": 0.6000000238418579,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -10163,7 +10202,7 @@
                             "fields": [
                                 {
                                     "name": "AttackCooldown",
-                                    "value": 5.0,
+                                    "value": 3.0,
                                     "type": 0
                                 },
                                 {
@@ -10173,13 +10212,48 @@
                                 },
                                 {
                                     "name": "BulletVelocity",
-                                    "value": 15.0,
+                                    "value": 50.0,
                                     "type": 0
                                 },
                                 {
-                                    "name": "LaserParticleSystem",
-                                    "value": 0,
+                                    "name": "AttackDamage",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ShootPosition",
+                                    "value": 2710646517734464295,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemShot",
+                                    "value": 4527162996780273747,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemPreShot",
+                                    "value": 4138804445213898230,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "PreShotDuration",
+                                    "value": 1.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "NumConsecutiveShots",
+                                    "value": 2.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MinTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeConsecutiveShot",
+                                    "value": 0.5,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -10193,12 +10267,12 @@
                             "fields": [
                                 {
                                     "name": "CurrentHealth",
-                                    "value": 25.799999237060547,
+                                    "value": 50.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "MaxHealth",
-                                    "value": 100.0,
+                                    "value": 50.0,
                                     "type": 0
                                 },
                                 {
@@ -10246,8 +10320,14 @@
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": 21.462556838989258,
-                            "rbPos_Y": 0.4251004159450531,
-                            "rbPos_Z": 1.1187258958816528
+                            "rbPos_Y": 1.5,
+                            "rbPos_Z": 1.1187258958816528,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -10259,7 +10339,12 @@
                             "fields": [
                                 {
                                     "name": "ActivePowerUp",
-                                    "value": 0,
+                                    "value": 7298153621840939228,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystem",
+                                    "value": 14960402236157951178,
                                     "type": 2
                                 }
                             ]
@@ -12896,15 +12981,15 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 7.958078640513122e-13,
+                            "localPos_X": 0.0001316070556640625,
                             "localPos_Y": 0.45648980140686035,
-                            "localPos_Z": 1.7518962621688843,
+                            "localPos_Z": 2.894495964050293,
                             "localRot_X": 90.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localSca_X": 0.07500000298023224,
-                            "localSca_Y": 0.07500001043081284,
-                            "localSca_Z": 0.07500001043081284
+                            "localSca_X": 0.02500000037252903,
+                            "localSca_Y": 0.22499999403953552,
+                            "localSca_Z": 0.02500000037252903
                         }
                     },
                     {
@@ -12914,8 +12999,8 @@
                             "removed": true,
                             "meshUID": 3457435429278227001,
                             "assetPathMesh": "Assets/Meshes/Capsule.mesh",
-                            "materialUID": 4337559970860798462,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                            "materialUID": 11995748887294444002,
+                            "assetPathMaterial": "Assets/Materials/DroneBulletMaterial.mat"
                         }
                     },
                     {
@@ -12949,9 +13034,25 @@
                             "radius": 4.499998569488525,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 21.462554931640625,
-                            "rbPos_Y": -0.021757155656814575,
-                            "rbPos_Z": 2.870622158050537
+                            "rbPos_X": 21.46242332458496,
+                            "rbPos_Y": 1.0531424283981323,
+                            "rbPos_Z": 4.013221740722656,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 2394911383227217054,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/ShotCollision.particle",
+                            "playAtStart": false
                         }
                     }
                 ]
@@ -13007,8 +13108,14 @@
                             "factor": 2.5,
                             "height": 2.0,
                             "rbPos_X": 21.462556838989258,
-                            "rbPos_Y": 0.1737440526485443,
-                            "rbPos_Z": 1.1187258958816528
+                            "rbPos_Y": 1.2486436367034912,
+                            "rbPos_Z": 1.1187258958816528,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -13027,6 +13134,16 @@
                                     "name": "ExplosionTime",
                                     "value": 2.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "ExplosionDistance",
+                                    "value": 4.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ParticleSystem",
+                                    "value": 16394625390761108473,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -13040,7 +13157,7 @@
                 "tag": "Enemy",
                 "uid": 14606855830618181560,
                 "parentUID": 16415258083415142231,
-                "enabled": true,
+                "enabled": false,
                 "static": false,
                 "Components": [
                     {
@@ -13135,6 +13252,16 @@
                                     "name": "ExplosionGameObject",
                                     "value": 11623988761034832719,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ExclamationVFX",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EnemyDetectionDuration",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -13158,13 +13285,48 @@
                                 },
                                 {
                                     "name": "BulletVelocity",
-                                    "value": 15.0,
+                                    "value": 50.0,
                                     "type": 0
                                 },
                                 {
-                                    "name": "LaserParticleSystem",
+                                    "name": "AttackDamage",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ShootPosition",
                                     "value": 0,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemPreShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "PreShotDuration",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "NumConsecutiveShots",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MinTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -13232,7 +13394,13 @@
                             "height": 2.0,
                             "rbPos_X": 21.462556838989258,
                             "rbPos_Y": 1.5,
-                            "rbPos_Z": 8.457332611083984
+                            "rbPos_Z": 8.457332611083984,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -13244,6 +13412,11 @@
                             "fields": [
                                 {
                                     "name": "ActivePowerUp",
+                                    "value": 9659257584509647225,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystem",
                                     "value": 0,
                                     "type": 2
                                 }
@@ -15924,7 +16097,13 @@
                             "height": 2.0,
                             "rbPos_X": 21.462554931640625,
                             "rbPos_Y": 1.1267046928405762,
-                            "rbPos_Z": 10.261439323425293
+                            "rbPos_Z": 10.261439323425293,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     }
                 ]
@@ -15981,7 +16160,13 @@
                             "height": 2.0,
                             "rbPos_X": 21.462556838989258,
                             "rbPos_Y": 1.2486436367034912,
-                            "rbPos_Z": 8.457332611083984
+                            "rbPos_Z": 8.457332611083984,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -16000,6 +16185,16 @@
                                     "name": "ExplosionTime",
                                     "value": 2.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "ExplosionDistance",
+                                    "value": 4.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ParticleSystem",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -16149,81 +16344,6 @@
         },
         {
             "GameObject": {
-                "name": "Bullet",
-                "tag": "",
-                "uid": 9730990294478485049,
-                "parentUID": 6043398887632489792,
-                "enabled": false,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 4.159226136835059e-7,
-                            "localPos_Y": 2.0559122562408447,
-                            "localPos_Z": 3.01865291595459,
-                            "localRot_X": -90.00001525878906,
-                            "localRot_Y": -0.00002231179314549081,
-                            "localRot_Z": -179.99998474121094,
-                            "localSca_X": 0.25,
-                            "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 3457435429278227001,
-                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
-                            "materialUID": 4337559970860798462,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_AudioSource",
-                            "active": true,
-                            "removed": true
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_RigidBody",
-                            "active": true,
-                            "removed": true,
-                            "isKinematic": false,
-                            "isTrigger": false,
-                            "drawCollider": false,
-                            "mass": 1.0,
-                            "linearDamping": 0.10000000149011612,
-                            "angularDamping": 0.10000000149011612,
-                            "restitution": 0.0,
-                            "currentShape": 1,
-                            "usePositionController": false,
-                            "useRotationController": false,
-                            "KpForce": 5.0,
-                            "KpTorque": 0.05000000074505806,
-                            "gravity_Y": 0.0,
-                            "boxSize_X": 0.24999985098838806,
-                            "boxSize_Y": 0.4375,
-                            "boxSize_Z": 0.24999979138374329,
-                            "radius": 4.499998569488525,
-                            "factor": 0.5,
-                            "height": 2.0,
-                            "rbPos_X": -16.662200927734375,
-                            "rbPos_Y": 0.9167737364768982,
-                            "rbPos_Z": 0.9055957794189453
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Venomite_Soldier 1",
                 "tag": "Enemy",
                 "uid": 6043398887632489792,
@@ -16289,7 +16409,13 @@
                             "height": 2.0,
                             "rbPos_X": -16.662200927734375,
                             "rbPos_Y": 0.6000000238418579,
-                            "rbPos_Z": 0.0
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -16306,12 +16432,12 @@
                                 },
                                 {
                                     "name": "RangedAttackDistance",
-                                    "value": 10.0,
+                                    "value": 8.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "MeleeAttackDistance",
-                                    "value": 1.5,
+                                    "value": 2.0,
                                     "type": 0
                                 },
                                 {
@@ -16323,6 +16449,16 @@
                                     "name": "BlasterGameObject",
                                     "value": 5648569804437327805,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ExclamationParticle",
+                                    "value": 11885816887771611407,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EnemyDetectionDuration",
+                                    "value": 0.6000000238418579,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -16389,18 +16525,53 @@
                                 },
                                 {
                                     "name": "BulletPrefab",
-                                    "value": 9730990294478485049,
+                                    "value": 5323735963578681656,
                                     "type": 2
                                 },
                                 {
                                     "name": "BulletVelocity",
-                                    "value": 15.0,
+                                    "value": 50.0,
                                     "type": 0
                                 },
                                 {
-                                    "name": "LaserParticleSystem",
-                                    "value": 0,
+                                    "name": "AttackDamage",
+                                    "value": 7.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ShootPosition",
+                                    "value": 7543295782428418645,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemShot",
+                                    "value": 12083298384042287563,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemPreShot",
+                                    "value": 15256894668037717348,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "PreShotDuration",
+                                    "value": 0.30000001192092896,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "NumConsecutiveShots",
+                                    "value": 4.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MinTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeConsecutiveShot",
+                                    "value": 1.5,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -16444,7 +16615,7 @@
                             "fields": [
                                 {
                                     "name": "AttackCooldown",
-                                    "value": 6.0,
+                                    "value": 3.0,
                                     "type": 0
                                 },
                                 {
@@ -16489,6 +16660,11 @@
                             "fields": [
                                 {
                                     "name": "ActivePowerUp",
+                                    "value": 6597223446986652787,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystem",
                                     "value": 0,
                                     "type": 2
                                 }
@@ -18760,7 +18936,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -4.76837158203125e-7,
+                            "localPos_X": 0.000003814697265625,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
@@ -19928,7 +20104,13 @@
                             "height": 2.0,
                             "rbPos_X": -19.715166091918945,
                             "rbPos_Y": 0.9167737364768982,
-                            "rbPos_Z": 5.935412406921387
+                            "rbPos_Z": 5.935412406921387,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     }
                 ]
@@ -19940,7 +20122,7 @@
                 "tag": "Enemy",
                 "uid": 18030829170383573904,
                 "parentUID": 4720791603363280664,
-                "enabled": true,
+                "enabled": false,
                 "static": false,
                 "Components": [
                     {
@@ -20001,7 +20183,13 @@
                             "height": 2.0,
                             "rbPos_X": -19.715166091918945,
                             "rbPos_Y": 0.6000000238418579,
-                            "rbPos_Z": 5.029816627502441
+                            "rbPos_Z": 5.029816627502441,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -20035,6 +20223,16 @@
                                     "name": "BlasterGameObject",
                                     "value": 15297699079590168932,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ExclamationParticle",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EnemyDetectionDuration",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -20112,13 +20310,48 @@
                                 },
                                 {
                                     "name": "BulletVelocity",
-                                    "value": 15.0,
+                                    "value": 50.0,
                                     "type": 0
                                 },
                                 {
-                                    "name": "LaserParticleSystem",
+                                    "name": "AttackDamage",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ShootPosition",
                                     "value": 0,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemPreShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "PreShotDuration",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "NumConsecutiveShots",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MinTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -20207,6 +20440,11 @@
                             "fields": [
                                 {
                                     "name": "ActivePowerUp",
+                                    "value": 13956311397312694252,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystem",
                                     "value": 0,
                                     "type": 2
                                 }
@@ -23454,10 +23692,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 604.9970092773438,
-                            "worldAABB_min_y": 22.51244354248047,
-                            "worldAABB_max_x": 680.5178833007813,
-                            "worldAABB_max_y": 98.03327178955078
+                            "worldAABB_min_x": 812.8270874023438,
+                            "worldAABB_min_y": -7.1428680419921875,
+                            "worldAABB_max_x": 901.5308227539063,
+                            "worldAABB_max_y": 81.56083679199219
                         }
                     },
                     {
@@ -23512,10 +23750,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 604.9970092773438,
-                            "worldAABB_min_y": 22.51244354248047,
-                            "worldAABB_max_x": 680.5178833007813,
-                            "worldAABB_max_y": 98.03327178955078
+                            "worldAABB_min_x": 812.8270874023438,
+                            "worldAABB_min_y": -7.1428680419921875,
+                            "worldAABB_max_x": 901.5308227539063,
+                            "worldAABB_max_y": 81.56083679199219
                         }
                     },
                     {
@@ -23564,10 +23802,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 567.2366333007813,
-                            "worldAABB_min_y": 50.83275604248047,
-                            "worldAABB_max_x": 718.2782592773438,
-                            "worldAABB_max_y": 69.71295928955078
+                            "worldAABB_min_x": 768.4752197265625,
+                            "worldAABB_min_y": 26.121021270751953,
+                            "worldAABB_max_x": 945.8826904296875,
+                            "worldAABB_max_y": 48.29694747924805
                         }
                     },
                     {
@@ -23617,10 +23855,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 567.2366333007813,
-                            "worldAABB_min_y": 50.83275604248047,
-                            "worldAABB_max_x": 718.2782592773438,
-                            "worldAABB_max_y": 69.71295928955078
+                            "worldAABB_min_x": 768.4752197265625,
+                            "worldAABB_min_y": 26.121021270751953,
+                            "worldAABB_max_x": 945.8826904296875,
+                            "worldAABB_max_y": 48.29694747924805
                         }
                     },
                     {
@@ -23670,10 +23908,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 604.9970092773438,
-                            "worldAABB_min_y": 59.83861541748047,
-                            "worldAABB_max_x": 680.5178833007813,
-                            "worldAABB_max_y": 135.35943603515625
+                            "worldAABB_min_x": 812.8270874023438,
+                            "worldAABB_min_y": 36.698944091796875,
+                            "worldAABB_max_x": 901.5308227539063,
+                            "worldAABB_max_y": 125.40264892578125
                         }
                     }
                 ]
@@ -23708,10 +23946,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 653.613525390625,
-                            "worldAABB_min_y": 59.83861541748047,
-                            "worldAABB_max_x": 729.1343994140625,
-                            "worldAABB_max_y": 135.35943603515625
+                            "worldAABB_min_x": 869.9301147460938,
+                            "worldAABB_min_y": 36.698944091796875,
+                            "worldAABB_max_x": 958.6338500976563,
+                            "worldAABB_max_y": 125.40264892578125
                         }
                     }
                 ]
@@ -23746,10 +23984,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 680.0458374023438,
-                            "worldAABB_min_y": 86.27090454101563,
-                            "worldAABB_max_x": 702.7020874023438,
-                            "worldAABB_max_y": 108.92715454101563
+                            "worldAABB_min_x": 900.9764404296875,
+                            "worldAABB_min_y": 67.7452392578125,
+                            "worldAABB_max_x": 927.5875244140625,
+                            "worldAABB_max_y": 94.35635375976563
                         }
                     },
                     {
@@ -23799,10 +24037,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 606.5073852539063,
-                            "worldAABB_min_y": 59.83861541748047,
-                            "worldAABB_max_x": 682.0282592773438,
-                            "worldAABB_max_y": 135.35943603515625
+                            "worldAABB_min_x": 814.6011962890625,
+                            "worldAABB_min_y": 36.698944091796875,
+                            "worldAABB_max_x": 903.304931640625,
+                            "worldAABB_max_y": 125.40264892578125
                         }
                     }
                 ]
@@ -23837,10 +24075,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 632.939697265625,
-                            "worldAABB_min_y": 86.27090454101563,
-                            "worldAABB_max_x": 655.595947265625,
-                            "worldAABB_max_y": 108.92715454101563
+                            "worldAABB_min_x": 845.6475219726563,
+                            "worldAABB_min_y": 67.7452392578125,
+                            "worldAABB_max_x": 872.2586059570313,
+                            "worldAABB_max_y": 94.35635375976563
                         }
                     },
                     {
@@ -23890,10 +24128,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 559.306884765625,
-                            "worldAABB_min_y": 59.83861541748047,
-                            "worldAABB_max_x": 634.8277587890625,
-                            "worldAABB_max_y": 135.35943603515625
+                            "worldAABB_min_x": 759.161376953125,
+                            "worldAABB_min_y": 36.698944091796875,
+                            "worldAABB_max_x": 847.8651123046875,
+                            "worldAABB_max_y": 125.40264892578125
                         }
                     }
                 ]
@@ -23928,10 +24166,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 585.7391967773438,
-                            "worldAABB_min_y": 86.27090454101563,
-                            "worldAABB_max_x": 608.3954467773438,
-                            "worldAABB_max_y": 108.92715454101563
+                            "worldAABB_min_x": 790.2077026367188,
+                            "worldAABB_min_y": 67.7452392578125,
+                            "worldAABB_max_x": 816.8187866210938,
+                            "worldAABB_max_y": 94.35635375976563
                         }
                     },
                     {
@@ -23981,10 +24219,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 624.6324462890625,
-                            "worldAABB_min_y": 79.47402954101563,
-                            "worldAABB_max_x": 660.8824462890625,
-                            "worldAABB_max_y": 115.72402954101563
+                            "worldAABB_min_x": 835.8900756835938,
+                            "worldAABB_min_y": 59.76190948486328,
+                            "worldAABB_max_x": 878.4678344726563,
+                            "worldAABB_max_y": 102.33968353271484
                         }
                     },
                     {
@@ -24034,10 +24272,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 624.6324462890625,
-                            "worldAABB_min_y": 79.47402954101563,
-                            "worldAABB_max_x": 660.8824462890625,
-                            "worldAABB_max_y": 115.72402954101563
+                            "worldAABB_min_x": 835.8900756835938,
+                            "worldAABB_min_y": 59.76190948486328,
+                            "worldAABB_max_x": 878.4678344726563,
+                            "worldAABB_max_y": 102.33968353271484
                         }
                     },
                     {
@@ -24109,7 +24347,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.024301884695887566,
                             "rbPos_Y": 0.45000001788139343,
-                            "rbPos_Z": -13.659497261047363
+                            "rbPos_Z": -13.659497261047363,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -24214,7 +24458,13 @@
                             "height": 0.10000000149011612,
                             "rbPos_X": 0.024301884695887566,
                             "rbPos_Y": 0.45000001788139343,
-                            "rbPos_Z": -13.65949535369873
+                            "rbPos_Z": -13.65949535369873,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -24342,7 +24592,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.0003662109375,
                             "rbPos_Y": 0.7203463315963745,
-                            "rbPos_Z": -13.513319969177246
+                            "rbPos_Z": -13.513319969177246,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -24481,7 +24737,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.0,
                             "rbPos_Y": 0.0,
-                            "rbPos_Z": -14.25
+                            "rbPos_Z": -14.25,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -24812,6 +25074,996 @@
                             "removed": true,
                             "particleSystemUID": 3999053471174024690,
                             "assetPathParticleSystem": "Assets/ParticleSystem/DetectParticle.particle",
+                            "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PowerUp Drone 1",
+                "tag": "",
+                "uid": 7298153621840939228,
+                "parentUID": 6532215735747593619,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -7.840948581695557,
+                            "localPos_Y": 3.2121219635009766,
+                            "localPos_Z": -8.762855529785156,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.20000000298023224,
+                            "localSca_Y": 0.20000003278255463,
+                            "localSca_Z": 0.20000003278255463
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 6159512386276426707,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 2,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.9999994039535522,
+                            "boxSize_Y": 1.75,
+                            "boxSize_Z": 0.9999991655349731,
+                            "radius": 1.2999999523162842,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 192.1590576171875,
+                            "rbPos_Y": 3.2121219635009766,
+                            "rbPos_Z": -8.762855529785156,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PowerUpLogicScript",
+                            "fields": [
+                                {
+                                    "name": "PowerUpsManager",
+                                    "value": 2364974457563304360,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PowerUp Drone 2",
+                "tag": "",
+                "uid": 9659257584509647225,
+                "parentUID": 6532215735747593619,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.359014987945557,
+                            "localPos_Y": 3.2121219635009766,
+                            "localPos_Z": -8.701062202453613,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.20000000298023224,
+                            "localSca_Y": 0.20000000298023224,
+                            "localSca_Z": 0.20000000298023224
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 6159512386276426707,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 2,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.9999994039535522,
+                            "boxSize_Y": 1.75,
+                            "boxSize_Z": 0.9999991655349731,
+                            "radius": 1.2999999523162842,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 195.6409912109375,
+                            "rbPos_Y": 3.2121219635009766,
+                            "rbPos_Z": -8.701062202453613,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PowerUpLogicScript",
+                            "fields": [
+                                {
+                                    "name": "PowerUpsManager",
+                                    "value": 2364974457563304360,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PowerUps",
+                "tag": "",
+                "uid": 6532215735747593619,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 200.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Managers",
+                "tag": "",
+                "uid": 2364974457563304360,
+                "parentUID": 6532215735747593619,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -200.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PowerUpsManagerScript",
+                            "fields": [
+                                {
+                                    "name": "AmountHealed",
+                                    "value": 20.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "AttackIncrease",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DefenseIncrease",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "SpeedIncrease",
+                                    "value": 60.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxPowerUpTimer",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "RadiusSeeking",
+                                    "value": 2.5,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DebugDraw",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "SetUIManager",
+                                    "value": 2225168623842053224,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PowerUp Venomite 1",
+                "tag": "",
+                "uid": 6597223446986652787,
+                "parentUID": 6532215735747593619,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -7.840948581695557,
+                            "localPos_Y": 3.2121219635009766,
+                            "localPos_Z": -8.762855529785156,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.20000000298023224,
+                            "localSca_Y": 0.20000003278255463,
+                            "localSca_Z": 0.20000003278255463
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 6159512386276426707,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 2,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.9999994039535522,
+                            "boxSize_Y": 1.75,
+                            "boxSize_Z": 0.9999991655349731,
+                            "radius": 1.2999999523162842,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 192.1590576171875,
+                            "rbPos_Y": 3.2121219635009766,
+                            "rbPos_Z": -8.762855529785156,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PowerUpLogicScript",
+                            "fields": [
+                                {
+                                    "name": "PowerUpsManager",
+                                    "value": 2364974457563304360,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PowerUp Venomite 2",
+                "tag": "",
+                "uid": 13956311397312694252,
+                "parentUID": 6532215735747593619,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.359014987945557,
+                            "localPos_Y": 3.2121219635009766,
+                            "localPos_Z": -8.701062202453613,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.20000000298023224,
+                            "localSca_Y": 0.20000000298023224,
+                            "localSca_Z": 0.20000000298023224
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 6159512386276426707,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 2,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.9999994039535522,
+                            "boxSize_Y": 1.75,
+                            "boxSize_Z": 0.9999991655349731,
+                            "radius": 1.2999999523162842,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 195.6409912109375,
+                            "rbPos_Y": 3.2121219635009766,
+                            "rbPos_Z": -8.701062202453613,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PowerUpLogicScript",
+                            "fields": [
+                                {
+                                    "name": "PowerUpsManager",
+                                    "value": 2364974457563304360,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Shot_VFX",
+                "tag": "",
+                "uid": 4527162996780273747,
+                "parentUID": 9419324827224935529,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.010663986206054688,
+                            "localPos_Y": 0.5462738275527954,
+                            "localPos_Z": 1.0859163999557495,
+                            "localRot_X": -6.127673368716557e-11,
+                            "localRot_Y": -90.0,
+                            "localRot_Z": -2.994706566061822e-11,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 9193011160089768419,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/DroneLaser.particle",
+                            "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Shot_VFX",
+                "tag": "",
+                "uid": 790267174775674760,
+                "parentUID": 14606855830618181560,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.010944366455078125,
+                            "localPos_Y": 0.5830879211425781,
+                            "localPos_Z": 1.0818471908569336,
+                            "localRot_X": 180.0,
+                            "localRot_Y": -89.98020935058594,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 9193011160089768419,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/DroneLaser.particle",
+                            "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ShootPosition",
+                "tag": "",
+                "uid": 2710646517734464295,
+                "parentUID": 18043620340757918332,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.009183883666992188,
+                            "localPos_Y": 0.37574905157089233,
+                            "localPos_Z": 0.670983076095581,
+                            "localRot_X": 0.0000135583295559627,
+                            "localRot_Y": -0.000022422356778406538,
+                            "localRot_Z": -179.9749755859375,
+                            "localSca_X": 0.07499999552965164,
+                            "localSca_Y": 0.07500001043081284,
+                            "localSca_Z": 0.07500000298023224
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Explosion_VFX",
+                "tag": "",
+                "uid": 14960402236157951178,
+                "parentUID": 9419324827224935529,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0000457763671875,
+                            "localPos_Y": 0.5506155490875244,
+                            "localPos_Z": -0.014509320259094238,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 887342333510244496,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/ExplosionDrone.particle",
+                            "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cube",
+                "tag": "",
+                "uid": 4924296682206373544,
+                "parentUID": 2710646517734464295,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Pre-Shot_VFX",
+                "tag": "",
+                "uid": 4138804445213898230,
+                "parentUID": 9419324827224935529,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.00014495849609375,
+                            "localPos_Y": 0.5887882709503174,
+                            "localPos_Z": 0.9170359373092651,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 15094355736712813101,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/DronePreShotVFX.particle",
+                            "playAtStart": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "SeekExplosion_VFX",
+                "tag": "",
+                "uid": 16394625390761108473,
+                "parentUID": 9419324827224935529,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.011224746704101563,
+                            "localPos_Y": 0.4416041374206543,
+                            "localPos_Z": -0.06968605518341064,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 17638198151683262364,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/DroneSeekExplosion.particle",
+                            "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PreShoot_VFX",
+                "tag": "",
+                "uid": 15256894668037717348,
+                "parentUID": 6043398887632489792,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.6634788513183594,
+                            "localPos_Y": 2.61164927482605,
+                            "localPos_Z": 3.0774285793304443,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 5851397885583127407,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/VenomitePreShoot.particle",
+                            "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ShootPosition",
+                "tag": "",
+                "uid": 7543295782428418645,
+                "parentUID": 2822879830645909521,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 4.17999267578125,
+                            "localPos_Y": 9.2774658203125,
+                            "localPos_Z": 14.729217529296875,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Shoot_VFX",
+                "tag": "",
+                "uid": 12083298384042287563,
+                "parentUID": 6043398887632489792,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.6507186889648438,
+                            "localPos_Y": 2.6412441730499268,
+                            "localPos_Z": 3.0856831073760986,
+                            "localRot_X": 0.0,
+                            "localRot_Y": -90.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 10774091161485871624,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/VenomiteShoot_VFX.particle",
+                            "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Exclamation_VFX",
+                "tag": "",
+                "uid": 11885816887771611407,
+                "parentUID": 6043398887632489792,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 5.6253437995910645,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 4995696200075722307,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/EnemyExclamation.particle",
+                            "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "ExclamationVFX",
+                "tag": "",
+                "uid": 8240929297822109787,
+                "parentUID": 9419324827224935529,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.000240325927734375,
+                            "localPos_Y": -1.2785320281982422,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 4995696200075722307,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/EnemyExclamation.particle",
+                            "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bullet",
+                "tag": "",
+                "uid": 5323735963578681656,
+                "parentUID": 6043398887632489792,
+                "enabled": false,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.49144744873046875,
+                            "localPos_Y": 2.5379278659820557,
+                            "localPos_Z": 5.343225955963135,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": -0.000049632551963441074,
+                            "localRot_Z": 180.0,
+                            "localSca_X": 0.0833333358168602,
+                            "localSca_Y": 0.75,
+                            "localSca_Z": 0.0833333358168602
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 3457435429278227001,
+                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
+                            "materialUID": 11995748887294444002,
+                            "assetPathMaterial": "Assets/Materials/DroneBulletMaterial.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": false,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 1.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 0.07499995827674866,
+                            "boxSize_Y": 0.1312500238418579,
+                            "boxSize_Z": 0.07499995082616806,
+                            "radius": 4.499998569488525,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -16.809635162353516,
+                            "rbPos_Y": 0.7613784074783325,
+                            "rbPos_Z": 1.6029678583145142,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 2394911383227217054,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/ShotCollision.particle",
                             "playAtStart": false
                         }
                     }

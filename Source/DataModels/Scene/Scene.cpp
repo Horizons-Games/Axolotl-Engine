@@ -19,6 +19,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentCubemap.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentImage.h"
@@ -98,7 +99,7 @@ void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
 
 bool Scene::IsInsideACamera(const OBB& obb) const
 {
-	// TODO: We have to add all the cameras in the future
+	AXO_TODO("We have to add all the cameras in the future")
 	for (ComponentCamera* camera : sceneCameras)
 	{
 		if (camera->GetCamera()->IsInside(obb))
@@ -530,6 +531,14 @@ void Scene::RemoveFatherAndChildren(const GameObject* gameObject)
 										 return canvas->GetOwner() == gameObject;
 									 }),
 					  std::end(sceneCanvas));
+
+	sceneParticleSystems.erase(std::remove_if(std::begin(sceneParticleSystems),
+											  std::end(sceneParticleSystems),
+									 [gameObject](const ComponentParticleSystem* particleSystem)
+									 {
+												  return particleSystem->GetOwner() == gameObject;
+									 }),
+							   std::end(sceneParticleSystems));
 
 	sceneInteractableComponents.erase(std::remove_if(std::begin(sceneInteractableComponents),
 													 std::end(sceneInteractableComponents),
@@ -1456,8 +1465,8 @@ std::vector<int> Scene::GetTriangles()
 		if (mesh != nullptr && meshRenderer->GetOwner()->CompareTag("NAVIGABLE"))
 		{
 			//triangles += meshFaces.size() / 3;
-			triangles += mesh->GetFacesIndices().size();
-			maxVertMesh.push_back(mesh->GetVertices().size());
+			triangles += static_cast<int>(mesh->GetFacesIndices().size());
+			maxVertMesh.push_back(static_cast<int>(mesh->GetVertices().size()));
 		}
 	}
 	std::vector<int> result(triangles * 3);
