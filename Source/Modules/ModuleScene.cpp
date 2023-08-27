@@ -165,7 +165,7 @@ UpdateStatus ModuleScene::PostUpdate()
 {
 	if (App->GetPlayState() == Application::PlayState::RUNNING && IsLoading())
 	{
-		if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
+		if (!App->GetScriptFactory()->IsCompiling())
 		{
 			for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 			{

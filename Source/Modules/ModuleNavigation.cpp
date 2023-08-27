@@ -46,7 +46,7 @@ bool ModuleNavigation::CleanUp()
 UpdateStatus ModuleNavigation::PreUpdate()
 {
 	// WIP: This should be done when playMode starts
-	if (App->IsOnPlayMode() && !agentsAdded)
+	if (App->GetPlayState() == Application::PlayState::RUNNING && !agentsAdded)
 	{
 		Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 		currentScene->UpdateSceneAgentComponents();

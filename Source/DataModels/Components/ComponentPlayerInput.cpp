@@ -44,8 +44,7 @@ ComponentPlayerInput::~ComponentPlayerInput()
 
 void ComponentPlayerInput::Update()
 {
-	// if (App->GetPlayState() != PlayState::RUNNING)
-	if (!App->IsOnPlayMode())
+	if (App->GetPlayState() != Application::PlayState::RUNNING)
 	{
 		return;
 	}
