@@ -164,7 +164,17 @@ void AIMovement::SetMovementStatuses(bool activateMovement, bool activateRotatio
 			currentPosition.y -= agent->GetYOffset();
 
 			SetTargetPosition(currentPosition);
+			//We want to stop the agent immediately
+			//so it doest look like its slipping
+			agent->SetMaxSpeed(0.0f);
+			agent->SetMaxAcceleration(100.0f);
+
 			AgentMoveToTarget();
+		}
+		else
+		{
+			agent->SetMaxSpeed(agent->GetInitialMaxSpeed());
+			agent->SetMaxAcceleration(agent->GetInitialMaxAcceleration());
 		}
 	}
 

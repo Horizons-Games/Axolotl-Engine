@@ -13,7 +13,9 @@ public:
 
 	void SetMoveTarget(float3 newTargetPosition, bool usePathfinding = true);
 	void SetMaxSpeed(float newSpeed);
+	void SetInitialMaxSpeed(float newSpeed);
 	void SetMaxAcceleration(float newAcceleration);
+	void SetInitialMaxAcceleration(float newAcceleration);
 	void SetAgentObstacleAvoidance(bool avoidanceActive);
 	void SetUpdateRigidBody(bool newUpdateRigidBody);
 	void SetYOffset(float newYOffset);
@@ -24,7 +26,9 @@ public:
 
 	float3 GetVelocity() const;
 	float GetMaxSpeed() const;
+	float GetInitialMaxSpeed() const;
 	float GetMaxAcceleration() const;
+	float GetInitialMaxAcceleration() const;
 	float3 GetTargetPosition() const;
 	bool GetUpdateRigidBody() const;
 	float GetYOffset() const;
@@ -43,7 +47,9 @@ private:
 	int agentId = -1;					  // Agent identifier in NavMesh's crowd
 
 	float maxSpeed = 5.0f;
+	float initialMaxSpeed = maxSpeed;
 	float maxAcceleration = 8.0f;
+	float initialMaxAcceleration = maxAcceleration;
 	float yOffset = 0.0f;
 	bool avoidingObstacle = true;
 	bool shouldAddAgentToCrowd = true;
@@ -112,4 +118,24 @@ inline float3 ComponentAgent::GetTargetPositionRotate() const
 inline void ComponentAgent::SetTargetPositionRotate(float3 newTargetPositionRotate)
 {
 	targetPositionRotate = newTargetPositionRotate;
+}
+
+inline float ComponentAgent::GetInitialMaxSpeed() const
+{
+	return initialMaxSpeed;
+}
+
+inline void ComponentAgent::SetInitialMaxSpeed(float newSpeed)
+{
+	initialMaxSpeed = newSpeed;
+}
+
+inline float ComponentAgent::GetInitialMaxAcceleration() const
+{
+	return initialMaxAcceleration;
+}
+
+inline void ComponentAgent::SetInitialMaxAcceleration(float newAcceleration)
+{
+	initialMaxAcceleration = newAcceleration;
 }
