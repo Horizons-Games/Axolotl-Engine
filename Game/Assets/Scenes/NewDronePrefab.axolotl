@@ -3024,7 +3024,7 @@
                 "uid": 11812119009022448789,
                 "parentUID": 48875548050334293,
                 "enabled": true,
-                "static": false,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
