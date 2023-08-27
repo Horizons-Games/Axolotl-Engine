@@ -192,8 +192,11 @@ bool ModuleRender::Init()
 	glGenTextures(1, &renderedTexture[1]);
 #endif // ENGINE
 
-	glGenFramebuffers(BLOOM_BLUR_PING_PONG, bloomBlurFramebuffers);
-	glGenTextures(BLOOM_BLUR_PING_PONG, bloomBlurTextures);
+	glGenFramebuffers(DUAL_KAWASE_SAMPLERS, dualKawaseDownFramebuffers);
+	glGenTextures(DUAL_KAWASE_SAMPLERS, dualKawaseDownTextures);
+	glGenFramebuffers(DUAL_KAWASE_SAMPLERS, dualKawaseUpFramebuffers);
+	glGenTextures(DUAL_KAWASE_SAMPLERS, dualKawaseUpTextures);
+
 	glGenRenderbuffers(1, &depthStencilRenderBuffer);
 
 	glGenFramebuffers(1, &shadowMapBuffer);
@@ -465,7 +468,7 @@ UpdateStatus ModuleRender::Update()
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, renderedTexture[0]);
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[0]);
+	glBindTexture(GL_TEXTURE_2D, dualKawaseUpTextures[DUAL_KAWASE_SAMPLERS - 1]);
 
 	colorCorrectionProgram->BindUniformInt("tonneMappingMode", toneMappingMode);
 	colorCorrectionProgram->BindUniformInt("bloomActivation", bloomActivation);
@@ -514,8 +517,10 @@ bool ModuleRender::CleanUp()
 	glDeleteTextures(1, &renderedTexture[1]);
 #endif // ENGINE
 
-	glDeleteFramebuffers(BLOOM_BLUR_PING_PONG, bloomBlurFramebuffers);
-	glDeleteTextures(BLOOM_BLUR_PING_PONG, bloomBlurTextures);
+	glDeleteFramebuffers(DUAL_KAWASE_SAMPLERS, dualKawaseDownFramebuffers);
+	glDeleteTextures(DUAL_KAWASE_SAMPLERS, dualKawaseDownTextures);
+	glDeleteFramebuffers(DUAL_KAWASE_SAMPLERS, dualKawaseUpFramebuffers);
+	glDeleteTextures(DUAL_KAWASE_SAMPLERS, dualKawaseUpTextures);
 	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
 
 	glDeleteFramebuffers(1, &shadowMapBuffer);
@@ -532,7 +537,7 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
 #endif // ENGINE
 }
 
-void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
+void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is called twice
 {
 	gBuffer->InitGBuffer(width, height);
 	
@@ -597,31 +602,51 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 	}
 #endif // ENGINE
 
-	bool first = true;
-	for (unsigned int i = 0; i < BLOOM_BLUR_PING_PONG; i++)
+	float auxWidht = static_cast<float>(width), auxHeight = static_cast<float>(height);
+
+	for (unsigned int i = 0; i < DUAL_KAWASE_SAMPLERS; i++)
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[i]);
+		glBindFramebuffer(GL_FRAMEBUFFER, dualKawaseDownFramebuffers[i]);
 		
-		glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[i]);
+		glBindTexture(GL_TEXTURE_2D, dualKawaseDownTextures[i]);
 		
-		if (first)
-		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width / 2, height / 2, 0, GL_RGBA, GL_FLOAT, NULL);
-			first = false;
-		}
-		else {
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
-		}
+		auxWidht /= 2;
+		auxHeight /= 2;
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, static_cast<int>(auxWidht), static_cast<int>(auxHeight), 0, GL_RGBA, GL_FLOAT, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomBlurTextures[i], 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, dualKawaseDownTextures[i], 0);
 
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		{
-			LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer bloom blur is not complete!");
+			LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer Dual Kawase down is not complete!");
+		}
+	}
+
+	for (unsigned int i = 0; i < DUAL_KAWASE_SAMPLERS; i++)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, dualKawaseUpFramebuffers[i]);
+
+		glBindTexture(GL_TEXTURE_2D, dualKawaseUpTextures[i]);
+
+		auxWidht *= 2;
+		auxHeight *= 2;
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, static_cast<int>(auxWidht), static_cast<int>(auxHeight), 0, GL_RGBA, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, dualKawaseUpTextures[i], 0);
+
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		{
+			LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer Dual Kawase up is not complete!");
 		}
 	}
 		
@@ -992,45 +1017,52 @@ void ModuleRender::KawaseDualFiltering()
 	ModuleProgram* moduleProgram = App->GetModule<ModuleProgram>();
 	ModuleWindow* moduleWindow = App->GetModule<ModuleWindow>();
 	std::pair<int, int> windowSize = moduleWindow->GetWindowSize();
-	int widht = windowSize.first, height = windowSize.second;
-	bool kawaseFrameBuffer = true, firstIteration = true;
-	int kawaseSamples = 10;
+	
+	float auxWidht = static_cast<float>(windowSize.first), auxHeight = static_cast<float>(windowSize.second);
+	bool firstIteration = true;
+	
 	Program* kawaseDownProgram = moduleProgram->GetProgram(ProgramType::KAWASE_DOWN);
-	glViewport(0, 0, widht / 2, height / 2);
 	kawaseDownProgram->Activate();
-	for (auto i = 0; i < kawaseSamples; i++)
+	for (auto i = 0; i < DUAL_KAWASE_SAMPLERS; i++)
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[kawaseFrameBuffer]);
+		auxWidht /= 2;
+		auxHeight /= 2;
+		glViewport(0, 0, static_cast<int>(auxWidht), static_cast<int>(auxHeight));
+
+		glBindFramebuffer(GL_FRAMEBUFFER, dualKawaseDownFramebuffers[i]);
 
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, firstIteration ? gBuffer->GetEmissiveTexture() : bloomBlurTextures[!kawaseFrameBuffer]);
+		glBindTexture(GL_TEXTURE_2D, firstIteration ? gBuffer->GetEmissiveTexture() : dualKawaseDownTextures[i - 1]);
 
 		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
 
-		kawaseFrameBuffer = !kawaseFrameBuffer;
-		if (firstIteration)
-		{
-			firstIteration = false;
-		}
+		firstIteration = false;
 	}
 	kawaseDownProgram->Deactivate();
 
+	firstIteration = true;
 	Program* kawaseUpProgram = moduleProgram->GetProgram(ProgramType::KAWASE_UP);
-	glViewport(0, 0, widht, height);
 	kawaseUpProgram->Activate();
-	for (auto i = 0; i < kawaseSamples; i++)
+	for (auto i = 0; i < DUAL_KAWASE_SAMPLERS; i++)
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, bloomBlurFramebuffers[kawaseFrameBuffer]);
+		auxWidht *= 2;
+		auxHeight *= 2;
+		glViewport(0, 0, static_cast<int>(auxWidht), static_cast<int>(auxHeight));
+
+		glBindFramebuffer(GL_FRAMEBUFFER, dualKawaseUpFramebuffers[i]);
 
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, bloomBlurTextures[!kawaseFrameBuffer]);
+		glBindTexture(GL_TEXTURE_2D, firstIteration ? dualKawaseDownTextures[DUAL_KAWASE_SAMPLERS - 1]
+			: dualKawaseUpTextures[i - 1]);
 
 		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
 
-		kawaseFrameBuffer = !kawaseFrameBuffer;
+		firstIteration = false;
 	}
 	kawaseUpProgram->Deactivate();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	glViewport(0, 0, windowSize.first, windowSize.second);
 }
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
