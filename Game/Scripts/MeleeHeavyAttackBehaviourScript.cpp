@@ -32,7 +32,7 @@ void MeleeHeavyAttackBehaviourScript::Start()
 
 void MeleeHeavyAttackBehaviourScript::Update(float deltaTime)
 {
-	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());
+	rigidBody->UpdateRigidBody();
 
 	if (attackState == ExplosionState::WAITING_EXPLOSION)
 	{

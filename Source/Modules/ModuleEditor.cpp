@@ -23,6 +23,7 @@
 #ifdef ENGINE
 	#include "Auxiliar/GameBuilder.h"
 	#include "Animation/StateMachine.h"
+	#include "Auxiliar/SceneLoader.h"
 	#include "Resources/ResourceStateMachine.h"
 	#include "Windows/EditorWindows/WindowAssetFolder.h"
 	#include "Windows/EditorWindows/WindowConfiguration.h"
@@ -32,6 +33,7 @@
 	#include "Windows/EditorWindows/WindowInspector.h"
 	#include "Windows/EditorWindows/WindowResources.h"
 	#include "Windows/EditorWindows/WindowScene.h"
+	#include "Windows/EditorWindows/WindowNavigation.h"
 #else
 	#include "Windows/EditorWindows/EditorWindow.h"
 #endif
@@ -90,7 +92,8 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowAssetFolder>());
 	windows.push_back(std::make_unique<WindowConsole>());
-
+	windows.push_back(std::make_unique<WindowNavigation>());
+	
 	char* buffer = StateWindows();
 
 	if (buffer == nullptr)
@@ -130,7 +133,7 @@ bool ModuleEditor::Init()
 
 	mainMenu = std::make_unique<WindowMainMenu>(json);
 	stateMachineEditor = std::make_unique<WindowStateMachineEditor>();
-	buildGameLoading = std::make_unique<WindowLoading>();
+	loadingPopUp = std::make_unique<WindowLoading>();
 
 	ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
 #else
@@ -243,7 +246,7 @@ UpdateStatus ModuleEditor::Update()
 
 	mainMenu->Draw();
 
-	DrawLoadingBuild();
+	DrawLoadingPopUp();
 
 	for (int i = 0; i < windows.size(); ++i)
 	{
@@ -259,15 +262,16 @@ UpdateStatus ModuleEditor::Update()
 	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-void ModuleEditor::DrawLoadingBuild()
+void ModuleEditor::DrawLoadingPopUp()
 {
 #ifdef ENGINE
 	bool gameCompiling = builder::Compiling();
 	bool zipping = builder::Zipping();
-	bool gameBuilding = gameCompiling || zipping;
+	bool loadingScene = mainMenu->IsLoadingScene();
+	bool drawLoading = gameCompiling || zipping || loadingScene;
 	if (gameCompiling)
 	{
-		buildGameLoading->AddWaitingOn("Game is being compiled...");
+		loadingPopUp->AddWaitingOn("Game is being compiled...");
 	}
 	if (zipping)
 	{
@@ -284,21 +288,25 @@ void ModuleEditor::DrawLoadingBuild()
 			//	"Estimated time remaining: " + std::to_string(expectedTimeRemaining.count()) + " minutes";
 
 			std::string extraInfo = "Last file zipped: " + data.fileZipped;
-			extraInfo += "\nCurrent files: " + std::to_string(data.fileZippedIndex) + "/" + std::to_string(data.totalFiles);
+			extraInfo +=
+				"\nCurrent files: " + std::to_string(data.fileZippedIndex) + "/" + std::to_string(data.totalFiles);
 
-			buildGameLoading->AddWaitingOn("Binaries are being zipped...\n" + extraInfo,
-										   static_cast<float>(data.fileZippedIndex) /
-											   static_cast<float>(data.totalFiles));
+			loadingPopUp->AddWaitingOn("Binaries are being zipped...\n" + extraInfo,
+									   static_cast<float>(data.fileZippedIndex) / static_cast<float>(data.totalFiles));
 		}
 		else
 		{
-			buildGameLoading->AddWaitingOn("Binaries are being zipped...", 0.f);
+			loadingPopUp->AddWaitingOn("Binaries are being zipped...", 0.f);
 		}
 	}
-	buildGameLoading->Draw(gameBuilding);
-	if (gameBuilding)
+	if (loadingScene)
 	{
-		buildGameLoading->ResetWaitingOn();
+		loadingPopUp->AddWaitingOn("Scene is being loaded...");
+	}
+	loadingPopUp->Draw(drawLoading);
+	if (drawLoading)
+	{
+		loadingPopUp->ResetWaitingOn();
 	}
 #endif
 }
