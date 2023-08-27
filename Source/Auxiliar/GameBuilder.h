@@ -1,5 +1,7 @@
 #pragma once
 
+struct FileZippedData;
+
 namespace builder
 {
 enum class BuildType
@@ -12,4 +14,5 @@ void BuildGame(BuildType buildType, bool generateZip, const std::string& startin
 void Terminate();
 bool Compiling();
 bool Zipping();
+std::optional<FileZippedData> GetLastFileZippedData();
 } // namespace builder
