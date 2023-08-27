@@ -673,6 +673,9 @@
       <Filter>Auxiliar</Filter>
     </ClCompile>
     <ClCompile Include="Scheduler.cpp" />
+    <ClCompile Include="Auxiliar\ConnectedCallback.cpp">
+      <Filter>Auxiliar</Filter>
+    </ClCompile>
     <ClCompile Include="Enums\WritableEnum.cpp">
       <Filter>Enums</Filter>
     </ClCompile>
@@ -1385,6 +1388,15 @@
       <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="Scheduler.h" />
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\FileZippedData.h">
+      <Filter>FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\ConnectedCallback.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
     <ClInclude Include="Enums\WritableEnum.h">
       <Filter>Enums</Filter>
     </ClInclude>

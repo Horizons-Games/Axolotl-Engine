@@ -418,6 +418,7 @@
     <ClCompile Include="DataModels\Animation\StateMachine.cpp" />
     <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp" />
     <ClCompile Include="Auxiliar\SceneLoader.cpp" />
+    <ClCompile Include="Auxiliar\ConnectedCallback.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCameraSample.cpp" />
     <ClCompile Include="DataModels\Components\Component.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp" />
@@ -858,6 +859,7 @@
     <ClInclude Include="Auxiliar\SceneLoader.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
     <ClInclude Include="Auxiliar\ComponentNotFoundException.h" />
+    <ClInclude Include="Auxiliar\ConnectedCallback.h" />
     <ClInclude Include="Auxiliar\Test\par_shapes.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -939,6 +941,7 @@
     <ClInclude Include="Enums\EFrustumMode.h" />
     <ClInclude Include="Enums\TextureType.h" />
     <ClInclude Include="Enums\UpdateStatus.h" />
+    <ClInclude Include="FileSystem\FileZippedData.h" />
     <ClInclude Include="Enums\WritableEnum.h" />
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h" />
     <ClInclude Include="DataModels\Cubemap\Cubemap.h" />
