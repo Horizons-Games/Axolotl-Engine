@@ -669,6 +669,10 @@
     <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher</Filter>
     </ClCompile>
+    <ClCompile Include="Auxiliar\SceneLoader.cpp">
+      <Filter>Auxiliar</Filter>
+    </ClCompile>
+    <ClCompile Include="Scheduler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1374,6 +1378,10 @@
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher</Filter>
     </ClInclude>
     <ClInclude Include="Defines\AxoTodo.h" />
+    <ClInclude Include="Auxiliar\SceneLoader.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="Scheduler.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
