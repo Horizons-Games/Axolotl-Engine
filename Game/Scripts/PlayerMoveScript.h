@@ -24,6 +24,7 @@ enum class PlayerActions
     IDLE,
     WALKING,
 	DASHING,
+	JUMPING
 };
 
 enum MovementFlag

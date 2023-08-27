@@ -6556,7 +6556,7 @@
                             "fields": [
                                 {
                                     "name": "ParticleSystemTimer",
-                                    "value": 5.0,
+                                    "value": 0.5,
                                     "type": 0
                                 }
                             ]

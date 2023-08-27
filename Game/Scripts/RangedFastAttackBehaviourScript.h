@@ -25,6 +25,8 @@ public:
 	bool NeedReposition() const;
 	bool MovingToNewReposition();
 
+	void ResetScriptValues();
+
 private:
 
 	float attackCooldown;

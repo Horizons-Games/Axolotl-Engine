@@ -33,6 +33,8 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void ResetValues();
+
 private:
 	VenomiteBehaviours venomiteState;
 
@@ -51,4 +53,6 @@ private:
 
 	GameObject* batonGameObject;
 	GameObject* blasterGameObject;
+
+	bool isFirstPatrolling;
 };
