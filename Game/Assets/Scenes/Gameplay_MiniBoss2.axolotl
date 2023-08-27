@@ -11304,6 +11304,36 @@
                             "materialUID": 13485736038412118296,
                             "assetPathMaterial": "Assets/Materials/MiniBossTwoEnergyBeam.mat"
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "AnimatedTexture",
+                            "fields": [
+                                {
+                                    "name": "MovementX",
+                                    "value": 0.004000000189989805,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MovementY",
+                                    "value": 1.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxOffsetX",
+                                    "value": 1.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxOffsetY",
+                                    "value": 1.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
                     }
                 ]
             }
