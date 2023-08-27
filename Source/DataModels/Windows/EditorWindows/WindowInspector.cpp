@@ -16,10 +16,13 @@
 #include "Components/ComponentLight.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentPlayerInput.h"
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentCameraSample.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentAgent.h"
+#include "Components/ComponentObstacle.h"
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
@@ -86,6 +89,15 @@ WindowInspector::WindowInspector() :
 		ComponentFunctionality::GAMEPLAY));
 
 	actions.push_back(AddComponentAction(
+		"Create Player Input Component",
+		std::bind(&WindowInspector::AddComponentPlayerInput, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentPlayerInput>(gameObject);
+		},
+		ComponentFunctionality::GAMEPLAY));
+
+	actions.push_back(AddComponentAction(
 		"Create Camera Sample Component",
 		std::bind(&WindowInspector::AddComponentCameraSample, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
@@ -146,6 +158,24 @@ WindowInspector::WindowInspector() :
 		},
 		ComponentFunctionality::PHYSICS));
 
+	actions.push_back(AddComponentAction(
+		"Create Agent Component",
+		std::bind(&WindowInspector::AddComponentAgent, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentAgent>(gameObject);
+		},
+		ComponentFunctionality::NAVIGATION));
+
+	actions.push_back(AddComponentAction(
+		"Create Obstacle Component",
+		std::bind(&WindowInspector::AddComponentObstacle, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentObstacle>(gameObject);
+		},
+		ComponentFunctionality::NAVIGATION));
+
 	std::sort(std::begin(actions), std::end(actions));
 }
 
@@ -187,7 +217,7 @@ void WindowInspector::InspectSelectedGameObject()
 
 	if (lastSelectedGameObject)
 	{
-		bool enable = lastSelectedGameObject->IsEnabled();
+		bool enable = lastSelectedGameObject->IsEnabled(); 
 		bool enableStateChanged = ImGui::Checkbox("Enable", &enable);
 		ImGui::SameLine();
 
@@ -427,6 +457,11 @@ void WindowInspector::AddComponentPlayer()
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
 }
 
+void WindowInspector::AddComponentPlayerInput()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYERINPUT);
+}
+
 void WindowInspector::AddComponentCameraSample()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::CAMERASAMPLE);
@@ -476,4 +511,14 @@ void WindowInspector::AddComponentParticle()
 void WindowInspector::AddComponentBreakable()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::BREAKABLE);
+}
+
+void WindowInspector::AddComponentAgent()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::AGENT);
+}
+
+void WindowInspector::AddComponentObstacle()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::OBSTACLE);
 }

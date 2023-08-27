@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 
+#include "DataModels/Components/UI/ComponentSlider.h"
 #include "DataModels/Components/ComponentAnimation.h"
 #include "DataModels/Components/ComponentAudioListener.h"
 #include "DataModels/Components/ComponentAudioSource.h"
@@ -14,11 +15,14 @@
 #include "DataModels/Components/ComponentMeshRenderer.h"
 #include "DataModels/Components/ComponentParticleSystem.h"
 #include "DataModels/Components/ComponentPlayer.h"
+#include "DataModels/Components/ComponentPlayerInput.h"
 #include "DataModels/Components/ComponentPointLight.h"
 #include "DataModels/Components/ComponentRigidBody.h"
 #include "DataModels/Components/ComponentScript.h"
 #include "DataModels/Components/ComponentSpotLight.h"
 #include "DataModels/Components/ComponentTransform.h"
+#include "DataModels//Components/ComponentAgent.h"
+#include "DataModels//Components/ComponentObstacle.h"
 #include "DataModels/Components/UI/ComponentButton.h"
 #include "DataModels/Components/UI/ComponentCanvas.h"
 #include "DataModels/Components/UI/ComponentImage.h"
@@ -153,7 +157,8 @@ void GameObject::Load(const Json& meta)
 		if (type == ComponentType::LIGHT)
 		{
 			LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-			CreateComponentLight(lightType, AreaType::NONE); // TODO look at this when implement metas
+			AXO_TODO("look at this when implement metas")
+			CreateComponentLight(lightType, AreaType::NONE);
 		}
 		else if (type == ComponentType::SCRIPT)
 		{
@@ -328,6 +333,12 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
+		case ComponentType::PLAYERINPUT:
+		{
+			newComponent = std::make_unique<ComponentPlayerInput>(static_cast<ComponentPlayerInput&>(*component));
+			break;
+		}
+
 		case ComponentType::RIGIDBODY:
 		{
 			newComponent = std::make_unique<ComponentRigidBody>(static_cast<ComponentRigidBody&>(*component));
@@ -396,12 +407,40 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
+		case ComponentType::AGENT:
+		{
+			newComponent = std::make_unique<ComponentAgent>(static_cast<ComponentAgent&>(*component));
+			break;
+		}
+
+		case ComponentType::OBSTACLE:
+		{
+			newComponent = std::make_unique<ComponentObstacle>(static_cast<ComponentObstacle&>(*component));
+			break;
+		}
+
 		default:
 			LOG_WARNING("Component of type {} could not be copied!", GetNameByType(type).c_str());
 	}
 
 	if (newComponent)
 	{
+		Component* referenceBeforeMove = newComponent.get();
+
+		Updatable* updatable = dynamic_cast<Updatable*>(referenceBeforeMove);
+		if (updatable)
+		{
+			App->GetModule<ModuleScene>()->GetLoadedScene()->AddUpdatableObject(updatable);
+		}
+		else
+		{
+			if (referenceBeforeMove->GetType() == ComponentType::PARTICLE)
+			{
+				App->GetModule<ModuleScene>()->GetLoadedScene()->AddParticleSystem(
+					static_cast<ComponentParticleSystem*>(referenceBeforeMove));
+			}
+		}
+
 		newComponent->SetOwner(this);
 		components.push_back(std::move(newComponent));
 	}
@@ -538,6 +577,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::PLAYERINPUT:
+		{
+			newComponent = std::make_unique<ComponentPlayerInput>(true, this);
+			break;
+		}
+
 		case ComponentType::RIGIDBODY:
 		{
 			newComponent = std::make_unique<ComponentRigidBody>(true, this);
@@ -613,6 +658,18 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::CUBEMAP:
 		{
 			newComponent = std::make_unique<ComponentCubemap>(true, this);
+			break;
+		}
+
+		case ComponentType::AGENT:
+		{
+			newComponent = std::make_unique<ComponentAgent>(true, this);
+			break;
+		}
+
+		case ComponentType::OBSTACLE:
+		{
+			newComponent = std::make_unique<ComponentObstacle>(true, this);
 			break;
 		}
 

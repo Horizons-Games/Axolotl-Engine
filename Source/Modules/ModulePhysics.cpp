@@ -139,7 +139,7 @@ void ModulePhysics::ManageCollisions()
 			if (obj->getUserPointer() != nullptr)
 			{
 				ComponentRigidBody* rb = static_cast<ComponentRigidBody*>(obj->getUserPointer());
-				if (rb != nullptr)
+				if (rb != nullptr && (!rb->IsStatic() || rb->IsTrigger()))
 				{
 					for (int j = 0; j < result.othersRigidBody.size(); j++)
 					{

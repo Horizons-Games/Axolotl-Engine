@@ -4,6 +4,10 @@
 
 #include "Application.h"
 #include "Scene/Scene.h"
+#include "ModuleEditor.h"
+
+#include "Windows/EditorWindows/ImporterWindows/WindowStateMachineInput.h"
+#include "Animation/StateMachine.h"
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/UIDGenerator.h"
@@ -22,13 +26,16 @@ const float doubleClickTimeFrameInS = .5f;
 }
 
 WindowComponentScript::WindowComponentScript(ComponentScript* component) :
-	ComponentWindow("SCRIPT", component),
+	// This could be converted to uppercase using a lambda expression, std::transform and std::upper, 
+	// but the script name is more readable inside the engine in camelCase
+	ComponentWindow("SCRIPT " + component->GetConstructName(), component),
 	windowUID(UniqueID::GenerateUID())
 {
 }
 
 WindowComponentScript::~WindowComponentScript()
 {
+	inputStates.clear();
 }
 
 std::string WindowComponentScript::DrawStringField(std::string& value, const std::string& name)
@@ -45,7 +52,7 @@ bool WindowComponentScript::DrawBoolField(bool& value, const std::string& name)
 
 float WindowComponentScript::DrawFloatField(float& value, const std::string& name)
 {
-	ImGui::DragFloat(name.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.2f");
+	ImGui::DragFloat(name.c_str(), &value, 0.05f, -50.0f, 50.0f, "%.4f");
 	return value;
 }
 
@@ -185,6 +192,8 @@ void WindowComponentScript::DrawWindowContents()
 		return;
 	}
 
+	UpdateStateMachinesInputVector(scriptObject);
+	stateMachineCount = 0;
 	for (TypeFieldPair enumAndMember : scriptObject->GetFields())
 	{
 		ValidFieldType member = enumAndMember.second;
@@ -193,7 +202,7 @@ void WindowComponentScript::DrawWindowContents()
 		{
 			case FieldType::FLOAT:
 			{
-				Field<float> floatField = std::get<Field<float>>(member);
+				const Field<float>& floatField = std::get<Field<float>>(member);
 				float value = floatField.getter();
 
 				label = floatField.name;
@@ -208,7 +217,7 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::FLOAT3:
 			{
-				Field<float3> float3Field = std::get<Field<float3>>(member);
+				const Field<float3>& float3Field = std::get<Field<float3>>(member);
 				float3 value = float3Field.getter();
 
 				float3Field.setter(DrawFloat3Field(value, float3Field.name.c_str()));
@@ -220,7 +229,7 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::STRING:
 			{
-				Field<std::string> stringField = std::get<Field<std::string>>(member);
+				const Field<std::string>& stringField = std::get<Field<std::string>>(member);
 				std::string value = stringField.getter();
 
 				label = stringField.name;
@@ -235,7 +244,7 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::BOOLEAN:
 			{
-				Field<bool> booleanField = std::get<Field<bool>>(member);
+				const Field<bool>& booleanField = std::get<Field<bool>>(member);
 				bool value = booleanField.getter();
 
 				label = booleanField.name;
@@ -250,7 +259,7 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::GAMEOBJECT:
 			{
-				Field<GameObject*> gameObjectField = std::get<Field<GameObject*>>(member);
+				const Field<GameObject*>& gameObjectField = std::get<Field<GameObject*>>(member);
 				GameObject* value = gameObjectField.getter();
 
 				GameObject* draggedObject = DrawGameObjectField(value, gameObjectField.name);
@@ -264,7 +273,7 @@ void WindowComponentScript::DrawWindowContents()
 
 			case FieldType::VECTOR:
 			{
-				VectorField vectorField = std::get<VectorField>(member);
+				const VectorField& vectorField = std::get<VectorField>(member);
 
 				std::function<std::any(std::any&, const std::string&)> elementDrawer =
 					[this, &vectorField](std::any& value, const std::string& name) -> std::any
@@ -307,34 +316,46 @@ void WindowComponentScript::DrawWindowContents()
 
 				std::vector<std::any> vectorValue = vectorField.getter();
 
-				ImVec2 startingPos = ImGui::GetCursorPos();
-
-				ImGui::Text(vectorField.name.c_str());
-				ImGui::SameLine();
-				if (ImGui::Button(("+##" + vectorField.name).c_str()))
 				{
-					vectorValue.emplace_back();
-				}
-				ImGui::SameLine();
-				if (ImGui::Button(("-##" + vectorField.name).c_str()) && !vectorValue.empty())
-				{
-					vectorValue.pop_back();
-				}
+					ImVec2 startingPos = ImGui::GetCursorScreenPos();
 
-				widgetRects.emplace_back(startingPos, ImGui::GetItemRectMax());
+					ImGui::Text(vectorField.name.c_str());
+					ImGui::SameLine();
+					if (ImGui::Button(("+##" + vectorField.name).c_str()))
+					{
+						vectorValue.emplace_back();
+					}
+					ImGui::SameLine();
+					if (ImGui::Button(("-##" + vectorField.name).c_str()) && !vectorValue.empty())
+					{
+						vectorValue.pop_back();
+					}
+
+					widgetRects.emplace_back(startingPos, ImGui::GetItemRectMax());
+				}
 
 				for (int i = 0; i < vectorValue.size(); ++i)
 				{
 					ImGui::Indent();
+					ImVec2 startingPos = ImGui::GetCursorScreenPos();
 					vectorValue[i] = elementDrawer(vectorValue[i], vectorField.name + std::to_string(i));
 					// add the rect of each field
-					widgetRects.emplace_back(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
+					widgetRects.emplace_back(startingPos, ImGui::GetItemRectMax());
 					ImGui::Unindent();
 				}
 
 				vectorField.setter(vectorValue);
 
 				break;
+			}
+
+			case FieldType::STATEMACHINE:
+			{
+				Field<StateMachine*> stateField = std::get<Field<StateMachine*>>(member);
+				StateMachine* value = stateField.getter();
+
+				StateMachineField(value, stateField.name, script->GetOwner()->GetName() + "->" + scriptName);
+				stateMachineCount++;
 			}
 
 			default:
@@ -375,7 +396,6 @@ void WindowComponentScript::ChangeScript(ComponentScript* newScript, const char*
 	newScript->SetConstuctor(selectedScript);
 	IScript* Iscript = App->GetScriptFactory()->ConstructScript(selectedScript);
 	Iscript->SetOwner(component->GetOwner());
-	Iscript->SetApplication(App.get());
 	newScript->SetScript(Iscript);
 }
 
@@ -454,7 +474,53 @@ void WindowComponentScript::ReplaceSubstringsInString(std::string& stringToRepla
 	}
 }
 
+void WindowComponentScript::UpdateStateMachinesInputVector(const IScript* scriptObject)
+{
+	if (inputStates.size() != stateMachineCount)
+	{
+		inputStates.clear();
+		for (TypeFieldPair enumAndMember : scriptObject->GetFields())
+		{
+			if (enumAndMember.first == FieldType::STATEMACHINE)
+			{
+				Field<StateMachine*> stateField = std::get<Field<StateMachine*>>(enumAndMember.second);
+				StateMachine* value = stateField.getter();
+				inputStates.push_back(std::make_unique<WindowStateMachineInput>(value));
+			}
+		}
+	}
+}
 bool WindowComponentScript::IsDoubleClicked()
 {
 	return secondsSinceLastClick <= doubleClickTimeFrameInS;
+}
+
+void WindowComponentScript::StateMachineField(StateMachine* value,
+											  const std::string& nameState,
+											  const std::string& nameInstance)
+{
+	if (value)
+	{
+		if (value->GetStateMachine())
+		{
+			ImGui::Text(value->GetStateMachine()->GetFileName().c_str());
+			ImGui::SameLine();
+			if (ImGui::Button("Edit StateMachine"))
+			{
+				App->GetModule<ModuleEditor>()->SetStateMachineWindowEditor(value, nameInstance);
+			}
+			ImGui::SameLine();
+			if (ImGui::Button(("X##" + nameState).c_str()))
+			{
+				value->SetStateMachine(nullptr);
+			}
+		}
+		else
+		{
+			inputStates[stateMachineCount]->SetStateMachine(value);
+			inputStates[stateMachineCount]->DrawWindowContents();
+		}
+	}
+	ImGui::SameLine();
+	ImGui::Text(nameState.c_str());
 }

@@ -2,6 +2,14 @@
 
 #include "Auxiliar/ComponentNotFoundException.h"
 
+#include <concepts>
+
+namespace axo::detail
+{
+template<typename T>
+concept IsScript = std::is_base_of<IScript, std::remove_pointer_t<T>>::value;
+}
+
 template<typename C>
 C* GameObject::CreateComponent()
 {
@@ -11,12 +19,28 @@ C* GameObject::CreateComponent()
 template<typename C>
 C* GameObject::GetComponentInternal() const
 {
-	auto firstElement = std::ranges::find_if(components,
-											 [](const std::unique_ptr<Component>& comp)
-											 {
-												 return comp != nullptr && comp->GetType() == ComponentToEnum<C>::value;
-											 });
-	return firstElement != std::end(components) ? static_cast<C*>((*firstElement).get()) : nullptr;
+	if constexpr (axo::detail::IsScript<C>)
+	{
+		// GetComponents already makes sure the objects returned are not null
+		std::vector<ComponentScript*> componentScripts = GetComponents<ComponentScript>();
+		auto componentWithScript = std::ranges::find_if(componentScripts,
+														[](const ComponentScript* component)
+														{
+															return dynamic_cast<C*>(component->GetScript()) != nullptr;
+														});
+		return componentWithScript != std::end(componentScripts) ? dynamic_cast<C*>((*componentWithScript)->GetScript())
+																 : nullptr;
+	}
+	else
+	{
+		auto firstElement =
+			std::ranges::find_if(components,
+								 [](const std::unique_ptr<Component>& comp)
+								 {
+									 return comp != nullptr && comp->GetType() == ComponentToEnum<C>::value;
+								 });
+		return firstElement != std::end(components) ? static_cast<C*>((*firstElement).get()) : nullptr;
+	}
 }
 
 template<typename C>
@@ -25,7 +49,14 @@ C* GameObject::GetComponent() const
 	C* internalResult = GetComponentInternal<C>();
 	if (internalResult == nullptr)
 	{
-		throw ComponentNotFoundException("Component of type " + std::string(typeid(C).name()) + " not found");
+		if constexpr (axo::detail::IsScript<C>)
+		{
+			throw ComponentNotFoundException("Script of type " + std::string(typeid(C).name()) + " not found");
+		}
+		else
+		{
+			throw ComponentNotFoundException("Component of type " + std::string(typeid(C).name()) + " not found");
+		}
 	}
 	return internalResult;
 }
@@ -33,18 +64,38 @@ C* GameObject::GetComponent() const
 template<typename C>
 std::vector<C*> GameObject::GetComponents() const
 {
-	auto filteredComponents = components |
-							  std::views::filter(
-								  [](const std::unique_ptr<Component>& comp)
-								  {
-									  return comp != nullptr && comp->GetType() == ComponentToEnum<C>::value;
-								  }) |
-							  std::views::transform(
-								  [](const std::unique_ptr<Component>& comp)
-								  {
-									  return static_cast<C*>(comp.get());
-								  });
-	return std::vector<C*>(std::begin(filteredComponents), std::end(filteredComponents));
+	if constexpr (axo::detail::IsScript<C>)
+	{
+		// GetComponents already makes sure the objects returned are not null
+		std::vector<ComponentScript*> componentScripts = GetComponents<ComponentScript>();
+		auto filteredScripts = componentScripts |
+							   std::views::transform(
+								   [](ComponentScript* component)
+								   {
+									   return dynamic_cast<C*>(component->GetScript());
+								   }) |
+							   std::views::filter(
+								   [](C* script)
+								   {
+									   return script != nullptr;
+								   });
+		return std::vector<C*>(std::begin(filteredScripts), std::end(filteredScripts));
+	}
+	else
+	{
+		auto filteredComponents = components |
+								  std::views::filter(
+									  [](const std::unique_ptr<Component>& comp)
+									  {
+										  return comp != nullptr && comp->GetType() == ComponentToEnum<C>::value;
+									  }) |
+								  std::views::transform(
+									  [](const std::unique_ptr<Component>& comp)
+									  {
+										  return static_cast<C*>(comp.get());
+									  });
+		return std::vector<C*>(std::begin(filteredComponents), std::end(filteredComponents));
+	}
 }
 
 template<typename C>
@@ -66,46 +117,8 @@ bool GameObject::RemoveComponents()
 	return removeIfResult != std::end(components);
 }
 
-template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool>>
-S* GameObject::GetComponentInternal()
+template<typename C>
+inline bool GameObject::HasComponent() const
 {
-	// GetComponents already makes sure the objects returned are not null
-	std::vector<ComponentScript*> componentScripts = GetComponents<ComponentScript>();
-	auto componentWithScript = std::ranges::find_if(componentScripts,
-													[](const ComponentScript* component)
-													{
-														return dynamic_cast<S*>(component->GetScript()) != nullptr;
-													});
-	return componentWithScript != std::end(componentScripts) ? dynamic_cast<S*>((*componentWithScript)->GetScript())
-															 : nullptr;
-}
-
-template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool>>
-S* GameObject::GetComponent()
-{
-	S* internalResult = GetComponentInternal<S>();
-	if (internalResult == nullptr)
-	{
-		throw ComponentNotFoundException("Script of type " + std::string(typeid(S).name()) + " not found");
-	}
-	return internalResult;
-}
-
-template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool>>
-std::vector<S*> GameObject::GetComponents()
-{
-	// GetComponents already makes sure the objects returned are not null
-	std::vector<ComponentScript*> componentScripts = GetComponents<ComponentScript>();
-	auto filteredScripts = componentScripts |
-						   std::views::transform(
-							   [](ComponentScript* component)
-							   {
-								   return dynamic_cast<S*>(component->GetScript());
-							   }) |
-						   std::views::filter(
-							   [](S* script)
-							   {
-								   return script != nullptr;
-							   });
-	return std::vector<S*>(std::begin(filteredScripts), std::end(filteredScripts));
+	return GetComponentInternal<C>() != nullptr;
 }

@@ -66,19 +66,17 @@ void WindowComponentMeshRenderer::SetMaterial(const std::shared_ptr<ResourceMate
 
 void WindowComponentMeshRenderer::DrawWindowContents()
 {
-	if (changed)
-	{
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(75, 25, 25, 255));
-	}
-	else
-	{
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(0, 0, 0, 0));
-	}
-	ImGui::BeginChild("##Window");
+	// from https://github.com/ocornut/imgui/issues/3647
+
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	draw_list->ChannelsSplit(2);
+	draw_list->ChannelsSetCurrent(1);
+
+	ImGui::BeginGroup();
 	DrawEnableAndDeleteComponent();
 
 	// used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
-	ImGui::Text("");
+	ImGui::NewLine();
 
 	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
 
@@ -114,7 +112,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL"))
 			{
 				UID draggedMeshUID = *(UID*) payload->Data; // Double pointer to keep track correctly
-				// TODO this should be Asset Path of the asset not the UID (Because new filesystem cache)
+				AXO_TODO("this should be Asset Path of the asset not the UID (Because new filesystem cache)")
 				std::shared_ptr<ResourceMesh> newMesh =
 					App->GetModule<ModuleResources>()->SearchResource<ResourceMesh>(draggedMeshUID);
 				// And then this should be RequestResource not SearchResource
@@ -161,8 +159,22 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		}
 	}
 
-	ImGui::EndChild();
-	ImGui::PopStyleColor();
+	ImGui::EndGroup();
+
+	// from https://github.com/ocornut/imgui/issues/3647
+
+	if (changed)
+	{
+		draw_list->ChannelsSetCurrent(0);
+
+		ImVec2 itemRectMin = ImGui::GetItemRectMin();
+		ImVec2 itemRectMax = ImGui::GetItemRectMax();
+		itemRectMax.x = ImGui::GetContentRegionMax().x + ImGui::GetWindowPos().x;
+
+		draw_list->AddRectFilled(itemRectMin, itemRectMax, IM_COL32(75, 25, 25, 255));
+	}
+
+	draw_list->ChannelsMerge();
 }
 
 void WindowComponentMeshRenderer::DrawSetMaterial()

@@ -194,13 +194,13 @@ void WindowScene::DrawGuizmo()
 				switch (gizmoCurrentOperation)
 				{
 					case ImGuizmo::OPERATION::TRANSLATE:
-						focusedTransform->SetPosition(position);
+						focusedTransform->SetLocalPosition(position);
 						break;
 					case ImGuizmo::OPERATION::ROTATE:
-						focusedTransform->SetRotation(rotation);
+						focusedTransform->SetLocalRotation(rotation);
 						break;
 					case ImGuizmo::OPERATION::SCALE:
-						focusedTransform->SetScale(scale);
+						focusedTransform->SetLocalScale(scale);
 						break;
 				}
 				focusedTransform->UpdateTransformMatrices();

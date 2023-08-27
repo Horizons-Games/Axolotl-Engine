@@ -6,6 +6,8 @@
 #include "Components/ComponentAreaLight.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
+#include "Components/ComponentAgent.h"
+#include "Components/ComponentMeshRenderer.h"
 
 #include <queue>
 
@@ -71,6 +73,9 @@ public:
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
 	void UpdateSceneAreaLights();
+	void UpdateSceneMeshRenderers();
+	void UpdateSceneBoundingBoxes();
+	void UpdateSceneAgentComponents();
 	void UpdateSceneAreaSpheres();
 	void UpdateSceneAreaTubes();
 	void UpdateScenePointLight(const ComponentPointLight* compPoint);
@@ -91,6 +96,13 @@ public:
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 	Skybox* GetSkybox() const;
 	Cubemap* GetCubemap() const;
+	std::vector<ComponentMeshRenderer*> GetMeshRenderers() const;
+	std::vector<AABB> GetBoundingBoxes() const;
+	std::vector<ComponentAgent*> GetAgentComponents() const;
+
+	std::vector<float> GetVertices();
+	std::vector<int> GetTriangles();
+	std::vector<float> GetNormals();
 
 	void SetRoot(GameObject* newRoot);
 	void SetRootQuadtree(std::unique_ptr<Quadtree> quadtree);
@@ -121,7 +133,7 @@ public:
 	void InitLights();
 	void InitCubemap();
 
-	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject);
+	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D);
 	void ExecutePendingActions();
 
 private:
@@ -151,6 +163,9 @@ private:
 	std::vector<SpotLight> spotLights;
 	std::vector<AreaLightSphere> sphereLights;
 	std::vector<AreaLightTube> tubeLights;
+	std::vector<ComponentMeshRenderer*> meshRenderers;
+	std::vector<AABB> boundingBoxes;
+	std::vector<ComponentAgent*> agentComponents;
 
 	std::vector<std::pair<const ComponentPointLight*, unsigned int>> cachedPoints;
 	std::vector<std::pair<const ComponentSpotLight*, unsigned int>> cachedSpots;
@@ -256,6 +271,21 @@ inline Skybox* Scene::GetSkybox() const
 inline Cubemap* Scene::GetCubemap() const
 {
 	return cubemap.get();
+}
+
+inline std::vector<ComponentMeshRenderer*> Scene::GetMeshRenderers() const
+{
+	return meshRenderers;
+}
+
+inline std::vector<ComponentAgent*> Scene::GetAgentComponents() const
+{
+	return agentComponents;
+}
+
+inline std::vector<AABB> Scene::GetBoundingBoxes() const
+{
+	return boundingBoxes;
 }
 
 inline const std::vector<GameObject*>& Scene::GetNonStaticObjects() const
