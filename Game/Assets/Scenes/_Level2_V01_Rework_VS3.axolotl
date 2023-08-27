@@ -6824,10 +6824,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 879.5,
-                            "worldAABB_min_y": 578.0,
-                            "worldAABB_max_x": 879.5,
-                            "worldAABB_max_y": 578.0
+                            "worldAABB_min_x": 845.0,
+                            "worldAABB_min_y": 321.0,
+                            "worldAABB_max_x": 845.0,
+                            "worldAABB_max_y": 321.0
                         }
                     },
                     {
@@ -6919,10 +6919,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 486.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 669.6145629882813
+                            "worldAABB_min_x": 785.5555419921875,
+                            "worldAABB_min_y": 261.5555419921875,
+                            "worldAABB_max_x": 904.4444580078125,
+                            "worldAABB_max_y": 380.4444580078125
                         }
                     }
                 ]
@@ -6957,10 +6957,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 83.28125,
-                            "worldAABB_max_x": 1759.0,
-                            "worldAABB_max_y": 1072.71875
+                            "worldAABB_min_x": 274.33331298828125,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 1415.666748046875,
+                            "worldAABB_max_y": 642.0
                         }
                     },
                     {
@@ -7010,10 +7010,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 486.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 669.6145629882813
+                            "worldAABB_min_x": 785.5555419921875,
+                            "worldAABB_min_y": 261.5555419921875,
+                            "worldAABB_max_x": 904.4444580078125,
+                            "worldAABB_max_y": 380.4444580078125
                         }
                     }
                 ]
@@ -7048,10 +7048,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 486.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 669.6145629882813
+                            "worldAABB_min_x": 785.5555419921875,
+                            "worldAABB_min_y": 261.5555419921875,
+                            "worldAABB_max_x": 904.4444580078125,
+                            "worldAABB_max_y": 380.4444580078125
                         }
                     }
                 ]
@@ -7086,10 +7086,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 486.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 669.6145629882813
+                            "worldAABB_min_x": 785.5555419921875,
+                            "worldAABB_min_y": 261.5555419921875,
+                            "worldAABB_max_x": 904.4444580078125,
+                            "worldAABB_max_y": 380.4444580078125
                         }
                     }
                 ]
@@ -7124,10 +7124,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 83.28125,
-                            "worldAABB_max_x": 1759.0,
-                            "worldAABB_max_y": 1072.71875
+                            "worldAABB_min_x": 274.33331298828125,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 1415.666748046875,
+                            "worldAABB_max_y": 642.0
                         }
                     },
                     {
@@ -7177,10 +7177,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 486.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 669.6145629882813
+                            "worldAABB_min_x": 785.5555419921875,
+                            "worldAABB_min_y": 261.5555419921875,
+                            "worldAABB_max_x": 904.4444580078125,
+                            "worldAABB_max_y": 380.4444580078125
                         }
                     }
                 ]
@@ -7215,10 +7215,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 83.28125,
-                            "worldAABB_max_x": 1759.0,
-                            "worldAABB_max_y": 1072.71875
+                            "worldAABB_min_x": 274.33331298828125,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 1415.666748046875,
+                            "worldAABB_max_y": 642.0
                         }
                     },
                     {
@@ -7268,10 +7268,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 486.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 669.6145629882813
+                            "worldAABB_min_x": 785.5555419921875,
+                            "worldAABB_min_y": 261.5555419921875,
+                            "worldAABB_max_x": 904.4444580078125,
+                            "worldAABB_max_y": 380.4444580078125
                         }
                     }
                 ]
@@ -7306,10 +7306,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 721.46484375,
-                            "worldAABB_min_y": 334.4453125,
-                            "worldAABB_max_x": 1037.53515625,
-                            "worldAABB_max_y": 412.7757568359375
+                            "worldAABB_min_x": 742.4583129882813,
+                            "worldAABB_min_y": 162.9686737060547,
+                            "worldAABB_max_x": 947.5416870117188,
+                            "worldAABB_max_y": 213.79368591308594
                         }
                     },
                     {
@@ -7359,10 +7359,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 757.423583984375,
-                            "worldAABB_min_y": 485.97711181640625,
-                            "worldAABB_max_x": 1001.576416015625,
-                            "worldAABB_max_y": 559.7268676757813
+                            "worldAABB_min_x": 765.790283203125,
+                            "worldAABB_min_y": 261.2906494140625,
+                            "worldAABB_max_x": 924.209716796875,
+                            "worldAABB_max_y": 309.1434326171875
                         }
                     },
                     {
@@ -7484,10 +7484,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 757.423583984375,
-                            "worldAABB_min_y": 578.2440185546875,
-                            "worldAABB_max_x": 1001.576416015625,
-                            "worldAABB_max_y": 651.9937744140625
+                            "worldAABB_min_x": 765.790283203125,
+                            "worldAABB_min_y": 321.1583251953125,
+                            "worldAABB_max_x": 924.209716796875,
+                            "worldAABB_max_y": 369.0111083984375
                         }
                     },
                     {
@@ -7609,10 +7609,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 486.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 669.6145629882813
+                            "worldAABB_min_x": 785.5555419921875,
+                            "worldAABB_min_y": 261.5555419921875,
+                            "worldAABB_max_x": 904.4444580078125,
+                            "worldAABB_max_y": 380.4444580078125
                         }
                     }
                 ]
@@ -7647,10 +7647,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 486.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 669.6145629882813
+                            "worldAABB_min_x": 785.5555419921875,
+                            "worldAABB_min_y": 261.5555419921875,
+                            "worldAABB_max_x": 904.4444580078125,
+                            "worldAABB_max_y": 380.4444580078125
                         }
                     }
                 ]
@@ -7685,10 +7685,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 757.423583984375,
-                            "worldAABB_min_y": 670.5108642578125,
-                            "worldAABB_max_x": 1001.576416015625,
-                            "worldAABB_max_y": 744.2606201171875
+                            "worldAABB_min_x": 765.790283203125,
+                            "worldAABB_min_y": 381.0259704589844,
+                            "worldAABB_max_x": 924.209716796875,
+                            "worldAABB_max_y": 428.8787536621094
                         }
                     },
                     {
@@ -7810,10 +7810,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 757.423583984375,
-                            "worldAABB_min_y": 762.7777099609375,
-                            "worldAABB_max_x": 1001.576416015625,
-                            "worldAABB_max_y": 836.5274658203125
+                            "worldAABB_min_x": 765.790283203125,
+                            "worldAABB_min_y": 440.8936462402344,
+                            "worldAABB_max_x": 924.209716796875,
+                            "worldAABB_max_y": 488.7464294433594
                         }
                     },
                     {
@@ -7935,10 +7935,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 757.423583984375,
-                            "worldAABB_min_y": 485.97723388671875,
-                            "worldAABB_max_x": 1001.576416015625,
-                            "worldAABB_max_y": 559.7269897460938
+                            "worldAABB_min_x": 765.790283203125,
+                            "worldAABB_min_y": 261.29071044921875,
+                            "worldAABB_max_x": 924.209716796875,
+                            "worldAABB_max_y": 309.14349365234375
                         }
                     },
                     {
@@ -7988,10 +7988,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 757.423583984375,
-                            "worldAABB_min_y": 578.2440185546875,
-                            "worldAABB_max_x": 1001.576416015625,
-                            "worldAABB_max_y": 651.9937744140625
+                            "worldAABB_min_x": 765.790283203125,
+                            "worldAABB_min_y": 321.1583251953125,
+                            "worldAABB_max_x": 924.209716796875,
+                            "worldAABB_max_y": 369.0111083984375
                         }
                     },
                     {
@@ -8041,10 +8041,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 757.423583984375,
-                            "worldAABB_min_y": 670.5108642578125,
-                            "worldAABB_max_x": 1001.576416015625,
-                            "worldAABB_max_y": 744.2606201171875
+                            "worldAABB_min_x": 765.790283203125,
+                            "worldAABB_min_y": 381.0259704589844,
+                            "worldAABB_max_x": 924.209716796875,
+                            "worldAABB_max_y": 428.8787536621094
                         }
                     },
                     {
@@ -8094,10 +8094,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 757.423583984375,
-                            "worldAABB_min_y": 762.7777099609375,
-                            "worldAABB_max_x": 1001.576416015625,
-                            "worldAABB_max_y": 836.5274658203125
+                            "worldAABB_min_x": 765.790283203125,
+                            "worldAABB_min_y": 440.8936767578125,
+                            "worldAABB_max_x": 924.209716796875,
+                            "worldAABB_max_y": 488.7464599609375
                         }
                     },
                     {
@@ -8147,10 +8147,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 486.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 669.6145629882813
+                            "worldAABB_min_x": 785.5555419921875,
+                            "worldAABB_min_y": 261.5555419921875,
+                            "worldAABB_max_x": 904.4444580078125,
+                            "worldAABB_max_y": 380.4444580078125
                         }
                     }
                 ]
@@ -8185,10 +8185,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 83.28125,
-                            "worldAABB_max_x": 1759.0,
-                            "worldAABB_max_y": 1072.71875
+                            "worldAABB_min_x": 274.33331298828125,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 1415.666748046875,
+                            "worldAABB_max_y": 642.0
                         }
                     },
                     {
@@ -8238,10 +8238,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1488.84521484375,
-                            "worldAABB_min_y": 138.83670043945313,
-                            "worldAABB_max_x": 1591.45361328125,
-                            "worldAABB_max_y": 164.48880004882813
+                            "worldAABB_min_x": 1240.375732421875,
+                            "worldAABB_min_y": 36.04734420776367,
+                            "worldAABB_max_x": 1306.95361328125,
+                            "worldAABB_max_y": 52.69179153442383
                         }
                     },
                     {
@@ -8363,10 +8363,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 83.28125,
-                            "worldAABB_max_x": 1759.0,
-                            "worldAABB_max_y": 1072.71875
+                            "worldAABB_min_x": 274.33331298828125,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 1415.666748046875,
+                            "worldAABB_max_y": 642.0
                         }
                     },
                     {
@@ -8416,10 +8416,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 486.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 669.6145629882813
+                            "worldAABB_min_x": 785.5555419921875,
+                            "worldAABB_min_y": 261.5555419921875,
+                            "worldAABB_max_x": 904.4444580078125,
+                            "worldAABB_max_y": 380.4444580078125
                         }
                     }
                 ]
@@ -8454,10 +8454,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 486.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 669.6145629882813
+                            "worldAABB_min_x": 785.5555419921875,
+                            "worldAABB_min_y": 261.5555419921875,
+                            "worldAABB_max_x": 904.4444580078125,
+                            "worldAABB_max_y": 380.4444580078125
                         }
                     }
                 ]
@@ -8492,10 +8492,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 21.48291015625,
-                            "worldAABB_min_y": 202.18328857421875,
-                            "worldAABB_max_x": 288.5394287109375,
-                            "worldAABB_max_y": 279.59759521484375
+                            "worldAABB_min_x": 288.2726135253906,
+                            "worldAABB_min_y": 77.15000915527344,
+                            "worldAABB_max_x": 461.5531921386719,
+                            "worldAABB_max_y": 127.38056945800781
                         }
                     },
                     {
@@ -8545,10 +8545,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1782.101806640625,
-                            "worldAABB_min_y": 124.96585845947266,
-                            "worldAABB_max_x": 2307.511474609375,
-                            "worldAABB_max_y": 266.9684753417969
+                            "worldAABB_min_x": 1430.6563720703125,
+                            "worldAABB_min_y": 27.047222137451172,
+                            "worldAABB_max_x": 1771.5701904296875,
+                            "worldAABB_max_y": 119.18611145019531
                         }
                     },
                     {
@@ -8615,10 +8615,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 123.5312271118164,
-                            "worldAABB_min_y": 57.791725158691406,
-                            "worldAABB_max_x": 306.7604064941406,
-                            "worldAABB_max_y": 241.02090454101563
+                            "worldAABB_min_x": 354.48699951171875,
+                            "worldAABB_min_y": -16.538959503173828,
+                            "worldAABB_max_x": 473.37591552734375,
+                            "worldAABB_max_y": 102.34992980957031
                         }
                     },
                     {
@@ -8667,10 +8667,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 20.69384765625,
-                            "worldAABB_min_y": 94.20852661132813,
-                            "worldAABB_max_x": 409.5977783203125,
-                            "worldAABB_max_y": 204.60409545898438
+                            "worldAABB_min_x": 287.7606201171875,
+                            "worldAABB_min_y": 7.0902099609375,
+                            "worldAABB_max_x": 540.102294921875,
+                            "worldAABB_max_y": 78.72076416015625
                         }
                     },
                     {
@@ -8720,10 +8720,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 180.29910278320313,
-                            "worldAABB_min_y": 159.1112518310547,
-                            "worldAABB_max_x": 380.0188903808594,
-                            "worldAABB_max_y": 177.4341583251953
+                            "worldAABB_min_x": 391.321044921875,
+                            "worldAABB_min_y": 49.20256042480469,
+                            "worldAABB_max_x": 520.909912109375,
+                            "worldAABB_max_y": 61.09144592285156
                         }
                     },
                     {
@@ -8773,10 +8773,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 396.6038513183594,
-                            "worldAABB_min_y": 121.92193603515625,
-                            "worldAABB_max_x": 419.5074768066406,
-                            "worldAABB_max_y": 176.89068603515625
+                            "worldAABB_min_x": 531.671142578125,
+                            "worldAABB_min_y": 25.072153091430664,
+                            "worldAABB_max_x": 546.5322265625,
+                            "worldAABB_max_y": 60.73882293701172
                         }
                     },
                     {
@@ -8842,10 +8842,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 123.53128814697266,
-                            "worldAABB_min_y": 57.791297912597656,
-                            "worldAABB_max_x": 306.7604675292969,
-                            "worldAABB_max_y": 241.02047729492188
+                            "worldAABB_min_x": 354.4870300292969,
+                            "worldAABB_min_y": -16.539234161376953,
+                            "worldAABB_max_x": 473.3759460449219,
+                            "worldAABB_max_y": 102.34965515136719
                         }
                     },
                     {
@@ -8894,10 +8894,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 31.916702270507813,
-                            "worldAABB_min_y": 126.50223541259766,
-                            "worldAABB_max_x": 398.37506103515625,
-                            "worldAABB_max_y": 172.3095245361328
+                            "worldAABB_min_x": 295.0426025390625,
+                            "worldAABB_min_y": 28.04410171508789,
+                            "worldAABB_max_x": 532.8203735351563,
+                            "worldAABB_max_y": 57.76632308959961
                         }
                     },
                     {
@@ -8947,10 +8947,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 180.29934692382813,
-                            "worldAABB_min_y": 159.11061096191406,
-                            "worldAABB_max_x": 380.0191345214844,
-                            "worldAABB_max_y": 177.4335174560547
+                            "worldAABB_min_x": 391.3211669921875,
+                            "worldAABB_min_y": 49.20216369628906,
+                            "worldAABB_max_x": 520.9100952148438,
+                            "worldAABB_max_y": 61.09104919433594
                         }
                     },
                     {
@@ -9000,10 +9000,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 385.528564453125,
-                            "worldAABB_min_y": 121.9215087890625,
-                            "worldAABB_max_x": 408.43218994140625,
-                            "worldAABB_max_y": 176.8902587890625
+                            "worldAABB_min_x": 524.4849243164063,
+                            "worldAABB_min_y": 25.07187843322754,
+                            "worldAABB_max_x": 539.3460083007813,
+                            "worldAABB_max_y": 60.738548278808594
                         }
                     },
                     {
@@ -9069,10 +9069,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 486.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 669.6145629882813
+                            "worldAABB_min_x": 785.5555419921875,
+                            "worldAABB_min_y": 261.5555419921875,
+                            "worldAABB_max_x": 904.4444580078125,
+                            "worldAABB_max_y": 380.4444580078125
                         }
                     }
                 ]
@@ -9107,10 +9107,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1396.2061767578125,
-                            "worldAABB_min_y": 834.5208740234375,
-                            "worldAABB_max_x": 1579.4354248046875,
-                            "worldAABB_max_y": 1017.75
+                            "worldAABB_min_x": 1180.2667236328125,
+                            "worldAABB_min_y": 487.4444580078125,
+                            "worldAABB_max_x": 1299.1556396484375,
+                            "worldAABB_max_y": 606.3333740234375
                         }
                     },
                     {
@@ -9159,10 +9159,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1379.715576171875,
-                            "worldAABB_min_y": 818.0302124023438,
-                            "worldAABB_max_x": 1595.926025390625,
-                            "worldAABB_max_y": 1034.2406005859375
+                            "worldAABB_min_x": 1169.5667724609375,
+                            "worldAABB_min_y": 476.7444763183594,
+                            "worldAABB_max_x": 1309.8555908203125,
+                            "worldAABB_max_y": 617.0333862304688
                         }
                     },
                     {
@@ -9212,10 +9212,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1379.715576171875,
-                            "worldAABB_min_y": 818.0302124023438,
-                            "worldAABB_max_x": 1595.926025390625,
-                            "worldAABB_max_y": 1034.2406005859375
+                            "worldAABB_min_x": 1169.5667724609375,
+                            "worldAABB_min_y": 476.7444763183594,
+                            "worldAABB_max_x": 1309.8555908203125,
+                            "worldAABB_max_y": 617.0333862304688
                         }
                     },
                     {
@@ -9265,10 +9265,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1476.3690185546875,
-                            "worldAABB_min_y": 898.6510620117188,
-                            "worldAABB_max_x": 1499.2725830078125,
-                            "worldAABB_max_y": 953.6198120117188
+                            "worldAABB_min_x": 1232.2806396484375,
+                            "worldAABB_min_y": 529.0556030273438,
+                            "worldAABB_max_x": 1247.1417236328125,
+                            "worldAABB_max_y": 564.7222290039063
                         }
                     },
                     {
@@ -9334,10 +9334,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1396.2061767578125,
-                            "worldAABB_min_y": 834.5208740234375,
-                            "worldAABB_max_x": 1579.4354248046875,
-                            "worldAABB_max_y": 1017.75
+                            "worldAABB_min_x": 1180.2667236328125,
+                            "worldAABB_min_y": 487.4444580078125,
+                            "worldAABB_max_x": 1299.1556396484375,
+                            "worldAABB_max_y": 606.3333740234375
                         }
                     },
                     {
@@ -9386,10 +9386,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1379.715576171875,
-                            "worldAABB_min_y": 818.0302124023438,
-                            "worldAABB_max_x": 1595.926025390625,
-                            "worldAABB_max_y": 1034.2406005859375
+                            "worldAABB_min_x": 1169.5667724609375,
+                            "worldAABB_min_y": 476.7444763183594,
+                            "worldAABB_max_x": 1309.8555908203125,
+                            "worldAABB_max_y": 617.0333862304688
                         }
                     },
                     {
@@ -9439,10 +9439,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1379.715576171875,
-                            "worldAABB_min_y": 818.0302124023438,
-                            "worldAABB_max_x": 1595.926025390625,
-                            "worldAABB_max_y": 1034.2406005859375
+                            "worldAABB_min_x": 1169.5667724609375,
+                            "worldAABB_min_y": 476.7444763183594,
+                            "worldAABB_max_x": 1309.8555908203125,
+                            "worldAABB_max_y": 617.0333862304688
                         }
                     },
                     {
@@ -9492,10 +9492,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1583.0382080078125,
-                            "worldAABB_min_y": 898.6510620117188,
-                            "worldAABB_max_x": 1605.9417724609375,
-                            "worldAABB_max_y": 953.6198120117188
+                            "worldAABB_min_x": 1301.4932861328125,
+                            "worldAABB_min_y": 529.0556030273438,
+                            "worldAABB_max_x": 1316.3543701171875,
+                            "worldAABB_max_y": 564.7222290039063
                         }
                     },
                     {
@@ -9561,10 +9561,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1396.2061767578125,
-                            "worldAABB_min_y": 834.5208740234375,
-                            "worldAABB_max_x": 1579.4354248046875,
-                            "worldAABB_max_y": 1017.75
+                            "worldAABB_min_x": 1180.2667236328125,
+                            "worldAABB_min_y": 487.4444580078125,
+                            "worldAABB_max_x": 1299.1556396484375,
+                            "worldAABB_max_y": 606.3333740234375
                         }
                     },
                     {
@@ -9613,10 +9613,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1379.715576171875,
-                            "worldAABB_min_y": 818.0302124023438,
-                            "worldAABB_max_x": 1595.926025390625,
-                            "worldAABB_max_y": 1034.2406005859375
+                            "worldAABB_min_x": 1169.5667724609375,
+                            "worldAABB_min_y": 476.7444763183594,
+                            "worldAABB_max_x": 1309.8555908203125,
+                            "worldAABB_max_y": 617.0333862304688
                         }
                     },
                     {
@@ -9666,10 +9666,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1379.715576171875,
-                            "worldAABB_min_y": 818.0302124023438,
-                            "worldAABB_max_x": 1595.926025390625,
-                            "worldAABB_max_y": 1034.2406005859375
+                            "worldAABB_min_x": 1169.5667724609375,
+                            "worldAABB_min_y": 476.7444763183594,
+                            "worldAABB_max_x": 1309.8555908203125,
+                            "worldAABB_max_y": 617.0333862304688
                         }
                     },
                     {
@@ -9719,10 +9719,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1583.7188720703125,
-                            "worldAABB_min_y": 898.6510620117188,
-                            "worldAABB_max_x": 1606.6224365234375,
-                            "worldAABB_max_y": 953.6198120117188
+                            "worldAABB_min_x": 1301.934814453125,
+                            "worldAABB_min_y": 529.0556030273438,
+                            "worldAABB_max_x": 1316.7958984375,
+                            "worldAABB_max_y": 564.7222290039063
                         }
                     },
                     {
@@ -9788,10 +9788,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1396.2061767578125,
-                            "worldAABB_min_y": 834.5208740234375,
-                            "worldAABB_max_x": 1579.4354248046875,
-                            "worldAABB_max_y": 1017.75
+                            "worldAABB_min_x": 1180.2667236328125,
+                            "worldAABB_min_y": 487.4444580078125,
+                            "worldAABB_max_x": 1299.1556396484375,
+                            "worldAABB_max_y": 606.3333740234375
                         }
                     },
                     {
@@ -9840,10 +9840,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1379.715576171875,
-                            "worldAABB_min_y": 818.0302124023438,
-                            "worldAABB_max_x": 1595.926025390625,
-                            "worldAABB_max_y": 1034.2406005859375
+                            "worldAABB_min_x": 1169.5667724609375,
+                            "worldAABB_min_y": 476.7444763183594,
+                            "worldAABB_max_x": 1309.8555908203125,
+                            "worldAABB_max_y": 617.0333862304688
                         }
                     },
                     {
@@ -9893,10 +9893,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1379.715576171875,
-                            "worldAABB_min_y": 818.0302124023438,
-                            "worldAABB_max_x": 1595.926025390625,
-                            "worldAABB_max_y": 1034.2406005859375
+                            "worldAABB_min_x": 1169.5667724609375,
+                            "worldAABB_min_y": 476.7444763183594,
+                            "worldAABB_max_x": 1309.8555908203125,
+                            "worldAABB_max_y": 617.0333862304688
                         }
                     },
                     {
@@ -9946,10 +9946,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1655.311767578125,
-                            "worldAABB_min_y": 898.6510620117188,
-                            "worldAABB_max_x": 1678.21533203125,
-                            "worldAABB_max_y": 953.6198120117188
+                            "worldAABB_min_x": 1348.38818359375,
+                            "worldAABB_min_y": 529.0556030273438,
+                            "worldAABB_max_x": 1363.249267578125,
+                            "worldAABB_max_y": 564.7222290039063
                         }
                     },
                     {
@@ -10851,45 +10851,6 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Door",
-                "tag": "",
-                "uid": 9040967037932445365,
-                "parentUID": 8026968804129891130,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.8128280639648438,
-                            "localPos_Y": -0.000004259101842762902,
-                            "localPos_Z": -0.35199737548828125,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 2.0,
-                            "localSca_Y": 2.0,
-                            "localSca_Z": 2.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 3763933102805792683,
-                            "assetPathMesh": "Assets/Meshes/Lv2_HandOfDominion_Door.Cube.024_0.mesh",
-                            "materialUID": 1081826142344109224,
-                            "assetPathMaterial": "Assets/Materials/Lv2_HandOfDominion_DoorDoor_0.mat"
                         }
                     }
                 ]
@@ -37759,10 +37720,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1467.847900390625,
-                            "worldAABB_min_y": 68.5267105102539,
-                            "worldAABB_max_x": 1651.0771484375,
-                            "worldAABB_max_y": 251.75588989257813
+                            "worldAABB_min_x": 1226.7515869140625,
+                            "worldAABB_min_y": -9.573535919189453,
+                            "worldAABB_max_x": 1345.6405029296875,
+                            "worldAABB_max_y": 109.31535339355469
                         }
                     },
                     {
@@ -37817,10 +37778,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1467.847900390625,
-                            "worldAABB_min_y": 68.5267105102539,
-                            "worldAABB_max_x": 1651.0771484375,
-                            "worldAABB_max_y": 251.75588989257813
+                            "worldAABB_min_x": 1226.7515869140625,
+                            "worldAABB_min_y": -9.573535919189453,
+                            "worldAABB_max_x": 1345.6405029296875,
+                            "worldAABB_max_y": 109.31535339355469
                         }
                     },
                     {
@@ -37869,10 +37830,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1376.2333984375,
-                            "worldAABB_min_y": 137.23765563964844,
-                            "worldAABB_max_x": 1742.691650390625,
-                            "worldAABB_max_y": 183.04493713378906
+                            "worldAABB_min_x": 1167.30712890625,
+                            "worldAABB_min_y": 35.00979995727539,
+                            "worldAABB_max_x": 1405.0849609375,
+                            "worldAABB_max_y": 64.73202514648438
                         }
                     },
                     {
@@ -37922,10 +37883,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1376.2333984375,
-                            "worldAABB_min_y": 137.23765563964844,
-                            "worldAABB_max_x": 1742.691650390625,
-                            "worldAABB_max_y": 183.04493713378906
+                            "worldAABB_min_x": 1167.30712890625,
+                            "worldAABB_min_y": 35.00979995727539,
+                            "worldAABB_max_x": 1405.0849609375,
+                            "worldAABB_max_y": 64.73202514648438
                         }
                     },
                     {
@@ -37975,10 +37936,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1467.847900390625,
-                            "worldAABB_min_y": 159.08770751953125,
-                            "worldAABB_max_x": 1651.0771484375,
-                            "worldAABB_max_y": 342.31689453125
+                            "worldAABB_min_x": 1226.7515869140625,
+                            "worldAABB_min_y": 49.18729782104492,
+                            "worldAABB_max_x": 1345.6405029296875,
+                            "worldAABB_max_y": 168.07618713378906
                         }
                     }
                 ]
@@ -38013,10 +37974,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1585.8016357421875,
-                            "worldAABB_min_y": 159.08770751953125,
-                            "worldAABB_max_x": 1769.0308837890625,
-                            "worldAABB_max_y": 342.31689453125
+                            "worldAABB_min_x": 1303.2862548828125,
+                            "worldAABB_min_y": 49.18729782104492,
+                            "worldAABB_max_x": 1422.1751708984375,
+                            "worldAABB_max_y": 168.07618713378906
                         }
                     }
                 ]
@@ -38051,10 +38012,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1649.931884765625,
-                            "worldAABB_min_y": 223.21792602539063,
-                            "worldAABB_max_x": 1704.900634765625,
-                            "worldAABB_max_y": 278.1866760253906
+                            "worldAABB_min_x": 1344.8973388671875,
+                            "worldAABB_min_y": 90.79840850830078,
+                            "worldAABB_max_x": 1380.5640869140625,
+                            "worldAABB_max_y": 126.46508026123047
                         }
                     },
                     {
@@ -38104,10 +38065,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1471.512451171875,
-                            "worldAABB_min_y": 159.08770751953125,
-                            "worldAABB_max_x": 1654.74169921875,
-                            "worldAABB_max_y": 342.31689453125
+                            "worldAABB_min_x": 1229.12939453125,
+                            "worldAABB_min_y": 49.18729782104492,
+                            "worldAABB_max_x": 1348.018310546875,
+                            "worldAABB_max_y": 168.07618713378906
                         }
                     }
                 ]
@@ -38142,10 +38103,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1535.6427001953125,
-                            "worldAABB_min_y": 223.21792602539063,
-                            "worldAABB_max_x": 1590.6114501953125,
-                            "worldAABB_max_y": 278.1866760253906
+                            "worldAABB_min_x": 1270.740478515625,
+                            "worldAABB_min_y": 90.79840850830078,
+                            "worldAABB_max_x": 1306.4072265625,
+                            "worldAABB_max_y": 126.46508026123047
                         }
                     },
                     {
@@ -38195,10 +38156,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1356.9942626953125,
-                            "worldAABB_min_y": 159.08770751953125,
-                            "worldAABB_max_x": 1540.2235107421875,
-                            "worldAABB_max_y": 342.31689453125
+                            "worldAABB_min_x": 1154.8238525390625,
+                            "worldAABB_min_y": 49.18729782104492,
+                            "worldAABB_max_x": 1273.7127685546875,
+                            "worldAABB_max_y": 168.07618713378906
                         }
                     }
                 ]
@@ -38233,10 +38194,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1421.12451171875,
-                            "worldAABB_min_y": 223.21792602539063,
-                            "worldAABB_max_x": 1476.09326171875,
-                            "worldAABB_max_y": 278.1866760253906
+                            "worldAABB_min_x": 1196.4349365234375,
+                            "worldAABB_min_y": 90.79840850830078,
+                            "worldAABB_max_x": 1232.1016845703125,
+                            "worldAABB_max_y": 126.46508026123047
                         }
                     },
                     {
@@ -38286,10 +38247,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1515.487548828125,
-                            "worldAABB_min_y": 206.727294921875,
-                            "worldAABB_max_x": 1603.4375,
-                            "worldAABB_max_y": 294.67730712890625
+                            "worldAABB_min_x": 1257.6627197265625,
+                            "worldAABB_min_y": 80.0984115600586,
+                            "worldAABB_max_x": 1314.7293701171875,
+                            "worldAABB_max_y": 137.16506958007813
                         }
                     },
                     {
@@ -38339,10 +38300,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1515.487548828125,
-                            "worldAABB_min_y": 206.727294921875,
-                            "worldAABB_max_x": 1603.4375,
-                            "worldAABB_max_y": 294.67730712890625
+                            "worldAABB_min_x": 1257.6627197265625,
+                            "worldAABB_min_y": 80.0984115600586,
+                            "worldAABB_max_x": 1314.7293701171875,
+                            "worldAABB_max_y": 137.16506958007813
                         }
                     },
                     {
@@ -52497,45 +52458,6 @@
         },
         {
             "GameObject": {
-                "name": "Door",
-                "tag": "",
-                "uid": 2863598943225374660,
-                "parentUID": 8717382810366665059,
-                "enabled": true,
-                "static": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 20.000385284423828,
-                            "localPos_Y": -0.25561144948005676,
-                            "localPos_Z": -35.49663543701172,
-                            "localRot_X": -90.00027465820313,
-                            "localRot_Y": -0.00021600525360554457,
-                            "localRot_Z": 2.8139510721558736e-9,
-                            "localSca_X": 2.000000476837158,
-                            "localSca_Y": 2.0000007152557373,
-                            "localSca_Z": 2.000000476837158
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 3763933102805792683,
-                            "assetPathMesh": "Assets/Meshes/Lv2_HandOfDominion_Door.Cube.024_0.mesh",
-                            "materialUID": 1081826142344109224,
-                            "assetPathMaterial": "Assets/Materials/Lv2_HandOfDominion_DoorDoor_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "ColumnVariant",
                 "tag": "",
                 "uid": 8854262940467725868,
@@ -52815,45 +52737,6 @@
         },
         {
             "GameObject": {
-                "name": "Door",
-                "tag": "",
-                "uid": 2991853034150670138,
-                "parentUID": 457956051717034934,
-                "enabled": true,
-                "static": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 20.000385284423828,
-                            "localPos_Y": -0.25561144948005676,
-                            "localPos_Z": -35.49663543701172,
-                            "localRot_X": -90.00027465820313,
-                            "localRot_Y": -0.00021600525360554457,
-                            "localRot_Z": 2.8139510721558736e-9,
-                            "localSca_X": 2.000000476837158,
-                            "localSca_Y": 2.0000007152557373,
-                            "localSca_Z": 2.000000476837158
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 3763933102805792683,
-                            "assetPathMesh": "Assets/Meshes/Lv2_HandOfDominion_Door.Cube.024_0.mesh",
-                            "materialUID": 1081826142344109224,
-                            "assetPathMaterial": "Assets/Materials/Lv2_HandOfDominion_DoorDoor_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Column",
                 "tag": "",
                 "uid": 16811529153108714170,
@@ -53029,7 +52912,7 @@
                             "removed": true,
                             "isKinematic": false,
                             "isTrigger": false,
-                            "drawCollider": true,
+                            "drawCollider": false,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
@@ -53092,7 +52975,7 @@
                             "removed": true,
                             "isKinematic": false,
                             "isTrigger": false,
-                            "drawCollider": true,
+                            "drawCollider": false,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
@@ -53155,7 +53038,7 @@
                             "removed": true,
                             "isKinematic": false,
                             "isTrigger": false,
-                            "drawCollider": true,
+                            "drawCollider": false,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
@@ -64929,6 +64812,861 @@
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_FloorHill.Plane.001_0.mesh",
                             "materialUID": 13690110322461600613,
                             "assetPathMaterial": "Assets/Materials/Cantina_GeneralFloorDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Door",
+                "tag": "",
+                "uid": 11711306924459790832,
+                "parentUID": 8026968804129891130,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -52.785400390625,
+                            "localPos_Y": -0.20866084098815918,
+                            "localPos_Z": 23.248821258544922,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 90.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.019999999552965164,
+                            "localSca_Y": 0.019999999552965164,
+                            "localSca_Z": 0.019999999552965164
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ActivationLogic",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 6502943988899255100,
+                            "assetPathState": "Assets/StateMachine/Door_HandOfDominion.state"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 6.0,
+                            "boxSize_Y": 4.5,
+                            "boxSize_Z": 9.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -52.78499984741211,
+                            "rbPos_Y": 4.290999412536621,
+                            "rbPos_Z": 5.687000274658203,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 18291754629992854507,
+                "parentUID": 11711306924459790832,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 37.21165466308594,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorWall",
+                "tag": "",
+                "uid": 12377346894304721258,
+                "parentUID": 18291754629992854507,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "pack_hand_of_dominion_door.Cube.024_0",
+                "tag": "",
+                "uid": 14871649094958410528,
+                "parentUID": 12377346894304721258,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 10934081061169327907,
+                            "assetPathMesh": "Assets/Meshes/pack_hand_of_dominion_door.Cube.024_0.mesh",
+                            "materialUID": 901177645456163489,
+                            "assetPathMaterial": "Assets/Materials/pack_hand_of_dominion_doorDoor_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Door",
+                "tag": "",
+                "uid": 8756061279912019950,
+                "parentUID": 18291754629992854507,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "pack_hand_of_dominion_door.Cube.004_0",
+                "tag": "",
+                "uid": 4981777556652223579,
+                "parentUID": 8756061279912019950,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17541083849511377048,
+                            "assetPathMesh": "Assets/Meshes/pack_hand_of_dominion_door.Cube.004_0.mesh",
+                            "materialUID": 901177645456163489,
+                            "assetPathMaterial": "Assets/Materials/pack_hand_of_dominion_doorDoor_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "pack_hand_of_dominion_machines",
+                "tag": "",
+                "uid": 5756718464359111404,
+                "parentUID": 67125992557613803,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 8322847336329399608,
+                "parentUID": 5756718464359111404,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Machine1",
+                "tag": "",
+                "uid": 10307445361128674185,
+                "parentUID": 8322847336329399608,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -59.06743240356445,
+                            "localPos_Y": 4.007081031799316,
+                            "localPos_Z": -48.68040084838867,
+                            "localRot_X": -89.99999237060547,
+                            "localRot_Y": -0.00000213443399843527,
+                            "localRot_Z": 170.61167907714844,
+                            "localSca_X": 0.9760000109672546,
+                            "localSca_Y": 3.465449333190918,
+                            "localSca_Z": 3.465449333190918
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "pack_hand_of_dominion_machines.BezierCurve.001_0",
+                "tag": "",
+                "uid": 5694397868220853426,
+                "parentUID": 10307445361128674185,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.00000762939453125,
+                            "localPos_Y": 0.0000019073486328125,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 12210218328892284988,
+                            "assetPathMesh": "Assets/Meshes/pack_hand_of_dominion_machines.BezierCurve.001_0.mesh",
+                            "materialUID": 14606884901004237478,
+                            "assetPathMaterial": "Assets/Materials/pack_hand_of_dominion_machinesMachine1_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "pack_hand_of_dominion_machines.BezierCurve.001_1",
+                "tag": "",
+                "uid": 6921766427264272191,
+                "parentUID": 10307445361128674185,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.00031280517578125,
+                            "localPos_Y": 0.000003814697265625,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 2674782696232860704,
+                            "assetPathMesh": "Assets/Meshes/pack_hand_of_dominion_machines.BezierCurve.001_1.mesh",
+                            "materialUID": 15709054061301686642,
+                            "assetPathMaterial": "Assets/Materials/pack_hand_of_dominion_machinesEmission_1.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Machine2",
+                "tag": "",
+                "uid": 319221764265818296,
+                "parentUID": 8322847336329399608,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -55.26763916015625,
+                            "localPos_Y": 10.287524223327637,
+                            "localPos_Z": -65.43151092529297,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 3.5250000953674316,
+                            "localSca_Y": 3.5250003337860107,
+                            "localSca_Z": 10.189245223999023
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "pack_hand_of_dominion_machines.Cylinder_0",
+                "tag": "",
+                "uid": 12337642205694432575,
+                "parentUID": 319221764265818296,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 6998607774206910558,
+                            "assetPathMesh": "Assets/Meshes/pack_hand_of_dominion_machines.Cylinder_0.mesh",
+                            "materialUID": 5093198924447240231,
+                            "assetPathMaterial": "Assets/Materials/pack_hand_of_dominion_machinesMachine2_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Door",
+                "tag": "",
+                "uid": 12354203496448669178,
+                "parentUID": 8026968804129891130,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": -0.43857574462890625,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.019999999552965164,
+                            "localSca_Y": 0.019999999552965164,
+                            "localSca_Z": 0.019999999552965164
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ActivationLogic",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 6502943988899255100,
+                            "assetPathState": "Assets/StateMachine/Door_HandOfDominion.state"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 6.0,
+                            "boxSize_Y": 5.0,
+                            "boxSize_Z": 4.5,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 0.0,
+                            "rbPos_Z": -35.81451416015625,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 7331386184548067687,
+                "parentUID": 12354203496448669178,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 37.21165466308594,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorWall",
+                "tag": "",
+                "uid": 2894356920956453649,
+                "parentUID": 7331386184548067687,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "pack_hand_of_dominion_door.Cube.024_0",
+                "tag": "",
+                "uid": 1893272385499453548,
+                "parentUID": 2894356920956453649,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 10934081061169327907,
+                            "assetPathMesh": "Assets/Meshes/pack_hand_of_dominion_door.Cube.024_0.mesh",
+                            "materialUID": 901177645456163489,
+                            "assetPathMaterial": "Assets/Materials/pack_hand_of_dominion_doorDoor_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Door",
+                "tag": "",
+                "uid": 8950263161502925037,
+                "parentUID": 7331386184548067687,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "pack_hand_of_dominion_door.Cube.004_0",
+                "tag": "",
+                "uid": 7861574059113234867,
+                "parentUID": 8950263161502925037,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17541083849511377048,
+                            "assetPathMesh": "Assets/Meshes/pack_hand_of_dominion_door.Cube.004_0.mesh",
+                            "materialUID": 901177645456163489,
+                            "assetPathMaterial": "Assets/Materials/pack_hand_of_dominion_doorDoor_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RigidBody",
+                "tag": "",
+                "uid": 9886489236961761140,
+                "parentUID": 11711306924459790832,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 1.0,
+                            "boxSize_Y": 4.0,
+                            "boxSize_Z": 5.5,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -53.0,
+                            "rbPos_Y": 1.5,
+                            "rbPos_Z": 5.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RigidBody",
+                "tag": "",
+                "uid": 17917360328245363850,
+                "parentUID": 12354203496448669178,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.0,
+                            "boxSize_Y": 0.0,
+                            "boxSize_Z": 0.0,
+                            "radius": 0.0,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 0.0,
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     }
                 ]

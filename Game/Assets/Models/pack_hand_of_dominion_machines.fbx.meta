@@ -1,0 +1,15 @@
+{
+    "UID": 11336301491940335136,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/pack_hand_of_dominion_machines.BezierCurve.001_0.mesh",
+        "Assets/Meshes/pack_hand_of_dominion_machines.BezierCurve.001_1.mesh",
+        "Assets/Meshes/pack_hand_of_dominion_machines.Cylinder_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/pack_hand_of_dominion_machinesMachine1_0.mat",
+        "Assets/Materials/pack_hand_of_dominion_machinesEmission_1.mat",
+        "Assets/Materials/pack_hand_of_dominion_machinesMachine2_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

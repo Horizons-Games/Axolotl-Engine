@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/machine1_DefaultMaterial_BaseColor.png",
+    "NormalAssetPath": "Assets/Textures/machine1_DefaultMaterial_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/machine1_DefaultMaterial_Metallic.png",
+    "EmissiveAssetPath": "Assets/Textures/machine1_DefaultMaterial_Emissive.png"
+}
