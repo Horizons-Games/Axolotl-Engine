@@ -8,7 +8,6 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentParticleSystem;
 class ComponentRigidBody;
 class ComponentTransform;
-class ComponentMeshRenderer;
 class ComponentLight;
 
 enum class BoostOfEnergyStates 
@@ -16,6 +15,7 @@ enum class BoostOfEnergyStates
 	AIMING,
 	PRESHOOTING,
 	SHOOTING,
+	DEACTIVATING,
 	RECHARGING,
 	RECHARGED
 };
@@ -47,14 +47,18 @@ private:
 	float preshootingTimer;
 	float shootingDuration;
 	float shootingTimer;
+	float deactivationDuration;
+	float deactivationTimer;
 	ComponentParticleSystem* aimingParticle;
 	ComponentParticleSystem* preshootingParticle;
 	ComponentParticleSystem* shootingParticle;
+	ComponentParticleSystem* deactivatingParticle;
+
 
 	float attackDamage;
 
 	ComponentRigidBody* rigidBody;
-	ComponentMeshRenderer* mesh;
+	ComponentTransform* mesh;
 	ComponentTransform* target;
 	ComponentLight* light;
 };

@@ -14,7 +14,8 @@ BoostOfEnergy::BoostOfEnergy() : Script(), preshootingDuration(0.5f), preshootin
 aimingDuration(2.0f), aimingTimer(0.0f), aimingParticle(nullptr), preshootingParticle(nullptr), 
 shootingParticle(nullptr), attackDamage(30.0f), rigidBody(nullptr), target(nullptr), 
 attackState(BoostOfEnergyStates::RECHARGED), shootingDuration(1.0f), shootingTimer(0.0f),
-cooldownDuration(5.0f), cooldownTimer(0.0f), mesh(nullptr), light(nullptr)
+cooldownDuration(5.0f), cooldownTimer(0.0f), mesh(nullptr), light(nullptr),
+deactivationDuration(0.5f), deactivationTimer(0.0f), deactivatingParticle(nullptr)
 {
 	REGISTER_FIELD(cooldownDuration, float);
 	REGISTER_FIELD(aimingDuration, float);
@@ -23,7 +24,9 @@ cooldownDuration(5.0f), cooldownTimer(0.0f), mesh(nullptr), light(nullptr)
 	REGISTER_FIELD(aimingParticle, ComponentParticleSystem*);
 	REGISTER_FIELD(preshootingParticle, ComponentParticleSystem*);
 	REGISTER_FIELD(shootingParticle, ComponentParticleSystem*);
-	REGISTER_FIELD(mesh, ComponentMeshRenderer*);
+	REGISTER_FIELD(deactivatingParticle, ComponentParticleSystem*);
+	REGISTER_FIELD(deactivationDuration, float);
+	REGISTER_FIELD(mesh, ComponentTransform*);
 	REGISTER_FIELD(light, ComponentLight*);
 	REGISTER_FIELD(target, ComponentTransform*);
 }
@@ -31,10 +34,8 @@ cooldownDuration(5.0f), cooldownTimer(0.0f), mesh(nullptr), light(nullptr)
 void BoostOfEnergy::Start()
 {
 	//rigidBody = owner->GetComponent<ComponentRigidBody>();
-	mesh->Disable();
+	mesh->GetOwner()->Disable();
 	light->Disable();
-	//Delete
-	PerformAttack();
 }
 
 void BoostOfEnergy::Update(float deltaTime)
@@ -48,25 +49,40 @@ void BoostOfEnergy::Update(float deltaTime)
 			PreShootLaser();
 		}
 		break;
-	case BoostOfEnergyStates::PRESHOOTING: //Stop aiming to the player (stay without moving) and charging laser
+
+	case BoostOfEnergyStates::PRESHOOTING: //Stop aiming to the player (stays without moving) and charging laser
 		preshootingTimer += deltaTime;
 		if (preshootingTimer >= preshootingDuration)
 		{
 			ShootLaser();
 		}
 		break;
+
 	case BoostOfEnergyStates::SHOOTING: //Shooting laser without moving for shootingDuration time
 		shootingTimer += deltaTime;
 		if (shootingTimer >= shootingDuration)
 		{
 			shootingTimer = 0.0f;
 			shootingParticle->Stop();
-			mesh->Disable();
 			light->Disable();
+			mesh->GetOwner()->Disable();
+			deactivatingParticle->Play();
 			//deactivate rigidBody
-			attackState = BoostOfEnergyStates::RECHARGING;
+			attackState = BoostOfEnergyStates::DEACTIVATING;
 		}
 		break;
+
+	case BoostOfEnergyStates::DEACTIVATING:
+	{
+		deactivationTimer += deltaTime;
+		if (deactivationTimer >= deactivationDuration)
+		{
+			deactivationTimer = 0.0f;
+			attackState = BoostOfEnergyStates::RECHARGING;
+		}
+	}
+		break;
+
 	case BoostOfEnergyStates::RECHARGING:
 		cooldownTimer += deltaTime;
 		if (cooldownTimer >= cooldownDuration)
@@ -75,6 +91,7 @@ void BoostOfEnergy::Update(float deltaTime)
 			attackState = BoostOfEnergyStates::RECHARGED;
 		}
 		break;
+
 	case BoostOfEnergyStates::RECHARGED:
 		PerformAttack();
 		break;
@@ -101,7 +118,7 @@ void BoostOfEnergy::ShootLaser()
 {
 	preshootingTimer = 0.0f;
 	shootingTimer = 0.0f;
-	mesh->Enable();
+	mesh->GetOwner()->Enable();
 	light->Enable();
 	shootingParticle->Play();
 	attackState = BoostOfEnergyStates::SHOOTING;
