@@ -417,6 +417,7 @@
     <ClCompile Include="DataModels\Resources\ResourceNavMesh.cpp" />
     <ClCompile Include="DataModels\Animation\StateMachine.cpp" />
     <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp" />
+    <ClCompile Include="Auxiliar\SceneLoader.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCameraSample.cpp" />
     <ClCompile Include="DataModels\Components\Component.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp" />
@@ -768,6 +769,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Physics\Physics.cpp" />
+    <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="Scripting\LogSystem.cpp" />
     <ClCompile Include="Scripting\Script.cpp" />
     <ClCompile Include="Scripting\ScriptFactory.cpp" />
@@ -852,6 +854,7 @@
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusicExit.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\AddComponentAction.h" />
+    <ClInclude Include="Auxiliar\SceneLoader.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
     <ClInclude Include="Auxiliar\ComponentNotFoundException.h" />
     <ClInclude Include="Auxiliar\Test\par_shapes.h">
@@ -1263,6 +1266,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Physics\Physics.h" />
+    <ClInclude Include="Scheduler.h" />
     <ClInclude Include="Scripting\InterfacesIds.h" />
     <ClInclude Include="Scripting\IScript.h" />
     <ClInclude Include="Scripting\LogSystem.h" />

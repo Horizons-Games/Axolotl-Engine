@@ -44,7 +44,8 @@ void WindowScene::DrawWindowContents()
 				 ImGui::GetContentRegionAvail(),
 				 ImVec2(0, 1),
 				 ImVec2(1, 0));
-	if (App->GetPlayState() != Application::PlayState::STOPPED)
+
+	if (App->GetPlayState() != Application::PlayState::STOPPED || !App->GetModule<ModuleScene>()->IsLoading())
 	{
 		DrawGuizmo();
 	}

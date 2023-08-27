@@ -18,7 +18,10 @@
 #include "ModuleUI.h"
 #include "ModuleWindow.h"
 #include "ModuleNavigation.h"
+
 #include "ScriptFactory.h"
+
+#include "Scheduler.h"
 
 #include "Defines/FramerateDefines.h"
 
@@ -58,6 +61,8 @@ bool Application::Init()
 {
 	scriptFactory = std::make_unique<ScriptFactory>();
 	scriptFactory->Init();
+
+	scheduler = std::make_unique<Scheduler>();
 
 	for (const std::unique_ptr<Module>& module : modules)
 	{
@@ -121,6 +126,8 @@ UpdateStatus Application::Update()
 			return result;
 		}
 	}
+
+	scheduler->RunTasks();
 
 	float dt = playMode ? onPlayTimer.Read() - ms : appTimer.Read() - ms;
 
@@ -189,4 +196,18 @@ void Application::OnStop()
 	GetModule<ModulePlayer>()->UnloadNewPlayer();
 	onPlayTimer.Stop();
 	GetModule<ModuleScene>()->OnStop();
+}
+
+
+void Application::ScheduleTask(std::function<void(void)>&& taskToSchedule)
+{
+	if (scheduler != nullptr)
+	{
+		scheduler->ScheduleTask(std::move(taskToSchedule));
+	}
+	else
+	{
+		// should never happen, just in case
+		LOG_ERROR("Scheduler not initialized!!");
+	}
 }

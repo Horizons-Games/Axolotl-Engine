@@ -224,6 +224,11 @@ UpdateStatus ModuleRender::PreUpdate()
 
 UpdateStatus ModuleRender::Update()
 {
+	if (App->GetModule<ModuleScene>()->IsLoading())
+	{
+		return UpdateStatus::UPDATE_CONTINUE;
+	}
+
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
 #endif // DEBUG
@@ -252,8 +257,6 @@ UpdateStatus ModuleRender::Update()
 
 	GameObject* goSelected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 
-	bool isRoot = goSelected->GetParent() == nullptr;
-
 	FillRenderList(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
 	
 	std::vector<GameObject*> nonStaticsGOs = App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects();
@@ -262,7 +265,11 @@ UpdateStatus ModuleRender::Update()
 	{
 		AddToRenderList(nonStaticObj);
 	}
-	AddToRenderList(goSelected);
+	
+	if (goSelected)
+	{
+		AddToRenderList(goSelected);
+	}
 
 	// Bind camera and cubemap info to the shaders
 	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT));
@@ -283,6 +290,8 @@ UpdateStatus ModuleRender::Update()
 	SDL_GetWindowSize(window->GetWindow(), &w, &h);
 
 	// -------- DEFERRED GEOMETRY -----------
+
+	bool isRoot = goSelected != nullptr ? goSelected->GetParent() == nullptr : false;
 
 	// Draw opaque objects
 	batchManager->DrawOpaque(false);
@@ -358,7 +367,10 @@ UpdateStatus ModuleRender::Update()
 		glPolygonMode(GL_BACK, GL_LINE);
 
 		// Draw Highliht for selected objects
-		DrawHighlight(goSelected);
+		if (goSelected)
+		{
+			DrawHighlight(goSelected);
+		}
 
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glLineWidth(1);
@@ -464,6 +476,11 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
+	if (quadtree == nullptr)
+	{
+		return;
+	}
+
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 	float3 cameraPos = camera->GetCamera()->GetPosition();
 
@@ -617,9 +634,15 @@ void ModuleRender::BindCameraToProgram(Program* program)
 
 void ModuleRender::BindCubemapToProgram(Program* program)
 {
+	Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
+
+	if (cubemap == nullptr)
+	{
+		return;
+	}
+
 	program->Activate();
 
-	Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
 	glActiveTexture(GL_TEXTURE8);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
 	glActiveTexture(GL_TEXTURE9);

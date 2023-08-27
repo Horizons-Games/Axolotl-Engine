@@ -22,6 +22,7 @@
 #ifdef ENGINE
 	#include "Auxiliar/GameBuilder.h"
 	#include "Animation/StateMachine.h"
+	#include "Auxiliar/SceneLoader.h"
 	#include "Resources/ResourceStateMachine.h"
 	#include "Windows/EditorWindows/WindowAssetFolder.h"
 	#include "Windows/EditorWindows/WindowConfiguration.h"
@@ -131,7 +132,7 @@ bool ModuleEditor::Init()
 
 	mainMenu = std::make_unique<WindowMainMenu>(json);
 	stateMachineEditor = std::make_unique<WindowStateMachineEditor>();
-	buildGameLoading = std::make_unique<WindowLoading>();
+	loadingPopUp = std::make_unique<WindowLoading>();
 
 	ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
 #else
@@ -244,7 +245,7 @@ UpdateStatus ModuleEditor::Update()
 
 	mainMenu->Draw();
 
-	DrawLoadingBuild();
+	DrawLoadingPopUp();
 
 	for (int i = 0; i < windows.size(); ++i)
 	{
@@ -260,24 +261,29 @@ UpdateStatus ModuleEditor::Update()
 	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-void ModuleEditor::DrawLoadingBuild()
+void ModuleEditor::DrawLoadingPopUp()
 {
 #ifdef ENGINE
 	bool gameCompiling = builder::Compiling();
 	bool zipping = builder::Zipping();
-	bool gameBuilding = gameCompiling || zipping;
+	bool loadingScene = mainMenu->IsLoadingScene();
+	bool drawLoading = gameCompiling || zipping || loadingScene;
 	if (gameCompiling)
 	{
-		buildGameLoading->AddWaitingOn("Game is being compiled...");
+		loadingPopUp->AddWaitingOn("Game is being compiled...");
 	}
 	if (zipping)
 	{
-		buildGameLoading->AddWaitingOn("Binaries are being zipped...");
+		loadingPopUp->AddWaitingOn("Binaries are being zipped...");
 	}
-	buildGameLoading->Draw(gameBuilding);
-	if (gameBuilding)
+	if (loadingScene)
 	{
-		buildGameLoading->ResetWaitingOn();
+		loadingPopUp->AddWaitingOn("Scene is being loaded...");
+	}
+	loadingPopUp->Draw(drawLoading);
+	if (drawLoading)
+	{
+		loadingPopUp->ResetWaitingOn();
 	}
 #endif
 }

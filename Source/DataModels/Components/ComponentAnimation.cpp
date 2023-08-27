@@ -22,36 +22,44 @@ ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner) :
 	Component(ComponentType::ANIMATION, active, owner, true),
 	drawBones(false),
 	firstEntry(true),
-	controller(new AnimationController()),
-	stateMachineInstance(new StateMachine())
+	controller(std::make_unique<AnimationController>()),
+	stateMachineInstance(std::make_unique<StateMachine>())
+{
+}
+
+ComponentAnimation::ComponentAnimation(const ComponentAnimation& toCopy) :
+	Component(toCopy),
+	controller(std::make_unique<AnimationController>()),
+	stateMachineInstance(std::unique_ptr<StateMachine>(new StateMachine(*toCopy.GetStateMachineInstance()))),
+	defaultPosition(toCopy.defaultPosition),
+	firstEntry(toCopy.firstEntry),
+	drawBones(toCopy.drawBones)
 {
 }
 
 ComponentAnimation::~ComponentAnimation()
 {
-	delete controller;
-	delete stateMachineInstance;
 	App->GetModule<ModuleEditor>()->SetStateMachineWindowEditor(nullptr, "");
 }
 
-AnimationController* ComponentAnimation::GetController()
+AnimationController* ComponentAnimation::GetController() const
 {
-	return controller;
+	return controller.get();
 }
 
 StateMachine* ComponentAnimation::GetStateMachineInstance() const
 {
-	return stateMachineInstance;
+	return stateMachineInstance.get();
 }
 
-const std::shared_ptr<ResourceStateMachine>& ComponentAnimation::GetStateMachine() const
+std::shared_ptr<ResourceStateMachine> ComponentAnimation::GetStateMachine() const
 {
 	return stateMachineInstance->GetStateMachine();
 }
 
-void ComponentAnimation::SetStateMachine(const std::shared_ptr<ResourceStateMachine>& stateMachine)
+void ComponentAnimation::SetStateMachine(std::shared_ptr<ResourceStateMachine> stateMachine)
 {
-	this->stateMachineInstance->SetStateMachine(stateMachine);
+	stateMachineInstance->SetStateMachine(std::move(stateMachine));
 }
 
 void ComponentAnimation::Update()
