@@ -346,7 +346,9 @@ std::pair<float, float> ModuleEditor::GetAvailableRegion()
 	ImVec2 region = scene->GetAvailableRegion();
 	return std::make_pair(region.x, region.y);
 #else
-	return App->GetModule<ModuleWindow>()->GetWindowSize();
+	std::pair<int, int> windowSizeAsInt = App->GetModule<ModuleWindow>()->GetWindowSize();
+	return std::make_pair<float, float>(static_cast<float>(windowSizeAsInt.first),
+										static_cast<float>(windowSizeAsInt.second));
 #endif
 }
 

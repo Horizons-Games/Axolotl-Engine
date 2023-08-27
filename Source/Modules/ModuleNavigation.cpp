@@ -63,7 +63,7 @@ UpdateStatus ModuleNavigation::PreUpdate()
 
 UpdateStatus ModuleNavigation::Update()
 {
-	if (!navMesh->IsGenerated())
+	if (navMesh == nullptr || !navMesh->IsGenerated())
 	{
 		return UpdateStatus::UPDATE_CONTINUE;
 	}
