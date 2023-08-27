@@ -103,6 +103,10 @@ ComponentScript::ComponentScript(const ComponentScript& other) :
 	started(other.started),
 	script(App->GetScriptFactory()->ConstructScript(other.constructName.c_str()))
 {
+	if (script == nullptr)
+	{
+		return;
+	}
 	for (const TypeFieldPair& typeFieldPair : script->GetFields())
 	{
 		switch (typeFieldPair.first)
