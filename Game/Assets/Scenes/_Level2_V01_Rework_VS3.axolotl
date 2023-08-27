@@ -65671,6 +65671,129 @@
                     }
                 ]
             }
+        },
+        {
+            "GameObject": {
+                "name": "futuristic_computer",
+                "tag": "",
+                "uid": 6811323795787217727,
+                "parentUID": 67125992557613803,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.0465781688690186,
+                            "localPos_Y": -0.25860118865966797,
+                            "localPos_Z": -35.4999885559082,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.019999999552965164,
+                            "localSca_Y": 0.019999999552965164,
+                            "localSca_Z": 0.019999999552965164
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 8760744819398563337,
+                "parentUID": 6811323795787217727,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Computer",
+                "tag": "",
+                "uid": 17566564757226653125,
+                "parentUID": 8760744819398563337,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 100.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "futuristic_computer.Cube.003_0",
+                "tag": "",
+                "uid": 10457472139849711404,
+                "parentUID": 17566564757226653125,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 6223465960483435781,
+                            "assetPathMesh": "Assets/Meshes/futuristic_computer.Cube.003_0.mesh",
+                            "materialUID": 15893572373303082198,
+                            "assetPathMaterial": "Assets/Materials/futuristic_computerComputer_0.mat"
+                        }
+                    }
+                ]
+            }
         }
     ],
     "Quadtree": {
