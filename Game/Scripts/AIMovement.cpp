@@ -5,6 +5,7 @@
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentAgent.h"
 
 REGISTERCLASS(AIMovement);
 
@@ -21,6 +22,7 @@ void AIMovement::Start()
 {
 	componentTransform = owner->GetComponent<ComponentTransform>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	agent = owner->GetComponentInternal<ComponentAgent>();
 
 	forwardVector = componentTransform->GetGlobalForward();
 
@@ -29,9 +31,25 @@ void AIMovement::Start()
 
 void AIMovement::Update(float deltaTime)
 {
-	MoveToTarget(deltaTime);
+	if (agent)
+	{
+		agent->SetMaxSpeed(movementSpeed);
+		agent->SetRotationSpeed(rotationSpeed);
 
-	RotateToTarget(deltaTime);
+		AgentMoveToTarget();
+	}
+	else
+	{
+		MoveToTarget(deltaTime);
+
+		float3 newPos = (targetPosition - componentTransform->GetGlobalPosition()).Normalized();
+		float3 forward = componentTransform->GetGlobalForward().Normalized();
+		Quat rot = Quat::RotateFromTo(forward, newPos);
+
+		rigidBody->SetRotationTarget(rot);
+	}
+
+	//RotateToTarget(deltaTime);
 
 	CheckIfHasArrived();
 }
@@ -43,10 +61,8 @@ void AIMovement::MoveToTarget(float deltaTime)
 	forwardVector = componentTransform->GetGlobalForward();
 	btVector3 movement(0, 0, 0);
 
-	
 	forwardVector = targetPosition - componentTransform->GetGlobalPosition();
 	
-
 	forwardVector.y = 0;
 	forwardVector = forwardVector.Normalized();
 
@@ -71,7 +87,7 @@ void AIMovement::RotateToTarget(float deltaTime)
 	btTransform worldTransform = rigidBody->GetRigidBody()->getWorldTransform();
 	Quat rot = Quat::LookAt(componentTransform->GetGlobalForward().Normalized(), forwardVector, float3::unitY, float3::unitY);
 	Quat rotation = componentTransform->GetGlobalRotation();
-	Quat targetRotation = rot * componentTransform->GetGlobalRotation();
+	Quat targetRotation = rot * rotation;
 
 	Quat rotationError = targetRotation * rotation.Normalized().Inverted();
 	rotationError.Normalize();
@@ -120,6 +136,18 @@ void AIMovement::RotateToTarget(float deltaTime)
 	rigidBody->GetRigidBody()->getMotionState()->setWorldTransform(worldTransform);
 }
 
+void AIMovement::AgentMoveToTarget()
+{
+	if (movementActivated)
+	{
+		agent->SetMoveTarget(targetPosition);
+	}
+	if (rotationActivated)
+	{
+		agent->SetTargetPositionRotate(targetPosition);
+	}
+}
+
 void AIMovement::SetTargetPosition(float3 targetPos)
 {
 	targetPosition = targetPos;
@@ -127,8 +155,35 @@ void AIMovement::SetTargetPosition(float3 targetPos)
 
 void AIMovement::SetMovementStatuses(bool activateMovement, bool activateRotation)
 {
+	if (agent)
+	{
+		agent->SetEnableRotation(activateRotation);
+
+		//Before deactivating the movement, we change the targetPosition of the agent
+		//to his current position
+		if (!activateMovement)
+		{
+			float3 currentPosition = componentTransform->GetGlobalPosition();
+			currentPosition.y -= agent->GetYOffset();
+
+			SetTargetPosition(currentPosition);
+			//We want to stop the agent immediately
+			//so it doest look like its slipping
+			agent->SetMaxSpeed(0.0f);
+			agent->SetMaxAcceleration(100.0f);
+
+			AgentMoveToTarget();
+		}
+		else
+		{
+			agent->SetMaxSpeed(agent->GetInitialMaxSpeed());
+			agent->SetMaxAcceleration(agent->GetInitialMaxAcceleration());
+		}
+	}
+
 	movementActivated = activateMovement;
 	rotationActivated = activateRotation;
+
 }
 
 bool AIMovement::GetIsAtDestiny()

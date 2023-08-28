@@ -8,6 +8,8 @@ class ComponentTransform;
 class ComponentAnimation;
 class Scene;
 class ComponentParticleSystem;
+class ComponentAgent;
+class ComponentRigidBody;
 
 class RangedFastAttackBehaviourScript : public Script
 {
@@ -40,6 +42,8 @@ private:
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
 	ComponentAnimation* animation;
+	ComponentAgent* agent;
+	ComponentRigidBody* rb;
 	ComponentParticleSystem* particleSystemShot;
 	ComponentParticleSystem* particleSystemPreShot;
 	ComponentTransform* particleTransform;
