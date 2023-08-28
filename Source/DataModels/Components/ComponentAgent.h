@@ -21,6 +21,7 @@ public:
 	void SetYOffset(float newYOffset);
 	void SetEnableRotation(bool newEnabledToRotate);
 	void SetTargetPositionRotate(float3 newTargetPositionRotate);
+	void SetRotationSpeed(float newRotationVelocity);
 	void AddAgentToCrowd();
 	void RemoveAgentFromCrowd();
 
@@ -34,6 +35,7 @@ public:
 	float GetYOffset() const;
 	bool GetEnableRotation() const;
 	float3 GetTargetPositionRotate() const;
+	float GetRotationSpeed() const;
 	bool IsAvoidingObstacle() const;
 
 private:
@@ -51,6 +53,7 @@ private:
 	float maxAcceleration = 8.0f;
 	float initialMaxAcceleration = maxAcceleration;
 	float yOffset = 0.0f;
+	float rotationSpeed = 3.0f;
 	bool avoidingObstacle = true;
 	bool shouldAddAgentToCrowd = true;
 	bool updateRigidBody = false;
@@ -138,4 +141,14 @@ inline float ComponentAgent::GetInitialMaxAcceleration() const
 inline void ComponentAgent::SetInitialMaxAcceleration(float newAcceleration)
 {
 	initialMaxAcceleration = newAcceleration;
+}
+
+inline float ComponentAgent::GetRotationSpeed() const
+{
+	return rotationSpeed;
+}
+
+inline void ComponentAgent::SetRotationSpeed(float newRotationSpeed)
+{
+	rotationSpeed = newRotationSpeed;
 }

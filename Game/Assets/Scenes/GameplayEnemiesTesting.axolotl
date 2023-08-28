@@ -10384,7 +10384,8 @@
                             "maxAcceleration": 5.0,
                             "avoidingObstacle": true,
                             "updateRigidBody": true,
-                            "yOffset": 1.0
+                            "yOffset": 1.5,
+                            "rotationSpeed": 3.0
                         }
                     }
                 ]
@@ -16705,7 +16706,8 @@
                             "maxAcceleration": 5.0,
                             "avoidingObstacle": true,
                             "updateRigidBody": true,
-                            "yOffset": 0.0
+                            "yOffset": 0.0,
+                            "rotationSpeed": 5.0
                         }
                     }
                 ]

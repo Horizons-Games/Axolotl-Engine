@@ -256,7 +256,7 @@ Quat ComponentAgent::CalculateRotationToPosition()
 		rotationError.ToAxisAngle(axis, angle);
 		axis.Normalize();
 
-		float3 velocityRotation = axis * angle * 5.0f;
+		float3 velocityRotation = axis * angle * rotationSpeed;
 		Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
 		Quat wq_0 = angularVelocityQuat * globalRotation;
 
@@ -289,6 +289,7 @@ void ComponentAgent::InternalSave(Json& meta)
 	meta["avoidingObstacle"] = static_cast<bool>(IsAvoidingObstacle());
 	meta["updateRigidBody"] = static_cast<bool>(GetUpdateRigidBody());
 	meta["yOffset"] = static_cast<float>(GetYOffset());
+	meta["rotationSpeed"] = static_cast<float>(GetRotationSpeed());
 }
 
 void ComponentAgent::InternalLoad(const Json& meta)
@@ -298,4 +299,5 @@ void ComponentAgent::InternalLoad(const Json& meta)
 	SetAgentObstacleAvoidance(static_cast<bool>(meta["avoidingObstacle"]));
 	SetUpdateRigidBody(static_cast<bool>(meta["updateRigidBody"]));
 	SetYOffset(static_cast<float>(meta["yOffset"]));
+	SetRotationSpeed(static_cast<float>(meta["rotationSpeed"]));
 }
