@@ -69,7 +69,7 @@
                             "color_light_X": 1.0,
                             "color_light_Y": 1.0,
                             "color_light_Z": 1.0,
-                            "intensity": 1.0,
+                            "intensity": 0.10000000149011612,
                             "lightType": "LightType_Directional"
                         }
                     }
@@ -106,8 +106,8 @@
                             "type": "Component_Animation",
                             "active": true,
                             "removed": true,
-                            "stateUID": 10945341973357188390,
-                            "assetPathState": "Assets/StateMachine/BixAnimController.state"
+                            "stateUID": 13411801980511590819,
+                            "assetPathState": "Assets/StateMachine/AlluraAnimController.state"
                         }
                     },
                     {
@@ -1410,9 +1410,46 @@
         },
         {
             "GameObject": {
+                "name": "Empty GameObject",
+                "tag": "",
+                "uid": 3632424630272701574,
+                "parentUID": 2936065966958249174,
+                "enabled": false,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 10945341973357188390,
+                            "assetPathState": "Assets/StateMachine/BixAnimController.state"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "RootNode",
                 "tag": "",
-                "uid": 14800472237019706907,
+                "uid": 943558927090933784,
                 "parentUID": 2936065966958249174,
                 "enabled": true,
                 "static": false,
@@ -1425,9 +1462,9 @@
                             "localPos_X": -0.001220703125,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
+                            "localRot_X": 0.0002999999560415745,
+                            "localRot_Y": 0.0002999999560415745,
+                            "localRot_Z": 0.0002999999560415745,
                             "localSca_X": 0.0010000000474974513,
                             "localSca_Y": 0.0010000000474974513,
                             "localSca_Z": 0.0010000000474974513
@@ -1440,8 +1477,8 @@
             "GameObject": {
                 "name": "Torso",
                 "tag": "",
-                "uid": 4140237177369686269,
-                "parentUID": 14800472237019706907,
+                "uid": 14408975167925333353,
+                "parentUID": 943558927090933784,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1468,8 +1505,8 @@
             "GameObject": {
                 "name": "AlluraNewVersion.Torso_0",
                 "tag": "",
-                "uid": 12190210241017137918,
-                "parentUID": 4140237177369686269,
+                "uid": 7784219911233844486,
+                "parentUID": 14408975167925333353,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1507,8 +1544,8 @@
             "GameObject": {
                 "name": "Arm.L",
                 "tag": "",
-                "uid": 8321054477067965957,
-                "parentUID": 14800472237019706907,
+                "uid": 11266995120984700171,
+                "parentUID": 943558927090933784,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1535,8 +1572,8 @@
             "GameObject": {
                 "name": "AlluraNewVersion.ArmL_0",
                 "tag": "",
-                "uid": 14144313562733715792,
-                "parentUID": 8321054477067965957,
+                "uid": 16246169247494271193,
+                "parentUID": 11266995120984700171,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1574,8 +1611,8 @@
             "GameObject": {
                 "name": "Belt",
                 "tag": "",
-                "uid": 16970711981408372315,
-                "parentUID": 14800472237019706907,
+                "uid": 6496591546199425399,
+                "parentUID": 943558927090933784,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1602,8 +1639,8 @@
             "GameObject": {
                 "name": "AlluraNewVersion.Belt_0",
                 "tag": "",
-                "uid": 13145476989291850737,
-                "parentUID": 16970711981408372315,
+                "uid": 15947099550032939853,
+                "parentUID": 6496591546199425399,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1641,8 +1678,8 @@
             "GameObject": {
                 "name": "Pierna.L",
                 "tag": "",
-                "uid": 11428882785220841898,
-                "parentUID": 14800472237019706907,
+                "uid": 13386373730941669408,
+                "parentUID": 943558927090933784,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1669,8 +1706,8 @@
             "GameObject": {
                 "name": "AlluraNewVersion.LegL_0",
                 "tag": "",
-                "uid": 17580776549899167927,
-                "parentUID": 11428882785220841898,
+                "uid": 13125584269189259561,
+                "parentUID": 13386373730941669408,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1708,8 +1745,8 @@
             "GameObject": {
                 "name": "Armature",
                 "tag": "",
-                "uid": 18403467397901844530,
-                "parentUID": 14800472237019706907,
+                "uid": 5272326644457945706,
+                "parentUID": 943558927090933784,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1736,8 +1773,8 @@
             "GameObject": {
                 "name": "Master Bone",
                 "tag": "",
-                "uid": 6311395508305301003,
-                "parentUID": 18403467397901844530,
+                "uid": 8187515590727295304,
+                "parentUID": 5272326644457945706,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1764,8 +1801,8 @@
             "GameObject": {
                 "name": "Master Bone_end",
                 "tag": "",
-                "uid": 13127135166859341998,
-                "parentUID": 6311395508305301003,
+                "uid": 10615831564629783483,
+                "parentUID": 8187515590727295304,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1792,8 +1829,8 @@
             "GameObject": {
                 "name": "Center of Mass 2",
                 "tag": "",
-                "uid": 14620320669473075601,
-                "parentUID": 18403467397901844530,
+                "uid": 1985238476117454835,
+                "parentUID": 5272326644457945706,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1820,8 +1857,8 @@
             "GameObject": {
                 "name": "Center of Mass",
                 "tag": "",
-                "uid": 2081351461959397111,
-                "parentUID": 14620320669473075601,
+                "uid": 1091506160157909664,
+                "parentUID": 1985238476117454835,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1848,8 +1885,8 @@
             "GameObject": {
                 "name": "Torso.IK",
                 "tag": "",
-                "uid": 5833409246798179197,
-                "parentUID": 2081351461959397111,
+                "uid": 4718238024270633135,
+                "parentUID": 1091506160157909664,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1876,8 +1913,8 @@
             "GameObject": {
                 "name": "EE-4Belt",
                 "tag": "",
-                "uid": 5329856208084264513,
-                "parentUID": 5833409246798179197,
+                "uid": 7883481838259484541,
+                "parentUID": 4718238024270633135,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1904,8 +1941,8 @@
             "GameObject": {
                 "name": "AlluraNewVersion.Cylinder.008_0",
                 "tag": "",
-                "uid": 552099168059305939,
-                "parentUID": 5329856208084264513,
+                "uid": 9004254970333638520,
+                "parentUID": 7883481838259484541,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1943,8 +1980,8 @@
             "GameObject": {
                 "name": "Leg Top.L",
                 "tag": "",
-                "uid": 1995666088013170510,
-                "parentUID": 5833409246798179197,
+                "uid": 15399248304661602853,
+                "parentUID": 4718238024270633135,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1971,8 +2008,8 @@
             "GameObject": {
                 "name": "Leg Bottom.L",
                 "tag": "",
-                "uid": 10839556339275581688,
-                "parentUID": 1995666088013170510,
+                "uid": 16207124679856938155,
+                "parentUID": 15399248304661602853,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -1999,8 +2036,8 @@
             "GameObject": {
                 "name": "Foot.L",
                 "tag": "",
-                "uid": 8388529443489565171,
-                "parentUID": 10839556339275581688,
+                "uid": 12346540227108892699,
+                "parentUID": 16207124679856938155,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2027,8 +2064,8 @@
             "GameObject": {
                 "name": "Toe.L",
                 "tag": "",
-                "uid": 10614141162303857751,
-                "parentUID": 8388529443489565171,
+                "uid": 9101337705926030901,
+                "parentUID": 12346540227108892699,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2055,8 +2092,8 @@
             "GameObject": {
                 "name": "Toe.L_end",
                 "tag": "",
-                "uid": 12564397070838377674,
-                "parentUID": 10614141162303857751,
+                "uid": 4909349070472121176,
+                "parentUID": 9101337705926030901,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2083,8 +2120,8 @@
             "GameObject": {
                 "name": "Leg Top.R",
                 "tag": "",
-                "uid": 13317582244227461422,
-                "parentUID": 5833409246798179197,
+                "uid": 1291902549029573770,
+                "parentUID": 4718238024270633135,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2111,8 +2148,8 @@
             "GameObject": {
                 "name": "Leg Bottom.R",
                 "tag": "",
-                "uid": 11328927477034018320,
-                "parentUID": 13317582244227461422,
+                "uid": 1640624463967105814,
+                "parentUID": 1291902549029573770,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2139,8 +2176,8 @@
             "GameObject": {
                 "name": "Foot.R",
                 "tag": "",
-                "uid": 2560394396186564267,
-                "parentUID": 11328927477034018320,
+                "uid": 1851952190781968085,
+                "parentUID": 1640624463967105814,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2167,8 +2204,8 @@
             "GameObject": {
                 "name": "Toe.R",
                 "tag": "",
-                "uid": 2301882929898647170,
-                "parentUID": 2560394396186564267,
+                "uid": 15841407195355761049,
+                "parentUID": 1851952190781968085,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2195,8 +2232,8 @@
             "GameObject": {
                 "name": "Toe.R_end",
                 "tag": "",
-                "uid": 9982066006608841298,
-                "parentUID": 2301882929898647170,
+                "uid": 242903020587645601,
+                "parentUID": 15841407195355761049,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2223,8 +2260,8 @@
             "GameObject": {
                 "name": "Torso.B",
                 "tag": "",
-                "uid": 3025136671544041319,
-                "parentUID": 5833409246798179197,
+                "uid": 12172958594132111289,
+                "parentUID": 4718238024270633135,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2251,8 +2288,8 @@
             "GameObject": {
                 "name": "Torso.T",
                 "tag": "",
-                "uid": 4119576888660027815,
-                "parentUID": 3025136671544041319,
+                "uid": 825342157479088795,
+                "parentUID": 12172958594132111289,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2279,8 +2316,8 @@
             "GameObject": {
                 "name": "Neck",
                 "tag": "",
-                "uid": 10242797671594271726,
-                "parentUID": 4119576888660027815,
+                "uid": 12809795496813470110,
+                "parentUID": 825342157479088795,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2307,8 +2344,8 @@
             "GameObject": {
                 "name": "Head",
                 "tag": "",
-                "uid": 7952005945237642503,
-                "parentUID": 10242797671594271726,
+                "uid": 16145047000562517050,
+                "parentUID": 12809795496813470110,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2335,8 +2372,8 @@
             "GameObject": {
                 "name": "Hair",
                 "tag": "",
-                "uid": 7181433256568109734,
-                "parentUID": 7952005945237642503,
+                "uid": 10912487361924657815,
+                "parentUID": 16145047000562517050,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2363,8 +2400,8 @@
             "GameObject": {
                 "name": "Hair_end",
                 "tag": "",
-                "uid": 11582167282208818679,
-                "parentUID": 7181433256568109734,
+                "uid": 1102227744210638984,
+                "parentUID": 10912487361924657815,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2391,8 +2428,8 @@
             "GameObject": {
                 "name": "Eye Target",
                 "tag": "",
-                "uid": 239980555422251620,
-                "parentUID": 7952005945237642503,
+                "uid": 8094688499606869996,
+                "parentUID": 16145047000562517050,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2419,8 +2456,8 @@
             "GameObject": {
                 "name": "Eye Target_end",
                 "tag": "",
-                "uid": 8125671100753343891,
-                "parentUID": 239980555422251620,
+                "uid": 17087465545728654398,
+                "parentUID": 8094688499606869996,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2447,8 +2484,8 @@
             "GameObject": {
                 "name": "Eye base",
                 "tag": "",
-                "uid": 17332692098134338772,
-                "parentUID": 7952005945237642503,
+                "uid": 5988109676109187622,
+                "parentUID": 16145047000562517050,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2475,8 +2512,8 @@
             "GameObject": {
                 "name": "Eye base_end",
                 "tag": "",
-                "uid": 15508422535208530255,
-                "parentUID": 17332692098134338772,
+                "uid": 878591529605519514,
+                "parentUID": 5988109676109187622,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2503,8 +2540,8 @@
             "GameObject": {
                 "name": "Mouth Target",
                 "tag": "",
-                "uid": 3254967927105566294,
-                "parentUID": 7952005945237642503,
+                "uid": 16037245160499964212,
+                "parentUID": 16145047000562517050,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2531,8 +2568,8 @@
             "GameObject": {
                 "name": "Mouth Target_end",
                 "tag": "",
-                "uid": 7488993940425058440,
-                "parentUID": 3254967927105566294,
+                "uid": 4441512980214389185,
+                "parentUID": 16037245160499964212,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2559,8 +2596,8 @@
             "GameObject": {
                 "name": "Mouth base",
                 "tag": "",
-                "uid": 9072034381301946145,
-                "parentUID": 7952005945237642503,
+                "uid": 945893583781815333,
+                "parentUID": 16145047000562517050,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2587,8 +2624,8 @@
             "GameObject": {
                 "name": "Mouth base_end",
                 "tag": "",
-                "uid": 3320022896307197352,
-                "parentUID": 9072034381301946145,
+                "uid": 14296969719427064696,
+                "parentUID": 945893583781815333,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2615,8 +2652,8 @@
             "GameObject": {
                 "name": "Eye Target.001",
                 "tag": "",
-                "uid": 13341249321495959447,
-                "parentUID": 7952005945237642503,
+                "uid": 574912328838127069,
+                "parentUID": 16145047000562517050,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2643,8 +2680,8 @@
             "GameObject": {
                 "name": "Eye Target.001_end",
                 "tag": "",
-                "uid": 4633357756301317638,
-                "parentUID": 13341249321495959447,
+                "uid": 3242135649275505802,
+                "parentUID": 574912328838127069,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2671,8 +2708,8 @@
             "GameObject": {
                 "name": "Eye disp;ay",
                 "tag": "",
-                "uid": 1658394196215210330,
-                "parentUID": 7952005945237642503,
+                "uid": 13180729307914210963,
+                "parentUID": 16145047000562517050,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2699,8 +2736,8 @@
             "GameObject": {
                 "name": "Eye disp;ay_end",
                 "tag": "",
-                "uid": 17692031469922094260,
-                "parentUID": 1658394196215210330,
+                "uid": 1061329495616950605,
+                "parentUID": 13180729307914210963,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2727,8 +2764,8 @@
             "GameObject": {
                 "name": "Mouth display",
                 "tag": "",
-                "uid": 5682482375235925748,
-                "parentUID": 7952005945237642503,
+                "uid": 9772481889652861616,
+                "parentUID": 16145047000562517050,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2755,8 +2792,8 @@
             "GameObject": {
                 "name": "Mouth display_end",
                 "tag": "",
-                "uid": 2627353413279394300,
-                "parentUID": 5682482375235925748,
+                "uid": 15980841047641696966,
+                "parentUID": 9772481889652861616,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2783,8 +2820,8 @@
             "GameObject": {
                 "name": "Eye_Brow_L.2",
                 "tag": "",
-                "uid": 12264887282367481552,
-                "parentUID": 7952005945237642503,
+                "uid": 7297525590068261216,
+                "parentUID": 16145047000562517050,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2811,8 +2848,8 @@
             "GameObject": {
                 "name": "Eye_Brow_L.1",
                 "tag": "",
-                "uid": 11150029387388195933,
-                "parentUID": 12264887282367481552,
+                "uid": 12280826801769200383,
+                "parentUID": 7297525590068261216,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2839,8 +2876,8 @@
             "GameObject": {
                 "name": "Eye_Brow_L.1_end",
                 "tag": "",
-                "uid": 16912898560784881728,
-                "parentUID": 11150029387388195933,
+                "uid": 392631398263734625,
+                "parentUID": 12280826801769200383,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2867,8 +2904,8 @@
             "GameObject": {
                 "name": "Eye_Brow_L.3",
                 "tag": "",
-                "uid": 10356959837679798466,
-                "parentUID": 12264887282367481552,
+                "uid": 16178038826462607841,
+                "parentUID": 7297525590068261216,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2895,8 +2932,8 @@
             "GameObject": {
                 "name": "Eye_Brow_L.3_end",
                 "tag": "",
-                "uid": 16857726996294567625,
-                "parentUID": 10356959837679798466,
+                "uid": 2850784397687902957,
+                "parentUID": 16178038826462607841,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2923,8 +2960,8 @@
             "GameObject": {
                 "name": "Eye_Brow_R.2",
                 "tag": "",
-                "uid": 17764692389298820099,
-                "parentUID": 7952005945237642503,
+                "uid": 13204721659865677882,
+                "parentUID": 16145047000562517050,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2951,8 +2988,8 @@
             "GameObject": {
                 "name": "Eye_Brow_R.1",
                 "tag": "",
-                "uid": 358320460153434477,
-                "parentUID": 17764692389298820099,
+                "uid": 2573803490781156731,
+                "parentUID": 13204721659865677882,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -2979,8 +3016,8 @@
             "GameObject": {
                 "name": "Eye_Brow_R.1_end",
                 "tag": "",
-                "uid": 8374030540552466919,
-                "parentUID": 358320460153434477,
+                "uid": 1998766296625615785,
+                "parentUID": 2573803490781156731,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3007,8 +3044,8 @@
             "GameObject": {
                 "name": "Eye_Brow_R.3",
                 "tag": "",
-                "uid": 8532578939840700501,
-                "parentUID": 17764692389298820099,
+                "uid": 5353505658572912242,
+                "parentUID": 13204721659865677882,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3035,8 +3072,8 @@
             "GameObject": {
                 "name": "Eye_Brow_R.3_end",
                 "tag": "",
-                "uid": 161955609392856443,
-                "parentUID": 8532578939840700501,
+                "uid": 10328613950646016767,
+                "parentUID": 5353505658572912242,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3063,8 +3100,8 @@
             "GameObject": {
                 "name": "PigTail.L",
                 "tag": "",
-                "uid": 10571008255570594199,
-                "parentUID": 7952005945237642503,
+                "uid": 8981111136965295602,
+                "parentUID": 16145047000562517050,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3091,8 +3128,8 @@
             "GameObject": {
                 "name": "PigTail.L.011",
                 "tag": "",
-                "uid": 13130918748728460026,
-                "parentUID": 10571008255570594199,
+                "uid": 254696538359815708,
+                "parentUID": 8981111136965295602,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3119,8 +3156,8 @@
             "GameObject": {
                 "name": "PigTail.L.009",
                 "tag": "",
-                "uid": 8651954205962186431,
-                "parentUID": 13130918748728460026,
+                "uid": 2965222077665224747,
+                "parentUID": 254696538359815708,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3147,8 +3184,8 @@
             "GameObject": {
                 "name": "PigTail.L.001",
                 "tag": "",
-                "uid": 7538311775348835627,
-                "parentUID": 8651954205962186431,
+                "uid": 11877266124888413487,
+                "parentUID": 2965222077665224747,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3175,8 +3212,8 @@
             "GameObject": {
                 "name": "PigTail.L.010",
                 "tag": "",
-                "uid": 11615533672314341115,
-                "parentUID": 7538311775348835627,
+                "uid": 557724443858072074,
+                "parentUID": 11877266124888413487,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3203,8 +3240,8 @@
             "GameObject": {
                 "name": "PigTail.L.002",
                 "tag": "",
-                "uid": 18344564989281223877,
-                "parentUID": 11615533672314341115,
+                "uid": 159964849497320986,
+                "parentUID": 557724443858072074,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3231,8 +3268,8 @@
             "GameObject": {
                 "name": "PigTail.L.003",
                 "tag": "",
-                "uid": 1197834075464345342,
-                "parentUID": 18344564989281223877,
+                "uid": 13220143047456893477,
+                "parentUID": 159964849497320986,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3259,8 +3296,8 @@
             "GameObject": {
                 "name": "PigTail.L.004",
                 "tag": "",
-                "uid": 14005933369595401687,
-                "parentUID": 1197834075464345342,
+                "uid": 14117727103121768484,
+                "parentUID": 13220143047456893477,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3287,8 +3324,8 @@
             "GameObject": {
                 "name": "PigTail.L.004_end",
                 "tag": "",
-                "uid": 8303569439565535906,
-                "parentUID": 14005933369595401687,
+                "uid": 15487104544419623418,
+                "parentUID": 14117727103121768484,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3315,8 +3352,8 @@
             "GameObject": {
                 "name": "Shoulder.L",
                 "tag": "",
-                "uid": 5485332644366548135,
-                "parentUID": 4119576888660027815,
+                "uid": 9691037698274043795,
+                "parentUID": 825342157479088795,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3343,8 +3380,8 @@
             "GameObject": {
                 "name": "Shoulder.L_end",
                 "tag": "",
-                "uid": 17200506110184529265,
-                "parentUID": 5485332644366548135,
+                "uid": 9595270610556104918,
+                "parentUID": 9691037698274043795,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3371,8 +3408,8 @@
             "GameObject": {
                 "name": "Arm Top.L",
                 "tag": "",
-                "uid": 3792755150169802982,
-                "parentUID": 4119576888660027815,
+                "uid": 16100409225710750103,
+                "parentUID": 825342157479088795,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3399,8 +3436,8 @@
             "GameObject": {
                 "name": "Arm Bottom.L",
                 "tag": "",
-                "uid": 16962202339960739799,
-                "parentUID": 3792755150169802982,
+                "uid": 15535906494201539551,
+                "parentUID": 16100409225710750103,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3427,8 +3464,8 @@
             "GameObject": {
                 "name": "Wrist.L",
                 "tag": "",
-                "uid": 3670902489337118574,
-                "parentUID": 16962202339960739799,
+                "uid": 13023092570990539254,
+                "parentUID": 15535906494201539551,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3455,8 +3492,8 @@
             "GameObject": {
                 "name": "Hand.L",
                 "tag": "",
-                "uid": 14287327087409829517,
-                "parentUID": 3670902489337118574,
+                "uid": 4946578341993258882,
+                "parentUID": 13023092570990539254,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3483,8 +3520,8 @@
             "GameObject": {
                 "name": "Claw Top 1.L",
                 "tag": "",
-                "uid": 17081626441239541058,
-                "parentUID": 14287327087409829517,
+                "uid": 18135569157499010946,
+                "parentUID": 4946578341993258882,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3511,8 +3548,8 @@
             "GameObject": {
                 "name": "EE-4",
                 "tag": "",
-                "uid": 17100600688442992389,
-                "parentUID": 17081626441239541058,
+                "uid": 8221328056904266386,
+                "parentUID": 18135569157499010946,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3539,8 +3576,8 @@
             "GameObject": {
                 "name": "AlluraNewVersion.Cylinder.001_0",
                 "tag": "",
-                "uid": 8338011444443268820,
-                "parentUID": 17100600688442992389,
+                "uid": 3077292339915695016,
+                "parentUID": 8221328056904266386,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3578,8 +3615,8 @@
             "GameObject": {
                 "name": "Claw Top 2.L",
                 "tag": "",
-                "uid": 14279894636700275410,
-                "parentUID": 17081626441239541058,
+                "uid": 13296804343760083598,
+                "parentUID": 18135569157499010946,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3606,8 +3643,8 @@
             "GameObject": {
                 "name": "Claw Top 2.L_end",
                 "tag": "",
-                "uid": 13794469081046699349,
-                "parentUID": 14279894636700275410,
+                "uid": 3959722619416362727,
+                "parentUID": 13296804343760083598,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3634,8 +3671,8 @@
             "GameObject": {
                 "name": "Claw Bottom 1.L",
                 "tag": "",
-                "uid": 11439962056980372432,
-                "parentUID": 14287327087409829517,
+                "uid": 11910032397823895416,
+                "parentUID": 4946578341993258882,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3662,8 +3699,8 @@
             "GameObject": {
                 "name": "Claw Bottom 2.L",
                 "tag": "",
-                "uid": 3635481403126841343,
-                "parentUID": 11439962056980372432,
+                "uid": 6853886761679194129,
+                "parentUID": 11910032397823895416,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3690,8 +3727,8 @@
             "GameObject": {
                 "name": "Claw Bottom 2.L_end",
                 "tag": "",
-                "uid": 17474103681208027922,
-                "parentUID": 3635481403126841343,
+                "uid": 16651893009566205195,
+                "parentUID": 6853886761679194129,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3718,8 +3755,8 @@
             "GameObject": {
                 "name": "Shoulder.R",
                 "tag": "",
-                "uid": 300857981464328716,
-                "parentUID": 4119576888660027815,
+                "uid": 17361051678809850470,
+                "parentUID": 825342157479088795,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3746,8 +3783,8 @@
             "GameObject": {
                 "name": "Shoulder.R_end",
                 "tag": "",
-                "uid": 17401483232016522757,
-                "parentUID": 300857981464328716,
+                "uid": 3660301192613112488,
+                "parentUID": 17361051678809850470,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3774,8 +3811,8 @@
             "GameObject": {
                 "name": "Arm Top.R",
                 "tag": "",
-                "uid": 7558479322670291664,
-                "parentUID": 4119576888660027815,
+                "uid": 15288078367136723768,
+                "parentUID": 825342157479088795,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3802,8 +3839,8 @@
             "GameObject": {
                 "name": "Arm Bottom.R",
                 "tag": "",
-                "uid": 15832943987603895565,
-                "parentUID": 7558479322670291664,
+                "uid": 3818497667334789301,
+                "parentUID": 15288078367136723768,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3830,8 +3867,8 @@
             "GameObject": {
                 "name": "Wrist.R",
                 "tag": "",
-                "uid": 85013471807796617,
-                "parentUID": 15832943987603895565,
+                "uid": 8565296604325740539,
+                "parentUID": 3818497667334789301,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3858,8 +3895,8 @@
             "GameObject": {
                 "name": "Hand.R",
                 "tag": "",
-                "uid": 14151120007305392721,
-                "parentUID": 85013471807796617,
+                "uid": 11247490338765651546,
+                "parentUID": 8565296604325740539,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3886,8 +3923,8 @@
             "GameObject": {
                 "name": "Claw Top 1.R",
                 "tag": "",
-                "uid": 2888021822305790657,
-                "parentUID": 14151120007305392721,
+                "uid": 15231680015446282769,
+                "parentUID": 11247490338765651546,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3914,8 +3951,8 @@
             "GameObject": {
                 "name": "LightSaberOn",
                 "tag": "",
-                "uid": 9470017985214090736,
-                "parentUID": 2888021822305790657,
+                "uid": 8658311554051268182,
+                "parentUID": 15231680015446282769,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3942,8 +3979,8 @@
             "GameObject": {
                 "name": "AlluraNewVersion.Mesh.003_0",
                 "tag": "",
-                "uid": 13259237082765332352,
-                "parentUID": 9470017985214090736,
+                "uid": 16720289556768226737,
+                "parentUID": 8658311554051268182,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -3981,8 +4018,8 @@
             "GameObject": {
                 "name": "AlluraNewVersion.Mesh.003_1",
                 "tag": "",
-                "uid": 15134925692454489437,
-                "parentUID": 9470017985214090736,
+                "uid": 11168037355440460756,
+                "parentUID": 8658311554051268182,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4020,8 +4057,8 @@
             "GameObject": {
                 "name": "EE-3_Blaster",
                 "tag": "",
-                "uid": 9455993819233772173,
-                "parentUID": 2888021822305790657,
+                "uid": 11775257687120461945,
+                "parentUID": 15231680015446282769,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4048,8 +4085,8 @@
             "GameObject": {
                 "name": "AlluraNewVersion.Cylinder_0",
                 "tag": "",
-                "uid": 6252021064255735161,
-                "parentUID": 9455993819233772173,
+                "uid": 6255098955739193955,
+                "parentUID": 11775257687120461945,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4087,8 +4124,8 @@
             "GameObject": {
                 "name": "EE-3Stockless",
                 "tag": "",
-                "uid": 3441812154517929079,
-                "parentUID": 2888021822305790657,
+                "uid": 6964492350576656597,
+                "parentUID": 15231680015446282769,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4115,8 +4152,8 @@
             "GameObject": {
                 "name": "AlluraNewVersion.Cylinder.004_0",
                 "tag": "",
-                "uid": 16296661948214000559,
-                "parentUID": 3441812154517929079,
+                "uid": 14622418431598807865,
+                "parentUID": 6964492350576656597,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4154,8 +4191,8 @@
             "GameObject": {
                 "name": "Claw Top 2.R",
                 "tag": "",
-                "uid": 11532535169682239842,
-                "parentUID": 2888021822305790657,
+                "uid": 16616225498355873932,
+                "parentUID": 15231680015446282769,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4182,8 +4219,8 @@
             "GameObject": {
                 "name": "Claw Top 2.R_end",
                 "tag": "",
-                "uid": 9727098578234173157,
-                "parentUID": 11532535169682239842,
+                "uid": 12289964748569895229,
+                "parentUID": 16616225498355873932,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4210,8 +4247,8 @@
             "GameObject": {
                 "name": "Claw Bottom 1.R",
                 "tag": "",
-                "uid": 3420308767045180776,
-                "parentUID": 14151120007305392721,
+                "uid": 17600797697986651817,
+                "parentUID": 11247490338765651546,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4238,8 +4275,8 @@
             "GameObject": {
                 "name": "Claw Bottom 2.R",
                 "tag": "",
-                "uid": 11887800279421287178,
-                "parentUID": 3420308767045180776,
+                "uid": 2205927182515426944,
+                "parentUID": 17600797697986651817,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4266,8 +4303,8 @@
             "GameObject": {
                 "name": "Claw Bottom 2.R_end",
                 "tag": "",
-                "uid": 2245252674953305606,
-                "parentUID": 11887800279421287178,
+                "uid": 2400163591788192919,
+                "parentUID": 2205927182515426944,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4294,8 +4331,8 @@
             "GameObject": {
                 "name": "Foot IK.L",
                 "tag": "",
-                "uid": 4959330023944589810,
-                "parentUID": 2081351461959397111,
+                "uid": 6928477255098145696,
+                "parentUID": 1091506160157909664,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4322,8 +4359,8 @@
             "GameObject": {
                 "name": "Knee IK.L",
                 "tag": "",
-                "uid": 2433422858594494488,
-                "parentUID": 4959330023944589810,
+                "uid": 5777565716133507483,
+                "parentUID": 6928477255098145696,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4350,8 +4387,8 @@
             "GameObject": {
                 "name": "Knee IK.L_end",
                 "tag": "",
-                "uid": 16720080067595052819,
-                "parentUID": 2433422858594494488,
+                "uid": 10124973830540137640,
+                "parentUID": 5777565716133507483,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4378,8 +4415,8 @@
             "GameObject": {
                 "name": "Foot IK.R",
                 "tag": "",
-                "uid": 2006098299239540493,
-                "parentUID": 2081351461959397111,
+                "uid": 3899683410388729100,
+                "parentUID": 1091506160157909664,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4406,8 +4443,8 @@
             "GameObject": {
                 "name": "Knee IK.R",
                 "tag": "",
-                "uid": 1098309935246014460,
-                "parentUID": 2006098299239540493,
+                "uid": 17621426361443223133,
+                "parentUID": 3899683410388729100,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4434,8 +4471,8 @@
             "GameObject": {
                 "name": "Knee IK.R_end",
                 "tag": "",
-                "uid": 4032846046053099307,
-                "parentUID": 1098309935246014460,
+                "uid": 12764769400589348337,
+                "parentUID": 17621426361443223133,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4462,8 +4499,8 @@
             "GameObject": {
                 "name": "IK pole.L",
                 "tag": "",
-                "uid": 11496306100694147799,
-                "parentUID": 2081351461959397111,
+                "uid": 11780067696676041124,
+                "parentUID": 1091506160157909664,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4490,8 +4527,8 @@
             "GameObject": {
                 "name": "IK pole.L_end",
                 "tag": "",
-                "uid": 6624978178416957233,
-                "parentUID": 11496306100694147799,
+                "uid": 3722822244184126628,
+                "parentUID": 11780067696676041124,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4518,8 +4555,8 @@
             "GameObject": {
                 "name": "Arm IK.L",
                 "tag": "",
-                "uid": 12065627579924662387,
-                "parentUID": 2081351461959397111,
+                "uid": 1714516552932419581,
+                "parentUID": 1091506160157909664,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4546,8 +4583,8 @@
             "GameObject": {
                 "name": "Arm IK.L_end",
                 "tag": "",
-                "uid": 10368113353507863513,
-                "parentUID": 12065627579924662387,
+                "uid": 17869724069495805528,
+                "parentUID": 1714516552932419581,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4574,8 +4611,8 @@
             "GameObject": {
                 "name": "IK pole.R",
                 "tag": "",
-                "uid": 15568037610343838522,
-                "parentUID": 2081351461959397111,
+                "uid": 4470254561057140302,
+                "parentUID": 1091506160157909664,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4602,8 +4639,8 @@
             "GameObject": {
                 "name": "IK pole.R_end",
                 "tag": "",
-                "uid": 3841317229805320187,
-                "parentUID": 15568037610343838522,
+                "uid": 4455830033029624959,
+                "parentUID": 4470254561057140302,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4630,8 +4667,8 @@
             "GameObject": {
                 "name": "Arm IK.R",
                 "tag": "",
-                "uid": 15590214150508737667,
-                "parentUID": 2081351461959397111,
+                "uid": 13124955452622401757,
+                "parentUID": 1091506160157909664,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4658,8 +4695,8 @@
             "GameObject": {
                 "name": "Arm IK.R_end",
                 "tag": "",
-                "uid": 3606119557219654128,
-                "parentUID": 15590214150508737667,
+                "uid": 2941762668496245405,
+                "parentUID": 13124955452622401757,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4686,8 +4723,8 @@
             "GameObject": {
                 "name": "Arm.R",
                 "tag": "",
-                "uid": 5466597260136867312,
-                "parentUID": 14800472237019706907,
+                "uid": 12694850898498873106,
+                "parentUID": 943558927090933784,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4714,8 +4751,8 @@
             "GameObject": {
                 "name": "AlluraNewVersion.ArmR_0",
                 "tag": "",
-                "uid": 14399213918508279761,
-                "parentUID": 5466597260136867312,
+                "uid": 3579568554756327777,
+                "parentUID": 12694850898498873106,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4753,8 +4790,8 @@
             "GameObject": {
                 "name": "Pierna.R",
                 "tag": "",
-                "uid": 8776893647408402233,
-                "parentUID": 14800472237019706907,
+                "uid": 6167670560358466066,
+                "parentUID": 943558927090933784,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4781,8 +4818,8 @@
             "GameObject": {
                 "name": "AlluraNewVersion.LegR_0",
                 "tag": "",
-                "uid": 3664178771739210348,
-                "parentUID": 8776893647408402233,
+                "uid": 15158966717949143053,
+                "parentUID": 6167670560358466066,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4818,77 +4855,10 @@
         },
         {
             "GameObject": {
-                "name": "ninjago mouths final",
-                "tag": "",
-                "uid": 4259195219594212457,
-                "parentUID": 14800472237019706907,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 1153.2822265625,
-                            "localPos_Y": 3188.353271484375,
-                            "localPos_Z": 32.83326721191406,
-                            "localRot_X": 90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 5.158589839935303,
-                            "localSca_Y": 5.158589839935303,
-                            "localSca_Z": 5.158589839935303
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "AlluraNewVersion.ninjago mouths final_0",
-                "tag": "",
-                "uid": 2104158054837740613,
-                "parentUID": 4259195219594212457,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 11099674137401855198,
-                            "assetPathMesh": "Assets/Meshes/AlluraNewVersion.ninjago mouths final_0.mesh",
-                            "materialUID": 6172490289403851564,
-                            "assetPathMaterial": "Assets/Materials/AlluraNewVersionEye_brow_Face_Rig_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Eye_brow_Face_Rig",
                 "tag": "",
-                "uid": 17219165533191104742,
-                "parentUID": 14800472237019706907,
+                "uid": 3128821666152455864,
+                "parentUID": 943558927090933784,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4915,8 +4885,8 @@
             "GameObject": {
                 "name": "AlluraNewVersion.Eye_brow_Face_Rig.002_0",
                 "tag": "",
-                "uid": 3130398716797923954,
-                "parentUID": 17219165533191104742,
+                "uid": 14776517663625223960,
+                "parentUID": 3128821666152455864,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4954,8 +4924,8 @@
             "GameObject": {
                 "name": "Eye_brow_Face_Rig.001",
                 "tag": "",
-                "uid": 16680828350152743234,
-                "parentUID": 14800472237019706907,
+                "uid": 5273789246517212774,
+                "parentUID": 943558927090933784,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -4982,8 +4952,8 @@
             "GameObject": {
                 "name": "AlluraNewVersion.Eye_brow_Face_Rig.003_0",
                 "tag": "",
-                "uid": 12145035696432999774,
-                "parentUID": 16680828350152743234,
+                "uid": 6602348417051994015,
+                "parentUID": 5273789246517212774,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -5019,10 +4989,10 @@
         },
         {
             "GameObject": {
-                "name": "Hat",
+                "name": "LightSaberOff",
                 "tag": "",
-                "uid": 14124202052394017198,
-                "parentUID": 14800472237019706907,
+                "uid": 3574891352974754436,
+                "parentUID": 943558927090933784,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -5031,12 +5001,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
+                            "localPos_X": -625.849609375,
+                            "localPos_Y": 1385.6090087890625,
+                            "localPos_Z": 543.0393676757813,
+                            "localRot_X": 0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
+                            "localRot_Z": -6.968324661254883,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -5047,10 +5017,10 @@
         },
         {
             "GameObject": {
-                "name": "AlluraNewVersion.Hat_0",
+                "name": "AlluraNewVersion.Mesh.004_0",
                 "tag": "",
-                "uid": 12761486812073785185,
-                "parentUID": 14124202052394017198,
+                "uid": 14698323526356413806,
+                "parentUID": 3574891352974754436,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -5075,10 +5045,10 @@
                             "type": "Component_MeshRenderer",
                             "active": true,
                             "removed": true,
-                            "meshUID": 12664749433202216879,
-                            "assetPathMesh": "Assets/Meshes/AlluraNewVersion.Hat_0.mesh",
-                            "materialUID": 11276153142956920373,
-                            "assetPathMaterial": "Assets/Materials/AlluraNewVersionBody_0.mat"
+                            "meshUID": 11385934776930448598,
+                            "assetPathMesh": "Assets/Meshes/AlluraNewVersion.Mesh.004_0.mesh",
+                            "materialUID": 16711709555642126056,
+                            "assetPathMaterial": "Assets/Materials/AlluraNewVersionLightSaber.001_0.mat"
                         }
                     }
                 ]
@@ -5088,8 +5058,8 @@
             "GameObject": {
                 "name": "Allura_Hair_Retopo.001",
                 "tag": "",
-                "uid": 5233921054307064591,
-                "parentUID": 14800472237019706907,
+                "uid": 17033305974379921200,
+                "parentUID": 943558927090933784,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -5116,8 +5086,8 @@
             "GameObject": {
                 "name": "AlluraNewVersion.Allura_Hair_Retopo.001_0",
                 "tag": "",
-                "uid": 542675975637297640,
-                "parentUID": 5233921054307064591,
+                "uid": 17176989734268017728,
+                "parentUID": 17033305974379921200,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -5155,8 +5125,8 @@
             "GameObject": {
                 "name": "Allura_Head",
                 "tag": "",
-                "uid": 17835269042123845092,
-                "parentUID": 14800472237019706907,
+                "uid": 10173665382727351720,
+                "parentUID": 943558927090933784,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -5183,8 +5153,8 @@
             "GameObject": {
                 "name": "AlluraNewVersion.Cylinder.003_0",
                 "tag": "",
-                "uid": 16800331024193850941,
-                "parentUID": 17835269042123845092,
+                "uid": 16662832214678574598,
+                "parentUID": 10173665382727351720,
                 "enabled": true,
                 "static": false,
                 "Components": [
