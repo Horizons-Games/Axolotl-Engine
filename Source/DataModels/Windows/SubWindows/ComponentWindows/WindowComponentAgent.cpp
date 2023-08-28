@@ -22,27 +22,27 @@ void WindowComponentAgent::DrawWindowContents()
 
 	if (asAgent)
 	{
-		float maxSpeed = asAgent->GetMaxSpeed();
+		//float maxSpeed = asAgent->GetMaxSpeed();
 		float maxAcceleration = asAgent->GetMaxAcceleration();
 		float yOffset = asAgent->GetYOffset();
-		float rotationSpeed = asAgent->GetRotationSpeed();
+		//float rotationSpeed = asAgent->GetRotationSpeed();
 		bool avoidingObstacle = asAgent->IsAvoidingObstacle();
 		bool updateRigidBody = asAgent->GetUpdateRigidBody();
 
-		if (ImGui::DragFloat("Agent max speed", &maxSpeed, 0.1f, 0.0f, FLT_MAX))
+		/*if (ImGui::DragFloat("Agent max speed", &maxSpeed, 0.1f, 0.0f, FLT_MAX))
 		{
 			asAgent->SetMaxSpeed(maxSpeed);
-		}
+		}*/
 
 		if (ImGui::DragFloat("Agent max acceleration", &maxAcceleration, 0.1f, 0.0f, FLT_MAX))
 		{
 			asAgent->SetMaxAcceleration(maxAcceleration);
 		}
 		
-		if (ImGui::DragFloat("Agent rotation speed", &rotationSpeed, 0.1f, 0.0f, 5.0f))
+		/*if (ImGui::DragFloat("Agent rotation speed", &rotationSpeed, 0.1f, 0.0f, 5.0f))
 		{
 			asAgent->SetRotationSpeed(rotationSpeed);
-		}
+		}*/
 		
 		if (ImGui::DragFloat("Position Y offset", &yOffset, 0.1f, 0.0f, FLT_MAX))
 		{

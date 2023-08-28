@@ -27,12 +27,18 @@ void AIMovement::Start()
 	forwardVector = componentTransform->GetGlobalForward();
 
 	movementActivated = false;
+
+	if (agent)
+	{
+		agent->SetRotationSpeed(rotationSpeed);
+	}
 }
 
 void AIMovement::Update(float deltaTime)
 {
 	if (agent)
 	{
+		agent->SetMaxSpeed(movementSpeed);
 		AgentMoveToTarget();
 	}
 	else
