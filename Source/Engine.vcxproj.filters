@@ -699,7 +699,6 @@
     <ClCompile Include="..\Game\Scripts\BossMissilesMissileScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
     <ClCompile Include="..\Game\Scripts\HackZoneScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
     </ClCompile>
@@ -1017,9 +1016,6 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\RecastMovementTestScript.h">
       <Filter>UserScripts\Gameplay\Player\Movement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CameraSample.h">
-      <Filter>UserScripts\Level</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
