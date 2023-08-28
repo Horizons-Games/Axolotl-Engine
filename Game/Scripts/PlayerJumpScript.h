@@ -12,6 +12,7 @@ class ComponentAudioSource;
 class ComponentRigidBody;
 
 class BixAttackScript;
+class PlayerMoveScript;
 
 class PlayerJumpScript : public Script
 {
@@ -48,4 +49,5 @@ private:
 	ComponentAudioSource* componentAudio;
 
 	BixAttackScript* attackScript;
+	PlayerMoveScript* playerMoveScript;
 };

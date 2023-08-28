@@ -33,9 +33,15 @@ void SeekBehaviourScript::Seeking() const
 	RotateToTarget();
 }
 
+void SeekBehaviourScript::EnableMovement() const
+{
+	ownerRigidBody->SetKpForce(0.5f);
+}
+
 void SeekBehaviourScript::DisableMovement() const
 {
 	ownerRigidBody->DisablePositionController();
+	ownerRigidBody->SetKpForce(0.f);
 }
 
 void SeekBehaviourScript::DisableRotation() const

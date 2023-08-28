@@ -25,7 +25,7 @@ REGISTERCLASS(RangedFastAttackBehaviourScript);
 RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), 
 	lastAttackTime(0.f), laserParticleSystem(nullptr),audioSource(nullptr),
 	animation(nullptr), transform(nullptr), loadedScene(nullptr), 
-	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0)
+	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(float3::zero)
 {
 	REGISTER_FIELD(attackCooldown, float);
 
@@ -110,4 +110,12 @@ bool RangedFastAttackBehaviourScript::MovingToNewReposition()
 		movingToNewReposition = false;
 	}
 	return movingToNewReposition;
+}
+
+void RangedFastAttackBehaviourScript::ResetScriptValues()
+{
+	lastAttackTime = 0.0f;
+	needReposition = false;
+	movingToNewReposition = false;
+	newReposition = float3::zero;
 }

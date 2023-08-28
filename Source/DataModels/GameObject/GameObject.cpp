@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 
+#include "DataModels/Components/UI/ComponentSlider.h"
 #include "DataModels/Components/ComponentAnimation.h"
 #include "DataModels/Components/ComponentAudioListener.h"
 #include "DataModels/Components/ComponentAudioSource.h"
@@ -20,6 +21,8 @@
 #include "DataModels/Components/ComponentScript.h"
 #include "DataModels/Components/ComponentSpotLight.h"
 #include "DataModels/Components/ComponentTransform.h"
+#include "DataModels//Components/ComponentAgent.h"
+#include "DataModels//Components/ComponentObstacle.h"
 #include "DataModels/Components/UI/ComponentButton.h"
 #include "DataModels/Components/UI/ComponentCanvas.h"
 #include "DataModels/Components/UI/ComponentImage.h"
@@ -154,7 +157,8 @@ void GameObject::Load(const Json& meta)
 		if (type == ComponentType::LIGHT)
 		{
 			LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-			CreateComponentLight(lightType, AreaType::NONE); // TODO look at this when implement metas
+			AXO_TODO("look at this when implement metas")
+			CreateComponentLight(lightType, AreaType::NONE);
 		}
 		else if (type == ComponentType::SCRIPT)
 		{
@@ -403,6 +407,18 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
+		case ComponentType::AGENT:
+		{
+			newComponent = std::make_unique<ComponentAgent>(static_cast<ComponentAgent&>(*component));
+			break;
+		}
+
+		case ComponentType::OBSTACLE:
+		{
+			newComponent = std::make_unique<ComponentObstacle>(static_cast<ComponentObstacle&>(*component));
+			break;
+		}
+
 		default:
 			LOG_WARNING("Component of type {} could not be copied!", GetNameByType(type).c_str());
 	}
@@ -642,6 +658,18 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::CUBEMAP:
 		{
 			newComponent = std::make_unique<ComponentCubemap>(true, this);
+			break;
+		}
+
+		case ComponentType::AGENT:
+		{
+			newComponent = std::make_unique<ComponentAgent>(true, this);
+			break;
+		}
+
+		case ComponentType::OBSTACLE:
+		{
+			newComponent = std::make_unique<ComponentObstacle>(true, this);
 			break;
 		}
 

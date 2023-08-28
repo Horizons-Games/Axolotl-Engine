@@ -113,7 +113,7 @@ void HealthSystem::HealLife(float amountHealed)
 
 bool HealthSystem::EntityIsAlive() const
 {
-	return currentHealth > 0;
+	return currentHealth > 0.0f;
 }
 
 float HealthSystem::GetMaxHealth() const
