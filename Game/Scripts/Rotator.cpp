@@ -7,11 +7,9 @@
 REGISTERCLASS(Rotator);
 
 
-Rotator::Rotator() : Script(), v(float3::zero), k(float3::zero), theta(180.0f), transform(nullptr), rotation(float3::zero),
+Rotator::Rotator() : Script(), transform(nullptr), rotation(float3::zero),
 velocity(0.0f)
 {
-	/*REGISTER_FIELD(v, float3);
-	REGISTER_FIELD(k, float3);*/
 	REGISTER_FIELD(rotation, float3);
 	REGISTER_FIELD(velocity, float);
 }
@@ -23,10 +21,6 @@ void Rotator::Start()
 
 void Rotator::Update(float deltaTime)
 {
-	/*double cos_theta = cos(theta);
-	double sin_theta = sin(theta);
-
-	float3 rotated = (v * cos_theta) + (math::Cross(k, v) * sin_theta) + (k * math::Dot(k, v)) * (1 - cos_theta);*/
 	rotation.Normalize();
 
 	Quat n;

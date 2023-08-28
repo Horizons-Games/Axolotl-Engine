@@ -19,11 +19,8 @@ public:
 private:
 	ComponentTransform* transform;
 
-	float3 v;
-	float3 k;
 	float3 rotation;
 	float velocity;
-	float theta;
 };
 
 
