@@ -20,7 +20,7 @@ public:
 
 	bool IsHackingActive() const;
 
-	void PrintCombination() const;
+	void PrintCombination();
 
 private:
 

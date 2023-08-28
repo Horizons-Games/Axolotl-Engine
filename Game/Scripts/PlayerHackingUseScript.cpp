@@ -5,6 +5,7 @@
 
 #include "Application.h"
 #include "ModuleInput.h"
+#include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 #include "Physics/Physics.h"
@@ -76,7 +77,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 	}
 }
 
-void PlayerHackingUseScript::PrintCombination() const
+void PlayerHackingUseScript::PrintCombination()
 {
 	std::string combination;
 	for (auto element : keyCombination)

@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "HackZoneScript.h"
 
+#include "Components/ComponentScript.h"
 #include <algorithm>
 #include <random>
 
@@ -11,7 +12,7 @@ HackZoneScript::HackZoneScript()
 {
 	REGISTER_FIELD(influenceRadius, float);
 	REGISTER_FIELD(maxTime, float);
-	REGISTER_FIELD(sequenceSize, int);
+	REGISTER_FIELD(sequenceSize, float);
 }
 
 
@@ -37,13 +38,13 @@ void HackZoneScript::GenerateCombination()
 	keyCombination.clear();
 	buttonCombination.clear();
 
-	for (int i = 0; i < sequenceSize; ++i)
+	for (int i = 0; i < (int)sequenceSize; ++i)
 	{
 		std::uniform_int_distribution<int> distribution(0, allKeys.size() - 1);
 		keyCombination.push_back(allKeys[distribution(generator)]);
 	}
 
-	for (int i = 0; i < sequenceSize; ++i)
+	for (int i = 0; i < (int)sequenceSize; ++i)
 	{
 		std::uniform_int_distribution<int> distribution(0, allButtons.size() - 1);
 		buttonCombination.push_back(allButtons[distribution(generator)]);

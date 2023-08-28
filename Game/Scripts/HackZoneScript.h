@@ -28,7 +28,7 @@ private:
 
 	float influenceRadius;
 	float maxTime;
-	int sequenceSize;
+	float sequenceSize;
 	bool completed;
 
 	std::vector<SDL_Scancode> keyCombination;
