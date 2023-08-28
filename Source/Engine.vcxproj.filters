@@ -703,6 +703,9 @@
     <ClCompile Include="..\Game\Scripts\BoostOfEnergy.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergy</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\Rotator.cpp">
+      <Filter>UserScripts\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1441,6 +1444,9 @@
     <ClInclude Include="..\Game\Scripts\BoostOfEnergy.h">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergy</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\Rotator.h">
+      <Filter>UserScripts\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1640,6 +1646,9 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergy">
       <UniqueIdentifier>{aa5d5939-9a3a-4016-9a99-4a347a211a32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Utils">
+      <UniqueIdentifier>{2be6eb3c-71d8-45ef-865c-431112dd3e13}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
