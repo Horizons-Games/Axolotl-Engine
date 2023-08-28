@@ -20,6 +20,8 @@ public:
 
 	bool IsHackingActive() const;
 
+	void PrintCombination() const;
+
 private:
 
 	void DisableAllInteractions();

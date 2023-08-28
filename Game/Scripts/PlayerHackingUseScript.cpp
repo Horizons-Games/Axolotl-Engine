@@ -76,6 +76,32 @@ void PlayerHackingUseScript::Update(float deltaTime)
 	}
 }
 
+void PlayerHackingUseScript::PrintCombination() const
+{
+	std::string combination;
+	for (auto element : keyCombination)
+	{
+		char c = '\0';  // Initialize with null character
+		switch (element) {
+		case SDL_SCANCODE_A: 
+			c = 'A'; 
+			break;
+		case SDL_SCANCODE_B: 
+			c = 'B'; 
+			break;
+		case SDL_SCANCODE_C: 
+			c = 'C'; 
+			break;
+		default: 
+			break; // do nothing
+		}
+		combination += c;
+		
+	}
+
+	LOG_INFO(combination);
+}
+
 void PlayerHackingUseScript::InitHack()
 {
 	DisableAllInteractions();
@@ -92,6 +118,8 @@ void PlayerHackingUseScript::InitHack()
 
 	buttonIndex = 0;
 	keyIndex = 0;
+
+	PrintCombination();
 }
 
 void PlayerHackingUseScript::FinishHack()
