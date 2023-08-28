@@ -2,6 +2,10 @@
 #include "HackZoneScript.h"
 
 #include "Components/ComponentScript.h"
+#include "Components/ComponentTransform.h"
+
+#include "debugdraw.h"
+
 #include <algorithm>
 #include <random>
 
@@ -21,10 +25,13 @@ void HackZoneScript::Start()
 {
 	keyCombination.reserve(sequenceSize);
 	buttonCombination.reserve(sequenceSize);
+
+	position = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
 }
 
 void HackZoneScript::Update(float deltaTime)
 {
+	dd::sphere(position, dd::colors::GreenYellow, influenceRadius);
 }
 
 void HackZoneScript::GenerateCombination()

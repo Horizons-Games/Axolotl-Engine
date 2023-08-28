@@ -33,6 +33,8 @@ private:
 
 	std::vector<SDL_Scancode> keyCombination;
 	std::vector<SDL_GameControllerButton> buttonCombination;
+
+	float3 position;
 };
 
 inline float HackZoneScript::GetInfluenceRadius() const
