@@ -7,7 +7,7 @@
 
 #include "FileSystem/UID.h"
 
-#define DUAL_KAWASE_SAMPLERS 4
+#define KAWASE_DUAL_SAMPLERS 4
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -119,10 +119,10 @@ private:
 	GLuint renderedTexture[2];
 
 	// Ping-pong buffers to kawase dual filtering bloom
-	GLuint dualKawaseDownFramebuffers[DUAL_KAWASE_SAMPLERS];
-	GLuint dualKawaseDownTextures[DUAL_KAWASE_SAMPLERS];
-	GLuint dualKawaseUpFramebuffers[DUAL_KAWASE_SAMPLERS];
-	GLuint dualKawaseUpTextures[DUAL_KAWASE_SAMPLERS];
+	GLuint dualKawaseDownFramebuffers[KAWASE_DUAL_SAMPLERS];
+	GLuint dualKawaseDownTextures[KAWASE_DUAL_SAMPLERS];
+	GLuint dualKawaseUpFramebuffers[KAWASE_DUAL_SAMPLERS];
+	GLuint dualKawaseUpTextures[KAWASE_DUAL_SAMPLERS];
 	
 	// Shadow Mapping buffers and textures
 	GLuint depthStencilRenderBuffer;

@@ -192,10 +192,10 @@ bool ModuleRender::Init()
 	glGenTextures(1, &renderedTexture[1]);
 #endif // ENGINE
 
-	glGenFramebuffers(DUAL_KAWASE_SAMPLERS, dualKawaseDownFramebuffers);
-	glGenTextures(DUAL_KAWASE_SAMPLERS, dualKawaseDownTextures);
-	glGenFramebuffers(DUAL_KAWASE_SAMPLERS, dualKawaseUpFramebuffers);
-	glGenTextures(DUAL_KAWASE_SAMPLERS, dualKawaseUpTextures);
+	glGenFramebuffers(KAWASE_DUAL_SAMPLERS, dualKawaseDownFramebuffers);
+	glGenTextures(KAWASE_DUAL_SAMPLERS, dualKawaseDownTextures);
+	glGenFramebuffers(KAWASE_DUAL_SAMPLERS, dualKawaseUpFramebuffers);
+	glGenTextures(KAWASE_DUAL_SAMPLERS, dualKawaseUpTextures);
 
 	glGenRenderbuffers(1, &depthStencilRenderBuffer);
 
@@ -468,7 +468,7 @@ UpdateStatus ModuleRender::Update()
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, renderedTexture[0]);
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, dualKawaseUpTextures[DUAL_KAWASE_SAMPLERS - 1]);
+	glBindTexture(GL_TEXTURE_2D, dualKawaseUpTextures[KAWASE_DUAL_SAMPLERS - 1]);
 
 	colorCorrectionProgram->BindUniformInt("tonneMappingMode", toneMappingMode);
 	colorCorrectionProgram->BindUniformInt("bloomActivation", bloomActivation);
@@ -517,10 +517,10 @@ bool ModuleRender::CleanUp()
 	glDeleteTextures(1, &renderedTexture[1]);
 #endif // ENGINE
 
-	glDeleteFramebuffers(DUAL_KAWASE_SAMPLERS, dualKawaseDownFramebuffers);
-	glDeleteTextures(DUAL_KAWASE_SAMPLERS, dualKawaseDownTextures);
-	glDeleteFramebuffers(DUAL_KAWASE_SAMPLERS, dualKawaseUpFramebuffers);
-	glDeleteTextures(DUAL_KAWASE_SAMPLERS, dualKawaseUpTextures);
+	glDeleteFramebuffers(KAWASE_DUAL_SAMPLERS, dualKawaseDownFramebuffers);
+	glDeleteTextures(KAWASE_DUAL_SAMPLERS, dualKawaseDownTextures);
+	glDeleteFramebuffers(KAWASE_DUAL_SAMPLERS, dualKawaseUpFramebuffers);
+	glDeleteTextures(KAWASE_DUAL_SAMPLERS, dualKawaseUpTextures);
 	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
 
 	glDeleteFramebuffers(1, &shadowMapBuffer);
@@ -604,7 +604,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 
 	float auxWidht = static_cast<float>(width), auxHeight = static_cast<float>(height);
 
-	for (unsigned int i = 0; i < DUAL_KAWASE_SAMPLERS; i++)
+	for (unsigned int i = 0; i < KAWASE_DUAL_SAMPLERS; i++)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, dualKawaseDownFramebuffers[i]);
 		
@@ -627,7 +627,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 		}
 	}
 
-	for (unsigned int i = 0; i < DUAL_KAWASE_SAMPLERS; i++)
+	for (unsigned int i = 0; i < KAWASE_DUAL_SAMPLERS; i++)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, dualKawaseUpFramebuffers[i]);
 
@@ -1023,7 +1023,9 @@ void ModuleRender::KawaseDualFiltering()
 	
 	Program* kawaseDownProgram = moduleProgram->GetProgram(ProgramType::KAWASE_DOWN);
 	kawaseDownProgram->Activate();
-	for (auto i = 0; i < DUAL_KAWASE_SAMPLERS; i++)
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Kawase dual down")),
+		"Kawase dual down");
+	for (auto i = 0; i < KAWASE_DUAL_SAMPLERS; i++)
 	{
 		auxWidht /= 2;
 		auxHeight /= 2;
@@ -1039,11 +1041,14 @@ void ModuleRender::KawaseDualFiltering()
 		firstIteration = false;
 	}
 	kawaseDownProgram->Deactivate();
+	glPopDebugGroup();
 
 	firstIteration = true;
 	Program* kawaseUpProgram = moduleProgram->GetProgram(ProgramType::KAWASE_UP);
 	kawaseUpProgram->Activate();
-	for (auto i = 0; i < DUAL_KAWASE_SAMPLERS; i++)
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Kawase dual up")),
+		"Kawase dual up");
+	for (auto i = 0; i < KAWASE_DUAL_SAMPLERS; i++)
 	{
 		auxWidht *= 2;
 		auxHeight *= 2;
@@ -1052,7 +1057,7 @@ void ModuleRender::KawaseDualFiltering()
 		glBindFramebuffer(GL_FRAMEBUFFER, dualKawaseUpFramebuffers[i]);
 
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, firstIteration ? dualKawaseDownTextures[DUAL_KAWASE_SAMPLERS - 1]
+		glBindTexture(GL_TEXTURE_2D, firstIteration ? dualKawaseDownTextures[KAWASE_DUAL_SAMPLERS - 1]
 			: dualKawaseUpTextures[i - 1]);
 
 		glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
@@ -1060,6 +1065,8 @@ void ModuleRender::KawaseDualFiltering()
 		firstIteration = false;
 	}
 	kawaseUpProgram->Deactivate();
+	glPopDebugGroup();
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	glViewport(0, 0, windowSize.first, windowSize.second);
