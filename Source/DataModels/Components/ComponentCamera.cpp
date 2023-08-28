@@ -62,6 +62,24 @@ void ComponentCamera::Draw() const
 #endif // ENGINE
 }
 
+void ComponentCamera::OnTransformChanged()
+{
+#ifdef ENGINE
+	if (!App->IsOnPlayMode())
+	{
+		ComponentTransform* trans = GetOwner()->GetComponentInternal<ComponentTransform>();
+
+		camera->SetPosition(trans->GetGlobalPosition());
+		camera->SetOrientation(trans->GetGlobalRotation().ToEulerXYZ());
+
+		/*if (camera->GetFrustumMode() == EFrustumMode::offsetFrustum)
+		{
+			camera->RecalculateOffsetPlanes();
+		}*/
+	}
+#endif
+}
+
 void ComponentCamera::SetSampleKpPosition(float kp)
 {
 	camera->SetKpPosition(kp);

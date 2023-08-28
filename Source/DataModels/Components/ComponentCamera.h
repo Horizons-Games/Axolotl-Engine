@@ -29,6 +29,8 @@ public:
 	void Update() override;
 	void Draw() const override;
 
+	void OnTransformChanged() override;
+
 	CameraGameObject* GetCamera();
 
 	void DuplicateCamera(CameraGameObject* camera);
