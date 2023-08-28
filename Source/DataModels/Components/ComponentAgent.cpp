@@ -234,21 +234,26 @@ float3 ComponentAgent::GetVelocity() const
 Quat ComponentAgent::CalculateRotationToPosition()
 {
 	float deltaTime = App->GetDeltaTime();
-	Quat globalRotation = transform->GetGlobalRotation();
+	Quat globalRotation = transform->GetGlobalRotation().Normalized();
 
-	float3 newPos = (targetPositionRotate - transform->GetGlobalPosition()).Normalized();
+	float3 newDirection = targetPositionRotate - transform->GetGlobalPosition();
+	newDirection.y = 0.0f;
+
+	float3 newPos = newDirection.Normalized();
 	float3 forward = transform->GetGlobalForward().Normalized();
-	Quat rot = Quat::RotateFromTo(forward, newPos);
-	float3 eulerRot = rot.ToEulerXYZ();
-	rot = Quat::FromEulerXYZ(0.0f, eulerRot.y, 0.0f);
 
-	Quat newRot = rot * globalRotation;
+	Quat rot = Quat::LookAt(forward, newPos, transform->GetLocalMatrix().WorldY(), float3::unitY);
+	Quat rotation = transform->GetGlobalRotation();
+	Quat targetRotation = rot * transform->GetGlobalRotation();
 
-	if (!rot.Equals(Quat::identity, 0.05f))
+	Quat rotationError = targetRotation * rotation.Normalized().Inverted();
+	rotationError.Normalize();
+
+	if (!rotationError.Equals(Quat::identity, 0.05f))
 	{
 		float3 axis;
 		float angle;
-		rot.ToAxisAngle(axis, angle);
+		rotationError.ToAxisAngle(axis, angle);
 		axis.Normalize();
 
 		float3 velocityRotation = axis * angle * 5.0f;
@@ -258,9 +263,9 @@ Quat ComponentAgent::CalculateRotationToPosition()
 		float deltaValue = 0.5f * deltaTime;
 		Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
 
-		if (deltaRotation.Length() > rot.Length())
+		if (deltaRotation.Length() > rotationError.Length())
 		{
-			return newRot;
+			return targetRotation;
 		}
 		else
 		{
