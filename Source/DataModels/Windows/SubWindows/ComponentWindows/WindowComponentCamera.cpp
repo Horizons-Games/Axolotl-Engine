@@ -2,6 +2,9 @@
 
 #include "WindowComponentCamera.h"
 
+#include "Application.h"
+#include "Modules/ModuleCamera.h"
+
 #include "Camera/CameraGameObject.h"
 #include "DataModels/Components/ComponentCamera.h"
 
@@ -32,9 +35,15 @@ void WindowComponentCamera::DrawWindowContents()
 		float kpPosition = asCamera->GetKpPosition();
 		float kpRotation = asCamera->GetKpRotation();
 
+		bool isFrustumChecked = asCamera->IsFrustumChecked();
+
 		ImGui::Text("Draw Frustum");
 		ImGui::SameLine();
 		ImGui::Checkbox("##Draw Frustum", &drawFrustum);
+
+		ImGui::Text("Use this Frustum");
+		ImGui::SameLine();
+		ImGui::Checkbox("##Use this Frustum", &isFrustumChecked);
 
 		ImGui::ListBox(
 			"Frustum Mode\n(single select)", &frustumModeAsNumber, listbox_items, IM_ARRAYSIZE(listbox_items), 3);
@@ -47,6 +56,13 @@ void WindowComponentCamera::DrawWindowContents()
 		EFrustumMode newFrustumMode = static_cast<EFrustumMode>(frustumModeAsNumber);
 		asCamera->GetCamera()->SetFrustumMode(newFrustumMode);
 		asCamera->GetCamera()->SetFrustumOffset(frustumOffset);
+
+		if (isFrustumChecked)
+		{
+			ModuleCamera* moduleCamera = App->GetModule<ModuleCamera>();
+			moduleCamera->SetFrustumCheckedCamera(asCamera);
+		}
+		
 
 		asCamera->SetKpPosition(kpPosition);
 		asCamera->SetKpRotation(kpRotation);

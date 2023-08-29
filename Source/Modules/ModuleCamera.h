@@ -17,6 +17,7 @@
 
 class GameObject;
 class WindowScene;
+class ComponentCamera;
 class Camera;
 
 enum class CameraType;
@@ -35,7 +36,9 @@ public:
 	Camera* GetCamera();
 	void ChangeCamera(CameraType newType);
 	Camera* GetSelectedCamera() const;
+	Camera* GetFrustumCheckedCamera() const;
 	void SetSelectedCamera(int cameraNumber);
+	void SetFrustumCheckedCamera(ComponentCamera* camera);
 	int GetSelectedPosition();
 	void SetSelectedPosition(int newSelected);
 
@@ -45,6 +48,7 @@ public:
 private:
 	std::unique_ptr<Camera> camera;
 	Camera* selectedCamera;
+	Camera* frustumCheckedCamera;
 	int selectedPosition;
 
 	float4x4 orthoProjectionMatrix;

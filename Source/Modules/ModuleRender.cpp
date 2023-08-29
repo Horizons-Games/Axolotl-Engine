@@ -532,8 +532,9 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 
 void ModuleRender::AddToRenderList(const GameObject* gameObject)
 {
-	ModuleCamera* camera = App->GetModule<ModuleCamera>();
-	float3 cameraPos = camera->GetCamera()->GetPosition();
+	ModuleCamera* moduleCamera = App->GetModule<ModuleCamera>();
+	Camera* frustumCheckedCamera = moduleCamera->GetFrustumCheckedCamera();
+	float3 cameraPos = frustumCheckedCamera->GetPosition();
 
 	if (gameObject->GetParent() == nullptr)
 	{
@@ -547,7 +548,7 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 		return;
 	}
 
-	if (camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
+	if (frustumCheckedCamera->IsInside(transform->GetEncapsuledAABB()))
 	{
 		ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
 		if (gameObject->IsActive() && (mesh == nullptr || mesh->IsEnabled()))
