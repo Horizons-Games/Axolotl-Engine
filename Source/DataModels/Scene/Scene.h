@@ -96,6 +96,8 @@ public:
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 	Skybox* GetSkybox() const;
 	Cubemap* GetCubemap() const;
+	const bool GetCombatMode() const;
+	const float GetEnemiesToDefeat() const;
 	std::vector<ComponentMeshRenderer*> GetMeshRenderers() const;
 	std::vector<AABB> GetBoundingBoxes() const;
 	std::vector<ComponentAgent*> GetAgentComponents() const;
@@ -114,6 +116,8 @@ public:
 	void SetSceneInteractable(const std::vector<Component*>& interactable);
 	void SetSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems);
 	void SetDirectionalLight(GameObject* directionalLight);
+	void SetCombatMode(bool combatMode);
+	void SetEnemiesToDefeat(float enemiesToDefeat);
 
 	void AddSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void AddSceneCameras(const std::vector<ComponentCamera*>& cameras);
@@ -177,6 +181,9 @@ private:
 	unsigned ssboSpot;
 	unsigned ssboSphere;
 	unsigned ssboTube;
+	bool combatMode;
+	float enemiesToDefeat;
+
 
 	AABB rootQuadtreeAABB;
 	// Render Objects
@@ -321,4 +328,14 @@ inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleS
 			return particle == particleSystem;
 		}),
 							   std::end(sceneParticleSystems));
+}
+
+inline const bool Scene::GetCombatMode() const
+{
+	return combatMode;
+}
+
+inline const float Scene::GetEnemiesToDefeat() const
+{
+	return enemiesToDefeat;
 }

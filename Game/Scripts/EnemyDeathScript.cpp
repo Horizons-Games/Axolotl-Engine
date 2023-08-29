@@ -52,6 +52,7 @@ void EnemyDeathScript::ManageEnemyDeath()
 	}
 
 	DisableEnemyActions();
+	App->GetModule<ModuleScene>()->GetLoadedScene()->SetEnemiesToDefeat(App->GetModule<ModuleScene>()->GetLoadedScene()->GetEnemiesToDefeat() - 1);
 }
 
 void EnemyDeathScript::ResetDespawnTimerAndEnableActions()

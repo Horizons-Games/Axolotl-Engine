@@ -696,6 +696,10 @@
     <ClCompile Include="..\Game\Scripts\BossMissilesMissileScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
+    <ClCompile Include="CombatZoneScript.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1010,9 +1014,6 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\RecastMovementTestScript.h">
       <Filter>UserScripts\Gameplay\Player\Movement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CameraSample.h">
-      <Filter>UserScripts\Level</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
@@ -1428,6 +1429,10 @@
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
     </ClInclude>
     <ClInclude Include="Defines\AxoTodo.h" />
+    <ClInclude Include="CombatZoneScript.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CameraSample.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
