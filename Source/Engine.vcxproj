@@ -427,6 +427,8 @@
     <ClCompile Include="DataModels\Resources\ResourceNavMesh.cpp" />
     <ClCompile Include="DataModels\Animation\StateMachine.cpp" />
     <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp" />
+    <ClCompile Include="Auxiliar\SceneLoader.cpp" />
+    <ClCompile Include="Auxiliar\ConnectedCallback.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCameraSample.cpp" />
     <ClCompile Include="DataModels\Components\Component.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp" />
@@ -778,6 +780,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Physics\Physics.cpp" />
+    <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="Scripting\LogSystem.cpp" />
     <ClCompile Include="Scripting\Script.cpp" />
     <ClCompile Include="Scripting\ScriptFactory.cpp" />
@@ -872,8 +875,10 @@
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusicExit.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\AddComponentAction.h" />
+    <ClInclude Include="Auxiliar\SceneLoader.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
     <ClInclude Include="Auxiliar\ComponentNotFoundException.h" />
+    <ClInclude Include="Auxiliar\ConnectedCallback.h" />
     <ClInclude Include="Auxiliar\Test\par_shapes.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -893,7 +898,6 @@
     <ClInclude Include="Auxiliar\Reflection\VectorField.h" />
     <ClInclude Include="DataModels\Commands\Command.h" />
     <ClInclude Include="DataModels\Commands\CommandComponentEnabled.h" />
-    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h" />
     <ClInclude Include="DataModels\Animation\AnimationController.h" />
     <ClInclude Include="Auxiliar\Reflection\Field.h" />
     <ClInclude Include="Auxiliar\Generics\Drawable.h" />
@@ -955,6 +959,7 @@
     <ClInclude Include="Enums\EFrustumMode.h" />
     <ClInclude Include="Enums\TextureType.h" />
     <ClInclude Include="Enums\UpdateStatus.h" />
+    <ClInclude Include="FileSystem\FileZippedData.h" />
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h" />
     <ClInclude Include="DataModels\Cubemap\Cubemap.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
@@ -1283,6 +1288,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Physics\Physics.h" />
+    <ClInclude Include="Scheduler.h" />
     <ClInclude Include="Scripting\InterfacesIds.h" />
     <ClInclude Include="Scripting\IScript.h" />
     <ClInclude Include="Scripting\LogSystem.h" />
