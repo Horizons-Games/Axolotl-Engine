@@ -83,7 +83,7 @@ void OnLoadedScene()
 	{
 		player->LoadNewPlayer();
 	}
-	
+
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	scene->InitAndStartScriptingComponents();
 	scene->InitParticlesComponents();
@@ -176,16 +176,29 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 		loadedScene->SetDirectionalLight(directionalLight);
 	}
 
-	loadedScene->InitLights();
-	loadedScene->InitCubemap();
-
-	// if no document was set, the user is creating a new scene. finish the process
-	if (!currentLoadingConfig->doc.has_value())
+	auto initLightsAndFinishSceneLoad = []()
 	{
-		OnLoadedScene();
-		return;
+		Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+		loadedScene->InitLights();
+		loadedScene->InitCubemap();
+
+		// if no document was set, the user is creating a new scene. finish the process
+		if (!currentLoadingConfig->doc.has_value())
+		{
+			OnLoadedScene();
+			return;
+		}
+		CleanupAndInvokeCallback();
+	};
+
+	if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
+	{
+		App->ScheduleTask(initLightsAndFinishSceneLoad);
 	}
-	CleanupAndInvokeCallback();
+	else
+	{
+		initLightsAndFinishSceneLoad();
+	}
 }
 
 //////////////////////////////////////////////////////////////////
