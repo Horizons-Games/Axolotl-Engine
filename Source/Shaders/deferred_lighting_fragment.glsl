@@ -323,7 +323,7 @@ void main()
         float roughness = pow(1-smoothness,2) + EPSILON;
 
         // Shadow Mapping
-        float shadow = 0.0;
+        float shadow = 1.0;
         if (useShadows > 0)
         {
             vec4 fragPosFromLightSpace = lightSpaceMatrix*vec4(fragPos, 1.0);
