@@ -493,8 +493,6 @@ UpdateStatus ModuleRender::Update()
 		go->Draw();
 	}
 
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-
 #ifndef ENGINE
 	if (!App->IsDebuggingGame())
 	{
@@ -507,6 +505,8 @@ UpdateStatus ModuleRender::Update()
 
 UpdateStatus ModuleRender::PostUpdate()
 {
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+
 	SDL_GL_SwapWindow(App->GetModule<ModuleWindow>()->GetWindow());
 
 	return UpdateStatus::UPDATE_CONTINUE;
