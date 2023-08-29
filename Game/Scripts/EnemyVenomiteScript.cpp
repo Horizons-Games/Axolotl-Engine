@@ -14,6 +14,8 @@
 #include "../Scripts/AIMovement.h"
 #include "../Scripts/EnemyDeathScript.h"
 
+#include "Auxiliar/Audio/AudioData.h"
+
 REGISTERCLASS(EnemyVenomiteScript);
 
 EnemyVenomiteScript::EnemyVenomiteScript() : venomiteState(VenomiteBehaviours::IDLE), patrolScript(nullptr),
@@ -35,11 +37,16 @@ EnemyVenomiteScript::EnemyVenomiteScript() : venomiteState(VenomiteBehaviours::I
 
 void EnemyVenomiteScript::Start()
 {
+	enemyType = EnemyTypes::VENOMITE;
+
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	//componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
-	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
+	if (!IsSpawnedEnemy())
+	{
+		patrolScript = owner->GetComponent<PatrolBehaviourScript>();
+	}
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
 	rangedAttackScript = owner->GetComponent<RangedFastAttackBehaviourScript>();
 	meleeAttackScript = owner->GetComponent<MeleeFastAttackBehaviourScript>();
@@ -113,7 +120,7 @@ void EnemyVenomiteScript::CheckState()
 			venomiteState = VenomiteBehaviours::RANGED_ATTACK;
 		}
 	}
-	else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekAlertDistance))
+	else if (IsSpawnedEnemy() || ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekAlertDistance))
 	{
 		if (venomiteState == VenomiteBehaviours::PATROL)
 		{
@@ -194,12 +201,11 @@ void EnemyVenomiteScript::UpdateBehaviour(float deltaTime)
 		{
 			if (rangedAttackScript->IsAttackAvailable())
 			{
-				componentAnimation->SetParameter("IsRangedAttacking", true);
 				rangedAttackScript->PerformAttack();
 			}
 			else
 			{
-				//componentAnimation->SetParameter("IsRangedAttacking", false);
+				componentAnimation->SetParameter("IsRangedAttacking", false);
 			}
 		}
 		else
@@ -239,4 +245,25 @@ void EnemyVenomiteScript::SetReadyToDie()
 	componentAnimation->SetParameter("IsDead", true);
 
 	deathScript->ManageEnemyDeath();
+}
+
+void EnemyVenomiteScript::ResetValues()
+{
+	//componentAudioSource->PostEvent(/* Stop Venomite Sounds */);
+	std::unordered_map<std::string, TypeFieldPairParameter> componentAnimationParameters =
+		componentAnimation->GetStateMachine()->GetParameters();
+	for (std::pair<std::string, TypeFieldPairParameter> parameter : componentAnimationParameters)
+	{
+		componentAnimation->SetParameter(parameter.first, false);
+	}
+
+	venomiteState = VenomiteBehaviours::IDLE;
+	for (RangedFastAttackBehaviourScript* rangedAttackScript : rangedAttackScripts)
+	{
+		rangedAttackScript->ResetScriptValues();
+	}
+	meleeAttackScript->ResetScriptValues();
+	healthScript->HealLife(1000.0f); // It will cap at max health
+	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
+	enemyDeathScript->ResetDespawnTimerAndEnableActions();
 }

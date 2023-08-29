@@ -115,3 +115,8 @@ bool MeleeFastAttackBehaviourScript::IsAttackAvailable()
 {
 	return (SDL_GetTicks() / 1000.0f > lastAttackTime + attackCooldown);
 }
+
+void MeleeFastAttackBehaviourScript::ResetScriptValues()
+{
+	lastAttackTime = 0.0f;
+}

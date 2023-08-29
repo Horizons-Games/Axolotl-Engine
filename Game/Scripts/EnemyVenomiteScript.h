@@ -38,6 +38,7 @@ public:
 	void Update(float deltaTime) override;
 
 	void SetReadyToDie() override;
+	void ResetValues();
 
 private:
 	void CheckState();
@@ -67,4 +68,6 @@ private:
 	ComponentTransform* seekTargetTransform;
 	GameObject* batonGameObject;
 	GameObject* blasterGameObject;
+
+	bool isFirstPatrolling;
 };

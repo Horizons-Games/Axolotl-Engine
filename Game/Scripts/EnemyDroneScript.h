@@ -39,6 +39,7 @@ public:
 	void Update(float deltaTime) override;
 
 	void SetReadyToDie() override;
+	void ResetValues();
 
 private:
 	void CalculateNextPosition() const;
@@ -70,4 +71,6 @@ private:
 	ComponentParticleSystem* exclamationVFX;
 
 	PlayerManagerScript* playerManager;
+
+	bool isFirstPatrolling;
 };

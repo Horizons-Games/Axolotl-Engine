@@ -225,3 +225,11 @@ bool RangedFastAttackBehaviourScript::MovingToNewReposition()
 	}
 	return movingToNewReposition;
 }
+
+void RangedFastAttackBehaviourScript::ResetScriptValues()
+{
+	lastAttackTime = 0.0f;
+	needReposition = false;
+	movingToNewReposition = false;
+	newReposition = float3::zero;
+}

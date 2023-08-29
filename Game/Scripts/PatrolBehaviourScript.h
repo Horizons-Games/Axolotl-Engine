@@ -19,6 +19,7 @@ public:
 
 	void StartPatrol();
 	void StopPatrol();
+	void RandomPatrolling(bool isFirstPatrolling); // Primarily for bosses
 
 private:
 
@@ -33,6 +34,8 @@ private:
 	float originStopTime;
 	std::string patrolAnimationParamater;
 
+	void GetNearestPatrollingPoint();
+	void SetProportionalController();
 	void Patrolling();
 	void CheckNextWaypoint();
 };

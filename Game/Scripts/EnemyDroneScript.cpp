@@ -15,7 +15,7 @@
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/AIMovement.h"
 
-#include "AxoLog.h"
+#include "../Scripts/EnemyDeathScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -39,6 +39,8 @@ exclamationVFX(nullptr), enemyDetectionDuration(0.0f), enemyDetectionTime(0.0f)
 
 void EnemyDroneScript::Start()
 {
+	enemyType = EnemyTypes::DRONE;
+
 	if (seekDistance < attackDistance)
 	{
 		seekDistance = attackDistance;
@@ -48,7 +50,10 @@ void EnemyDroneScript::Start()
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
-	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
+	if (!IsSpawnedEnemy())
+	{
+		patrolScript = owner->GetComponent<PatrolBehaviourScript>();
+	}
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
 	fastAttackScript = owner->GetComponent<RangedFastAttackBehaviourScript>();
 	heavyAttackScript = explosionGameObject->GetComponent<MeleeHeavyAttackBehaviourScript>();
@@ -124,7 +129,7 @@ void EnemyDroneScript::CheckState()
 			droneState = DroneBehaviours::FASTATTACK;
 		}
 	}
-	else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance))
+	else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance) || IsSpawnedEnemy())
 	{
 		if (droneState == DroneBehaviours::PATROL)
 		{
@@ -208,6 +213,7 @@ void EnemyDroneScript::UpdateBehaviour(float deltaTime)
 	case DroneBehaviours::SEEK:
 
 		seekScript->Seeking();
+		isFirstPatrolling = true;
 
 		break;
 
@@ -245,6 +251,24 @@ void EnemyDroneScript::UpdateBehaviour(float deltaTime)
 
 		break;
 	}
+}
+
+void EnemyDroneScript::ResetValues()
+{
+	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+	std::unordered_map<std::string, TypeFieldPairParameter> componentAnimationParameters =
+		componentAnimation->GetStateMachine()->GetParameters();
+	for (std::pair<std::string, TypeFieldPairParameter> parameter : componentAnimationParameters)
+	{
+		componentAnimation->SetParameter(parameter.first, false);
+	}
+
+	droneState = DroneBehaviours::IDLE;
+	lastDroneState = DroneBehaviours::IDLE;
+	fastAttackScript->ResetScriptValues();
+	healthScript->HealLife(1000.0f); // It will cap at max health
+	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
+	enemyDeathScript->ResetDespawnTimerAndEnableActions();
 }
 
 void EnemyDroneScript::CalculateNextPosition() const

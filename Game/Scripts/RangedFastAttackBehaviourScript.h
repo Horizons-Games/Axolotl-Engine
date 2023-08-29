@@ -30,6 +30,8 @@ public:
 	bool IsPreShooting() const;
 	bool MovingToNewReposition();
 
+	void ResetScriptValues();
+
 private:
 	void ShootBullet();
 

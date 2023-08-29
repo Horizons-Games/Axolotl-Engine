@@ -20,6 +20,8 @@ public:
 	void PerformAttack();
 	bool IsAttackAvailable();
 
+	void ResetScriptValues();
+
 private:
 	void CheckCollision();
 
