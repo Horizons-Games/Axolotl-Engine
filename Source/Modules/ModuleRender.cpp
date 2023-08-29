@@ -493,18 +493,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 		return;
 	}
 
-	ModuleCamera* moduleCamera = App->GetModule<ModuleCamera>();
-	ComponentCamera* frustumCheckedCamera = moduleCamera->GetFrustumCheckedCamera();
-	Camera* camera;
-	if (!frustumCheckedCamera)
-	{
-		camera = moduleCamera->GetCamera();
-	}
-	else
-	{
-		camera = (Camera*)frustumCheckedCamera->GetCamera();
-	}
-
+	Camera* camera = GetFrustumCheckedCamera();
 		
 	float3 cameraPos = camera->GetPosition();
 
@@ -556,17 +545,8 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 
 void ModuleRender::AddToRenderList(const GameObject* gameObject)
 {
-	ModuleCamera* moduleCamera = App->GetModule<ModuleCamera>();
-	ComponentCamera* frustumCheckedCamera = moduleCamera->GetFrustumCheckedCamera();
-	Camera* camera;
-	if (!frustumCheckedCamera)
-	{
-		camera = moduleCamera->GetCamera();
-	}
-	else
-	{
-		camera = (Camera*) frustumCheckedCamera->GetCamera();
-	}
+	
+	Camera* camera = GetFrustumCheckedCamera();
 
 	float3 cameraPos = camera->GetPosition();
 
@@ -689,6 +669,20 @@ void ModuleRender::BindCubemapToProgram(Program* program)
 	program->BindUniformFloat("cubemap_intensity", cubemap->GetIntensity());
 
 	program->Deactivate();
+}
+
+Camera* ModuleRender::GetFrustumCheckedCamera() const
+{
+	ModuleCamera* moduleCamera = App->GetModule<ModuleCamera>();
+	ComponentCamera* frustumCheckedCamera = moduleCamera->GetFrustumCheckedCamera();
+	if (!frustumCheckedCamera)
+	{
+		return moduleCamera->GetCamera();
+	}
+	else
+	{
+		return (Camera*) frustumCheckedCamera->GetCamera();
+	}
 }
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
