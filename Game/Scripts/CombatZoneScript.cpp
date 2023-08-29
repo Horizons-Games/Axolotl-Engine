@@ -5,6 +5,7 @@
 #include "ModuleCamera.h"
 #include "ModuleInput.h"
 #include "ModuleScene.h"
+#include "ModulePlayer.h"
 
 #include "Scene/Scene.h"
 
@@ -12,6 +13,7 @@
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
+#include "../Scripts/CameraControllerScript.h"
 
 #include "GameObject/GameObject.h"
 
@@ -36,6 +38,7 @@ void CombatZoneScript::Start()
 										   return child->HasComponent<ComponentRigidBody>();
 									   });
 	// not just assert, since it would crash on the next line
+	/*
 	if (childWithRigid == std::end(children))
 	{
 		LOG_ERROR("Expected one of {}'s children to have a ComponentRigidBody, but none was found", GetOwner());
@@ -43,6 +46,7 @@ void CombatZoneScript::Start()
 	}
 	componentRigidBody = (*childWithRigid)->GetComponent<ComponentRigidBody>();
 	componentRigidBody->Disable();
+	*/
 }
 
 void CombatZoneScript::Update(float deltaTime)
@@ -55,7 +59,8 @@ void CombatZoneScript::OnCollisionEnter(ComponentRigidBody* other)
 	
 	if (other->GetOwner()->CompareTag("Player"))
 	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->SetCombatMode(true);
+
+		App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->SetInCombat(true);
 		App->GetModule<ModuleScene>()->GetLoadedScene()->SetEnemiesToDefeat(enemiesToDefeat);
 
 		std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();

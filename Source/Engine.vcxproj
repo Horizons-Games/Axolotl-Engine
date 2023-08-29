@@ -183,6 +183,7 @@
     <ClCompile Include="..\Game\Scripts\BossMissilesMissileScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossShieldAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossShieldScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ComboManager.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyClass.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
@@ -426,7 +427,6 @@
     <ClCompile Include="DataModels\Resources\ResourceNavMesh.cpp" />
     <ClCompile Include="DataModels\Animation\StateMachine.cpp" />
     <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp" />
-    <ClCompile Include="CombatZoneScript.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCameraSample.cpp" />
     <ClCompile Include="DataModels\Components\Component.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp" />
@@ -816,6 +816,7 @@
     <ClInclude Include="..\Game\Scripts\BossMissilesMissileScript.h" />
     <ClInclude Include="..\Game\Scripts\BossShieldAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\BossShieldScript.h" />
+    <ClInclude Include="..\Game\Scripts\CombatZoneScript.h" />
     <ClInclude Include="..\Game\Scripts\ComboManager.h" />
     <ClInclude Include="..\Game\Scripts\EnemyClass.h" />
     <ClInclude Include="..\Game\Scripts\EntityDetection.h" />
@@ -877,7 +878,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="CombatZoneScript.h" />
     <ClInclude Include="DataModels\Components\ComponentAgent.h" />
     <ClInclude Include="DataModels\Components\ComponentObstacle.h" />
     <ClInclude Include="DataModels\Animation\StateMachine.h" />

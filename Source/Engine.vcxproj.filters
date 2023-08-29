@@ -697,7 +697,7 @@
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
-    <ClCompile Include="CombatZoneScript.cpp">
+    <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1429,10 +1429,10 @@
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
     </ClInclude>
     <ClInclude Include="Defines\AxoTodo.h" />
-    <ClInclude Include="CombatZoneScript.h">
+    <ClInclude Include="..\Game\Scripts\CameraSample.h" />
+    <ClInclude Include="..\Game\Scripts\CombatZoneScript.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CameraSample.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
