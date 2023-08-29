@@ -75,6 +75,8 @@ void CleanupAndInvokeCallback()
 
 void OnLoadedScene()
 {
+	App->GetModule<ModuleRender>()->FillCharactersBatches();
+
 #ifndef ENGINE
 	ModulePlayer* player = App->GetModule<ModulePlayer>();
 	if (player->GetPlayer())

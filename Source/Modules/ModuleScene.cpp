@@ -332,56 +332,6 @@ void ModuleScene::SaveSceneToJson(Json& jsonScene)
 
 void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene)
 {
-	/*
-	if (!mantainActualScene)
-	{
-		App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
-	}
-	else
-	{
-		App->GetModule<ModuleRender>()->GetBatchManager()->SetDirtybatches();
-	}
-
-	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
-
-	std::string fileName = App->GetModule<ModuleFileSystem>()->GetFileName(filePath).c_str();
-	char* buffer{};
-#ifdef ENGINE
-	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
-
-	bool resourceExists = App->GetModule<ModuleFileSystem>()->Exists(assetPath.c_str());
-	if (!resourceExists)
-	{
-		fileSystem->CopyFileInAssets(filePath, assetPath);
-	}
-	fileSystem->Load(assetPath.c_str(), buffer);
-#else
-	fileSystem->Load(filePath.c_str(), buffer);
-#endif
-	rapidjson::Document doc;
-	Json sceneJson(doc, doc);
-
-	sceneJson.fromBuffer(buffer);
-	delete buffer;
-
-	loading = true;
-	LoadSceneFromJson(sceneJson, mantainActualScene);
-	loading = false;
-
-	// we don't know if a gameobeject is a child of someone with the tag "Enemy" or "Player" until this point
-	App->GetModule<ModuleRender>()->FillCharactersBatches();
-
-#ifndef ENGINE
-	ModulePlayer* player = App->GetModule<ModulePlayer>();
-	if (player->GetPlayer())
-	{
-		player->LoadNewPlayer();
-	}
-
-	InitAndStartScriptingComponents();
-	InitParticlesComponents();
-#endif // !ENGINE
-	*/
 	loader::LoadScene(
 		filePath,
 		[]
