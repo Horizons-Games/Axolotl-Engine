@@ -135,14 +135,7 @@
                                 {
                                     "name": "WaypointsPatrol",
                                     "type": 4,
-                                    "vectorElements": [
-                                        {
-                                            "value": 17921358598841053390
-                                        },
-                                        {
-                                            "value": 6536772281141820080
-                                        }
-                                    ],
+                                    "vectorElements": null,
                                     "innerType": 2
                                 },
                                 {
