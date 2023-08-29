@@ -70,12 +70,12 @@ void ComponentCamera::OnTransformChanged()
 		ComponentTransform* trans = GetOwner()->GetComponentInternal<ComponentTransform>();
 
 		camera->SetPosition(trans->GetGlobalPosition());
-		camera->SetOrientation(trans->GetGlobalRotation().ToEulerXYZ());
+		camera->ApplyRotation(trans->GetGlobalRotation());
 
-		/*if (camera->GetFrustumMode() == EFrustumMode::offsetFrustum)
+		if (camera->GetFrustumMode() == EFrustumMode::offsetFrustum)
 		{
 			camera->RecalculateOffsetPlanes();
-		}*/
+		}
 	}
 #endif
 }
