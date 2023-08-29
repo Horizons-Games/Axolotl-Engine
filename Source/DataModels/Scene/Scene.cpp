@@ -1525,7 +1525,7 @@ std::vector<float> Scene::GetNormals()
 void Scene::SetCombatMode(bool newCombatMode)
 {
 	combatMode = newCombatMode;
-	App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<ComponentCameraSample>()->SetCombatCameraEnabled(combatMode);
+	//App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<ComponentCameraSample>()->SetCombatCameraEnabled(combatMode);
 }
 
 void Scene::SetEnemiesToDefeat(float newEnemiesToDefeat)

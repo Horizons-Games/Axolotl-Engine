@@ -3,6 +3,7 @@
 
 #include "Application.h"
 #include "Modules/ModuleScene.h"
+#include "Modules/ModulePlayer.h"
 #include "Scene/Scene.h"
 
 #include "Components/ComponentTransform.h"
@@ -11,6 +12,7 @@
 #include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/PowerUpLogicScript.h"
+#include "../Scripts/CameraControllerScript.h"
 #include "../Scripts/FinalBossScript.h"
 
 REGISTERCLASS(EnemyDeathScript);
@@ -60,7 +62,12 @@ void EnemyDeathScript::ManageEnemyDeath()
 	}
 
 	DisableEnemyActions();
-	App->GetModule<ModuleScene>()->GetLoadedScene()->SetEnemiesToDefeat(App->GetModule<ModuleScene>()->GetLoadedScene()->GetEnemiesToDefeat() - 1);
+	float enemiesLeft = App->GetModule<ModuleScene>()->GetLoadedScene()->GetEnemiesToDefeat() - 1;
+	App->GetModule<ModuleScene>()->GetLoadedScene()->SetEnemiesToDefeat(enemiesLeft);
+	if (enemiesLeft == 0)
+	{
+		App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->SetInCombat(false);
+	}
 }
 
 void EnemyDeathScript::ResetDespawnTimerAndEnableActions()
