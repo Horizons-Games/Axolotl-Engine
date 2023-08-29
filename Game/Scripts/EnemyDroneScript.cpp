@@ -72,7 +72,7 @@ void EnemyDroneScript::Start()
 
 void EnemyDroneScript::Update(float deltaTime)
 {
-	if (stunned)
+	if (stunned && droneState != DroneBehaviours::READYTOEXPLODE && droneState != DroneBehaviours::EXPLOSIONATTACK)
 	{
 		if (timeStunned < 0)
 		{
@@ -299,4 +299,10 @@ void EnemyDroneScript::SetReadyToDie()
 	componentAnimation->SetParameter("IsTakingDamage", true);
 	fastAttackScript->InterruptAttack();
 	droneState = DroneBehaviours::READYTOEXPLODE;
+}
+
+void EnemyDroneScript::SetStunnedTime(float newTime)
+{
+	EnemyClass::SetStunnedTime(newTime);
+	fastAttackScript->InterruptAttack();
 }

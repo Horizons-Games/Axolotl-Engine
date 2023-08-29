@@ -38,6 +38,7 @@ public:
 	void Update(float deltaTime) override;
 
 	void SetReadyToDie() override;
+	void SetStunnedTime(float newTime) override;
 	void ResetValues();
 
 private:

@@ -260,3 +260,9 @@ void EnemyVenomiteScript::ResetValues()
 	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
 	enemyDeathScript->ResetDespawnTimerAndEnableActions();
 }
+
+void EnemyVenomiteScript::SetStunnedTime(float newTime)
+{
+	EnemyClass::SetStunnedTime(newTime);
+	rangedAttackScript->InterruptAttack();
+}

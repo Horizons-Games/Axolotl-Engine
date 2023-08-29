@@ -78,62 +78,6 @@
         },
         {
             "GameObject": {
-                "name": "Waypoint 1_1",
-                "tag": "",
-                "uid": 17217482957009702546,
-                "parentUID": 9011007661183311806,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -5.620218753814697,
-                            "localPos_Y": -0.5,
-                            "localPos_Z": 0.8264296054840088,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 0.30000001192092896,
-                            "localSca_Y": 0.30000001192092896,
-                            "localSca_Z": 0.30000001192092896
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Waypoint 1_2",
-                "tag": "",
-                "uid": 16007474881477241656,
-                "parentUID": 9011007661183311806,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 6.967127323150635,
-                            "localPos_Y": -0.5,
-                            "localPos_Z": 0.34108781814575195,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 0.30000001192092896,
-                            "localSca_Y": 0.30000001192092896,
-                            "localSca_Z": 0.30000001192092896
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "RaycastsAttack",
                 "tag": "",
                 "uid": 15128076755218324942,
