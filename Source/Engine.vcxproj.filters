@@ -708,6 +708,10 @@
       <Filter>Auxiliar</Filter>
     </ClCompile>
     <ClCompile Include="CombatZoneScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
+    <ClCompile Include="CombatZoneScript.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1454,6 +1458,9 @@
       <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="CombatZoneScript.h" />
+    <ClInclude Include="CombatZoneScript.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
