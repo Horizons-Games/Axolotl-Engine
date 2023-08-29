@@ -706,6 +706,9 @@
     <ClCompile Include="..\Game\Scripts\Rotator.cpp">
       <Filter>UserScripts\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SendTriggerCollision.cpp">
+      <Filter>UserScripts\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1445,6 +1448,9 @@
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergy</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\Rotator.h">
+      <Filter>UserScripts\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SendTriggerCollision.h">
       <Filter>UserScripts\Utils</Filter>
     </ClInclude>
   </ItemGroup>

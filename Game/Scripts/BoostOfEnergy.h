@@ -9,6 +9,7 @@ class ComponentParticleSystem;
 class ComponentRigidBody;
 class ComponentTransform;
 class ComponentLight;
+class SendTriggerCollision;
 
 enum class BoostOfEnergyStates 
 {
@@ -35,6 +36,11 @@ public:
 private:
 	void PreShootLaser();
 	void ShootLaser();
+	void DeactivateLaser();
+	void RechargeLaser();
+
+	void SetCollisionEnter(ComponentRigidBody* other);
+	void SetCollisionExit(ComponentRigidBody* other);
 
 	BoostOfEnergyStates attackState;
 
@@ -54,10 +60,13 @@ private:
 	ComponentParticleSystem* shootingParticle;
 	ComponentParticleSystem* deactivatingParticle;
 
-
 	float attackDamage;
+	float damageFrequency;
+	float lastDamageTime;
+	float isPlayerInDamageZone;
 
-	ComponentRigidBody* rigidBody;
+	ComponentRigidBody* damageZone;
+	SendTriggerCollision* sendTriggerCollision;
 	ComponentTransform* mesh;
 	ComponentTransform* target;
 	ComponentLight* light;
