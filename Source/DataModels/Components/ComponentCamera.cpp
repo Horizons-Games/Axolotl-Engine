@@ -29,6 +29,9 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner) :
 	camera->ApplyRotation(trans->GetGlobalRotation());
 
 	isFrustumChecked = false;
+	KpPosition = camera->GetKpPosition();
+	KpRotation = camera->GetKpRotation();
+	camera->SetViewPlaneDistance(DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE);
 	Update();
 }
 

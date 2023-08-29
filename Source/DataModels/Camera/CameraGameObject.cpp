@@ -24,8 +24,6 @@ bool CameraGameObject::Init()
 	Camera::Init();
 	SetKpPosition(5.0f);
 	SetKpRotation(5.0f);
-	KpPosition = 5.0f;
-	KpRotation = 5.0f;
 	SetViewPlaneDistance(DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE);
 
 	return true;
