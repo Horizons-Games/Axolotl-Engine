@@ -108,43 +108,22 @@ void PatrolBehaviourScript::RandomPatrolling(bool isFirstPatrolling)
 		GetNearestPatrollingPoint();
 	}
 	else if (ownerTransform->GetGlobalPosition().
-		Equals(transformWaypoints[currentWaypointIndex]->GetGlobalPosition(), 2.0f))
+		Equals(waypointsPatrol[currentWayPoint]->GetGlobalPosition(), 2.0f))
 	{
-		int randomWaypointSelected = rand() % static_cast<int>(transformWaypoints.size());
+		int randomWaypointSelected = rand() % static_cast<int>(waypointsPatrol.size());
 
-		currentWayPointTransform = transformWaypoints[randomWaypointSelected];
-		currentWaypointIndex = randomWaypointSelected;
+		currentWayPoint = randomWaypointSelected;
 	}
-
-	SetProportionalController();
 }
 
 void PatrolBehaviourScript::GetNearestPatrollingPoint()
 {
-	for (int i = 0; i < transformWaypoints.size() ; ++i)
+	for (int i = 0; i < waypointsPatrol.size() ; ++i)
 	{
-		if (ownerTransform->GetGlobalPosition().Distance(transformWaypoints[i]->GetGlobalPosition()) <=
-			ownerTransform->GetGlobalPosition().Distance(currentWayPointTransform->GetGlobalPosition()))
+		if (ownerTransform->GetGlobalPosition().Distance(waypointsPatrol[i]->GetGlobalPosition()) <=
+			ownerTransform->GetGlobalPosition().Distance(waypointsPatrol[currentWayPoint]->GetGlobalPosition()))
 		{
-			currentWayPointTransform = transformWaypoints[i];
-			currentWaypointIndex = i;
+			currentWayPoint = i;
 		}
 	}
-}
-
-void PatrolBehaviourScript::SetProportionalController() const
-{
-	ownerRigidBody->SetPositionTarget(currentWayPointTransform->GetGlobalPosition());
-
-	Quat errorRotation =
-		Quat::RotateFromTo(ownerTransform->GetGlobalForward().Normalized(),
-			(currentWayPointTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
-
-#ifdef DEBUG
-	dd::arrow(ownerTransform->GetGlobalPosition(),
-		ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
-	dd::arrow(ownerTransform->GetGlobalPosition(), currentWayPointTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
-#endif // DEBUG
-
-	ownerRigidBody->SetRotationTarget(errorRotation.Normalized());
 }

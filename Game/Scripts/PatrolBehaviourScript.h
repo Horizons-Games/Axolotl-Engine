@@ -35,7 +35,6 @@ private:
 	std::string patrolAnimationParamater;
 
 	void GetNearestPatrollingPoint();
-	void SetProportionalController();
 	void Patrolling();
 	void CheckNextWaypoint();
 };

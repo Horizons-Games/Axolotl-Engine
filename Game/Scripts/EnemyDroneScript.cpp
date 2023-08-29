@@ -264,7 +264,6 @@ void EnemyDroneScript::ResetValues()
 	}
 
 	droneState = DroneBehaviours::IDLE;
-	lastDroneState = DroneBehaviours::IDLE;
 	fastAttackScript->ResetScriptValues();
 	healthScript->HealLife(1000.0f); // It will cap at max health
 	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();

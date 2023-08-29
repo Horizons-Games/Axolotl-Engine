@@ -15,9 +15,11 @@
 
 REGISTERCLASS(EnemyDeathScript);
 
-EnemyDeathScript::EnemyDeathScript() : Script(), despawnTimer(5.0f), startDespawnTimer(false), powerUpParent(nullptr)
+EnemyDeathScript::EnemyDeathScript() : Script(), despawnTimer(5.0f), startDespawnTimer(false), powerUpParent(nullptr),
+particleSystem(nullptr)
 {
 	REGISTER_FIELD(powerUpParent, GameObject*);
+	REGISTER_FIELD(particleSystem, ComponentParticleSystem*);
 }
 
 void EnemyDeathScript::Update(float deltaTime)
@@ -41,6 +43,11 @@ void EnemyDeathScript::ManageEnemyDeath()
 	// In the future this might also need to check for if it's a miniboss
 	if (!owner->HasComponent<FinalBossScript>())
 	{
+		if (particleSystem)
+		{
+			particleSystem->Play();
+		}
+
 		GameObject* newPowerUp = RequestPowerUp();
 
 		if (newPowerUp != nullptr)

@@ -4,6 +4,8 @@
 #include "Components/ComponentParticleSystem.h"
 #include "GameObject/GameObject.h"
 
+#include "../Scripts/HealthSystem.h";
+
 EnemyClass::EnemyClass() : stunned(false), timeStunned(0.0f), isSpawnedEnemy(false), enemyType(EnemyTypes::NONE),
 	needsToBeReset(false)
 {

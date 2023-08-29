@@ -116,6 +116,7 @@ void EnemyVenomiteScript::CheckState()
 			aiMovement->SetMovementStatuses(false, true);
 
 			componentAnimation->SetParameter("IsRunning", false);
+			componentAnimation->SetParameter("IsRangedAttacking", true);
 
 			venomiteState = VenomiteBehaviours::RANGED_ATTACK;
 		}
@@ -203,10 +204,6 @@ void EnemyVenomiteScript::UpdateBehaviour(float deltaTime)
 			{
 				rangedAttackScript->PerformAttack();
 			}
-			else
-			{
-				componentAnimation->SetParameter("IsRangedAttacking", false);
-			}
 		}
 		else
 		{
@@ -258,10 +255,6 @@ void EnemyVenomiteScript::ResetValues()
 	}
 
 	venomiteState = VenomiteBehaviours::IDLE;
-	for (RangedFastAttackBehaviourScript* rangedAttackScript : rangedAttackScripts)
-	{
-		rangedAttackScript->ResetScriptValues();
-	}
 	meleeAttackScript->ResetScriptValues();
 	healthScript->HealLife(1000.0f); // It will cap at max health
 	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
