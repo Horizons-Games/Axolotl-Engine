@@ -176,6 +176,7 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 	}
 }
 
+
 Camera* ModuleCamera::GetFrustumCheckedCamera() const
 {
 	std::vector<ComponentCamera*> loadedCameras = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCameras();
@@ -186,9 +187,11 @@ Camera* ModuleCamera::GetFrustumCheckedCamera() const
 			return camera->GetCamera();
 		}
 	}
+
+	return nullptr;
 }
 
-void SetFrustumCheckedCamera(ComponentCamera* camera)
+void ModuleCamera::SetFrustumCheckedCamera(ComponentCamera* camera)
 {
 	std::vector<ComponentCamera*> loadedCameras = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCameras();
 

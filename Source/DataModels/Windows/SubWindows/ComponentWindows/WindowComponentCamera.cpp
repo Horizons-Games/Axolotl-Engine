@@ -62,6 +62,11 @@ void WindowComponentCamera::DrawWindowContents()
 			ModuleCamera* moduleCamera = App->GetModule<ModuleCamera>();
 			moduleCamera->SetFrustumCheckedCamera(asCamera);
 		}
+
+		else
+		{
+			asCamera->SetFrustumChecked(false);
+		}
 		
 
 		asCamera->SetKpPosition(kpPosition);

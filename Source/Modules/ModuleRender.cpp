@@ -534,6 +534,10 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 {
 	ModuleCamera* moduleCamera = App->GetModule<ModuleCamera>();
 	Camera* frustumCheckedCamera = moduleCamera->GetFrustumCheckedCamera();
+	if (!frustumCheckedCamera)
+	{
+		frustumCheckedCamera = moduleCamera->GetCamera();
+	}
 	float3 cameraPos = frustumCheckedCamera->GetPosition();
 
 	if (gameObject->GetParent() == nullptr)
