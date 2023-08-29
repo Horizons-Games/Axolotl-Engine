@@ -177,14 +177,14 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 }
 
 
-Camera* ModuleCamera::GetFrustumCheckedCamera() const
+ComponentCamera* ModuleCamera::GetFrustumCheckedCamera() const
 {
 	std::vector<ComponentCamera*> loadedCameras = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCameras();
 	for (auto camera: loadedCameras)
 	{
 		if (camera->IsFrustumChecked())
 		{
-			return camera->GetCamera();
+			return camera;
 		}
 	}
 

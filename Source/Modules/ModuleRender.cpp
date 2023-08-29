@@ -14,6 +14,9 @@
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentCamera.h"
+
+#include "Camera/CameraGameObject.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Batch/BatchManager.h"
@@ -399,6 +402,15 @@ UpdateStatus ModuleRender::Update()
 		go->Draw();
 	}
 
+#ifdef ENGINE
+	ComponentCamera* frustumCheckedCamera = camera->GetFrustumCheckedCamera();
+	if (frustumCheckedCamera && frustumCheckedCamera->GetCamera()->IsDrawFrustum())
+	{
+		frustumCheckedCamera->Draw();
+	}
+#endif // ENGINE
+
+
 	if (navigation->GetDrawNavMesh())
 	{
 		navigation->DrawGizmos();
@@ -481,10 +493,22 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 		return;
 	}
 
-	ModuleCamera* camera = App->GetModule<ModuleCamera>();
-	float3 cameraPos = camera->GetCamera()->GetPosition();
+	ModuleCamera* moduleCamera = App->GetModule<ModuleCamera>();
+	ComponentCamera* frustumCheckedCamera = moduleCamera->GetFrustumCheckedCamera();
+	Camera* camera;
+	if (!frustumCheckedCamera)
+	{
+		camera = moduleCamera->GetCamera();
+	}
+	else
+	{
+		camera = (Camera*)frustumCheckedCamera->GetCamera();
+	}
 
-	if (camera->GetCamera()->IsInside(quadtree->GetBoundingBox()))
+		
+	float3 cameraPos = camera->GetPosition();
+
+	if (camera->IsInside(quadtree->GetBoundingBox()))
 	{
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf())
@@ -533,12 +557,18 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 void ModuleRender::AddToRenderList(const GameObject* gameObject)
 {
 	ModuleCamera* moduleCamera = App->GetModule<ModuleCamera>();
-	Camera* frustumCheckedCamera = moduleCamera->GetFrustumCheckedCamera();
+	ComponentCamera* frustumCheckedCamera = moduleCamera->GetFrustumCheckedCamera();
+	Camera* camera;
 	if (!frustumCheckedCamera)
 	{
-		frustumCheckedCamera = moduleCamera->GetCamera();
+		camera = moduleCamera->GetCamera();
 	}
-	float3 cameraPos = frustumCheckedCamera->GetPosition();
+	else
+	{
+		camera = (Camera*) frustumCheckedCamera->GetCamera();
+	}
+
+	float3 cameraPos = camera->GetPosition();
 
 	if (gameObject->GetParent() == nullptr)
 	{
@@ -552,7 +582,7 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 		return;
 	}
 
-	if (frustumCheckedCamera->IsInside(transform->GetEncapsuledAABB()))
+	if (camera->IsInside(transform->GetEncapsuledAABB()))
 	{
 		ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
 		if (gameObject->IsActive() && (mesh == nullptr || mesh->IsEnabled()))

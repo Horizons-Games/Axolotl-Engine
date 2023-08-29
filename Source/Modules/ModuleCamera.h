@@ -36,7 +36,7 @@ public:
 	Camera* GetCamera();
 	void ChangeCamera(CameraType newType);
 	Camera* GetSelectedCamera() const;
-	Camera* GetFrustumCheckedCamera() const;
+	ComponentCamera* GetFrustumCheckedCamera() const;
 	void SetSelectedCamera(int cameraNumber);
 	void SetFrustumCheckedCamera(ComponentCamera* camera);
 	int GetSelectedPosition();
