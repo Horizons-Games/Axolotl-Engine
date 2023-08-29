@@ -1024,9 +1024,6 @@
     <ClInclude Include="..\Game\Scripts\RecastMovementTestScript.h">
       <Filter>UserScripts\Gameplay\Player\Movement</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CameraSample.h">
-      <Filter>UserScripts\Level</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -1461,6 +1458,7 @@
     <ClInclude Include="CombatZoneScript.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CameraSample.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
