@@ -45,7 +45,7 @@ void WindowScene::DrawWindowContents()
 				 ImVec2(0, 1),
 				 ImVec2(1, 0));
 
-	if (!App->IsOnPlayMode())
+	if (!App->IsOnPlayMode() || !App->GetModule<ModuleScene>()->IsLoading())
 	{
 		DrawGuizmo();
 	}

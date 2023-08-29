@@ -41,8 +41,10 @@ void WindowHierarchy::DrawWindowContents()
 	ImGui::Separator();
 
 	GameObject* root = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot();
-	assert(root);
-	DrawRecursiveHierarchy(root);
+	if (root && !App->GetModule<ModuleScene>()->IsLoading())
+	{
+		DrawRecursiveHierarchy(root);
+	}
 
 	if (IsFocused() || App->GetModule<ModuleEditor>()->GetScene()->IsFocused())
 	{
@@ -362,7 +364,7 @@ void WindowHierarchy::Create2DObjectMenu(GameObject* gameObject)
 
 	if (ImGui::MenuItem("Create Slider"))
 	{
-		loadedScene->CreateUIGameObject("new Slider", gameObject, ComponentType::SLIDER);	
+		loadedScene->CreateUIGameObject("new Slider", gameObject, ComponentType::SLIDER);
 	}
 }
 

@@ -712,7 +712,7 @@ void GeometryBatch::BindBatch(bool selected)
 	int drawCount = 0;
 
 	GameObject* selectedGo = App->GetModule<ModuleScene>()->GetSelectedGameObject();
-	bool isRoot = selectedGo->GetParent() == nullptr;
+	bool isRoot = selectedGo != nullptr ? selectedGo->GetParent() == nullptr : false;
 
 	for (auto component : componentsInBatch)
 	{
@@ -725,7 +725,7 @@ void GeometryBatch::BindBatch(bool selected)
 #ifdef ENGINE
 			bool draw = false;
 
-			if (!App->IsOnPlayMode() && !isRoot)
+			if (selectedGo != nullptr && !App->IsOnPlayMode() && !isRoot)
 			{
 				if (!selected)
 				{

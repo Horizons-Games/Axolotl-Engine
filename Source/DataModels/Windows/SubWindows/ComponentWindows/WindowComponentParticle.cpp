@@ -642,7 +642,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::EndTable();
 		}
 
-		//TODO: Draw Emitter Modules
+		AXO_TODO("Draw Emitter Modules")
 		for (ParticleModule* module : emitter->GetModules())
 		{
 			module->DrawImGui();
@@ -650,6 +650,6 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 	}
 	else
 	{
-		//TODO: Select a ParticleEmitter to assign to the EmitterInstance (it acts as a Resource for the instance)
+		AXO_TODO("Select a ParticleEmitter to assign to the EmitterInstance (it acts as a Resource for the instance)")
 	}
 }
