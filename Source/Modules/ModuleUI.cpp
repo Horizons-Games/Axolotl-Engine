@@ -72,10 +72,15 @@ UpdateStatus ModuleUI::Update()
 
 	glDisable(GL_DEPTH_TEST);
 
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Canvas Drawing")), 
+		"Canvas Drawing");
+
 	for (const ComponentCanvas* canvas : canvasScene)
 	{
 		Draw2DGameObject(canvas->GetOwner());
 	}
+
+	glPopDebugGroup();
 
 	glEnable(GL_DEPTH_TEST);
 	frustum->SetHorizontalFovAndAspectRatio(math::DegToRad(90), camera->GetAspectRatio());
