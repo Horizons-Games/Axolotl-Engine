@@ -45,6 +45,7 @@ void BoostOfEnergy::Start()
 
 	sendTriggerCollision = damageZone->GetOwner()->GetComponent<SendTriggerCollision>();
 	sendTriggerCollision->SetEnterCollisionCallback(std::bind(&BoostOfEnergy::SetCollisionEnter, this, nullptr));
+	sendTriggerCollision->SetExitCollisionCallback(std::bind(&BoostOfEnergy::SetCollisionExit, this, nullptr));
 
 	lastDamageTime = damageFrequency;
 }

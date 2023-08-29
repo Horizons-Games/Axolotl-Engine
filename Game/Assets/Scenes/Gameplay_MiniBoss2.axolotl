@@ -11609,7 +11609,7 @@
                     {
                         "Component": {
                             "type": "Component_Script",
-                            "active": false,
+                            "active": true,
                             "removed": true,
                             "constructName": "Rotator",
                             "fields": [
