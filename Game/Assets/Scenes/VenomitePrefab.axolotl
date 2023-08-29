@@ -78,6 +78,62 @@
         },
         {
             "GameObject": {
+                "name": "Waypoint 1_1",
+                "tag": "",
+                "uid": 17217482957009702546,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -5.620218753814697,
+                            "localPos_Y": -0.5,
+                            "localPos_Z": 0.8264296054840088,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.30000001192092896,
+                            "localSca_Y": 0.30000001192092896,
+                            "localSca_Z": 0.30000001192092896
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Waypoint 1_2",
+                "tag": "",
+                "uid": 16007474881477241656,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.967127323150635,
+                            "localPos_Y": -0.5,
+                            "localPos_Z": 0.34108781814575195,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.30000001192092896,
+                            "localSca_Y": 0.30000001192092896,
+                            "localSca_Z": 0.30000001192092896
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "RaycastsAttack",
                 "tag": "",
                 "uid": 15128076755218324942,
@@ -230,7 +286,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -16.662200927734375,
+                            "localPos_X": 0.0,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
                             "localRot_X": -0.0,
@@ -262,7 +318,7 @@
                             "type": "Component_RigidBody",
                             "active": true,
                             "removed": true,
-                            "isKinematic": false,
+                            "isKinematic": true,
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 10000.0,
@@ -281,7 +337,7 @@
                             "radius": 0.0,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -16.662200927734375,
+                            "rbPos_X": 0.0,
                             "rbPos_Y": 0.6000000238418579,
                             "rbPos_Z": 0.0,
                             "xAxisBlocked": false,
@@ -303,6 +359,11 @@
                                     "name": "ParticleTargetGO",
                                     "value": 4631887640344813425,
                                     "type": 2
+                                },
+                                {
+                                    "name": "IsSpawnedEnemy",
+                                    "value": false,
+                                    "type": 5
                                 },
                                 {
                                     "name": "RangedAttackDistance",
@@ -347,7 +408,14 @@
                                 {
                                     "name": "WaypointsPatrol",
                                     "type": 4,
-                                    "vectorElements": null,
+                                    "vectorElements": [
+                                        {
+                                            "value": 17217482957009702546
+                                        },
+                                        {
+                                            "value": 16007474881477241656
+                                        }
+                                    ],
                                     "innerType": 2
                                 },
                                 {
@@ -526,7 +594,7 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "ActivePowerUp",
+                                    "name": "PowerUpParent",
                                     "value": 0,
                                     "type": 2
                                 },
@@ -547,12 +615,12 @@
                             "fields": [
                                 {
                                     "name": "MovementSpeed",
-                                    "value": 200.0,
+                                    "value": 3.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "RotationSpeed",
-                                    "value": 15.0,
+                                    "value": 20.0,
                                     "type": 0
                                 },
                                 {
@@ -561,6 +629,19 @@
                                     "type": 0
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Agent",
+                            "active": true,
+                            "removed": true,
+                            "maxSpeed": 3.0,
+                            "maxAcceleration": 5.0,
+                            "avoidingObstacle": true,
+                            "updateRigidBody": true,
+                            "yOffset": 0.0,
+                            "rotationSpeed": 5.0
                         }
                     }
                 ]
@@ -3997,7 +4078,7 @@
                             "radius": 4.499998569488525,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -16.809635162353516,
+                            "rbPos_X": -0.14743423461914063,
                             "rbPos_Y": 0.7613784074783325,
                             "rbPos_Z": 1.6029678583145142,
                             "xAxisBlocked": false,

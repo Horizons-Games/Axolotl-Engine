@@ -78,6 +78,62 @@
         },
         {
             "GameObject": {
+                "name": "Waypoint 1_2",
+                "tag": "",
+                "uid": 6536772281141820080,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.615986347198486,
+                            "localPos_Y": -0.5,
+                            "localPos_Z": 1.649458646774292,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Waypoint 1_1",
+                "tag": "",
+                "uid": 17921358598841053390,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -6.159557819366455,
+                            "localPos_Y": -0.5,
+                            "localPos_Z": 1.0736331939697266,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
                 "name": "Drone 1",
                 "tag": "Enemy",
                 "uid": 9419324827224935529,
@@ -91,8 +147,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Y": 0.12868885695934296,
+                            "localPos_Z": 1.1187258958816528,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -179.99993896484375,
@@ -137,17 +193,17 @@
                                     "type": 4,
                                     "vectorElements": [
                                         {
-                                            "value": 0
+                                            "value": 17921358598841053390
                                         },
                                         {
-                                            "value": 0
+                                            "value": 6536772281141820080
                                         }
                                     ],
                                     "innerType": 2
                                 },
                                 {
                                     "name": "PatrolStopDuration",
-                                    "value": 5.0,
+                                    "value": 1.0,
                                     "type": 0
                                 },
                                 {
@@ -169,6 +225,11 @@
                                     "name": "ParticleTargetGO",
                                     "value": 8371172195792549005,
                                     "type": 2
+                                },
+                                {
+                                    "name": "IsSpawnedEnemy",
+                                    "value": false,
+                                    "type": 5
                                 },
                                 {
                                     "name": "AttackDistance",
@@ -305,7 +366,7 @@
                             "type": "Component_RigidBody",
                             "active": true,
                             "removed": true,
-                            "isKinematic": false,
+                            "isKinematic": true,
                             "isTrigger": false,
                             "drawCollider": true,
                             "mass": 10000.0,
@@ -325,8 +386,8 @@
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": 0.0,
-                            "rbPos_Y": 0.0,
-                            "rbPos_Z": 0.0,
+                            "rbPos_Y": 0.12868885695934296,
+                            "rbPos_Z": 1.1187258958816528,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -343,7 +404,7 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "ActivePowerUp",
+                                    "name": "PowerUpParent",
                                     "value": 0,
                                     "type": 2
                                 },
@@ -364,12 +425,12 @@
                             "fields": [
                                 {
                                     "name": "MovementSpeed",
-                                    "value": 300.0,
+                                    "value": 5.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "RotationSpeed",
-                                    "value": 15.0,
+                                    "value": 3.0,
                                     "type": 0
                                 },
                                 {
@@ -378,6 +439,19 @@
                                     "type": 0
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Agent",
+                            "active": true,
+                            "removed": true,
+                            "maxSpeed": 3.0,
+                            "maxAcceleration": 5.0,
+                            "avoidingObstacle": true,
+                            "updateRigidBody": true,
+                            "yOffset": 1.5,
+                            "rotationSpeed": 3.0
                         }
                     }
                 ]
@@ -3027,9 +3101,9 @@
                             "radius": 4.499998569488525,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -0.00013311897055245936,
-                            "rbPos_Y": -0.4468575716018677,
-                            "rbPos_Z": 2.894495964050293,
+                            "rbPos_X": -0.0001330101367784664,
+                            "rbPos_Y": -0.3181686997413635,
+                            "rbPos_Z": 4.013221740722656,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -3066,7 +3140,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 1.9326762412674725e-12,
-                            "localPos_Y": 0.2513563632965088,
+                            "localPos_Y": 0.25099998712539673,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -3100,9 +3174,9 @@
                             "radius": 1.0,
                             "factor": 2.5,
                             "height": 2.0,
-                            "rbPos_X": 2.177359021970915e-7,
-                            "rbPos_Y": -0.2513563632965088,
-                            "rbPos_Z": 0.0,
+                            "rbPos_X": 2.7727026008506073e-7,
+                            "rbPos_Y": -0.12231113016605377,
+                            "rbPos_Z": 1.1187258958816528,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
