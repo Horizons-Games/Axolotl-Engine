@@ -1,11 +1,18 @@
 #pragma once
 #include "Module.h"
-#include "physfs.h"
+
+#include "FileSystem/UID.h"
+
+#include "Auxiliar/ConnectedCallback.h"
 
 struct zip_t;
+struct FileZippedData;
 
 class ModuleFileSystem : public Module
 {
+public:
+	using FileZippedCallback = std::function<void(FileZippedData)>;
+
 public:
 	ModuleFileSystem();
 	~ModuleFileSystem() override;
@@ -30,6 +37,7 @@ public:
 	const std::string GetFileName(const std::string& path);
 	const std::string GetFileExtension(const std::string& path);
 	const std::string GetPathWithExtension(const std::string& pathWithoutExtension);
+	std::size_t CountTotalFiles(const std::string& path) const;
 
 	void ZipFolder(zip_t* zip, const char* path) const;
 	void ZipLibFolder() const;
@@ -41,16 +49,19 @@ public:
 						   bool overwriteIfExists) const;
 	void AppendToZipFolder(const std::string& zipPath, const std::string& existingFilePath) const;
 
+	// Lifetime of the callback will be managed by the caller of this method
+	ConnectedCallback RegisterFileZippedCallback(FileZippedCallback&& callback);
+
 private:
+	void ZipFolderRecursive(zip_t* zip,
+							const char* path,
+							const std::string& rootPath,
+							std::size_t totalItems,
+							std::size_t& currentItem) const;
 	void DeleteFileInZip(const std::string& zipPath, const std::string& fileName) const;
+
+	void DeregisterFileZippedCallback(UID callbackUID);
+
+	std::map<UID, FileZippedCallback> callbacks;
+	std::mutex callbacksMutex;
 };
-
-inline bool ModuleFileSystem::Exists(const char* filePath) const
-{
-	return PHYSFS_exists(filePath);
-}
-
-inline bool ModuleFileSystem::IsDirectory(const char* directoryPath) const
-{
-	return PHYSFS_isDirectory(directoryPath);
-}

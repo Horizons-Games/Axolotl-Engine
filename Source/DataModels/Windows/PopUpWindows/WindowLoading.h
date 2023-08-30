@@ -9,7 +9,7 @@ public:
 	WindowLoading();
 	~WindowLoading() override;
 
-	void AddWaitingOn(const std::string& waitingCondition);
+	void AddWaitingOn(const std::string& waitingCondition, std::optional<float> percentage = std::nullopt);
 	void ResetWaitingOn();
 
 protected:
@@ -18,12 +18,14 @@ protected:
 private:
 	const ImU32 col = ImGui::GetColorU32(ImGuiCol_ButtonHovered);
 	bool DrawSpinner(const char* label, float radius, int thickness, const ImU32& color);
-	std::vector<std::string> waitingOn;
+	
+	using WaitingOnData = std::pair<std::string, std::optional<float>>;
+	std::vector<WaitingOnData> waitingOn;
 };
 
-inline void WindowLoading::AddWaitingOn(const std::string& waitingCondition)
+inline void WindowLoading::AddWaitingOn(const std::string& waitingCondition, std::optional<float> percentage)
 {
-	waitingOn.push_back(waitingCondition);
+	waitingOn.push_back(std::make_pair(waitingCondition, percentage));
 }
 
 inline void WindowLoading::ResetWaitingOn()
