@@ -24,7 +24,7 @@ void SendTriggerCollision::Update(float deltaTime)
 
 void SendTriggerCollision::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if ((tagFilter == "" || other->GetOwner()->CompareTag(tagFilter)) && collisionEnterCallback)
+	if ((tagFilter.empty() || other->GetOwner()->CompareTag(tagFilter)) && collisionEnterCallback)
 	{
 		collisionEnterCallback(other);
 	}
@@ -32,7 +32,7 @@ void SendTriggerCollision::OnCollisionEnter(ComponentRigidBody* other)
 
 void SendTriggerCollision::OnCollisionExit(ComponentRigidBody* other)
 {
-	if ((tagFilter == "" || other->GetOwner()->CompareTag(tagFilter)) && collisionExitCallback)
+	if ((tagFilter.empty() || other->GetOwner()->CompareTag(tagFilter)) && collisionExitCallback)
 	{
 		collisionExitCallback(other);
 	}
