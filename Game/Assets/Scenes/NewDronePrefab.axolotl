@@ -9,28 +9,36 @@
                 "enabled": true,
                 "static": false,
                 "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
-                            "boudingBoxPos_X": 0.0,
-                            "boudingBoxPos_Y": 0.0,
-                            "boudingBoxPos_Z": 0.0
-                        }
-                    },
+                  {
+                    "Component": {
+                      "type": "Component_Transform",
+                      "active": true,
+                      "removed": false,
+                      "localPos_X": 0.0,
+                      "localPos_Y": 0.0,
+                      "localPos_Z": 0.0,
+                      "localRot_X": -0.0,
+                      "localRot_Y": 0.0,
+                      "localRot_Z": -0.0,
+                      "localSca_X": 1.0,
+                      "localSca_Y": 1.0,
+                      "localSca_Z": 1.0,
+                      "boudingBoxSca_X": 0.0,
+                      "boudingBoxSca_Y": 0.0,
+                      "boudingBoxSca_Z": 0.0,
+                      "boudingBoxPos_X": 0.0,
+                      "boudingBoxPos_Y": 0.0,
+                      "boudingBoxPos_Z": 0.0
+                    }
+                  },
+                  {
+                    "Component": {
+                      "type": "Component_Render",
+                      "active": false,
+                      "removed": false,
+                      "bloom_intensity": 1.0
+                    }
+                  },
                     {
                         "Component": {
                             "type": "Component_Cubemap",

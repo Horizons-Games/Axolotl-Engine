@@ -7,6 +7,7 @@
 #include "DataModels/Components/ComponentAudioSource.h"
 #include "DataModels/Components/ComponentBreakable.h"
 #include "DataModels/Components/ComponentCamera.h"
+#include "DataModels/Components/ComponentRender.h"
 #include "DataModels/Components/ComponentCubemap.h"
 #include "DataModels/Components/ComponentDirLight.h"
 #include "DataModels/Components/ComponentLight.h"
@@ -676,11 +677,19 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = std::make_unique<ComponentCubemap>(true, this);
 			break;
 		}
+
 		case ComponentType::LINE:
 		{
 			newComponent = std::make_unique<ComponentLine>(true, this);
 			break;
 		}
+
+		case ComponentType::RENDER:
+		{
+			newComponent = std::make_unique<ComponentRender>(true, this);
+			break;
+		}
+
 		default:
 			assert(false && "Wrong component type introduced");
 			return nullptr;

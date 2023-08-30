@@ -18,6 +18,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentCubemap.h"
+#include "Components/ComponentRender.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentLine.h"
 #include "Components/ComponentParticleSystem.h"
@@ -1411,6 +1412,11 @@ void Scene::InitNewEmptyScene()
 	std::shared_ptr<ResourceCubemap> resourceCubemap =
 		App->GetModule<ModuleResources>()->RequestResource<ResourceCubemap>("Assets/Cubemaps/sunsetSkybox.cube");
 
+	if (root->GetComponentInternal<ComponentRender>() == nullptr)
+	{
+		root->CreateComponent<ComponentRender>();
+	}
+
 	if (root->GetComponentInternal<ComponentCubemap>() == nullptr)
 	{
 		root->CreateComponent<ComponentCubemap>();
@@ -1547,6 +1553,14 @@ void Scene::AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& 
 void Scene::AddSceneComponentLines(const std::vector<ComponentLine*>& componentLines)
 {
 	sceneComponentLines.insert(std::end(sceneComponentLines), std::begin(componentLines), std::end(componentLines));
+}
+
+void Scene::InitRender()
+{
+	if (root->GetComponentInternal<ComponentRender>() == nullptr)
+	{
+		root->CreateComponent<ComponentRender>();
+	}
 }
 
 void Scene::InitCubemap()

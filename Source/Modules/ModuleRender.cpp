@@ -128,7 +128,9 @@ ModuleRender::ModuleRender() :
 	context(nullptr),
 	depthStencilRenderBuffer(0),
 	bloomActivation(1),
-	toneMappingMode(2)
+	toneMappingMode(2),
+	bloomIntensity(1.f),
+	threshold(1.f)
 {
 }
 
@@ -196,6 +198,9 @@ bool ModuleRender::Init()
 	glGenTextures(KAWASE_DUAL_SAMPLERS, dualKawaseDownTextures);
 	glGenFramebuffers(KAWASE_DUAL_SAMPLERS, dualKawaseUpFramebuffers);
 	glGenTextures(KAWASE_DUAL_SAMPLERS, dualKawaseUpTextures);
+
+	/*glGenFramebuffers(1, &bloomFramebuffer);
+	glGenTextures(1, &bloomTexture);*/
 
 	glGenRenderbuffers(1, &depthStencilRenderBuffer);
 
@@ -454,6 +459,8 @@ UpdateStatus ModuleRender::Update()
 	KawaseDualFiltering();
 
 	// Color correction
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Color correction")),
+		"Color correction");
 #ifdef ENGINE
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[1]);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -472,9 +479,11 @@ UpdateStatus ModuleRender::Update()
 
 	colorCorrectionProgram->BindUniformInt("tonneMappingMode", toneMappingMode);
 	colorCorrectionProgram->BindUniformInt("bloomActivation", bloomActivation);
+	colorCorrectionProgram->BindUniformFloat("bloomIntensity", bloomIntensity);
 
 	glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
 	colorCorrectionProgram->Deactivate();
+	glPopDebugGroup();
 
 	// ---- DRAW ALL COMPONENTS IN THE FRUSTRUM --
 
@@ -521,6 +530,10 @@ bool ModuleRender::CleanUp()
 	glDeleteTextures(KAWASE_DUAL_SAMPLERS, dualKawaseDownTextures);
 	glDeleteFramebuffers(KAWASE_DUAL_SAMPLERS, dualKawaseUpFramebuffers);
 	glDeleteTextures(KAWASE_DUAL_SAMPLERS, dualKawaseUpTextures);
+	
+	//glDeleteFramebuffers(1, &bloomFramebuffer);
+	//glDeleteTextures(1, &bloomTexture);
+
 	glDeleteRenderbuffers(1, &depthStencilRenderBuffer);
 
 	glDeleteFramebuffers(1, &shadowMapBuffer);
@@ -613,7 +626,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 		auxWidht /= 2;
 		auxHeight /= 2;
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, static_cast<int>(auxWidht), static_cast<int>(auxHeight), 0, GL_RGBA, GL_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, static_cast<int>(auxWidht), static_cast<int>(auxHeight), 0, GL_RGB, GL_FLOAT, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -636,7 +649,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 		auxWidht *= 2;
 		auxHeight *= 2;
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, static_cast<int>(auxWidht), static_cast<int>(auxHeight), 0, GL_RGBA, GL_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, static_cast<int>(auxWidht), static_cast<int>(auxHeight), 0, GL_RGB, GL_FLOAT, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -649,6 +662,23 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 			LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer Dual Kawase up is not complete!");
 		}
 	}
+
+	/*glBindFramebuffer(GL_FRAMEBUFFER, bloomFramebuffer);
+
+	glBindTexture(GL_TEXTURE_2D, bloomTexture);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, bloomTexture, 0);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer bloom is not complete!");
+	}*/
 		
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -1015,6 +1045,22 @@ void ModuleRender::KawaseDualFiltering()
 {
 	// Blur bloom with kawase
 	ModuleProgram* moduleProgram = App->GetModule<ModuleProgram>();
+	
+	//glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Bloom")),
+	//	"Bloom");
+	//glBindFramebuffer(GL_FRAMEBUFFER, bloomFramebuffer);
+	//Program* bloom = moduleProgram->GetProgram(ProgramType::BLOOM);
+	//bloom->Activate();
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, renderedTexture[0]);
+	//glActiveTexture(GL_TEXTURE1);
+	//glBindTexture(GL_TEXTURE_2D, gBuffer->GetEmissiveTexture());
+
+	//bloom->BindUniformFloat("threshold", threshold);
+	//glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
+	//bloom->Deactivate();
+	//glPopDebugGroup();
+
 	ModuleWindow* moduleWindow = App->GetModule<ModuleWindow>();
 	std::pair<int, int> windowSize = moduleWindow->GetWindowSize();
 	

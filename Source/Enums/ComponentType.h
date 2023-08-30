@@ -25,7 +25,8 @@ enum class ComponentType
 	CUBEMAP,
 	TRAIL,
 	LINE,
-	PLAYERINPUT
+	PLAYERINPUT,
+	RENDER
 };
 
 class ComponentAnimation;
@@ -46,6 +47,7 @@ class ComponentScript;
 class ComponentTransform;
 class ComponentTrail;
 class ComponentLine;
+class ComponentRender;
 
 class ComponentButton;
 class ComponentCanvas;
@@ -194,4 +196,10 @@ template<>
 struct ComponentToEnum<ComponentLine>
 {
 	const static ComponentType value = ComponentType::LINE;
+};
+
+template<>
+struct ComponentToEnum<ComponentRender>
+{
+	const static ComponentType value = ComponentType::RENDER;
 };

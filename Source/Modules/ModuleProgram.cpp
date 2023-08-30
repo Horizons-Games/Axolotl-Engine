@@ -88,6 +88,8 @@ bool ModuleProgram::Start()
 	
 	programs.push_back(CreateProgram("min_max.glsl", "MinMax"));
 	
+	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "bloom.glsl", "Bloom"));
+
 	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "kawase_down_fragment.glsl", "KawaseDown"));
 	
 	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "kawase_up_fragment.glsl", "KawaseUp"));

@@ -14,6 +14,7 @@
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentRender.h"
 #include "Components/ComponentTransform.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
@@ -402,6 +403,10 @@ void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
 
 	for (GameObject* obj : loadedObjects)
 	{
+		if (obj->HasComponent<ComponentRender>() && mantainActualScene)
+		{
+			obj->RemoveComponent<ComponentRender>();
+		}
 		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponents<ComponentCamera>();
 		loadedCameras.insert(std::end(loadedCameras), std::begin(camerasOfObj), std::end(camerasOfObj));
 
