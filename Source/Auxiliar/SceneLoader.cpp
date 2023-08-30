@@ -109,6 +109,10 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 
 	for (GameObject* obj : loadedObjects)
 	{
+		if (obj->HasComponent<ComponentRender>() && currentLoadingConfig->mantainCurrentScene)
+		{
+			obj->RemoveComponent<ComponentRender>();
+		}
 		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponents<ComponentCamera>();
 		loadedCameras.insert(std::end(loadedCameras), std::begin(camerasOfObj), std::end(camerasOfObj));
 
