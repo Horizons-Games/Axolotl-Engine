@@ -44,8 +44,8 @@ void BoostOfEnergy::Start()
 	light->Disable();
 
 	sendTriggerCollision = damageZone->GetOwner()->GetComponent<SendTriggerCollision>();
-	sendTriggerCollision->SetEnterCollisionCallback(std::bind(&BoostOfEnergy::SetCollisionEnter, this, nullptr));
-	sendTriggerCollision->SetExitCollisionCallback(std::bind(&BoostOfEnergy::SetCollisionExit, this, nullptr));
+	sendTriggerCollision->SetEnterCollisionCallback(std::bind(&BoostOfEnergy::SetCollisionEnter, this, std::placeholders::_1));
+	sendTriggerCollision->SetExitCollisionCallback(std::bind(&BoostOfEnergy::SetCollisionExit, this, std::placeholders::_1));
 
 	lastDamageTime = damageFrequency;
 }
