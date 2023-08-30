@@ -702,6 +702,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::RENDER:
 		{
 			newComponent = std::make_unique<ComponentRender>(true, this);
+			break;
 		}
 		
 		case ComponentType::AGENT:
