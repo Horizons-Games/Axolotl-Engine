@@ -7,6 +7,7 @@
 #include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "ModuleWindow.h"
+#include "ModuleNavigation.h"
 
 #include "Camera/CameraGameObject.h"
 
@@ -17,6 +18,9 @@
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentLine.h"
+#include "Components/ComponentCamera.h"
+
+#include "Camera/CameraGameObject.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Batch/BatchManager.h"
@@ -162,6 +166,7 @@ bool ModuleRender::Init()
 	batchManager = new BatchManager();
 	gBuffer = new GBuffer();
 	renderShadows = true;
+	varianceShadowMapping = true;
 
 	GLenum err = glewInit();
 	// check for errors
@@ -204,11 +209,15 @@ bool ModuleRender::Init()
 
 	glGenRenderbuffers(1, &depthStencilRenderBuffer);
 
+	// Shadow Buffers
 	glGenFramebuffers(1, &shadowMapBuffer);
 	glGenTextures(1, &gShadowMap);
+	glGenFramebuffers(GAUSSIAN_BLUR_SHADOW_MAP, &blurShadowMapBuffer[0]);
+	glGenTextures(GAUSSIAN_BLUR_SHADOW_MAP, &gBluredShadowMap[0]);
 
 	glGenTextures(1, &parallelReductionInTexture);
 	glGenTextures(1, &parallelReductionOutTexture);
+	glGenTextures(1, &shadowVarianceTexture);
 
 	glGenBuffers(1, &minMaxBuffer);
 
@@ -245,6 +254,11 @@ UpdateStatus ModuleRender::PreUpdate()
 
 UpdateStatus ModuleRender::Update()
 {
+	if (App->GetModule<ModuleScene>()->IsLoading())
+	{
+		return UpdateStatus::UPDATE_CONTINUE;
+	}
+
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
 #endif // DEBUG
@@ -255,6 +269,7 @@ UpdateStatus ModuleRender::Update()
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	ModulePlayer* modulePlayer = App->GetModule<ModulePlayer>();
 	const ModuleProgram* modProgram = App->GetModule<ModuleProgram>();
+	ModuleNavigation* navigation = App->GetModule<ModuleNavigation>();
 
 	Scene* loadedScene = scene->GetLoadedScene();
 
@@ -273,8 +288,6 @@ UpdateStatus ModuleRender::Update()
 
 	GameObject* goSelected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 
-	bool isRoot = goSelected->GetParent() == nullptr;
-
 	FillRenderList(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
 	
 	std::vector<GameObject*> nonStaticsGOs = App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects();
@@ -283,7 +296,11 @@ UpdateStatus ModuleRender::Update()
 	{
 		AddToRenderList(nonStaticObj);
 	}
-	AddToRenderList(goSelected);
+	
+	if (goSelected)
+	{
+		AddToRenderList(goSelected);
+	}
 
 	if (App->GetModule<ModuleDebugDraw>()->IsShowingBoundingBoxes())
 	{
@@ -305,6 +322,8 @@ UpdateStatus ModuleRender::Update()
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glStencilMask(0x00); // disable writing to the stencil buffer 
+
+	bool isRoot = goSelected != nullptr ? goSelected->GetParent() == nullptr : false;
 
 	// Draw opaque objects
 	batchManager->DrawOpaque(false);
@@ -329,6 +348,12 @@ UpdateStatus ModuleRender::Update()
 		float2 minMax = ParallelReduction(shadowProgram, w, h);
 
 		RenderShadowMap(loadedScene->GetDirectionalLight(), minMax);
+
+		if (varianceShadowMapping)
+		{
+			ShadowDepthVariacne(w, h);
+			GaussianBlur(w, h);
+		}
 	}
 
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
@@ -350,7 +375,8 @@ UpdateStatus ModuleRender::Update()
 	if (renderShadows)
 	{
 		glActiveTexture(GL_TEXTURE5);
-		glBindTexture(GL_TEXTURE_2D, gShadowMap);
+		glBindTexture(GL_TEXTURE_2D, varianceShadowMapping ? 
+			gBluredShadowMap[GAUSSIAN_BLUR_SHADOW_MAP - 1] : gShadowMap);
 
 		float4x4 lightSpaceMatrix = dirLightProj * dirLightView;
 		ComponentDirLight* directLight =
@@ -362,6 +388,7 @@ UpdateStatus ModuleRender::Update()
 		program->BindUniformFloat("maxBias", directLight->shadowBias[1]);
 	}
 	program->BindUniformInt("useShadows", static_cast<int>(renderShadows));
+	program->BindUniformInt("useVSM", static_cast<int>(varianceShadowMapping));
 
 	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 specular = 4 and emissive = 5
 	program->BindUniformInt("renderMode", modeRender);
@@ -411,7 +438,10 @@ UpdateStatus ModuleRender::Update()
 		glPolygonMode(GL_BACK, GL_LINE);
 
 		// Draw Highliht for selected objects
-		DrawHighlight(goSelected);
+		if (goSelected)
+		{
+			DrawHighlight(goSelected);
+		}
 
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glLineWidth(1);
@@ -492,7 +522,19 @@ UpdateStatus ModuleRender::Update()
 		go->Draw();
 	}
 
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+#ifdef ENGINE
+	ComponentCamera* frustumCheckedCamera = camera->GetFrustumCheckedCamera();
+	if (frustumCheckedCamera && frustumCheckedCamera->GetCamera()->IsDrawFrustum())
+	{
+		frustumCheckedCamera->Draw();
+	}
+#endif // ENGINE
+
+
+	if (navigation->GetDrawNavMesh())
+	{
+		navigation->DrawGizmos();
+	}
 
 #ifndef ENGINE
 	if (!App->IsDebuggingGame())
@@ -506,6 +548,8 @@ UpdateStatus ModuleRender::Update()
 
 UpdateStatus ModuleRender::PostUpdate()
 {
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+
 	SDL_GL_SwapWindow(App->GetModule<ModuleWindow>()->GetWindow());
 
 	return UpdateStatus::UPDATE_CONTINUE;
@@ -538,6 +582,12 @@ bool ModuleRender::CleanUp()
 
 	glDeleteFramebuffers(1, &shadowMapBuffer);
 	glDeleteTextures(1, &gShadowMap);
+	glDeleteFramebuffers(GAUSSIAN_BLUR_SHADOW_MAP, &blurShadowMapBuffer[0]);
+	glDeleteTextures(GAUSSIAN_BLUR_SHADOW_MAP, &gBluredShadowMap[0]);
+
+	glDeleteTextures(1, &parallelReductionInTexture);
+	glDeleteTextures(1, &parallelReductionOutTexture);
+	glDeleteTextures(1, &shadowVarianceTexture);
 
 	return true;
 }
@@ -572,6 +622,25 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
 		LOG_ERROR("ERROR::FRAMEBUFFER:: Shadow Map framebuffer not completed!");
+	}
+
+	for (unsigned i = 0; i < GAUSSIAN_BLUR_SHADOW_MAP; ++i)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, blurShadowMapBuffer[i]);
+
+		glBindTexture(GL_TEXTURE_2D, gBluredShadowMap[i]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RG32F, width, height, 0, GL_RG, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gBluredShadowMap[i], 0);
+
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		{
+			LOG_ERROR("ERROR::FRAMEBUFFER:: Blured Shadow Map framebuffer (num {}) not completed!", i);
+		}
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
@@ -686,16 +755,24 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RG32F, width, height);
 	glBindTexture(GL_TEXTURE_2D, parallelReductionOutTexture);
 	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RG32F, width, height);
+	glBindTexture(GL_TEXTURE_2D, shadowVarianceTexture);
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RG32F, width, height);
 
 	glBindTexture(GL_TEXTURE_2D, 0); //Unbind the texture
 }
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
-	ModuleCamera* camera = App->GetModule<ModuleCamera>();
-	float3 cameraPos = camera->GetCamera()->GetPosition();
+	if (quadtree == nullptr)
+	{
+		return;
+	}
 
-	if (camera->GetCamera()->IsInside(quadtree->GetBoundingBox()))
+	Camera* camera = GetFrustumCheckedCamera();
+		
+	float3 cameraPos = camera->GetPosition();
+
+	if (camera->IsInside(quadtree->GetBoundingBox()))
 	{
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf())
@@ -743,8 +820,10 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 
 void ModuleRender::AddToRenderList(const GameObject* gameObject)
 {
-	ModuleCamera* camera = App->GetModule<ModuleCamera>();
-	float3 cameraPos = camera->GetCamera()->GetPosition();
+	
+	Camera* camera = GetFrustumCheckedCamera();
+
+	float3 cameraPos = camera->GetPosition();
 
 	if (gameObject->GetParent() == nullptr)
 	{
@@ -758,7 +837,7 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 		return;
 	}
 
-	if (camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
+	if (camera->IsInside(transform->GetEncapsuledAABB()))
 	{
 		ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
 		if (gameObject->IsActive() && (mesh == nullptr || mesh->IsEnabled()))
@@ -810,9 +889,9 @@ void ModuleRender::RelocateGOInBatches(GameObject* go)
 float2 ModuleRender::ParallelReduction(Program* program, int width, int height)
 {
 	program->Activate();
-	
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("ComputeShader - Parallel Reduction")),
-		"ComputeShader - Parallel Reduction");
+
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Parallel Reduction")),
+		"Parallel Reduction");
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gBuffer->GetDepthTexture());
@@ -822,8 +901,8 @@ float2 ModuleRender::ParallelReduction(Program* program, int width, int height)
 
 	program->BindUniformInt2("inSize", width, height);
 
-	unsigned int numGroupsX = (width + (8 - 1)) / 8;
-	unsigned int numGroupsY = (height + (4 - 1)) / 4;
+	unsigned int numGroupsX = (width + (16 - 1)) / 16;
+	unsigned int numGroupsY = (height + (8 - 1)) / 8;
 
 	glDispatchCompute(numGroupsX, numGroupsY, 1);
 	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
@@ -858,8 +937,7 @@ float2 ModuleRender::ParallelReduction(Program* program, int width, int height)
 
 	program->Activate();
 	
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("ComputeShader - Min Max")), 
-		"ComputeShader - Min Max");
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Min Max")), "Min Max");
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, srcTexture);
@@ -897,40 +975,29 @@ void ModuleRender::RenderShadowMap(const GameObject* light, const float2& minMax
 	// Compute camera frustrum bounding sphere
 	math::Frustum* cameraFrustum = new Frustum(*App->GetModule<ModuleCamera>()->GetCamera()->GetFrustum());
 
-	// SDSM: Final near an far distances
+	// SDSM: Calculus for the final near an far planes
 	float n = cameraFrustum->NearPlaneDistance();
 	float f = cameraFrustum->FarPlaneDistance();
 	float T = -(n + f) / (f - n);
 	float S = (-2 * f * n) / (f - n);
-	float distMin = S / (T + minMax[0]);
-	float distMax = S / (T + minMax[1]);
+	float lightNear = S / (T + minMax[0]);
+	float lightFar = S / (T + minMax[1]);
 
-	if (distMin > distMax) {
-		distMin = 0.1f;
+	if (lightNear > lightFar) {
+		lightNear = 0.1f;
 	}
 
-	cameraFrustum->SetViewPlaneDistances(distMin, distMax);
+	cameraFrustum->SetViewPlaneDistances(lightNear, lightFar);
 
-	math::vec corners[8];
+	float3 corners[8];
 	cameraFrustum->GetCornerPoints(corners);
 
-	float3 sumCorners(0.0f);
-
-	for (unsigned int i = 0; i < 8; ++i)
-	{
-		sumCorners += corners[i];
-	}
-
-	const float3 sphereCenter = sumCorners.Div(8.0f);
+	const float3 sphereCenter = cameraFrustum->CenterPoint();
 	float sphereRadius = 0.0f;
 
 	for (unsigned int i = 0; i < 8; ++i)
 	{
-		float distance = sphereCenter.Distance(corners[i]);
-		if (distance > sphereRadius)
-		{
-			sphereRadius = distance;
-		}
+		sphereRadius = std::max(sphereRadius, sphereCenter.Distance(corners[i]));
 	}
 
 	// Compute bounding box
@@ -971,6 +1038,64 @@ void ModuleRender::RenderShadowMap(const GameObject* light, const float2& minMax
 	batchManager->DrawMeshes(objectsInFrustum, float3(frustum.Pos()));
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	program->Deactivate();
+
+	glPopDebugGroup();
+}
+
+void ModuleRender::ShadowDepthVariacne(int width, int height)
+{
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SHADOW_DEPTH_VARIANCE);
+
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Shadow Depth Variance"), "Shadow Depth Variance");
+
+	program->Activate();
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, gShadowMap);
+
+	glBindImageTexture(0, shadowVarianceTexture, 0, false, 0, GL_WRITE_ONLY, GL_RG32F);
+
+	program->BindUniformInt2("inSize", width, height);
+
+	unsigned int numGroupsX = (width + (16 - 1)) / 16;
+	unsigned int numGroupsY = (height + (8 - 1)) / 8;
+
+	glDispatchCompute(numGroupsX, numGroupsY, 1);
+	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+
+	program->Deactivate();
+
+	glPopDebugGroup();
+}
+
+void ModuleRender::GaussianBlur(int width, int height)
+{
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::GAUSSIAN_BLUR);
+
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Gaussian Blur"), "Gaussian Blur");
+
+	program->Activate();
+
+	glBindFramebuffer(GL_FRAMEBUFFER, blurShadowMapBuffer[0]);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, shadowVarianceTexture);
+
+	program->BindUniformFloat2("invSize", float2(1.0f / width, 1.0f / height));
+	program->BindUniformFloat2("blurDirection", float2(1.0f, 0.0f));
+
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, blurShadowMapBuffer[1]);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, gBluredShadowMap[0]);
+
+	program->BindUniformFloat2("blurDirection", float2(0.0f, 1.0f));
+
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 
 	program->Deactivate();
 
@@ -1025,9 +1150,15 @@ void ModuleRender::BindCameraToProgram(Program* program)
 
 void ModuleRender::BindCubemapToProgram(Program* program)
 {
+	Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
+
+	if (cubemap == nullptr)
+	{
+		return;
+	}
+
 	program->Activate();
 
-	Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
 	glActiveTexture(GL_TEXTURE8);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
 	glActiveTexture(GL_TEXTURE9);
@@ -1062,6 +1193,7 @@ void ModuleRender::KawaseDualFiltering()
 	//glPopDebugGroup();
 
 	ModuleWindow* moduleWindow = App->GetModule<ModuleWindow>();
+
 	std::pair<int, int> windowSize = moduleWindow->GetWindowSize();
 	
 	float auxWidht = static_cast<float>(windowSize.first), auxHeight = static_cast<float>(windowSize.second);
@@ -1116,6 +1248,20 @@ void ModuleRender::KawaseDualFiltering()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	glViewport(0, 0, windowSize.first, windowSize.second);
+}
+
+Camera* ModuleRender::GetFrustumCheckedCamera() const
+{
+	ModuleCamera* moduleCamera = App->GetModule<ModuleCamera>();
+	ComponentCamera* frustumCheckedCamera = moduleCamera->GetFrustumCheckedCamera();
+	if (!frustumCheckedCamera)
+	{
+		return moduleCamera->GetCamera();
+	}
+	else
+	{
+		return (Camera*) frustumCheckedCamera->GetCamera();
+	}
 }
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)

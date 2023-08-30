@@ -21,12 +21,14 @@ enum class ComponentType
 	MESHCOLLIDER,
 	SCRIPT,
 	BREAKABLE,
-	PARTICLE,
 	CUBEMAP,
 	TRAIL,
 	LINE,
-	PLAYERINPUT,
 	RENDER
+	AGENT,
+	OBSTACLE,
+	PARTICLE,
+	PLAYERINPUT
 };
 
 class ComponentAnimation;
@@ -48,7 +50,8 @@ class ComponentTransform;
 class ComponentTrail;
 class ComponentLine;
 class ComponentRender;
-
+class ComponentAgent;
+class ComponentObstacle;
 class ComponentButton;
 class ComponentCanvas;
 class ComponentImage;
@@ -184,6 +187,18 @@ template<>
 struct ComponentToEnum<ComponentTransform2D>
 {
 	const static ComponentType value = ComponentType::TRANSFORM2D;
+};
+
+template<>
+struct ComponentToEnum<ComponentAgent>
+{
+	const static ComponentType value = ComponentType::AGENT;
+};
+
+template<>
+struct ComponentToEnum<ComponentObstacle>
+{
+	const static ComponentType value = ComponentType::OBSTACLE;
 };
 
 template<>

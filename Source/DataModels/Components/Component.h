@@ -124,6 +124,10 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_Render";
 		case ComponentType::LINE:
 			return "Component_Line";
+		case ComponentType::AGENT:
+			return "Component_Agent";
+		case ComponentType::OBSTACLE:
+			return "Component_Obstacle";
 		case ComponentType::PARTICLE:
 			return "Component_Particle";
 		case ComponentType::TRAIL:
@@ -249,6 +253,14 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Line")
 	{
 		return ComponentType::LINE;
+	}
+	if (typeName == "Component_Agent")
+	{
+		return ComponentType::AGENT;
+	}
+	if (typeName == "Component_Obstacle")
+	{
+		return ComponentType::OBSTACLE;
 	}
 
 	return ComponentType::UNKNOWN;

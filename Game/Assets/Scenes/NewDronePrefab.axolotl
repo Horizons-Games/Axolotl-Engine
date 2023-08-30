@@ -3592,7 +3592,7 @@
                             "type": "Component_RigidBody",
                             "active": true,
                             "removed": true,
-                            "isKinematic": false,
+                            "isKinematic": true,
                             "isTrigger": true,
                             "drawCollider": true,
                             "mass": 100.0,

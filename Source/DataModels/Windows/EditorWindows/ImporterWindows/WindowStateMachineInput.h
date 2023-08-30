@@ -1,16 +1,23 @@
 #pragma once
 #include "Windows/EditorWindows/WindowFileBrowser.h"
 
-class ComponentAnimation;
+class StateMachine;
 
 class WindowStateMachineInput : public WindowFileBrowser
 {
 public:
-	WindowStateMachineInput(ComponentAnimation* state);
+	WindowStateMachineInput(StateMachine* stateMachineInstance);
 	~WindowStateMachineInput() override;
+
+	void SetStateMachine(StateMachine* statemachine);
 
 	void DoThisIfOk() override;
 
 private:
-	ComponentAnimation* component;
+	StateMachine* stateMachineInstance;
 };
+
+inline void WindowStateMachineInput::SetStateMachine(StateMachine* statemachine)
+{
+	stateMachineInstance = statemachine;
+}
