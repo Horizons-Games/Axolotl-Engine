@@ -43,6 +43,7 @@ bool ModuleCamera::Start()
 	}
 #ifdef ENGINE
 	selectedCamera = camera.get();
+	frustumCheckedCamera = selectedCamera;
 #else  // ENGINE
 	// selectedPosition = 1;
 	// SetSelectedCamera(selectedPosition);
@@ -174,6 +175,39 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 		}
 	}
 }
+
+
+ComponentCamera* ModuleCamera::GetFrustumCheckedCamera() const
+{
+	std::vector<ComponentCamera*> loadedCameras = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCameras();
+	for (auto camera: loadedCameras)
+	{
+		if (camera->IsFrustumChecked())
+		{
+			return camera;
+		}
+	}
+
+	return nullptr;
+}
+
+void ModuleCamera::SetFrustumCheckedCamera(ComponentCamera* camera)
+{
+	std::vector<ComponentCamera*> loadedCameras = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCameras();
+
+	for (ComponentCamera* loadedCamera : loadedCameras)
+	{
+		if (loadedCamera != camera)
+		{
+			loadedCamera->SetFrustumChecked(false);
+		}
+		else
+		{
+			loadedCamera->SetFrustumChecked(true);
+		}
+	}
+}
+
 
 void ModuleCamera::RecalculateOrthoProjectionMatrix()
 {

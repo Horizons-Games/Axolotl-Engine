@@ -18,6 +18,7 @@ class Quadtree;
 class Program;
 class Cubemap;
 class GameObject;
+class Camera;
 class GeometryBatch;
 class BatchManager;
 class ComponentMeshRenderer;
@@ -97,6 +98,8 @@ private:
 	void RenderShadowMap(const GameObject* light, const float2& minMax);
 	void ShadowDepthVariacne(int width, int height);
 	void GaussianBlur(int width, int height);
+
+	Camera* GetFrustumCheckedCamera() const;
 
 private:
 
