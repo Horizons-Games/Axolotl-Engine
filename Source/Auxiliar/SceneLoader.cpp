@@ -17,6 +17,7 @@
 
 #include "DataModels/Components/ComponentCamera.h"
 #include "DataModels/Components/ComponentParticleSystem.h"
+#include "DataModels/Components/ComponentRender.h"
 #include "DataModels/Components/ComponentRigidBody.h"
 #include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/Components/UI/ComponentButton.h"
