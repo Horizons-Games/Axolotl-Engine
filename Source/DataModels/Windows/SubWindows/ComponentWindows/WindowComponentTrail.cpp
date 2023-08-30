@@ -11,7 +11,7 @@
 
 #define DURATION_MIN_VALUE 0.1f
 #define DURATION_MAX_VALUE 25.f
-#define MIN_DISTANCE_MIN_VALUE 1.f
+#define MIN_DISTANCE_MIN_VALUE 0.5f
 #define MIN_DISTANCE_MAX_VALUE 10.f
 #define WIDTH_MIN_VALUE 0.05f
 #define WIDTH_MAX_VALUE 10.f
@@ -81,7 +81,7 @@ void WindowComponentTrail::DrawWindowContents()
 			
 			float minDistance = componentTrail->GetMinDistance();
 
-			if (ImGui::DragFloat("##MinimumDistance", &minDistance, 0.1f, MIN_DISTANCE_MIN_VALUE, MIN_DISTANCE_MAX_VALUE, "%.2f"))
+			if (ImGui::DragFloat("##MinimumDistance", &minDistance, 0.05f, MIN_DISTANCE_MIN_VALUE, MIN_DISTANCE_MAX_VALUE, "%.2f"))
 			{
 				if (minDistance > MIN_DISTANCE_MAX_VALUE)
 				{
