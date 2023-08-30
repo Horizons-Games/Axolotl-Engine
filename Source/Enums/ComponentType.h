@@ -24,7 +24,7 @@ enum class ComponentType
 	CUBEMAP,
 	TRAIL,
 	LINE,
-	RENDER
+	RENDER,
 	AGENT,
 	OBSTACLE,
 	PARTICLE,
