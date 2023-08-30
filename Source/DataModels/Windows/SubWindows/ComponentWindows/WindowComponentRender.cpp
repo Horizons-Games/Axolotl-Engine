@@ -4,8 +4,8 @@
 
 #include "Components/ComponentRender.h"
 
-#define INTENSITY_MIN_VALUE 0.f
-#define INTENSITY_MAX_VALUE 25.f
+#define INTENSITY_MIN_VALUE 0.05f
+#define INTENSITY_MAX_VALUE 10.f
 
 WindowComponentRender::WindowComponentRender(ComponentRender* component) : ComponentWindow("MODULE RENDER", component)
 {
