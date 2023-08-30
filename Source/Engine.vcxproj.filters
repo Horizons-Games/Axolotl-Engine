@@ -694,7 +694,7 @@
       <Filter>Auxiliar</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
-    <ClCompile Include="AnimatedLine.cpp">
+    <ClCompile Include="..\Game\Scripts\AnimatedLine.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1435,7 +1435,7 @@
     <ClInclude Include="Auxiliar\ConnectedCallback.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
-    <ClInclude Include="AnimatedLine.h">
+    <ClInclude Include="..\Game\Scripts\AnimatedLine.h">
       <Filter>UserScripts\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
@@ -2467,9 +2467,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
       <Filter>DataModels\Windows\EditorWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
-      <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
