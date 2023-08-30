@@ -19,8 +19,11 @@ ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(C
 	numTiles(1),speed(0.0f),time(0.0f),dirtyBuffers(true),offset(float2::zero),tiling(float2::one), gradient(new ImGradient()),
 	sizeFading(float2::one),sizeFadingPoints(float4::zero)
 {
-	LoadBuffers();
-	UpdateBuffers();
+	App->ScheduleTask([this]()
+		{
+			LoadBuffers();
+			UpdateBuffers();
+		});
 }
 
 ComponentLine::~ComponentLine()
