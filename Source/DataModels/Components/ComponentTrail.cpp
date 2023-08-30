@@ -213,6 +213,7 @@ void ComponentTrail::InternalLoad(const Json& meta)
 		texture = resourceTexture;
 	}
 #endif // ENGINE
+	CreateBuffers();
 }
 
 void ComponentTrail::CreateBuffers()
