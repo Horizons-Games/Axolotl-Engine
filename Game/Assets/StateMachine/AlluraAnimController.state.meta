@@ -2,8 +2,15 @@
     "UID": 13411801980511590819,
     "Type": "StateMachine",
     "ResourcesAssetPaths": [
-        "Assets/Animation/AlluraNewVersion.Armature_AlluraIdle.anim",
-        "Assets/Animation/AlluraNewVersion.Armature_AlluraIdleRandom2Loop.anim",
-        "Assets/Animation/AlluraNewVersion.Armature_AlluraIdleRandom3.anim"
+        "Assets/Animation/AlluraControllerV1.Armature_AlluraIdle.anim",
+        "Assets/Animation/AlluraControllerV1.Armature_AlluraIdleRandom2Loop.anim",
+        "Assets/Animation/AlluraControllerV1.Armature_AlluraIdleRandom3.anim",
+        "Assets/Animation/AlluraControllerV1.Armature_AlluraRun.anim",
+        "Assets/Animation/AlluraControllerV1.Armature_AlluraIdleRandom2Intro.anim",
+        "Assets/Animation/AlluraControllerV1.Armature_Attack1AlluraKeeping.anim",
+        "Assets/Animation/AlluraControllerV1.Armature_Attack3Allura.anim",
+        "Assets/Animation/BixControllerv4_1.Armature_DashInit.anim",
+        "Assets/Animation/BixControllerv4_1.Armature_DashKeeping.anim",
+        "Assets/Animation/BixControllerv4_1.Armature_DashFinish.anim"
     ]
 }

@@ -210,7 +210,6 @@ void BixAttackScript::HeavyNormalAttack()
 	{
 		ThrowBasicAttack(enemyAttacked, attackHeavy);
 	}
-
 	
 	isAttacking = true;
 }

@@ -184,16 +184,16 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 	}
 
-	if (componentAnimation->GetActualStateName() == "BixDashingKeep" && canDash)
+	if (componentAnimation->GetActualStateName() == "DashingKeep" && canDash)
 	{
 		Dash();
 		canDash = false;
 	}
 
 	// Turn off dash animation correctly
-	if (componentAnimation->GetActualStateName() == "BixDashingInit" ||
-		componentAnimation->GetActualStateName() == "BixDashingKeep" ||
-		componentAnimation->GetActualStateName() == "BixDashingEnd")
+	if (componentAnimation->GetActualStateName() == "DashingInit" ||
+		componentAnimation->GetActualStateName() == "DashingKeep" ||
+		componentAnimation->GetActualStateName() == "DashingEnd")
 	{
 		componentAnimation->SetParameter("IsDashing", false);
 	}
