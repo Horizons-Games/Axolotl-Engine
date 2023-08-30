@@ -15,6 +15,7 @@ class Quadtree;
 class Program;
 class Cubemap;
 class GameObject;
+class Camera;
 class GeometryBatch;
 class BatchManager;
 class ComponentMeshRenderer;
@@ -72,6 +73,8 @@ private:
 
 	void BindCameraToProgram(Program* program);
 	void BindCubemapToProgram(Program* program);
+
+	Camera* GetFrustumCheckedCamera() const;
 
 	void* context;
 
