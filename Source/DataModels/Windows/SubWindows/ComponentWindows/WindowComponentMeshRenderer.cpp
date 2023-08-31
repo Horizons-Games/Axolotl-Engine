@@ -20,9 +20,6 @@
 #include "DataModels/Resources/ResourceMesh.h"
 #include "DataModels/Resources/ResourceTexture.h"
 
-#define BLOOM_MAX_VALUE 5.f
-#define BLOOM_MIN_VALUE 0.05f
-
 const std::vector<std::string> WindowComponentMeshRenderer::shaderTypes = { "Default", "Specular" };
 const std::vector<std::string> WindowComponentMeshRenderer::renderModes = { "Opaque", "Transparent" };
 
