@@ -31,7 +31,7 @@ private:
 	bool patrolStateActivated;
 	bool isStoppedAtPatrol;
 	float patrolStopDuration;
-	float originStopTime;
+	float totalPatrolTime;
 	std::string patrolAnimationParamater;
 
 	void GetNearestPatrollingPoint();

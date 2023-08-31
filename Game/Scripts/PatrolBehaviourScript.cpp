@@ -14,8 +14,8 @@
 
 REGISTERCLASS(PatrolBehaviourScript);
 
-PatrolBehaviourScript::PatrolBehaviourScript() : Script(), ownerTransform(nullptr), 
-aiMovement(nullptr), currentWayPoint(0), isStoppedAtPatrol(true), patrolStopDuration(5.0f), originStopTime(0.0f), 
+PatrolBehaviourScript::PatrolBehaviourScript() : Script(), ownerTransform(nullptr),
+aiMovement(nullptr), currentWayPoint(0), isStoppedAtPatrol(true), patrolStopDuration(5.0f), totalPatrolTime(0.0f),
 patrolStateActivated(false), componentAnimation(nullptr), patrolAnimationParamater("")
 {
 	REGISTER_FIELD(waypointsPatrol, std::vector<ComponentTransform*>);
@@ -45,16 +45,21 @@ void PatrolBehaviourScript::Update(float deltaTime)
 		{
 			Patrolling();
 		}
-		else if (waypointsPatrol.size() > 1 && SDL_GetTicks() / 1000.0f >= originStopTime + patrolStopDuration)
+		else
 		{
-			isStoppedAtPatrol = false;
+			totalPatrolTime += deltaTime;
+			if (waypointsPatrol.size() > 1 && totalPatrolTime >= patrolStopDuration)
+			{
+				isStoppedAtPatrol = false;
+				totalPatrolTime = 0;
 
-			CheckNextWaypoint();
+				CheckNextWaypoint();
 
-			aiMovement->SetTargetPosition(waypointsPatrol[currentWayPoint]->GetGlobalPosition());
-			aiMovement->SetMovementStatuses(true, true);
+				aiMovement->SetTargetPosition(waypointsPatrol[currentWayPoint]->GetGlobalPosition());
+				aiMovement->SetMovementStatuses(true, true);
 
-			componentAnimation->SetParameter(patrolAnimationParamater, true);
+				componentAnimation->SetParameter(patrolAnimationParamater, true);
+			}
 		}
 	}
 }
@@ -83,7 +88,6 @@ void PatrolBehaviourScript::Patrolling()
 		aiMovement->SetMovementStatuses(false, false);
 
 		isStoppedAtPatrol = true;
-		originStopTime = SDL_GetTicks() / 1000.0f;
 		if (patrolAnimationParamater != "")
 			componentAnimation->SetParameter(patrolAnimationParamater, false);
 	}
@@ -91,14 +95,7 @@ void PatrolBehaviourScript::Patrolling()
 
 void PatrolBehaviourScript::CheckNextWaypoint()
 {
-	if (currentWayPoint == waypointsPatrol.size() - 1)
-	{
-		currentWayPoint = 0;
-	}
-	else
-	{
-		currentWayPoint++;
-	}
+	currentWayPoint = (currentWayPoint + 1) % waypointsPatrol.size();
 }
 
 void PatrolBehaviourScript::RandomPatrolling(bool isFirstPatrolling)
@@ -118,7 +115,7 @@ void PatrolBehaviourScript::RandomPatrolling(bool isFirstPatrolling)
 
 void PatrolBehaviourScript::GetNearestPatrollingPoint()
 {
-	for (int i = 0; i < waypointsPatrol.size() ; ++i)
+	for (int i = 0; i < waypointsPatrol.size(); ++i)
 	{
 		if (ownerTransform->GetGlobalPosition().Distance(waypointsPatrol[i]->GetGlobalPosition()) <=
 			ownerTransform->GetGlobalPosition().Distance(waypointsPatrol[currentWayPoint]->GetGlobalPosition()))
