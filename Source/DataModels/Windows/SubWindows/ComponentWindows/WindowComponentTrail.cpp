@@ -60,15 +60,15 @@ void WindowComponentTrail::DrawWindowContents()
 			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 
-			if (ImGui::DragFloat("##Duration", &duration, 0.1f, INTENSITY_MIN_VALUE, INTENSITY_MAX_VALUE, "%.2f"))
+			if (ImGui::DragFloat("##Duration", &duration, 0.1f, DURATION_MIN_VALUE, DURATION_MAX_VALUE, "%.2f"))
 			{
-				if (duration > INTENSITY_MAX_VALUE)
+				if (duration > DURATION_MAX_VALUE)
 				{
-					duration = INTENSITY_MAX_VALUE;
+					duration = DURATION_MAX_VALUE;
 				}
-				else if (duration < INTENSITY_MIN_VALUE)
+				else if (duration < DURATION_MIN_VALUE)
 				{
-					duration = INTENSITY_MIN_VALUE;
+					duration = DURATION_MIN_VALUE;
 				}
 				componentTrail->SetDuration(duration);
 			}
