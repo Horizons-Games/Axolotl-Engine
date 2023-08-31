@@ -1,5 +1,6 @@
 #include "StdAfx.h"
-#include "ComponentNotFoundException.h"
+
+#include "Exceptions/ComponentNotFoundException.h"
 
  ComponentNotFoundException::ComponentNotFoundException(const std::string& message) : message(message)
 {

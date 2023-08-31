@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Auxiliar/ComponentNotFoundException.h"
+#include "Exceptions/ComponentNotFoundException.h"
+#include "Formatter.h"
 
 #include <concepts>
 
@@ -65,11 +66,11 @@ C* GameObject::GetComponent() const
 	{
 		if constexpr (axo::detail::IsScript<C>)
 		{
-			throw ComponentNotFoundException("Script of type " + std::string(typeid(C).name()) + " not found");
+			throw ComponentNotFoundException(axo::Format("Script of type {} not found", std::string(typeid(C).name())));
 		}
 		else
 		{
-			throw ComponentNotFoundException("Component of type " + std::string(typeid(C).name()) + " not found");
+			throw ComponentNotFoundException(axo::Format("Component of type {} not found", std::string(typeid(C).name())));
 		}
 	}
 	return internalResult;

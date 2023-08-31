@@ -18,6 +18,9 @@
 
 #include "ComponentRigidBody.h"
 
+#include "Exceptions/ComponentNotFoundException.h"
+#include "Exceptions/ScriptAssertFailedException.h"
+
 namespace
 {
 // helper method to handle exception and validity state of the component
@@ -36,6 +39,14 @@ void RunScriptMethodAndHandleException(bool& scriptFailedState, ComponentScript*
 	catch (const ComponentNotFoundException& exception)
 	{
 		LOG_ERROR("Error during execution of script {}, owned by {}. Error message: {}",
+				  script->GetConstructName(),
+				  script->GetOwner(),
+				  exception.what());
+		scriptFailedState = true;
+	}
+	catch (const ScriptAssertFailedException& exception)
+	{
+		LOG_ERROR("Assertion failed during execution of script {}, owned by {}. Error message: {}",
 				  script->GetConstructName(),
 				  script->GetOwner(),
 				  exception.what());
