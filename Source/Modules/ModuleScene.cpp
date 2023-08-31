@@ -433,16 +433,7 @@ void ModuleScene::RemoveGameObject(const GameObject* object)
 	}
 }
 
-bool ModuleScene::hasNewUID(UID oldUID, UID& newUID)
+bool ModuleScene::HasNewUID(UID oldUID, UID& newUID)
 {
-	const auto& uid = uidMap.find(oldUID);
-	if (uid == uidMap.end())
-	{
-		return false;
-	}
-	else
-	{
-		newUID = uid->second;
-		return true;
-	}
+	return loader::HasNewUID(oldUID, newUID);
 }
