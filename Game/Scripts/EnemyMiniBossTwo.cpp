@@ -9,6 +9,7 @@
 
 #include "../Scripts/SeekBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
+#include "../Scripts/EnemyDeathScript.h"
 
 REGISTERCLASS(EnemyMiniBossTwo);
 
@@ -74,16 +75,20 @@ void EnemyMiniBossTwo::Update(float deltaTime)
 			bossState = MiniBossTwoBehaviours::SEEK;
 		}
 	}
-
-
-
-
-	/*if (seekScript && droneState == DroneBehaviours::SEEK)
-	{
-		seekScript->Seeking();
-
-		componentAnimation->SetParameter("IsSeeking", true);
-		componentAnimation->SetParameter("IsAttacking", false);
-	}*/
-
 }
+
+
+void EnemyMiniBossTwo::SetReadyToDie()
+{
+	componentAnimation->SetParameter("IsDead", true);
+
+	deathScript->ManageEnemyDeath();
+}
+
+/*if (seekScript && droneState == DroneBehaviours::SEEK)
+{
+	seekScript->Seeking();
+
+	componentAnimation->SetParameter("IsSeeking", true);
+	componentAnimation->SetParameter("IsAttacking", false);
+}*/

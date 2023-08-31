@@ -8,6 +8,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class SeekBehaviourScript;
 class HealthSystem;
 class PatrolBehaviourScript;
+class EnemyDeathScript;
 class ComponentTransform;
 class ComponentAnimation;
 class ComponentAudioSource;
@@ -29,12 +30,15 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void SetReadyToDie() override;
+
 private:
 	float attackDistance;
 	float seekDistance;
 
 	SeekBehaviourScript* seekScript;
 	HealthSystem* healthScript;
+	EnemyDeathScript* deathScript;
 
 	ComponentTransform* ownerTransform;
 	ComponentAnimation* componentAnimation;

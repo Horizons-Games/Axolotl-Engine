@@ -707,6 +707,18 @@
     <ClCompile Include="Auxiliar\ConnectedCallback.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyMiniBossTwo.cpp">
+      <Filter>UserScripts\Gameplay\Bosses\Mini Bosses</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BoostOfEnergy.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SendTriggerCollision.cpp">
+      <Filter>UserScripts\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\Rotator.cpp">
+      <Filter>UserScripts\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1452,6 +1464,18 @@
     <ClInclude Include="Auxiliar\ConnectedCallback.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EnemyMiniBossTwo.h">
+      <Filter>UserScripts\Gameplay\Bosses\Mini Bosses</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BoostOfEnergy.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SendTriggerCollision.h">
+      <Filter>UserScripts\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\Rotator.h">
+      <Filter>UserScripts\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1645,6 +1669,15 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack">
       <UniqueIdentifier>{2b97e352-8e22-4d91-ac22-fbfbf32559ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Bosses\Mini Bosses">
+      <UniqueIdentifier>{b3cad3b5-5a43-429c-9339-e86d553cc7ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergy">
+      <UniqueIdentifier>{01039681-e112-4639-9454-68dee8340230}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Utils">
+      <UniqueIdentifier>{83b50d1a-6354-4710-a475-60dfc77703e1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2179,9 +2212,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
       <Filter>DataModels\Windows\EditorWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
-      <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
