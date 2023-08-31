@@ -514,7 +514,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 					if (fieldUID != 0)
 					{
 						UID newFieldUID;
-						if (App->GetModule<ModuleScene>()->hasNewUID(fieldUID, newFieldUID))
+						if (App->GetModule<ModuleScene>()->HasNewUID(fieldUID, newFieldUID))
 						{
 							optField.value().setter(
 								App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(newFieldUID));
@@ -615,7 +615,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 							if (fieldUID != 0)
 							{
 								UID newFieldUID;
-								if (App->GetModule<ModuleScene>()->hasNewUID(fieldUID, newFieldUID))
+								if (App->GetModule<ModuleScene>()->HasNewUID(fieldUID, newFieldUID))
 								{
 									vectorCase.push_back((GameObject*) App->GetModule<ModuleScene>()
 															 ->GetLoadedScene()
