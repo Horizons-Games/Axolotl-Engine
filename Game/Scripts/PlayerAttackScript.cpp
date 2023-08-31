@@ -1,4 +1,4 @@
-#include "BixAttackScript.h"
+#include "PlayerAttackScript.h"
 
 #include "Application.h"
 
@@ -36,9 +36,9 @@
 
 #include "AxoLog.h"
 
-REGISTERCLASS(BixAttackScript);
+REGISTERCLASS(PlayerAttackScript);
 
-BixAttackScript::BixAttackScript() : Script(), 
+PlayerAttackScript::PlayerAttackScript() : Script(), 
 	isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
 	animation(nullptr), transform(nullptr),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), jumpFinisherScript(nullptr),
@@ -65,7 +65,7 @@ BixAttackScript::BixAttackScript() : Script(),
 	REGISTER_FIELD(bulletVelocity, float);
 }
 
-void BixAttackScript::Start()
+void PlayerAttackScript::Start()
 {
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	transform = owner->GetComponent<ComponentTransform>();
@@ -83,7 +83,7 @@ void BixAttackScript::Start()
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 }
 
-void BixAttackScript::Update(float deltaTime)
+void PlayerAttackScript::Update(float deltaTime)
 {
 	// Mark the enemy that is going to be attacked
 	UpdateEnemyDetection();
@@ -102,7 +102,7 @@ void BixAttackScript::Update(float deltaTime)
 	}
 }
 
-void BixAttackScript::UpdateEnemyDetection()
+void PlayerAttackScript::UpdateEnemyDetection()
 {
 	if (comboSystem->NextIsSpecialAttack())
 	{
@@ -115,7 +115,7 @@ void BixAttackScript::UpdateEnemyDetection()
 	}
 }
 
-void BixAttackScript::PerformCombos()
+void PlayerAttackScript::PerformCombos()
 {
 	currentAttack = comboSystem->CheckAttackInput(!playerManager->IsGrounded());
 	switch (currentAttack)
@@ -155,7 +155,7 @@ void BixAttackScript::PerformCombos()
 	}
 }
 
-void BixAttackScript::LightNormalAttack()
+void PlayerAttackScript::LightNormalAttack()
 {
 	//Activate visuals and audios
 	animation->SetParameter("IsLightAttacking", true);
@@ -184,7 +184,7 @@ void BixAttackScript::LightNormalAttack()
 	isAttacking = true;
 }
 
-void BixAttackScript::HeavyNormalAttack()
+void PlayerAttackScript::HeavyNormalAttack()
 {
 	//Activate visuals and audios
 	animation->SetParameter("IsHeavyAttacking", true);
@@ -214,7 +214,7 @@ void BixAttackScript::HeavyNormalAttack()
 	isAttacking = true;
 }
 
-void BixAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDamage)
+void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDamage)
 {
 	// Create a new bullet
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
@@ -225,7 +225,7 @@ void BixAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDamage)
 	bullet->GetComponent<LightAttackBullet>()->SetDamage(nDamage);
 }
 
-void BixAttackScript::JumpNormalAttack()
+void PlayerAttackScript::JumpNormalAttack()
 {
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
@@ -243,7 +243,7 @@ void BixAttackScript::JumpNormalAttack()
 	comboSystem->SuccessfulAttack(comboCountJump, AttackType::JUMPNORMAL);
 }
 
-void BixAttackScript::LightFinisher()
+void PlayerAttackScript::LightFinisher()
 {
 	animation->SetParameter("LightFinisherAttacking", true);
 	isAttacking = true;
@@ -253,7 +253,7 @@ void BixAttackScript::LightFinisher()
 	comboSystem->SuccessfulAttack(-comboCountLight * 2, AttackType::LIGHTFINISHER);
 }
 
-void BixAttackScript::HeavyFinisher()
+void PlayerAttackScript::HeavyFinisher()
 {
 	lightWeapon->Disable();
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
@@ -273,7 +273,7 @@ void BixAttackScript::HeavyFinisher()
 	}
 }
 
-void BixAttackScript::JumpFinisher()
+void PlayerAttackScript::JumpFinisher()
 {
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
@@ -291,7 +291,7 @@ void BixAttackScript::JumpFinisher()
 	comboSystem->SuccessfulAttack(-comboCountJump * 2, AttackType::JUMPFINISHER);
 }
 
-void BixAttackScript::ResetAttackAnimations()
+void PlayerAttackScript::ResetAttackAnimations()
 {
 	switch (currentAttack)
 	{
@@ -357,7 +357,7 @@ void BixAttackScript::ResetAttackAnimations()
 	}
 }
 
-void BixAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAttack) 
+void PlayerAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAttack) 
 {
 	if (enemyAttacked != nullptr)
 	{
@@ -368,22 +368,22 @@ void BixAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAttack)
 	}
 }
 
-bool BixAttackScript::IsAttackAvailable() const
+bool PlayerAttackScript::IsAttackAvailable() const
 {
 	return !isAttacking;
 }
 
-bool BixAttackScript::IsPerfomingJumpAttack() const
+bool PlayerAttackScript::IsPerfomingJumpAttack() const
 {
 	return isJumpAttacking;
 }
 
-bool BixAttackScript::IsDeathTouched() const
+bool PlayerAttackScript::IsDeathTouched() const
 {
 	return isDeathTouched;
 }
 
-void BixAttackScript::SetIsDeathTouched(bool isDeathTouched)
+void PlayerAttackScript::SetIsDeathTouched(bool isDeathTouched)
 {
 	this->isDeathTouched = isDeathTouched;
 }

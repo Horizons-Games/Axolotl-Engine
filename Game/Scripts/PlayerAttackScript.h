@@ -28,12 +28,12 @@ enum class AttackCombo
 	THIRD_ATTACK
 };
 
-class BixAttackScript : public Script
+class PlayerAttackScript : public Script
 {
 
 public:
-	BixAttackScript();
-	~BixAttackScript() override = default;
+	PlayerAttackScript();
+	~PlayerAttackScript() override = default;
 
 	bool IsDeathTouched() const;
 	void SetIsDeathTouched(bool isDeathTouch);

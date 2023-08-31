@@ -15,7 +15,7 @@
 #include "Auxiliar/Audio/AudioData.h"
 
 #include "../Scripts/PlayerJumpScript.h"
-#include "../Scripts/BixAttackScript.h"
+#include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/PlayerForceUseScript.h"
 
@@ -41,7 +41,7 @@ void PlayerMoveScript::Start()
 	forceScript = owner->GetComponent<PlayerForceUseScript>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	jumpScript = owner->GetComponent<PlayerJumpScript>();
-	bixAttackScript = owner->GetComponent<BixAttackScript>();
+	bixAttackScript = owner->GetComponent<PlayerAttackScript>();
 	btRigidbody = rigidBody->GetRigidBody();
 
 	camera = App->GetModule<ModulePlayer>()->GetCameraPlayer();

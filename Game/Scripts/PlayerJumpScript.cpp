@@ -10,7 +10,7 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentScript.h"
 
-#include "../Scripts/BixAttackScript.h"
+#include "../Scripts/PlayerAttackScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 #include "MathGeoLib/Include/Geometry/Ray.h"
@@ -42,7 +42,7 @@ void PlayerJumpScript::Start()
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 
-	attackScript = owner->GetComponent<BixAttackScript>();
+	attackScript = owner->GetComponent<PlayerAttackScript>();
 }
 
 void PlayerJumpScript::PreUpdate(float deltaTime)

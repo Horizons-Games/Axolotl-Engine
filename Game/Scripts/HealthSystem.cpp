@@ -5,7 +5,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentParticleSystem.h"
 
-#include "../Scripts/BixAttackScript.h"
+#include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
 #include "../Scripts/PlayerManagerScript.h"
@@ -46,7 +46,7 @@ void HealthSystem::Start()
 
 	if (owner->CompareTag("Player"))
 	{
-		attackScript = owner->GetComponent<BixAttackScript>();
+		attackScript = owner->GetComponent<PlayerAttackScript>();
 	}
 }
 
