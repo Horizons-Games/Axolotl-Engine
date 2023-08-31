@@ -51,17 +51,10 @@ void MeleeHeavyAttackBehaviourScript::Update(float deltaTime)
 		explosionTime -= deltaTime;
 		UpdateDroneColor();
 
-
-
 		if (explosionTime < 0)
 		{
 			attackState = ExplosionState::EXPLODING;
 		}
-
-#ifdef ENGINE
-		dd::sphere(transform->GetGlobalPosition(), dd::colors::DarkViolet, explosionDistance);
-#endif // ENGINE
-
 	}
 
 	else if (attackState == ExplosionState::EXPLODING)
