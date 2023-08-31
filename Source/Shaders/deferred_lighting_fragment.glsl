@@ -59,6 +59,7 @@ uniform mat4 lightSpaceMatrix;
 uniform float minBias;
 uniform float maxBias;
 uniform int useShadows;
+uniform int useVSM;
 
 in vec2 TexCoord;
 
@@ -277,6 +278,30 @@ float ShadowCalculation(vec4 posFromLight, vec3 normal)
     return shadow;
 }
 
+float ChebyshevUpperBound(vec4 posFromLight)
+{
+    // perform perspective divide
+    vec3 projCoords = posFromLight.xyz / posFromLight.w;
+    // transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+	// We retrive the two moments previously stored (depth and depth*depth)
+	vec2 moments = texture2D(gShadowMap,projCoords.xy).rg;
+		
+	// Surface is fully lit. as the current fragment is before the light occluder
+	if (projCoords.z <= moments.x)
+		return 1.0 ;
+	
+	// The fragment is either in shadow or penumbra. We now use chebyshev's upperBound to check
+	// How likely this pixel is to be lit (p_max)
+	float variance = moments.y - (moments.x*moments.x);
+	variance = max(variance,0.00002);
+	
+	float d = projCoords.z - moments.x;
+	float p_max = variance / (variance + d*d);
+	
+	return p_max;
+}
+
 void main()
 {             
     // retrieve data from gbuffer
@@ -298,15 +323,23 @@ void main()
         float roughness = pow(1-smoothness,2) + EPSILON;
 
         // Shadow Mapping
-        float shadow = 0.0;
+        float shadow = 1.0;
         if (useShadows > 0)
         {
             vec4 fragPosFromLightSpace = lightSpaceMatrix*vec4(fragPos, 1.0);
-            shadow = ShadowCalculation(fragPosFromLightSpace, norm);
+
+            if (useVSM == 1)
+            {
+                shadow = ChebyshevUpperBound(fragPosFromLightSpace);
+            }
+            else
+            {
+                shadow = 1 - ShadowCalculation(fragPosFromLightSpace, norm);
+            }            
         }
     
         // Lights
-        vec3 Lo = (1.0 - shadow) * calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
+        vec3 Lo = shadow * calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
 
         if (num_point > 0)
         {

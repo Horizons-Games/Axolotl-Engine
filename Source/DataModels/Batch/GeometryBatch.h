@@ -69,7 +69,7 @@ private:
 		uint64_t diffuse_map;					//48 //8
 		uint64_t normal_map;					//56 //8
 		uint64_t metallic_map;					//64 //8
-		uint64_t emissive_map;					//72 //8 -->80
+		uint64_t emissive_map;					//72 //8 --> 80
 	};
 
 	struct MaterialSpecular 
@@ -112,6 +112,12 @@ private:
 		float2 padding;
 	};
 
+	struct Effect
+	{
+		float3 color;
+		int discard; // works like a boolean
+	};
+
 	struct uint4
 	{
 		unsigned int x, y, z, w;
@@ -133,7 +139,6 @@ private:
 	std::vector<std::shared_ptr<ResourceMaterial>> resourcesMaterial;
 	std::unordered_map<const ComponentMeshRenderer*, int> objectIndexes;
 	std::unordered_map<const ComponentMeshRenderer*, int> paletteIndexes;
-	std::unordered_map<const ComponentMeshRenderer*, int> tilingIndexes;
 	std::vector<ResourceInfo*> resourcesInfo;
 	std::vector<PerInstance> perInstances;
 	std::vector<int> instanceData;
@@ -153,6 +158,7 @@ private:
 	unsigned int transforms[DOUBLE_BUFFERS] = { 0, 0 };
 	unsigned int palettes[DOUBLE_BUFFERS] = { 0, 0 };
 	unsigned int tilingBuffer = 0;
+	unsigned int effectBuffer = 0;
 
 	bool createBuffers;
 	bool reserveModelSpace;
@@ -170,6 +176,7 @@ private:
 	const GLuint bindingPointModel = 10;
 	const GLuint bindingPointMaterial = 11;
 	const GLuint bindingPointTiling = 12;
+	const GLuint bindingPointEffect = 13;
 
 	GLbitfield mapFlags;
 	GLbitfield createFlags;
@@ -177,6 +184,7 @@ private:
 	float4x4* transformData[DOUBLE_BUFFERS];
 	float4x4* paletteData[DOUBLE_BUFFERS];
 	Tiling* tilingData;
+	Effect* effectData;
 	MaterialMetallic* metallicMaterialData;
 	MaterialSpecular* specularMaterialData;
 

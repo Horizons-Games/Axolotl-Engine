@@ -8,6 +8,7 @@
 #include "FileSystem/UID.h"
 
 #define BLOOM_BLUR_PING_PONG 2
+#define GAUSSIAN_BLUR_SHADOW_MAP 2
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -17,6 +18,7 @@ class Quadtree;
 class Program;
 class Cubemap;
 class GameObject;
+class Camera;
 class GeometryBatch;
 class BatchManager;
 class ComponentMeshRenderer;
@@ -49,6 +51,7 @@ public:
 	void ChangeToneMapping();
 	void SwitchBloomActivation();
 	void ToggleShadows();
+	void ToggleVSM();
 
 	GLuint GetRenderedTexture() const;
 	GLuint GetUboCamera() const;
@@ -63,8 +66,8 @@ public:
 
 	void DrawQuadtree(const Quadtree* quadtree);
 
-	float2 ParallelReduction(Program* program, int width, int height);
-	void RenderShadowMap(const GameObject* light, const float2& minMax);
+	void FillCharactersBatches();
+	void RelocateGOInBatches(GameObject* go);
 
 	void DrawMeshesByFilter(std::vector<GameObject*>& objects, ProgramType type, bool normalBehaviour = true);
 
@@ -99,6 +102,15 @@ private:
 
 	void KawaseDualFiltering();
 
+	float2 ParallelReduction(Program* program, int width, int height);
+	void RenderShadowMap(const GameObject* light, const float2& minMax);
+	void ShadowDepthVariacne(int width, int height);
+	void GaussianBlur(int width, int height);
+
+	Camera* GetFrustumCheckedCamera() const;
+
+private:
+
 	void* context;
 
 	float4 backgroundColor;
@@ -120,22 +132,28 @@ private:
 
 	// 0: used in game and engine 
 	// 1: only in engine, stores the final result, to avoid writing and reading at the same time
-	GLuint frameBuffer[2];
-	GLuint renderedTexture[2];
+	GLuint frameBuffer[2] = {0, 0};
+	GLuint renderedTexture[2] = {0, 0};
 
 	// Ping-pong buffers to kawase dual filtering bloom
 	GLuint bloomBlurFramebuffers[BLOOM_BLUR_PING_PONG];
 	GLuint bloomBlurTextures[BLOOM_BLUR_PING_PONG];
 	
 	// Shadow Mapping buffers and textures
-	GLuint depthStencilRenderBuffer;
-	GLuint shadowMapBuffer;
-	GLuint gShadowMap;
-	GLuint parallelReductionInTexture;
-	GLuint parallelReductionOutTexture;
-	GLuint minMaxBuffer;
+	GLuint depthStencilRenderBuffer = 0;
+	GLuint shadowMapBuffer = 0;
+	GLuint gShadowMap = 0;
+	GLuint parallelReductionInTexture = 0;
+	GLuint parallelReductionOutTexture = 0;
+	GLuint minMaxBuffer = 0;
+	
+	// Variance Shadow Mapping buffers and textures
+	GLuint shadowVarianceTexture = 0;
+	GLuint blurShadowMapBuffer[GAUSSIAN_BLUR_SHADOW_MAP];
+	GLuint gBluredShadowMap[GAUSSIAN_BLUR_SHADOW_MAP];
 
 	bool renderShadows;
+	bool varianceShadowMapping;
 
 	friend class ModuleEditor;
 };
@@ -168,6 +186,11 @@ inline void ModuleRender::SwitchBloomActivation()
 inline void ModuleRender::ToggleShadows()
 {
 	renderShadows = !renderShadows;
+}
+
+inline void ModuleRender::ToggleVSM()
+{
+	varianceShadowMapping = !varianceShadowMapping;
 }
 
 inline GLuint ModuleRender::GetRenderedTexture() const

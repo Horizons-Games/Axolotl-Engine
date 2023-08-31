@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
+#include "ModuleRender.h"
 
 #include "DataModels/Resources/Resource.h"
 #include "DataModels/Resources/ResourceTexture.h"
@@ -23,6 +24,8 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentTrail.h"
 #include "Components/ComponentLine.h"
+#include "Components/ComponentAgent.h"
+#include "Components/ComponentObstacle.h"
 
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
@@ -179,6 +182,24 @@ WindowInspector::WindowInspector() :
 		},
 		ComponentFunctionality::GRAPHICS));
 
+	actions.push_back(AddComponentAction(
+		"Create Agent Component",
+		std::bind(&WindowInspector::AddComponentAgent, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentAgent>(gameObject);
+		},
+		ComponentFunctionality::NAVIGATION));
+
+	actions.push_back(AddComponentAction(
+		"Create Obstacle Component",
+		std::bind(&WindowInspector::AddComponentObstacle, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentObstacle>(gameObject);
+		},
+		ComponentFunctionality::NAVIGATION));
+
 	std::sort(std::begin(actions), std::end(actions));
 }
 
@@ -256,7 +277,13 @@ void WindowInspector::InspectSelectedGameObject()
 			ImGui::SameLine();
 			if (ImGui::InputText("##Tag", tag.data(), 32))
 			{
+				std::string previousTag = lastSelectedGameObject->GetTag();
 				lastSelectedGameObject->SetTag(tag.c_str());
+				if (previousTag == "Player" || previousTag == "Enemy" || 
+					lastSelectedGameObject->GetTag() == "Player" || lastSelectedGameObject->GetTag() == "Enemy")
+				{
+					App->GetModule<ModuleRender>()->RelocateGOInBatches(lastSelectedGameObject);
+				}
 			}
 		}
 
@@ -524,4 +551,14 @@ void WindowInspector::AddComponentTrail()
 void WindowInspector::AddComponentLine()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::LINE);
+}
+
+void WindowInspector::AddComponentAgent()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::AGENT);
+}
+
+void WindowInspector::AddComponentObstacle()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::OBSTACLE);
 }

@@ -316,6 +316,11 @@ UpdateStatus ModuleInput::Update()
 		App->GetModule<ModuleRender>()->ToggleShadows();
 	}
 
+	if (keysState[SDL_SCANCODE_F4] == KeyState::DOWN && SDL_ShowCursor(SDL_QUERY))
+	{
+		App->GetModule<ModuleRender>()->ToggleVSM();
+	}
+
 	if (keysState[SDL_SCANCODE_F5] == KeyState::DOWN && SDL_ShowCursor(SDL_QUERY))
 	{
 		App->GetModule<ModuleRender>()->ChangeRenderMode();

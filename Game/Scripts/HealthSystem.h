@@ -7,8 +7,10 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAnimation;
 class ComponentParticleSystem;
+class GameObject;
 
 class BixAttackScript;
+class MeshEffect;
 
 class HealthSystem : public Script
 {
@@ -31,6 +33,7 @@ public:
 	void SetIsImmortal(bool isImmortal);
 	
 private:
+
 	float currentHealth;
 	float maxHealth;
 	bool isImmortal;
@@ -38,6 +41,10 @@ private:
 
 	ComponentAnimation* componentAnimation;
 	ComponentParticleSystem* componentParticleSystem;
+
+	MeshEffect* meshEffect;
+	float hitEffectDuration;
+	bool hasTakenDamage;
 
 	BixAttackScript* attackScript;
 };

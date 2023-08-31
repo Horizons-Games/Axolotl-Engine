@@ -72,15 +72,13 @@ void WindowComponentLine::DrawWindowContents()
 
 		ImGui::Separator();
 
-		float numTiles = componentLine->GetNumTiles();
+		int numTiles = componentLine->GetNumTiles();
 		ImGui::Text("");
 		ImGui::Text("Number of billboards");
 		ImGui::SameLine();
-		if (ImGui::DragFloat("Billboards", &numTiles, 1.0f, 1.0f, 100.0f))
+		if (ImGui::DragInt("Billboards", &numTiles, 1.0f, 1, 100))
 		{
-			
 			componentLine->SetNumTiles(numTiles);
-			
 		}
 		float speed = componentLine->GetSpeed();
 		ImGui::Text("");
@@ -88,9 +86,7 @@ void WindowComponentLine::DrawWindowContents()
 		ImGui::SameLine();
 		if (ImGui::DragFloat("speed", &speed, 0.1f, -50.0f, 50.0f))
 		{
-
 			componentLine->SetSpeed(speed);
-
 		}
 
 		ImGui::Text("");

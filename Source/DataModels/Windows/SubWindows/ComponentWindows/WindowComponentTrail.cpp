@@ -11,14 +11,14 @@
 
 #define DURATION_MIN_VALUE 0.1f
 #define DURATION_MAX_VALUE 25.f
-#define MIN_DISTANCE_MIN_VALUE 1.f
+#define MIN_DISTANCE_MIN_VALUE 0.5f
 #define MIN_DISTANCE_MAX_VALUE 10.f
-#define WIDTH_MIN_VALUE 1.f
-#define WIDTH_MAX_VALUE 25.f
+#define WIDTH_MIN_VALUE 0.05f
+#define WIDTH_MAX_VALUE 10.f
 #define RATIO_WIDTH_MIN_VALUE 0.f
 #define RATIO_WIDTH_MAX_VALUE 1.f
-#define CAT_SAMP_MIN_VALUE 0.f
-#define CAT_SAMP_MAX_VALUE 20.f
+#define CAT_SAMP_MIN_VALUE 0
+#define CAT_SAMP_MAX_VALUE 20
 
 WindowComponentTrail::WindowComponentTrail(ComponentTrail* component) : 
 			ComponentWindow("TRAIL", component),
@@ -81,7 +81,7 @@ void WindowComponentTrail::DrawWindowContents()
 			
 			float minDistance = componentTrail->GetMinDistance();
 
-			if (ImGui::DragFloat("##MinimumDistance", &minDistance, 0.1f, MIN_DISTANCE_MIN_VALUE, MIN_DISTANCE_MAX_VALUE, "%.2f"))
+			if (ImGui::DragFloat("##MinimumDistance", &minDistance, 0.05f, MIN_DISTANCE_MIN_VALUE, MIN_DISTANCE_MAX_VALUE, "%.2f"))
 			{
 				if (minDistance > MIN_DISTANCE_MAX_VALUE)
 				{
@@ -101,7 +101,7 @@ void WindowComponentTrail::DrawWindowContents()
 			ImGui::SetNextItemWidth(80.0f);
 
 			float width = componentTrail->GetWidth();
-			if (ImGui::DragFloat("##Width", &width, 0.1f, WIDTH_MIN_VALUE, WIDTH_MAX_VALUE, "%.2f"))
+			if (ImGui::DragFloat("##Width", &width, 0.05f, WIDTH_MIN_VALUE, WIDTH_MAX_VALUE, "%.2f"))
 			{
 				if (width > WIDTH_MAX_VALUE)
 				{
