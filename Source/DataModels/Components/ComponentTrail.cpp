@@ -30,13 +30,16 @@
 #define ALPHA_CENTR 0.5f
 
 ComponentTrail::ComponentTrail(bool active, GameObject* owner) : Component(ComponentType::TRAIL, active, owner, true),
-maxSamplers(64), duration(25.f), minDistance(0.1f), width(1.f), ratioWidth(0.5f), blendingMode(BlendingMode::ADDITIVE),
+maxSamplers(64), duration(5.f), minDistance(0.1f), width(1.f), ratioWidth(0.5f), blendingMode(BlendingMode::ADDITIVE),
 onPlay(false), catmunPoints(10)
 { 
 	points.reserve(maxSamplers);
 	gradient = new ImGradient();
-
-	CreateBuffers();
+	App->ScheduleTask([this]()
+		{
+			CreateBuffers();
+		});
+	
 }
 
 ComponentTrail::~ComponentTrail()
@@ -138,7 +141,7 @@ void ComponentTrail::Draw() const
 	float3 pos1 = position + dirPerpendicular;
 	float3 pos2 = position - dirPerpendicular;
 
-	dd::line(pos2, pos1, dd::colors::RebeccaPurple);
+	dd::line(pos2, pos1, dd::colors::Lime);
 }
 
 void ComponentTrail::InternalSave(Json& meta)
