@@ -10,16 +10,16 @@
 
 #include "Camera/CameraGameObject.h"
 
+#include "Components/ComponentAgent.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentCubemap.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentPlayer.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentCubemap.h"
-#include "Components/ComponentPlayer.h"
-#include "Components/ComponentParticleSystem.h"
 
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentImage.h"
@@ -301,7 +301,7 @@ GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* par
 
 void Scene::DestroyGameObject(const GameObject* gameObject)
 {
-	pendingCreateAndDeleteActions.emplace(
+	App->ScheduleTask(
 		[=]
 		{
 			RemoveFatherAndChildren(gameObject);
@@ -1384,6 +1384,15 @@ void Scene::RemoveNonStaticObject(const GameObject* gameObject)
 						   std::end(nonStaticObjects));
 }
 
+void Scene::AddUpdatableObject(Updatable* updatable)
+{
+	App->ScheduleTask(
+		[=]
+		{
+			sceneUpdatableObjects.push_back(updatable);
+		});
+}
+
 void Scene::AddSceneGameObjects(const std::vector<GameObject*>& gameObjects)
 {
 	sceneGameObjects.insert(std::end(sceneGameObjects), std::begin(gameObjects), std::end(gameObjects));
@@ -1416,17 +1425,6 @@ void Scene::InitCubemap()
 		root->CreateComponent<ComponentCubemap>();
 	}
 }
-
-void Scene::ExecutePendingActions()
-{
-	while (!pendingCreateAndDeleteActions.empty())
-	{
-		std::function<void(void)> action = pendingCreateAndDeleteActions.front();
-		action();
-		pendingCreateAndDeleteActions.pop();
-	}
-}
-
 std::vector<float> Scene::GetVertices()
 {
 	std::vector<float> result;

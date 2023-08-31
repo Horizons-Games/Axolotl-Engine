@@ -14,6 +14,9 @@
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentCamera.h"
+
+#include "Camera/CameraGameObject.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Batch/BatchManager.h"
@@ -224,6 +227,11 @@ UpdateStatus ModuleRender::PreUpdate()
 
 UpdateStatus ModuleRender::Update()
 {
+	if (App->GetModule<ModuleScene>()->IsLoading())
+	{
+		return UpdateStatus::UPDATE_CONTINUE;
+	}
+
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateRender", Optick::Category::Rendering);
 #endif // DEBUG
@@ -252,8 +260,6 @@ UpdateStatus ModuleRender::Update()
 
 	GameObject* goSelected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 
-	bool isRoot = goSelected->GetParent() == nullptr;
-
 	FillRenderList(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
 	
 	std::vector<GameObject*> nonStaticsGOs = App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects();
@@ -262,7 +268,11 @@ UpdateStatus ModuleRender::Update()
 	{
 		AddToRenderList(nonStaticObj);
 	}
-	AddToRenderList(goSelected);
+	
+	if (goSelected)
+	{
+		AddToRenderList(goSelected);
+	}
 
 	// Bind camera and cubemap info to the shaders
 	BindCameraToProgram(App->GetModule<ModuleProgram>()->GetProgram(ProgramType::DEFAULT));
@@ -283,6 +293,8 @@ UpdateStatus ModuleRender::Update()
 	SDL_GetWindowSize(window->GetWindow(), &w, &h);
 
 	// -------- DEFERRED GEOMETRY -----------
+
+	bool isRoot = goSelected != nullptr ? goSelected->GetParent() == nullptr : false;
 
 	// Draw opaque objects
 	batchManager->DrawOpaque(false);
@@ -358,7 +370,10 @@ UpdateStatus ModuleRender::Update()
 		glPolygonMode(GL_BACK, GL_LINE);
 
 		// Draw Highliht for selected objects
-		DrawHighlight(goSelected);
+		if (goSelected)
+		{
+			DrawHighlight(goSelected);
+		}
 
 		glPolygonMode(GL_FRONT, GL_FILL);
 		glLineWidth(1);
@@ -386,6 +401,15 @@ UpdateStatus ModuleRender::Update()
 	{
 		go->Draw();
 	}
+
+#ifdef ENGINE
+	ComponentCamera* frustumCheckedCamera = camera->GetFrustumCheckedCamera();
+	if (frustumCheckedCamera && frustumCheckedCamera->GetCamera()->IsDrawFrustum())
+	{
+		frustumCheckedCamera->Draw();
+	}
+#endif // ENGINE
+
 
 	if (navigation->GetDrawNavMesh())
 	{
@@ -464,37 +488,63 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height)
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
 {
-	ModuleCamera* camera = App->GetModule<ModuleCamera>();
-	float3 cameraPos = camera->GetCamera()->GetPosition();
+	if (quadtree == nullptr)
+	{
+		return;
+	}
 
-	if (camera->GetCamera()->IsInside(quadtree->GetBoundingBox()))
+	Camera* camera = GetFrustumCheckedCamera();
+		
+	float3 cameraPos = camera->GetPosition();
+
+	if (camera->IsInside(quadtree->GetBoundingBox()))
 	{
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf())
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
-				if (gameObject->IsActive() && gameObject->IsEnabled())
-				{
-					const ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
-					float dist = Length(cameraPos - transform->GetGlobalPosition());
 
-					gameObjectsInFrustrum.insert(gameObject);
-					objectsInFrustrumDistances[gameObject] = dist;
+				ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
+				// If an object doesn't have transform component it doesn't need to draw
+				if (transform == nullptr)
+				{
+					return;
 				}
+
+				if (camera->IsInside(transform->GetEncapsuledAABB()))
+				{
+					if (gameObject->IsActive() && gameObject->IsEnabled())
+					{
+						float dist = Length(cameraPos - transform->GetGlobalPosition());
+
+						gameObjectsInFrustrum.insert(gameObject);
+						objectsInFrustrumDistances[gameObject] = dist;
+					}
+				}
+				
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
-			for (const GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
+			for (const GameObject* gameObject : gameObjectsToRender)
 			{
-				if (gameObject->IsActive() && gameObject->IsEnabled())
+				ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
+				// If an object doesn't have transform component it doesn't need to draw
+				if (transform == nullptr)
 				{
-					const ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
-					float dist = Length(cameraPos - transform->GetGlobalPosition());
+					return;
+				}
 
-					gameObjectsInFrustrum.insert(gameObject);
-					objectsInFrustrumDistances[gameObject] = dist;
+				if (camera->IsInside(transform->GetEncapsuledAABB()))
+				{
+					if (gameObject->IsActive() && gameObject->IsEnabled())
+					{
+						float dist = Length(cameraPos - transform->GetGlobalPosition());
+
+						gameObjectsInFrustrum.insert(gameObject);
+						objectsInFrustrumDistances[gameObject] = dist;
+					}
 				}
 			}
 
@@ -515,8 +565,10 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 
 void ModuleRender::AddToRenderList(const GameObject* gameObject)
 {
-	ModuleCamera* camera = App->GetModule<ModuleCamera>();
-	float3 cameraPos = camera->GetCamera()->GetPosition();
+	
+	Camera* camera = GetFrustumCheckedCamera();
+
+	float3 cameraPos = camera->GetPosition();
 
 	if (gameObject->GetParent() == nullptr)
 	{
@@ -530,7 +582,7 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 		return;
 	}
 
-	if (camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
+	if (camera->IsInside(transform->GetEncapsuledAABB()))
 	{
 		ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
 		if (gameObject->IsActive() && (mesh == nullptr || mesh->IsEnabled()))
@@ -617,9 +669,15 @@ void ModuleRender::BindCameraToProgram(Program* program)
 
 void ModuleRender::BindCubemapToProgram(Program* program)
 {
+	Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
+
+	if (cubemap == nullptr)
+	{
+		return;
+	}
+
 	program->Activate();
 
-	Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
 	glActiveTexture(GL_TEXTURE8);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
 	glActiveTexture(GL_TEXTURE9);
@@ -631,6 +689,20 @@ void ModuleRender::BindCubemapToProgram(Program* program)
 	program->BindUniformFloat("cubemap_intensity", cubemap->GetIntensity());
 
 	program->Deactivate();
+}
+
+Camera* ModuleRender::GetFrustumCheckedCamera() const
+{
+	ModuleCamera* moduleCamera = App->GetModule<ModuleCamera>();
+	ComponentCamera* frustumCheckedCamera = moduleCamera->GetFrustumCheckedCamera();
+	if (!frustumCheckedCamera)
+	{
+		return moduleCamera->GetCamera();
+	}
+	else
+	{
+		return (Camera*) frustumCheckedCamera->GetCamera();
+	}
 }
 
 bool ModuleRender::CheckIfTransparent(const GameObject* gameObject)
