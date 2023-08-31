@@ -12,7 +12,7 @@
 #include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Scene/Scene.h"
-#include "DataModels/Skybox/Skybox.h"
+//#include "DataModels/Skybox/Skybox.h"
 #include "DataStructures/Quadtree.h"
 
 #include "DataModels/Components/ComponentCamera.h"
@@ -21,6 +21,7 @@
 #include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/Components/UI/ComponentButton.h"
 #include "DataModels/Components/UI/ComponentCanvas.h"
+#include "DataModels/Components/ComponentSkybox.h"
 
 #include "Defines/ExtensionDefines.h"
 #include "Defines/FileSystemDefines.h"
@@ -107,6 +108,10 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 
 	for (GameObject* obj : loadedObjects)
 	{
+		if (obj->HasComponent<ComponentSkybox>()  && currentLoadingConfig->mantainCurrentScene)
+		{
+			obj->RemoveComponent<ComponentSkybox>();
+		}
 		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponents<ComponentCamera>();
 		loadedCameras.insert(std::end(loadedCameras), std::begin(camerasOfObj), std::end(camerasOfObj));
 
@@ -344,10 +349,6 @@ void StartJsonLoad(Json&& sceneJson)
 		loadedScene->SetRootQuadtree(std::make_unique<Quadtree>(AABB(float3::zero, float3::zero)));
 		rootQuadtree = loadedScene->GetRootQuadtree();
 		rootQuadtree->LoadOptions(sceneJson);
-
-		loadedScene->SetSkybox(std::make_unique<Skybox>());
-		Skybox* skybox = loadedScene->GetSkybox();
-		skybox->LoadOptions(sceneJson);
 	}
 
 	auto createCubemap = [sceneJson]() mutable

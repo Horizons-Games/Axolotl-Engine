@@ -1269,7 +1269,7 @@ void Scene::InitNewEmptyScene()
 
 	if (root->GetComponentInternal<ComponentSkybox>() == nullptr)
 	{
-		root->CreateComponent<ComponentSkybox>();
+		ComponentSkybox* p = root->CreateComponent<ComponentSkybox>();
 		root->GetComponentInternal<ComponentSkybox>()->SetSkyboxResource(resourceSkybox);
 	}
 

@@ -666,6 +666,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::SKYBOX:
 		{
 			newComponent = std::make_unique<ComponentSkybox>(true, this);
+			break;
 		}
 
 		case ComponentType::AGENT:
