@@ -35,8 +35,11 @@ onPlay(false), catmunPoints(10)
 { 
 	points.reserve(maxSamplers);
 	gradient = new ImGradient();
-
-	CreateBuffers();
+	App->ScheduleTask([this]()
+		{
+			CreateBuffers();
+		});
+	
 }
 
 ComponentTrail::~ComponentTrail()
@@ -213,7 +216,6 @@ void ComponentTrail::InternalLoad(const Json& meta)
 		texture = resourceTexture;
 	}
 #endif // ENGINE
-	CreateBuffers();
 }
 
 void ComponentTrail::CreateBuffers()
