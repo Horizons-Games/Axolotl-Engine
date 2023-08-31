@@ -46,7 +46,7 @@
 
 // Root constructor
 GameObject::GameObject(const std::string& name, UID uid) :
-	GameObject(name, nullptr, uid, true, true, StateOfSelection::NO_SELECTED, false)
+	GameObject(name, nullptr, uid, true, true, StateOfSelection::NOT_SELECTED, false)
 {
 }
 
@@ -60,7 +60,7 @@ GameObject::GameObject(const std::string& name, GameObject* parent) :
 			   UniqueID::GenerateUID(),
 			   true,
 			   (parent->IsEnabled() && parent->IsActive()),
-			   StateOfSelection::NO_SELECTED,
+			   StateOfSelection::NOT_SELECTED,
 			   false)
 {
 	this->parent->LinkChild(this);
@@ -72,7 +72,7 @@ GameObject::GameObject(const GameObject& gameObject) :
 			   UniqueID::GenerateUID(),
 			   true,
 			   true,
-			   StateOfSelection::NO_SELECTED,
+			   StateOfSelection::NOT_SELECTED,
 			   gameObject.staticObject,
 			   gameObject.tag)
 {
@@ -924,9 +924,9 @@ void GameObject::SetStatic(bool newStatic)
 
 // This is called Rendereable and not Drawable because if in the future we add some other types not drawable that needs
 // to be rendereables in quadtree
-bool GameObject::IsRendereable()
+bool GameObject::IsRendereable() const
 {
-	for (std::unique_ptr<Component>& comp : components)
+	for (const std::unique_ptr<Component>& comp : components)
 	{
 		Drawable* drawable = dynamic_cast<Drawable*>(comp.get());
 		if (drawable)

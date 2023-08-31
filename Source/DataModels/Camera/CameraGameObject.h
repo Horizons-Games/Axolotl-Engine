@@ -8,6 +8,7 @@ public:
 	CameraGameObject(const std::unique_ptr<Camera>& camera);
 	virtual ~CameraGameObject() override;
 
+	bool Init() override;
 	bool Update() override;
 
 	void SetPositionTarget(const float3& targetPosition, float deltaTime);

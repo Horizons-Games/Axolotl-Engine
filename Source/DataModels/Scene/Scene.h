@@ -6,16 +6,16 @@
 #include "Components/ComponentAreaLight.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
-#include "Components/ComponentAgent.h"
-#include "Components/ComponentMeshRenderer.h"
-
-#include <queue>
 
 class Component;
 class ComponentCamera;
 class ComponentCanvas;
 class ComponentParticleSystem;
+class ComponentMeshRenderer;
+class ComponentAgent;
+
 class GameObject;
+
 class Quadtree;
 class Skybox;
 class Cubemap;
@@ -134,7 +134,6 @@ public:
 	void InitCubemap();
 
 	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D);
-	void ExecutePendingActions();
 
 private:
 	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);
@@ -153,7 +152,7 @@ private:
 	std::vector<Component*> sceneInteractableComponents;
 	std::vector<Updatable*> sceneUpdatableObjects;
 
-	//Draw is const so I need this vector
+	// Draw is const so I need this vector
 	std::vector<ComponentParticleSystem*> sceneParticleSystems;
 
 	GameObject* directionalLight;
@@ -182,10 +181,6 @@ private:
 	// Render Objects
 	std::unique_ptr<Quadtree> rootQuadtree;
 	std::vector<GameObject*> nonStaticObjects;
-
-	// All Updatable components should be added at the end of the frame to avoid modifying the iterated list
-	// Similarly, game objects should only be deleted at the end of the frame
-	std::queue<std::function<void(void)>> pendingCreateAndDeleteActions;
 };
 
 inline GameObject* Scene::GetRoot() const
@@ -298,15 +293,6 @@ inline void Scene::AddNonStaticObject(GameObject* gameObject)
 	nonStaticObjects.push_back(gameObject);
 }
 
-inline void Scene::AddUpdatableObject(Updatable* updatable)
-{
-	pendingCreateAndDeleteActions.emplace(
-		[=]
-		{
-			sceneUpdatableObjects.push_back(updatable);
-		});
-}
-
 inline void Scene::AddParticleSystem(ComponentParticleSystem* particleSystem)
 {
 	sceneParticleSystems.push_back(particleSystem);
@@ -316,9 +302,9 @@ inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleS
 {
 	sceneParticleSystems.erase(std::remove_if(std::begin(sceneParticleSystems),
 											  std::end(sceneParticleSystems),
-		[&particleSystem](ComponentParticleSystem* particle)
-		{
-			return particle == particleSystem;
-		}),
+											  [&particleSystem](ComponentParticleSystem* particle)
+											  {
+												  return particle == particleSystem;
+											  }),
 							   std::end(sceneParticleSystems));
 }

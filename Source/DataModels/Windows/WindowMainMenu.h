@@ -25,6 +25,8 @@ public:
 	void SetWindowEnabled(int windowIndex, bool enabled);
 	void ShortcutSave();
 
+	bool IsLoadingScene() const;
+
 private:
 	void DrawWindowMenu();
 	void DrawFileMenu();
