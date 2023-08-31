@@ -696,7 +696,6 @@
     <ClCompile Include="..\Game\Scripts\BossMissilesMissileScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
     <ClCompile Include="..\Game\Scripts\AIMovement.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
     </ClCompile>
@@ -707,9 +706,7 @@
     <ClCompile Include="Auxiliar\ConnectedCallback.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
-    <ClCompile Include="CombatZoneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
-    <ClCompile Include="CombatZoneScript.cpp">
     <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
@@ -1455,9 +1452,6 @@
     <ClInclude Include="Auxiliar\ConnectedCallback.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
-    <ClInclude Include="CombatZoneScript.h" />
-    <ClInclude Include="CombatZoneScript.h">
-    <ClInclude Include="..\Game\Scripts\CameraSample.h" />
     <ClInclude Include="..\Game\Scripts\CombatZoneScript.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
@@ -2188,9 +2182,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
       <Filter>DataModels\Windows\EditorWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
-      <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />

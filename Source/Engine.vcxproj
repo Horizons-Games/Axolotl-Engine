@@ -333,12 +333,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\CameraSample.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\CameraControllerScript.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -430,7 +424,6 @@
     <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp" />
     <ClCompile Include="Auxiliar\SceneLoader.cpp" />
     <ClCompile Include="Auxiliar\ConnectedCallback.cpp" />
-    <ClCompile Include="CombatZoneScript.cpp" />
     <ClCompile Include="DataModels\Components\ComponentCameraSample.cpp" />
     <ClCompile Include="DataModels\Components\Component.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp" />
@@ -858,7 +851,6 @@
     <ClInclude Include="..\Game\Scripts\RangedFastAttackBullet.h" />
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h" />
     <ClInclude Include="..\Game\Scripts\RecastMovementTestScript.h" />
-    <ClInclude Include="..\Game\Scripts\CameraSample.h" />
     <ClInclude Include="..\Game\Scripts\HealthSystem.h" />
     <ClInclude Include="..\Game\Scripts\MenuMusic.h" />
     <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h" />
@@ -889,7 +881,6 @@
     <ClInclude Include="DataModels\Components\ComponentAgent.h" />
     <ClInclude Include="DataModels\Components\ComponentObstacle.h" />
     <ClInclude Include="DataModels\Animation\StateMachine.h" />
-    <ClInclude Include="CombatZoneScript.h" />
     <ClInclude Include="DataModels\Components\ComponentCameraSample.h" />
     <ClInclude Include="DataModels\Camera\CameraDefines.h" />
     <ClInclude Include="DataModels\Components\ComponentAreaLight.h" />
