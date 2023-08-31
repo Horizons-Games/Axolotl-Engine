@@ -19,7 +19,7 @@ enum class AreaType;
 
 enum class StateOfSelection
 {
-	NO_SELECTED,
+	NOT_SELECTED,
 	SELECTED,
 	CHILD_SELECTED
 };
@@ -88,17 +88,6 @@ public:
 	bool RemoveComponents();
 	bool RemoveComponent(const Component* component);
 
-	// This method is intended to be used by the classes of the Engine, not its users
-	// In case the script of the given type is not found, a nullptr is returned
-	template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool> = true>
-	S* GetComponentInternal();
-	// This method is intended to be used by the users of the Engine
-	// In case the script of the given type is not found, a ComponentNotFoundException is thrown
-	template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool> = true>
-	S* GetComponent();
-	template<typename S, std::enable_if_t<std::is_base_of<IScript, S>::value, bool> = true>
-	std::vector<S*> GetComponents();
-
 	template<typename C>
 	bool HasComponent() const;
 
@@ -126,7 +115,7 @@ public:
 	void MoveDownChild(const GameObject* childToMove);
 
 	bool IsADescendant(const GameObject* descendant);
-	bool IsRendereable();
+	bool IsRendereable() const;
 
 	bool CompareTag(const std::string& commingTag) const;
 
@@ -187,8 +176,8 @@ inline void GameObject::SetStateOfSelection(StateOfSelection stateOfSelection)
 	}
 	switch (stateOfSelection)
 	{
-		case StateOfSelection::NO_SELECTED:
-			parent->SetStateOfSelection(StateOfSelection::NO_SELECTED);
+		case StateOfSelection::NOT_SELECTED:
+			parent->SetStateOfSelection(StateOfSelection::NOT_SELECTED);
 			break;
 		case StateOfSelection::SELECTED:
 		case StateOfSelection::CHILD_SELECTED:

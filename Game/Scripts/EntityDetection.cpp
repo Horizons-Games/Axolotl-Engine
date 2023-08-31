@@ -37,17 +37,12 @@ void EntityDetection::Start()
 	playerTransform = player->GetComponent<ComponentTransform>();
 
 	input = App->GetModule<ModuleInput>();
-
-	rigidBody->SetKpForce(50);
-}
-
-void EntityDetection::Update(float deltaTime)
-{
-	rigidBody->SetPositionTarget(playerTransform->GetGlobalPosition());
 }
 
 void EntityDetection::UpdateEnemyDetection(float distanceFilter)
 {
+	rigidBody->UpdateRigidBody();
+
 	vecForward = playerTransform->GetGlobalForward();
 	originPosition = playerTransform->GetGlobalPosition() - vecForward.Normalized() * interactionOffset;
 
@@ -96,7 +91,7 @@ void EntityDetection::SelectEnemy(float distanceFilter)
 			insideDistanceFilter = originPosition.Distance(enemyPosition) <= distanceFilter;
 		}
 
-		bool equalPriorityLevel = !actualIsSpecialTarget || enemy->GetOwner()->GetTag() == "PriorityTarget";
+		bool equalPriorityLevel = !actualIsSpecialTarget || enemy->GetOwner()->CompareTag("PriorityTarget");
 
 		if (!enemy->GetOwner()->GetComponent<HealthSystem>()->EntityIsAlive() || 
 			!equalPriorityLevel || !insideDistanceFilter)
@@ -133,7 +128,7 @@ void EntityDetection::SelectEnemy(float distanceFilter)
 			{
 				enemySelected = enemy;
 				angleActualSelected = angle;
-				actualIsSpecialTarget = enemySelected->GetOwner()->GetTag() == "PriorityTarget";
+				actualIsSpecialTarget = enemySelected->GetOwner()->CompareTag("PriorityTarget");
 			}
 		}
 
@@ -171,7 +166,8 @@ void EntityDetection::VisualParticle(bool activate, GameObject* enemy)
 
 void EntityDetection::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetTag() == "Enemy" || other->GetOwner()->GetTag() == "PriorityTarget" && other->GetOwner()->IsEnabled())
+	if (other->GetOwner()->CompareTag("Enemy") ||
+		other->GetOwner()->CompareTag("PriorityTarget") && other->GetOwner()->IsEnabled())
 	{
 		enemiesInTheArea.push_back(other->GetOwner()->GetComponent<ComponentTransform>());
 	}

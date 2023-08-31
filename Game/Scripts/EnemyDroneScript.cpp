@@ -5,6 +5,7 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
@@ -12,25 +13,34 @@
 #include "../Scripts/MeleeHeavyAttackBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
+#include "../Scripts/AIMovement.h"
+
+#include "../Scripts/EnemyDeathScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(EnemyDroneScript);
 
 EnemyDroneScript::EnemyDroneScript() : patrolScript(nullptr), seekScript(nullptr), fastAttackScript(nullptr),
-	droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
-	componentAnimation(nullptr), componentAudioSource(nullptr), lastDroneState(DroneBehaviours::IDLE), 
-	heavyAttackScript(nullptr), explosionGameObject(nullptr), playerManager(nullptr)
+droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
+componentAnimation(nullptr), componentAudioSource(nullptr), heavyAttackScript(nullptr),
+explosionGameObject(nullptr), playerManager(nullptr), aiMovement(nullptr), flinchAnimationOffset(false),
+exclamationVFX(nullptr), enemyDetectionDuration(0.0f), enemyDetectionTime(0.0f)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
 	REGISTER_FIELD(attackDistance, float);
 	REGISTER_FIELD(seekDistance, float);
 
 	REGISTER_FIELD(explosionGameObject, GameObject*);
+
+	REGISTER_FIELD(exclamationVFX, ComponentParticleSystem*);
+	REGISTER_FIELD(enemyDetectionDuration, float);
 }
 
 void EnemyDroneScript::Start()
 {
+	enemyType = EnemyTypes::DRONE;
+
 	if (seekDistance < attackDistance)
 	{
 		seekDistance = attackDistance;
@@ -40,25 +50,31 @@ void EnemyDroneScript::Start()
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
-	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
+	if (!IsSpawnedEnemy())
+	{
+		patrolScript = owner->GetComponent<PatrolBehaviourScript>();
+	}
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
 	fastAttackScript = owner->GetComponent<RangedFastAttackBehaviourScript>();
 	heavyAttackScript = explosionGameObject->GetComponent<MeleeHeavyAttackBehaviourScript>();
 	healthScript = owner->GetComponent<HealthSystem>();
+	aiMovement = owner->GetComponent<AIMovement>();
 
 	seekTarget = seekScript->GetTarget();
 	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
 
 	playerManager = seekTarget->GetComponent<PlayerManagerScript>();
 
+	enemyDetectionTime = 0.0f;
+
 	droneState = DroneBehaviours::IDLE;
 }
 
 void EnemyDroneScript::Update(float deltaTime)
 {
-	if (stunned)
+	if (stunned && droneState != DroneBehaviours::READYTOEXPLODE && droneState != DroneBehaviours::EXPLOSIONATTACK)
 	{
-		if(timeStunned < 0)
+		if (timeStunned < 0)
 		{
 			timeStunned = 0;
 			stunned = false;
@@ -70,24 +86,68 @@ void EnemyDroneScript::Update(float deltaTime)
 		}
 	}
 
-	if (healthScript && !healthScript->EntityIsAlive())
+	CheckState();
+
+	UpdateBehaviour(deltaTime);
+}
+
+void EnemyDroneScript::CheckState()
+{
+	if (droneState == DroneBehaviours::EXPLOSIONATTACK)
 	{
 		return;
 	}
 
-	GameObject* seekTarget = seekScript->GetTarget();
-
-	if (seekTarget && lastDroneState != DroneBehaviours::EXPLOSIONATTACK)
+	if (droneState == DroneBehaviours::READYTOEXPLODE)
 	{
-		if (droneState != DroneBehaviours::PATROL)
+		if (droneState != DroneBehaviours::EXPLOSIONATTACK && componentAnimation->GetActualStateName() != "Flinch"
+			&& flinchAnimationOffset == true)
 		{
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
-			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::PATROL);
-			droneState = DroneBehaviours::FIRSTPATROL;
-			
-		}
+			heavyAttackScript->TriggerExplosion();
 
-		if (droneState != DroneBehaviours::SEEK)
+			aiMovement->SetMovementStatuses(true, true);
+
+			droneState = DroneBehaviours::EXPLOSIONATTACK;
+		}
+		flinchAnimationOffset = true;
+	}
+	else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), attackDistance))
+	{
+		if (droneState != DroneBehaviours::FASTATTACK)
+		{
+			seekScript->DisableMovement();
+			patrolScript->StopPatrol();
+
+			aiMovement->SetMovementStatuses(false, true);
+
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+			fastAttackScript->StartAttack();
+
+			componentAnimation->SetParameter("IsSeeking", false);
+
+			droneState = DroneBehaviours::FASTATTACK;
+		}
+	}
+	else if (IsSpawnedEnemy() || ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(),
+		seekDistance))
+	{
+		if (droneState == DroneBehaviours::PATROL)
+		{
+			patrolScript->StopPatrol();
+			aiMovement->SetMovementStatuses(false, true);
+
+			if (exclamationVFX)
+			{
+				exclamationVFX->Play();
+			}
+
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::ALERT);
+
+			droneState = DroneBehaviours::ENEMY_DETECTED;
+		}
+		else if (droneState != DroneBehaviours::SEEK && droneState != DroneBehaviours::ENEMY_DETECTED)
 		{
 			bool inFront = true;
 			if (std::abs(ownerTransform->GetGlobalForward().
@@ -96,99 +156,119 @@ void EnemyDroneScript::Update(float deltaTime)
 				inFront = false;
 			}
 
-			if ((ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance) && inFront)
-				|| (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance / 2.0f) 
-					&& !inFront))
+			if (inFront || (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(),
+				seekDistance / 2.0f) && !inFront)) //If is in front or if is not in front but close to the player
 			{
+				componentAnimation->SetParameter("IsSeeking", true);
+				componentAnimation->SetParameter("IsAttacking", false);
+
 				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
-				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::ALERT);
+
+				if (droneState == DroneBehaviours::PATROL)//Play alert only when coming from patrol
+				{
+					componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::ALERT);
+				}
+
 				droneState = DroneBehaviours::SEEK;
 			}
 		}
-
-		if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), attackDistance)
-			&& droneState != DroneBehaviours::FASTATTACK)
-		{
-			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
-			droneState = DroneBehaviours::FIRSTATTACK;
-		}
-
-		if (droneState == DroneBehaviours::FIRSTPATROL)
-		{
-			patrolScript->StartPatrol();
-			droneState = DroneBehaviours::PATROL;
-		}
-
-		if (droneState == DroneBehaviours::FIRSTATTACK)
-		{
-			if (lastDroneState != DroneBehaviours::FASTATTACK)
-			{
-				fastAttackScript->StartAttack();
-			}
-
-			if (healthScript->GetCurrentHealth() <= playerManager->GetPlayerAttack())
-			{
-				droneState = DroneBehaviours::EXPLOSIONATTACK;
-				componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
-				seekScript->RotateToTarget();
-			}
-
-			else
-			{
-				droneState = DroneBehaviours::FASTATTACK;
-			}
-		}
-
-		else
-		{
-			owner->GetComponent<ComponentRigidBody>()->SetKpForce(0.5f);
-		}
-
-		lastDroneState = droneState;
 	}
-
-	if (patrolScript && droneState == DroneBehaviours::PATROL)
+	else if (droneState != DroneBehaviours::PATROL)
 	{
-		patrolScript->Patrolling();
+		componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+		componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::PATROL);
+
+		patrolScript->StartPatrol();
 
 		componentAnimation->SetParameter("IsSeeking", false);
-	}
-
-	if (seekScript && droneState == DroneBehaviours::SEEK)
-	{
-		seekScript->Seeking();
-
-		componentAnimation->SetParameter("IsSeeking", true);
 		componentAnimation->SetParameter("IsAttacking", false);
-	}
 
-	if (seekScript && fastAttackScript && droneState == DroneBehaviours::FASTATTACK)
+		droneState = DroneBehaviours::PATROL;
+
+	}
+}
+
+void EnemyDroneScript::UpdateBehaviour(float deltaTime)
+{
+	switch (droneState)
 	{
-		if (fastAttackScript->IsAttackAvailable())
+	case DroneBehaviours::PATROL:
+
+		break;
+
+	case DroneBehaviours::ENEMY_DETECTED:
+
+		enemyDetectionTime += deltaTime;
+
+		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+
+		if (enemyDetectionTime >= enemyDetectionDuration)
 		{
-			fastAttackScript->PerformAttack();
-			seekScript->DisableMovement();
-			componentAnimation->SetParameter("IsAttacking", true);
+			enemyDetectionTime = 0.0f;
+
+			droneState = DroneBehaviours::SEEK;
 		}
 
-		if (fastAttackScript->NeedReposition())
+		break;
+
+	case DroneBehaviours::SEEK:
+
+		seekScript->Seeking();
+		isFirstPatrolling = true;
+
+		break;
+
+	case DroneBehaviours::FASTATTACK:
+
+		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+
+		if (componentAnimation->GetActualStateName() != "Flinch")
 		{
-			CalculateNextPosition();
+			if (fastAttackScript->IsAttackAvailable())
+			{
+				fastAttackScript->PerformAttack();
+				componentAnimation->SetParameter("IsAttacking", true);
+			}
+
+			if (fastAttackScript->NeedReposition())
+			{
+				CalculateNextPosition();
+			}
+		}
+		else
+		{
+			if (fastAttackScript->IsPreShooting())
+			{
+				fastAttackScript->InterruptAttack();
+			}
 		}
 
-		if (!fastAttackScript->MovingToNewReposition())
-		{
-			seekScript->DisableMovement();
-		}
 
-		seekScript->RotateToTarget();
+		break;
+
+	case DroneBehaviours::EXPLOSIONATTACK:
+
+		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+
+		break;
 	}
+}
 
-	if (seekScript && heavyAttackScript && droneState == DroneBehaviours::EXPLOSIONATTACK)
+void EnemyDroneScript::ResetValues()
+{
+	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
+	std::unordered_map<std::string, TypeFieldPairParameter> componentAnimationParameters =
+		componentAnimation->GetStateMachine()->GetParameters();
+	for (std::pair<std::string, TypeFieldPairParameter> parameter : componentAnimationParameters)
 	{
-		seekScript->RotateToTarget();
-		heavyAttackScript->TriggerExplosion();
+		componentAnimation->SetParameter(parameter.first, false);
 	}
+
+	droneState = DroneBehaviours::IDLE;
+	fastAttackScript->ResetScriptValues();
+	healthScript->HealLife(1000.0f); // It will cap at max health
+	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
+	enemyDeathScript->ResetDespawnTimerAndEnableActions();
 }
 
 void EnemyDroneScript::CalculateNextPosition() const
@@ -213,4 +293,17 @@ void EnemyDroneScript::CalculateNextPosition() const
 	nextPosition += seekTargetTransform->GetGlobalPosition();
 	nextPosition.y = seekTargetTransform->GetGlobalPosition().y;
 	fastAttackScript->Reposition(nextPosition);
+}
+
+void EnemyDroneScript::SetReadyToDie()
+{
+	componentAnimation->SetParameter("IsTakingDamage", true);
+	fastAttackScript->InterruptAttack();
+	droneState = DroneBehaviours::READYTOEXPLODE;
+}
+
+void EnemyDroneScript::SetStunnedTime(float newTime)
+{
+	EnemyClass::SetStunnedTime(newTime);
+	fastAttackScript->InterruptAttack();
 }

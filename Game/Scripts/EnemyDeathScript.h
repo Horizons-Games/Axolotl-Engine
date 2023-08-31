@@ -5,6 +5,8 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class ComponentParticleSystem;
+
 class EnemyDeathScript : public Script
 {
 public:
@@ -15,14 +17,20 @@ public:
 
 	void ManageEnemyDeath();
 
+	void ResetDespawnTimerAndEnableActions();
+
 private:
 	GameObject* RequestPowerUp() const;
+
 	void DisableEnemyActions();
+	void EnableEnemyActions();
+
 	void DespawnEnemy() const;
 
-	// Once we have vectors, this should be a vector of powerUps ready to be activated in the PowerUpsManagerScript
-	GameObject* activePowerUp;
+	GameObject* powerUpParent;
 
 	float despawnTimer;
 	bool startDespawnTimer;
+
+	ComponentParticleSystem* particleSystem;
 };

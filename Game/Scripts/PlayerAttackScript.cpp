@@ -43,7 +43,6 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	animation(nullptr), transform(nullptr),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), jumpFinisherScript(nullptr),
 	lightFinisherScript(nullptr), normalAttackDistance(0), heavyFinisherAttack(nullptr), lightWeapon(nullptr),
-	isJumpAttacking(false),
 	comboCountHeavy(10.0f), comboCountLight(30.0f), comboCountJump(20.0f)
 {
 	REGISTER_FIELD(comboCountHeavy, float);
@@ -229,7 +228,6 @@ void PlayerAttackScript::JumpNormalAttack()
 {
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
-	isJumpAttacking = true;
 
 	if (owner->GetName() == "PrefabBix")
 	{
@@ -277,7 +275,6 @@ void PlayerAttackScript::JumpFinisher()
 {
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
-	isJumpAttacking = true;
 
 	if(owner->GetName() == "PrefabBix")
 	{
@@ -316,7 +313,6 @@ void PlayerAttackScript::ResetAttackAnimations()
 			if (animation->GetActualStateName() == "JumpAttackRecovery" && !animation->IsPlaying())
 			{
 				isAttacking = false;
-				isJumpAttacking = false;
 			}
 			else if (animation->GetActualStateName() == "JumpAttack")
 			{
@@ -325,14 +321,13 @@ void PlayerAttackScript::ResetAttackAnimations()
 			// There are some times in which the animations happen so quick and the first if is not entered,
 			// so I added this as a safe mesure because, if not, the player would be prevented of attacking,
 			// jumping and moving if the first if is not entered
-			else if (animation->GetActualStateName() == "Idle1" ||
-				animation->GetActualStateName() == "Idle2" ||
-				animation->GetActualStateName() == "Idle3")
+
+			else if (animation->GetActualStateName() != "JumpAttackRecovery" &&
+				animation->GetActualStateName() != "JumpAttack")
 			{
 				isAttacking = false;
-				isJumpAttacking = false;
 			}
-			break;	
+			break;
 
 		case AttackType::LIGHTFINISHER:
 			if (!animation->IsPlaying())
@@ -375,7 +370,7 @@ bool PlayerAttackScript::IsAttackAvailable() const
 
 bool PlayerAttackScript::IsPerfomingJumpAttack() const
 {
-	return isJumpAttacking;
+	return (currentAttack == AttackType::JUMPFINISHER || currentAttack == AttackType::JUMPNORMAL);
 }
 
 bool PlayerAttackScript::IsDeathTouched() const
@@ -386,4 +381,14 @@ bool PlayerAttackScript::IsDeathTouched() const
 void PlayerAttackScript::SetIsDeathTouched(bool isDeathTouched)
 {
 	this->isDeathTouched = isDeathTouched;
+}
+
+AttackType PlayerAttackScript::GetCurrentAttackType() const
+{
+	return currentAttack;
+}
+
+GameObject* PlayerAttackScript::GetEnemyDetected() const
+{
+	return enemyDetection->GetEnemySelected();
 }

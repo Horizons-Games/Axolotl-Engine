@@ -13,6 +13,7 @@
 #include "DataModels/Scene/Scene.h"
 #include "FileSystem/ModuleFileSystem.h"
 
+#include "FileSystem/FileZippedData.h"
 #include "FileSystem/Json.h"
 
 #include "Windows/EditorWindows/WindowStateMachineEditor.h"
@@ -21,6 +22,8 @@
 #include "Windows/WindowMainMenu.h"
 #ifdef ENGINE
 	#include "Auxiliar/GameBuilder.h"
+	#include "Animation/StateMachine.h"
+	#include "Auxiliar/SceneLoader.h"
 	#include "Resources/ResourceStateMachine.h"
 	#include "Windows/EditorWindows/WindowAssetFolder.h"
 	#include "Windows/EditorWindows/WindowConfiguration.h"
@@ -30,6 +33,7 @@
 	#include "Windows/EditorWindows/WindowInspector.h"
 	#include "Windows/EditorWindows/WindowResources.h"
 	#include "Windows/EditorWindows/WindowScene.h"
+	#include "Windows/EditorWindows/WindowNavigation.h"
 #else
 	#include "Windows/EditorWindows/EditorWindow.h"
 #endif
@@ -66,7 +70,6 @@ bool ModuleEditor::Init()
 
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;	// Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;	// Enable Gamepad Controls
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;		// Enable Docking
 	io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange; // Prevent mouse flickering
 
@@ -89,7 +92,8 @@ bool ModuleEditor::Init()
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowAssetFolder>());
 	windows.push_back(std::make_unique<WindowConsole>());
-
+	windows.push_back(std::make_unique<WindowNavigation>());
+	
 	char* buffer = StateWindows();
 
 	if (buffer == nullptr)
@@ -129,7 +133,7 @@ bool ModuleEditor::Init()
 
 	mainMenu = std::make_unique<WindowMainMenu>(json);
 	stateMachineEditor = std::make_unique<WindowStateMachineEditor>();
-	buildGameLoading = std::make_unique<WindowLoading>();
+	loadingPopUp = std::make_unique<WindowLoading>();
 
 	ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
 #else
@@ -242,7 +246,7 @@ UpdateStatus ModuleEditor::Update()
 
 	mainMenu->Draw();
 
-	DrawLoadingBuild();
+	DrawLoadingPopUp();
 
 	for (int i = 0; i < windows.size(); ++i)
 	{
@@ -258,24 +262,51 @@ UpdateStatus ModuleEditor::Update()
 	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-void ModuleEditor::DrawLoadingBuild()
+void ModuleEditor::DrawLoadingPopUp()
 {
 #ifdef ENGINE
 	bool gameCompiling = builder::Compiling();
 	bool zipping = builder::Zipping();
-	bool gameBuilding = gameCompiling || zipping;
+	bool loadingScene = mainMenu->IsLoadingScene();
+	bool drawLoading = gameCompiling || zipping || loadingScene;
 	if (gameCompiling)
 	{
-		buildGameLoading->AddWaitingOn("Game is being compiled...");
+		loadingPopUp->AddWaitingOn("Game is being compiled...");
 	}
 	if (zipping)
 	{
-		buildGameLoading->AddWaitingOn("Binaries are being zipped...");
+		std::optional<FileZippedData> lastFileZippedData = builder::GetLastFileZippedData();
+		if (lastFileZippedData.has_value())
+		{
+			FileZippedData data = lastFileZippedData.value();
+			// this is too unreliable, since the time it takes to zip each file vastly varies among them
+			// we could maybe keep a history of the time (maybe in a helper class?), but we can do that later
+
+			// std::chrono::minutes expectedTimeRemaining =
+			//	duration_cast<std::chrono::minutes>((data.totalFiles - data.fileZippedIndex) * data.timeTaken);
+			// std::string extraInfo =
+			//	"Estimated time remaining: " + std::to_string(expectedTimeRemaining.count()) + " minutes";
+
+			std::string extraInfo = "Last file zipped: " + data.fileZipped;
+			extraInfo +=
+				"\nCurrent files: " + std::to_string(data.fileZippedIndex) + "/" + std::to_string(data.totalFiles);
+
+			loadingPopUp->AddWaitingOn("Binaries are being zipped...\n" + extraInfo,
+									   static_cast<float>(data.fileZippedIndex) / static_cast<float>(data.totalFiles));
+		}
+		else
+		{
+			loadingPopUp->AddWaitingOn("Binaries are being zipped...", 0.f);
+		}
 	}
-	buildGameLoading->Draw(gameBuilding);
-	if (gameBuilding)
+	if (loadingScene)
 	{
-		buildGameLoading->ResetWaitingOn();
+		loadingPopUp->AddWaitingOn("Scene is being loaded...");
+	}
+	loadingPopUp->Draw(drawLoading);
+	if (drawLoading)
+	{
+		loadingPopUp->ResetWaitingOn();
 	}
 #endif
 }
@@ -300,10 +331,10 @@ UpdateStatus ModuleEditor::PostUpdate()
 	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-void ModuleEditor::SetStateMachineWindowEditor(const std::weak_ptr<ResourceStateMachine>& resource)
+void ModuleEditor::SetStateMachineWindowEditor(StateMachine* resourceInstance, const std::string& instanceName)
 {
 #ifdef ENGINE
-	this->stateMachineEditor->SetStateMachine(resource);
+	this->stateMachineEditor->SetStateMachine(resourceInstance, instanceName);
 	stateMachineWindowEnable = true;
 #endif
 }

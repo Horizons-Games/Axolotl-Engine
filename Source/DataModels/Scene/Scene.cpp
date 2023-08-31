@@ -10,15 +10,16 @@
 
 #include "Camera/CameraGameObject.h"
 
+#include "Components/ComponentAgent.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentCubemap.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentPlayer.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentCubemap.h"
-#include "Components/ComponentPlayer.h"
 
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentImage.h"
@@ -30,6 +31,8 @@
 
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Program/Program.h"
+
+#include "GameObject/GameObject.h"
 
 #include "DataStructures/Quadtree.h"
 
@@ -96,7 +99,7 @@ void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
 
 bool Scene::IsInsideACamera(const OBB& obb) const
 {
-	// TODO: We have to add all the cameras in the future
+	AXO_TODO("We have to add all the cameras in the future")
 	for (ComponentCamera* camera : sceneCameras)
 	{
 		if (camera->GetCamera()->IsInside(obb))
@@ -298,7 +301,7 @@ GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* par
 
 void Scene::DestroyGameObject(const GameObject* gameObject)
 {
-	pendingCreateAndDeleteActions.emplace(
+	App->ScheduleTask(
 		[=]
 		{
 			RemoveFatherAndChildren(gameObject);
@@ -528,6 +531,14 @@ void Scene::RemoveFatherAndChildren(const GameObject* gameObject)
 										 return canvas->GetOwner() == gameObject;
 									 }),
 					  std::end(sceneCanvas));
+
+	sceneParticleSystems.erase(std::remove_if(std::begin(sceneParticleSystems),
+											  std::end(sceneParticleSystems),
+									 [gameObject](const ComponentParticleSystem* particleSystem)
+									 {
+												  return particleSystem->GetOwner() == gameObject;
+									 }),
+							   std::end(sceneParticleSystems));
 
 	sceneInteractableComponents.erase(std::remove_if(std::begin(sceneInteractableComponents),
 													 std::end(sceneInteractableComponents),
@@ -1004,6 +1015,58 @@ void Scene::UpdateSceneAreaLights()
 	}
 }
 
+void Scene::UpdateSceneMeshRenderers()
+{
+	std::vector<GameObject*> gameObjects = GetSceneGameObjects();
+	for (GameObject* go : gameObjects)
+	{
+		if (go && go->IsEnabled() && go->IsActive())
+		{
+			ComponentMeshRenderer* componentMeshRenderer = go->GetComponentInternal<ComponentMeshRenderer>();
+
+			if (componentMeshRenderer)
+			{
+				meshRenderers.push_back(componentMeshRenderer);
+			}
+		}
+	}
+}
+
+void Scene::UpdateSceneBoundingBoxes()
+{
+	std::vector<GameObject*> gameObjects = GetSceneGameObjects();
+	for (GameObject* go : gameObjects)
+	{
+		if (go && go->IsEnabled() && go->IsActive())
+		{
+			ComponentTransform* componentTransform = go->GetComponentInternal<ComponentTransform>();
+
+			if (componentTransform)
+			{
+				AABB boundingBox = componentTransform->GetEncapsuledAABB();
+				boundingBoxes.push_back(boundingBox);
+			}
+		}
+	}
+}
+
+void Scene::UpdateSceneAgentComponents()
+{
+	std::vector<GameObject*> gameObjects = GetSceneGameObjects();
+	for (GameObject* go : gameObjects)
+	{
+		if (go && go->IsEnabled() && go->IsActive())
+		{
+			ComponentAgent* componentAgent = go->GetComponentInternal<ComponentAgent>();
+
+			if (componentAgent)
+			{
+				agentComponents.push_back(componentAgent);
+			}
+		}
+	}
+}
+
 void Scene::UpdateSceneAreaSpheres()
 {
 	sphereLights.clear();
@@ -1321,6 +1384,15 @@ void Scene::RemoveNonStaticObject(const GameObject* gameObject)
 						   std::end(nonStaticObjects));
 }
 
+void Scene::AddUpdatableObject(Updatable* updatable)
+{
+	App->ScheduleTask(
+		[=]
+		{
+			sceneUpdatableObjects.push_back(updatable);
+		});
+}
+
 void Scene::AddSceneGameObjects(const std::vector<GameObject*>& gameObjects)
 {
 	sceneGameObjects.insert(std::end(sceneGameObjects), std::begin(gameObjects), std::end(gameObjects));
@@ -1353,13 +1425,95 @@ void Scene::InitCubemap()
 		root->CreateComponent<ComponentCubemap>();
 	}
 }
-
-void Scene::ExecutePendingActions()
+std::vector<float> Scene::GetVertices()
 {
-	while (!pendingCreateAndDeleteActions.empty())
+	std::vector<float> result;
+	
+	for (ComponentMeshRenderer* meshRenderer : meshRenderers)
 	{
-		std::function<void(void)> action = pendingCreateAndDeleteActions.front();
-		action();
-		pendingCreateAndDeleteActions.pop();
+		std::shared_ptr<ResourceMesh> mesh = meshRenderer->GetMesh();
+		GameObject* go = meshRenderer->GetOwner();
+		if (mesh != nullptr && go->CompareTag("NAVIGABLE"))
+		{
+			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+			//for (const ResourceMesh::Vertex& vertex : mesh->vertices)
+			//{
+			//	float4 transformedVertex = transform->GetGlobalMatrix() * float4(vertex.position, 1.0f);
+			for (const float3 vertex : mesh->GetVertices())
+			{
+				float4 transformedVertex = transform->GetGlobalMatrix() * float4(vertex, 1.0f);
+				result.push_back(transformedVertex.x);
+				result.push_back(transformedVertex.y);
+				result.push_back(transformedVertex.z);
+			}
+		}
 	}
+
+	return result;
+}
+
+std::vector<int> Scene::GetTriangles()
+{
+	int triangles = 0;
+	std::vector<int> maxVertMesh;
+	maxVertMesh.push_back(0);
+	for (ComponentMeshRenderer* meshRenderer : meshRenderers)
+	{
+		std::shared_ptr<ResourceMesh> mesh = meshRenderer->GetMesh();
+		if (mesh != nullptr && meshRenderer->GetOwner()->CompareTag("NAVIGABLE"))
+		{
+			//triangles += meshFaces.size() / 3;
+			triangles += static_cast<int>(mesh->GetFacesIndices().size());
+			maxVertMesh.push_back(static_cast<int>(mesh->GetVertices().size()));
+		}
+	}
+	std::vector<int> result(triangles * 3);
+
+	int currentGlobalTri = 0;
+	int vertOverload = 0;
+	int i = 0;
+
+	for (ComponentMeshRenderer* meshRenderer : meshRenderers)
+	{
+		std::shared_ptr<ResourceMesh> mesh = meshRenderer->GetMesh();
+		if (mesh != nullptr && meshRenderer->GetOwner()->CompareTag("NAVIGABLE"))
+		{
+			vertOverload += maxVertMesh[i];
+			std::vector<std::vector<unsigned int>> indices = mesh->GetFacesIndices();
+			for (unsigned j = 0; j < indices.size(); j += 1)
+			{
+				result[currentGlobalTri] = indices[j][0] + vertOverload;
+				result[currentGlobalTri + 1] = indices[j][1] + vertOverload;
+				result[currentGlobalTri + 2] = indices[j][2] + vertOverload;
+				currentGlobalTri += 3;
+			}
+			i++;
+		}
+	}
+
+	return result;
+}
+
+std::vector<float> Scene::GetNormals()
+{
+	std::vector<float> result;
+
+	for (ComponentMeshRenderer* meshRenderer : meshRenderers)
+	{
+		std::shared_ptr<ResourceMesh> mesh = meshRenderer->GetMesh();
+		GameObject* go = meshRenderer->GetOwner();
+		if (mesh != nullptr && go->CompareTag("NAVIGABLE"))
+		{
+			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+			for (const float3 normal : mesh->GetNormals())
+			{
+				float4 transformedVertex = transform->GetGlobalMatrix() * float4(normal, 1.0f);
+				result.push_back(transformedVertex.x);
+				result.push_back(transformedVertex.y);
+				result.push_back(transformedVertex.z);
+			}
+		}
+	}
+
+	return result;
 }
