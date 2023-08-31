@@ -61,25 +61,6 @@ void HealthSystem::Update(float deltaTime)
 			
 	}
 
-	/*else if (!EntityIsAlive() && owner->CompareTag("Enemy"))
-	{
-		EnemyDeathScript* enemyDeathManager = owner->GetComponent<EnemyDeathScript>();
-		enemyDeathManager->ManageEnemyDeath();
-	}*/
-
-	// This if/else should ideally be called inside the TakeDamage function
-	// 
-	// By setting this here, we make certain that 'IsTakingDamage' remains as true during a couple frames
-	// so the state machine could behave correctly (we could delete this once we have a way to delay any function calls)
-	/*if (currentHealth <= 0)
-	{
-		componentAnimation->SetParameter("IsDead", true);
-	}
-
-	else
-	{
-		componentAnimation->SetParameter("IsTakingDamage", false);
-	}*/
 	if (damageTaken)
 	{
 		componentAnimation->SetParameter("IsTakingDamage", false);

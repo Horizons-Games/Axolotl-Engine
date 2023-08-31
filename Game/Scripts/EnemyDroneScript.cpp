@@ -129,7 +129,8 @@ void EnemyDroneScript::CheckState()
 			droneState = DroneBehaviours::FASTATTACK;
 		}
 	}
-	else if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance) || IsSpawnedEnemy())
+	else if (IsSpawnedEnemy() || ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(),
+		seekDistance))
 	{
 		if (droneState == DroneBehaviours::PATROL)
 		{
@@ -241,7 +242,7 @@ void EnemyDroneScript::UpdateBehaviour(float deltaTime)
 				fastAttackScript->InterruptAttack();
 			}
 		}
-		
+
 
 		break;
 

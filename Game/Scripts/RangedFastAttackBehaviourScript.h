@@ -10,6 +10,7 @@ class Scene;
 class ComponentParticleSystem;
 class ComponentAgent;
 class ComponentRigidBody;
+class AIMovement;
 
 class RangedFastAttackBehaviourScript : public Script
 {
@@ -44,7 +45,7 @@ private:
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
 	ComponentAnimation* animation;
-	ComponentAgent* agent;
+	AIMovement* aiMovement;
 	ComponentRigidBody* rb;
 	ComponentParticleSystem* particleSystemShot;
 	ComponentParticleSystem* particleSystemPreShot;
@@ -54,7 +55,7 @@ private:
 
 	GameObject* bulletPrefab;
 	float bulletVelocity;
-	float AttackDamage;
+	float attackDamage;
 
 	float preShotDuration;
 	bool isPreShooting;

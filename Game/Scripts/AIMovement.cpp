@@ -22,7 +22,11 @@ void AIMovement::Start()
 {
 	componentTransform = owner->GetComponent<ComponentTransform>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
-	agent = owner->GetComponentInternal<ComponentAgent>();
+
+	if (owner->HasComponent<ComponentAgent>())
+	{
+		agent = owner->GetComponent<ComponentAgent>();
+	}
 
 	forwardVector = componentTransform->GetGlobalForward();
 

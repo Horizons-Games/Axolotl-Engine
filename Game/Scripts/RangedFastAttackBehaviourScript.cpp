@@ -17,6 +17,7 @@
 #include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/RangedFastAttackBullet.h"
+#include "../Scripts/AIMovement.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -28,13 +29,13 @@ RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), a
 	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0), isPreShooting(false),
 	preShootingTime(0.0f), particlePreShotTransform(nullptr), numConsecutiveShots(0.0f), minTimeConsecutiveShot(0.0f),
 	maxTimeConsecutiveShot(0.0f), currentConsecutiveShots(0.0f), nextShotDuration(0.0f), shotTime(0.0f),
-	isWaitingForConsecutiveShot(false), isConsecutiveShooting(false), AttackDamage(10.0f)
+	isWaitingForConsecutiveShot(false), isConsecutiveShooting(false), attackDamage(10.0f), aiMovement(nullptr)
 {
 	REGISTER_FIELD(attackCooldown, float);
 
 	REGISTER_FIELD(bulletPrefab, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
-	REGISTER_FIELD(AttackDamage, float);
+	REGISTER_FIELD(attackDamage, float);
 	REGISTER_FIELD(shootPosition, ComponentTransform*);
 	REGISTER_FIELD(particleSystemShot, ComponentParticleSystem*);
 	REGISTER_FIELD(particleSystemPreShot, ComponentParticleSystem*);
@@ -57,7 +58,7 @@ void RangedFastAttackBehaviourScript::Start()
 		particlePreShotTransform = particleSystemPreShot->GetOwner()->GetComponent<ComponentTransform>();
 	}
 	animation = owner->GetComponent<ComponentAnimation>();
-	agent = owner->GetComponentInternal<ComponentAgent>();
+	aiMovement = owner->GetComponent<AIMovement>();
 	rb = owner->GetComponent<ComponentRigidBody>();
 
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
@@ -141,7 +142,7 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 	script->GetScript()->SetOwner(bullet);
 
 	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletVelocity(bulletVelocity);
-	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletDamage(AttackDamage);
+	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletDamage(attackDamage);
 
 	// Once the engine automatically runs the Start() for newly created objects, delete this line
 	script->Start();
@@ -152,7 +153,9 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 	if (currentConsecutiveShots < numConsecutiveShots)
 	{
 		isConsecutiveShooting = true;
-		nextShotDuration = minTimeConsecutiveShot + static_cast<float>(std::rand()) / (static_cast <float>(RAND_MAX /(maxTimeConsecutiveShot - minTimeConsecutiveShot)));
+		auto random = std::rand();
+		nextShotDuration = minTimeConsecutiveShot + random /
+			(static_cast <float>(RAND_MAX / (maxTimeConsecutiveShot - minTimeConsecutiveShot)));
 		isWaitingForConsecutiveShot = true;
 	}
 	else
@@ -161,9 +164,6 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 		currentConsecutiveShots = 0.0f;
 		lastAttackTime = SDL_GetTicks() / 1000.0f;
 	}
-
-	//Set reposition
-	//needReposition = true;
 }
 
 void RangedFastAttackBehaviourScript::Reposition(float3 nextPosition)
@@ -171,16 +171,7 @@ void RangedFastAttackBehaviourScript::Reposition(float3 nextPosition)
 	needReposition = false;
 	movingToNewReposition = true;
 
-	if (agent)
-	{
-		agent->SetMoveTarget(nextPosition);
-	}
-	else
-	{
-		//set new target position
-		rb->SetPositionTarget(nextPosition);
-		rb->SetKpForce(1.0f);
-	}
+	aiMovement->SetTargetPosition(nextPosition);
 }
 
 void RangedFastAttackBehaviourScript::InterruptAttack()

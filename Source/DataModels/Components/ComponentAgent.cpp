@@ -16,7 +16,7 @@
 ComponentAgent::ComponentAgent(bool active, GameObject* owner) :
 	Component(ComponentType::AGENT, active, owner, true)
 {
-	transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	transform = GetOwner()->GetComponent<ComponentTransform>();
 }
 
 ComponentAgent::~ComponentAgent()
