@@ -15,35 +15,17 @@ public:
 	~MeleeFastAttackBehaviourScript() override = default;
 
 	void Start() override;
-	void Update(float deltaTime) override;
 
-	void PerformAttack();
+	void PerformAttack(GameObject* target);
 	bool IsAttackAvailable();
 
 	void ResetScriptValues();
 
 private:
-	void CheckCollision();
 
 	float attackCooldown;
 	float lastAttackTime;
 	float damageAttack;
-
-	//Provisional
-	std::vector<Ray> rays;
-
-	GameObject* ray1GO;
-	GameObject* ray2GO;
-	GameObject* ray3GO;
-	GameObject* ray4GO;
-
-	ComponentTransform* ray1Transform;
-	ComponentTransform* ray2Transform;
-	ComponentTransform* ray3Transform;
-	ComponentTransform* ray4Transform;
-
-	float rayAttackSize;
-	//--Provisional
 
 	ComponentTransform* ownerTransform;
 

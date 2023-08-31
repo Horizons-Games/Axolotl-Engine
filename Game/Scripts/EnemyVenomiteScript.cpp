@@ -224,7 +224,7 @@ void EnemyVenomiteScript::UpdateBehaviour(float deltaTime)
 			if (meleeAttackScript->IsAttackAvailable())
 			{
 				componentAnimation->SetParameter("IsMeleeAttacking", true);
-				meleeAttackScript->PerformAttack();
+				meleeAttackScript->PerformAttack(seekScript->GetTarget());
 			}
 			else
 			{
