@@ -8,17 +8,30 @@ namespace axo::detail
 {
 template<typename T>
 concept IsScript = std::is_base_of<IScript, std::remove_pointer_t<T>>::value;
-}
+
+template<typename T>
+concept CompleteType = requires
+{
+	sizeof(T);
+};
+
+#define ASSERT_TYPE_COMPLETE(T)                                                                    \
+	static_assert(axo::detail::CompleteType<T>,                                                    \
+				  "Trying to call method template with an incomplete type. Did you forget to add " \
+				  "the corresponding include?");
+} // namespace axo::detail
 
 template<typename C>
 C* GameObject::CreateComponent()
 {
+	ASSERT_TYPE_COMPLETE(C);
 	return static_cast<C*>(CreateComponent(ComponentToEnum<C>::value));
 }
 
 template<typename C>
 C* GameObject::GetComponentInternal() const
 {
+	ASSERT_TYPE_COMPLETE(C);
 	if constexpr (axo::detail::IsScript<C>)
 	{
 		// GetComponents already makes sure the objects returned are not null
@@ -46,6 +59,7 @@ C* GameObject::GetComponentInternal() const
 template<typename C>
 C* GameObject::GetComponent() const
 {
+	ASSERT_TYPE_COMPLETE(C);
 	C* internalResult = GetComponentInternal<C>();
 	if (internalResult == nullptr)
 	{
@@ -64,6 +78,7 @@ C* GameObject::GetComponent() const
 template<typename C>
 std::vector<C*> GameObject::GetComponents() const
 {
+	ASSERT_TYPE_COMPLETE(C);
 	if constexpr (axo::detail::IsScript<C>)
 	{
 		// GetComponents already makes sure the objects returned are not null
@@ -101,12 +116,14 @@ std::vector<C*> GameObject::GetComponents() const
 template<typename C>
 bool GameObject::RemoveComponent()
 {
+	ASSERT_TYPE_COMPLETE(C);
 	return RemoveComponent(GetComponentInternal<C>());
 }
 
 template<typename C>
 bool GameObject::RemoveComponents()
 {
+	ASSERT_TYPE_COMPLETE(C);
 	auto removeIfResult = std::remove_if(std::begin(components),
 										 std::end(components),
 										 [](const std::unique_ptr<Component>& comp)
@@ -120,5 +137,6 @@ bool GameObject::RemoveComponents()
 template<typename C>
 inline bool GameObject::HasComponent() const
 {
+	ASSERT_TYPE_COMPLETE(C);
 	return GetComponentInternal<C>() != nullptr;
 }
