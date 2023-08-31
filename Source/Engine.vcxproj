@@ -176,6 +176,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Game\Scripts\AIMovement.cpp" />
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp" />
     <ClCompile Include="..\Game\Scripts\BossChargeAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossChargeRockScript.cpp" />
@@ -808,6 +809,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Game\Scripts\AIMovement.h" />
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h" />
     <ClInclude Include="..\Game\Scripts\BossChargeAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\BossChargeRockScript.h" />

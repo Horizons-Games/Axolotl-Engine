@@ -1,0 +1,12 @@
+{
+    "UID": 15094355736712813101,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": [
+        "Assets/Textures/MagicCircle23.png",
+        "Assets/Textures/Flare03.png"
+    ],
+    "ConfigEmitters": [
+        false,
+        true
+    ]
+}

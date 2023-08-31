@@ -319,3 +319,7 @@ void FinalBossScript::ManageLastResortPhase()
 		bossState = FinalBossStates::WALKING;
 	}
 }
+
+void FinalBossScript::SetReadyToDie()
+{
+}
