@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Exceptions/AccessingFailedScriptException.h"
 #include "Exceptions/ComponentNotFoundException.h"
 #include "Formatter.h"
 
@@ -61,19 +62,37 @@ template<typename C>
 C* GameObject::GetComponent() const
 {
 	ASSERT_TYPE_COMPLETE(C);
-	C* internalResult = GetComponentInternal<C>();
-	if (internalResult == nullptr)
+
+	const char* typeName = typeid(C).name();
+	if constexpr (axo::detail::IsScript<C>)
 	{
-		if constexpr (axo::detail::IsScript<C>)
+		// GetComponents already makes sure the objects returned are not null
+		std::vector<ComponentScript*> componentScripts = GetComponents<ComponentScript>();
+		auto componentWithScript = std::ranges::find_if(componentScripts,
+														[](const ComponentScript* component)
+														{
+															return dynamic_cast<C*>(component->GetScript()) != nullptr;
+														});
+		if (componentWithScript == std::end(componentScripts))
 		{
-			throw ComponentNotFoundException(axo::Format("Script of type {} not found", std::string(typeid(C).name())));
+			throw ComponentNotFoundException(axo::Format("Script of type {} not found", typeName));
 		}
-		else
+		if ((*componentWithScript)->HasFailed())
 		{
-			throw ComponentNotFoundException(axo::Format("Component of type {} not found", std::string(typeid(C).name())));
+			throw AccessingFailedScriptException(axo::Format(
+				"Trying to access a script of type {} that has raised an exception during its execution!", typeName));
 		}
+		return dynamic_cast<C*>((*componentWithScript)->GetScript());
 	}
-	return internalResult;
+	else
+	{
+		C* internalResult = GetComponentInternal<C>();
+		if (internalResult == nullptr)
+		{
+			throw ComponentNotFoundException(axo::Format("Component of type {} not found", typeName));
+		}
+		return internalResult;
+	}
 }
 
 template<typename C>

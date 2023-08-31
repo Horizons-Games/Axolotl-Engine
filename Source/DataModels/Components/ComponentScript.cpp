@@ -5,8 +5,8 @@
 #include "Application.h"
 #include "GameObject/GameObject.h"
 
-#include "FileSystem/ModuleResources.h"
 #include "Animation/StateMachine.h"
+#include "FileSystem/ModuleResources.h"
 
 #include "Scripting/Script.h"
 #include "Scripting/ScriptFactory.h"
@@ -18,6 +18,7 @@
 
 #include "ComponentRigidBody.h"
 
+#include "Exceptions/AccessingFailedScriptException.h"
 #include "Exceptions/ComponentNotFoundException.h"
 #include "Exceptions/ScriptAssertFailedException.h"
 
@@ -47,6 +48,14 @@ void RunScriptMethodAndHandleException(bool& scriptFailedState, ComponentScript*
 	catch (const ScriptAssertFailedException& exception)
 	{
 		LOG_ERROR("Assertion failed during execution of script {}, owned by {}. Error message: {}",
+				  script->GetConstructName(),
+				  script->GetOwner(),
+				  exception.what());
+		scriptFailedState = true;
+	}
+	catch (const AccessingFailedScriptException& exception)
+	{
+		LOG_ERROR("Script {}, owned by {} attempted to access script that has stopped running. Error message: {}",
 				  script->GetConstructName(),
 				  script->GetOwner(),
 				  exception.what());
@@ -646,7 +655,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 
 							break;
 						}
-						
+
 						case FieldType::FLOAT3:
 							vectorCase.push_back(float3(vectorElements[j]["value x"],
 														vectorElements[j]["value y"],
