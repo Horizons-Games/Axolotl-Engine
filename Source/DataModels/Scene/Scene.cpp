@@ -10,11 +10,14 @@
 
 #include "Camera/CameraGameObject.h"
 
+#include "Components/ComponentAgent.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentCubemap.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentPlayer.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentCubemap.h"

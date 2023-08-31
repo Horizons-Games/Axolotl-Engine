@@ -779,27 +779,47 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
-				if (gameObject->IsActive() && gameObject->IsEnabled())
-				{
-					const ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
-					float dist = Length(cameraPos - transform->GetGlobalPosition());
 
-					gameObjectsInFrustrum.insert(gameObject);
-					objectsInFrustrumDistances[gameObject] = dist;
+				ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
+				// If an object doesn't have transform component it doesn't need to draw
+				if (transform == nullptr)
+				{
+					return;
 				}
+
+				if (camera->IsInside(transform->GetEncapsuledAABB()))
+				{
+					if (gameObject->IsActive() && gameObject->IsEnabled())
+					{
+						float dist = Length(cameraPos - transform->GetGlobalPosition());
+
+						gameObjectsInFrustrum.insert(gameObject);
+						objectsInFrustrumDistances[gameObject] = dist;
+					}
+				}
+				
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
-			for (const GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
+			for (const GameObject* gameObject : gameObjectsToRender)
 			{
-				if (gameObject->IsActive() && gameObject->IsEnabled())
+				ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
+				// If an object doesn't have transform component it doesn't need to draw
+				if (transform == nullptr)
 				{
-					const ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
-					float dist = Length(cameraPos - transform->GetGlobalPosition());
+					return;
+				}
 
-					gameObjectsInFrustrum.insert(gameObject);
-					objectsInFrustrumDistances[gameObject] = dist;
+				if (camera->IsInside(transform->GetEncapsuledAABB()))
+				{
+					if (gameObject->IsActive() && gameObject->IsEnabled())
+					{
+						float dist = Length(cameraPos - transform->GetGlobalPosition());
+
+						gameObjectsInFrustrum.insert(gameObject);
+						objectsInFrustrumDistances[gameObject] = dist;
+					}
 				}
 			}
 
