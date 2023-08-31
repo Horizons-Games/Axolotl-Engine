@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 
+#include "DataModels/Components/UI/ComponentSlider.h"
 #include "DataModels/Components/ComponentAnimation.h"
 #include "DataModels/Components/ComponentAudioListener.h"
 #include "DataModels/Components/ComponentAudioSource.h"
@@ -21,6 +22,8 @@
 #include "DataModels/Components/ComponentScript.h"
 #include "DataModels/Components/ComponentSpotLight.h"
 #include "DataModels/Components/ComponentTransform.h"
+#include "DataModels//Components/ComponentAgent.h"
+#include "DataModels//Components/ComponentObstacle.h"
 #include "DataModels/Components/UI/ComponentButton.h"
 #include "DataModels/Components/UI/ComponentCanvas.h"
 #include "DataModels/Components/UI/ComponentImage.h"
@@ -44,7 +47,7 @@
 
 // Root constructor
 GameObject::GameObject(const std::string& name, UID uid) :
-	GameObject(name, nullptr, uid, true, true, StateOfSelection::NO_SELECTED, false)
+	GameObject(name, nullptr, uid, true, true, StateOfSelection::NOT_SELECTED, false)
 {
 }
 
@@ -58,7 +61,7 @@ GameObject::GameObject(const std::string& name, GameObject* parent) :
 			   UniqueID::GenerateUID(),
 			   true,
 			   (parent->IsEnabled() && parent->IsActive()),
-			   StateOfSelection::NO_SELECTED,
+			   StateOfSelection::NOT_SELECTED,
 			   false)
 {
 	this->parent->LinkChild(this);
@@ -70,7 +73,7 @@ GameObject::GameObject(const GameObject& gameObject) :
 			   UniqueID::GenerateUID(),
 			   true,
 			   true,
-			   StateOfSelection::NO_SELECTED,
+			   StateOfSelection::NOT_SELECTED,
 			   gameObject.staticObject,
 			   gameObject.tag)
 {
@@ -155,7 +158,8 @@ void GameObject::Load(const Json& meta)
 		if (type == ComponentType::LIGHT)
 		{
 			LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-			CreateComponentLight(lightType, AreaType::NONE); // TODO look at this when implement metas
+			AXO_TODO("look at this when implement metas")
+			CreateComponentLight(lightType, AreaType::NONE);
 		}
 		else if (type == ComponentType::SCRIPT)
 		{
@@ -404,6 +408,18 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
+		case ComponentType::AGENT:
+		{
+			newComponent = std::make_unique<ComponentAgent>(static_cast<ComponentAgent&>(*component));
+			break;
+		}
+
+		case ComponentType::OBSTACLE:
+		{
+			newComponent = std::make_unique<ComponentObstacle>(static_cast<ComponentObstacle&>(*component));
+			break;
+		}
+
 		default:
 			LOG_WARNING("Component of type {} could not be copied!", GetNameByType(type).c_str());
 	}
@@ -646,9 +662,21 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+
 		case ComponentType::SKYBOX:
 		{
 			newComponent = std::make_unique<ComponentSkybox>(true, this);
+		}
+
+		case ComponentType::AGENT:
+		{
+			newComponent = std::make_unique<ComponentAgent>(true, this);
+			break;
+		}
+
+		case ComponentType::OBSTACLE:
+		{
+			newComponent = std::make_unique<ComponentObstacle>(true, this);
 			break;
 		}
 
@@ -903,9 +931,9 @@ void GameObject::SetStatic(bool newStatic)
 
 // This is called Rendereable and not Drawable because if in the future we add some other types not drawable that needs
 // to be rendereables in quadtree
-bool GameObject::IsRendereable()
+bool GameObject::IsRendereable() const
 {
-	for (std::unique_ptr<Component>& comp : components)
+	for (const std::unique_ptr<Component>& comp : components)
 	{
 		Drawable* drawable = dynamic_cast<Drawable*>(comp.get());
 		if (drawable)

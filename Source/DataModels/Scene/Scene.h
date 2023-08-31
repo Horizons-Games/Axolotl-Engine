@@ -6,8 +6,8 @@
 #include "Components/ComponentAreaLight.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
-
-#include <queue>
+#include "Components/ComponentAgent.h"
+#include "Components/ComponentMeshRenderer.h"
 
 class Component;
 class ComponentCamera;
@@ -70,6 +70,9 @@ public:
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
 	void UpdateSceneAreaLights();
+	void UpdateSceneMeshRenderers();
+	void UpdateSceneBoundingBoxes();
+	void UpdateSceneAgentComponents();
 	void UpdateSceneAreaSpheres();
 	void UpdateSceneAreaTubes();
 	void UpdateScenePointLight(const ComponentPointLight* compPoint);
@@ -89,6 +92,13 @@ public:
 	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 	Cubemap* GetCubemap() const;
+	std::vector<ComponentMeshRenderer*> GetMeshRenderers() const;
+	std::vector<AABB> GetBoundingBoxes() const;
+	std::vector<ComponentAgent*> GetAgentComponents() const;
+
+	std::vector<float> GetVertices();
+	std::vector<int> GetTriangles();
+	std::vector<float> GetNormals();
 
 	void SetRoot(GameObject* newRoot);
 	void SetRootQuadtree(std::unique_ptr<Quadtree> quadtree);
@@ -119,7 +129,6 @@ public:
 	void InitCubemap();
 
 	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D);
-	void ExecutePendingActions();
 
 private:
 	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);
@@ -137,7 +146,7 @@ private:
 	std::vector<Component*> sceneInteractableComponents;
 	std::vector<Updatable*> sceneUpdatableObjects;
 
-	//Draw is const so I need this vector
+	// Draw is const so I need this vector
 	std::vector<ComponentParticleSystem*> sceneParticleSystems;
 
 	GameObject* directionalLight;
@@ -147,6 +156,9 @@ private:
 	std::vector<SpotLight> spotLights;
 	std::vector<AreaLightSphere> sphereLights;
 	std::vector<AreaLightTube> tubeLights;
+	std::vector<ComponentMeshRenderer*> meshRenderers;
+	std::vector<AABB> boundingBoxes;
+	std::vector<ComponentAgent*> agentComponents;
 
 	std::vector<std::pair<const ComponentPointLight*, unsigned int>> cachedPoints;
 	std::vector<std::pair<const ComponentSpotLight*, unsigned int>> cachedSpots;
@@ -163,10 +175,6 @@ private:
 	// Render Objects
 	std::unique_ptr<Quadtree> rootQuadtree;
 	std::vector<GameObject*> nonStaticObjects;
-
-	// All Updatable components should be added at the end of the frame to avoid modifying the iterated list
-	// Similarly, game objects should only be deleted at the end of the frame
-	std::queue<std::function<void(void)>> pendingCreateAndDeleteActions;
 };
 
 inline GameObject* Scene::GetRoot() const
@@ -249,6 +257,21 @@ inline Cubemap* Scene::GetCubemap() const
 	return cubemap.get();
 }
 
+inline std::vector<ComponentMeshRenderer*> Scene::GetMeshRenderers() const
+{
+	return meshRenderers;
+}
+
+inline std::vector<ComponentAgent*> Scene::GetAgentComponents() const
+{
+	return agentComponents;
+}
+
+inline std::vector<AABB> Scene::GetBoundingBoxes() const
+{
+	return boundingBoxes;
+}
+
 inline const std::vector<GameObject*>& Scene::GetNonStaticObjects() const
 {
 	return nonStaticObjects;
@@ -257,15 +280,6 @@ inline const std::vector<GameObject*>& Scene::GetNonStaticObjects() const
 inline void Scene::AddNonStaticObject(GameObject* gameObject)
 {
 	nonStaticObjects.push_back(gameObject);
-}
-
-inline void Scene::AddUpdatableObject(Updatable* updatable)
-{
-	pendingCreateAndDeleteActions.emplace(
-		[=]
-		{
-			sceneUpdatableObjects.push_back(updatable);
-		});
 }
 
 inline void Scene::AddParticleSystem(ComponentParticleSystem* particleSystem)
@@ -277,9 +291,9 @@ inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleS
 {
 	sceneParticleSystems.erase(std::remove_if(std::begin(sceneParticleSystems),
 											  std::end(sceneParticleSystems),
-		[&particleSystem](ComponentParticleSystem* particle)
-		{
-			return particle == particleSystem;
-		}),
+											  [&particleSystem](ComponentParticleSystem* particle)
+											  {
+												  return particle == particleSystem;
+											  }),
 							   std::end(sceneParticleSystems));
 }
