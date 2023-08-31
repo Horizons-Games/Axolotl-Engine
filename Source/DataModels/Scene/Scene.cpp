@@ -1469,15 +1469,8 @@ void Scene::InitNewEmptyScene()
 	std::shared_ptr<ResourceCubemap> resourceCubemap =
 		App->GetModule<ModuleResources>()->RequestResource<ResourceCubemap>("Assets/Cubemaps/sunsetSkybox.cube");
 
-	if (root->GetComponentInternal<ComponentRender>() == nullptr)
-	{
-		root->CreateComponent<ComponentRender>();
-	}
-
-	if (root->GetComponentInternal<ComponentCubemap>() == nullptr)
-	{
-		root->CreateComponent<ComponentCubemap>();
-	}
+	InitRender();
+	InitCubemap();
 
 	if (resourceCubemap)
 	{

@@ -22,7 +22,6 @@ struct Material {
     float smoothness;           //32 //4
     float metalness;            //36 //4
     float normal_strength;      //40 //4
-    int padding;
     sampler2D diffuse_map;      //48 //8
     sampler2D normal_map;       //56 //8
     sampler2D metallic_map;     //64 //8 

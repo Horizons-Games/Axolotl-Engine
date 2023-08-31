@@ -65,7 +65,6 @@ private:
 		float smoothness = 0;					//32 //4
 		float metalness = 0;					//36 //4
 		float normal_strength = 0;				//40 //4
-		int padding;
 		uint64_t diffuse_map;					//48 //8
 		uint64_t normal_map;					//56 //8
 		uint64_t metallic_map;					//64 //8

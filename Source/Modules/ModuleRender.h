@@ -137,8 +137,8 @@ private:
 	GLuint dualKawaseUpFramebuffers[KAWASE_DUAL_SAMPLERS];
 	GLuint dualKawaseUpTextures[KAWASE_DUAL_SAMPLERS];
 	
-	GLuint bloomFramebuffer;
-	GLuint bloomTexture;
+	//GLuint bloomFramebuffer;
+	//GLuint bloomTexture;
 	
 	// Shadow Mapping buffers and textures
 	GLuint depthStencilRenderBuffer = 0;
