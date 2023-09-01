@@ -31,6 +31,11 @@
 
 #include "Auxiliar/AddComponentAction.h"
 
+namespace
+{
+	const std::string names[] = { "Right", "Left", "Top", "Bottom", "Back", "Front" };
+}
+
 WindowInspector::WindowInspector() :
 	EditorWindow("Inspector"),
 	lastSelectedObjectUID(0),
@@ -393,15 +398,14 @@ void WindowInspector::DrawSkyboxOptions()
 		ImGui::SameLine();
 		std::vector<std::shared_ptr<ResourceTexture>> textures = resourceSkybox->GetTextures();
 
-		const std::string names[] = { "Right", "Left", "Top", "Bottom", "Back", "Front" };
 		for (size_t i = 0; i < textures.size(); i++)
 		{
 			ImGui::Text(names[i].c_str());
 			ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(textures[i]->GetGlTexture())),
 							ImVec2(100, 100));
 			ImGui::SameLine();
-			const char* name = ("See Resource of " + names[i]).c_str();
-			if (ImGui::Button(name))
+			std::string buttonName = "See Resource of " + names[i];
+			if (ImGui::Button(buttonName.c_str()))
 			{
 				resource = textures[i];
 			}
