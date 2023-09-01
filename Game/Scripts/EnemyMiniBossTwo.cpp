@@ -10,12 +10,15 @@
 #include "../Scripts/SeekBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/EnemyDeathScript.h"
+#include "../Scripts/BoostOfEnergy.h"
+#include "../Scripts/RangedFastAttackBehaviourScript.h"
+#include "../Scripts/AIMovement.h"
 
 REGISTERCLASS(EnemyMiniBossTwo);
 
 EnemyMiniBossTwo::EnemyMiniBossTwo() : seekScript(nullptr), bossState(MiniBossTwoBehaviours::IDLE),
-ownerTransform(nullptr), attackDistance(3.0f), seekDistance(6.0f),
-componentAnimation(nullptr), componentAudioSource(nullptr), lastBossState(MiniBossTwoBehaviours::IDLE)
+ownerTransform(nullptr), attackDistance(8.0f), seekDistance(6.0f), boostOfEnergy(nullptr),
+componentAnimation(nullptr), componentAudioSource(nullptr), rangedAttack(nullptr), aiMovement(nullptr)
 {
 	REGISTER_FIELD(seekDistance, float);
 }
@@ -33,50 +36,99 @@ void EnemyMiniBossTwo::Start()
 
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
 	healthScript = owner->GetComponent<HealthSystem>();
+	boostOfEnergy = owner->GetComponent<BoostOfEnergy>();
+	rangedAttack = owner->GetComponent<RangedFastAttackBehaviourScript>();
+	aiMovement = owner->GetComponent<AIMovement>();
 
 	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
 }
 
 void EnemyMiniBossTwo::Update(float deltaTime)
 {
-	if (stunned)
-	{
-		if (timeStunned < 0)
-		{
-			timeStunned = 0;
-			stunned = false;
-		}
-		else
-		{
-			timeStunned -= deltaTime;
-			return;
-		}
-	}
-
 	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;
 	}
 
+	CheckState();
 
-	if (bossState != MiniBossTwoBehaviours::SEEK)
+	UpdateBehaviour(deltaTime);
+}
+
+void EnemyMiniBossTwo::CheckState()
+{
+	if (ownerTransform->GetGlobalPosition().Distance(seekTargetTransform->GetGlobalPosition()) > attackDistance)
 	{
-		bool inFront = true;
-		if (std::abs(ownerTransform->GetGlobalForward().
-			AngleBetween(seekTargetTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition())) > 1.5708f)
+		if (bossState != MiniBossTwoBehaviours::SEEK)
 		{
-			inFront = false;
-		}
+			aiMovement->SetMovementStatuses(true, true);
 
-		if ((ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance) && inFront)
-			|| (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), seekDistance / 2.0f)
-				&& !inFront))
-		{
+			componentAnimation->SetParameter("IsRunning", true);
+			componentAnimation->SetParameter("IsRangedAttacking", false);
+
 			bossState = MiniBossTwoBehaviours::SEEK;
 		}
 	}
+	else if (bossState != MiniBossTwoBehaviours::RANGEDATTACK && !boostOfEnergy->IsAttacking())
+	{
+		seekScript->DisableMovement();
+
+		aiMovement->SetMovementStatuses(false, true);
+
+		componentAnimation->SetParameter("IsRunning", false);
+		componentAnimation->SetParameter("IsRangedAttacking", true);
+
+		bossState = MiniBossTwoBehaviours::RANGEDATTACK;
+	}
+	else if (bossState != MiniBossTwoBehaviours::BOOSTOFENERGYATTACK)
+	{
+		boostOfEnergy->PerformAttack();
+		bossState = MiniBossTwoBehaviours::BOOSTOFENERGYATTACK;
+	}
 }
 
+void EnemyMiniBossTwo::UpdateBehaviour(float deltaTime)
+{
+	switch (bossState)
+	{
+	case MiniBossTwoBehaviours::SEEK:
+
+		seekScript->Seeking();
+
+		break;
+
+	case MiniBossTwoBehaviours::RANGEDATTACK:
+
+		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+
+		if (componentAnimation->GetActualStateName() != "VenomiteTakeDamage" &&
+			componentAnimation->GetActualStateName() != "VenomiteMeleeAttack")
+		{
+			if (rangedAttack->IsAttackAvailable())
+			{
+				rangedAttack->PerformAttack();
+			}
+		}
+		else
+		{
+			if (rangedAttack->IsPreShooting())
+			{
+				rangedAttack->InterruptAttack();
+			}
+		}
+
+		break;
+
+	case MiniBossTwoBehaviours::BOOSTOFENERGYATTACK:
+		
+		if (boostOfEnergy->attackState == BoostOfEnergyStates::AIMING)
+		{
+			aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+		}
+
+		break;
+	}
+}
 
 void EnemyMiniBossTwo::SetReadyToDie()
 {
@@ -84,11 +136,3 @@ void EnemyMiniBossTwo::SetReadyToDie()
 
 	deathScript->ManageEnemyDeath();
 }
-
-/*if (seekScript && droneState == DroneBehaviours::SEEK)
-{
-	seekScript->Seeking();
-
-	componentAnimation->SetParameter("IsSeeking", true);
-	componentAnimation->SetParameter("IsAttacking", false);
-}*/

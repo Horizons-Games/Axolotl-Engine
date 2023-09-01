@@ -107,10 +107,6 @@ void BoostOfEnergy::Update(float deltaTime)
 			attackState = BoostOfEnergyStates::RECHARGED;
 		}
 		break;
-
-	case BoostOfEnergyStates::RECHARGED:
-		PerformAttack();
-		break;
 	}
 }
 
@@ -161,6 +157,11 @@ void BoostOfEnergy::RechargeLaser()
 bool BoostOfEnergy::IsAttackAvailable()
 {
 	return attackState == BoostOfEnergyStates::RECHARGED;
+}
+
+bool BoostOfEnergy::IsAttacking()
+{
+	return attackState != BoostOfEnergyStates::RECHARGING && attackState != BoostOfEnergyStates::RECHARGED;
 }
 
 void BoostOfEnergy::SetCollisionEnter(ComponentRigidBody* other)

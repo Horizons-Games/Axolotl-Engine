@@ -32,6 +32,9 @@ public:
 
 	void PerformAttack();
 	bool IsAttackAvailable();
+	bool IsAttacking();
+
+	BoostOfEnergyStates attackState;
 
 private:
 	void PreShootLaser();
@@ -41,8 +44,6 @@ private:
 
 	void SetCollisionEnter(ComponentRigidBody* other);
 	void SetCollisionExit(ComponentRigidBody* other);
-
-	BoostOfEnergyStates attackState;
 
 	float cooldownDuration;
 	float cooldownTimer;

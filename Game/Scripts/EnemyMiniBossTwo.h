@@ -12,12 +12,16 @@ class EnemyDeathScript;
 class ComponentTransform;
 class ComponentAnimation;
 class ComponentAudioSource;
+class BoostOfEnergy;
+class RangedFastAttackBehaviourScript;
+class AIMovement;
 
 enum class MiniBossTwoBehaviours
 {
 	IDLE,
 	SEEK,
-	ATTACK,
+	RANGEDATTACK,
+	BOOSTOFENERGYATTACK,
 	SHIELD
 };
 
@@ -33,12 +37,19 @@ public:
 	void SetReadyToDie() override;
 
 private:
+	void CheckState();
+	void UpdateBehaviour(float deltaTime);
+
+
 	float attackDistance;
 	float seekDistance;
 
 	SeekBehaviourScript* seekScript;
 	HealthSystem* healthScript;
 	EnemyDeathScript* deathScript;
+	BoostOfEnergy* boostOfEnergy;
+	RangedFastAttackBehaviourScript* rangedAttack;
+	AIMovement* aiMovement;
 
 	ComponentTransform* ownerTransform;
 	ComponentAnimation* componentAnimation;
@@ -46,5 +57,4 @@ private:
 	ComponentTransform* seekTargetTransform;
 
 	MiniBossTwoBehaviours bossState;
-	MiniBossTwoBehaviours lastBossState;
 };
