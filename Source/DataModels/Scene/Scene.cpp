@@ -80,7 +80,6 @@ Scene::~Scene()
 	sceneCameras.clear();
 	sceneParticleSystems.clear();
 	sceneComponentLines.clear();
-	sceneComponentLocalIBLs.clear();
 	nonStaticObjects.clear();
 
 	pointLights.clear();
