@@ -30,7 +30,7 @@ public:
 	GameObject* GetSelectedGameObject() const;
 	void SetSelectedGameObject(GameObject* gameObject);
 	void SetSceneToLoad(const std::string& name);
-	bool hasNewUID(UID oldUID, UID& newUID);
+	bool HasNewUID(UID oldUID, UID& newUID);
 	void SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects);
 
 	void SaveScene(const std::string& name);
@@ -67,7 +67,6 @@ private:
 
 	// to store the tmp serialization of the Scene
 	rapidjson::Document tmpDoc;
-	std::map<UID, UID> uidMap;
 
 	std::mutex loadedSceneMutex;
 };

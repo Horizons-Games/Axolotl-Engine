@@ -1,9 +1,6 @@
 #include "StdAfx.h"
 
 #include "Application.h"
-
-#include "DataModels/GameObject/GameObject.h"
-#include "DataModels/Resources/Resource.h"
 #include "FileSystem/ModuleFileSystem.h"
 
 #include <mutex>
@@ -13,12 +10,10 @@ namespace
 const char* documentsPath = "Documents";
 const char* logFilePath = "Documents/Axolotl.log";
 
-const char* replaceToken = "{}";
-
 std::recursive_mutex writeLock;
 } // namespace
 
-void AxoLog::Write(const char file[], int line, LogSeverity severity, const std::string& formattedLine)
+void AxoLog::Write(const char file[], int line, LogSeverity severity, std::string&& formattedLine)
 {
 	// Lock the mutex so the function is thread-safe
 	// this scoped_lock will be destroyed upon exiting the method, thus freeing the mutex
@@ -26,7 +21,7 @@ void AxoLog::Write(const char file[], int line, LogSeverity severity, const std:
 	// meaning that there won't be any deadlocks if the mutex is attempted to be locked twice
 	std::scoped_lock lock(writeLock);
 
-	LogLine logLine{ severity, file, static_cast<uint16_t>(line), formattedLine };
+	LogLine logLine{ severity, file, static_cast<uint16_t>(line), std::move(formattedLine) };
 	logLines.push_back(logLine);
 
 	std::string detailedString = logLine.ToDetailedString();
@@ -86,71 +81,6 @@ void AxoLog::StopWritingToFile()
 {
 	LOG_INFO("Closing writer...");
 	writingToFile = false;
-}
-
-size_t AxoLog::FindReplaceToken(const std::string& formatString) const
-{
-	return formatString.find(replaceToken);
-}
-
-bool AxoLog::Format(std::string& format, int arg) const
-{
-	return Format(format, std::to_string(arg));
-}
-
-bool AxoLog::Format(std::string& format, unsigned int arg) const
-{
-	return Format(format, std::to_string(arg));
-}
-
-bool AxoLog::Format(std::string& format, float arg) const
-{
-	return Format(format, std::to_string(arg));
-}
-
-bool AxoLog::Format(std::string& format, const char* arg) const
-{
-	return Format(format, std::string(arg));
-}
-
-bool AxoLog::Format(std::string& format, const std::string& arg) const
-{
-	size_t firstToken = FindReplaceToken(format);
-	if (firstToken != std::string::npos)
-	{
-		format.replace(firstToken, strlen(replaceToken), arg);
-		return true;
-	}
-	return false;
-}
-
-bool AxoLog::Format(std::string& format, bool arg) const
-{
-	return Format(format, std::to_string(arg));
-}
-
-bool AxoLog::Format(std::string& format, const GameObject* arg) const
-{
-	return Format(format, arg != nullptr ? arg->GetName() : "NULL");
-}
-
-bool AxoLog::Format(std::string& format, unsigned long long arg) const
-{
-	return Format(format, std::to_string(arg));
-}
-
-bool AxoLog::Format(std::string& format, const std::shared_ptr<Resource>& arg) const
-{
-	if (arg)
-	{
-		return Format(format, arg->GetUID());
-	}
-	return Format(format, "NULL");
-}
-
-bool AxoLog::Format(std::string& format, const unsigned char* arg) const
-{
-	return Format(format, reinterpret_cast<const char*>(arg));
 }
 
 //////////////////////////////////////////////////////////////////////////
