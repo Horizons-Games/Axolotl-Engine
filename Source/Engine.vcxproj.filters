@@ -682,6 +682,13 @@
     <ClCompile Include="Auxiliar\ConnectedCallback.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
+    <ClCompile Include="Exceptions\ComponentNotFoundException.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions\ScriptAssertFailedException.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Formatter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1406,6 +1413,13 @@
     <ClInclude Include="Auxiliar\ConnectedCallback.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
+    <ClInclude Include="Exceptions\ComponentNotFoundException.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\ScriptAssertFailedException.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Formatter.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1572,6 +1586,9 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Player\Attack\Finishers\Light Finisher">
       <UniqueIdentifier>{62400d05-b28f-42d0-8554-b11dc997773a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exceptions">
+      <UniqueIdentifier>{d89816a3-de30-46fe-9d0f-cf270aa9f568}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

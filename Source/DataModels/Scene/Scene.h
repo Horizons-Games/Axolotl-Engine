@@ -6,14 +6,16 @@
 #include "Components/ComponentAreaLight.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
-#include "Components/ComponentAgent.h"
-#include "Components/ComponentMeshRenderer.h"
 
 class Component;
 class ComponentCamera;
 class ComponentCanvas;
 class ComponentParticleSystem;
+class ComponentMeshRenderer;
+class ComponentAgent;
+
 class GameObject;
+
 class Quadtree;
 class Cubemap;
 class Updatable;

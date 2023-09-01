@@ -82,7 +82,7 @@ void OnLoadedScene()
 	{
 		player->LoadNewPlayer();
 	}
-	
+
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	scene->InitAndStartScriptingComponents();
 	scene->InitParticlesComponents();
@@ -477,6 +477,17 @@ void LoadScene(std::variant<std::string, std::reference_wrapper<rapidjson::Docum
 bool IsLoading()
 {
 	return currentLoadingConfig.has_value();
+}
+
+bool HasNewUID(UID oldUID, UID& newUID)
+{
+	const auto& uid = uidMap.find(oldUID);
+	if (uid == uidMap.end())
+	{
+		return false;
+	}
+	newUID = uid->second;
+	return true;
 }
 
 } // namespace loader
