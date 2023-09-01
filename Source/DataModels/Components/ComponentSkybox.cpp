@@ -95,7 +95,7 @@ std::shared_ptr<ResourceSkyBox> ComponentSkybox::GetSkyboxResource() const
 	return skyboxRes;
 }
 
-void ComponentSkybox::SetSkyboxResource(const std::shared_ptr<ResourceSkyBox> resource)
+void ComponentSkybox::SetSkyboxResource(std::shared_ptr<ResourceSkyBox> resource)
 {
 	this->skyboxRes = resource;
 }
