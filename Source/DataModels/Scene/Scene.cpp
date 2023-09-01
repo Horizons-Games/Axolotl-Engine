@@ -24,7 +24,6 @@
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentLine.h"
 #include "Components/ComponentParticleSystem.h"
-#include "Components/ComponentLocalIBL.h"
 
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentImage.h"
@@ -748,14 +747,6 @@ void Scene::RemoveFatherAndChildren(const GameObject* gameObject)
 		}),
 		std::end(sceneComponentLines));
 
-	sceneComponentLocalIBLs.erase(std::remove_if(std::begin(sceneComponentLocalIBLs),
-		std::end(sceneComponentLocalIBLs),
-		[gameObject](const ComponentLocalIBL* lightocalIBL)
-		{
-			return lightocalIBL->GetOwner() == gameObject;
-		}),
-		std::end(sceneComponentLocalIBLs));
-
 	sceneInteractableComponents.erase(std::remove_if(std::begin(sceneInteractableComponents),
 													 std::end(sceneInteractableComponents),
 													 [gameObject](const Component* interactible)
@@ -908,13 +899,13 @@ void Scene::GenerateLights()
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingTube, ssboTube);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
-	// Light Probe
+	// Local IBL
 
-	size_t numLocalIBL = sceneComponentLocalIBLs.size();
+	size_t numLocalIBL = localIBLs.size();
 
 	glGenBuffers(1, &ssboLocalIBL);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLocalIBL);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(uint64_t) * numLocalIBL, nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(LocalIBL) * numLocalIBL, nullptr, GL_DYNAMIC_DRAW);
 
 	const unsigned bindingLocalIBL = 14;
 
@@ -1046,7 +1037,7 @@ void Scene::RenderAreaTubes() const
 void Scene::RenderLocalIBLs() const
 {
 	// LocalIBL
-	size_t numLocalIBL = sceneComponentLocalIBLs.size();
+	size_t numLocalIBL = localIBLs.size();
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLocalIBL);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(LocalIBL) * numLocalIBL, nullptr, GL_DYNAMIC_DRAW);
@@ -1426,28 +1417,35 @@ void Scene::UpdateSceneLocalIBLs()
 
 	unsigned int pos = 0;
 
-	for (auto local : sceneComponentLocalIBLs)
+	for (GameObject* child : sceneGameObjects)
 	{
-		if (local->IsEnabled())
+		if (child && child->IsActive())
 		{
-			LocalIBL localIBL;
-			localIBL.diffuse = local->GetHandleIrradiance();
-			localIBL.prefiltered = local->GetHandlePreFiltered();
-			localIBL.position = local->GetPosition();
-			AABB parallax = local->GetParallaxAABB();
-			localIBL.maxParallax = parallax.maxPoint;
-			localIBL.minParallax = parallax.minPoint;
-			float4x4 toLocal = local->GetTransform();
-			toLocal.InverseOrthonormal();
-			localIBL.toLocal = toLocal;
-			AABB influence = local->GetInfluenceAABB();
-			localIBL.maxInfluence = influence.maxPoint;
-			localIBL.minInfluence = influence.minPoint;
+			ComponentLight* component = child->GetComponentInternal<ComponentLight>();
+			if (component && component->GetLightType() == LightType::LOCAL_IBL && component->IsEnabled()
+				&& !component->IsDeleting())
+			{
+				ComponentLocalIBL* local = static_cast<ComponentLocalIBL*>(component);
 
-			localIBLs.push_back(localIBL);
-			cachedLocalIBLs.push_back(std::make_pair(local, pos));
+				LocalIBL localIBL;
+				localIBL.diffuse = local->GetHandleIrradiance();
+				localIBL.prefiltered = local->GetHandlePreFiltered();
+				localIBL.position = local->GetPosition();
+				AABB parallax = local->GetParallaxAABB();
+				localIBL.maxParallax = parallax.maxPoint;
+				localIBL.minParallax = parallax.minPoint;
+				float4x4 toLocal = local->GetTransform();
+				toLocal.InverseOrthonormal();
+				localIBL.toLocal = toLocal;
+				AABB influence = local->GetInfluenceAABB();
+				localIBL.maxInfluence = influence.maxPoint;
+				localIBL.minInfluence = influence.minPoint;
 
-			++pos;
+				localIBLs.push_back(localIBL);
+				cachedLocalIBLs.push_back(std::make_pair(local, pos));
+
+				++pos;
+			}
 		}
 
 	}

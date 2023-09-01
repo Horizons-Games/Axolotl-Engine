@@ -16,7 +16,6 @@ class ComponentCamera;
 class ComponentCanvas;
 class ComponentParticleSystem;
 class ComponentLine;
-class ComponentLocalIBL;
 class ComponentMeshRenderer;
 class ComponentAgent;
 
@@ -117,7 +116,6 @@ public:
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
 	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
 	const std::vector<ComponentLine*>& GetSceneComponentLines() const;
-	const std::vector<ComponentLocalIBL*>& GetSceneComponentLocalIBL() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 	Skybox* GetSkybox() const;
 	Cubemap* GetCubemap() const;
@@ -188,9 +186,7 @@ private:
 	// Draw is const so I need this vector
 	std::vector<ComponentParticleSystem*> sceneParticleSystems;
 	std::vector<ComponentLine*> sceneComponentLines;
-	// To not search for each frame the LocalIBL
-	std::vector<ComponentLocalIBL*> sceneComponentLocalIBLs;
-
+	
 	GameObject* directionalLight;
 	GameObject* cubeMapGameObject;
 
@@ -273,11 +269,6 @@ inline const std::vector<ComponentLine*>& Scene::GetSceneComponentLines() const
 	return sceneComponentLines;
 }
 
-inline const std::vector<ComponentLocalIBL*>& Scene::GetSceneComponentLocalIBL() const
-{
-	return sceneComponentLocalIBLs;
-}
-
 inline void Scene::SetSceneCameras(const std::vector<ComponentCamera*>& cameras)
 {
 	sceneCameras = cameras;
@@ -358,11 +349,6 @@ inline void Scene::AddComponentLines(ComponentLine* componentLine)
 	sceneComponentLines.push_back(componentLine);
 }
 
-inline void Scene::AddComponentLocalIBL(ComponentLocalIBL* componentLocalIBL)
-{
-	sceneComponentLocalIBLs.push_back(componentLocalIBL);
-}
-
 inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleSystem)
 {
 	if (this)
@@ -386,15 +372,4 @@ inline void Scene::RemoveComponentLine(const ComponentLine* componentLine)
 			return lines == componentLine;
 		}),
 		std::end(sceneComponentLines));
-}
-
-inline void Scene::RemoveComponentLocalIBL(const ComponentLocalIBL* componentLocalIBL)
-{
-	sceneComponentLocalIBLs.erase(std::remove_if(std::begin(sceneComponentLocalIBLs),
-		std::end(sceneComponentLocalIBLs),
-		[&componentLocalIBL](ComponentLocalIBL* localIBL)
-		{
-			return localIBL == componentLocalIBL;
-		}),
-		std::end(sceneComponentLocalIBLs));
 }
