@@ -107,7 +107,7 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 
 	for (GameObject* obj : loadedObjects)
 	{
-		if (obj->HasComponent<ComponentSkybox>()  && currentLoadingConfig->mantainCurrentScene)
+		if (currentLoadingConfig->mantainCurrentScene && obj->HasComponent<ComponentSkybox>())
 		{
 			obj->RemoveComponent<ComponentSkybox>();
 		}
