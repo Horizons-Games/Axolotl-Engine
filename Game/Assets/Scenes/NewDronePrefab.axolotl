@@ -39,6 +39,7 @@
                             "active": true,
                             "removed": true,
                             "Skybox": {
+                                "enable": true,
                                 "skyboxUID": 4377575066284441384,
                                 "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
                             }

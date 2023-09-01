@@ -39,6 +39,7 @@
                             "active": true,
                             "removed": true,
                             "Skybox": {
+                                "enable": true,
                                 "skyboxUID": 4377575066284441384,
                                 "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
                             }
@@ -387,7 +388,7 @@
                             "removed": true,
                             "meshUID": 7607264798134423181,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -426,7 +427,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -465,7 +466,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -599,7 +600,7 @@
                             "removed": true,
                             "meshUID": 7607264798134423181,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -638,7 +639,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -677,7 +678,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -744,7 +745,7 @@
                             "removed": true,
                             "meshUID": 7607264798134423181,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -783,7 +784,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -822,7 +823,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -1140,7 +1141,7 @@
                             "removed": true,
                             "meshUID": 7607264798134423181,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -1179,7 +1180,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -1218,7 +1219,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -1391,7 +1392,7 @@
                             "removed": true,
                             "meshUID": 7607264798134423181,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -1430,7 +1431,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -1469,7 +1470,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -1536,7 +1537,7 @@
                             "removed": true,
                             "meshUID": 7607264798134423181,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -1575,7 +1576,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -1614,7 +1615,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -1893,7 +1894,7 @@
                             "removed": true,
                             "meshUID": 7607264798134423181,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -1932,7 +1933,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -1971,7 +1972,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -2038,7 +2039,7 @@
                             "removed": true,
                             "meshUID": 7607264798134423181,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -2077,7 +2078,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -2116,7 +2117,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -2289,7 +2290,7 @@
                             "removed": true,
                             "meshUID": 7607264798134423181,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -2328,7 +2329,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -2367,7 +2368,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -2434,7 +2435,7 @@
                             "removed": true,
                             "meshUID": 7607264798134423181,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -2473,7 +2474,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -2512,7 +2513,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -2579,7 +2580,7 @@
                             "removed": true,
                             "meshUID": 7607264798134423181,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -2618,7 +2619,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -2657,7 +2658,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -2724,7 +2725,7 @@
                             "removed": true,
                             "meshUID": 7607264798134423181,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -2763,7 +2764,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -2802,7 +2803,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -2975,7 +2976,7 @@
                             "removed": true,
                             "meshUID": 7607264798134423181,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -3014,7 +3015,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -3053,7 +3054,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -3120,7 +3121,7 @@
                             "removed": true,
                             "meshUID": 7607264798134423181,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -3159,7 +3160,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -3198,7 +3199,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -3544,7 +3545,7 @@
                             "removed": true,
                             "meshUID": 7607264798134423181,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -3583,7 +3584,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -3622,7 +3623,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -3689,7 +3690,7 @@
                             "removed": true,
                             "meshUID": 7607264798134423181,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.006_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -3728,7 +3729,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
@@ -3767,7 +3768,7 @@
                             "removed": true,
                             "meshUID": 13246171031262201477,
                             "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_RunWay2.Barandilla.004_0.mesh",
-                            "materialUID": 10484570443008501770,
+                            "materialUID": 11631748723604398909,
                             "assetPathMaterial": "Assets/Materials/Lv1_CargoBay_RunWay2Barandilla_0.mat"
                         }
                     }
