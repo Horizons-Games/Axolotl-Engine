@@ -824,8 +824,6 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 
 			case LightType::LOCAL_IBL:
 				ComponentLight* light = static_cast<ComponentLight*>(referenceBeforeMove);
-				App->GetModule<ModuleScene>()->GetLoadedScene()->
-					AddComponentLocalIBL(static_cast<ComponentLocalIBL*>(referenceBeforeMove));
 
 				scene->UpdateSceneLocalIBLs();
 				scene->RenderLocalIBLs();
