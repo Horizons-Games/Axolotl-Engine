@@ -19,6 +19,8 @@ public:
 	float GetPlayerSpeed() const;
 	float GetPlayerRotationSpeed() const;
 
+	void TogglePlayerScripts();
+
 	void IncreasePlayerAttack(float attackIncrease);
 	void IncreasePlayerDefense(float defenseIncrease);
 	void IncreasePlayerSpeed(float speedIncrease);
@@ -31,11 +33,14 @@ public:
 private:
 	void Start() override;
 
+	bool isControllingPlayerOne;
 
 	float playerAttack;
 	float playerDefense;
 	float playerSpeed;
 	float playerRotationSpeed;
+	GameObject* characterOne;
+	GameObject* characterTwo;
 
 	// All Principal PlayerManagers
 	PlayerMoveScript* movementManager;

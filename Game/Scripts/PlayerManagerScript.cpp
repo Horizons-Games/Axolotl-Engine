@@ -9,7 +9,7 @@
 
 REGISTERCLASS(PlayerManagerScript);
 
-PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), playerDefense(0.f), playerSpeed(6.0f)
+PlayerManagerScript::PlayerManagerScript() : Script(), characterOne(nullptr), characterTwo(nullptr), playerAttack(20.0f), playerDefense(0.f), playerSpeed(6.0f)
 {
 	REGISTER_FIELD(playerAttack, float);
 	REGISTER_FIELD(playerDefense, float);
@@ -19,9 +19,41 @@ PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), play
 
 void PlayerManagerScript::Start()
 {
+	isControllingPlayerOne = true;
 	jumpManager = owner->GetComponent<PlayerJumpScript>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
 }
+
+void PlayerManagerScript::TogglePlayerScripts()
+{
+	PlayerMoveScript* moveScriptPlayerOne = characterOne->GetComponent<PlayerMoveScript>();
+	PlayerMoveScript* moveScriptPlayerTwo = characterTwo->GetComponent<PlayerMoveScript>();
+
+	PlayerJumpScript* jumpScriptPlayerOne = characterOne->GetComponent<PlayerJumpScript>();
+	PlayerJumpScript* jumpScriptPlayerTwo = characterTwo->GetComponent<PlayerJumpScript>();
+
+	if (isControllingPlayerOne)
+	{
+		moveScriptPlayerOne->DisableMovement();
+		jumpScriptPlayerOne->DisableJump();
+
+		moveScriptPlayerTwo->EnableMovement();
+		jumpScriptPlayerTwo->EnableJump();
+
+		isControllingPlayerOne = false;
+	}
+	else
+	{
+		moveScriptPlayerTwo->DisableMovement();
+		jumpScriptPlayerTwo->DisableJump();
+
+		moveScriptPlayerOne->EnableMovement();
+		jumpScriptPlayerOne->EnableJump();
+
+		isControllingPlayerOne = true;
+	}
+}
+
 
 bool PlayerManagerScript::IsGrounded() const
 {
