@@ -1,13 +1,15 @@
 #include "StdAfx.h"
 
 #include "ModuleNavigation.h"
+
 #include "Application.h"
-#include "ModuleScene.h"
-#include "fileSystem/ModuleResources.h"
-#include "DetourTileCache/DetourTileCache.h"
-#include "DetourCrowd/DetourCrowd.h"
+#include "DataModels/Components/ComponentAgent.h"
 #include "Detour/DetourCommon.h"
+#include "DetourCrowd/DetourCrowd.h"
+#include "DetourTileCache/DetourTileCache.h"
+#include "ModuleScene.h"
 #include "Scene/Scene.h"
+#include "fileSystem/ModuleResources.h"
 
 ModuleNavigation::ModuleNavigation()
 {
@@ -63,17 +65,16 @@ UpdateStatus ModuleNavigation::PreUpdate()
 
 UpdateStatus ModuleNavigation::Update()
 {
-	if (!navMesh->IsGenerated())
+	if (navMesh == nullptr || !navMesh->IsGenerated())
 	{
 		return UpdateStatus::UPDATE_CONTINUE;
 	}
 
 	navMesh->GetTileCache()->update(App->GetDeltaTime(), navMesh->GetNavMesh()); // Update obstacles
-	navMesh->GetCrowd()->update(App->GetDeltaTime(), nullptr);					// Update agents
+	navMesh->GetCrowd()->update(App->GetDeltaTime(), nullptr);					 // Update agents
 
 	return UpdateStatus::UPDATE_CONTINUE;
 }
-
 
 UpdateStatus ModuleNavigation::PostUpdate()
 {
@@ -82,9 +83,9 @@ UpdateStatus ModuleNavigation::PostUpdate()
 
 void ModuleNavigation::ChangeNavMesh(UID navMeshId_)
 {
-	//App->resources->DecreaseReferenceCount(navMeshId);
+	// App->resources->DecreaseReferenceCount(navMeshId);
 	navMeshId = navMeshId_;
-	//App->resources->IncreaseReferenceCount(navMeshId);
+	// App->resources->IncreaseReferenceCount(navMeshId);
 }
 
 void ModuleNavigation::BakeNavMesh()
@@ -93,7 +94,7 @@ void ModuleNavigation::BakeNavMesh()
 	timer.Start();*/
 	LOG_DEBUG("Loading NavMesh");
 	bool generated = navMesh->Build(App->GetModule<ModuleScene>()->GetLoadedScene());
-	//unsigned timeMs = timer.Stop();
+	// unsigned timeMs = timer.Stop();
 	if (generated)
 	{
 		navMesh->GetTileCache()->update(App->GetDeltaTime(), navMesh->GetNavMesh());
