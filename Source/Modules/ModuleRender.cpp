@@ -337,7 +337,7 @@ UpdateStatus ModuleRender::Update()
 	// -------- PRE-FORWARD ----------------------
 	if (loadedScene->GetRoot()->HasComponent<ComponentSkybox>())
 	{
-		loadedScene->GetRoot()->GetComponent<ComponentSkybox>()->Draw();
+		loadedScene->GetRoot()->GetComponentInternal<ComponentSkybox>()->Draw();
 	}
 
 	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);
