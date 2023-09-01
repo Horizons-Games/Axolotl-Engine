@@ -28,7 +28,7 @@ public:
 	ComponentLocalIBL(GameObject* parent);
 	~ComponentLocalIBL() override;
 
-	void Update();
+	void GenerateMaps();
 
 	void Draw() const override;
 
@@ -52,8 +52,8 @@ public:
 	void InternalLoad(const Json& meta) override;
 
 private:
-	void BindCameraToProgram(Program* program, Frustum& frustum);
 	void RenderToCubeMap(unsigned int cubemapTex, Frustum& frustum, int resolution = RESOLUTION, int mipmapLevel = 0);
+	void BindCameraToProgram(Program* program);
 
 	GLuint frameBuffer;
 	GLuint diffuse;
@@ -70,3 +70,33 @@ private:
 	uint64_t handleIrradiance;
 	uint64_t handlePreFiltered;
 };
+
+inline const float3 ComponentLocalIBL::GetPosition()
+{
+	return parallaxAABB.CenterPoint();
+}
+
+inline const float4x4 ComponentLocalIBL::GetTransform()
+{
+	return float4x4(GetRotation(), GetPosition());
+}
+
+inline const AABB& ComponentLocalIBL::GetParallaxAABB()
+{
+	return parallaxAABB;
+}
+
+inline void ComponentLocalIBL::SetParallaxAABB(AABB& aabb)
+{
+	parallaxAABB = aabb;
+}
+
+inline const AABB& ComponentLocalIBL::GetInfluenceAABB()
+{
+	return influenceAABB;
+}
+
+inline void ComponentLocalIBL::SetInfluenceAABB(AABB& aabb)
+{
+	influenceAABB = aabb;
+}

@@ -155,11 +155,6 @@ UpdateStatus ModuleScene::Update()
 	{
 		particle->Update();
 	}
-	// LocalIBL need to be updated 
-	for (ComponentLocalIBL* localIBL : loadedScene->GetSceneComponentLocalIBL())
-	{
-		localIBL->Update();
-	}
 
 	return UpdateStatus::UPDATE_CONTINUE;
 }

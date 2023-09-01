@@ -19,6 +19,11 @@
 
 #include "debugdraw.h"
 
+#include "ModuleCamera.h"
+#include "Camera/Camera.h"
+
+
+
 ComponentLocalIBL::ComponentLocalIBL(GameObject* parent) :
 	ComponentLight(LightType::LOCAL_IBL, parent, true), preFiltered(0), handleIrradiance(0), handlePreFiltered(0),
 	parallaxAABB({ { -10, -10, -10 }, { 10, 10, 10 } }), influenceAABB({ { -10, -10, -10 }, { 10, 10, 10 } }), 
@@ -27,7 +32,6 @@ ComponentLocalIBL::ComponentLocalIBL(GameObject* parent) :
 	// Generate framebuffer & renderBuffer
 	glGenFramebuffers(1, &frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-	glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
 	// irradianceMap
 	glGenTextures(1, &diffuse);
@@ -77,6 +81,8 @@ ComponentLocalIBL::ComponentLocalIBL(GameObject* parent) :
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_BASE_LEVEL, 0);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAX_LEVEL, numMipMaps);
 	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+
+	GenerateMaps();
 }
 
 ComponentLocalIBL::~ComponentLocalIBL()
@@ -91,15 +97,17 @@ ComponentLocalIBL::~ComponentLocalIBL()
 
 	if (currentScene)
 	{
-		currentScene->RemoveComponentLocalIBL(this);
 		currentScene->UpdateSceneLocalIBLs();
 		currentScene->RenderLocalIBLs();
 	}
 }
 
-void ComponentLocalIBL::Update()
+void ComponentLocalIBL::GenerateMaps()
 {
-	ComponentTransform* trans = GetOwner()->GetComponentInternal<ComponentTransform>();
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+	glDrawBuffer(GL_COLOR_ATTACHMENT0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	Frustum frustum;
 	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
 	frustum.SetPerspective(math::pi / 2.0f, math::pi / 2.0f);
@@ -107,14 +115,15 @@ void ComponentLocalIBL::Update()
 	frustum.SetViewPlaneDistances(0.1f, 100.0f);
 
 	ModuleProgram* modProgram = App->GetModule<ModuleProgram>();
+	ModuleRender* modRender = App->GetModule<ModuleRender>();
 
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_METALLIC), frustum);
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_SPECULAR), frustum);
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT), frustum);
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR), frustum);
+	modRender->BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
+	modRender->BindCubemapToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
 
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Light Probe")), "Light Probe");
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Local IBL")), "Local IBL");
+
 	// Render in Irradiance
 	RenderToCubeMap(diffuse, frustum);
 
@@ -127,8 +136,8 @@ void ComponentLocalIBL::Update()
 		RenderToCubeMap(preFiltered, frustum, mipResolution, mipMap);
 	}
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glPopDebugGroup();
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void ComponentLocalIBL::Draw() const
@@ -189,39 +198,9 @@ const uint64_t& ComponentLocalIBL::GetHandlePreFiltered()
 	return handlePreFiltered;
 }
 
-const float3 ComponentLocalIBL::GetPosition()
-{
-	return parallaxAABB.CenterPoint();
-}
-
 const Quat& ComponentLocalIBL::GetRotation()
 {
 	return GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalRotation();
-}
-
-const float4x4 ComponentLocalIBL::GetTransform()
-{
-	return float4x4(GetRotation(), GetPosition());
-}
-
-const AABB& ComponentLocalIBL::GetParallaxAABB()
-{
-	return parallaxAABB;
-}
-
-void ComponentLocalIBL::SetParallaxAABB(AABB& aabb)
-{
-	parallaxAABB = aabb;
-}
-
-const AABB& ComponentLocalIBL::GetInfluenceAABB()
-{
-	return influenceAABB;
-}
-
-void ComponentLocalIBL::SetInfluenceAABB(AABB& aabb)
-{
-	influenceAABB = aabb;
 }
 
 void ComponentLocalIBL::InternalSave(Json& meta)
@@ -230,17 +209,6 @@ void ComponentLocalIBL::InternalSave(Json& meta)
 
 void ComponentLocalIBL::InternalLoad(const Json& meta)
 {
-}
-
-void ComponentLocalIBL::BindCameraToProgram(Program* program, Frustum& frustum)
-{
-	program->Activate();
-
-	float3 viewPos = float3(frustum.Pos());
-
-	program->BindUniformFloat3("viewPos", viewPos);
-
-	program->Deactivate();
 }
 
 void ComponentLocalIBL::RenderToCubeMap(unsigned int cubemapTex, Frustum& frustum, int resolution, int mipmapLevel)
@@ -255,21 +223,41 @@ void ComponentLocalIBL::RenderToCubeMap(unsigned int cubemapTex, Frustum& frustu
 	GLuint uboCamera = modRender->GetUboCamera();
 
 	glViewport(0, 0, resolution, resolution);
+
+	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, frustum.ProjectionMatrix().ptr());
 	for (unsigned int i = 0; i < 6; ++i)
 	{
 		glFramebufferTexture2D(
 			GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, cubemapTex, mipmapLevel);
 		frustum.SetFront(GetRotation() * front[i]);
 		frustum.SetUp(GetRotation() * up[i]);
-
-		glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
-		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, frustum.ProjectionMatrix().ptr());
+		
 		glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, frustum.ViewMatrix().ptr());
-		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+		//std::vector<GameObject*> objectsInFrustum =
+			//App->GetModule<ModuleScene>()->GetLoadedScene()->ObtainStaticObjectsInFrustum(&frustum);
 
 		std::vector<GameObject*> objectsInFrustum =
-			App->GetModule<ModuleScene>()->GetLoadedScene()->ObtainStaticObjectsInFrustum(&frustum);
+			App->GetModule<ModuleScene>()->GetLoadedScene()->ObtainObjectsInFrustum(App->GetModule<ModuleCamera>()->GetCamera()->GetFrustum());
 
-		modRender->DrawMeshes(objectsInFrustum, float3(frustum.Pos()));
+		modRender->SortOpaques(frustum.Pos());
+		modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::DEFAULT, false);
+		modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::SPECULAR, false);
+		modRender->SortTransparents(frustum.Pos());
+		modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::DEFAULT);
+		modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::SPECULAR);
 	}
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+void ComponentLocalIBL::BindCameraToProgram(Program* program)
+{
+	program->Activate();
+
+	float3 viewPos = float3(GetPosition());
+
+	program->BindUniformFloat3("viewPos", viewPos);
+
+	program->Deactivate();
 }

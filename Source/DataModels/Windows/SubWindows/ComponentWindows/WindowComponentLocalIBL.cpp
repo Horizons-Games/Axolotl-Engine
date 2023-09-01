@@ -27,6 +27,11 @@ void WindowComponentLocalIBL::DrawWindowContents()
 	ComponentLocalIBL* local = static_cast<ComponentLocalIBL*>(component);
 	if (local)
 	{
+		if (ImGui::Button("Generate Maps"))
+		{
+			local->GenerateMaps();
+		}
+
 		if (ImGui::BeginTable("##localIBLTable", 2))
 		{
 			ImGui::TableNextColumn();
