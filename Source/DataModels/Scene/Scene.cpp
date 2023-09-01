@@ -1274,7 +1274,7 @@ void Scene::InitNewEmptyScene()
 	if (root->GetComponentInternal<ComponentSkybox>() == nullptr)
 	{
 		ComponentSkybox* p = root->CreateComponent<ComponentSkybox>();
-		root->GetComponentInternal<ComponentSkybox>()->SetSkyboxResource(resourceSkybox);
+		p->SetSkyboxResource(resourceSkybox);
 	}
 
 	std::shared_ptr<ResourceCubemap> resourceCubemap =
