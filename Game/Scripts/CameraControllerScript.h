@@ -14,6 +14,8 @@ public:
     void PreUpdate(float deltaTime) override;
 
 	void SetVerticalSensitivity(float newVerticalSensibility);
+	void SetInCombat(bool newCombat);
+	bool IsInCombat();
 
 private:
 	void CalculateOffsetVector();
@@ -50,3 +52,12 @@ private:
 	bool inCombat;
 };
 
+inline void CameraControllerScript::SetInCombat(bool newmode)
+{
+	inCombat = newmode;
+}
+
+inline bool CameraControllerScript::IsInCombat()
+{
+	return inCombat;
+}

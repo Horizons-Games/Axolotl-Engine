@@ -6063,7 +6063,7 @@
                 "uid": 4500489434448241040,
                 "parentUID": 16553757055216958851,
                 "enabled": true,
-                "static": false,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -6156,7 +6156,7 @@
                 "uid": 2771581099466463176,
                 "parentUID": 2936065966958249174,
                 "enabled": true,
-                "static": false,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -6249,7 +6249,7 @@
                 "uid": 3414766142340961264,
                 "parentUID": 16553757055216958851,
                 "enabled": false,
-                "static": false,
+                "static": true,
                 "Components": [
                     {
                         "Component": {

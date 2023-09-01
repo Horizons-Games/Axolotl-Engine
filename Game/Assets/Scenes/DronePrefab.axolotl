@@ -3069,7 +3069,7 @@
                 "uid": 1435588834732233720,
                 "parentUID": 9419324827224935529,
                 "enabled": true,
-                "static": false,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
