@@ -17,7 +17,11 @@ class ComponentCanvas;
 class ComponentParticleSystem;
 class ComponentLine;
 class ComponentLocalIBL;
+class ComponentMeshRenderer;
+class ComponentAgent;
+
 class GameObject;
+
 class Quadtree;
 class Skybox;
 class Cubemap;

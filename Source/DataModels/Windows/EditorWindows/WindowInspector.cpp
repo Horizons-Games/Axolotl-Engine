@@ -209,6 +209,11 @@ WindowInspector::~WindowInspector()
 
 void WindowInspector::DrawWindowContents()
 {
+	if (App->GetModule<ModuleScene>()->IsLoading())
+	{
+		return;
+	}
+
 	if (!resource.expired() && lastSelectedGameObject != App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
 		resource = std::weak_ptr<Resource>();

@@ -26,7 +26,7 @@ void NavMeshImporter::Import(const char* filePath, std::shared_ptr<ResourceNavMe
 	App->GetModule<ModuleFileSystem>()->Save(
 		resource->GetAssetsPath(), saveBuffer, size);
 
-	delete loadBuffer;
+	//delete loadBuffer;
 	delete saveBuffer;
 }
 

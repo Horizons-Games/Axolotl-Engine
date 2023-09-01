@@ -1,4 +1,5 @@
 #pragma once
+#include "Formatter.h"
 
 #ifndef ENGINE
 	#define LOG_INFO(...)	 // ignore it
@@ -23,9 +24,6 @@ enum class LogSeverity
 	#define LOG_ERROR(format, ...) AXO_LOG(format, LogSeverity::ERROR_LOG, __VA_ARGS__)
 	#define AXO_LOG(format, severity, ...) logContext->Log(__FILE__, __LINE__, severity, format, __VA_ARGS__)
 
-class GameObject;
-class Resource;
-
 class AxoLog
 {
 public:
@@ -38,22 +36,7 @@ public:
 	void StopWritingToFile();
 
 private:
-	void Write(const char file[], int line, LogSeverity severity, const std::string& formattedLine);
-
-	size_t FindReplaceToken(const std::string& formatString) const;
-
-	bool Format(std::string& format, int arg) const;
-	bool Format(std::string& format, unsigned int arg) const;
-	bool Format(std::string& format, float arg) const;
-	bool Format(std::string& format, const char* arg) const;
-	bool Format(std::string& format, const std::string& arg) const;
-	bool Format(std::string& format, bool arg) const;
-	bool Format(std::string& format, const GameObject* arg) const;
-	bool Format(std::string& format, unsigned long long arg) const;
-	// since it's only for logging purposes, pass it as reference to avoid increasing and decreasing ref count
-	bool Format(std::string& format, const std::shared_ptr<Resource>& arg) const;
-	// for glew logging
-	bool Format(std::string& format, const unsigned char* arg) const;
+	void Write(const char file[], int line, LogSeverity severity, std::string&& formattedLine);
 
 private:
 	friend class WindowConsole;
@@ -80,25 +63,7 @@ private:
 template<typename... Args>
 void AxoLog::Log(const char file[], int line, LogSeverity severity, const std::string& format, Args&&... args)
 {
-	std::string formattedString = format;
-	// this iterates through the variadic argument pack like a loop
-	(
-		[&]()
-		{
-			if (!Format(formattedString, args))
-			{
-				Log(file, line, LogSeverity::WARNING_LOG, "Too many arguments in log call!");
-			}
-		}(),
-		...);
-
-	size_t firstToken = FindReplaceToken(formattedString);
-	if (firstToken != std::string::npos)
-	{
-		Log(file, line, LogSeverity::WARNING_LOG, "Too few arguments in log call!");
-	}
-
-	Write(file, line, severity, formattedString);
+	Write(file, line, severity, axo::Format(format, std::forward<Args>(args)...));
 }
 
 extern std::unique_ptr<AxoLog> logContext;
