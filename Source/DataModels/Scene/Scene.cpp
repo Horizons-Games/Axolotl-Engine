@@ -20,18 +20,14 @@
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentCubemap.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentLine.h"
-#include "Components/ComponentParticleSystem.h"
 
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
-#include "Components/UI/ComponentImage.h"
-#include "Components/UI/ComponentTransform2D.h"
 
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Program/Program.h"
@@ -60,7 +56,6 @@
 #include "Skybox/Skybox.h"
 
 #include <GL/glew.h>
-#include <stack>
 
 Scene::Scene() :
 	root(nullptr),

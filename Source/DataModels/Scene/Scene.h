@@ -8,16 +8,11 @@
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentLocalIBL.h"
 
-#include "Components/ComponentAgent.h"
-#include "Components/ComponentMeshRenderer.h"
-
 class Component;
 class ComponentCamera;
 class ComponentCanvas;
 class ComponentParticleSystem;
 class ComponentLine;
-class ComponentMeshRenderer;
-class ComponentAgent;
 
 class GameObject;
 
