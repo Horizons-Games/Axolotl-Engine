@@ -185,6 +185,7 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 	{
 		Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 		loadedScene->InitLights();
+		loadedScene->InitRender();
 		loadedScene->InitCubemap();
 
 		// if no document was set, the user is creating a new scene. finish the process

@@ -92,7 +92,7 @@ bool ModuleProgram::Start()
 
 	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "gaussian_blur.glsl", "GaussianBlur"));
 	
-	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "bloom.glsl", "Bloom"));
+	//programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "bloom.glsl", "Bloom"));
 
 	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "kawase_down_fragment.glsl", "KawaseDown"));
 	

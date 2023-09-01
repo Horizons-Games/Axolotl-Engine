@@ -106,9 +106,9 @@ void main()
     gDiffuse.rgb = vec3(gDiffuse*(1-metalnessMask));
 
     //Emissive
-    gEmissive= vec4(0);
+    gEmissive= vec4(0.0);
     if (material.has_emissive_map == 1) 
     {
-        gEmissive = texture(material.emissive_map, newTexCoord);
+        gEmissive.rgb = vec3(texture(material.emissive_map, newTexCoord).rgb);
     }
 }

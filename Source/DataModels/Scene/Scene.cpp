@@ -1470,12 +1470,13 @@ void Scene::InitNewEmptyScene()
 		App->GetModule<ModuleResources>()->RequestResource<ResourceCubemap>("Assets/Cubemaps/sunsetSkybox.cube");
 
 	InitRender();
-	InitCubemap();
-
+	
 	if (resourceCubemap)
 	{
 		cubemap = std::make_unique<Cubemap>(resourceCubemap);
 	}
+
+	InitCubemap();
 
 	InitLights();
 }
