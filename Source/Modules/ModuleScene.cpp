@@ -331,9 +331,6 @@ void ModuleScene::SaveSceneToJson(Json& jsonScene)
 	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
 	rootQuadtree->SaveOptions(jsonScene);
 
-	/*const Skybox* skybox = loadedScene->GetSkybox();
-	skybox->SaveOptions(jsonScene);*/
-
 	const Cubemap* cubemap = loadedScene->GetCubemap();
 	cubemap->SaveOptions(jsonScene);
 }
