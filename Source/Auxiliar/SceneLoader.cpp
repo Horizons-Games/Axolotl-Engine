@@ -12,7 +12,6 @@
 #include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Scene/Scene.h"
-//#include "DataModels/Skybox/Skybox.h"
 #include "DataStructures/Quadtree.h"
 
 #include "DataModels/Components/ComponentCamera.h"
