@@ -17,26 +17,21 @@
 REGISTERCLASS(EnemyMiniBossTwo);
 
 EnemyMiniBossTwo::EnemyMiniBossTwo() : seekScript(nullptr), bossState(MiniBossTwoBehaviours::IDLE),
-ownerTransform(nullptr), attackDistance(8.0f), seekDistance(6.0f), boostOfEnergy(nullptr),
+ownerTransform(nullptr), attackDistance(8.0f), boostOfEnergy(nullptr),
 componentAnimation(nullptr), componentAudioSource(nullptr), rangedAttack(nullptr), aiMovement(nullptr)
 {
-	REGISTER_FIELD(seekDistance, float);
+	REGISTER_FIELD(attackDistance, float);
+	REGISTER_FIELD(boostOfEnergy, BoostOfEnergy*);
 }
 
 void EnemyMiniBossTwo::Start()
 {
-	if (seekDistance < attackDistance)
-	{
-		seekDistance = attackDistance;
-	}
-
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
 	healthScript = owner->GetComponent<HealthSystem>();
-	boostOfEnergy = owner->GetComponent<BoostOfEnergy>();
 	rangedAttack = owner->GetComponent<RangedFastAttackBehaviourScript>();
 	aiMovement = owner->GetComponent<AIMovement>();
 
@@ -57,10 +52,21 @@ void EnemyMiniBossTwo::Update(float deltaTime)
 
 void EnemyMiniBossTwo::CheckState()
 {
+	if (bossState == MiniBossTwoBehaviours::SEEK &&
+		ownerTransform->GetGlobalPosition().Distance(seekTargetTransform->GetGlobalPosition()) <= attackDistance)
+	{
+		seekScript->DisableMovement();
+		aiMovement->SetMovementStatuses(false, true);
+		componentAnimation->SetParameter("IsRunning", false);
+	}
+
+
 	if (ownerTransform->GetGlobalPosition().Distance(seekTargetTransform->GetGlobalPosition()) > attackDistance)
 	{
-		if (bossState != MiniBossTwoBehaviours::SEEK)
+		if (bossState != MiniBossTwoBehaviours::SEEK && !boostOfEnergy->IsAttacking())
 		{
+			rangedAttack->InterruptAttack();
+
 			aiMovement->SetMovementStatuses(true, true);
 
 			componentAnimation->SetParameter("IsRunning", true);
@@ -69,18 +75,25 @@ void EnemyMiniBossTwo::CheckState()
 			bossState = MiniBossTwoBehaviours::SEEK;
 		}
 	}
-	else if (bossState != MiniBossTwoBehaviours::RANGEDATTACK && !boostOfEnergy->IsAttacking())
+	else if (bossState != MiniBossTwoBehaviours::RANGEDATTACK)
 	{
-		seekScript->DisableMovement();
+		if (!boostOfEnergy->IsAttacking() && rangedAttack->IsAttackAvailable())
+		{
+			seekScript->DisableMovement();
 
-		aiMovement->SetMovementStatuses(false, true);
+			aiMovement->SetMovementStatuses(false, true);
 
-		componentAnimation->SetParameter("IsRunning", false);
-		componentAnimation->SetParameter("IsRangedAttacking", true);
+			componentAnimation->SetParameter("IsRunning", false);
+			componentAnimation->SetParameter("IsRangedAttacking", true);
 
-		bossState = MiniBossTwoBehaviours::RANGEDATTACK;
+			
+			rangedAttack->PerformAttack();
+			
+
+			bossState = MiniBossTwoBehaviours::RANGEDATTACK;
+		}
 	}
-	else if (bossState != MiniBossTwoBehaviours::BOOSTOFENERGYATTACK)
+	else if (bossState != MiniBossTwoBehaviours::BOOSTOFENERGYATTACK && !rangedAttack->IsConsecutiveShooting())
 	{
 		boostOfEnergy->PerformAttack();
 		bossState = MiniBossTwoBehaviours::BOOSTOFENERGYATTACK;
@@ -93,7 +106,14 @@ void EnemyMiniBossTwo::UpdateBehaviour(float deltaTime)
 	{
 	case MiniBossTwoBehaviours::SEEK:
 
-		seekScript->Seeking();
+		if (ownerTransform->GetGlobalPosition().Distance(seekTargetTransform->GetGlobalPosition()) > attackDistance)
+		{
+			seekScript->Seeking();
+		}
+		else
+		{
+			aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+		}
 
 		break;
 
@@ -101,21 +121,6 @@ void EnemyMiniBossTwo::UpdateBehaviour(float deltaTime)
 
 		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
 
-		if (componentAnimation->GetActualStateName() != "VenomiteTakeDamage" &&
-			componentAnimation->GetActualStateName() != "VenomiteMeleeAttack")
-		{
-			if (rangedAttack->IsAttackAvailable())
-			{
-				rangedAttack->PerformAttack();
-			}
-		}
-		else
-		{
-			if (rangedAttack->IsPreShooting())
-			{
-				rangedAttack->InterruptAttack();
-			}
-		}
 
 		break;
 

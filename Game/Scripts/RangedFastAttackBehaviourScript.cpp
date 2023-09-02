@@ -208,6 +208,11 @@ bool RangedFastAttackBehaviourScript::IsPreShooting() const
 	return isPreShooting;
 }
 
+bool RangedFastAttackBehaviourScript::IsConsecutiveShooting() const
+{
+	return isConsecutiveShooting;
+}
+
 bool RangedFastAttackBehaviourScript::MovingToNewReposition()
 {
 	if (transform->GetGlobalPosition().Equals(newReposition, 0.3f))

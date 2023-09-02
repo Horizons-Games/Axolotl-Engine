@@ -16,8 +16,9 @@
 REGISTERCLASS(EnemyDeathScript);
 
 EnemyDeathScript::EnemyDeathScript() : Script(), despawnTimer(5.0f), startDespawnTimer(false), powerUpParent(nullptr),
-particleSystem(nullptr)
+particleSystem(nullptr), chanceToGivePowerUp(false)
 {
+	REGISTER_FIELD(chanceToGivePowerUp, bool);
 	REGISTER_FIELD(powerUpParent, GameObject*);
 	REGISTER_FIELD(particleSystem, ComponentParticleSystem*);
 }
@@ -39,15 +40,14 @@ void EnemyDeathScript::Update(float deltaTime)
 
 void EnemyDeathScript::ManageEnemyDeath()
 {
-	// Only activate powerups when the dead enemy is not a boss
-	// In the future this might also need to check for if it's a miniboss
-	if (!owner->HasComponent<FinalBossScript>())
-	{
-		if (particleSystem)
-		{
-			particleSystem->Play();
-		}
 
+	if (particleSystem)
+	{
+		particleSystem->Play();
+	}
+
+	if (chanceToGivePowerUp)
+	{
 		GameObject* newPowerUp = RequestPowerUp();
 
 		if (newPowerUp != nullptr)

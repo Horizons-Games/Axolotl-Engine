@@ -42,7 +42,6 @@ private:
 
 
 	float attackDistance;
-	float seekDistance;
 
 	SeekBehaviourScript* seekScript;
 	HealthSystem* healthScript;
