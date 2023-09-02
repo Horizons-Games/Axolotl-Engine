@@ -41,7 +41,10 @@ void PlayerMoveScript::Start()
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	playerManager = owner->GetComponent<PlayerManagerScript>();
-	forceScript = owner->GetComponent<PlayerForceUseScript>();
+	if (owner->HasComponent<PlayerForceUseScript>())
+	{
+		forceScript = owner->GetComponent<PlayerForceUseScript>();
+	}
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	jumpScript = owner->GetComponent<PlayerJumpScript>();
 	bixAttackScript = owner->GetComponent<PlayerAttackScript>();
@@ -60,8 +63,16 @@ void PlayerMoveScript::Start()
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
 {
-	if (!forceScript->IsForceActive() && !bixAttackScript->IsPerfomingJumpAttack())
+
+	if (!bixAttackScript->IsPerfomingJumpAttack())
 	{
+		if (forceScript)
+		{
+			if (forceScript->IsForceActive())
+			{
+				return;
+			}
+		}
 		Move(deltaTime);
 		MoveRotate(deltaTime);
 	}

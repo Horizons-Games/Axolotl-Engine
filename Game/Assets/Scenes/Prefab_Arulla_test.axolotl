@@ -78,7 +78,7 @@
         },
         {
             "GameObject": {
-                "name": "PrefabArulla",
+                "name": "PrefabAllura",
                 "tag": "Player",
                 "uid": 2936065966958249174,
                 "parentUID": 9011007661183311806,
@@ -146,7 +146,13 @@
                             "height": 0.699999988079071,
                             "rbPos_X": 0.0,
                             "rbPos_Y": 0.6499999761581421,
-                            "rbPos_Z": 0.0
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -161,11 +167,11 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "BixAttackScript",
+                            "constructName": "PlayerAttackScript",
                             "fields": [
                                 {
                                     "name": "ComboCountHeavy",
-                                    "value": 20.0,
+                                    "value": 10.0,
                                     "type": 0
                                 },
                                 {
@@ -175,7 +181,7 @@
                                 },
                                 {
                                     "name": "ComboCountJump",
-                                    "value": 10.0,
+                                    "value": 20.0,
                                     "type": 0
                                 },
                                 {
@@ -185,12 +191,12 @@
                                 },
                                 {
                                     "name": "AttackHeavy",
-                                    "value": 15.0,
+                                    "value": 30.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "NormalAttackDistance",
-                                    "value": 7.0,
+                                    "value": 10.0,
                                     "type": 0
                                 },
                                 {
@@ -210,7 +216,7 @@
                                 },
                                 {
                                     "name": "LightWeapon",
-                                    "value": 15439592941999992541,
+                                    "value": 7131891700420305440,
                                     "type": 2
                                 },
                                 {
@@ -220,7 +226,7 @@
                                 },
                                 {
                                     "name": "BulletVelocity",
-                                    "value": 3.9000000953674316,
+                                    "value": 6.0,
                                     "type": 0
                                 }
                             ]
@@ -277,6 +283,16 @@
                                     "name": "IsParalyzed",
                                     "value": false,
                                     "type": 5
+                                },
+                                {
+                                    "name": "LightAttacksMoveFactor",
+                                    "value": 2.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "HeavyAttacksMoveFactor",
+                                    "value": 3.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -382,26 +398,6 @@
                                     "name": "LoseSceneName",
                                     "value": "00_LoseScene_VS3",
                                     "type": 1
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "PlayerForceUseScript",
-                            "fields": [
-                                {
-                                    "name": "MaxDistanceForce",
-                                    "value": 20.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "MaxTimeForce",
-                                    "value": 15.0,
-                                    "type": 0
                                 }
                             ]
                         }
@@ -560,7 +556,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.0003662109375,
                             "rbPos_Y": 0.0,
-                            "rbPos_Z": 0.0
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -647,7 +649,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.0,
                             "rbPos_Y": 0.0,
-                            "rbPos_Z": 0.2594938278198242
+                            "rbPos_Z": 0.2594938278198242,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -734,7 +742,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.024301884695887566,
                             "rbPos_Y": 0.45000001788139343,
-                            "rbPos_Z": 0.5999962091445923
+                            "rbPos_Z": 0.5999962091445923,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -839,7 +853,13 @@
                             "height": 0.10000000149011612,
                             "rbPos_X": 0.024301884695887566,
                             "rbPos_Y": 0.45000001788139343,
-                            "rbPos_Z": 0.5999981164932251
+                            "rbPos_Z": 0.5999981164932251,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -967,7 +987,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.0003662109375,
                             "rbPos_Y": 0.7203463315963745,
-                            "rbPos_Z": 0.7461742758750916
+                            "rbPos_Z": 0.7461742758750916,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -1111,7 +1137,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.0,
                             "rbPos_Y": 0.0,
-                            "rbPos_Z": 0.009493827819824219
+                            "rbPos_Z": 0.009493827819824219,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -1302,7 +1334,7 @@
                 "tag": "",
                 "uid": 1984360208543077965,
                 "parentUID": 2936065966958249174,
-                "enabled": true,
+                "enabled": false,
                 "static": false,
                 "Components": [
                     {
@@ -1365,7 +1397,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.0003662109375,
                             "rbPos_Y": 0.7203463315963745,
-                            "rbPos_Z": 0.7461742758750916
+                            "rbPos_Z": 0.7461742758750916,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {

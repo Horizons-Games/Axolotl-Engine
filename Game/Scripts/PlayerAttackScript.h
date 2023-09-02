@@ -65,6 +65,7 @@ private:
 	void ThrowBasicAttack(GameObject* enemyAttacked, float nDamage);
 
 	bool isAttacking;
+	bool isMelee;
 	float attackCooldown;
 	float attackCooldownCounter;
 	float comboInitTimer;
@@ -93,6 +94,7 @@ private:
 	float normalAttackDistance;
 	AttackCombo attackComboPhase;
 	AttackType currentAttack;
+	AttackType lastAttack;
 
 	PlayerManagerScript* playerManager;
 

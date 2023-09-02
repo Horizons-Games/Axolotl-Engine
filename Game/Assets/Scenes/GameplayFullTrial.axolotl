@@ -917,36 +917,46 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "BixAttackScript",
+                            "constructName": "PlayerAttackScript",
                             "fields": [
                                 {
                                     "name": "ComboCountHeavy",
-                                    "value": 20.0,
+                                    "value": 10.0,
                                     "type": 0
                                 },
                                 {
-                                    "name": "ComboCountSoft",
+                                    "name": "ComboCountLight",
                                     "value": 30.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ComboCountJump",
+                                    "value": 20.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "AttackSoft",
-                                    "value": 20.0,
+                                    "value": 0.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "AttackHeavy",
-                                    "value": 30.0,
+                                    "value": 0.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "NormalAttackDistance",
-                                    "value": 2.5,
+                                    "value": 0.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "IsAttacking",
                                     "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsMelee",
+                                    "value": true,
                                     "type": 5
                                 },
                                 {
@@ -960,9 +970,19 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "BixLightSaber",
-                                    "value": 10661410038615918799,
+                                    "name": "LightWeapon",
+                                    "value": 5072350967789751086,
                                     "type": 2
+                                },
+                                {
+                                    "name": "BulletPrefab",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "BulletVelocity",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -7096,10 +7116,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 325.0,
-                            "worldAABB_min_y": 221.0,
-                            "worldAABB_max_x": 325.0,
-                            "worldAABB_max_y": 221.0
+                            "worldAABB_min_x": 623.0,
+                            "worldAABB_min_y": 312.5,
+                            "worldAABB_max_x": 623.0,
+                            "worldAABB_max_y": 312.5
                         }
                     },
                     {
@@ -7191,10 +7211,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 291.1458435058594,
-                            "worldAABB_min_y": 187.14584350585938,
-                            "worldAABB_max_x": 358.8541564941406,
-                            "worldAABB_max_y": 254.85415649414063
+                            "worldAABB_min_x": 565.129638671875,
+                            "worldAABB_min_y": 254.629638671875,
+                            "worldAABB_max_x": 680.870361328125,
+                            "worldAABB_max_y": 370.370361328125
                         }
                     }
                 ]
@@ -7229,10 +7249,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 38.1875,
-                            "worldAABB_max_x": 650.0,
-                            "worldAABB_max_y": 403.8125
+                            "worldAABB_min_x": 67.4444580078125,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 1178.5555419921875,
+                            "worldAABB_max_y": 625.0
                         }
                     },
                     {
@@ -7282,10 +7302,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 291.1458435058594,
-                            "worldAABB_min_y": 187.14584350585938,
-                            "worldAABB_max_x": 358.8541564941406,
-                            "worldAABB_max_y": 254.85415649414063
+                            "worldAABB_min_x": 565.129638671875,
+                            "worldAABB_min_y": 254.629638671875,
+                            "worldAABB_max_x": 680.870361328125,
+                            "worldAABB_max_y": 370.370361328125
                         }
                     }
                 ]
@@ -7320,10 +7340,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 291.1458435058594,
-                            "worldAABB_min_y": 187.14584350585938,
-                            "worldAABB_max_x": 358.8541564941406,
-                            "worldAABB_max_y": 254.85415649414063
+                            "worldAABB_min_x": 565.129638671875,
+                            "worldAABB_min_y": 254.629638671875,
+                            "worldAABB_max_x": 680.870361328125,
+                            "worldAABB_max_y": 370.370361328125
                         }
                     }
                 ]
@@ -7358,10 +7378,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 291.1458435058594,
-                            "worldAABB_min_y": 187.14584350585938,
-                            "worldAABB_max_x": 358.8541564941406,
-                            "worldAABB_max_y": 254.85415649414063
+                            "worldAABB_min_x": 565.129638671875,
+                            "worldAABB_min_y": 254.629638671875,
+                            "worldAABB_max_x": 680.870361328125,
+                            "worldAABB_max_y": 370.370361328125
                         }
                     }
                 ]
@@ -7396,10 +7416,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 38.1875,
-                            "worldAABB_max_x": 650.0,
-                            "worldAABB_max_y": 403.8125
+                            "worldAABB_min_x": 67.4444580078125,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 1178.5555419921875,
+                            "worldAABB_max_y": 625.0
                         }
                     },
                     {
@@ -7449,10 +7469,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 291.1458435058594,
-                            "worldAABB_min_y": 187.14584350585938,
-                            "worldAABB_max_x": 358.8541564941406,
-                            "worldAABB_max_y": 254.85415649414063
+                            "worldAABB_min_x": 565.129638671875,
+                            "worldAABB_min_y": 254.629638671875,
+                            "worldAABB_max_x": 680.870361328125,
+                            "worldAABB_max_y": 370.370361328125
                         }
                     }
                 ]
@@ -7487,10 +7507,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 38.1875,
-                            "worldAABB_max_x": 650.0,
-                            "worldAABB_max_y": 403.8125
+                            "worldAABB_min_x": 67.4444580078125,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 1178.5555419921875,
+                            "worldAABB_max_y": 625.0
                         }
                     },
                     {
@@ -7540,10 +7560,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 291.1458435058594,
-                            "worldAABB_min_y": 187.14584350585938,
-                            "worldAABB_max_x": 358.8541564941406,
-                            "worldAABB_max_y": 254.85415649414063
+                            "worldAABB_min_x": 565.129638671875,
+                            "worldAABB_min_y": 254.629638671875,
+                            "worldAABB_max_x": 680.870361328125,
+                            "worldAABB_max_y": 370.370361328125
                         }
                     }
                 ]
@@ -7578,10 +7598,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 266.6015625,
-                            "worldAABB_min_y": 130.99969482421875,
-                            "worldAABB_max_x": 383.3984375,
-                            "worldAABB_max_y": 159.94500732421875
+                            "worldAABB_min_x": 523.173583984375,
+                            "worldAABB_min_y": 158.6533203125,
+                            "worldAABB_max_x": 722.826416015625,
+                            "worldAABB_max_y": 208.13247680664063
                         }
                     },
                     {
@@ -7631,10 +7651,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 279.8893127441406,
-                            "worldAABB_min_y": 186.99496459960938,
-                            "worldAABB_max_x": 370.1106872558594,
-                            "worldAABB_max_y": 214.24755859375
+                            "worldAABB_min_x": 545.8877563476563,
+                            "worldAABB_min_y": 254.37173461914063,
+                            "worldAABB_max_x": 700.1122436523438,
+                            "worldAABB_max_y": 300.9573669433594
                         }
                     },
                     {
@@ -7756,10 +7776,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 279.8893127441406,
-                            "worldAABB_min_y": 221.0901641845703,
-                            "worldAABB_max_x": 370.1106872558594,
-                            "worldAABB_max_y": 248.34275817871094
+                            "worldAABB_min_x": 545.8877563476563,
+                            "worldAABB_min_y": 312.6541442871094,
+                            "worldAABB_max_x": 700.1122436523438,
+                            "worldAABB_max_y": 359.2397766113281
                         }
                     },
                     {
@@ -7881,10 +7901,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 291.1458435058594,
-                            "worldAABB_min_y": 187.14584350585938,
-                            "worldAABB_max_x": 358.8541564941406,
-                            "worldAABB_max_y": 254.85415649414063
+                            "worldAABB_min_x": 565.129638671875,
+                            "worldAABB_min_y": 254.629638671875,
+                            "worldAABB_max_x": 680.870361328125,
+                            "worldAABB_max_y": 370.370361328125
                         }
                     }
                 ]
@@ -7919,10 +7939,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 291.1458435058594,
-                            "worldAABB_min_y": 187.14584350585938,
-                            "worldAABB_max_x": 358.8541564941406,
-                            "worldAABB_max_y": 254.85415649414063
+                            "worldAABB_min_x": 565.129638671875,
+                            "worldAABB_min_y": 254.629638671875,
+                            "worldAABB_max_x": 680.870361328125,
+                            "worldAABB_max_y": 370.370361328125
                         }
                     }
                 ]
@@ -7957,10 +7977,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 279.8893127441406,
-                            "worldAABB_min_y": 255.1853485107422,
-                            "worldAABB_max_x": 370.1106872558594,
-                            "worldAABB_max_y": 282.4379577636719
+                            "worldAABB_min_x": 545.8877563476563,
+                            "worldAABB_min_y": 370.9365234375,
+                            "worldAABB_max_x": 700.1122436523438,
+                            "worldAABB_max_y": 417.52215576171875
                         }
                     },
                     {
@@ -8082,10 +8102,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 279.8893127441406,
-                            "worldAABB_min_y": 289.2805480957031,
-                            "worldAABB_max_x": 370.1106872558594,
-                            "worldAABB_max_y": 316.5331726074219
+                            "worldAABB_min_x": 545.8877563476563,
+                            "worldAABB_min_y": 429.2189025878906,
+                            "worldAABB_max_x": 700.1122436523438,
+                            "worldAABB_max_y": 475.8045349121094
                         }
                     },
                     {
@@ -8207,10 +8227,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 279.8893127441406,
-                            "worldAABB_min_y": 186.99501037597656,
-                            "worldAABB_max_x": 370.1106872558594,
-                            "worldAABB_max_y": 214.2476043701172
+                            "worldAABB_min_x": 545.8877563476563,
+                            "worldAABB_min_y": 254.37179565429688,
+                            "worldAABB_max_x": 700.1122436523438,
+                            "worldAABB_max_y": 300.9574279785156
                         }
                     },
                     {
@@ -8260,10 +8280,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 279.8893127441406,
-                            "worldAABB_min_y": 221.0901641845703,
-                            "worldAABB_max_x": 370.1106872558594,
-                            "worldAABB_max_y": 248.34275817871094
+                            "worldAABB_min_x": 545.8877563476563,
+                            "worldAABB_min_y": 312.6541442871094,
+                            "worldAABB_max_x": 700.1122436523438,
+                            "worldAABB_max_y": 359.2397766113281
                         }
                     },
                     {
@@ -8313,10 +8333,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 279.8893127441406,
-                            "worldAABB_min_y": 255.1853485107422,
-                            "worldAABB_max_x": 370.1106872558594,
-                            "worldAABB_max_y": 282.4379577636719
+                            "worldAABB_min_x": 545.8877563476563,
+                            "worldAABB_min_y": 370.9365234375,
+                            "worldAABB_max_x": 700.1122436523438,
+                            "worldAABB_max_y": 417.52215576171875
                         }
                     },
                     {
@@ -8366,10 +8386,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 279.8893127441406,
-                            "worldAABB_min_y": 289.2805480957031,
-                            "worldAABB_max_x": 370.1106872558594,
-                            "worldAABB_max_y": 316.5331726074219
+                            "worldAABB_min_x": 545.8877563476563,
+                            "worldAABB_min_y": 429.2189025878906,
+                            "worldAABB_max_x": 700.1122436523438,
+                            "worldAABB_max_y": 475.8045349121094
                         }
                     },
                     {
@@ -8419,10 +8439,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 291.1458435058594,
-                            "worldAABB_min_y": 187.14584350585938,
-                            "worldAABB_max_x": 358.8541564941406,
-                            "worldAABB_max_y": 254.85415649414063
+                            "worldAABB_min_x": 565.129638671875,
+                            "worldAABB_min_y": 254.629638671875,
+                            "worldAABB_max_x": 680.870361328125,
+                            "worldAABB_max_y": 370.370361328125
                         }
                     }
                 ]
@@ -8457,10 +8477,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 38.1875,
-                            "worldAABB_max_x": 650.0,
-                            "worldAABB_max_y": 403.8125
+                            "worldAABB_min_x": 67.4444580078125,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 1178.5555419921875,
+                            "worldAABB_max_y": 625.0
                         }
                     },
                     {
@@ -8510,10 +8530,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 550.1702270507813,
-                            "worldAABB_min_y": 58.7168083190918,
-                            "worldAABB_max_x": 588.0868530273438,
-                            "worldAABB_max_y": 68.19597625732422
+                            "worldAABB_min_x": 1007.9063110351563,
+                            "worldAABB_min_y": 35.09281921386719,
+                            "worldAABB_max_x": 1072.7210693359375,
+                            "worldAABB_max_y": 51.29652404785156
                         }
                     },
                     {
@@ -8635,10 +8655,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 38.1875,
-                            "worldAABB_max_x": 650.0,
-                            "worldAABB_max_y": 403.8125
+                            "worldAABB_min_x": 67.4444580078125,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 1178.5555419921875,
+                            "worldAABB_max_y": 625.0
                         }
                     },
                     {
@@ -8688,10 +8708,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 291.1458435058594,
-                            "worldAABB_min_y": 187.14584350585938,
-                            "worldAABB_max_x": 358.8541564941406,
-                            "worldAABB_max_y": 254.85415649414063
+                            "worldAABB_min_x": 565.129638671875,
+                            "worldAABB_min_y": 254.629638671875,
+                            "worldAABB_max_x": 680.870361328125,
+                            "worldAABB_max_y": 370.370361328125
                         }
                     }
                 ]
@@ -8726,10 +8746,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 291.1458435058594,
-                            "worldAABB_min_y": 187.14584350585938,
-                            "worldAABB_max_x": 358.8541564941406,
-                            "worldAABB_max_y": 254.85415649414063
+                            "worldAABB_min_x": 565.129638671875,
+                            "worldAABB_min_y": 254.629638671875,
+                            "worldAABB_max_x": 680.870361328125,
+                            "worldAABB_max_y": 370.370361328125
                         }
                     }
                 ]
@@ -8764,10 +8784,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 7.938560485839844,
-                            "worldAABB_min_y": 82.12516021728516,
-                            "worldAABB_max_x": 106.62345123291016,
-                            "worldAABB_max_y": 110.73192596435547
+                            "worldAABB_min_x": 81.0146255493164,
+                            "worldAABB_min_y": 75.10709381103516,
+                            "worldAABB_max_x": 249.70675659179688,
+                            "worldAABB_max_y": 124.00756072998047
                         }
                     },
                     {
@@ -8817,10 +8837,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 658.5367431640625,
-                            "worldAABB_min_y": 53.591148376464844,
-                            "worldAABB_max_x": 852.6904296875,
-                            "worldAABB_max_y": 106.06510162353516
+                            "worldAABB_min_x": 1193.1483154296875,
+                            "worldAABB_min_y": 26.33102035522461,
+                            "worldAABB_max_x": 1525.0347900390625,
+                            "worldAABB_max_y": 116.03009033203125
                         }
                     },
                     {
@@ -8887,10 +8907,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 45.648277282714844,
-                            "worldAABB_min_y": 28.76842498779297,
-                            "worldAABB_max_x": 113.35660552978516,
-                            "worldAABB_max_y": 96.47675323486328
+                            "worldAABB_min_x": 145.47567749023438,
+                            "worldAABB_min_y": -16.100990295410156,
+                            "worldAABB_max_x": 261.2164001464844,
+                            "worldAABB_max_y": 99.6397476196289
                         }
                     },
                     {
@@ -8939,10 +8959,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 7.64697265625,
-                            "worldAABB_min_y": 42.22545623779297,
-                            "worldAABB_max_x": 151.35791015625,
-                            "worldAABB_max_y": 83.01972198486328
+                            "worldAABB_min_x": 80.51618194580078,
+                            "worldAABB_min_y": 6.9024810791015625,
+                            "worldAABB_max_x": 326.1759033203125,
+                            "worldAABB_max_y": 76.63627624511719
                         }
                     },
                     {
@@ -8992,10 +9012,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 66.62560272216797,
-                            "worldAABB_min_y": 66.2088394165039,
-                            "worldAABB_max_x": 140.42767333984375,
-                            "worldAABB_max_y": 72.97966766357422
+                            "worldAABB_min_x": 181.3343505859375,
+                            "worldAABB_min_y": 47.89970016479492,
+                            "worldAABB_max_x": 307.49176025390625,
+                            "worldAABB_max_y": 59.47377395629883
                         }
                     },
                     {
@@ -9045,10 +9065,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 146.55628967285156,
-                            "worldAABB_min_y": 52.466339111328125,
-                            "worldAABB_max_x": 155.0198211669922,
-                            "worldAABB_max_y": 72.77883911132813
+                            "worldAABB_min_x": 317.968017578125,
+                            "worldAABB_min_y": 24.408267974853516,
+                            "worldAABB_max_x": 332.43560791015625,
+                            "worldAABB_max_y": 59.130489349365234
                         }
                     },
                     {
@@ -9114,10 +9134,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 45.648292541503906,
-                            "worldAABB_min_y": 28.76825714111328,
-                            "worldAABB_max_x": 113.35662078857422,
-                            "worldAABB_max_y": 96.4765853881836
+                            "worldAABB_min_x": 145.4757080078125,
+                            "worldAABB_min_y": -16.10126495361328,
+                            "worldAABB_max_x": 261.2164306640625,
+                            "worldAABB_max_y": 99.63947296142578
                         }
                     },
                     {
@@ -9166,10 +9186,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 11.79412841796875,
-                            "worldAABB_min_y": 54.15888214111328,
-                            "worldAABB_max_x": 147.21078491210938,
-                            "worldAABB_max_y": 71.0859603881836
+                            "worldAABB_min_x": 87.60533142089844,
+                            "worldAABB_min_y": 27.301511764526367,
+                            "worldAABB_max_x": 319.0867919921875,
+                            "worldAABB_max_y": 56.2366943359375
                         }
                     },
                     {
@@ -9219,10 +9239,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 66.62569427490234,
-                            "worldAABB_min_y": 66.2085952758789,
-                            "worldAABB_max_x": 140.42776489257813,
-                            "worldAABB_max_y": 72.97942352294922
+                            "worldAABB_min_x": 181.33450317382813,
+                            "worldAABB_min_y": 47.8993034362793,
+                            "worldAABB_max_x": 307.4919128417969,
+                            "worldAABB_max_y": 59.4733772277832
                         }
                     },
                     {
@@ -9272,10 +9292,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 142.4636688232422,
-                            "worldAABB_min_y": 52.46617126464844,
-                            "worldAABB_max_x": 150.9272003173828,
-                            "worldAABB_max_y": 72.77867126464844
+                            "worldAABB_min_x": 310.9720764160156,
+                            "worldAABB_min_y": 24.40799331665039,
+                            "worldAABB_max_x": 325.4396667480469,
+                            "worldAABB_max_y": 59.13021469116211
                         }
                     },
                     {
@@ -9341,10 +9361,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 291.1458435058594,
-                            "worldAABB_min_y": 187.14584350585938,
-                            "worldAABB_max_x": 358.8541564941406,
-                            "worldAABB_max_y": 254.85415649414063
+                            "worldAABB_min_x": 565.129638671875,
+                            "worldAABB_min_y": 254.629638671875,
+                            "worldAABB_max_x": 680.870361328125,
+                            "worldAABB_max_y": 370.370361328125
                         }
                     }
                 ]
@@ -9379,10 +9399,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 515.9374389648438,
-                            "worldAABB_min_y": 315.7916564941406,
-                            "worldAABB_max_x": 583.6458129882813,
-                            "worldAABB_max_y": 383.4999694824219
+                            "worldAABB_min_x": 949.388916015625,
+                            "worldAABB_min_y": 474.53704833984375,
+                            "worldAABB_max_x": 1065.129638671875,
+                            "worldAABB_max_y": 590.2777709960938
                         }
                     },
                     {
@@ -9431,10 +9451,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 509.8437194824219,
-                            "worldAABB_min_y": 309.6979064941406,
-                            "worldAABB_max_x": 589.7395629882813,
-                            "worldAABB_max_y": 389.5937194824219
+                            "worldAABB_min_x": 938.9722290039063,
+                            "worldAABB_min_y": 464.120361328125,
+                            "worldAABB_max_x": 1075.5462646484375,
+                            "worldAABB_max_y": 600.6944580078125
                         }
                     },
                     {
@@ -9484,10 +9504,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 509.8437194824219,
-                            "worldAABB_min_y": 309.6979064941406,
-                            "worldAABB_max_x": 589.7395629882813,
-                            "worldAABB_max_y": 389.5937194824219
+                            "worldAABB_min_x": 938.9722290039063,
+                            "worldAABB_min_y": 464.120361328125,
+                            "worldAABB_max_x": 1075.5462646484375,
+                            "worldAABB_max_y": 600.6944580078125
                         }
                     },
                     {
@@ -9537,10 +9557,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 545.5598754882813,
-                            "worldAABB_min_y": 339.48956298828125,
-                            "worldAABB_max_x": 554.0233764648438,
-                            "worldAABB_max_y": 359.80206298828125
+                            "worldAABB_min_x": 1000.0254516601563,
+                            "worldAABB_min_y": 515.0463256835938,
+                            "worldAABB_max_x": 1014.4931030273438,
+                            "worldAABB_max_y": 549.7684936523438
                         }
                     },
                     {
@@ -9606,10 +9626,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 515.9374389648438,
-                            "worldAABB_min_y": 315.7916564941406,
-                            "worldAABB_max_x": 583.6458129882813,
-                            "worldAABB_max_y": 383.4999694824219
+                            "worldAABB_min_x": 949.388916015625,
+                            "worldAABB_min_y": 474.53704833984375,
+                            "worldAABB_max_x": 1065.129638671875,
+                            "worldAABB_max_y": 590.2777709960938
                         }
                     },
                     {
@@ -9658,10 +9678,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 509.8437194824219,
-                            "worldAABB_min_y": 309.6979064941406,
-                            "worldAABB_max_x": 589.7395629882813,
-                            "worldAABB_max_y": 389.5937194824219
+                            "worldAABB_min_x": 938.9722290039063,
+                            "worldAABB_min_y": 464.120361328125,
+                            "worldAABB_max_x": 1075.5462646484375,
+                            "worldAABB_max_y": 600.6944580078125
                         }
                     },
                     {
@@ -9711,10 +9731,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 509.8437194824219,
-                            "worldAABB_min_y": 309.6979064941406,
-                            "worldAABB_max_x": 589.7395629882813,
-                            "worldAABB_max_y": 389.5937194824219
+                            "worldAABB_min_x": 938.9722290039063,
+                            "worldAABB_min_y": 464.120361328125,
+                            "worldAABB_max_x": 1075.5462646484375,
+                            "worldAABB_max_y": 600.6944580078125
                         }
                     },
                     {
@@ -9764,10 +9784,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 584.9771728515625,
-                            "worldAABB_min_y": 339.48956298828125,
-                            "worldAABB_max_x": 593.440673828125,
-                            "worldAABB_max_y": 359.80206298828125
+                            "worldAABB_min_x": 1067.4053955078125,
+                            "worldAABB_min_y": 515.0463256835938,
+                            "worldAABB_max_x": 1081.8729248046875,
+                            "worldAABB_max_y": 549.7684936523438
                         }
                     },
                     {
@@ -9833,10 +9853,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 515.9374389648438,
-                            "worldAABB_min_y": 315.7916564941406,
-                            "worldAABB_max_x": 583.6458129882813,
-                            "worldAABB_max_y": 383.4999694824219
+                            "worldAABB_min_x": 949.388916015625,
+                            "worldAABB_min_y": 474.53704833984375,
+                            "worldAABB_max_x": 1065.129638671875,
+                            "worldAABB_max_y": 590.2777709960938
                         }
                     },
                     {
@@ -9885,10 +9905,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 509.8437194824219,
-                            "worldAABB_min_y": 309.6979064941406,
-                            "worldAABB_max_x": 589.7395629882813,
-                            "worldAABB_max_y": 389.5937194824219
+                            "worldAABB_min_x": 938.9722290039063,
+                            "worldAABB_min_y": 464.120361328125,
+                            "worldAABB_max_x": 1075.5462646484375,
+                            "worldAABB_max_y": 600.6944580078125
                         }
                     },
                     {
@@ -9938,10 +9958,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 509.8437194824219,
-                            "worldAABB_min_y": 309.6979064941406,
-                            "worldAABB_max_x": 589.7395629882813,
-                            "worldAABB_max_y": 389.5937194824219
+                            "worldAABB_min_x": 938.9722290039063,
+                            "worldAABB_min_y": 464.120361328125,
+                            "worldAABB_max_x": 1075.5462646484375,
+                            "worldAABB_max_y": 600.6944580078125
                         }
                     },
                     {
@@ -9991,10 +10011,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 585.2286376953125,
-                            "worldAABB_min_y": 339.48956298828125,
-                            "worldAABB_max_x": 593.692138671875,
-                            "worldAABB_max_y": 359.80206298828125
+                            "worldAABB_min_x": 1067.8353271484375,
+                            "worldAABB_min_y": 515.0463256835938,
+                            "worldAABB_max_x": 1082.3028564453125,
+                            "worldAABB_max_y": 549.7684936523438
                         }
                     },
                     {
@@ -10060,10 +10080,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 515.9374389648438,
-                            "worldAABB_min_y": 315.7916564941406,
-                            "worldAABB_max_x": 583.6458129882813,
-                            "worldAABB_max_y": 383.4999694824219
+                            "worldAABB_min_x": 949.388916015625,
+                            "worldAABB_min_y": 474.53704833984375,
+                            "worldAABB_max_x": 1065.129638671875,
+                            "worldAABB_max_y": 590.2777709960938
                         }
                     },
                     {
@@ -10112,10 +10132,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 509.8437194824219,
-                            "worldAABB_min_y": 309.6979064941406,
-                            "worldAABB_max_x": 589.7395629882813,
-                            "worldAABB_max_y": 389.5937194824219
+                            "worldAABB_min_x": 938.9722290039063,
+                            "worldAABB_min_y": 464.120361328125,
+                            "worldAABB_max_x": 1075.5462646484375,
+                            "worldAABB_max_y": 600.6944580078125
                         }
                     },
                     {
@@ -10165,10 +10185,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 509.8437194824219,
-                            "worldAABB_min_y": 309.6979064941406,
-                            "worldAABB_max_x": 589.7395629882813,
-                            "worldAABB_max_y": 389.5937194824219
+                            "worldAABB_min_x": 938.9722290039063,
+                            "worldAABB_min_y": 464.120361328125,
+                            "worldAABB_max_x": 1075.5462646484375,
+                            "worldAABB_max_y": 600.6944580078125
                         }
                     },
                     {
@@ -10218,10 +10238,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 611.6842651367188,
-                            "worldAABB_min_y": 339.48956298828125,
-                            "worldAABB_max_x": 620.1477661132813,
-                            "worldAABB_max_y": 359.80206298828125
+                            "worldAABB_min_x": 1113.05859375,
+                            "worldAABB_min_y": 515.0463256835938,
+                            "worldAABB_max_x": 1127.526123046875,
+                            "worldAABB_max_y": 549.7684936523438
                         }
                     },
                     {
@@ -10408,17 +10428,20 @@
                             "constructName": "PatrolBehaviourScript",
                             "fields": [
                                 {
-                                    "name": "Waypoints",
+                                    "name": "WaypointsPatrol",
                                     "type": 4,
-                                    "vectorElements": [
-                                        {
-                                            "value": 17921358598841053390
-                                        },
-                                        {
-                                            "value": 6536772281141820080
-                                        }
-                                    ],
+                                    "vectorElements": null,
                                     "innerType": 2
+                                },
+                                {
+                                    "name": "PatrolStopDuration",
+                                    "value": 5.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "PatrolAnimationParamater",
+                                    "value": "",
+                                    "type": 1
                                 }
                             ]
                         }
@@ -10454,6 +10477,16 @@
                                     "name": "ExplosionGameObject",
                                     "value": 1435588834732233720,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ExclamationVFX",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EnemyDetectionDuration",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -10481,9 +10514,44 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "LaserParticleSystem",
+                                    "name": "AttackDamage",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ShootPosition",
                                     "value": 0,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemPreShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "PreShotDuration",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "NumConsecutiveShots",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MinTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -10570,6 +10638,11 @@
                                 {
                                     "name": "PowerUpParent",
                                     "value": 12473639644339742065,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystem",
+                                    "value": 0,
                                     "type": 2
                                 }
                             ]
@@ -13312,6 +13385,16 @@
                                     "name": "ExplosionTime",
                                     "value": 2.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "ExplosionDistance",
+                                    "value": 4.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ParticleSystem",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -13376,17 +13459,20 @@
                             "constructName": "PatrolBehaviourScript",
                             "fields": [
                                 {
-                                    "name": "Waypoints",
+                                    "name": "WaypointsPatrol",
                                     "type": 4,
-                                    "vectorElements": [
-                                        {
-                                            "value": 5839145937413678870
-                                        },
-                                        {
-                                            "value": 6359887865677729366
-                                        }
-                                    ],
+                                    "vectorElements": null,
                                     "innerType": 2
+                                },
+                                {
+                                    "name": "PatrolStopDuration",
+                                    "value": 5.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "PatrolAnimationParamater",
+                                    "value": "",
+                                    "type": 1
                                 }
                             ]
                         }
@@ -13422,6 +13508,16 @@
                                     "name": "ExplosionGameObject",
                                     "value": 11623988761034832719,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ExclamationVFX",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EnemyDetectionDuration",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -13449,9 +13545,44 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "LaserParticleSystem",
+                                    "name": "AttackDamage",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ShootPosition",
                                     "value": 0,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemPreShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "PreShotDuration",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "NumConsecutiveShots",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MinTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -13538,6 +13669,11 @@
                                 {
                                     "name": "PowerUpParent",
                                     "value": 12473639644339742065,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystem",
+                                    "value": 0,
                                     "type": 2
                                 }
                             ]
@@ -16280,6 +16416,16 @@
                                     "name": "ExplosionTime",
                                     "value": 2.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "ExplosionDistance",
+                                    "value": 4.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ParticleSystem",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -16620,6 +16766,16 @@
                                     "name": "BlasterGameObject",
                                     "value": 5648569804437327805,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ExclamationParticle",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EnemyDetectionDuration",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -16632,17 +16788,20 @@
                             "constructName": "PatrolBehaviourScript",
                             "fields": [
                                 {
-                                    "name": "Waypoints",
+                                    "name": "WaypointsPatrol",
                                     "type": 4,
-                                    "vectorElements": [
-                                        {
-                                            "value": 17217482957009702546
-                                        },
-                                        {
-                                            "value": 16007474881477241656
-                                        }
-                                    ],
+                                    "vectorElements": null,
                                     "innerType": 2
+                                },
+                                {
+                                    "name": "PatrolStopDuration",
+                                    "value": 5.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "PatrolAnimationParamater",
+                                    "value": "",
+                                    "type": 1
                                 }
                             ]
                         }
@@ -16685,9 +16844,44 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "LaserParticleSystem",
+                                    "name": "AttackDamage",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ShootPosition",
                                     "value": 0,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemPreShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "PreShotDuration",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "NumConsecutiveShots",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MinTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -16738,31 +16932,6 @@
                                     "name": "DamageAttack",
                                     "value": 10.0,
                                     "type": 0
-                                },
-                                {
-                                    "name": "Ray1GO",
-                                    "value": 12155914450599700152,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray2GO",
-                                    "value": 10811857513819582819,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray3GO",
-                                    "value": 16062323095733009639,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray4GO",
-                                    "value": 14999573896007190983,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "RayAttackSize",
-                                    "value": 10.0,
-                                    "type": 0
                                 }
                             ]
                         }
@@ -16777,6 +16946,11 @@
                                 {
                                     "name": "PowerUpParent",
                                     "value": 12473639644339742065,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystem",
+                                    "value": 0,
                                     "type": 2
                                 }
                             ]
@@ -20302,6 +20476,16 @@
                                     "name": "BlasterGameObject",
                                     "value": 15297699079590168932,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ExclamationParticle",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EnemyDetectionDuration",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -20314,17 +20498,20 @@
                             "constructName": "PatrolBehaviourScript",
                             "fields": [
                                 {
-                                    "name": "Waypoints",
+                                    "name": "WaypointsPatrol",
                                     "type": 4,
-                                    "vectorElements": [
-                                        {
-                                            "value": 18308201037529127367
-                                        },
-                                        {
-                                            "value": 1720411989633225852
-                                        }
-                                    ],
+                                    "vectorElements": null,
                                     "innerType": 2
+                                },
+                                {
+                                    "name": "PatrolStopDuration",
+                                    "value": 5.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "PatrolAnimationParamater",
+                                    "value": "",
+                                    "type": 1
                                 }
                             ]
                         }
@@ -20367,9 +20554,44 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "LaserParticleSystem",
+                                    "name": "AttackDamage",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ShootPosition",
                                     "value": 0,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemPreShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "PreShotDuration",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "NumConsecutiveShots",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MinTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -20420,31 +20642,6 @@
                                     "name": "DamageAttack",
                                     "value": 10.0,
                                     "type": 0
-                                },
-                                {
-                                    "name": "Ray1GO",
-                                    "value": 14860386328704433344,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray2GO",
-                                    "value": 14621542787010434824,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray3GO",
-                                    "value": 3226671338352668775,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray4GO",
-                                    "value": 13867823287458940602,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "RayAttackSize",
-                                    "value": 10.0,
-                                    "type": 0
                                 }
                             ]
                         }
@@ -20459,6 +20656,11 @@
                                 {
                                     "name": "PowerUpParent",
                                     "value": 12473639644339742065,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystem",
+                                    "value": 0,
                                     "type": 2
                                 }
                             ]
@@ -23680,10 +23882,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 542.4110717773438,
-                            "worldAABB_min_y": 32.73528289794922,
-                            "worldAABB_max_x": 610.1194458007813,
-                            "worldAABB_max_y": 100.44361114501953
+                            "worldAABB_min_x": 994.6429443359375,
+                            "worldAABB_min_y": -9.320014953613281,
+                            "worldAABB_max_x": 1110.3836669921875,
+                            "worldAABB_max_y": 106.42072296142578
                         }
                     },
                     {
@@ -23738,10 +23940,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 542.4110717773438,
-                            "worldAABB_min_y": 32.73528289794922,
-                            "worldAABB_max_x": 610.1194458007813,
-                            "worldAABB_max_y": 100.44361114501953
+                            "worldAABB_min_x": 994.6429443359375,
+                            "worldAABB_min_y": -9.320014953613281,
+                            "worldAABB_max_x": 1110.3836669921875,
+                            "worldAABB_max_y": 106.42072296142578
                         }
                     },
                     {
@@ -23790,10 +23992,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 508.55694580078125,
-                            "worldAABB_min_y": 58.12590789794922,
-                            "worldAABB_max_x": 643.9735717773438,
-                            "worldAABB_max_y": 75.05298614501953
+                            "worldAABB_min_x": 936.7725830078125,
+                            "worldAABB_min_y": 34.082763671875,
+                            "worldAABB_max_x": 1168.2540283203125,
+                            "worldAABB_max_y": 63.0179443359375
                         }
                     },
                     {
@@ -23843,10 +24045,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 508.55694580078125,
-                            "worldAABB_min_y": 58.12590789794922,
-                            "worldAABB_max_x": 643.9735717773438,
-                            "worldAABB_max_y": 75.05298614501953
+                            "worldAABB_min_x": 936.7725830078125,
+                            "worldAABB_min_y": 34.082763671875,
+                            "worldAABB_max_x": 1168.2540283203125,
+                            "worldAABB_max_y": 63.0179443359375
                         }
                     },
                     {
@@ -23896,10 +24098,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 542.4110717773438,
-                            "worldAABB_min_y": 66.20013427734375,
-                            "worldAABB_max_x": 610.1194458007813,
-                            "worldAABB_max_y": 133.90846252441406
+                            "worldAABB_min_x": 994.6429443359375,
+                            "worldAABB_min_y": 47.88483428955078,
+                            "worldAABB_max_x": 1110.3836669921875,
+                            "worldAABB_max_y": 163.62557983398438
                         }
                     }
                 ]
@@ -23934,10 +24136,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 585.9983520507813,
-                            "worldAABB_min_y": 66.20013427734375,
-                            "worldAABB_max_x": 653.7067260742188,
-                            "worldAABB_max_y": 133.90846252441406
+                            "worldAABB_min_x": 1069.1510009765625,
+                            "worldAABB_min_y": 47.88483428955078,
+                            "worldAABB_max_x": 1184.8917236328125,
+                            "worldAABB_max_y": 163.62557983398438
                         }
                     }
                 ]
@@ -23972,10 +24174,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 609.6962890625,
-                            "worldAABB_min_y": 89.8980484008789,
-                            "worldAABB_max_x": 630.0087890625,
-                            "worldAABB_max_y": 110.2105484008789
+                            "worldAABB_min_x": 1109.6602783203125,
+                            "worldAABB_min_y": 88.39408874511719,
+                            "worldAABB_max_x": 1144.3824462890625,
+                            "worldAABB_max_y": 123.11631774902344
                         }
                     },
                     {
@@ -24025,10 +24227,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 543.7652587890625,
-                            "worldAABB_min_y": 66.20013427734375,
-                            "worldAABB_max_x": 611.4736328125,
-                            "worldAABB_max_y": 133.90846252441406
+                            "worldAABB_min_x": 996.957763671875,
+                            "worldAABB_min_y": 47.88483428955078,
+                            "worldAABB_max_x": 1112.698486328125,
+                            "worldAABB_max_y": 163.62557983398438
                         }
                     }
                 ]
@@ -24063,10 +24265,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 567.4631958007813,
-                            "worldAABB_min_y": 89.8980484008789,
-                            "worldAABB_max_x": 587.7756958007813,
-                            "worldAABB_max_y": 110.2105484008789
+                            "worldAABB_min_x": 1037.467041015625,
+                            "worldAABB_min_y": 88.39408874511719,
+                            "worldAABB_max_x": 1072.189208984375,
+                            "worldAABB_max_y": 123.11631774902344
                         }
                     },
                     {
@@ -24116,10 +24318,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 501.4476013183594,
-                            "worldAABB_min_y": 66.20013427734375,
-                            "worldAABB_max_x": 569.1559448242188,
-                            "worldAABB_max_y": 133.90846252441406
+                            "worldAABB_min_x": 924.6197509765625,
+                            "worldAABB_min_y": 47.88483428955078,
+                            "worldAABB_max_x": 1040.3604736328125,
+                            "worldAABB_max_y": 163.62557983398438
                         }
                     }
                 ]
@@ -24154,10 +24356,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 525.1455078125,
-                            "worldAABB_min_y": 89.8980484008789,
-                            "worldAABB_max_x": 545.4580078125,
-                            "worldAABB_max_y": 110.2105484008789
+                            "worldAABB_min_x": 965.1290283203125,
+                            "worldAABB_min_y": 88.39408874511719,
+                            "worldAABB_max_x": 999.8511962890625,
+                            "worldAABB_max_y": 123.11631774902344
                         }
                     },
                     {
@@ -24207,10 +24409,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 560.0152587890625,
-                            "worldAABB_min_y": 83.8042984008789,
-                            "worldAABB_max_x": 592.5152587890625,
-                            "worldAABB_max_y": 116.3042984008789
+                            "worldAABB_min_x": 1024.7354736328125,
+                            "worldAABB_min_y": 77.97742462158203,
+                            "worldAABB_max_x": 1080.2911376953125,
+                            "worldAABB_max_y": 133.53298950195313
                         }
                     },
                     {
@@ -24260,10 +24462,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 560.0152587890625,
-                            "worldAABB_min_y": 83.8042984008789,
-                            "worldAABB_max_x": 592.5152587890625,
-                            "worldAABB_max_y": 116.3042984008789
+                            "worldAABB_min_x": 1024.7354736328125,
+                            "worldAABB_min_y": 77.97742462158203,
+                            "worldAABB_max_x": 1080.2911376953125,
+                            "worldAABB_max_y": 133.53298950195313
                         }
                     },
                     {
@@ -24599,6 +24801,11 @@
                                 {
                                     "name": "ParticleSystemTimer",
                                     "value": 0.5,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxDistanceBullet",
+                                    "value": 10.0,
                                     "type": 0
                                 }
                             ]

@@ -2,7 +2,7 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "GameplayFullTrial_Arulla",
+                "name": "GameplayFullTrial_Allura",
                 "tag": "",
                 "uid": 9011007661183311806,
                 "parentUID": 0,
@@ -133,7 +133,7 @@
                                 },
                                 {
                                     "name": "Player",
-                                    "value": 16740271857309047545,
+                                    "value": 5659784701395227913,
                                     "type": 2
                                 },
                                 {
@@ -160,6 +160,11 @@
                                     "name": "YFocusOffset",
                                     "value": 0.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "InCombat",
+                                    "value": false,
+                                    "type": 5
                                 }
                             ]
                         }
@@ -229,7 +234,13 @@
                             "height": 2.0,
                             "rbPos_X": 5.567686080932617,
                             "rbPos_Y": 1.5957939624786377,
-                            "rbPos_Z": -7.999545097351074
+                            "rbPos_Z": -7.999545097351074,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     }
                 ]
@@ -437,7 +448,13 @@
                             "height": 2.0,
                             "rbPos_X": 192.1590576171875,
                             "rbPos_Y": 3.2121219635009766,
-                            "rbPos_Z": -8.762855529785156
+                            "rbPos_Z": -8.762855529785156,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -520,7 +537,13 @@
                             "height": 2.0,
                             "rbPos_X": 195.6409912109375,
                             "rbPos_Y": 3.2121219635009766,
-                            "rbPos_Z": -8.701062202453613
+                            "rbPos_Z": -8.701062202453613,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -714,9 +737,13 @@
                             "positionFixedZ": 0.0,
                             "focusOffsetX": 0.0,
                             "focusOffsetY": 0.0,
-                            "isSampleFocusEnabled": false,
+                            "KpPosition": 0.0,
+                            "KpRotation": 0.0,
                             "isSampleFixedEnabled": false,
+                            "isSampleFocusEnabled": false,
                             "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
                             "positionX": 0.0,
                             "positionY": 0.0,
                             "positionZ": 62.397525787353516
@@ -787,7 +814,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.0,
                             "rbPos_Y": -1.500262975692749,
-                            "rbPos_Z": 0.0
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     }
                 ]
@@ -967,7 +1000,13 @@
                             "height": 2.0,
                             "rbPos_X": 192.1590576171875,
                             "rbPos_Y": 3.2121219635009766,
-                            "rbPos_Z": -8.762855529785156
+                            "rbPos_Z": -8.762855529785156,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -1050,7 +1089,13 @@
                             "height": 2.0,
                             "rbPos_X": 195.6409912109375,
                             "rbPos_Y": 3.2121219635009766,
-                            "rbPos_Z": -8.701062202453613
+                            "rbPos_Z": -8.701062202453613,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -1156,10 +1201,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 633.5,
-                            "worldAABB_min_y": 354.5,
-                            "worldAABB_max_x": 633.5,
-                            "worldAABB_max_y": 354.5
+                            "worldAABB_min_x": 519.5,
+                            "worldAABB_min_y": 352.0,
+                            "worldAABB_max_x": 519.5,
+                            "worldAABB_max_y": 352.0
                         }
                     },
                     {
@@ -1251,10 +1296,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 567.8518676757813,
-                            "worldAABB_min_y": 288.85186767578125,
-                            "worldAABB_max_x": 699.1481323242188,
-                            "worldAABB_max_y": 420.14813232421875
+                            "worldAABB_min_x": 465.3854064941406,
+                            "worldAABB_min_y": 297.8854064941406,
+                            "worldAABB_max_x": 573.6145629882813,
+                            "worldAABB_max_y": 406.1145935058594
                         }
                     }
                 ]
@@ -1289,10 +1334,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 3.27777099609375,
-                            "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1263.72216796875,
-                            "worldAABB_max_y": 709.0
+                            "worldAABB_min_x": 0.0,
+                            "worldAABB_min_y": 59.78125,
+                            "worldAABB_max_x": 1039.0,
+                            "worldAABB_max_y": 644.21875
                         }
                     },
                     {
@@ -1342,10 +1387,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 567.8518676757813,
-                            "worldAABB_min_y": 288.85186767578125,
-                            "worldAABB_max_x": 699.1481323242188,
-                            "worldAABB_max_y": 420.14813232421875
+                            "worldAABB_min_x": 465.3854064941406,
+                            "worldAABB_min_y": 297.8854064941406,
+                            "worldAABB_max_x": 573.6145629882813,
+                            "worldAABB_max_y": 406.1145935058594
                         }
                     }
                 ]
@@ -1380,10 +1425,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 567.8518676757813,
-                            "worldAABB_min_y": 288.85186767578125,
-                            "worldAABB_max_x": 699.1481323242188,
-                            "worldAABB_max_y": 420.14813232421875
+                            "worldAABB_min_x": 465.3854064941406,
+                            "worldAABB_min_y": 297.8854064941406,
+                            "worldAABB_max_x": 573.6145629882813,
+                            "worldAABB_max_y": 406.1145935058594
                         }
                     }
                 ]
@@ -1418,10 +1463,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 567.8518676757813,
-                            "worldAABB_min_y": 288.85186767578125,
-                            "worldAABB_max_x": 699.1481323242188,
-                            "worldAABB_max_y": 420.14813232421875
+                            "worldAABB_min_x": 465.3854064941406,
+                            "worldAABB_min_y": 297.8854064941406,
+                            "worldAABB_max_x": 573.6145629882813,
+                            "worldAABB_max_y": 406.1145935058594
                         }
                     }
                 ]
@@ -1456,10 +1501,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 3.27777099609375,
-                            "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1263.72216796875,
-                            "worldAABB_max_y": 709.0
+                            "worldAABB_min_x": 0.0,
+                            "worldAABB_min_y": 59.78125,
+                            "worldAABB_max_x": 1039.0,
+                            "worldAABB_max_y": 644.21875
                         }
                     },
                     {
@@ -1509,10 +1554,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 567.8518676757813,
-                            "worldAABB_min_y": 288.85186767578125,
-                            "worldAABB_max_x": 699.1481323242188,
-                            "worldAABB_max_y": 420.14813232421875
+                            "worldAABB_min_x": 465.3854064941406,
+                            "worldAABB_min_y": 297.8854064941406,
+                            "worldAABB_max_x": 573.6145629882813,
+                            "worldAABB_max_y": 406.1145935058594
                         }
                     }
                 ]
@@ -1547,10 +1592,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 3.27777099609375,
-                            "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1263.72216796875,
-                            "worldAABB_max_y": 709.0
+                            "worldAABB_min_x": 0.0,
+                            "worldAABB_min_y": 59.78125,
+                            "worldAABB_max_x": 1039.0,
+                            "worldAABB_max_y": 644.21875
                         }
                     },
                     {
@@ -1600,10 +1645,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 567.8518676757813,
-                            "worldAABB_min_y": 288.85186767578125,
-                            "worldAABB_max_x": 699.1481323242188,
-                            "worldAABB_max_y": 420.14813232421875
+                            "worldAABB_min_x": 465.3854064941406,
+                            "worldAABB_min_y": 297.8854064941406,
+                            "worldAABB_max_x": 573.6145629882813,
+                            "worldAABB_max_y": 406.1145935058594
                         }
                     }
                 ]
@@ -1638,10 +1683,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 520.2569580078125,
-                            "worldAABB_min_y": 179.97630310058594,
-                            "worldAABB_max_x": 746.7430419921875,
-                            "worldAABB_max_y": 236.10548400878906
+                            "worldAABB_min_x": 426.15234375,
+                            "worldAABB_min_y": 208.13795471191406,
+                            "worldAABB_max_x": 612.84765625,
+                            "worldAABB_max_y": 254.4059295654297
                         }
                     },
                     {
@@ -1691,10 +1736,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 546.0238647460938,
-                            "worldAABB_min_y": 288.5592956542969,
-                            "worldAABB_max_x": 720.9761352539063,
-                            "worldAABB_max_y": 341.4060363769531
+                            "worldAABB_min_x": 447.3923034667969,
+                            "worldAABB_min_y": 297.6442565917969,
+                            "worldAABB_max_x": 591.607666015625,
+                            "worldAABB_max_y": 341.2065124511719
                         }
                     },
                     {
@@ -1816,10 +1861,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 546.0238647460938,
-                            "worldAABB_min_y": 354.6748352050781,
-                            "worldAABB_max_x": 720.9761352539063,
-                            "worldAABB_max_y": 407.5215759277344
+                            "worldAABB_min_x": 447.3923034667969,
+                            "worldAABB_min_y": 352.14410400390625,
+                            "worldAABB_max_x": 591.607666015625,
+                            "worldAABB_max_y": 395.70635986328125
                         }
                     },
                     {
@@ -1941,10 +1986,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 567.8518676757813,
-                            "worldAABB_min_y": 288.85186767578125,
-                            "worldAABB_max_x": 699.1481323242188,
-                            "worldAABB_max_y": 420.14813232421875
+                            "worldAABB_min_x": 465.3854064941406,
+                            "worldAABB_min_y": 297.8854064941406,
+                            "worldAABB_max_x": 573.6145629882813,
+                            "worldAABB_max_y": 406.1145935058594
                         }
                     }
                 ]
@@ -1979,10 +2024,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 567.8518676757813,
-                            "worldAABB_min_y": 288.85186767578125,
-                            "worldAABB_max_x": 699.1481323242188,
-                            "worldAABB_max_y": 420.14813232421875
+                            "worldAABB_min_x": 465.3854064941406,
+                            "worldAABB_min_y": 297.8854064941406,
+                            "worldAABB_max_x": 573.6145629882813,
+                            "worldAABB_max_y": 406.1145935058594
                         }
                     }
                 ]
@@ -2017,10 +2062,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 546.0238647460938,
-                            "worldAABB_min_y": 420.7903747558594,
-                            "worldAABB_max_x": 720.9761352539063,
-                            "worldAABB_max_y": 473.6371154785156
+                            "worldAABB_min_x": 447.3923034667969,
+                            "worldAABB_min_y": 406.64398193359375,
+                            "worldAABB_max_x": 591.607666015625,
+                            "worldAABB_max_y": 450.20623779296875
                         }
                     },
                     {
@@ -2142,10 +2187,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 546.0238647460938,
-                            "worldAABB_min_y": 486.9059143066406,
-                            "worldAABB_max_x": 720.9761352539063,
-                            "worldAABB_max_y": 539.752685546875
+                            "worldAABB_min_x": 447.3923034667969,
+                            "worldAABB_min_y": 461.1438293457031,
+                            "worldAABB_max_x": 591.607666015625,
+                            "worldAABB_max_y": 504.7060852050781
                         }
                     },
                     {
@@ -2267,10 +2312,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 546.0238647460938,
-                            "worldAABB_min_y": 288.5593566894531,
-                            "worldAABB_max_x": 720.9761352539063,
-                            "worldAABB_max_y": 341.4060974121094
+                            "worldAABB_min_x": 447.3923034667969,
+                            "worldAABB_min_y": 297.644287109375,
+                            "worldAABB_max_x": 591.607666015625,
+                            "worldAABB_max_y": 341.20654296875
                         }
                     },
                     {
@@ -2320,10 +2365,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 546.0238647460938,
-                            "worldAABB_min_y": 354.6748352050781,
-                            "worldAABB_max_x": 720.9761352539063,
-                            "worldAABB_max_y": 407.5215759277344
+                            "worldAABB_min_x": 447.3923034667969,
+                            "worldAABB_min_y": 352.14410400390625,
+                            "worldAABB_max_x": 591.607666015625,
+                            "worldAABB_max_y": 395.70635986328125
                         }
                     },
                     {
@@ -2373,10 +2418,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 546.0238647460938,
-                            "worldAABB_min_y": 420.7903747558594,
-                            "worldAABB_max_x": 720.9761352539063,
-                            "worldAABB_max_y": 473.6371154785156
+                            "worldAABB_min_x": 447.3923034667969,
+                            "worldAABB_min_y": 406.64398193359375,
+                            "worldAABB_max_x": 591.607666015625,
+                            "worldAABB_max_y": 450.20623779296875
                         }
                     },
                     {
@@ -2426,10 +2471,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 546.0238647460938,
-                            "worldAABB_min_y": 486.9059143066406,
-                            "worldAABB_max_x": 720.9761352539063,
-                            "worldAABB_max_y": 539.752685546875
+                            "worldAABB_min_x": 447.3923034667969,
+                            "worldAABB_min_y": 461.14385986328125,
+                            "worldAABB_max_x": 591.607666015625,
+                            "worldAABB_max_y": 504.70611572265625
                         }
                     },
                     {
@@ -2479,10 +2524,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 567.8518676757813,
-                            "worldAABB_min_y": 288.85186767578125,
-                            "worldAABB_max_x": 699.1481323242188,
-                            "worldAABB_max_y": 420.14813232421875
+                            "worldAABB_min_x": 465.3854064941406,
+                            "worldAABB_min_y": 297.8854064941406,
+                            "worldAABB_max_x": 573.6145629882813,
+                            "worldAABB_max_y": 406.1145935058594
                         }
                     }
                 ]
@@ -2517,10 +2562,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 3.27777099609375,
-                            "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1263.72216796875,
-                            "worldAABB_max_y": 709.0
+                            "worldAABB_min_x": 0.0,
+                            "worldAABB_min_y": 59.78125,
+                            "worldAABB_max_x": 1039.0,
+                            "worldAABB_max_y": 644.21875
                         }
                     },
                     {
@@ -2570,10 +2615,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1070.1378173828125,
-                            "worldAABB_min_y": 39.809288024902344,
-                            "worldAABB_max_x": 1143.6636962890625,
-                            "worldAABB_max_y": 58.190773010253906
+                            "worldAABB_min_x": 879.4259033203125,
+                            "worldAABB_min_y": 92.59654998779297,
+                            "worldAABB_max_x": 940.0343017578125,
+                            "worldAABB_max_y": 107.7486343383789
                         }
                     },
                     {
@@ -2695,10 +2740,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 3.27777099609375,
-                            "worldAABB_min_y": 0.0,
-                            "worldAABB_max_x": 1263.72216796875,
-                            "worldAABB_max_y": 709.0
+                            "worldAABB_min_x": 0.0,
+                            "worldAABB_min_y": 59.78125,
+                            "worldAABB_max_x": 1039.0,
+                            "worldAABB_max_y": 644.21875
                         }
                     },
                     {
@@ -2748,10 +2793,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 567.8518676757813,
-                            "worldAABB_min_y": 288.85186767578125,
-                            "worldAABB_max_x": 699.1481323242188,
-                            "worldAABB_max_y": 420.14813232421875
+                            "worldAABB_min_x": 465.3854064941406,
+                            "worldAABB_min_y": 297.8854064941406,
+                            "worldAABB_max_x": 573.6145629882813,
+                            "worldAABB_max_y": 406.1145935058594
                         }
                     }
                 ]
@@ -2786,10 +2831,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 567.8518676757813,
-                            "worldAABB_min_y": 288.85186767578125,
-                            "worldAABB_max_x": 699.1481323242188,
-                            "worldAABB_max_y": 420.14813232421875
+                            "worldAABB_min_x": 465.3854064941406,
+                            "worldAABB_min_y": 297.8854064941406,
+                            "worldAABB_max_x": 573.6145629882813,
+                            "worldAABB_max_y": 406.1145935058594
                         }
                     }
                 ]
@@ -2824,10 +2869,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 18.67176055908203,
-                            "worldAABB_min_y": 85.20147705078125,
-                            "worldAABB_max_x": 210.0361328125,
-                            "worldAABB_max_y": 140.67416381835938
+                            "worldAABB_min_x": 12.689453125,
+                            "worldAABB_min_y": 130.01388549804688,
+                            "worldAABB_max_x": 170.4334716796875,
+                            "worldAABB_max_y": 175.74072265625
                         }
                     },
                     {
@@ -2877,10 +2922,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1280.2762451171875,
-                            "worldAABB_min_y": 29.86990737915039,
-                            "worldAABB_max_x": 1656.7684326171875,
-                            "worldAABB_max_y": 131.62454223632813
+                            "worldAABB_min_x": 1052.645751953125,
+                            "worldAABB_min_y": 84.40337371826172,
+                            "worldAABB_max_x": 1362.992919921875,
+                            "worldAABB_max_y": 168.28097534179688
                         }
                     },
                     {
@@ -2947,10 +2992,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 91.79637145996094,
-                            "worldAABB_min_y": -18.264999389648438,
-                            "worldAABB_max_x": 223.09266662597656,
-                            "worldAABB_max_y": 113.03129577636719
+                            "worldAABB_min_x": 72.96698760986328,
+                            "worldAABB_min_y": 44.725181579589844,
+                            "worldAABB_max_x": 181.1961669921875,
+                            "worldAABB_max_y": 152.954345703125
                         }
                     },
                     {
@@ -2999,10 +3044,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 18.1063232421875,
-                            "worldAABB_min_y": 7.83013916015625,
-                            "worldAABB_max_x": 296.78271484375,
-                            "worldAABB_max_y": 86.9361572265625
+                            "worldAABB_min_x": 12.223365783691406,
+                            "worldAABB_min_y": 66.23573303222656,
+                            "worldAABB_max_x": 241.93978881835938,
+                            "worldAABB_max_y": 131.4438018798828
                         }
                     },
                     {
@@ -3052,10 +3097,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 132.47445678710938,
-                            "worldAABB_min_y": 54.337406158447266,
-                            "worldAABB_max_x": 275.5874328613281,
-                            "worldAABB_max_y": 67.46703338623047
+                            "worldAABB_min_x": 106.49844360351563,
+                            "worldAABB_min_y": 104.5722427368164,
+                            "worldAABB_max_x": 224.46823120117188,
+                            "worldAABB_max_y": 115.3951644897461
                         }
                     },
                     {
@@ -3105,10 +3150,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 287.4716796875,
-                            "worldAABB_min_y": 27.688703536987305,
-                            "worldAABB_max_x": 303.88372802734375,
-                            "worldAABB_max_y": 67.07759094238281
+                            "worldAABB_min_x": 234.2645721435547,
+                            "worldAABB_min_y": 82.60539245605469,
+                            "worldAABB_max_x": 247.79322814941406,
+                            "worldAABB_max_y": 115.07414245605469
                         }
                     },
                     {
@@ -3174,10 +3219,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 91.79643249511719,
-                            "worldAABB_min_y": -18.265304565429688,
-                            "worldAABB_max_x": 223.0927276611328,
-                            "worldAABB_max_y": 113.03099060058594
+                            "worldAABB_min_x": 72.9670181274414,
+                            "worldAABB_min_y": 44.724937438964844,
+                            "worldAABB_max_x": 181.19619750976563,
+                            "worldAABB_max_y": 152.9541015625
                         }
                     },
                     {
@@ -3226,10 +3271,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 26.148284912109375,
-                            "worldAABB_min_y": 30.970806121826172,
-                            "worldAABB_max_x": 288.7408752441406,
-                            "worldAABB_max_y": 63.79487991333008
+                            "worldAABB_min_x": 18.852432250976563,
+                            "worldAABB_min_y": 85.31087493896484,
+                            "worldAABB_max_x": 235.31077575683594,
+                            "worldAABB_max_y": 112.36817169189453
                         }
                     },
                     {
@@ -3279,10 +3324,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 132.47463989257813,
-                            "worldAABB_min_y": 54.33694839477539,
-                            "worldAABB_max_x": 275.5876159667969,
-                            "worldAABB_max_y": 67.4665756225586
+                            "worldAABB_min_x": 106.49856567382813,
+                            "worldAABB_min_y": 104.5718765258789,
+                            "worldAABB_max_x": 224.46835327148438,
+                            "worldAABB_max_y": 115.3947982788086
                         }
                     },
                     {
@@ -3332,10 +3377,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 279.5354919433594,
-                            "worldAABB_min_y": 27.688398361206055,
-                            "worldAABB_max_x": 295.9475402832031,
-                            "worldAABB_max_y": 67.07728576660156
+                            "worldAABB_min_x": 227.72267150878906,
+                            "worldAABB_min_y": 82.60514831542969,
+                            "worldAABB_max_x": 241.25132751464844,
+                            "worldAABB_max_y": 115.07389831542969
                         }
                     },
                     {
@@ -3401,10 +3446,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 567.8518676757813,
-                            "worldAABB_min_y": 288.85186767578125,
-                            "worldAABB_max_x": 699.1481323242188,
-                            "worldAABB_max_y": 420.14813232421875
+                            "worldAABB_min_x": 465.3854064941406,
+                            "worldAABB_min_y": 297.8854064941406,
+                            "worldAABB_max_x": 573.6145629882813,
+                            "worldAABB_max_y": 406.1145935058594
                         }
                     }
                 ]
@@ -3439,10 +3484,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1003.7555541992188,
-                            "worldAABB_min_y": 538.3148193359375,
-                            "worldAABB_max_x": 1135.0518798828125,
-                            "worldAABB_max_y": 669.611083984375
+                            "worldAABB_min_x": 824.706298828125,
+                            "worldAABB_min_y": 503.5208435058594,
+                            "worldAABB_max_x": 932.9354248046875,
+                            "worldAABB_max_y": 611.75
                         }
                     },
                     {
@@ -3491,10 +3536,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 991.9388427734375,
-                            "worldAABB_min_y": 526.4981079101563,
-                            "worldAABB_max_x": 1146.8685302734375,
-                            "worldAABB_max_y": 681.4277954101563
+                            "worldAABB_min_x": 814.9656372070313,
+                            "worldAABB_min_y": 493.78021240234375,
+                            "worldAABB_max_x": 942.6760864257813,
+                            "worldAABB_max_y": 621.4906616210938
                         }
                     },
                     {
@@ -3544,10 +3589,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 991.9388427734375,
-                            "worldAABB_min_y": 526.4981079101563,
-                            "worldAABB_max_x": 1146.8685302734375,
-                            "worldAABB_max_y": 681.4277954101563
+                            "worldAABB_min_x": 814.9656372070313,
+                            "worldAABB_min_y": 493.78021240234375,
+                            "worldAABB_max_x": 942.6760864257813,
+                            "worldAABB_max_y": 621.4906616210938
                         }
                     },
                     {
@@ -3597,10 +3642,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1061.1976318359375,
-                            "worldAABB_min_y": 584.2684936523438,
-                            "worldAABB_max_x": 1077.6097412109375,
-                            "worldAABB_max_y": 623.6574096679688
+                            "worldAABB_min_x": 872.0565185546875,
+                            "worldAABB_min_y": 541.4010620117188,
+                            "worldAABB_max_x": 885.585205078125,
+                            "worldAABB_max_y": 573.8698120117188
                         }
                     },
                     {
@@ -3666,10 +3711,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1003.7555541992188,
-                            "worldAABB_min_y": 538.3148193359375,
-                            "worldAABB_max_x": 1135.0518798828125,
-                            "worldAABB_max_y": 669.611083984375
+                            "worldAABB_min_x": 824.706298828125,
+                            "worldAABB_min_y": 503.5208435058594,
+                            "worldAABB_max_x": 932.9354248046875,
+                            "worldAABB_max_y": 611.75
                         }
                     },
                     {
@@ -3718,10 +3763,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 991.9388427734375,
-                            "worldAABB_min_y": 526.4981079101563,
-                            "worldAABB_max_x": 1146.8685302734375,
-                            "worldAABB_max_y": 681.4277954101563
+                            "worldAABB_min_x": 814.9656372070313,
+                            "worldAABB_min_y": 493.78021240234375,
+                            "worldAABB_max_x": 942.6760864257813,
+                            "worldAABB_max_y": 621.4906616210938
                         }
                     },
                     {
@@ -3771,10 +3816,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 991.9388427734375,
-                            "worldAABB_min_y": 526.4981079101563,
-                            "worldAABB_max_x": 1146.8685302734375,
-                            "worldAABB_max_y": 681.4277954101563
+                            "worldAABB_min_x": 814.9656372070313,
+                            "worldAABB_min_y": 493.78021240234375,
+                            "worldAABB_max_x": 942.6760864257813,
+                            "worldAABB_max_y": 621.4906616210938
                         }
                     },
                     {
@@ -3824,10 +3869,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1137.6334228515625,
-                            "worldAABB_min_y": 584.2684936523438,
-                            "worldAABB_max_x": 1154.0455322265625,
-                            "worldAABB_max_y": 623.6574096679688
+                            "worldAABB_min_x": 935.0634765625,
+                            "worldAABB_min_y": 541.4010620117188,
+                            "worldAABB_max_x": 948.5921630859375,
+                            "worldAABB_max_y": 573.8698120117188
                         }
                     },
                     {
@@ -3893,10 +3938,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1003.7555541992188,
-                            "worldAABB_min_y": 538.3148193359375,
-                            "worldAABB_max_x": 1135.0518798828125,
-                            "worldAABB_max_y": 669.611083984375
+                            "worldAABB_min_x": 824.706298828125,
+                            "worldAABB_min_y": 503.5208435058594,
+                            "worldAABB_max_x": 932.9354248046875,
+                            "worldAABB_max_y": 611.75
                         }
                     },
                     {
@@ -3945,10 +3990,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 991.9388427734375,
-                            "worldAABB_min_y": 526.4981079101563,
-                            "worldAABB_max_x": 1146.8685302734375,
-                            "worldAABB_max_y": 681.4277954101563
+                            "worldAABB_min_x": 814.9656372070313,
+                            "worldAABB_min_y": 493.78021240234375,
+                            "worldAABB_max_x": 942.6760864257813,
+                            "worldAABB_max_y": 621.4906616210938
                         }
                     },
                     {
@@ -3998,10 +4043,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 991.9388427734375,
-                            "worldAABB_min_y": 526.4981079101563,
-                            "worldAABB_max_x": 1146.8685302734375,
-                            "worldAABB_max_y": 681.4277954101563
+                            "worldAABB_min_x": 814.9656372070313,
+                            "worldAABB_min_y": 493.78021240234375,
+                            "worldAABB_max_x": 942.6760864257813,
+                            "worldAABB_max_y": 621.4906616210938
                         }
                     },
                     {
@@ -4051,10 +4096,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1138.12109375,
-                            "worldAABB_min_y": 584.2684936523438,
-                            "worldAABB_max_x": 1154.533203125,
-                            "worldAABB_max_y": 623.6574096679688
+                            "worldAABB_min_x": 935.4654541015625,
+                            "worldAABB_min_y": 541.4010620117188,
+                            "worldAABB_max_x": 948.994140625,
+                            "worldAABB_max_y": 573.8698120117188
                         }
                     },
                     {
@@ -4120,10 +4165,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1003.7555541992188,
-                            "worldAABB_min_y": 538.3148193359375,
-                            "worldAABB_max_x": 1135.0518798828125,
-                            "worldAABB_max_y": 669.611083984375
+                            "worldAABB_min_x": 824.706298828125,
+                            "worldAABB_min_y": 503.5208435058594,
+                            "worldAABB_max_x": 932.9354248046875,
+                            "worldAABB_max_y": 611.75
                         }
                     },
                     {
@@ -4172,10 +4217,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 991.9388427734375,
-                            "worldAABB_min_y": 526.4981079101563,
-                            "worldAABB_max_x": 1146.8685302734375,
-                            "worldAABB_max_y": 681.4277954101563
+                            "worldAABB_min_x": 814.9656372070313,
+                            "worldAABB_min_y": 493.78021240234375,
+                            "worldAABB_max_x": 942.6760864257813,
+                            "worldAABB_max_y": 621.4906616210938
                         }
                     },
                     {
@@ -4225,10 +4270,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 991.9388427734375,
-                            "worldAABB_min_y": 526.4981079101563,
-                            "worldAABB_max_x": 1146.8685302734375,
-                            "worldAABB_max_y": 681.4277954101563
+                            "worldAABB_min_x": 814.9656372070313,
+                            "worldAABB_min_y": 493.78021240234375,
+                            "worldAABB_max_x": 942.6760864257813,
+                            "worldAABB_max_y": 621.4906616210938
                         }
                     },
                     {
@@ -4278,10 +4323,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1189.42236328125,
-                            "worldAABB_min_y": 584.2684936523438,
-                            "worldAABB_max_x": 1205.83447265625,
-                            "worldAABB_max_y": 623.6574096679688
+                            "worldAABB_min_x": 977.7537231445313,
+                            "worldAABB_min_y": 541.4010620117188,
+                            "worldAABB_max_x": 991.2824096679688,
+                            "worldAABB_max_y": 573.8698120117188
                         }
                     },
                     {
@@ -4361,7 +4406,7 @@
                             "fields": [
                                 {
                                     "name": "Target",
-                                    "value": 16740271857309047545,
+                                    "value": 5659784701395227913,
                                     "type": 2
                                 }
                             ]
@@ -4375,14 +4420,20 @@
                             "constructName": "PatrolBehaviourScript",
                             "fields": [
                                 {
-                                    "name": "WayPointOne",
-                                    "value": 17921358598841053390,
-                                    "type": 2
+                                    "name": "WaypointsPatrol",
+                                    "type": 4,
+                                    "vectorElements": null,
+                                    "innerType": 2
                                 },
                                 {
-                                    "name": "WayPointTwo",
-                                    "value": 6536772281141820080,
-                                    "type": 2
+                                    "name": "PatrolStopDuration",
+                                    "value": 5.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "PatrolAnimationParamater",
+                                    "value": "",
+                                    "type": 1
                                 }
                             ]
                         }
@@ -4400,6 +4451,11 @@
                                     "type": 2
                                 },
                                 {
+                                    "name": "IsSpawnedEnemy",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "AttackDistance",
                                     "value": 8.0,
                                     "type": 0
@@ -4413,6 +4469,16 @@
                                     "name": "ExplosionGameObject",
                                     "value": 1435588834732233720,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ExclamationVFX",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EnemyDetectionDuration",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -4440,9 +4506,44 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "LaserParticleSystem",
+                                    "name": "AttackDamage",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ShootPosition",
                                     "value": 0,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemPreShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "PreShotDuration",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "NumConsecutiveShots",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MinTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -4510,7 +4611,13 @@
                             "height": 2.0,
                             "rbPos_X": -1.634626585200749e-7,
                             "rbPos_Y": 1.5,
-                            "rbPos_Z": 1.1187258958816528
+                            "rbPos_Z": 1.1187258958816528,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -4521,8 +4628,13 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "ActivePowerUp",
-                                    "value": 11306440819102867434,
+                                    "name": "PowerUpParent",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystem",
+                                    "value": 0,
                                     "type": 2
                                 }
                             ]
@@ -7177,7 +7289,13 @@
                             "height": 2.0,
                             "rbPos_X": -9.122870778810466e-7,
                             "rbPos_Y": 1.0531424283981323,
-                            "rbPos_Z": 2.870622158050537
+                            "rbPos_Z": 2.870622158050537,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     }
                 ]
@@ -7234,7 +7352,13 @@
                             "height": 2.0,
                             "rbPos_X": -5.654783308273181e-9,
                             "rbPos_Y": 1.2486436367034912,
-                            "rbPos_Z": 1.1187258958816528
+                            "rbPos_Z": 1.1187258958816528,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -7253,6 +7377,16 @@
                                     "name": "ExplosionTime",
                                     "value": 2.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "ExplosionDistance",
+                                    "value": 4.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ParticleSystem",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -7303,7 +7437,7 @@
                             "fields": [
                                 {
                                     "name": "Target",
-                                    "value": 16740271857309047545,
+                                    "value": 5659784701395227913,
                                     "type": 2
                                 }
                             ]
@@ -7317,14 +7451,20 @@
                             "constructName": "PatrolBehaviourScript",
                             "fields": [
                                 {
-                                    "name": "WayPointOne",
-                                    "value": 5839145937413678870,
-                                    "type": 2
+                                    "name": "WaypointsPatrol",
+                                    "type": 4,
+                                    "vectorElements": null,
+                                    "innerType": 2
                                 },
                                 {
-                                    "name": "WayPointTwo",
-                                    "value": 6359887865677729366,
-                                    "type": 2
+                                    "name": "PatrolStopDuration",
+                                    "value": 5.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "PatrolAnimationParamater",
+                                    "value": "",
+                                    "type": 1
                                 }
                             ]
                         }
@@ -7342,6 +7482,11 @@
                                     "type": 2
                                 },
                                 {
+                                    "name": "IsSpawnedEnemy",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "AttackDistance",
                                     "value": 8.0,
                                     "type": 0
@@ -7355,6 +7500,16 @@
                                     "name": "ExplosionGameObject",
                                     "value": 11623988761034832719,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ExclamationVFX",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EnemyDetectionDuration",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -7382,9 +7537,44 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "LaserParticleSystem",
+                                    "name": "AttackDamage",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ShootPosition",
                                     "value": 0,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemPreShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "PreShotDuration",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "NumConsecutiveShots",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MinTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -7452,7 +7642,13 @@
                             "height": 2.0,
                             "rbPos_X": -1.634626585200749e-7,
                             "rbPos_Y": 1.5,
-                            "rbPos_Z": 8.457332611083984
+                            "rbPos_Z": 8.457332611083984,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -7463,8 +7659,13 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "ActivePowerUp",
-                                    "value": 1375892197173359520,
+                                    "name": "PowerUpParent",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystem",
+                                    "value": 0,
                                     "type": 2
                                 }
                             ]
@@ -10119,7 +10320,13 @@
                             "height": 2.0,
                             "rbPos_X": -9.760116199686308e-7,
                             "rbPos_Y": 1.1267046928405762,
-                            "rbPos_Z": 10.261439323425293
+                            "rbPos_Z": 10.261439323425293,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     }
                 ]
@@ -10176,7 +10383,13 @@
                             "height": 2.0,
                             "rbPos_X": -5.654783308273181e-9,
                             "rbPos_Y": 1.2486436367034912,
-                            "rbPos_Z": 8.457332611083984
+                            "rbPos_Z": 8.457332611083984,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -10195,6 +10408,16 @@
                                     "name": "ExplosionTime",
                                     "value": 2.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "ExplosionDistance",
+                                    "value": 4.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ParticleSystem",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -10411,7 +10634,13 @@
                             "height": 2.0,
                             "rbPos_X": -9.97762680053711,
                             "rbPos_Y": 0.9167737364768982,
-                            "rbPos_Z": 0.9055957794189453
+                            "rbPos_Z": 0.9055957794189453,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     }
                 ]
@@ -10484,7 +10713,13 @@
                             "height": 2.0,
                             "rbPos_X": -9.97762680053711,
                             "rbPos_Y": 0.6000000238418579,
-                            "rbPos_Z": 0.0
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -10498,6 +10733,11 @@
                                     "name": "ParticleTargetGO",
                                     "value": 4631887640344813425,
                                     "type": 2
+                                },
+                                {
+                                    "name": "IsSpawnedEnemy",
+                                    "value": false,
+                                    "type": 5
                                 },
                                 {
                                     "name": "RangedAttackDistance",
@@ -10518,6 +10758,16 @@
                                     "name": "BlasterGameObject",
                                     "value": 5648569804437327805,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ExclamationParticle",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EnemyDetectionDuration",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -10530,14 +10780,20 @@
                             "constructName": "PatrolBehaviourScript",
                             "fields": [
                                 {
-                                    "name": "WayPointOne",
-                                    "value": 17217482957009702546,
-                                    "type": 2
+                                    "name": "WaypointsPatrol",
+                                    "type": 4,
+                                    "vectorElements": null,
+                                    "innerType": 2
                                 },
                                 {
-                                    "name": "WayPointTwo",
-                                    "value": 16007474881477241656,
-                                    "type": 2
+                                    "name": "PatrolStopDuration",
+                                    "value": 5.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "PatrolAnimationParamater",
+                                    "value": "",
+                                    "type": 1
                                 }
                             ]
                         }
@@ -10551,7 +10807,7 @@
                             "fields": [
                                 {
                                     "name": "Target",
-                                    "value": 16740271857309047545,
+                                    "value": 5659784701395227913,
                                     "type": 2
                                 }
                             ]
@@ -10580,9 +10836,44 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "LaserParticleSystem",
+                                    "name": "AttackDamage",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ShootPosition",
                                     "value": 0,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemPreShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "PreShotDuration",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "NumConsecutiveShots",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MinTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -10633,31 +10924,6 @@
                                     "name": "DamageAttack",
                                     "value": 10.0,
                                     "type": 0
-                                },
-                                {
-                                    "name": "Ray1GO",
-                                    "value": 12155914450599700152,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray2GO",
-                                    "value": 10811857513819582819,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray3GO",
-                                    "value": 16062323095733009639,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray4GO",
-                                    "value": 14999573896007190983,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "RayAttackSize",
-                                    "value": 10.0,
-                                    "type": 0
                                 }
                             ]
                         }
@@ -10670,8 +10936,13 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "ActivePowerUp",
-                                    "value": 10105264902335347340,
+                                    "name": "PowerUpParent",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystem",
+                                    "value": 0,
                                     "type": 2
                                 }
                             ]
@@ -14073,7 +14344,13 @@
                             "height": 2.0,
                             "rbPos_X": -13.030592918395996,
                             "rbPos_Y": 0.9167737364768982,
-                            "rbPos_Z": 5.935412406921387
+                            "rbPos_Z": 5.935412406921387,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     }
                 ]
@@ -14146,7 +14423,13 @@
                             "height": 2.0,
                             "rbPos_X": -13.030592918395996,
                             "rbPos_Y": 0.6000000238418579,
-                            "rbPos_Z": 5.029816627502441
+                            "rbPos_Z": 5.029816627502441,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -14160,6 +14443,11 @@
                                     "name": "ParticleTargetGO",
                                     "value": 11701781596223917727,
                                     "type": 2
+                                },
+                                {
+                                    "name": "IsSpawnedEnemy",
+                                    "value": false,
+                                    "type": 5
                                 },
                                 {
                                     "name": "RangedAttackDistance",
@@ -14180,6 +14468,16 @@
                                     "name": "BlasterGameObject",
                                     "value": 15297699079590168932,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ExclamationParticle",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EnemyDetectionDuration",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -14192,14 +14490,20 @@
                             "constructName": "PatrolBehaviourScript",
                             "fields": [
                                 {
-                                    "name": "WayPointOne",
-                                    "value": 18308201037529127367,
-                                    "type": 2
+                                    "name": "WaypointsPatrol",
+                                    "type": 4,
+                                    "vectorElements": null,
+                                    "innerType": 2
                                 },
                                 {
-                                    "name": "WayPointTwo",
-                                    "value": 1720411989633225852,
-                                    "type": 2
+                                    "name": "PatrolStopDuration",
+                                    "value": 5.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "PatrolAnimationParamater",
+                                    "value": "",
+                                    "type": 1
                                 }
                             ]
                         }
@@ -14213,7 +14517,7 @@
                             "fields": [
                                 {
                                     "name": "Target",
-                                    "value": 16740271857309047545,
+                                    "value": 5659784701395227913,
                                     "type": 2
                                 }
                             ]
@@ -14242,9 +14546,44 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "LaserParticleSystem",
+                                    "name": "AttackDamage",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ShootPosition",
                                     "value": 0,
                                     "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystemPreShot",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "PreShotDuration",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "NumConsecutiveShots",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MinTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxTimeConsecutiveShot",
+                                    "value": 0.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -14295,31 +14634,6 @@
                                     "name": "DamageAttack",
                                     "value": 10.0,
                                     "type": 0
-                                },
-                                {
-                                    "name": "Ray1GO",
-                                    "value": 14860386328704433344,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray2GO",
-                                    "value": 14621542787010434824,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray3GO",
-                                    "value": 3226671338352668775,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "Ray4GO",
-                                    "value": 13867823287458940602,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "RayAttackSize",
-                                    "value": 10.0,
-                                    "type": 0
                                 }
                             ]
                         }
@@ -14332,8 +14646,13 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
-                                    "name": "ActivePowerUp",
-                                    "value": 10078801361813198795,
+                                    "name": "PowerUpParent",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ParticleSystem",
+                                    "value": 0,
                                     "type": 2
                                 }
                             ]
@@ -17555,10 +17874,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1055.0916748046875,
-                            "worldAABB_min_y": -10.572647094726563,
-                            "worldAABB_max_x": 1186.3880615234375,
-                            "worldAABB_max_y": 120.72364807128906
+                            "worldAABB_min_x": 867.0233764648438,
+                            "worldAABB_min_y": 51.066078186035156,
+                            "worldAABB_max_x": 975.2525024414063,
+                            "worldAABB_max_y": 159.29525756835938
                         }
                     },
                     {
@@ -17613,10 +17932,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1055.0916748046875,
-                            "worldAABB_min_y": -10.572647094726563,
-                            "worldAABB_max_x": 1186.3880615234375,
-                            "worldAABB_max_y": 120.72364807128906
+                            "worldAABB_min_x": 867.0233764648438,
+                            "worldAABB_min_y": 51.066078186035156,
+                            "worldAABB_max_x": 975.2525024414063,
+                            "worldAABB_max_y": 159.29525756835938
                         }
                     },
                     {
@@ -17665,10 +17984,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 989.443603515625,
-                            "worldAABB_min_y": 38.6634635925293,
-                            "worldAABB_max_x": 1252.0361328125,
-                            "worldAABB_max_y": 71.48753356933594
+                            "worldAABB_min_x": 812.9087524414063,
+                            "worldAABB_min_y": 91.65201568603516,
+                            "worldAABB_max_x": 1029.3670654296875,
+                            "worldAABB_max_y": 118.70931243896484
                         }
                     },
                     {
@@ -17718,10 +18037,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 989.443603515625,
-                            "worldAABB_min_y": 38.6634635925293,
-                            "worldAABB_max_x": 1252.0361328125,
-                            "worldAABB_max_y": 71.48753356933594
+                            "worldAABB_min_x": 812.9087524414063,
+                            "worldAABB_min_y": 91.65201568603516,
+                            "worldAABB_max_x": 1029.3670654296875,
+                            "worldAABB_max_y": 118.70931243896484
                         }
                     },
                     {
@@ -17771,10 +18090,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1055.0916748046875,
-                            "worldAABB_min_y": 54.320556640625,
-                            "worldAABB_max_x": 1186.3880615234375,
-                            "worldAABB_max_y": 185.61685180664063
+                            "worldAABB_min_x": 867.0233764648438,
+                            "worldAABB_min_y": 104.55834197998047,
+                            "worldAABB_max_x": 975.2525024414063,
+                            "worldAABB_max_y": 212.78750610351563
                         }
                     }
                 ]
@@ -17809,10 +18128,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1139.61376953125,
-                            "worldAABB_min_y": 54.320556640625,
-                            "worldAABB_max_x": 1270.91015625,
-                            "worldAABB_max_y": 185.61685180664063
+                            "worldAABB_min_x": 936.6958618164063,
+                            "worldAABB_min_y": 104.55834197998047,
+                            "worldAABB_max_x": 1044.925048828125,
+                            "worldAABB_max_y": 212.78750610351563
                         }
                     }
                 ]
@@ -17847,10 +18166,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1185.5675048828125,
-                            "worldAABB_min_y": 100.27426147460938,
-                            "worldAABB_max_x": 1224.9564208984375,
-                            "worldAABB_max_y": 139.66314697265625
+                            "worldAABB_min_x": 974.5760498046875,
+                            "worldAABB_min_y": 142.4385528564453,
+                            "worldAABB_max_x": 1007.0447998046875,
+                            "worldAABB_max_y": 174.9073028564453
                         }
                     },
                     {
@@ -17900,10 +18219,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1057.7176513671875,
-                            "worldAABB_min_y": 54.320556640625,
-                            "worldAABB_max_x": 1189.0140380859375,
-                            "worldAABB_max_y": 185.61685180664063
+                            "worldAABB_min_x": 869.1879272460938,
+                            "worldAABB_min_y": 104.55834197998047,
+                            "worldAABB_max_x": 977.4170532226563,
+                            "worldAABB_max_y": 212.78750610351563
                         }
                     }
                 ]
@@ -17938,10 +18257,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1103.67138671875,
-                            "worldAABB_min_y": 100.27426147460938,
-                            "worldAABB_max_x": 1143.060302734375,
-                            "worldAABB_max_y": 139.66314697265625
+                            "worldAABB_min_x": 907.068115234375,
+                            "worldAABB_min_y": 142.4385528564453,
+                            "worldAABB_max_x": 939.536865234375,
+                            "worldAABB_max_y": 174.9073028564453
                         }
                     },
                     {
@@ -17991,10 +18310,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 975.6575317382813,
-                            "worldAABB_min_y": 54.320556640625,
-                            "worldAABB_max_x": 1106.953857421875,
-                            "worldAABB_max_y": 185.61685180664063
+                            "worldAABB_min_x": 801.544677734375,
+                            "worldAABB_min_y": 104.55834197998047,
+                            "worldAABB_max_x": 909.7738037109375,
+                            "worldAABB_max_y": 212.78750610351563
                         }
                     }
                 ]
@@ -18029,10 +18348,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1021.6112060546875,
-                            "worldAABB_min_y": 100.27426147460938,
-                            "worldAABB_max_x": 1061.0001220703125,
-                            "worldAABB_max_y": 139.66314697265625
+                            "worldAABB_min_x": 839.4248657226563,
+                            "worldAABB_min_y": 142.4385528564453,
+                            "worldAABB_max_x": 871.8936157226563,
+                            "worldAABB_max_y": 174.9073028564453
                         }
                     },
                     {
@@ -18082,10 +18401,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1089.228759765625,
-                            "worldAABB_min_y": 88.45759582519531,
-                            "worldAABB_max_x": 1152.2509765625,
-                            "worldAABB_max_y": 151.4798126220703
+                            "worldAABB_min_x": 895.1629638671875,
+                            "worldAABB_min_y": 132.6979217529297,
+                            "worldAABB_max_x": 947.1129150390625,
+                            "worldAABB_max_y": 184.64793395996094
                         }
                     },
                     {
@@ -18135,10 +18454,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1089.228759765625,
-                            "worldAABB_min_y": 88.45759582519531,
-                            "worldAABB_max_x": 1152.2509765625,
-                            "worldAABB_max_y": 151.4798126220703
+                            "worldAABB_min_x": 895.1629638671875,
+                            "worldAABB_min_y": 132.6979217529297,
+                            "worldAABB_max_x": 947.1129150390625,
+                            "worldAABB_max_y": 184.64793395996094
                         }
                     },
                     {
@@ -18313,9 +18632,9 @@
         },
         {
             "GameObject": {
-                "name": "PrefabArulla",
+                "name": "PrefabAllura",
                 "tag": "Player",
-                "uid": 16740271857309047545,
+                "uid": 5659784701395227913,
                 "parentUID": 9011007661183311806,
                 "enabled": true,
                 "static": false,
@@ -18327,7 +18646,7 @@
                             "removed": false,
                             "localPos_X": 0.0003662109375,
                             "localPos_Y": 0.0,
-                            "localPos_Z": -25.987146377563477,
+                            "localPos_Z": -22.17920684814453,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
@@ -18381,7 +18700,13 @@
                             "height": 0.699999988079071,
                             "rbPos_X": 0.0,
                             "rbPos_Y": 0.6499999761581421,
-                            "rbPos_Z": -25.987146377563477
+                            "rbPos_Z": -22.17920684814453,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -18396,11 +18721,11 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "BixAttackScript",
+                            "constructName": "PlayerAttackScript",
                             "fields": [
                                 {
                                     "name": "ComboCountHeavy",
-                                    "value": 20.0,
+                                    "value": 10.0,
                                     "type": 0
                                 },
                                 {
@@ -18410,7 +18735,7 @@
                                 },
                                 {
                                     "name": "ComboCountJump",
-                                    "value": 10.0,
+                                    "value": 20.0,
                                     "type": 0
                                 },
                                 {
@@ -18420,12 +18745,12 @@
                                 },
                                 {
                                     "name": "AttackHeavy",
-                                    "value": 15.0,
+                                    "value": 30.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "NormalAttackDistance",
-                                    "value": 7.0,
+                                    "value": 10.0,
                                     "type": 0
                                 },
                                 {
@@ -18435,27 +18760,27 @@
                                 },
                                 {
                                     "name": "EnemyDetection",
-                                    "value": 1670995659686331894,
+                                    "value": 6786067524396279825,
                                     "type": 2
                                 },
                                 {
                                     "name": "HeavyFinisherAttack",
-                                    "value": 12798686534219682534,
+                                    "value": 7893212685550525430,
                                     "type": 2
                                 },
                                 {
                                     "name": "LightWeapon",
-                                    "value": 14768945142315618738,
+                                    "value": 14926628410451198554,
                                     "type": 2
                                 },
                                 {
                                     "name": "BulletPrefab",
-                                    "value": 2512526240728233607,
+                                    "value": 3765552588110354924,
                                     "type": 2
                                 },
                                 {
                                     "name": "BulletVelocity",
-                                    "value": 3.9000000953674316,
+                                    "value": 6.0,
                                     "type": 0
                                 }
                             ]
@@ -18512,6 +18837,16 @@
                                     "name": "IsParalyzed",
                                     "value": false,
                                     "type": 5
+                                },
+                                {
+                                    "name": "LightAttacksMoveFactor",
+                                    "value": 2.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "HeavyAttacksMoveFactor",
+                                    "value": 3.0,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -18626,26 +18961,6 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "PlayerForceUseScript",
-                            "fields": [
-                                {
-                                    "name": "MaxDistanceForce",
-                                    "value": 20.0,
-                                    "type": 0
-                                },
-                                {
-                                    "name": "MaxTimeForce",
-                                    "value": 15.0,
-                                    "type": 0
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
                             "constructName": "PlayerRotationScript",
                             "fields": [
                                 {
@@ -18700,12 +19015,12 @@
                             "fields": [
                                 {
                                     "name": "ForceArea",
-                                    "value": 3469647371108632580,
+                                    "value": 10997850616448099149,
                                     "type": 2
                                 },
                                 {
                                     "name": "ForceAttackBullet",
-                                    "value": 1341023907188444582,
+                                    "value": 1850503167498696724,
                                     "type": 2
                                 }
                             ]
@@ -18720,7 +19035,7 @@
                             "fields": [
                                 {
                                     "name": "BulletPrefab",
-                                    "value": 1020309110446019847,
+                                    "value": 14926628410451198554,
                                     "type": 2
                                 },
                                 {
@@ -18735,7 +19050,7 @@
                                 },
                                 {
                                     "name": "EnemyDetection",
-                                    "value": 1670995659686331894,
+                                    "value": 6786067524396279825,
                                     "type": 2
                                 }
                             ]
@@ -18748,8 +19063,8 @@
             "GameObject": {
                 "name": "Bix Force Area",
                 "tag": "",
-                "uid": 3469647371108632580,
-                "parentUID": 5316339378792078440,
+                "uid": 10997850616448099149,
+                "parentUID": 184529809146231470,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -18795,7 +19110,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.0003662109375,
                             "rbPos_Y": 0.0,
-                            "rbPos_Z": -25.987146377563477
+                            "rbPos_Z": -22.17920684814453,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -18835,8 +19156,8 @@
             "GameObject": {
                 "name": "EnemyDetection",
                 "tag": "",
-                "uid": 1670995659686331894,
-                "parentUID": 16740271857309047545,
+                "uid": 6786067524396279825,
+                "parentUID": 5659784701395227913,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -18882,7 +19203,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.0,
                             "rbPos_Y": 0.0,
-                            "rbPos_Z": -25.72765350341797
+                            "rbPos_Z": -21.91971206665039,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -18894,7 +19221,7 @@
                             "fields": [
                                 {
                                     "name": "Player",
-                                    "value": 16740271857309047545,
+                                    "value": 5659784701395227913,
                                     "type": 2
                                 },
                                 {
@@ -18922,8 +19249,8 @@
             "GameObject": {
                 "name": "Allura Force Area",
                 "tag": "",
-                "uid": 2135431285411008948,
-                "parentUID": 5316339378792078440,
+                "uid": 7666146217910856988,
+                "parentUID": 184529809146231470,
                 "enabled": false,
                 "static": false,
                 "Components": [
@@ -18969,7 +19296,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.024301884695887566,
                             "rbPos_Y": 0.45000001788139343,
-                            "rbPos_Z": -25.387149810791016
+                            "rbPos_Z": -21.57921028137207,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -19009,8 +19342,8 @@
             "GameObject": {
                 "name": "Allura Bullet",
                 "tag": "",
-                "uid": 1341023907188444582,
-                "parentUID": 5316339378792078440,
+                "uid": 1850503167498696724,
+                "parentUID": 184529809146231470,
                 "enabled": false,
                 "static": false,
                 "Components": [
@@ -19074,7 +19407,13 @@
                             "height": 0.10000000149011612,
                             "rbPos_X": 0.024301884695887566,
                             "rbPos_Y": 0.45000001788139343,
-                            "rbPos_Z": -25.387147903442383
+                            "rbPos_Z": -21.579208374023438,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -19086,7 +19425,7 @@
                             "fields": [
                                 {
                                     "name": "ForceArea",
-                                    "value": 2135431285411008948,
+                                    "value": 7666146217910856988,
                                     "type": 2
                                 },
                                 {
@@ -19109,8 +19448,8 @@
             "GameObject": {
                 "name": "JumpFinisherAttack",
                 "tag": "",
-                "uid": 5316339378792078440,
-                "parentUID": 16740271857309047545,
+                "uid": 184529809146231470,
+                "parentUID": 5659784701395227913,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -19137,8 +19476,8 @@
             "GameObject": {
                 "name": "Light Attack Bullet",
                 "tag": "",
-                "uid": 1020309110446019847,
-                "parentUID": 16740271857309047545,
+                "uid": 14926628410451198554,
+                "parentUID": 5659784701395227913,
                 "enabled": false,
                 "static": false,
                 "Components": [
@@ -19202,7 +19541,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.0003662109375,
                             "rbPos_Y": 0.7203463315963745,
-                            "rbPos_Z": -25.2409725189209
+                            "rbPos_Z": -21.433032989501953,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -19249,8 +19594,8 @@
             "GameObject": {
                 "name": "HeavyFinisherAttack",
                 "tag": "",
-                "uid": 12798686534219682534,
-                "parentUID": 16740271857309047545,
+                "uid": 7893212685550525430,
+                "parentUID": 5659784701395227913,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -19314,7 +19659,7 @@
                                 },
                                 {
                                     "name": "Mesh",
-                                    "value": 14768945142315618738,
+                                    "value": 1678623819285774818,
                                     "type": 2
                                 }
                             ]
@@ -19346,7 +19691,13 @@
                             "height": 2.0,
                             "rbPos_X": 0.0,
                             "rbPos_Y": 0.0,
-                            "rbPos_Z": -25.97765350341797
+                            "rbPos_Z": -22.16971206665039,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -19373,8 +19724,8 @@
             "GameObject": {
                 "name": "LightSaber",
                 "tag": "",
-                "uid": 14768945142315618738,
-                "parentUID": 12798686534219682534,
+                "uid": 1678623819285774818,
+                "parentUID": 7893212685550525430,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -19401,8 +19752,8 @@
             "GameObject": {
                 "name": "RootNode",
                 "tag": "",
-                "uid": 7902564434575763919,
-                "parentUID": 14768945142315618738,
+                "uid": 10621209079407272421,
+                "parentUID": 1678623819285774818,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -19429,8 +19780,8 @@
             "GameObject": {
                 "name": "LightSaberOn",
                 "tag": "",
-                "uid": 15816042219156600925,
-                "parentUID": 7902564434575763919,
+                "uid": 16683790073072729997,
+                "parentUID": 10621209079407272421,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -19457,8 +19808,8 @@
             "GameObject": {
                 "name": "LightSaber.Mesh.003_0",
                 "tag": "",
-                "uid": 16565673977742869957,
-                "parentUID": 15816042219156600925,
+                "uid": 15123481799859087571,
+                "parentUID": 16683790073072729997,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -19496,8 +19847,8 @@
             "GameObject": {
                 "name": "LightSaber.Mesh.003_1",
                 "tag": "",
-                "uid": 2061498303589008344,
-                "parentUID": 15816042219156600925,
+                "uid": 5280248927020581598,
+                "parentUID": 16683790073072729997,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -19535,8 +19886,8 @@
             "GameObject": {
                 "name": "Basic Attack Bullet",
                 "tag": "",
-                "uid": 2512526240728233607,
-                "parentUID": 16740271857309047545,
+                "uid": 3765552588110354924,
+                "parentUID": 5659784701395227913,
                 "enabled": false,
                 "static": false,
                 "Components": [
@@ -19577,7 +19928,7 @@
                     {
                         "Component": {
                             "type": "Component_RigidBody",
-                            "active": true,
+                            "active": false,
                             "removed": true,
                             "isKinematic": false,
                             "isTrigger": true,
@@ -19593,14 +19944,20 @@
                             "KpTorque": 0.05000000074505806,
                             "gravity_Y": 0.0,
                             "boxSize_X": 0.10000000149011612,
-                            "boxSize_Y": 0.30000001192092896,
+                            "boxSize_Y": 0.4000000059604645,
                             "boxSize_Z": 0.10000000149011612,
                             "radius": 4.499998569488525,
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": 0.0003662109375,
                             "rbPos_Y": 0.7203463315963745,
-                            "rbPos_Z": -25.2409725189209
+                            "rbPos_Z": -21.433032989501953,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -19647,8 +20004,8 @@
             "GameObject": {
                 "name": "Empty GameObject",
                 "tag": "",
-                "uid": 11457894889755019224,
-                "parentUID": 16740271857309047545,
+                "uid": 11614341540355233077,
+                "parentUID": 5659784701395227913,
                 "enabled": false,
                 "static": false,
                 "Components": [
@@ -19684,8 +20041,8 @@
             "GameObject": {
                 "name": "RootNode",
                 "tag": "",
-                "uid": 16198219621777345096,
-                "parentUID": 16740271857309047545,
+                "uid": 17084798792344887398,
+                "parentUID": 5659784701395227913,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -19694,12 +20051,12 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -0.001220703125,
+                            "localPos_X": 0.0,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
+                            "localRot_X": 0.0,
                             "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
+                            "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -19712,8 +20069,8 @@
             "GameObject": {
                 "name": "Torso",
                 "tag": "",
-                "uid": 18304479238142188755,
-                "parentUID": 16198219621777345096,
+                "uid": 2952161507522248651,
+                "parentUID": 17084798792344887398,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -19740,8 +20097,8 @@
             "GameObject": {
                 "name": "AlluraControllerV1.Torso_0",
                 "tag": "",
-                "uid": 4562089539907884496,
-                "parentUID": 18304479238142188755,
+                "uid": 5480314437719137134,
+                "parentUID": 2952161507522248651,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -19779,8 +20136,8 @@
             "GameObject": {
                 "name": "Arm.L",
                 "tag": "",
-                "uid": 11569235905845992269,
-                "parentUID": 16198219621777345096,
+                "uid": 14826148727315266779,
+                "parentUID": 17084798792344887398,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -19807,8 +20164,8 @@
             "GameObject": {
                 "name": "AlluraControllerV1.ArmL_0",
                 "tag": "",
-                "uid": 9040387032206528176,
-                "parentUID": 11569235905845992269,
+                "uid": 8616218030457498500,
+                "parentUID": 14826148727315266779,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -19846,8 +20203,8 @@
             "GameObject": {
                 "name": "Belt",
                 "tag": "",
-                "uid": 5060257424313837471,
-                "parentUID": 16198219621777345096,
+                "uid": 17350759469604929572,
+                "parentUID": 17084798792344887398,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -19874,8 +20231,8 @@
             "GameObject": {
                 "name": "AlluraControllerV1.Belt_0",
                 "tag": "",
-                "uid": 7740174137870528100,
-                "parentUID": 5060257424313837471,
+                "uid": 14771662522465098418,
+                "parentUID": 17350759469604929572,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -19913,8 +20270,8 @@
             "GameObject": {
                 "name": "Pierna.L",
                 "tag": "",
-                "uid": 16700364849438961959,
-                "parentUID": 16198219621777345096,
+                "uid": 18212893226083856222,
+                "parentUID": 17084798792344887398,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -19941,8 +20298,8 @@
             "GameObject": {
                 "name": "AlluraControllerV1.LegL_0",
                 "tag": "",
-                "uid": 5334512534235391799,
-                "parentUID": 16700364849438961959,
+                "uid": 11983938396117071737,
+                "parentUID": 18212893226083856222,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -19980,8 +20337,8 @@
             "GameObject": {
                 "name": "Armature",
                 "tag": "",
-                "uid": 9394819631476534717,
-                "parentUID": 16198219621777345096,
+                "uid": 3278794555395462563,
+                "parentUID": 17084798792344887398,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20008,8 +20365,8 @@
             "GameObject": {
                 "name": "Master Bone",
                 "tag": "",
-                "uid": 10256580425080042858,
-                "parentUID": 9394819631476534717,
+                "uid": 11777196206690506530,
+                "parentUID": 3278794555395462563,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20036,8 +20393,8 @@
             "GameObject": {
                 "name": "Master Bone_end",
                 "tag": "",
-                "uid": 13009522630673044039,
-                "parentUID": 10256580425080042858,
+                "uid": 4059707748890787518,
+                "parentUID": 11777196206690506530,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20064,8 +20421,8 @@
             "GameObject": {
                 "name": "Center of Mass 2",
                 "tag": "",
-                "uid": 9337104458155800608,
-                "parentUID": 9394819631476534717,
+                "uid": 6520660566713583612,
+                "parentUID": 3278794555395462563,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20092,8 +20449,8 @@
             "GameObject": {
                 "name": "Center of Mass",
                 "tag": "",
-                "uid": 6038554113151102204,
-                "parentUID": 9337104458155800608,
+                "uid": 3842800297453475747,
+                "parentUID": 6520660566713583612,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20120,8 +20477,8 @@
             "GameObject": {
                 "name": "Torso.IK",
                 "tag": "",
-                "uid": 17899765462573478842,
-                "parentUID": 6038554113151102204,
+                "uid": 3942871539614189140,
+                "parentUID": 3842800297453475747,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20148,8 +20505,8 @@
             "GameObject": {
                 "name": "EE-4Belt",
                 "tag": "",
-                "uid": 10583101665283650452,
-                "parentUID": 17899765462573478842,
+                "uid": 4641021719557630970,
+                "parentUID": 3942871539614189140,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20176,8 +20533,8 @@
             "GameObject": {
                 "name": "AlluraControllerV1.Cylinder.008_0",
                 "tag": "",
-                "uid": 12726809918661590114,
-                "parentUID": 10583101665283650452,
+                "uid": 9166595898580079097,
+                "parentUID": 4641021719557630970,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20215,8 +20572,8 @@
             "GameObject": {
                 "name": "Leg Top.L",
                 "tag": "",
-                "uid": 3371607770226005658,
-                "parentUID": 17899765462573478842,
+                "uid": 4944192694469906861,
+                "parentUID": 3942871539614189140,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20243,8 +20600,8 @@
             "GameObject": {
                 "name": "Leg Bottom.L",
                 "tag": "",
-                "uid": 2855993782326050863,
-                "parentUID": 3371607770226005658,
+                "uid": 18148307077239853621,
+                "parentUID": 4944192694469906861,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20271,8 +20628,8 @@
             "GameObject": {
                 "name": "Foot.L",
                 "tag": "",
-                "uid": 2163279423790166884,
-                "parentUID": 2855993782326050863,
+                "uid": 6354739711364511052,
+                "parentUID": 18148307077239853621,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20299,8 +20656,8 @@
             "GameObject": {
                 "name": "Toe.L",
                 "tag": "",
-                "uid": 14810931069113053466,
-                "parentUID": 2163279423790166884,
+                "uid": 1675790603431625126,
+                "parentUID": 6354739711364511052,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20327,8 +20684,8 @@
             "GameObject": {
                 "name": "Toe.L_end",
                 "tag": "",
-                "uid": 4469290288142034281,
-                "parentUID": 14810931069113053466,
+                "uid": 12562975744518101760,
+                "parentUID": 1675790603431625126,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20355,8 +20712,8 @@
             "GameObject": {
                 "name": "Leg Top.R",
                 "tag": "",
-                "uid": 10956720190283649017,
-                "parentUID": 17899765462573478842,
+                "uid": 1983648817984497836,
+                "parentUID": 3942871539614189140,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20383,8 +20740,8 @@
             "GameObject": {
                 "name": "Leg Bottom.R",
                 "tag": "",
-                "uid": 12784020860123701886,
-                "parentUID": 10956720190283649017,
+                "uid": 2988276192794311339,
+                "parentUID": 1983648817984497836,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20411,8 +20768,8 @@
             "GameObject": {
                 "name": "Foot.R",
                 "tag": "",
-                "uid": 10618958368232129424,
-                "parentUID": 12784020860123701886,
+                "uid": 3460586563681486441,
+                "parentUID": 2988276192794311339,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20439,8 +20796,8 @@
             "GameObject": {
                 "name": "Toe.R",
                 "tag": "",
-                "uid": 14102794033451764389,
-                "parentUID": 10618958368232129424,
+                "uid": 9116401083243085811,
+                "parentUID": 3460586563681486441,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20467,8 +20824,8 @@
             "GameObject": {
                 "name": "Toe.R_end",
                 "tag": "",
-                "uid": 15165071765718776114,
-                "parentUID": 14102794033451764389,
+                "uid": 14254987777731411376,
+                "parentUID": 9116401083243085811,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20495,8 +20852,8 @@
             "GameObject": {
                 "name": "Torso.B",
                 "tag": "",
-                "uid": 16131226115583249050,
-                "parentUID": 17899765462573478842,
+                "uid": 5847280873897705009,
+                "parentUID": 3942871539614189140,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20523,8 +20880,8 @@
             "GameObject": {
                 "name": "Torso.T",
                 "tag": "",
-                "uid": 15623432339123028706,
-                "parentUID": 16131226115583249050,
+                "uid": 3151929105499314146,
+                "parentUID": 5847280873897705009,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20551,8 +20908,8 @@
             "GameObject": {
                 "name": "Neck",
                 "tag": "",
-                "uid": 10243665393670192390,
-                "parentUID": 15623432339123028706,
+                "uid": 9121381135627120833,
+                "parentUID": 3151929105499314146,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20579,8 +20936,8 @@
             "GameObject": {
                 "name": "Head",
                 "tag": "",
-                "uid": 12428833891467106681,
-                "parentUID": 10243665393670192390,
+                "uid": 7221005645498261476,
+                "parentUID": 9121381135627120833,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20607,8 +20964,8 @@
             "GameObject": {
                 "name": "Hair",
                 "tag": "",
-                "uid": 300146640246083590,
-                "parentUID": 12428833891467106681,
+                "uid": 8535799202574792850,
+                "parentUID": 7221005645498261476,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20635,8 +20992,8 @@
             "GameObject": {
                 "name": "Hair_end",
                 "tag": "",
-                "uid": 877927130010025301,
-                "parentUID": 300146640246083590,
+                "uid": 8404013917125916836,
+                "parentUID": 8535799202574792850,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20663,8 +21020,8 @@
             "GameObject": {
                 "name": "Eye Target",
                 "tag": "",
-                "uid": 11006692998146948528,
-                "parentUID": 12428833891467106681,
+                "uid": 17146574377433070889,
+                "parentUID": 7221005645498261476,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20691,8 +21048,8 @@
             "GameObject": {
                 "name": "Eye Target_end",
                 "tag": "",
-                "uid": 2381687828360513923,
-                "parentUID": 11006692998146948528,
+                "uid": 4480442975680166137,
+                "parentUID": 17146574377433070889,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20719,8 +21076,8 @@
             "GameObject": {
                 "name": "Eye base",
                 "tag": "",
-                "uid": 14335526317310413093,
-                "parentUID": 12428833891467106681,
+                "uid": 16634724280365410232,
+                "parentUID": 7221005645498261476,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20747,8 +21104,8 @@
             "GameObject": {
                 "name": "Eye base_end",
                 "tag": "",
-                "uid": 11878983538088877957,
-                "parentUID": 14335526317310413093,
+                "uid": 14902543734403844323,
+                "parentUID": 16634724280365410232,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20775,8 +21132,8 @@
             "GameObject": {
                 "name": "Mouth Target",
                 "tag": "",
-                "uid": 6020313579370780248,
-                "parentUID": 12428833891467106681,
+                "uid": 8276323148851164088,
+                "parentUID": 7221005645498261476,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20803,8 +21160,8 @@
             "GameObject": {
                 "name": "Mouth Target_end",
                 "tag": "",
-                "uid": 12596657055926011619,
-                "parentUID": 6020313579370780248,
+                "uid": 4047987728471798805,
+                "parentUID": 8276323148851164088,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20831,8 +21188,8 @@
             "GameObject": {
                 "name": "Mouth base",
                 "tag": "",
-                "uid": 61600897513522086,
-                "parentUID": 12428833891467106681,
+                "uid": 14909665894221335031,
+                "parentUID": 7221005645498261476,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20859,8 +21216,8 @@
             "GameObject": {
                 "name": "Mouth base_end",
                 "tag": "",
-                "uid": 1988554818665283161,
-                "parentUID": 61600897513522086,
+                "uid": 10666498295239839490,
+                "parentUID": 14909665894221335031,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20887,8 +21244,8 @@
             "GameObject": {
                 "name": "Eye Target.001",
                 "tag": "",
-                "uid": 11788611952114028529,
-                "parentUID": 12428833891467106681,
+                "uid": 17717165271143623592,
+                "parentUID": 7221005645498261476,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20915,8 +21272,8 @@
             "GameObject": {
                 "name": "Eye Target.001_end",
                 "tag": "",
-                "uid": 14515299167817722416,
-                "parentUID": 11788611952114028529,
+                "uid": 12846338317317785100,
+                "parentUID": 17717165271143623592,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20943,8 +21300,8 @@
             "GameObject": {
                 "name": "Eye disp;ay",
                 "tag": "",
-                "uid": 12978591457686060190,
-                "parentUID": 12428833891467106681,
+                "uid": 4811952539046191491,
+                "parentUID": 7221005645498261476,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20971,8 +21328,8 @@
             "GameObject": {
                 "name": "Eye disp;ay_end",
                 "tag": "",
-                "uid": 10807435757302473092,
-                "parentUID": 12978591457686060190,
+                "uid": 16333531543783498179,
+                "parentUID": 4811952539046191491,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -20999,8 +21356,8 @@
             "GameObject": {
                 "name": "Mouth display",
                 "tag": "",
-                "uid": 3281500841191505398,
-                "parentUID": 12428833891467106681,
+                "uid": 11952678759967695230,
+                "parentUID": 7221005645498261476,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21027,8 +21384,8 @@
             "GameObject": {
                 "name": "Mouth display_end",
                 "tag": "",
-                "uid": 13293532085769180762,
-                "parentUID": 3281500841191505398,
+                "uid": 10912052103458542120,
+                "parentUID": 11952678759967695230,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21055,8 +21412,8 @@
             "GameObject": {
                 "name": "Eye_Brow_L.2",
                 "tag": "",
-                "uid": 8209439435848638640,
-                "parentUID": 12428833891467106681,
+                "uid": 14982572503341050834,
+                "parentUID": 7221005645498261476,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21083,8 +21440,8 @@
             "GameObject": {
                 "name": "Eye_Brow_L.1",
                 "tag": "",
-                "uid": 9898196762465914137,
-                "parentUID": 8209439435848638640,
+                "uid": 12980510268342022974,
+                "parentUID": 14982572503341050834,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21111,8 +21468,8 @@
             "GameObject": {
                 "name": "Eye_Brow_L.1_end",
                 "tag": "",
-                "uid": 4047173540018142368,
-                "parentUID": 9898196762465914137,
+                "uid": 2638140732742177848,
+                "parentUID": 12980510268342022974,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21139,8 +21496,8 @@
             "GameObject": {
                 "name": "Eye_Brow_L.3",
                 "tag": "",
-                "uid": 16989827341421384676,
-                "parentUID": 8209439435848638640,
+                "uid": 11955433357686813452,
+                "parentUID": 14982572503341050834,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21167,8 +21524,8 @@
             "GameObject": {
                 "name": "Eye_Brow_L.3_end",
                 "tag": "",
-                "uid": 5872366743697599282,
-                "parentUID": 16989827341421384676,
+                "uid": 18367217785720366230,
+                "parentUID": 11955433357686813452,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21195,8 +21552,8 @@
             "GameObject": {
                 "name": "Eye_Brow_R.2",
                 "tag": "",
-                "uid": 7071859033109065248,
-                "parentUID": 12428833891467106681,
+                "uid": 12771237652426673583,
+                "parentUID": 7221005645498261476,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21223,8 +21580,8 @@
             "GameObject": {
                 "name": "Eye_Brow_R.1",
                 "tag": "",
-                "uid": 9717876915473771037,
-                "parentUID": 7071859033109065248,
+                "uid": 10225010692238987219,
+                "parentUID": 12771237652426673583,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21251,8 +21608,8 @@
             "GameObject": {
                 "name": "Eye_Brow_R.1_end",
                 "tag": "",
-                "uid": 4197413232137443561,
-                "parentUID": 9717876915473771037,
+                "uid": 13811720091024739731,
+                "parentUID": 10225010692238987219,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21279,8 +21636,8 @@
             "GameObject": {
                 "name": "Eye_Brow_R.3",
                 "tag": "",
-                "uid": 18028261480020561957,
-                "parentUID": 7071859033109065248,
+                "uid": 6166545534815753864,
+                "parentUID": 12771237652426673583,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21307,8 +21664,8 @@
             "GameObject": {
                 "name": "Eye_Brow_R.3_end",
                 "tag": "",
-                "uid": 1434474934588951980,
-                "parentUID": 18028261480020561957,
+                "uid": 18437393162529100991,
+                "parentUID": 6166545534815753864,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21335,8 +21692,8 @@
             "GameObject": {
                 "name": "PigTail.L",
                 "tag": "",
-                "uid": 6329349461518338197,
-                "parentUID": 12428833891467106681,
+                "uid": 1542845269797074924,
+                "parentUID": 7221005645498261476,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21363,8 +21720,8 @@
             "GameObject": {
                 "name": "PigTail.L.011",
                 "tag": "",
-                "uid": 10036677073947708235,
-                "parentUID": 6329349461518338197,
+                "uid": 16633739274867853764,
+                "parentUID": 1542845269797074924,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21391,8 +21748,8 @@
             "GameObject": {
                 "name": "PigTail.L.009",
                 "tag": "",
-                "uid": 17966746133609161465,
-                "parentUID": 10036677073947708235,
+                "uid": 16748794916387876702,
+                "parentUID": 16633739274867853764,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21419,8 +21776,8 @@
             "GameObject": {
                 "name": "PigTail.L.001",
                 "tag": "",
-                "uid": 11404509925027265887,
-                "parentUID": 17966746133609161465,
+                "uid": 14193694550011319208,
+                "parentUID": 16748794916387876702,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21447,8 +21804,8 @@
             "GameObject": {
                 "name": "PigTail.L.010",
                 "tag": "",
-                "uid": 6125701662813512120,
-                "parentUID": 11404509925027265887,
+                "uid": 10389771476506755823,
+                "parentUID": 14193694550011319208,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21475,8 +21832,8 @@
             "GameObject": {
                 "name": "PigTail.L.002",
                 "tag": "",
-                "uid": 9111338854436099503,
-                "parentUID": 6125701662813512120,
+                "uid": 11663646706713895678,
+                "parentUID": 10389771476506755823,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21503,8 +21860,8 @@
             "GameObject": {
                 "name": "PigTail.L.003",
                 "tag": "",
-                "uid": 13332470720849319436,
-                "parentUID": 9111338854436099503,
+                "uid": 14598267740638876056,
+                "parentUID": 11663646706713895678,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21531,8 +21888,8 @@
             "GameObject": {
                 "name": "PigTail.L.004",
                 "tag": "",
-                "uid": 15854957204574908704,
-                "parentUID": 13332470720849319436,
+                "uid": 3801775908907668931,
+                "parentUID": 14598267740638876056,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21559,8 +21916,8 @@
             "GameObject": {
                 "name": "PigTail.L.004_end",
                 "tag": "",
-                "uid": 1262223167057543176,
-                "parentUID": 15854957204574908704,
+                "uid": 12630126849538908599,
+                "parentUID": 3801775908907668931,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21587,8 +21944,8 @@
             "GameObject": {
                 "name": "Shoulder.L",
                 "tag": "",
-                "uid": 15302506947785816550,
-                "parentUID": 15623432339123028706,
+                "uid": 4598506765696035470,
+                "parentUID": 3151929105499314146,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21615,8 +21972,8 @@
             "GameObject": {
                 "name": "Shoulder.L_end",
                 "tag": "",
-                "uid": 11289647852697003987,
-                "parentUID": 15302506947785816550,
+                "uid": 15097179360010667503,
+                "parentUID": 4598506765696035470,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21643,8 +22000,8 @@
             "GameObject": {
                 "name": "Arm Top.L",
                 "tag": "",
-                "uid": 14105823395238724385,
-                "parentUID": 15623432339123028706,
+                "uid": 12098078452029818266,
+                "parentUID": 3151929105499314146,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21671,8 +22028,8 @@
             "GameObject": {
                 "name": "Arm Bottom.L",
                 "tag": "",
-                "uid": 14046369308034402273,
-                "parentUID": 14105823395238724385,
+                "uid": 5340423810157150103,
+                "parentUID": 12098078452029818266,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21699,8 +22056,8 @@
             "GameObject": {
                 "name": "Wrist.L",
                 "tag": "",
-                "uid": 16798023601316195058,
-                "parentUID": 14046369308034402273,
+                "uid": 10725235637110584587,
+                "parentUID": 5340423810157150103,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21727,8 +22084,8 @@
             "GameObject": {
                 "name": "Hand.L",
                 "tag": "",
-                "uid": 7982483552022597572,
-                "parentUID": 16798023601316195058,
+                "uid": 4894850856723670894,
+                "parentUID": 10725235637110584587,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21755,8 +22112,8 @@
             "GameObject": {
                 "name": "Claw Top 1.L",
                 "tag": "",
-                "uid": 11096633503496873243,
-                "parentUID": 7982483552022597572,
+                "uid": 3725713196519543932,
+                "parentUID": 4894850856723670894,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21783,8 +22140,8 @@
             "GameObject": {
                 "name": "EE-4",
                 "tag": "",
-                "uid": 4089244392200364775,
-                "parentUID": 11096633503496873243,
+                "uid": 16839168979943539810,
+                "parentUID": 3725713196519543932,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21811,8 +22168,8 @@
             "GameObject": {
                 "name": "AlluraControllerV1.Cylinder.001_0",
                 "tag": "",
-                "uid": 2989709464850334170,
-                "parentUID": 4089244392200364775,
+                "uid": 17614771174442659874,
+                "parentUID": 16839168979943539810,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21850,8 +22207,8 @@
             "GameObject": {
                 "name": "Claw Top 2.L",
                 "tag": "",
-                "uid": 12325545989971598118,
-                "parentUID": 11096633503496873243,
+                "uid": 3443156343665349751,
+                "parentUID": 3725713196519543932,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21878,8 +22235,8 @@
             "GameObject": {
                 "name": "Claw Top 2.L_end",
                 "tag": "",
-                "uid": 10914207583489745571,
-                "parentUID": 12325545989971598118,
+                "uid": 10216735610316392478,
+                "parentUID": 3443156343665349751,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21906,8 +22263,8 @@
             "GameObject": {
                 "name": "Claw Bottom 1.L",
                 "tag": "",
-                "uid": 10341798013472718422,
-                "parentUID": 7982483552022597572,
+                "uid": 3495611167181410769,
+                "parentUID": 4894850856723670894,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21934,8 +22291,8 @@
             "GameObject": {
                 "name": "Claw Bottom 2.L",
                 "tag": "",
-                "uid": 10923600776309610935,
-                "parentUID": 10341798013472718422,
+                "uid": 9524221632076099085,
+                "parentUID": 3495611167181410769,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21962,8 +22319,8 @@
             "GameObject": {
                 "name": "Claw Bottom 2.L_end",
                 "tag": "",
-                "uid": 7006875230315215549,
-                "parentUID": 10923600776309610935,
+                "uid": 8566015326462207844,
+                "parentUID": 9524221632076099085,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -21990,8 +22347,8 @@
             "GameObject": {
                 "name": "Shoulder.R",
                 "tag": "",
-                "uid": 3897885730998130840,
-                "parentUID": 15623432339123028706,
+                "uid": 8384010236307597826,
+                "parentUID": 3151929105499314146,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22018,8 +22375,8 @@
             "GameObject": {
                 "name": "Shoulder.R_end",
                 "tag": "",
-                "uid": 1817134966443404007,
-                "parentUID": 3897885730998130840,
+                "uid": 12962174580569503655,
+                "parentUID": 8384010236307597826,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22046,8 +22403,8 @@
             "GameObject": {
                 "name": "Arm Top.R",
                 "tag": "",
-                "uid": 16132734040120822238,
-                "parentUID": 15623432339123028706,
+                "uid": 9501908522044377193,
+                "parentUID": 3151929105499314146,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22074,8 +22431,8 @@
             "GameObject": {
                 "name": "Arm Bottom.R",
                 "tag": "",
-                "uid": 17483030029184263662,
-                "parentUID": 16132734040120822238,
+                "uid": 8626495785972994831,
+                "parentUID": 9501908522044377193,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22102,8 +22459,8 @@
             "GameObject": {
                 "name": "Wrist.R",
                 "tag": "",
-                "uid": 7177136567665584723,
-                "parentUID": 17483030029184263662,
+                "uid": 10507588573785810988,
+                "parentUID": 8626495785972994831,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22130,8 +22487,8 @@
             "GameObject": {
                 "name": "Hand.R",
                 "tag": "",
-                "uid": 3864550350041110129,
-                "parentUID": 7177136567665584723,
+                "uid": 11080140971453230219,
+                "parentUID": 10507588573785810988,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22158,8 +22515,8 @@
             "GameObject": {
                 "name": "Claw Top 1.R",
                 "tag": "",
-                "uid": 4893327505795481054,
-                "parentUID": 3864550350041110129,
+                "uid": 2247573203832637969,
+                "parentUID": 11080140971453230219,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22186,8 +22543,8 @@
             "GameObject": {
                 "name": "EE-3_Blaster",
                 "tag": "",
-                "uid": 13538282994863397584,
-                "parentUID": 4893327505795481054,
+                "uid": 14435551940246258172,
+                "parentUID": 2247573203832637969,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22214,8 +22571,8 @@
             "GameObject": {
                 "name": "AlluraControllerV1.Cylinder_0",
                 "tag": "",
-                "uid": 9970121955975588700,
-                "parentUID": 13538282994863397584,
+                "uid": 10117449867324458772,
+                "parentUID": 14435551940246258172,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22227,9 +22584,9 @@
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
                             "localPos_Z": 0.0,
-                            "localRot_X": -2.236327387615739e-16,
-                            "localRot_Y": -2.401238248239679e-7,
-                            "localRot_Z": -1.067216999217635e-7,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0
@@ -22253,8 +22610,8 @@
             "GameObject": {
                 "name": "EE-3Stockless",
                 "tag": "",
-                "uid": 5306021460586020731,
-                "parentUID": 4893327505795481054,
+                "uid": 9768520507512158446,
+                "parentUID": 2247573203832637969,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22281,8 +22638,8 @@
             "GameObject": {
                 "name": "AlluraControllerV1.Cylinder.004_0",
                 "tag": "",
-                "uid": 15696817198629147101,
-                "parentUID": 5306021460586020731,
+                "uid": 2544039173955267979,
+                "parentUID": 9768520507512158446,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22320,8 +22677,8 @@
             "GameObject": {
                 "name": "Claw Top 2.R",
                 "tag": "",
-                "uid": 9173144657553171308,
-                "parentUID": 4893327505795481054,
+                "uid": 6686627082104422285,
+                "parentUID": 2247573203832637969,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22348,8 +22705,8 @@
             "GameObject": {
                 "name": "Claw Top 2.R_end",
                 "tag": "",
-                "uid": 6254059992272195344,
-                "parentUID": 9173144657553171308,
+                "uid": 16027397483177744348,
+                "parentUID": 6686627082104422285,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22376,8 +22733,8 @@
             "GameObject": {
                 "name": "Claw Bottom 1.R",
                 "tag": "",
-                "uid": 4482759146375368145,
-                "parentUID": 3864550350041110129,
+                "uid": 4278772329926293018,
+                "parentUID": 11080140971453230219,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22404,8 +22761,8 @@
             "GameObject": {
                 "name": "Claw Bottom 2.R",
                 "tag": "",
-                "uid": 12091845532904180315,
-                "parentUID": 4482759146375368145,
+                "uid": 7775971352992205898,
+                "parentUID": 4278772329926293018,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22432,8 +22789,8 @@
             "GameObject": {
                 "name": "Claw Bottom 2.R_end",
                 "tag": "",
-                "uid": 8238338960049237536,
-                "parentUID": 12091845532904180315,
+                "uid": 1998635214624735475,
+                "parentUID": 7775971352992205898,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22460,8 +22817,8 @@
             "GameObject": {
                 "name": "Foot IK.L",
                 "tag": "",
-                "uid": 11380083314002660919,
-                "parentUID": 6038554113151102204,
+                "uid": 17966473091343413278,
+                "parentUID": 3842800297453475747,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22488,8 +22845,8 @@
             "GameObject": {
                 "name": "Knee IK.L",
                 "tag": "",
-                "uid": 9100059488587379657,
-                "parentUID": 11380083314002660919,
+                "uid": 5452176265877718330,
+                "parentUID": 17966473091343413278,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22516,8 +22873,8 @@
             "GameObject": {
                 "name": "Knee IK.L_end",
                 "tag": "",
-                "uid": 7184673934192758047,
-                "parentUID": 9100059488587379657,
+                "uid": 4875047738611644093,
+                "parentUID": 5452176265877718330,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22544,8 +22901,8 @@
             "GameObject": {
                 "name": "Foot IK.R",
                 "tag": "",
-                "uid": 14038865601942336761,
-                "parentUID": 6038554113151102204,
+                "uid": 10240539377031868705,
+                "parentUID": 3842800297453475747,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22572,8 +22929,8 @@
             "GameObject": {
                 "name": "Knee IK.R",
                 "tag": "",
-                "uid": 8911788511098112423,
-                "parentUID": 14038865601942336761,
+                "uid": 8042978102786066311,
+                "parentUID": 10240539377031868705,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22600,8 +22957,8 @@
             "GameObject": {
                 "name": "Knee IK.R_end",
                 "tag": "",
-                "uid": 10742177038694530295,
-                "parentUID": 8911788511098112423,
+                "uid": 17102078236898896061,
+                "parentUID": 8042978102786066311,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22628,8 +22985,8 @@
             "GameObject": {
                 "name": "IK pole.L",
                 "tag": "",
-                "uid": 6729572497157572220,
-                "parentUID": 6038554113151102204,
+                "uid": 613225072043232487,
+                "parentUID": 3842800297453475747,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22656,8 +23013,8 @@
             "GameObject": {
                 "name": "IK pole.L_end",
                 "tag": "",
-                "uid": 18062024884830118852,
-                "parentUID": 6729572497157572220,
+                "uid": 17102368510340519664,
+                "parentUID": 613225072043232487,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22684,8 +23041,8 @@
             "GameObject": {
                 "name": "Arm IK.L",
                 "tag": "",
-                "uid": 15294864250683491155,
-                "parentUID": 6038554113151102204,
+                "uid": 17203237421910644822,
+                "parentUID": 3842800297453475747,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22712,8 +23069,8 @@
             "GameObject": {
                 "name": "Arm IK.L_end",
                 "tag": "",
-                "uid": 14752757722276372930,
-                "parentUID": 15294864250683491155,
+                "uid": 6364053530602471395,
+                "parentUID": 17203237421910644822,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22740,8 +23097,8 @@
             "GameObject": {
                 "name": "IK pole.R",
                 "tag": "",
-                "uid": 1905857873808095799,
-                "parentUID": 6038554113151102204,
+                "uid": 14773920748680026506,
+                "parentUID": 3842800297453475747,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22768,8 +23125,8 @@
             "GameObject": {
                 "name": "IK pole.R_end",
                 "tag": "",
-                "uid": 5043893628548294296,
-                "parentUID": 1905857873808095799,
+                "uid": 14399077075401628305,
+                "parentUID": 14773920748680026506,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22796,8 +23153,8 @@
             "GameObject": {
                 "name": "Arm IK.R",
                 "tag": "",
-                "uid": 2403591038289690243,
-                "parentUID": 6038554113151102204,
+                "uid": 7299383359892159306,
+                "parentUID": 3842800297453475747,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22824,8 +23181,8 @@
             "GameObject": {
                 "name": "Arm IK.R_end",
                 "tag": "",
-                "uid": 4276755900524449874,
-                "parentUID": 2403591038289690243,
+                "uid": 5005074572273825926,
+                "parentUID": 7299383359892159306,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22852,8 +23209,8 @@
             "GameObject": {
                 "name": "Arm.R",
                 "tag": "",
-                "uid": 9076187263040362296,
-                "parentUID": 16198219621777345096,
+                "uid": 15007883651884535875,
+                "parentUID": 17084798792344887398,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22880,8 +23237,8 @@
             "GameObject": {
                 "name": "AlluraControllerV1.ArmR_0",
                 "tag": "",
-                "uid": 13222891013753383542,
-                "parentUID": 9076187263040362296,
+                "uid": 5799581601027187132,
+                "parentUID": 15007883651884535875,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22919,8 +23276,8 @@
             "GameObject": {
                 "name": "Pierna.R",
                 "tag": "",
-                "uid": 11892768112320284304,
-                "parentUID": 16198219621777345096,
+                "uid": 9465290513920999807,
+                "parentUID": 17084798792344887398,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22947,8 +23304,8 @@
             "GameObject": {
                 "name": "AlluraControllerV1.LegR_0",
                 "tag": "",
-                "uid": 2055258523959469587,
-                "parentUID": 11892768112320284304,
+                "uid": 8253572930161660899,
+                "parentUID": 9465290513920999807,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -22986,8 +23343,8 @@
             "GameObject": {
                 "name": "Eye_brow_Face_Rig",
                 "tag": "",
-                "uid": 17899965086436868880,
-                "parentUID": 16198219621777345096,
+                "uid": 14657468500196913587,
+                "parentUID": 17084798792344887398,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -23014,8 +23371,8 @@
             "GameObject": {
                 "name": "AlluraControllerV1.Eye_brow_Face_Rig.002_0",
                 "tag": "",
-                "uid": 4141765110621818659,
-                "parentUID": 17899965086436868880,
+                "uid": 15254300090036707638,
+                "parentUID": 14657468500196913587,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -23053,8 +23410,8 @@
             "GameObject": {
                 "name": "Eye_brow_Face_Rig.001",
                 "tag": "",
-                "uid": 15928764267850704666,
-                "parentUID": 16198219621777345096,
+                "uid": 27040514258663418,
+                "parentUID": 17084798792344887398,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -23081,8 +23438,8 @@
             "GameObject": {
                 "name": "AlluraControllerV1.Eye_brow_Face_Rig.003_0",
                 "tag": "",
-                "uid": 17636823290956446261,
-                "parentUID": 15928764267850704666,
+                "uid": 10851454626473118172,
+                "parentUID": 27040514258663418,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -23120,8 +23477,8 @@
             "GameObject": {
                 "name": "Allura_Hair_Retopo.001",
                 "tag": "",
-                "uid": 10082581951088707270,
-                "parentUID": 16198219621777345096,
+                "uid": 4684380890747564982,
+                "parentUID": 17084798792344887398,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -23148,8 +23505,8 @@
             "GameObject": {
                 "name": "AlluraControllerV1.Allura_Hair_Retopo.001_0",
                 "tag": "",
-                "uid": 17322679465017278983,
-                "parentUID": 10082581951088707270,
+                "uid": 2640950502962873639,
+                "parentUID": 4684380890747564982,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -23187,8 +23544,8 @@
             "GameObject": {
                 "name": "Allura_Head",
                 "tag": "",
-                "uid": 14528641714956046160,
-                "parentUID": 16198219621777345096,
+                "uid": 18377827875043059127,
+                "parentUID": 17084798792344887398,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -23215,8 +23572,8 @@
             "GameObject": {
                 "name": "AlluraControllerV1.Cylinder.003_0",
                 "tag": "",
-                "uid": 40875336362979737,
-                "parentUID": 14528641714956046160,
+                "uid": 6868415522049116238,
+                "parentUID": 18377827875043059127,
                 "enabled": true,
                 "static": false,
                 "Components": [

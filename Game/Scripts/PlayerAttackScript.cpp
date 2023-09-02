@@ -40,7 +40,7 @@ REGISTERCLASS(PlayerAttackScript);
 
 PlayerAttackScript::PlayerAttackScript() : Script(), 
 	isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
-	animation(nullptr), transform(nullptr),
+	animation(nullptr), transform(nullptr), isMelee(true),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), jumpFinisherScript(nullptr),
 	lightFinisherScript(nullptr), normalAttackDistance(0), heavyFinisherAttack(nullptr), lightWeapon(nullptr),
 	comboCountHeavy(10.0f), comboCountLight(30.0f), comboCountJump(20.0f)
@@ -54,7 +54,7 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	REGISTER_FIELD(normalAttackDistance, float);
 
 	REGISTER_FIELD(isAttacking, bool);
-	//REGISTER_FIELD(attackCooldown, float);
+	REGISTER_FIELD(isMelee, bool);
 
 	REGISTER_FIELD(enemyDetection, EntityDetection*);
 	REGISTER_FIELD(heavyFinisherAttack, HeavyFinisherAttack*);
@@ -99,6 +99,7 @@ void PlayerAttackScript::Update(float deltaTime)
 	{
 		ResetAttackAnimations();
 	}
+	lastAttack = currentAttack;
 }
 
 void PlayerAttackScript::UpdateEnemyDetection()
@@ -163,7 +164,7 @@ void PlayerAttackScript::LightNormalAttack()
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
 
-	if (owner->GetName() == "PrefabBix")
+	if (isMelee)
 	{
 		if (enemyAttacked != nullptr)
 		{
@@ -176,7 +177,7 @@ void PlayerAttackScript::LightNormalAttack()
 			LOG_VERBOSE("Fail light attack");
 		}
 	}
-	else if (owner->GetName() == "PrefabArulla")
+	else
 	{
 		ThrowBasicAttack(enemyAttacked, attackSoft);
 	}
@@ -192,7 +193,7 @@ void PlayerAttackScript::HeavyNormalAttack()
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
 	
-	if (owner->GetName() == "PrefabBix")
+	if (isMelee)
 	{
 		if (enemyAttacked != nullptr)
 		{
@@ -205,7 +206,7 @@ void PlayerAttackScript::HeavyNormalAttack()
 			LOG_VERBOSE("Fail heavy attack");
 		}
 	}
-	else if (owner->GetName() == "PrefabArulla")
+	else
 	{
 		ThrowBasicAttack(enemyAttacked, attackHeavy);
 	}
@@ -217,11 +218,12 @@ void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDama
 {
 	// Create a new bullet
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
+	LightAttackBullet* ligthAttackBulletScript = bullet->GetComponent<LightAttackBullet>();
 
-	bullet->GetComponent<LightAttackBullet>()->SetBulletVelocity(bulletVelocity);
-	bullet->GetComponent<LightAttackBullet>()->SetEnemy(enemyDetection->GetEnemySelected());
-	bullet->GetComponent<LightAttackBullet>()->SetStunTime(0);
-	bullet->GetComponent<LightAttackBullet>()->SetDamage(nDamage);
+	ligthAttackBulletScript->SetBulletVelocity(bulletVelocity);
+	ligthAttackBulletScript->SetEnemy(enemyDetection->GetEnemySelected());
+	ligthAttackBulletScript->SetStunTime(0);
+	ligthAttackBulletScript->SetDamage(nDamage);
 }
 
 void PlayerAttackScript::JumpNormalAttack()
@@ -229,11 +231,11 @@ void PlayerAttackScript::JumpNormalAttack()
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
 
-	if (owner->GetName() == "PrefabBix")
+	if (isMelee)
 	{
 		jumpFinisherScript->PerformGroundSmash(10.0f, 2.0f); // Bix jumping attack
 	}
-	else if (owner->GetName() == "PrefabArulla")
+	else
 	{
 		jumpFinisherScript->ShootForceBullet(10.0f, 2.0f); // Allura jumping attack, placed it here for now
 	}
@@ -276,11 +278,11 @@ void PlayerAttackScript::JumpFinisher()
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
 
-	if(owner->GetName() == "PrefabBix")
+	if(isMelee)
 	{
 		jumpFinisherScript->PerformGroundSmash(15.0f, 4.0f); // Bix jumping finisher
 	}
-	else if(owner->GetName() == "PrefabArulla")
+	else
 	{
 		jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
 	}
@@ -290,7 +292,7 @@ void PlayerAttackScript::JumpFinisher()
 
 void PlayerAttackScript::ResetAttackAnimations()
 {
-	switch (currentAttack)
+	switch (lastAttack)
 	{
 		case AttackType::LIGHTNORMAL:
 			if (!animation->IsPlaying())
