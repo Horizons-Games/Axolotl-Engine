@@ -10,4 +10,6 @@ public:
 
 protected:
 	void DrawWindowContents() override;
+	void DrawNavCreation();
+	std::string nameNewNavMesh;
 };

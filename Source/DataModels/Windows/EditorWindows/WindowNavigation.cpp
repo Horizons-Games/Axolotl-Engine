@@ -6,6 +6,9 @@
 #include "ModuleNavigation.h"
 
 WindowNavigation::WindowNavigation() : EditorWindow("Navigation")
+WindowNavigation::WindowNavigation() :
+	EditorWindow("Navigation"),
+	nameNewNavMesh("New")
 {
 }
 
@@ -140,11 +143,43 @@ void WindowNavigation::DrawWindowContents()
 	{
 		App->editor->modalToOpen = Modal::CREATE_NAVMESH;
 	}*/
+	DrawNavCreation();
 
 	ImGui::Text("");
 	ImGui::Text("Debug");
 	if (ImGui::Checkbox("Draw NavMesh", &drawNavMesh))
 	{
 		moduleNavigation->SetDrawNavMesh(drawNavMesh);
+	}
+}
+
+void WindowNavigation::DrawNavCreation()
+{
+
+	if (ImGui::Button("Create NavMesh"))
+	{
+		ImGui::OpenPopup("Select Name");
+		nameNewNavMesh = "NewNavMesh";
+	}
+
+	if (ImGui::BeginPopupModal("Select Name", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		ImGui::InputText("Name", &nameNewNavMesh[0], 64);
+		if (ImGui::Button("Save", ImVec2(120, 0)))
+		{
+			std::string path = nameNewNavMesh.c_str();
+			App->GetModule<ModuleResources>()->CreateDefaultResource(ResourceType::NavMesh, nameNewNavMesh.c_str());
+			ImGui::CloseCurrentPopup();
+			std::shared_ptr<ResourceNavMesh> resource =
+				App->GetModule<ModuleResources>()->RequestResource<ResourceNavMesh>(("Assets/NavMesh/" + path + NAVMESH_EXTENSION).c_str());
+			App->GetModule<ModuleNavigation>()->SetNavMesh(resource);
+		}
+		ImGui::SetItemDefaultFocus();
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel", ImVec2(120, 0)))
+		{
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
 	}
 }
