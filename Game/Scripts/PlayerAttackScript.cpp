@@ -294,26 +294,29 @@ void PlayerAttackScript::ResetAttackAnimations()
 {
 	switch (lastAttack)
 	{
-		case AttackType::LIGHTNORMAL:
-			if (!animation->IsPlaying())
+		case AttackType::LIGHTNORMAL:			
+			animation->SetParameter("IsLightAttacking", false);
+			if (animation->GetActualStateName() != "LightAttack")
 			{
-				animation->SetParameter("IsLightAttacking", false);
 				isAttacking = false;
+				lastAttack = AttackType::NONE;
 			}
 			break;	
 
 		case AttackType::HEAVYNORMAL:
-			if (!animation->IsPlaying())
+			animation->SetParameter("IsHeavyAttacking", false);
+			if (animation->GetActualStateName() != "HeavyAttack")
 			{
-				animation->SetParameter("IsHeavyAttacking", false);
 				isAttacking = false;
+				lastAttack = AttackType::NONE;
 			}
 			break;	
 
 		case AttackType::JUMPNORMAL:
+
 		case AttackType::JUMPFINISHER:
 			animation->SetParameter("IsJumpAttacking", false);
-			if (animation->GetActualStateName() == "JumpAttackRecovery" && !animation->IsPlaying())
+			if (animation->GetActualStateName() == "JumpAttackRecovery")
 			{
 				isAttacking = false;
 			}
@@ -322,28 +325,31 @@ void PlayerAttackScript::ResetAttackAnimations()
 			// so I added this as a safe mesure because, if not, the player would be prevented of attacking,
 			// jumping and moving if the first if is not entered
 
-			else if (animation->GetActualStateName() != "JumpAttackRecovery" &&
-				animation->GetActualStateName() != "JumpAttack")
+			else if (animation->GetActualStateName() != "JumpAttack")
 			{
 				isAttacking = false;
 			}
+			lastAttack = AttackType::NONE;
 			break;
 
-		case AttackType::LIGHTFINISHER:
-			if (!animation->IsPlaying())
+		case AttackType::LIGHTFINISHER:	
+			animation->SetParameter("LightFinisherAttacking", false);
+			if (animation->GetActualStateName() != "LightFinisherAttack")
 			{
-				animation->SetParameter("LightFinisherAttacking", false);
 				isAttacking = false;
+				lastAttack = AttackType::NONE;
 			}
 			break;	
 
 		case AttackType::HEAVYFINISHER:
-			if (!heavyFinisherAttack->IsAttacking()) // Heavy Finisher attack has finished
+			animation->SetParameter("HeavyFinisherInit", false);
+			animation->SetParameter("HeavyFinisherExit", true);
+			lightWeapon->Enable();
+			if (animation->GetActualStateName() != "HeavyFinisherInit" 
+				&& animation->GetActualStateName() != "HeavyFinisherEnd")
 			{
-				animation->SetParameter("HeavyFinisherInit", false);
-				animation->SetParameter("HeavyFinisherExit", true);
-				lightWeapon->Enable();
 				isAttacking = false;
+				lastAttack = AttackType::NONE;
 			}
 			break;
 
