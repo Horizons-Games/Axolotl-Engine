@@ -8,6 +8,7 @@
 #include "Modules/ModulePlayer.h"
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
+#include "ModuleNavigation.h"
 
 #include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Cubemap/Cubemap.h"
@@ -348,6 +349,8 @@ void StartJsonLoad(Json&& sceneJson)
 		loadedScene->SetSkybox(std::make_unique<Skybox>());
 		Skybox* skybox = loadedScene->GetSkybox();
 		skybox->LoadOptions(sceneJson);
+
+		App->GetModule<ModuleNavigation>()->LoadOptions(sceneJson);
 	}
 
 	auto createCubemap = [sceneJson]() mutable
