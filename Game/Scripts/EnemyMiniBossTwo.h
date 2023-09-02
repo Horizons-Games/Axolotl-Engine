@@ -15,6 +15,7 @@ class ComponentAudioSource;
 class BoostOfEnergy;
 class RangedFastAttackBehaviourScript;
 class AIMovement;
+class BossShieldAttackScript;
 
 enum class MiniBossTwoBehaviours
 {
@@ -42,6 +43,8 @@ private:
 
 
 	float attackDistance;
+	bool firstShieldUsed;
+	bool secondShieldUsed;
 
 	SeekBehaviourScript* seekScript;
 	HealthSystem* healthScript;
@@ -49,6 +52,7 @@ private:
 	BoostOfEnergy* boostOfEnergy;
 	RangedFastAttackBehaviourScript* rangedAttack;
 	AIMovement* aiMovement;
+	BossShieldAttackScript* shield;
 
 	ComponentTransform* ownerTransform;
 	ComponentAnimation* componentAnimation;

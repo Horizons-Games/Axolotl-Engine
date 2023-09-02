@@ -12189,6 +12189,46 @@
                             "yOffset": 0.0,
                             "rotationSpeed": 5.0
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "BossShieldAttackScript",
+                            "fields": [
+                                {
+                                    "name": "ShieldingMaxTime",
+                                    "value": 20.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "ShieldAttackMaxCooldown",
+                                    "value": 0.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "BossShieldObject",
+                                    "value": 8347333213698392289,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "EnemyMaxSpawnTime",
+                                    "value": 2.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "EnemiesToSpawnParent",
+                                    "value": 1301616437555087323,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "BattleArenaAreaSize",
+                                    "value": 1301616437555087323,
+                                    "type": 2
+                                }
+                            ]
+                        }
                     }
                 ]
             }
@@ -15643,6 +15683,152 @@
                             "particleSystemUID": 2394911383227217054,
                             "assetPathParticleSystem": "Assets/ParticleSystem/ShotCollision.particle",
                             "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "EnemiesToSpawn",
+                "tag": "",
+                "uid": 1301616437555087323,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 1.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 7.5,
+                            "boxSize_Y": -3.0,
+                            "boxSize_Z": 7.5,
+                            "radius": 5.5,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 0.0,
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Shield",
+                "tag": "",
+                "uid": 8347333213698392289,
+                "parentUID": 4965376090117879145,
+                "enabled": false,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.9329599142074585,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.5,
+                            "localSca_Y": 1.5,
+                            "localSca_Z": 1.5
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 3457435429278227001,
+                            "assetPathMesh": "Assets/Meshes/Capsule.mesh",
+                            "materialUID": 2691494046459264036,
+                            "assetPathMaterial": "Assets/Materials/BossShieldMat.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 0.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 3,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 1.4999990463256836,
+                            "boxSize_Y": 2.625,
+                            "boxSize_Z": 1.4999988079071045,
+                            "radius": 0.5,
+                            "factor": -1.0,
+                            "height": 1.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 0.5798879861831665,
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "BossShieldScript",
+                            "fields": null
                         }
                     }
                 ]

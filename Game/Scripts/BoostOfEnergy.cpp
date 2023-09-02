@@ -164,6 +164,34 @@ bool BoostOfEnergy::IsAttacking()
 	return attackState != BoostOfEnergyStates::RECHARGING && attackState != BoostOfEnergyStates::RECHARGED;
 }
 
+void BoostOfEnergy::InterruptAttack()
+{
+
+	if (attackState != BoostOfEnergyStates::RECHARGED && attackState != BoostOfEnergyStates::RECHARGING)
+	{
+		mesh->GetOwner()->Disable();
+		light->Disable();
+
+		lastDamageTime = damageFrequency;
+
+		shootingTimer = 0.0f;
+		aimingTimer = 0.0f;
+		deactivationTimer = 0.0f;
+		preshootingTimer = 0.0f;
+
+		shootingParticle->Stop();
+		aimingParticle->Stop();
+		preshootingParticle->Stop();
+
+		if (attackState == BoostOfEnergyStates::SHOOTING)
+		{
+			deactivatingParticle->Play();
+		}
+
+		attackState = BoostOfEnergyStates::RECHARGING;
+	}
+}
+
 void BoostOfEnergy::SetCollisionEnter(ComponentRigidBody* other)
 {
 	isPlayerInDamageZone = true;

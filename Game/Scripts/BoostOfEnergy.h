@@ -33,6 +33,7 @@ public:
 	void PerformAttack();
 	bool IsAttackAvailable();
 	bool IsAttacking();
+	void InterruptAttack();
 
 	BoostOfEnergyStates attackState;
 
