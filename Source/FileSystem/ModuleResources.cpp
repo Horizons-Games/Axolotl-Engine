@@ -81,11 +81,8 @@ void ModuleResources::CreateDefaultResource(ResourceType type, const std::string
 	{
 		case ResourceType::NavMesh:
 			assetsPath += NAVMESH_EXTENSION;
-			importedRes = CreateNewResource("DefaultNavMesh", assetsPath, ResourceType::NavMesh);
-			CreateMetaFileOfResource(importedRes);
-			navMeshImporter->Import(assetsPath.c_str(),
-				std::dynamic_pointer_cast<ResourceNavMesh>(importedRes));
-			//TODO when we finish the ResourceNavMesh we need to create a PreMade Default or other form to create the resource
+			App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/DefaultNav.nav", assetsPath);
+			ImportResource(assetsPath);
 			break;
 		case ResourceType::Material:
 			assetsPath += MATERIAL_EXTENSION;
@@ -400,37 +397,55 @@ void ModuleResources::ReimportResource(UID resourceUID)
 	std::shared_ptr<Resource> resource = resources[resourceUID].lock();
 	CreateMetaFileOfResource(resource);
 	resource->SetChanged(false);
-	if (resource->GetType() == ResourceType::Material)
-	{
-		std::shared_ptr<ResourceMaterial> materialResource = std::dynamic_pointer_cast<ResourceMaterial>(resource);
-		rapidjson::Document doc;
-		Json mat(doc, doc);
-		materialResource->SavePaths(mat);
-		rapidjson::StringBuffer buffer;
-		mat.toBuffer(buffer);
-		App->GetModule<ModuleFileSystem>()->Save(
-			materialResource->GetAssetsPath().c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
-	}
-	if (resource->GetType() == ResourceType::StateMachine)
-	{
-		std::shared_ptr<ResourceStateMachine> stateMachineResource =
-			std::dynamic_pointer_cast<ResourceStateMachine>(resource);
-		char* saveBuffer = {};
-		unsigned int size = 0;
-		stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
-		App->GetModule<ModuleFileSystem>()->Save(stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
-		delete saveBuffer;
-	}
-	if (resource->GetType() == ResourceType::ParticleSystem)
-	{
-		std::shared_ptr<ResourceParticleSystem> particleResource =
-			std::dynamic_pointer_cast<ResourceParticleSystem>(resource);
-		char* saveBuffer = {};
-		unsigned int size = 0;
-		particleSystemImporter->Save(particleResource, saveBuffer, size);
 
-		App->GetModule<ModuleFileSystem>()->Save(particleResource->GetAssetsPath().c_str(), saveBuffer, size);
-		delete saveBuffer;
+	switch (resource->GetType())
+	{
+		case ResourceType::NavMesh:
+		{
+			std::shared_ptr<ResourceNavMesh> navMeshResource = std::dynamic_pointer_cast<ResourceNavMesh>(resource);
+			char* saveBuffer = {};
+			unsigned int size = 0;
+			navMeshImporter->Save(navMeshResource, saveBuffer, size);
+
+			App->GetModule<ModuleFileSystem>()->Save(navMeshResource->GetAssetsPath().c_str(), saveBuffer, size);
+			delete saveBuffer;
+			break;
+		}
+		case ResourceType::Material:
+		{
+			std::shared_ptr<ResourceMaterial> materialResource = std::dynamic_pointer_cast<ResourceMaterial>(resource);
+			rapidjson::Document doc;
+			Json mat(doc, doc);
+			materialResource->SavePaths(mat);
+			rapidjson::StringBuffer buffer;
+			mat.toBuffer(buffer);
+			App->GetModule<ModuleFileSystem>()->Save(
+				materialResource->GetAssetsPath().c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
+			break;
+		}
+		case ResourceType::StateMachine:
+		{
+			std::shared_ptr<ResourceStateMachine> stateMachineResource =
+				std::dynamic_pointer_cast<ResourceStateMachine>(resource);
+			char* saveBuffer = {};
+			unsigned int size = 0;
+			stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
+			App->GetModule<ModuleFileSystem>()->Save(stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
+			delete saveBuffer;
+			break;
+		}
+		case ResourceType::ParticleSystem:
+		{
+			std::shared_ptr<ResourceParticleSystem> particleResource =
+				std::dynamic_pointer_cast<ResourceParticleSystem>(resource);
+			char* saveBuffer = {};
+			unsigned int size = 0;
+			particleSystemImporter->Save(particleResource, saveBuffer, size);
+
+			App->GetModule<ModuleFileSystem>()->Save(particleResource->GetAssetsPath().c_str(), saveBuffer, size);
+			delete saveBuffer;
+			break;
+		}
 	}
 	ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 }
