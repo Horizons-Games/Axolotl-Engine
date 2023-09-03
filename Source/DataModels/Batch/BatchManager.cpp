@@ -168,7 +168,6 @@ void BatchManager::DrawMeshes(std::vector<GameObject*>& objects, const float3& p
 	{
 		if (!geometryBatch->IsEmpty())
 		{
-			geometryBatch->SortByDistanceCloseToFar(pos);
 			DrawBatch(geometryBatch, objects);
 		}
 		else
