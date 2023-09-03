@@ -19,7 +19,6 @@ public:
 	void SaveOptions(Json& meta);
 	void LoadOptions(Json& meta);
 
-	void ChangeNavMesh(UID navMeshId);
 	void BakeNavMesh(); // Builds new navMesh
 
 	void DrawGizmos();	   // Draws NavMesh Gizmos

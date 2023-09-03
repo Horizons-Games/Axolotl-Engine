@@ -26,22 +26,11 @@ bool ModuleNavigation::Init()
 
 bool ModuleNavigation::Start()
 {
-	/*ModuleResources* moduleResources = App->GetModule<ModuleResources>();
-	moduleResources->CreateDefaultResource(ResourceType::NavMesh, "navMesh");
-	navMesh = moduleResources->RequestResource<ResourceNavMesh>("Assets/NavMesh/navMesh.nav");*/
-
 	return true;
 }
 
 bool ModuleNavigation::CleanUp()
 {
-	// WIP: This should be done when playMode is stopped
-	/*Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-	for (ComponentAgent* agent : currentScene->GetAgentComponents())
-	{
-		agent->RemoveAgentFromCrowd();
-	}*/
-
 	return true;
 }
 
@@ -115,13 +104,6 @@ void ModuleNavigation::LoadOptions(Json& meta)
 			SetNavMesh(resourceNavMesh);
 		}
 	}
-}
-
-void ModuleNavigation::ChangeNavMesh(UID navMeshId_)
-{
-	// App->resources->DecreaseReferenceCount(navMeshId);
-	navMeshId = navMeshId_;
-	// App->resources->IncreaseReferenceCount(navMeshId);
 }
 
 void ModuleNavigation::BakeNavMesh()

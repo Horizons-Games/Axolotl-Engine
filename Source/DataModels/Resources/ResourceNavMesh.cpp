@@ -428,8 +428,6 @@ ResourceNavMesh::ResourceNavMesh(UID resourceUID,
 ResourceNavMesh::~ResourceNavMesh()
 {
 	CleanUp();
-
-	// RELEASE(ctx);
 }
 
 void DrawTiles(duDebugDraw* dd, dtTileCache* tc)
@@ -913,85 +911,6 @@ bool ResourceNavMesh::Build(Scene* scene)
 	int dataSize;
 };
 
-// void NavMesh::Load(Buffer<char>& buffer)
-//{
-//	CleanUp();
-//
-//	talloc = new LinearAllocator(32000);
-//	tcomp = new FastLZCompressor;
-//	tmproc = new MeshProcess;
-//
-//	char* cursor = buffer.Data();
-//
-//	TileCacheSetHeader header;
-//	header = *((TileCacheSetHeader*) cursor);
-//	cursor += sizeof(TileCacheSetHeader);
-//
-//	navMesh = dtAllocNavMesh();
-//	if (!navMesh)
-//	{
-//		LOG("Could not create Detour navmesh");
-//		return;
-//	}
-//	dtStatus status = navMesh->init(&header.meshParams);
-//	if (dtStatusFailed(status))
-//	{
-//		LOG("Could not init Detour navmesh");
-//		return;
-//	}
-//
-//	tileCache = dtAllocTileCache();
-//	if (!tileCache)
-//	{
-//		LOG("Could not allocate tileCache");
-//		return;
-//	}
-//	status = tileCache->init(&header.cacheParams, talloc, tcomp, tmproc);
-//	if (dtStatusFailed(status))
-//	{
-//		LOG("Could not init tileCache");
-//		return;
-//	}
-//
-//	for (int i = 0; i < header.numTiles; ++i)
-//	{
-//		TileCacheTileHeader tileHeader = *((TileCacheTileHeader*) cursor);
-//		cursor += sizeof(TileCacheTileHeader);
-//
-//		if (!tileHeader.tileRef || !tileHeader.dataSize)
-//			break;
-//
-//		unsigned char* data = (unsigned char*) malloc(tileHeader.dataSize);
-//		if (!data)
-//			break;
-//		memset(data, 0, tileHeader.dataSize);
-//
-//		unsigned int _dataSize = sizeof(unsigned char) * tileHeader.dataSize;
-//		memcpy_s(
-//			data,
-//			_dataSize,
-//			cursor,
-//			_dataSize);
-//		cursor += _dataSize;
-//
-//		dtCompressedTileRef tile = 0;
-//		tileCache->addTile(data, tileHeader.dataSize, DT_COMPRESSEDTILE_FREE_DATA, &tile);
-//
-//		if (tile)
-//			tileCache->buildNavMeshTile(tile, navMesh);
-//	}
-//
-//	navQuery = dtAllocNavMeshQuery();
-//	status = navQuery->init(navMesh, 2048);
-//	if (dtStatusFailed(status))
-//	{
-//		LOG("Could not init Detour navmesh query");
-//		return;
-//	}
-//
-//	InitCrowd();
-//}
-
 void ResourceNavMesh::CleanUp()
 {
 	dtFreeCrowd(crowd);
@@ -1006,64 +925,13 @@ void ResourceNavMesh::CleanUp()
 	dtFreeTileCache(tileCache);
 	tileCache = nullptr;
 
-	/*RELEASE(tmproc);
-	RELEASE(tcomp);
-	RELEASE(talloc);*/
-}
+	delete ctx;
 
-// Buffer<char> ResourceNavMesh::Save()
-//{
-//	if (!tileCache || !navMesh)
-//		return Buffer<char>();
-//
-//	int sizeData = 0;
-//	int numTiles = 0;
-//	for (int i = 0; i < tileCache->getTileCount(); ++i)
-//	{
-//		const dtCompressedTile* tile = tileCache->getTile(i);
-//		if (!tile || !tile->header || !tile->dataSize)
-//			continue;
-//
-//		sizeData += tile->dataSize;
-//		sizeData += sizeof(TileCacheTileHeader);
-//		numTiles++;
-//	}
-//
-//	TileCacheSetHeader header;
-//	header.magic = TILECACHESET_MAGIC;
-//	header.version = TILECACHESET_VERSION;
-//	header.numTiles = numTiles;
-//
-//	memcpy(&header.cacheParams, tileCache->getParams(), sizeof(dtTileCacheParams));
-//	memcpy(&header.meshParams, navMesh->getParams(), sizeof(dtNavMeshParams));
-//
-//	int size = sizeof(TileCacheSetHeader) + sizeData;
-//	Buffer<char> buffer = Buffer<char>(size);
-//	char* cursor = buffer.Data();
-//
-//	*((TileCacheSetHeader*) cursor) = header;
-//	cursor += sizeof(TileCacheSetHeader);
-//
-//	for (int i = 0; i < tileCache->getTileCount(); ++i)
-//	{
-//		const dtCompressedTile* tile = tileCache->getTile(i);
-//		if (!tile || !tile->header || !tile->dataSize)
-//			continue;
-//
-//		TileCacheTileHeader tileHeader;
-//		tileHeader.tileRef = tileCache->getTileRef(tile);
-//		tileHeader.dataSize = tile->dataSize;
-//
-//		*((TileCacheTileHeader*) cursor) = tileHeader;
-//		cursor += sizeof(TileCacheTileHeader);
-//
-//		unsigned int _dataSize = sizeof(unsigned char) * tile->dataSize;
-//		memcpy_s(cursor, _dataSize, tile->data, _dataSize);
-//		cursor += _dataSize;
-//	}
-//
-//	return buffer;
-//}
+	delete talloc;
+	delete tcomp;
+	delete tmproc;
+	
+}
 
 dtCrowd* ResourceNavMesh::GetCrowd() const
 {
