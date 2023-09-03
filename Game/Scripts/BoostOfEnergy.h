@@ -10,6 +10,7 @@ class ComponentRigidBody;
 class ComponentTransform;
 class ComponentLight;
 class SendTriggerCollision;
+class ComponentAudioSource;
 
 enum class BoostOfEnergyStates 
 {
@@ -74,4 +75,5 @@ private:
 	ComponentTransform* target;
 	ComponentLight* light;
 	ComponentTransform* shootingPosition;
+	ComponentAudioSource* audioSource;
 };

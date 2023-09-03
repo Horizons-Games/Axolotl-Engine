@@ -417,6 +417,13 @@
                                 }
                             ]
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
                     }
                 ]
             }
@@ -898,12 +905,12 @@
                             "fields": [
                                 {
                                     "name": "CurrentHealth",
-                                    "value": 60.0,
+                                    "value": 600.0,
                                     "type": 0
                                 },
                                 {
                                     "name": "MaxHealth",
-                                    "value": 60.0,
+                                    "value": 600.0,
                                     "type": 0
                                 },
                                 {

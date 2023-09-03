@@ -7,9 +7,12 @@
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentLight.h"
+#include "Components/ComponentAudioSource.h"
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/SendTriggerCollision.h"
+
+#include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(BoostOfEnergy);
 
@@ -20,7 +23,7 @@ attackState(BoostOfEnergyStates::RECHARGED), shootingDuration(1.0f), shootingTim
 cooldownDuration(5.0f), cooldownTimer(0.0f), mesh(nullptr), light(nullptr),
 deactivationDuration(0.5f), deactivationTimer(0.0f), deactivatingParticle(nullptr),
 isPlayerInDamageZone(false), damageFrequency(0.5f), lastDamageTime(0.0f), sendTriggerCollision(nullptr),
-shootingPosition(nullptr), transform(nullptr)
+shootingPosition(nullptr), transform(nullptr), audioSource(nullptr)
 {
 	REGISTER_FIELD(attackDamage, float);
 	REGISTER_FIELD(damageFrequency, float);
@@ -43,6 +46,7 @@ shootingPosition(nullptr), transform(nullptr)
 void BoostOfEnergy::Start()
 {
 	transform = owner->GetComponent<ComponentTransform>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
 
 	mesh->GetOwner()->Disable();
 	light->Disable();
@@ -121,6 +125,7 @@ void BoostOfEnergy::PerformAttack()
 {
 	aimingTimer = 0.0f;
 	aimingParticle->Play();
+	audioSource->PostEvent(AUDIO::SFX::NPC::MINIBOSS2::AIM);
 	attackState = BoostOfEnergyStates::AIMING;
 }
 
@@ -130,6 +135,7 @@ void BoostOfEnergy::PreShootLaser()
 	aimingTimer = 0.0f;
 	preshootingTimer = 0.0f;
 	preshootingParticle->Play();
+	audioSource->PostEvent(AUDIO::SFX::NPC::MINIBOSS2::PRESHOT);
 	attackState = BoostOfEnergyStates::PRESHOOTING;
 }
 
@@ -140,6 +146,8 @@ void BoostOfEnergy::ShootLaser()
 	mesh->GetOwner()->Enable();
 	light->Enable();
 	shootingParticle->Play();
+	audioSource->PostEvent(AUDIO::SFX::NPC::MINIBOSS2::AIM_STOP);
+	audioSource->PostEvent(AUDIO::SFX::NPC::MINIBOSS2::SHOT);
 	attackState = BoostOfEnergyStates::SHOOTING;
 }
 
@@ -151,6 +159,7 @@ void BoostOfEnergy::DeactivateLaser()
 	light->Disable();
 	mesh->GetOwner()->Disable();
 	deactivatingParticle->Play();
+	audioSource->PostEvent(AUDIO::SFX::NPC::MINIBOSS2::SHOT_STOP);
 	attackState = BoostOfEnergyStates::DEACTIVATING;
 }
 
@@ -189,6 +198,9 @@ void BoostOfEnergy::InterruptAttack()
 		shootingParticle->Stop();
 		aimingParticle->Stop();
 		preshootingParticle->Stop();
+
+		audioSource->PostEvent(AUDIO::SFX::NPC::MINIBOSS2::SHOT_STOP);
+		audioSource->PostEvent(AUDIO::SFX::NPC::MINIBOSS2::AIM_STOP);
 
 		if (attackState == BoostOfEnergyStates::SHOOTING)
 		{
