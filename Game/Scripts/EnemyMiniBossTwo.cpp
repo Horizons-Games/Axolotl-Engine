@@ -38,6 +38,7 @@ void EnemyMiniBossTwo::Start()
 	rangedAttack = owner->GetComponent<RangedFastAttackBehaviourScript>();
 	aiMovement = owner->GetComponent<AIMovement>();
 	shield = owner->GetComponent<BossShieldAttackScript>();
+	deathScript = owner->GetComponent<EnemyDeathScript>();
 
 	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
 }
