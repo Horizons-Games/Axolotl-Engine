@@ -18760,7 +18760,7 @@
                                 },
                                 {
                                     "name": "IsMelee",
-                                    "value": true,
+                                    "value": false,
                                     "type": 5
                                 },
                                 {
@@ -19256,7 +19256,7 @@
                 "tag": "",
                 "uid": 11462211040667419644,
                 "parentUID": 17163278416834799811,
-                "enabled": true,
+                "enabled": false,
                 "static": true,
                 "Components": [
                     {
@@ -19430,7 +19430,7 @@
                             "fields": [
                                 {
                                     "name": "ForceArea",
-                                    "value": 0,
+                                    "value": 11462211040667419644,
                                     "type": 2
                                 },
                                 {
