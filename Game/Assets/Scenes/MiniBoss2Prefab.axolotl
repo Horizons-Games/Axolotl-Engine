@@ -1072,9 +1072,9 @@
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_X": 1.149999976158142,
+                            "localSca_Y": 1.149999976158142,
+                            "localSca_Z": 1.149999976158142
                         }
                     }
                 ]
