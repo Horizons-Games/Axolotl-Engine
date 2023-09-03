@@ -295,18 +295,18 @@ void PlayerAttackScript::ResetAttackAnimations()
 	switch (lastAttack)
 	{
 		case AttackType::LIGHTNORMAL:			
-			animation->SetParameter("IsLightAttacking", false);
-			if (animation->GetActualStateName() != "LightAttack")
+			if (!animation->IsPlaying())
 			{
+				animation->SetParameter("IsLightAttacking", false);
 				isAttacking = false;
 				lastAttack = AttackType::NONE;
 			}
 			break;	
 
 		case AttackType::HEAVYNORMAL:
-			animation->SetParameter("IsHeavyAttacking", false);
-			if (animation->GetActualStateName() != "HeavyAttack")
+			if (!animation->IsPlaying())
 			{
+				animation->SetParameter("IsHeavyAttacking", false);
 				isAttacking = false;
 				lastAttack = AttackType::NONE;
 			}
@@ -333,9 +333,9 @@ void PlayerAttackScript::ResetAttackAnimations()
 			break;
 
 		case AttackType::LIGHTFINISHER:	
-			animation->SetParameter("LightFinisherAttacking", false);
-			if (animation->GetActualStateName() != "LightFinisherAttack")
+			if (!animation->IsPlaying())
 			{
+				animation->SetParameter("LightFinisherAttacking", false);
 				isAttacking = false;
 				lastAttack = AttackType::NONE;
 			}
