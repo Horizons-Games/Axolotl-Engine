@@ -2,42 +2,28 @@
 
 #include "Scene.h"
 
-#include "Application.h"
-
-#include "Animation/AnimationController.h"
-
 #include "Batch/BatchManager.h"
 
 #include "Camera/CameraGameObject.h"
 
 #include "Components/ComponentAgent.h"
-#include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentCubemap.h"
+#include "Components/ComponentLine.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
-#include "Components/ComponentPlayer.h"
+#include "Components/ComponentRender.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentCubemap.h"
-#include "Components/ComponentRender.h"
-#include "Components/ComponentPlayer.h"
-#include "Components/ComponentLine.h"
-#include "Components/ComponentParticleSystem.h"
 
-#include "Components/UI/ComponentSlider.h"
-#include "Components/UI/ComponentImage.h"
-#include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentTransform2D.h"
 
 #include "DataModels/Cubemap/Cubemap.h"
-#include "DataModels/Program/Program.h"
-
-#include "GameObject/GameObject.h"
 
 #include "DataStructures/Quadtree.h"
 
@@ -45,11 +31,8 @@
 
 #include "FileSystem/ModuleResources.h"
 
-#include "Modules/ModuleProgram.h"
-#include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
 
-#include "Resources/ResourceAnimation.h"
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceMesh.h"
