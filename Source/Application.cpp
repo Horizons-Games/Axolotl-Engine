@@ -10,14 +10,15 @@
 #include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
 #include "ModuleInput.h"
+#include "ModuleNavigation.h"
 #include "ModulePhysics.h"
 #include "ModulePlayer.h"
 #include "ModuleProgram.h"
+#include "ModuleRandom.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "ModuleUI.h"
 #include "ModuleWindow.h"
-#include "ModuleNavigation.h"
 
 #include "ScriptFactory.h"
 
@@ -46,6 +47,7 @@ Application::Application() : maxFramerate(MAX_FRAMERATE), debuggingGame(false), 
 	modules[static_cast<int>(ModuleToEnum<ModuleResources>::value)] = std::make_unique<ModuleResources>();
 	modules[static_cast<int>(ModuleToEnum<ModuleDebugDraw>::value)] = std::make_unique<ModuleDebugDraw>();
 	modules[static_cast<int>(ModuleToEnum<ModuleCommand>::value)] = std::make_unique<ModuleCommand>();
+	modules[static_cast<int>(ModuleToEnum<ModuleRandom>::value)] = std::make_unique<ModuleRandom>();
 }
 
 Application::~Application()
@@ -133,7 +135,7 @@ UpdateStatus Application::Update()
 
 	if (dt < 1000.0f / GetMaxFrameRate())
 	{
-		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
+		SDL_Delay((Uint32) (1000.0f / GetMaxFrameRate() - dt));
 	}
 
 	deltaTime = playMode ? (onPlayTimer.Read() - ms) / 1000.0f : (appTimer.Read() - ms) / 1000.0f;
@@ -183,7 +185,6 @@ void Application::OnStop()
 
 void Application::OnPause()
 {
-	
 }
 
 void Application::ScheduleTask(std::function<void(void)>&& taskToSchedule)
