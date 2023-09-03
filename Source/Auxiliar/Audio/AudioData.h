@@ -17,6 +17,14 @@ static const wchar_t* PATROL = L"sfx_dron_patrol";
 static const wchar_t* ALERT = L"sfx_dron_alert";
 static const wchar_t* STOP_BEHAVIOURS = L"sfx_dron_behaviours_stop";
 } // namespace DRON
+namespace MINIBOSS2
+{
+static const wchar_t* AIM = L"sfx_boostOfEnergy_aiming";
+static const wchar_t* AIM_STOP = L"sfx_boostOfEnergy_aiming_stop";
+static const wchar_t* PRESHOT = L"sfx_boostOfEnergy_preShot";
+static const wchar_t* SHOT = L"sfx_boostOfEnergy_shot";
+static const wchar_t* SHOT_STOP = L"sfx_boostOfEnergy_shot_stop";
+} // namespace MINIBOSS2
 namespace CANTINA
 {
 static const wchar_t* DRUNKNPC_RANDOM_SOUND = L"sfx_drunkNPC_sound_random";

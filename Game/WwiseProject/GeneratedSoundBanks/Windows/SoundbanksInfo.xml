@@ -91,7 +91,7 @@
 				<GameParameter Id="2427480993" Name="ListenerOrientation"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{53F26B92-65F2-0503-3613-D883CABB83A5}">
+		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{300EF4A0-D7DD-307A-945C-A3DDFF303FA2}">
 			<ShortName>NPC</ShortName>
 			<Path>NPC.bnk</Path>
 			<Media>
@@ -110,6 +110,10 @@
 				<File Id="240754137" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>496565-Theresa-Cheer-Shout-Happy-3.wav</ShortName>
 					<CachePath>SFX/496565-Theresa-Cheer-Shout-Happy-3_10C4C929.wem</CachePath>
+				</File>
+				<File Id="244928591" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>162107-SFX-Whoosh-Hi-Tech_Power_Boost.wav</ShortName>
+					<CachePath>SFX/162107-SFX-Whoosh-Hi-Tech_Power_Boost_10C4C929.wem</CachePath>
 				</File>
 				<File Id="352569210" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_drone_patrol-002.wav</ShortName>
@@ -131,6 +135,10 @@
 					<ShortName>sfx_drone_shot_impact-001.wav</ShortName>
 					<CachePath>SFX/sfx_drone_shot_impact-001_10C4C929.wem</CachePath>
 				</File>
+				<File Id="586038170" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>259042-Energy_-electric_centrifuge-hi_pitch_up.wav</ShortName>
+					<CachePath>SFX/259042-Energy_-electric_centrifuge-hi_pitch_up_10C4C929.wem</CachePath>
+				</File>
 				<File Id="715445435" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_drone_death_explosion-001.wav</ShortName>
 					<CachePath>SFX/sfx_drone_death_explosion-001_10C4C929.wem</CachePath>
@@ -151,6 +159,10 @@
 					<ShortName>sfx_drone_patrol-003.wav</ShortName>
 					<CachePath>SFX/sfx_drone_patrol-003_D79FB2B7.wem</CachePath>
 				</File>
+				<File Id="820488217" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>305119-RE201_033C_EMF_MOTOR_Doppler_Passes_Sustained_Slow_High_Rate_ELEKTROSLUCH.wav</ShortName>
+					<CachePath>SFX/305119-RE201_033C_EMF_MOTOR_Doppler_Passes_Sustained_Slow_High_Rate_ELEKTROSLUCH_10C4C929.wem</CachePath>
+				</File>
 				<File Id="886104202" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>496397-Theresa-Attack-Shout_Long-Straight-Fatal-3.wav</ShortName>
 					<CachePath>SFX/496397-Theresa-Attack-Shout_Long-Straight-Fatal-3_10C4C929.wem</CachePath>
@@ -169,6 +181,23 @@
 				</File>
 			</Media>
 			<Events>
+				<Event Id="1058974909" Name="sfx_boostOfEnergy_aiming">
+					<MediaRefs>
+						<MediaRef Id="820488217"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="481562896" Name="sfx_boostOfEnergy_aiming_stop"/>
+				<Event Id="2418936259" Name="sfx_boostOfEnergy_preShot">
+					<MediaRefs>
+						<MediaRef Id="244928591"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="357362752" Name="sfx_boostOfEnergy_shot">
+					<MediaRefs>
+						<MediaRef Id="586038170"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3145033583" Name="sfx_boostOfEnergy_shot_stop"/>
 				<Event Id="1852268823" Name="sfx_dron_alert">
 					<MediaRefs>
 						<MediaRef Id="457419217"/>
@@ -824,5 +853,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{58F8663A-F349-0D84-F287-BE464C8EBA1F}</FileHash>
+	<FileHash>{51CEE78D-DCBB-ED46-F711-8CF1640D6EE0}</FileHash>
 </SoundBanksInfo>

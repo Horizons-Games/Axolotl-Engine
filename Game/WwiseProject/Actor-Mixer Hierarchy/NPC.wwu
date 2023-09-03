@@ -336,6 +336,7 @@
 						<ActiveSource Name="sfx_drone_death_timer-001" ID="{46D72119-AEAF-4244-A125-0692A1661B01}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
+				<WorkUnit Name="MiniBoss2" ID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}" PersistMode="Reference"/>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>
