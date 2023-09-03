@@ -6,14 +6,16 @@
 #include "Components/ComponentAreaLight.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
-#include "Components/ComponentAgent.h"
-#include "Components/ComponentMeshRenderer.h"
 
 class Component;
 class ComponentCamera;
 class ComponentCanvas;
 class ComponentParticleSystem;
+class ComponentMeshRenderer;
+class ComponentAgent;
+
 class GameObject;
+
 class Quadtree;
 class Skybox;
 class Cubemap;
@@ -99,6 +101,8 @@ public:
 	std::vector<ComponentMeshRenderer*> GetMeshRenderers() const;
 	std::vector<AABB> GetBoundingBoxes() const;
 	std::vector<ComponentAgent*> GetAgentComponents() const;
+	const bool GetCombatMode() const;
+	const float GetEnemiesToDefeat() const;
 
 	std::vector<float> GetVertices();
 	std::vector<int> GetTriangles();

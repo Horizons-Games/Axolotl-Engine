@@ -633,9 +633,6 @@
     <ClCompile Include="..\Game\Scripts\UIComboManager.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp">
-      <Filter>Auxiliar</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Jump</Filter>
     </ClCompile>
@@ -700,12 +697,29 @@
     <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\AIMovement.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClCompile>
     <ClCompile Include="Auxiliar\SceneLoader.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="Auxiliar\ConnectedCallback.cpp">
       <Filter>Auxiliar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
+    <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions\ComponentNotFoundException.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions\ScriptAssertFailedException.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Formatter.cpp" />
+    <ClCompile Include="Modules\ModuleRandom.cpp">
+      <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1369,9 +1383,6 @@
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="Auxiliar\ComponentNotFoundException.h">
-      <Filter>Auxiliar</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
       <Filter>UserScripts\Gameplay\Player\Jump</Filter>
     </ClInclude>
@@ -1437,6 +1448,9 @@
     <ClInclude Include="..\Game\Scripts\CombatZoneScript.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\AIMovement.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClInclude>
     <ClInclude Include="Auxiliar\SceneLoader.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
@@ -1449,6 +1463,19 @@
     </ClInclude>
     <ClInclude Include="Auxiliar\ConnectedCallback.h">
       <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CombatZoneScript.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\ComponentNotFoundException.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\ScriptAssertFailedException.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Formatter.h" />
+    <ClInclude Include="Modules\ModuleRandom.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1643,6 +1670,9 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack">
       <UniqueIdentifier>{2b97e352-8e22-4d91-ac22-fbfbf32559ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exceptions">
+      <UniqueIdentifier>{d89816a3-de30-46fe-9d0f-cf270aa9f568}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2177,9 +2207,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
       <Filter>DataModels\Windows\EditorWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
-      <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />

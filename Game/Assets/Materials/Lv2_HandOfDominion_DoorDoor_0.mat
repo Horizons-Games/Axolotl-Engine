@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/door_wall_DefaultMaterial_BaseColor.png",
+    "NormalAssetPath": "Assets/Textures/door_wall_DefaultMaterial_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/door_wall_DefaultMaterial_Metallic.png",
+    "EmissiveAssetPath": "Assets/Textures/door_wall_DefaultMaterial_Emissive.png"
+}
