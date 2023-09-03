@@ -176,6 +176,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Game\Scripts\AnimatedLine.cpp" />
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp" />
     <ClCompile Include="..\Game\Scripts\ComboManager.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyClass.cpp">
@@ -828,6 +829,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Game\Scripts\AnimatedLine.h" />
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h" />
     <ClInclude Include="..\Game\Scripts\ComboManager.h" />
     <ClInclude Include="..\Game\Scripts\EnemyClass.h" />

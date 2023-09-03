@@ -16,11 +16,14 @@
 #include <GL/glew.h>
 
 ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(ComponentType::LINE, active, owner, true),
-	numTiles(1),speed(0.0f),time(0.0f),dirtyBuffers(true),offset(float2::zero),tiling(float2::one), gradient(new ImGradient()),
+	numTiles(1),speed(0.0f),time(0.0f),dirtyBuffers(false),offset(float2::zero),tiling(float2::one), gradient(new ImGradient()),
 	sizeFading(float2::one),sizeFadingPoints(float4::zero)
 {
-	LoadBuffers();
-	UpdateBuffers();
+	App->ScheduleTask([this]()
+		{
+			LoadBuffers();
+			UpdateBuffers();
+		});
 }
 
 ComponentLine::~ComponentLine()
@@ -60,6 +63,7 @@ void ComponentLine::LoadBuffers()
 	glEnableVertexAttribArray(2);
 
 	glBindVertexArray(0);
+	dirtyBuffers = true;
 }
 
 void ComponentLine::UpdateBuffers()
@@ -336,7 +340,7 @@ void ComponentLine::InternalLoad(const Json& meta)
 		childGameObject = App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(endpoint);
 	}
 
-	dirtyBuffers = true;
+	LoadBuffers();
 }
 
 const GameObject* ComponentLine::GetEnd() const

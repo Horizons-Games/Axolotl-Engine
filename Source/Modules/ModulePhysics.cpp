@@ -9,6 +9,7 @@
 #include "Components/ComponentTransform.h"
 #include "GameObject/GameObject.h"
 #include "debugdraw.h"
+#include "Modules/ModuleDebugDraw.h"
 
 #ifndef ENGINE
 	#include "Modules/ModuleEditor.h"
@@ -82,7 +83,7 @@ UpdateStatus ModulePhysics::PreUpdate()
 		ManageCollisions();
 	}
 
-	if (drawableRigidBodies > 0)
+	if (App->GetModule<ModuleDebugDraw>()->IsShowingRigidBody())
 	{
 		dynamicsWorld->debugDrawWorld();
 	}

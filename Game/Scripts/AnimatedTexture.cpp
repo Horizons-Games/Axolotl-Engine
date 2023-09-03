@@ -4,7 +4,7 @@
 #include "GameObject/GameObject.h"
 #include "Components/Component.h"
 #include "Components/ComponentMeshRenderer.h"
-#include "Components/ComponentLine.h"
+
 
 REGISTERCLASS(AnimatedTexture);
 
@@ -20,7 +20,6 @@ AnimatedTexture::AnimatedTexture() : Script(), movementX(0.004f), movementY(0.00
 void AnimatedTexture::Start()
 {
 	mesh = owner->GetComponent<ComponentMeshRenderer>();
-	//line = owner->GetComponent<ComponentLine>();
 	currentOffsetX = 0.f;
 	currentOffsetY = 0.f;
 }
