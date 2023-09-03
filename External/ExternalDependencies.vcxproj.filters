@@ -492,6 +492,10 @@
     <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkPlatformProfilerHooks.h">
       <Filter>wwise</Filter>
     </ClInclude>
+    <ClInclude Include="ImGui\imgui_color_gradient.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_bezier.h" />
     <ClInclude Include="recastnavigation\DebugUtils\DebugDraw.h" />
     <ClInclude Include="recastnavigation\DebugUtils\DetourDebugDraw.h" />
     <ClInclude Include="recastnavigation\DebugUtils\RecastDebugDraw.h" />
@@ -800,6 +804,7 @@
     <ClCompile Include="ImGui\imgui_color_gradient.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="ImGui\imgui_bezier.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FontIcons\CustomFont.ifs">

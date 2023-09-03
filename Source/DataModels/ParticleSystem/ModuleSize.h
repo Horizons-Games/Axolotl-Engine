@@ -5,6 +5,7 @@
 #include "Math/float2.h"
 
 #define MAX_SIZE_OVER_TIME 0.1f
+#define MIN_SIZE_OVER_TIME -0.1f
 
 class ModuleSize : public ParticleModule
 {

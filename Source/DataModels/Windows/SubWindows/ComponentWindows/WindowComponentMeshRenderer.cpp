@@ -261,6 +261,15 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				ImGui::EndCombo();
 			}
 
+			bool discard = asMeshRenderer->IsDiscarded();
+			ImGui::Text("Discard:");
+			ImGui::SameLine();
+			if (ImGui::Checkbox("##Discard", &discard))
+			{
+				asMeshRenderer->SetDiscard(discard);
+				updateMaterials = true;
+			}
+
 			ImGui::Text("Diffuse Color:");
 			ImGui::SameLine();
 			float4 diffuseColor = materialResource->GetDiffuseColor();
@@ -479,6 +488,30 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					offset[1] = 1.0f;
 				}
 				materialResource->SetOffset(offset);
+				updateMaterials = true;
+			}
+
+			float2 percentage = materialResource->GetPercentage();
+			if (ImGui::InputFloat2("Percentage (%)", &percentage[0], "%.2f"))
+			{
+				if (percentage[0] < 0.0f)
+				{
+					percentage[0] = 0.0f;
+				}
+				else if (percentage[0] > 100.0f)
+				{
+					percentage[0] = 100.0f;
+				}
+
+				if (percentage[1] < 0.0f)
+				{
+					percentage[1] = 0.0f;
+				}
+				else if (percentage[1] > 100.0f)
+				{
+					percentage[1] = 100.0f;
+				}
+				materialResource->SetPercentage(percentage);
 				updateMaterials = true;
 			}
 			

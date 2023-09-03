@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
+#include "ModuleRender.h"
 
 #include "DataModels/Resources/Resource.h"
 #include "DataModels/Resources/ResourceTexture.h"
@@ -21,6 +22,8 @@
 #include "Components/ComponentPlayerInput.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentTrail.h"
+#include "Components/ComponentLine.h"
 #include "Components/ComponentAgent.h"
 #include "Components/ComponentObstacle.h"
 
@@ -82,10 +85,10 @@ WindowInspector::WindowInspector() :
 						 &GameObjectDoesNotHaveComponent<ComponentPlayerInput>,
 						 ComponentFunctionality::GAMEPLAY);
 
-	actions.emplace_back("Create Camera Sample Component",
-						 std::bind(&WindowInspector::AddComponentCameraSample, this),
-						 &GameObjectDoesNotHaveComponent<ComponentCameraSample>,
-						 ComponentFunctionality::GAMEPLAY);
+	actions.emplace_back("Create Trail Component",
+						 std::bind(&WindowInspector::AddComponentTrail, this),
+						 &GameObjectDoesNotHaveComponent<ComponentTrail>,
+						 ComponentFunctionality::GRAPHICS);
 
 	actions.emplace_back("Create RigidBody Component",
 						 std::bind(&WindowInspector::AddComponentRigidBody, this),
@@ -128,6 +131,11 @@ WindowInspector::WindowInspector() :
 						 std::bind(&WindowInspector::AddComponentObstacle, this),
 						 &GameObjectDoesNotHaveComponent<ComponentObstacle>,
 						 ComponentFunctionality::NAVIGATION);
+	
+	actions.emplace_back("Create Line Component",
+						 std::bind(&WindowInspector::AddComponentLine, this),
+						 &GameObjectDoesNotHaveComponent<ComponentLine>,
+						 ComponentFunctionality::GRAPHICS);
 
 	std::sort(std::begin(actions), std::end(actions));
 }
@@ -138,6 +146,11 @@ WindowInspector::~WindowInspector()
 
 void WindowInspector::DrawWindowContents()
 {
+	if (App->GetModule<ModuleScene>()->IsLoading())
+	{
+		return;
+	}
+
 	if (!resource.expired() && lastSelectedGameObject != App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
 		resource = std::weak_ptr<Resource>();
@@ -206,7 +219,13 @@ void WindowInspector::InspectSelectedGameObject()
 			ImGui::SameLine();
 			if (ImGui::InputText("##Tag", tag.data(), 32))
 			{
+				std::string previousTag = lastSelectedGameObject->GetTag();
 				lastSelectedGameObject->SetTag(tag.c_str());
+				if (previousTag == "Player" || previousTag == "Enemy" || 
+					lastSelectedGameObject->GetTag() == "Player" || lastSelectedGameObject->GetTag() == "Enemy")
+				{
+					App->GetModule<ModuleRender>()->RelocateGOInBatches(lastSelectedGameObject);
+				}
 			}
 		}
 
@@ -479,6 +498,16 @@ void WindowInspector::AddComponentParticle()
 void WindowInspector::AddComponentBreakable()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::BREAKABLE);
+}
+
+void WindowInspector::AddComponentTrail()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::TRAIL);
+}
+
+void WindowInspector::AddComponentLine()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::LINE);
 }
 
 void WindowInspector::AddComponentAgent()
