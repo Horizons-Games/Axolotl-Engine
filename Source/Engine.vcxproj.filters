@@ -633,9 +633,6 @@
     <ClCompile Include="..\Game\Scripts\UIComboManager.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp">
-      <Filter>Auxiliar</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Jump</Filter>
     </ClCompile>
@@ -696,7 +693,6 @@
     <ClCompile Include="..\Game\Scripts\BossMissilesMissileScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
     <ClCompile Include="..\Game\Scripts\AIMovement.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
     </ClCompile>
@@ -707,17 +703,19 @@
     <ClCompile Include="Auxiliar\ConnectedCallback.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\EnemyMiniBossTwo.cpp">
-      <Filter>UserScripts\Gameplay\Bosses\Mini Bosses</Filter>
+    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
+    <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp">
+      <Filter>UserScripts\Level</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\BoostOfEnergy.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergy</Filter>
+    <ClCompile Include="Exceptions\ComponentNotFoundException.cpp">
+      <Filter>Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\SendTriggerCollision.cpp">
-      <Filter>UserScripts\Utils</Filter>
+    <ClCompile Include="Exceptions\ScriptAssertFailedException.cpp">
+      <Filter>Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\Rotator.cpp">
-      <Filter>UserScripts\Utils</Filter>
+    <ClCompile Include="Formatter.cpp" />
+    <ClCompile Include="Modules\ModuleRandom.cpp">
+      <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1030,9 +1028,6 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\RecastMovementTestScript.h">
       <Filter>UserScripts\Gameplay\Player\Movement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CameraSample.h">
-      <Filter>UserScripts\Level</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
@@ -1384,9 +1379,6 @@
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="Auxiliar\ComponentNotFoundException.h">
-      <Filter>Auxiliar</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
       <Filter>UserScripts\Gameplay\Player\Jump</Filter>
     </ClInclude>
@@ -1464,17 +1456,18 @@
     <ClInclude Include="Auxiliar\ConnectedCallback.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\EnemyMiniBossTwo.h">
-      <Filter>UserScripts\Gameplay\Bosses\Mini Bosses</Filter>
+    <ClInclude Include="..\Game\Scripts\CombatZoneScript.h">
+      <Filter>UserScripts\Level</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\BoostOfEnergy.h">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergy</Filter>
+    <ClInclude Include="Exceptions\ComponentNotFoundException.h">
+      <Filter>Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\SendTriggerCollision.h">
-      <Filter>UserScripts\Utils</Filter>
+    <ClInclude Include="Exceptions\ScriptAssertFailedException.h">
+      <Filter>Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\Rotator.h">
-      <Filter>UserScripts\Utils</Filter>
+    <ClInclude Include="Formatter.h" />
+    <ClInclude Include="Modules\ModuleRandom.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1670,14 +1663,8 @@
     <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack">
       <UniqueIdentifier>{2b97e352-8e22-4d91-ac22-fbfbf32559ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Gameplay\Bosses\Mini Bosses">
-      <UniqueIdentifier>{b3cad3b5-5a43-429c-9339-e86d553cc7ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergy">
-      <UniqueIdentifier>{01039681-e112-4639-9454-68dee8340230}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserScripts\Utils">
-      <UniqueIdentifier>{83b50d1a-6354-4710-a475-60dfc77703e1}</UniqueIdentifier>
+    <Filter Include="Exceptions">
+      <UniqueIdentifier>{d89816a3-de30-46fe-9d0f-cf270aa9f568}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
