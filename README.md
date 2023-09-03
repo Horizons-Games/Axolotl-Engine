@@ -158,6 +158,7 @@ You can drag and drop different models and edit it's meshes and textures (loadin
 - Ctrl + S to save
 - Ctrl + Z to undo
 - Ctrl + Y to redo
+- F1 to toggle bloom
 - F2 to change tone mapping
 - F3 to toggle shadows on/off
 - F4 to toggle VSM on/off
