@@ -5,12 +5,12 @@
 
 #define EPSILON 1e-5
 
-in vec2 uv;
+in vec2 TexCoord;
 out vec4 fragColor;
 
 void main()
 {
-	float NdotV = uv.x, roughness = uv.y;
+	float NdotV = TexCoord.x, roughness = TexCoord.y;
 	vec3 V = vec3(sqrt(1.0 - NdotV * NdotV), 0.0, NdotV);
 	vec3 N = vec3(0.0, 0.0, 1.0);
 	float fa = 0.0;

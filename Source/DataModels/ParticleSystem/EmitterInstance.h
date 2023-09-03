@@ -1,9 +1,5 @@
 #pragma once
 
-#include "Math/float3.h"
-#include "Math/float4x4.h"
-#include "Math/Quat.h"
-
 #include "debugdraw.h"
 
 #include <vector>
@@ -39,6 +35,8 @@ public:
 		float gravity = 0.0f;
 		float distanceToCamera;
 		float frame = -1.0f;
+
+		bool dead = true;
 	};
 
 public:
