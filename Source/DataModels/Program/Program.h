@@ -10,6 +10,11 @@ public:
 			const std::string& vtxShaderFileName,
 			const std::string& frgShaderFileName,
 			const std::string& programName);
+
+	Program(unsigned computeShader,
+			const std::string& computeShaderName,
+			const std::string& programName);
+
 	~Program();
 
 	void Activate();
@@ -22,10 +27,14 @@ public:
 	void BindUniformFloat3(const int location, const float3& data);
 	void BindUniformFloat4(const std::string& name, const float4& data);
 	void BindUniformFloat4(const int location, const float4& data);
+	void BindUniformFloat2(const std::string& name, const float2& data);
+	void BindUniformFloat2(const int location, const float2& data);
 	void BindUniformFloat(const std::string& name, const float data);
 	void BindUniformFloat(const int location, const float data);
 	void BindUniformInt(const std::string& name, int value);
 	void BindUniformInt(const int location, int value);
+	void BindUniformInt2(const std::string& name, int value1, int value2);
+	void BindUniformInt2(const int location, int value1, int value2);
 	void BindUniformBlock(const std::string& name, const unsigned value);
 	void BindUniformBlock(const int blockIndex, const unsigned value);
 	void BindShaderStorageBlock(const std::string& name, const unsigned value);
@@ -41,6 +50,7 @@ private:
 	unsigned id;
 	std::string vertexShaderFileName;
 	std::string fragmentShaderFileName;
+	std::string computeShaderFileName;
 	std::string programName;
 };
 
@@ -109,6 +119,16 @@ inline void Program::BindUniformFloat4(const int location, const float4& data)
 	glUniform4f(location, data.x, data.y, data.z, data.w);
 }
 
+inline void Program::BindUniformFloat2(const std::string& name, const float2& data)
+{
+	glUniform2f(glGetUniformLocation(id, name.c_str()), data.x,data.y);
+}
+
+inline void Program::BindUniformFloat2(const int location, const float2& data)
+{
+	glUniform2f(location, data.x, data.y);
+}
+
 inline void Program::BindUniformFloat(const std::string& name, const float data)
 {
 	glUniform1f(glGetUniformLocation(id, name.c_str()), data);
@@ -127,6 +147,16 @@ inline void Program::BindUniformInt(const std::string& name, int value)
 inline void Program::BindUniformInt(const int location, int value)
 {
 	glUniform1i(location, value);
+}
+
+inline void Program::BindUniformInt2(const std::string& name, int value1, int value2)
+{
+	glUniform2i(glGetUniformLocation(id, name.c_str()), value1, value2);
+}
+
+inline void Program::BindUniformInt2(const int location, int value1, int value2)
+{
+	glUniform2i(location, value1, value2);
 }
 
 inline void Program::BindUniformBlock(const std::string& name, const unsigned value)

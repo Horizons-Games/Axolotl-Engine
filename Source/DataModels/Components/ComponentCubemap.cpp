@@ -9,7 +9,7 @@
 #include "FileSystem/Json.h"
 
 ComponentCubemap::ComponentCubemap(bool active, GameObject* owner) :
-	Component(ComponentType::CUBEMAP, active, owner, true)
+	Component(ComponentType::CUBEMAP, active, owner, false)
 {
 }
 
