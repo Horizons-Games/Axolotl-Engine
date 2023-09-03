@@ -120,9 +120,14 @@ void EntityDetection::SelectEnemy(float distanceFilter)
 			float minActualThresholdAngle = (angleActualSelected - angleThresholdEnemyIntersection);
 			float maxActualThresholdAngle = (angleActualSelected + angleThresholdEnemyIntersection);
 
-			bool inFrontOfActualSelected = 
-				angle <= maxActualThresholdAngle && originPosition.Distance(enemy->GetGlobalPosition()) < 
-				originPosition.Distance(enemySelected->GetGlobalPosition());
+
+			bool inFrontOfActualSelected = false;
+			if (enemySelected != nullptr) 
+			{
+				inFrontOfActualSelected =
+					angle <= maxActualThresholdAngle && originPosition.Distance(enemy->GetGlobalPosition()) <
+					originPosition.Distance(enemySelected->GetGlobalPosition());
+			}
 
 			if (enemySelected == nullptr || angle < minActualThresholdAngle || inFrontOfActualSelected)
 			{
