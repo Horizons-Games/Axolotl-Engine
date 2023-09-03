@@ -184,6 +184,7 @@
     <ClCompile Include="..\Game\Scripts\BossMissilesMissileScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossShieldAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossShieldScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ComboManager.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyClass.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
@@ -327,12 +328,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\RecastMovementTestScript.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\CameraSample.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
@@ -820,6 +815,7 @@
     <ClInclude Include="..\Game\Scripts\BossMissilesMissileScript.h" />
     <ClInclude Include="..\Game\Scripts\BossShieldAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\BossShieldScript.h" />
+    <ClInclude Include="..\Game\Scripts\CombatZoneScript.h" />
     <ClInclude Include="..\Game\Scripts\ComboManager.h" />
     <ClInclude Include="..\Game\Scripts\EnemyClass.h" />
     <ClInclude Include="..\Game\Scripts\EntityDetection.h" />
@@ -855,7 +851,6 @@
     <ClInclude Include="..\Game\Scripts\RangedFastAttackBullet.h" />
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h" />
     <ClInclude Include="..\Game\Scripts\RecastMovementTestScript.h" />
-    <ClInclude Include="..\Game\Scripts\CameraSample.h" />
     <ClInclude Include="..\Game\Scripts\HealthSystem.h" />
     <ClInclude Include="..\Game\Scripts\MenuMusic.h" />
     <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h" />
