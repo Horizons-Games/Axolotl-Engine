@@ -42,6 +42,7 @@ private:
 	void UpdateBehaviour(float deltaTime);
 
 
+	float seekDistance;
 	float attackDistance;
 	bool firstShieldUsed;
 	bool secondShieldUsed;

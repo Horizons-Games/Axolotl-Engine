@@ -20,8 +20,9 @@ REGISTERCLASS(EnemyMiniBossTwo);
 EnemyMiniBossTwo::EnemyMiniBossTwo() : seekScript(nullptr), bossState(MiniBossTwoBehaviours::IDLE),
 ownerTransform(nullptr), attackDistance(8.0f), boostOfEnergy(nullptr), shield(nullptr),
 componentAnimation(nullptr), componentAudioSource(nullptr), rangedAttack(nullptr), aiMovement(nullptr),
-firstShieldUsed(false), secondShieldUsed(false)
+firstShieldUsed(false), secondShieldUsed(false), seekDistance(15.0f)
 {
+	REGISTER_FIELD(seekDistance, float);
 	REGISTER_FIELD(attackDistance, float);
 	REGISTER_FIELD(boostOfEnergy, BoostOfEnergy*);
 }
@@ -94,9 +95,19 @@ void EnemyMiniBossTwo::CheckState()
 	//--Shield
 
 	
+	if (ownerTransform->GetGlobalPosition().Distance(seekTargetTransform->GetGlobalPosition()) > seekDistance)
+	{
+		if (bossState != MiniBossTwoBehaviours::IDLE)
+		{
+			aiMovement->SetMovementStatuses(false, false
+			);
+			componentAnimation->SetParameter("IsRunning", false);
+			componentAnimation->SetParameter("IsRangedAttacking", false);
 
-
-	if (ownerTransform->GetGlobalPosition().Distance(seekTargetTransform->GetGlobalPosition()) > attackDistance)
+			bossState = MiniBossTwoBehaviours::IDLE;
+		}
+	}
+	else if (ownerTransform->GetGlobalPosition().Distance(seekTargetTransform->GetGlobalPosition()) > attackDistance)
 	{
 		if (bossState != MiniBossTwoBehaviours::SEEK && !boostOfEnergy->IsAttacking())
 		{
