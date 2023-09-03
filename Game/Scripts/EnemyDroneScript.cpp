@@ -50,10 +50,8 @@ void EnemyDroneScript::Start()
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
-	if (!IsSpawnedEnemy())
-	{
-		patrolScript = owner->GetComponent<PatrolBehaviourScript>();
-	}
+	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
+
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
 	fastAttackScript = owner->GetComponent<RangedFastAttackBehaviourScript>();
 	heavyAttackScript = explosionGameObject->GetComponent<MeleeHeavyAttackBehaviourScript>();

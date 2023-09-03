@@ -43,10 +43,9 @@ void EnemyVenomiteScript::Start()
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	//componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
-	if (!IsSpawnedEnemy())
-	{
-		patrolScript = owner->GetComponent<PatrolBehaviourScript>();
-	}
+	
+	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
+	
 	seekScript = owner->GetComponent<SeekBehaviourScript>();
 	rangedAttackScript = owner->GetComponent<RangedFastAttackBehaviourScript>();
 	meleeAttackScript = owner->GetComponent<MeleeFastAttackBehaviourScript>();
