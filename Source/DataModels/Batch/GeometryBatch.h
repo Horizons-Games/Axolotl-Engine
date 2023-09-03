@@ -135,7 +135,7 @@ private:
 
 	std::vector<ComponentMeshRenderer*> componentsInBatch;
 	std::vector<std::shared_ptr<ResourceMaterial>> resourcesMaterial;
-	std::unordered_map<const ComponentMeshRenderer*, int> objectIndexes;
+	std::unordered_map<ComponentMeshRenderer*, int> objectIndexes;
 	std::unordered_map<const ComponentMeshRenderer*, int> paletteIndexes;
 	std::vector<ResourceInfo*> resourcesInfo;
 	std::vector<PerInstance> perInstances;

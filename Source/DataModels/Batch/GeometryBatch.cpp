@@ -685,7 +685,7 @@ void GeometryBatch::BindBatch(bool selected)
 		instanceData.reserve(componentsInBatch.size());
 		objectIndexes.clear();
 		objectIndexes.reserve(componentsInBatch.size());
-		for (const ComponentMeshRenderer* component : componentsInBatch)
+		for (ComponentMeshRenderer* component : componentsInBatch)
 		{
 			if (component->GetMaterial())
 			{
@@ -889,7 +889,7 @@ void GeometryBatch::BindBatch(std::vector<GameObject*>& objects)
 		//Redo instanceData
 		instanceData.clear();
 		instanceData.reserve(componentsInBatch.size());
-		for (const ComponentMeshRenderer* component : componentsInBatch)
+		for (ComponentMeshRenderer* component : componentsInBatch)
 		{
 			if (component->GetMaterial())
 			{
@@ -911,70 +911,71 @@ void GeometryBatch::BindBatch(std::vector<GameObject*>& objects)
 	std::vector<Command> commands;
 	commands.reserve(componentsInBatch.size());
 
+
+	std::vector<GameObject*> remainingObjects; remainingObjects.reserve(objects.size());
 	int drawCount = 0;
 
-	for (ComponentMeshRenderer* component : componentsInBatch)
+	for (GameObject* object : objects)
 	{
-		assert(component);
+		assert(object);
 
-		std::vector<GameObject*>::iterator it = std::find(objects.begin(), objects.end(), component->GetOwner());
-		
-		bool draw = it != objects.end();
-		
-		if (draw)
+		std::unordered_map<ComponentMeshRenderer*, int>::iterator it =
+			objectIndexes.find(object->GetComponentInternal<ComponentMeshRenderer>());
+
+		bool draw = it != objectIndexes.end();
+
+		if (!draw)
 		{
-			if (!(*it)->GetComponent<ComponentMeshRenderer>())
-			{
-				objects.erase(it);
+			remainingObjects.push_back(object);
 
-				draw = false;
-			}
+			continue;
 		}
-		
-		if (draw)
+
+		ComponentMeshRenderer* component = it->first;
+
+		component->UpdatePalette();
+
+		ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh());
+		std::shared_ptr<ResourceMesh> resource = resourceInfo->resourceMesh;
+
+		// find position in components vector
+		unsigned int instanceIndex = it->second;
+		unsigned int paletteIndex = paletteIndexes[component];
+
+		transformData[frame][instanceIndex] =
+			component->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
+
+		if (component->GetMesh()->GetNumBones() > 0)
 		{
-			component->UpdatePalette();
-
-			ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh());
-			std::shared_ptr<ResourceMesh> resource = resourceInfo->resourceMesh;
-
-			// find position in components vector
-			unsigned int instanceIndex = objectIndexes[component];
-			unsigned int paletteIndex = paletteIndexes[component];
-
-			transformData[frame][instanceIndex] =
-				component->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
-
-			if (component->GetMesh()->GetNumBones() > 0)
-			{
-				memcpy(&paletteData[frame][perInstances[paletteIndex].paletteOffset],
-					&component->GetPalette()[0],
-					perInstances[paletteIndex].numBones * sizeof(float4x4));
-			}
-
-			if (component->GetMaterial())
-			{
-				std::shared_ptr<ResourceMaterial> material = component->GetMaterial();
-				Tiling tiling(material->GetTiling(), material->GetOffset(), material->GetPercentage() / 100.0f);
-				memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
-			}
-
-			Effect effect(component->GetEffectColor(), static_cast<int>(component->IsDiscarded()));
-			memcpy(&effectData[paletteIndex], &effect, sizeof(Effect));
-
-			//do a for for all the instaces existing
-			Command newCommand{
-				resource->GetNumIndexes(),	// Number of indices in the mesh
-				1,							// Number of instances to render
-				resourceInfo->indexOffset,	// Index offset in the EBO
-				resourceInfo->vertexOffset, // Vertex offset in the VBO
-				instanceIndex				// Instance Index
-			};
-
-			commands.push_back(newCommand);
-			drawCount++;
+			memcpy(&paletteData[frame][perInstances[paletteIndex].paletteOffset],
+				&component->GetPalette()[0],
+				perInstances[paletteIndex].numBones * sizeof(float4x4));
 		}
+
+		if (component->GetMaterial())
+		{
+			std::shared_ptr<ResourceMaterial> material = component->GetMaterial();
+			Tiling tiling(material->GetTiling(), material->GetOffset(), material->GetPercentage() / 100.0f);
+			memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
+		}
+
+		Effect effect(component->GetEffectColor(), static_cast<int>(component->IsDiscarded()));
+		memcpy(&effectData[paletteIndex], &effect, sizeof(Effect));
+
+		//do a for for all the instaces existing
+		Command newCommand{
+			resource->GetNumIndexes(),	// Number of indices in the mesh
+			1,							// Number of instances to render
+			resourceInfo->indexOffset,	// Index offset in the EBO
+			resourceInfo->vertexOffset, // Vertex offset in the VBO
+			instanceIndex				// Instance Index
+		};
+
+		commands.push_back(newCommand);
+		drawCount++;
 	}
+
+	objects = remainingObjects;
 
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 	if (commands.size() > 0)

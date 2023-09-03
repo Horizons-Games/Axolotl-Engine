@@ -14,6 +14,11 @@ Scheduler::~Scheduler()
 
 void Scheduler::ScheduleTask(Schedulable&& taskToSchedule)
 {
+	if (!taskToSchedule)
+	{
+		LOG_WARNING("Trying to schedule an empty task!");
+		return;
+	}
 	std::scoped_lock(schedulerMutex);
 	scheduledTasks.push(std::move(taskToSchedule));
 }
