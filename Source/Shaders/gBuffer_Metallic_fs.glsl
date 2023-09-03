@@ -20,7 +20,6 @@ struct Material {
     float smoothness;           //32 //4
     float metalness;            //36 //4
     float normal_strength;      //40 //4
-	float intensityBloom;       //44 //4
     sampler2D diffuse_map;      //48 //8
     sampler2D normal_map;       //56 //8
     sampler2D metallic_map;     //64 //8
@@ -110,6 +109,6 @@ void main()
     gEmissive= vec4(0.0);
     if (material.has_emissive_map == 1) 
     {
-        gEmissive = vec4(texture(material.emissive_map, newTexCoord).rgb, material.intensityBloom / 5);
+        gEmissive.rgb = vec3(texture(material.emissive_map, newTexCoord).rgb);
     }
 }

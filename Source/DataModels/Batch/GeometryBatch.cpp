@@ -180,8 +180,7 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasEmissive(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetMetalness(),
-				resourceMaterial->GetNormalStrength(),
-				resourceMaterial->GetIntensityBloom()
+				resourceMaterial->GetNormalStrength()
 			};
 
 			std::shared_ptr<ResourceTexture> texture = resourceMaterial->GetDiffuse();
@@ -222,8 +221,7 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasSpecular(),
 				resourceMaterial->HasEmissive(),
 				resourceMaterial->GetSmoothness(),
-				resourceMaterial->GetNormalStrength(),
-				resourceMaterial->GetIntensityBloom()
+				resourceMaterial->GetNormalStrength()
 			};
 
 			std::shared_ptr<ResourceTexture> texture = resourceMaterial->GetDiffuse();

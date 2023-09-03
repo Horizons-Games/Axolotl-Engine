@@ -65,7 +65,6 @@ private:
 		float smoothness = 0;					//32 //4
 		float metalness = 0;					//36 //4
 		float normal_strength = 0;				//40 //4
-		float intensityBloom = 0;				//44 //4
 		uint64_t diffuse_map;					//48 //8
 		uint64_t normal_map;					//56 //8
 		uint64_t metallic_map;					//64 //8
@@ -82,12 +81,11 @@ private:
 		int has_emissive_map = 0;				//44 //4
 		float smoothness = 0;					//48 //4
 		float normal_strength = 0;				//52 //4
-		float intensityBloom = 0;				//56 //4
-		int padding;
-		uint64_t diffuse_map;					//64 //8
-		uint64_t normal_map;					//72 //8
-		uint64_t specular_map;					//80 //8
-		uint64_t emissive_map;					//88 //8 --> 96
+		uint64_t diffuse_map;					//56 //8
+		uint64_t normal_map;					//64 //8
+		uint64_t specular_map;					//72 //8
+		uint64_t emissive_map;					//80 //8
+		int padding1, padding2;					//88 //8 --> 96
 	};
 
 	struct ResourceInfo

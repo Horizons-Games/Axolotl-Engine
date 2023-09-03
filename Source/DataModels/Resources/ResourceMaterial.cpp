@@ -37,7 +37,6 @@ void ResourceMaterial::CopyValues(const ResourceMaterial& rhs)
 	this->SetSpecular(rhs.GetSpecular());
 	this->SetMetallic(rhs.GetMetallic());
 	this->SetEmission(rhs.GetEmission());
-	this->SetIntensityBloom(rhs.GetIntensityBloom());
 }
 
 void ResourceMaterial::SaveLoadOptions(Json& meta)
@@ -62,7 +61,6 @@ void ResourceMaterial::SaveLoadOptions(Json& meta)
 	meta["offsety"] = static_cast<float>(loadOptions.offset.y);
 	meta["percentagex"] = static_cast<float>(loadOptions.percentage.x);
 	meta["percentagey"] = static_cast<float>(loadOptions.percentage.y);
-	meta["intensityBloom"] = static_cast<float>(loadOptions.intensityBloom);
 }
 
 void ResourceMaterial::LoadLoadOptions(Json& meta)
@@ -101,11 +99,6 @@ void ResourceMaterial::LoadLoadOptions(Json& meta)
 	{
 		loadOptions.percentage.y = 100.f;
 		loadOptions.percentage.x = 100.f;
-	}
-	loadOptions.intensityBloom = static_cast<float>(meta["intensityBloom"]);
-	if (loadOptions.intensityBloom == 0.f)
-	{
-		loadOptions.intensityBloom = 1.f;
 	}
 }
 
