@@ -262,6 +262,7 @@ void EnemyDroneScript::ResetValues()
 		componentAnimation->SetParameter(parameter.first, false);
 	}
 
+	componentAnimation->SetParameter("IsSeeking", true);
 	droneState = DroneBehaviours::IDLE;
 	fastAttackScript->ResetScriptValues();
 	healthScript->HealLife(1000.0f); // It will cap at max health
