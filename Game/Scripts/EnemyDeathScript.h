@@ -31,6 +31,7 @@ private:
 
 	float despawnTimer;
 	bool startDespawnTimer;
+	bool chanceToGivePowerUp;
 
 	ComponentParticleSystem* particleSystem;
 };

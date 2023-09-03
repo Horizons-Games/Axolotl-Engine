@@ -178,6 +178,7 @@
   <ItemGroup>
     <ClCompile Include="..\Game\Scripts\AIMovement.cpp" />
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp" />
+    <ClCompile Include="..\Game\Scripts\BoostOfEnergy.cpp" />
     <ClCompile Include="..\Game\Scripts\BossChargeAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossChargeRockScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossMissilesAttackScript.cpp" />
@@ -192,6 +193,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyMiniBossTwo.cpp" />
     <ClCompile Include="..\Game\Scripts\EntityDetection.cpp" />
     <ClCompile Include="..\Game\Scripts\FinalBossScript.cpp" />
     <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp" />
@@ -301,6 +303,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\Rotator.cpp" />
+    <ClCompile Include="..\Game\Scripts\SendTriggerCollision.cpp" />
     <ClCompile Include="..\Game\Scripts\ShockWaveAttackAreaScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ShockWaveAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp">
@@ -310,10 +314,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\RangedFastAttackBehaviourScript.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\RangedFastAttackBullet.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
@@ -812,6 +816,7 @@
   <ItemGroup>
     <ClInclude Include="..\Game\Scripts\AIMovement.h" />
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h" />
+    <ClInclude Include="..\Game\Scripts\BoostOfEnergy.h" />
     <ClInclude Include="..\Game\Scripts\BossChargeAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\BossChargeRockScript.h" />
     <ClInclude Include="..\Game\Scripts\BossMissilesAttackScript.h" />
@@ -821,6 +826,7 @@
     <ClInclude Include="..\Game\Scripts\CombatZoneScript.h" />
     <ClInclude Include="..\Game\Scripts\ComboManager.h" />
     <ClInclude Include="..\Game\Scripts\EnemyClass.h" />
+    <ClInclude Include="..\Game\Scripts\EnemyMiniBossTwo.h" />
     <ClInclude Include="..\Game\Scripts\EntityDetection.h" />
     <ClInclude Include="..\Game\Scripts\FinalBossScript.h" />
     <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h" />
@@ -847,6 +853,8 @@
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h" />
     <ClInclude Include="..\Game\Scripts\PowerUpLogicScript.h" />
     <ClInclude Include="..\Game\Scripts\PowerUpsManagerScript.h" />
+    <ClInclude Include="..\Game\Scripts\Rotator.h" />
+    <ClInclude Include="..\Game\Scripts\SendTriggerCollision.h" />
     <ClInclude Include="..\Game\Scripts\ShockWaveAttackAreaScript.h" />
     <ClInclude Include="..\Game\Scripts\ShockWaveAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h" />

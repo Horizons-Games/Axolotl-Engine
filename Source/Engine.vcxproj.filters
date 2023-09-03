@@ -707,7 +707,6 @@
     <ClCompile Include="Auxiliar\ConnectedCallback.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
     <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
@@ -720,6 +719,18 @@
     <ClCompile Include="Formatter.cpp" />
     <ClCompile Include="Modules\ModuleRandom.cpp">
       <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyMiniBossTwo.cpp">
+      <Filter>UserScripts\Gameplay\Bosses\Mini Bosses</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BoostOfEnergy.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergyAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SendTriggerCollision.cpp">
+      <Filter>UserScripts\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\Rotator.cpp">
+      <Filter>UserScripts\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1477,6 +1488,18 @@
     <ClInclude Include="Modules\ModuleRandom.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EnemyMiniBossTwo.h">
+      <Filter>UserScripts\Gameplay\Bosses\Mini Bosses</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BoostOfEnergy.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergyAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SendTriggerCollision.h">
+      <Filter>UserScripts\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\Rotator.h">
+      <Filter>UserScripts\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1673,6 +1696,15 @@
     </Filter>
     <Filter Include="Exceptions">
       <UniqueIdentifier>{d89816a3-de30-46fe-9d0f-cf270aa9f568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Bosses\Mini Bosses">
+      <UniqueIdentifier>{51c415c7-d272-4817-8ce8-f2f76619cae8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergyAttack">
+      <UniqueIdentifier>{545e2d57-65b6-4754-80f4-7c76668ccff8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Utils">
+      <UniqueIdentifier>{5e0a602a-1266-4c8e-abba-0af6541b6b90}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2533,9 +2565,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
       <Filter>DataModels\Windows\EditorWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
-      <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
