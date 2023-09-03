@@ -657,9 +657,6 @@
     <ClCompile Include="..\Game\Scripts\UIComboManager.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp">
-      <Filter>Auxiliar</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Jump</Filter>
     </ClCompile>
@@ -684,6 +681,12 @@
     <ClCompile Include="..\Game\Scripts\MeshEffect.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentRender.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRender.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
     <ClCompile Include="Auxiliar\SceneLoader.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
@@ -701,6 +704,13 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
+    <ClCompile Include="Exceptions\ComponentNotFoundException.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions\ScriptAssertFailedException.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Formatter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1396,9 +1406,6 @@
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="Auxiliar\ComponentNotFoundException.h">
-      <Filter>Auxiliar</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
       <Filter>UserScripts\Gameplay\Player\Jump</Filter>
     </ClInclude>
@@ -1423,6 +1430,12 @@
     <ClInclude Include="..\Game\Scripts\MeshEffect.h">
       <Filter>UserScripts\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentRender.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRender.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
     <ClInclude Include="Defines\AxoTodo.h" />
     <ClInclude Include="Auxiliar\SceneLoader.h">
       <Filter>Auxiliar</Filter>
@@ -1446,6 +1459,13 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
+    <ClInclude Include="Exceptions\ComponentNotFoundException.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\ScriptAssertFailedException.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Formatter.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1615,6 +1635,9 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Player\Attack\Finishers\Light Finisher">
       <UniqueIdentifier>{62400d05-b28f-42d0-8554-b11dc997773a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exceptions">
+      <UniqueIdentifier>{d89816a3-de30-46fe-9d0f-cf270aa9f568}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

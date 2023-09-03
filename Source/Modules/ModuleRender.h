@@ -7,7 +7,7 @@
 
 #include "FileSystem/UID.h"
 
-#define BLOOM_BLUR_PING_PONG 2
+#define KAWASE_DUAL_SAMPLERS 4
 #define GAUSSIAN_BLUR_SHADOW_MAP 2
 
 struct SDL_Texture;
@@ -53,6 +53,9 @@ public:
 
 	GLuint GetRenderedTexture() const;
 	float GetObjectDistance(const GameObject* gameObject);
+
+	void SetBloomIntensity(float color);
+	float GetBloomIntensity() const;
 
 	BatchManager* GetBatchManager() const;
 
@@ -118,6 +121,8 @@ private:
 	unsigned modeRender;
 	unsigned toneMappingMode;
 	unsigned bloomActivation;
+	float bloomIntensity;
+	float threshold;
 	
 	std::unordered_set<const GameObject*> gameObjectsInFrustrum;
 	std::unordered_map<const GameObject*, float> objectsInFrustrumDistances;
@@ -127,9 +132,13 @@ private:
 	GLuint frameBuffer[2] = {0, 0};
 	GLuint renderedTexture[2] = {0, 0};
 
-	// Ping-pong buffers to kawase dual filtering bloom
-	GLuint bloomBlurFramebuffers[BLOOM_BLUR_PING_PONG];
-	GLuint bloomBlurTextures[BLOOM_BLUR_PING_PONG];
+	GLuint dualKawaseDownFramebuffers[KAWASE_DUAL_SAMPLERS];
+	GLuint dualKawaseDownTextures[KAWASE_DUAL_SAMPLERS];
+	GLuint dualKawaseUpFramebuffers[KAWASE_DUAL_SAMPLERS];
+	GLuint dualKawaseUpTextures[KAWASE_DUAL_SAMPLERS];
+	
+	//GLuint bloomFramebuffer;
+	//GLuint bloomTexture;
 	
 	// Shadow Mapping buffers and textures
 	GLuint depthStencilRenderBuffer = 0;
@@ -203,4 +212,14 @@ inline bool ModuleRender::IsObjectInsideFrustrum(const GameObject* gameObject)
 inline float ModuleRender::GetObjectDistance(const GameObject* gameObject)
 {
 	return objectsInFrustrumDistances[gameObject];
+}
+
+inline void ModuleRender::SetBloomIntensity(float intensity)
+{
+	bloomIntensity = intensity;
+}
+
+inline float ModuleRender::GetBloomIntensity() const
+{
+	return bloomIntensity;
 }

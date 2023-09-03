@@ -28,8 +28,7 @@ struct LoadOptionsMaterial
 		tiling(float2(1.0f)),
 		offset(float2(0.0f)),
 		percentage(float2(100.0f)),
-		shaderType(0),
-		intensityBloom(1.f)
+		shaderType(0)
 	{
 	}
 };
@@ -101,9 +100,6 @@ public:
 	void SetOffset(const float2& offset);
 	void SetPercentage(const float2& percentage);
 	
-	const float& GetIntensityBloom() const;
-	void SetIntensityBloom(const float intensityBloom);
-
 protected:
 	void InternalLoad() override{};
 	void InternalUnload() override{};
@@ -331,14 +327,4 @@ inline void ResourceMaterial::SetOffset(const float2& offset)
 inline void ResourceMaterial::SetPercentage(const float2& percentage)
 {
 	loadOptions.percentage = percentage;
-}
-
-inline const float& ResourceMaterial::GetIntensityBloom() const
-{
-	return loadOptions.intensityBloom;
-}
-
-inline void ResourceMaterial::SetIntensityBloom(const float intensityBloom)
-{
-	loadOptions.intensityBloom = intensityBloom;
 }

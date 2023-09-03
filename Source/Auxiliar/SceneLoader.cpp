@@ -17,6 +17,7 @@
 
 #include "DataModels/Components/ComponentCamera.h"
 #include "DataModels/Components/ComponentParticleSystem.h"
+#include "DataModels/Components/ComponentRender.h"
 #include "DataModels/Components/ComponentRigidBody.h"
 #include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/Components/UI/ComponentButton.h"
@@ -109,6 +110,10 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 
 	for (GameObject* obj : loadedObjects)
 	{
+		if (obj->HasComponent<ComponentRender>() && currentLoadingConfig->mantainCurrentScene)
+		{
+			obj->RemoveComponent<ComponentRender>();
+		}
 		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponents<ComponentCamera>();
 		loadedCameras.insert(std::end(loadedCameras), std::begin(camerasOfObj), std::end(camerasOfObj));
 
@@ -180,6 +185,7 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 	{
 		Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 		loadedScene->InitLights();
+		loadedScene->InitRender();
 		loadedScene->InitCubemap();
 
 		// if no document was set, the user is creating a new scene. finish the process
@@ -491,6 +497,17 @@ void LoadScene(std::variant<std::string, std::reference_wrapper<rapidjson::Docum
 bool IsLoading()
 {
 	return currentLoadingConfig.has_value();
+}
+
+bool HasNewUID(UID oldUID, UID& newUID)
+{
+	const auto& uid = uidMap.find(oldUID);
+	if (uid == uidMap.end())
+	{
+		return false;
+	}
+	newUID = uid->second;
+	return true;
 }
 
 } // namespace loader
