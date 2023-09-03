@@ -314,10 +314,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\RangedFastAttackBehaviourScript.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\RangedFastAttackBullet.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
