@@ -136,10 +136,10 @@ std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frus
 	GameObject* selected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum);
 
-	for (auto childSelected : selected->GetChildren())
-	{
-		CalculateNonStaticObjectsInFrustum(frustum, childSelected, objectsInFrustum);
-	}
+	//for (auto childSelected : selected->GetChildren())
+	//{
+	//	CalculateNonStaticObjectsInFrustum(frustum, childSelected, objectsInFrustum);
+	//}
 #endif
 
 	return objectsInFrustum;
@@ -158,8 +158,6 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					const ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
-
 					gos.push_back(gameObject);
 				}
 			}
@@ -170,8 +168,6 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					const ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
-
 					gos.push_back(gameObject);
 				}
 			}
@@ -239,7 +235,9 @@ bool Scene::FrustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad
 			}
 		}
 		if (!onPlane)
+		{
 			return false;
+		}
 	}
 
 	return true;

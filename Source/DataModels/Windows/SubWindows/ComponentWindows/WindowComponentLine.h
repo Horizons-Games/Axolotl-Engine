@@ -31,5 +31,5 @@ private:
 
 inline void WindowComponentLine::SetTexture(const std::shared_ptr<ResourceTexture>& texture)
 {
-	this->lineTexture = texture;
+	lineTexture = texture;
 }

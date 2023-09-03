@@ -1,18 +1,23 @@
 #include "StdAfx.h"
 #include "ComponentLine.h"
+
 #include "Application.h"
-#include "Components/ComponentTransform.h"
-#include "FileSystem/Json.h"
-#include "GameObject/GameObject.h"
+
 #include "ModuleCamera.h"
+#include "Camera/Camera.h"
+
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
+
+#include "FileSystem/Json.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
-#include "Camera/Camera.h"
+#include "Resources/ResourceTexture.h"
+
 #include "ModuleProgram.h"
 #include "Program/Program.h"
-#include "Resources/ResourceTexture.h"
+
+#include "Components/ComponentTransform.h"
 #include <GL/glew.h>
 
 ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(ComponentType::LINE, active, owner, true),
@@ -21,6 +26,7 @@ ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(C
 {
 	App->ScheduleTask([this]()
 		{
+#include "FileSystem/ModuleResources.h"
 			LoadBuffers();
 			UpdateBuffers();
 		});

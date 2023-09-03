@@ -5,10 +5,8 @@
 #include "ImGui/imgui_color_gradient.h"
 #include "ImGui/imgui_bezier.h"
 
-
 #include "Timer/Timer.h"
 
-class GameObject;
 class ResourceTexture;
 class Program;
 
