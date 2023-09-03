@@ -14,6 +14,8 @@ layout(binding = 1) uniform sampler2D bloomBlur;
 uniform int tonneMappingMode;
 uniform int bloomActivation;
 
+uniform float bloomIntensity;
+
 out vec4 outColor;
 
 vec3 ACESFilm(in vec3 x)
@@ -51,8 +53,7 @@ void main()
     if (bloomActivation == 1)
     {
         vec4 bloomColor = texture(bloomBlur, TexCoord);
-        float intensity = bloomColor.a * 5;
-        hdrColor += bloomColor.rgb * intensity; // additive blending
+        hdrColor += bloomColor.rgb * bloomIntensity; // additive blending
     }
     
     // tone mapping

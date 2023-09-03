@@ -157,6 +157,7 @@ public:
 
 	void InitNewEmptyScene();
 	void InitLights();
+	void InitRender();
 	void InitCubemap();
 
 	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D);

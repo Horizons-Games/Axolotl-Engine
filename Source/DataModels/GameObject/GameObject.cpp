@@ -8,6 +8,7 @@
 #include "DataModels/Components/ComponentAudioSource.h"
 #include "DataModels/Components/ComponentBreakable.h"
 #include "DataModels/Components/ComponentCamera.h"
+#include "DataModels/Components/ComponentRender.h"
 #include "DataModels/Components/ComponentCubemap.h"
 #include "DataModels/Components/ComponentDirLight.h"
 #include "DataModels/Components/ComponentLight.h"
@@ -712,6 +713,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::RENDER:
+		{
+			newComponent = std::make_unique<ComponentRender>(true, this);
+			break;
+		}
+		
 		case ComponentType::AGENT:
 		{
 			newComponent = std::make_unique<ComponentAgent>(true, this);

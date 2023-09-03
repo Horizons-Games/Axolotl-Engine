@@ -2,8 +2,6 @@
 
 #ifndef ENGINE
 	#include "FileSystem/ModuleResources.h"
-
-	#include "GameObject/GameObject.h"
 #endif // !ENGINE
 
 class GeometryBatch;

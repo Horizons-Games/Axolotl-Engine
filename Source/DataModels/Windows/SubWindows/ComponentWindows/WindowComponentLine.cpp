@@ -1,17 +1,19 @@
 #include "StdAfx.h"
 
 #include "WindowComponentLine.h"
+
 #include "Components/ComponentLine.h"
-#include "ImGui/imgui_color_gradient.h"
-#include "ImGui/imgui_bezier.h"
+
 #include "Application.h"
+
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 
 #include "DataModels/Resources/ResourceTexture.h"
 #include "DataModels/Windows/EditorWindows/ImporterWindows/WindowLineTexture.h"
 
-#include "Math/float4.h"
+#include "ImGui/imgui_color_gradient.h"
+#include "ImGui/imgui_bezier.h"
 
 
 WindowComponentLine::WindowComponentLine(ComponentLine* component) :

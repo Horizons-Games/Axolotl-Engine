@@ -5,7 +5,6 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
-class ComponentLine;
 class AnimatedTexture : public Script
 {
 public:
@@ -17,7 +16,6 @@ public:
 
 private:
 	ComponentMeshRenderer* mesh;
-	//ComponentLine* line;
 	float currentOffsetX;
 	float currentOffsetY;
 	float movementX;

@@ -5,7 +5,6 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
-class GameObject;
 class ComponentMeshRenderer;
 
 class MeshEffect : public Script

@@ -2,37 +2,28 @@
 
 #include "Scene.h"
 
-#include "Application.h"
-
-#include "Animation/AnimationController.h"
-
 #include "Batch/BatchManager.h"
 
 #include "Camera/CameraGameObject.h"
 
 #include "Components/ComponentAgent.h"
-#include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentCubemap.h"
+#include "Components/ComponentLine.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
-#include "Components/ComponentPlayer.h"
+#include "Components/ComponentRender.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentPlayer.h"
-#include "Components/ComponentLine.h"
 
-#include "Components/UI/ComponentSlider.h"
-#include "Components/UI/ComponentImage.h"
-#include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
+#include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentSlider.h"
+#include "Components/UI/ComponentTransform2D.h"
 
 #include "DataModels/Cubemap/Cubemap.h"
-#include "DataModels/Program/Program.h"
-
-#include "GameObject/GameObject.h"
 
 #include "DataStructures/Quadtree.h"
 
@@ -40,11 +31,8 @@
 
 #include "FileSystem/ModuleResources.h"
 
-#include "Modules/ModuleProgram.h"
-#include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
 
-#include "Resources/ResourceAnimation.h"
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceMesh.h"
@@ -134,10 +122,10 @@ std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frus
 	GameObject* selected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum);
 
-	for (auto childSelected : selected->GetChildren())
-	{
-		CalculateNonStaticObjectsInFrustum(frustum, childSelected, objectsInFrustum);
-	}
+	//for (auto childSelected : selected->GetChildren())
+	//{
+	//	CalculateNonStaticObjectsInFrustum(frustum, childSelected, objectsInFrustum);
+	//}
 #endif
 
 	return objectsInFrustum;
@@ -165,8 +153,6 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					const ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
-
 					gos.push_back(gameObject);
 				}
 			}
@@ -177,8 +163,6 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					const ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
-
 					gos.push_back(gameObject);
 				}
 			}
@@ -246,7 +230,9 @@ bool Scene::FrustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad
 			}
 		}
 		if (!onPlane)
+		{
 			return false;
+		}
 	}
 
 	return true;
@@ -1606,15 +1592,14 @@ void Scene::InitNewEmptyScene()
 	std::shared_ptr<ResourceCubemap> resourceCubemap =
 		App->GetModule<ModuleResources>()->RequestResource<ResourceCubemap>("Assets/Cubemaps/sunsetSkybox.cube");
 
-	if (root->GetComponentInternal<ComponentCubemap>() == nullptr)
-	{
-		root->CreateComponent<ComponentCubemap>();
-	}
-
+	InitRender();
+	
 	if (resourceCubemap)
 	{
 		cubemap = std::make_unique<Cubemap>(resourceCubemap);
 	}
+
+	InitCubemap();
 
 	InitLights();
 }
@@ -1753,6 +1738,14 @@ void Scene::AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& 
 void Scene::AddSceneComponentLines(const std::vector<ComponentLine*>& componentLines)
 {
 	sceneComponentLines.insert(std::end(sceneComponentLines), std::begin(componentLines), std::end(componentLines));
+}
+
+void Scene::InitRender()
+{
+	if (root->GetComponentInternal<ComponentRender>() == nullptr)
+	{
+		root->CreateComponent<ComponentRender>();
+	}
 }
 
 void Scene::InitCubemap()

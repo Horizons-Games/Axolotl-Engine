@@ -639,8 +639,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTrailTexture.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.cpp" />
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLine.cpp" />
     <ClCompile Include="DataModels\Animation\StateMachine.cpp">
       <Filter>DataModels\Animation</Filter>
     </ClCompile>
@@ -689,12 +687,28 @@
     <ClCompile Include="..\Game\Scripts\MeshEffect.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentRender.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRender.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
     <ClCompile Include="Auxiliar\SceneLoader.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="Auxiliar\ConnectedCallback.cpp">
       <Filter>Auxiliar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
+    <ClCompile Include="..\Game\Scripts\AnimatedLine.cpp">
+      <Filter>UserScripts\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLine.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
     <ClCompile Include="Exceptions\ComponentNotFoundException.cpp">
       <Filter>Exceptions</Filter>
@@ -703,6 +717,10 @@
       <Filter>Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="Formatter.cpp" />
+    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
+    <ClCompile Include="Modules\ModuleRandom.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1374,8 +1392,6 @@
     <ClInclude Include="Enums\BlendingType.h">
       <Filter>Enums</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.h" />
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLine.h" />
     <ClInclude Include="DataModels\Animation\StateMachine.h">
       <Filter>DataModels\Animation</Filter>
     </ClInclude>
@@ -1430,6 +1446,12 @@
     <ClInclude Include="..\Game\Scripts\MeshEffect.h">
       <Filter>UserScripts\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentRender.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRender.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
     <ClInclude Include="Defines\AxoTodo.h" />
     <ClInclude Include="Auxiliar\SceneLoader.h">
       <Filter>Auxiliar</Filter>
@@ -1444,6 +1466,15 @@
     <ClInclude Include="Auxiliar\ConnectedCallback.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\AnimatedLine.h">
+      <Filter>UserScripts\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLine.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
     <ClInclude Include="Exceptions\ComponentNotFoundException.h">
       <Filter>Exceptions</Filter>
     </ClInclude>
@@ -1451,6 +1482,9 @@
       <Filter>Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="Formatter.h" />
+    <ClInclude Include="Modules\ModuleRandom.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -2158,9 +2192,6 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
-    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
-      <Filter>Auxiliar</Filter>
-    </ClInclude>
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
@@ -2486,9 +2517,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
       <Filter>DataModels\Windows\EditorWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
-      <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />

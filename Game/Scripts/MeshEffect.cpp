@@ -6,7 +6,6 @@
 
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentScript.h"
-#include "GameObject/GameObject.h"
 
 REGISTERCLASS(MeshEffect);
 

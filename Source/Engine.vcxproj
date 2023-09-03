@@ -176,6 +176,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Game\Scripts\AnimatedLine.cpp" />
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp" />
     <ClCompile Include="..\Game\Scripts\ComboManager.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyClass.cpp">
@@ -423,6 +424,7 @@
     <ClCompile Include="DataModels\Components\Component.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentLocalIBL.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentRender.cpp" />
     <ClCompile Include="DataModels\Components\ComponentTrail.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPlayerInput.cpp" />
     <ClCompile Include="DataModels\Components\UI\ComponentSlider.cpp" />
@@ -482,6 +484,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentParticle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRender.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -774,6 +780,7 @@
     <ClCompile Include="Modules\ModulePhysics.cpp" />
     <ClCompile Include="Modules\ModulePlayer.cpp" />
     <ClCompile Include="Modules\ModuleProgram.cpp" />
+    <ClCompile Include="Modules\ModuleRandom.cpp" />
     <ClCompile Include="Modules\ModuleRender.cpp" />
     <ClCompile Include="Modules\ModuleScene.cpp" />
     <ClCompile Include="Modules\ModuleUI.cpp" />
@@ -828,6 +835,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Game\Scripts\AnimatedLine.h" />
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h" />
     <ClInclude Include="..\Game\Scripts\ComboManager.h" />
     <ClInclude Include="..\Game\Scripts\EnemyClass.h" />
@@ -911,6 +919,7 @@
     <ClInclude Include="Auxiliar\Generics\Drawable.h" />
     <ClInclude Include="Auxiliar\Generics\Updatable.h" />
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
+    <ClInclude Include="DataModels\Components\ComponentRender.h" />
     <ClInclude Include="DataModels\Components\ComponentTrail.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -958,6 +967,10 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentParticle.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRender.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSlider.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -1299,6 +1312,7 @@
     <ClInclude Include="Modules\ModulePhysics.h" />
     <ClInclude Include="Modules\ModulePlayer.h" />
     <ClInclude Include="Modules\ModuleProgram.h" />
+    <ClInclude Include="Modules\ModuleRandom.h" />
     <ClInclude Include="Modules\ModuleRender.h" />
     <ClInclude Include="Modules\ModuleScene.h" />
     <ClInclude Include="Modules\ModuleUI.h" />

@@ -7,7 +7,6 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAnimation;
 class ComponentParticleSystem;
-class GameObject;
 
 class BixAttackScript;
 class MeshEffect;
@@ -43,8 +42,6 @@ private:
 	ComponentParticleSystem* componentParticleSystem;
 
 	MeshEffect* meshEffect;
-	float hitEffectDuration;
-	bool hasTakenDamage;
 
 	BixAttackScript* attackScript;
 };
