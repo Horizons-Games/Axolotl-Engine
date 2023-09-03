@@ -19,7 +19,8 @@ shootingParticle(nullptr), attackDamage(30.0f), damageZone(nullptr), target(null
 attackState(BoostOfEnergyStates::RECHARGED), shootingDuration(1.0f), shootingTimer(0.0f),
 cooldownDuration(5.0f), cooldownTimer(0.0f), mesh(nullptr), light(nullptr),
 deactivationDuration(0.5f), deactivationTimer(0.0f), deactivatingParticle(nullptr),
-isPlayerInDamageZone(false), damageFrequency(0.5f), lastDamageTime(0.0f), sendTriggerCollision(nullptr)
+isPlayerInDamageZone(false), damageFrequency(0.5f), lastDamageTime(0.0f), sendTriggerCollision(nullptr),
+shootingPosition(nullptr), transform(nullptr)
 {
 	REGISTER_FIELD(attackDamage, float);
 	REGISTER_FIELD(damageFrequency, float);
@@ -36,10 +37,13 @@ isPlayerInDamageZone(false), damageFrequency(0.5f), lastDamageTime(0.0f), sendTr
 	REGISTER_FIELD(light, ComponentLight*);
 	REGISTER_FIELD(target, ComponentTransform*);
 	REGISTER_FIELD(damageZone, ComponentRigidBody*);
+	REGISTER_FIELD(shootingPosition, ComponentTransform*);
 }
 
 void BoostOfEnergy::Start()
 {
+	transform = owner->GetComponent<ComponentTransform>();
+
 	mesh->GetOwner()->Disable();
 	light->Disable();
 
@@ -54,6 +58,9 @@ void BoostOfEnergy::Update(float deltaTime)
 {
 
 	damageZone->UpdateRigidBody();
+	transform->SetGlobalPosition(shootingPosition->GetGlobalPosition());
+	transform->RecalculateLocalMatrix();
+	transform->UpdateTransformMatrices();
 
 	switch(attackState)
 	{

@@ -2,7 +2,7 @@
     "UID": 1690276387135486520,
     "Type": "ParticleSystem",
     "TexturesAssetPaths": [
-        "Assets/Textures/default_particle.png"
+        "Assets/Textures/MaskForShader.png"
     ],
     "ConfigEmitters": [
         false

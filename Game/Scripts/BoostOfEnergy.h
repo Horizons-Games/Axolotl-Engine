@@ -67,9 +67,11 @@ private:
 	float lastDamageTime;
 	float isPlayerInDamageZone;
 
+	ComponentTransform* transform;
 	ComponentRigidBody* damageZone;
 	SendTriggerCollision* sendTriggerCollision;
 	ComponentTransform* mesh;
 	ComponentTransform* target;
 	ComponentLight* light;
+	ComponentTransform* shootingPosition;
 };
