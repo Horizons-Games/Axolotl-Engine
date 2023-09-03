@@ -758,6 +758,7 @@
     <ClCompile Include="Modules\ModulePhysics.cpp" />
     <ClCompile Include="Modules\ModulePlayer.cpp" />
     <ClCompile Include="Modules\ModuleProgram.cpp" />
+    <ClCompile Include="Modules\ModuleRandom.cpp" />
     <ClCompile Include="Modules\ModuleRender.cpp" />
     <ClCompile Include="Modules\ModuleScene.cpp" />
     <ClCompile Include="Modules\ModuleUI.cpp" />
@@ -1262,6 +1263,7 @@
     <ClInclude Include="Modules\ModulePhysics.h" />
     <ClInclude Include="Modules\ModulePlayer.h" />
     <ClInclude Include="Modules\ModuleProgram.h" />
+    <ClInclude Include="Modules\ModuleRandom.h" />
     <ClInclude Include="Modules\ModuleRender.h" />
     <ClInclude Include="Modules\ModuleScene.h" />
     <ClInclude Include="Modules\ModuleUI.h" />
