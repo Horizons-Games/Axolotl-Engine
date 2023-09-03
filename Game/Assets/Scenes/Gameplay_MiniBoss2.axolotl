@@ -11971,6 +11971,11 @@
                                     "type": 5
                                 },
                                 {
+                                    "name": "SeekDistance",
+                                    "value": 15.0,
+                                    "type": 0
+                                },
+                                {
                                     "name": "AttackDistance",
                                     "value": 10.0,
                                     "type": 0
@@ -15783,9 +15788,9 @@
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localSca_X": 1.5,
-                            "localSca_Y": 1.5,
-                            "localSca_Z": 1.5
+                            "localSca_X": 1.875,
+                            "localSca_Y": 1.875,
+                            "localSca_Z": 1.875
                         }
                     },
                     {
