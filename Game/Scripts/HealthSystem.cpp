@@ -6,6 +6,7 @@
 #include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/BixAttackScript.h"
+#include "../Scripts/EnemyClass.h"
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
 #include "../Scripts/PlayerManagerScript.h"
@@ -17,7 +18,7 @@ REGISTERCLASS(HealthSystem);
 #define MAX_TIME_EFFECT_DURATION 0.1f
 
 HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), 
-isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr)
+	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr),	damageTaken(false)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
@@ -69,8 +70,8 @@ void HealthSystem::Update(float deltaTime)
 		meshEffect->ClearEffect();
 		PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
 		playerDeathManager->ManagePlayerDeath();
+			
 	}
-
 	else if (!EntityIsAlive() && owner->CompareTag("Enemy"))
 	{
 		meshEffect->ClearEffect();
@@ -78,18 +79,10 @@ void HealthSystem::Update(float deltaTime)
 		enemyDeathManager->ManageEnemyDeath();
 	}
 
-	// This if/else should ideally be called inside the TakeDamage function
-	// 
-	// By setting this here, we make certain that 'IsTakingDamage' remains as true during a couple frames
-	// so the state machine could behave correctly (we could delete this once we have a way to delay any function calls)
-	if (currentHealth <= 0)
-	{
-		componentAnimation->SetParameter("IsDead", true);
-	}
-
-	else
+	if (damageTaken)
 	{
 		componentAnimation->SetParameter("IsTakingDamage", false);
+		damageTaken = false;
 	}
 }
 
@@ -97,21 +90,39 @@ void HealthSystem::TakeDamage(float damage)
 {
 	if (!isImmortal) 
 	{
-		if (owner->CompareTag("Player") && !attackScript->IsPerfomingJumpAttack())
+		if (owner->CompareTag("Enemy"))
+		{
+			currentHealth = std::max(currentHealth - damage, 0.0f);
+			if (currentHealth == 0 && deathCallback)
+			{
+				deathCallback();
+			}
+			else
+			{
+				componentAnimation->SetParameter("IsTakingDamage", true);
+			}
+			damageTaken = true;
+		}
+		else if (owner->CompareTag("Player") && !attackScript->IsPerfomingJumpAttack())
 		{
 			float playerDefense = owner->GetComponent<PlayerManagerScript>()->GetPlayerDefense();
 			float actualDamage = std::max(damage - playerDefense, 0.f);
 
 			currentHealth -= actualDamage;
+
+			if (currentHealth - damage <= 0)
+			{
+				PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
+				playerDeathManager->ManagePlayerDeath();
+				componentAnimation->SetParameter("IsDead", true);
+			}
+			else
+			{
+				componentAnimation->SetParameter("IsTakingDamage", true);
+				damageTaken = true;
+			}
 		}
 
-		else
-		{
-			currentHealth -= damage;
-		}
-
-		componentAnimation->SetParameter("IsTakingDamage", true);
-		
 		if (EntityIsAlive())
 		{
 			meshEffect->StartEffect(MAX_TIME_EFFECT_DURATION, TIME_BETWEEN_EFFECTS);
@@ -133,7 +144,7 @@ void HealthSystem::HealLife(float amountHealed)
 
 bool HealthSystem::EntityIsAlive() const
 {
-	return currentHealth > 0.f;
+	return currentHealth > 0.0f;
 }
 
 float HealthSystem::GetMaxHealth() const
@@ -149,6 +160,11 @@ bool HealthSystem::IsImmortal() const
 void HealthSystem::SetIsImmortal(bool isImmortal)
 {
 	this->isImmortal = isImmortal;
+}
+
+void HealthSystem::SetDeathCallback(std::function<void(void)>&& callDeath)
+{
+	deathCallback = std::move(callDeath);
 }
 
 float HealthSystem::GetCurrentHealth() const
