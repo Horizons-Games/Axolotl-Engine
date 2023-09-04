@@ -10,8 +10,12 @@
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
 #include "../Scripts/PlayerManagerScript.h"
+#include "MeshEffect.h"
 
 REGISTERCLASS(HealthSystem);
+
+#define TIME_BETWEEN_EFFECTS 0.05f
+#define MAX_TIME_EFFECT_DURATION 0.1f
 
 HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), 
 	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr),	damageTaken(false)
@@ -20,6 +24,8 @@ HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), com
 	REGISTER_FIELD(maxHealth, float);
 	REGISTER_FIELD(isImmortal, bool);
 	REGISTER_FIELD(enemyParticleSystem, GameObject*);
+
+	REGISTER_FIELD(meshEffect, MeshEffect*);
 }
 
 void HealthSystem::Start()
@@ -45,6 +51,10 @@ void HealthSystem::Start()
 		maxHealth = currentHealth;
 	}
 
+	meshEffect->FillMeshes(owner);
+	meshEffect->ReserveSpace(1);
+	meshEffect->AddColor(float3(1.f, 0.f, 0.f));
+
 	if (owner->CompareTag("Player"))
 	{
 		attackScript = owner->GetComponent<BixAttackScript>();
@@ -53,12 +63,20 @@ void HealthSystem::Start()
 
 void HealthSystem::Update(float deltaTime)
 {
+	meshEffect->DamageEffect();
+
 	if (!EntityIsAlive() && owner->CompareTag("Player"))
 	{
-		
+		meshEffect->ClearEffect();
 		PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
 		playerDeathManager->ManagePlayerDeath();
 			
+	}
+	else if (!EntityIsAlive() && owner->CompareTag("Enemy"))
+	{
+		meshEffect->ClearEffect();
+		EnemyDeathScript* enemyDeathManager = owner->GetComponent<EnemyDeathScript>();
+		enemyDeathManager->ManageEnemyDeath();
 	}
 
 	if (damageTaken)
@@ -103,6 +121,11 @@ void HealthSystem::TakeDamage(float damage)
 				componentAnimation->SetParameter("IsTakingDamage", true);
 				damageTaken = true;
 			}
+		}
+
+		if (EntityIsAlive())
+		{
+			meshEffect->StartEffect(MAX_TIME_EFFECT_DURATION, TIME_BETWEEN_EFFECTS);
 		}
 
 		if (componentParticleSystem)

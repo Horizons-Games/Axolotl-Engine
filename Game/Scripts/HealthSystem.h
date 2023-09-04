@@ -9,6 +9,7 @@ class ComponentAnimation;
 class ComponentParticleSystem;
 
 class BixAttackScript;
+class MeshEffect;
 
 
 class HealthSystem : public Script
@@ -34,6 +35,7 @@ public:
 	void SetDeathCallback(std::function<void(void)>&& callDeath);
 
 private:
+
 	float currentHealth;
 	float maxHealth;
 	bool isImmortal;
@@ -42,6 +44,8 @@ private:
 
 	ComponentAnimation* componentAnimation;
 	ComponentParticleSystem* componentParticleSystem;
+
+	MeshEffect* meshEffect;
 
 	BixAttackScript* attackScript;
 

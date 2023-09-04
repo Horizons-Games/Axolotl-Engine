@@ -30,6 +30,7 @@ void ResourceMaterial::CopyValues(const ResourceMaterial& rhs)
 	this->SetTransparent(rhs.IsTransparent());
 	this->SetTiling(rhs.GetTiling());
 	this->SetOffset(rhs.GetOffset());
+	this->SetPercentage(rhs.GetPercentage());
 	this->SetDiffuse(rhs.GetDiffuse());
 	this->SetNormal(rhs.GetNormal());
 	this->SetOcclusion(rhs.GetOcclusion());
@@ -58,6 +59,8 @@ void ResourceMaterial::SaveLoadOptions(Json& meta)
 	meta["tilingy"] = static_cast<float>(loadOptions.tiling.y);
 	meta["offsetx"] = static_cast<float>(loadOptions.offset.x);
 	meta["offsety"] = static_cast<float>(loadOptions.offset.y);
+	meta["percentagex"] = static_cast<float>(loadOptions.percentage.x);
+	meta["percentagey"] = static_cast<float>(loadOptions.percentage.y);
 }
 
 void ResourceMaterial::LoadLoadOptions(Json& meta)
@@ -81,6 +84,13 @@ void ResourceMaterial::LoadLoadOptions(Json& meta)
 	loadOptions.tiling.y = static_cast<float>(meta["tilingy"]);
 	loadOptions.offset.x = static_cast<float>(meta["offsetx"]);
 	loadOptions.offset.y = static_cast<float>(meta["offsety"]);
+	loadOptions.percentage.x = static_cast<float>(meta["percentagex"]);
+	loadOptions.percentage.y = static_cast<float>(meta["percentagey"]);
+	if (loadOptions.percentage.x == 0.f && loadOptions.percentage.y == 0.f)
+	{
+		loadOptions.percentage.y = 100.f;
+		loadOptions.percentage.x = 100.f;
+	}
 }
 
 void ResourceMaterial::SavePaths(Json& meta, const std::vector<std::string>& pathTextures)
