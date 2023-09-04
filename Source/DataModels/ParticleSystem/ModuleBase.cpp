@@ -51,7 +51,12 @@ void ModuleBase::Update(EmitterInstance* instance)
 		{
 			EmitterInstance::Particle& particle = particles[i];
 
-			if (particle.tranform.IsIdentity() || particle.lifespan <= 0.0f)
+			if (particle.lifespan <= 0.000f)
+			{
+				particle.dead = true;
+			}
+
+			if (particle.tranform.IsIdentity() || particle.dead)
 			{
 				float radius = emitter->GetRadius();
 

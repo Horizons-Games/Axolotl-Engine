@@ -30,7 +30,7 @@ void ModuleRotation::Update(EmitterInstance* instance)
 		{
 			EmitterInstance::Particle& particle = particles[i];
 
-			if (particle.lifespan >= 0.0f)
+			if (!particle.dead)
 			{
 				if (particle.rotationOverTime == UNINITIALIZED_ROTATION)
 				{

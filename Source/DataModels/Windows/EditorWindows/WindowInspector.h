@@ -53,6 +53,10 @@ private:
 	void AddComponentScript();
 	void AddComponentParticle();
 	void AddComponentBreakable();
+	void AddComponentTrail();
+	void AddComponentLine();
+	void AddComponentAgent();
+	void AddComponentObstacle();
 
 	GameObject* lastSelectedGameObject;
 	std::weak_ptr<Resource> resource;

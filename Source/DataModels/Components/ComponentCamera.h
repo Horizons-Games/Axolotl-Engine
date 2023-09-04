@@ -29,6 +29,8 @@ public:
 	void Update() override;
 	void Draw() const override;
 
+	void OnTransformChanged() override;
+
 	CameraGameObject* GetCamera();
 
 	void DuplicateCamera(CameraGameObject* camera);
@@ -39,10 +41,13 @@ public:
 	void RestoreKpPosition();
 	void RestoreKpRotation();
 
-	float GetKpPosition();
+	float GetKpPosition() const;
 	void SetKpPosition(float kp);
-	float GetKpRotation();
+	float GetKpRotation() const;
 	void SetKpRotation(float kp);
+
+	bool IsFrustumChecked() const;
+	void SetFrustumChecked(bool checked);
 
 private:
 	void InternalSave(Json& meta) override;
@@ -52,6 +57,8 @@ private:
 	std::unique_ptr<CameraGameObject> camera;
 	float KpPosition;
 	float KpRotation;
+
+	bool isFrustumChecked;
 };
 
 inline CameraGameObject* ComponentCamera::GetCamera()
@@ -59,7 +66,7 @@ inline CameraGameObject* ComponentCamera::GetCamera()
 	return camera.get();
 }
 
-inline float ComponentCamera::GetKpPosition()
+inline float ComponentCamera::GetKpPosition() const
 {
 	return KpPosition;
 }
@@ -69,7 +76,7 @@ inline void ComponentCamera::SetKpPosition(float kp)
 	KpPosition = kp;
 }
 
-inline float ComponentCamera::GetKpRotation()
+inline float ComponentCamera::GetKpRotation() const
 {
 	return KpRotation;
 }
@@ -77,4 +84,14 @@ inline float ComponentCamera::GetKpRotation()
 inline void ComponentCamera::SetKpRotation(float kp)
 {
 	KpRotation = kp;
+}
+
+inline bool ComponentCamera::IsFrustumChecked() const
+{
+	return isFrustumChecked;
+}
+
+inline void ComponentCamera::SetFrustumChecked(bool checked)
+{
+	isFrustumChecked = checked;
 }

@@ -67,6 +67,7 @@ ComponentAreaLight::ComponentAreaLight(const float3& color, float intensity, Gam
 
 ComponentAreaLight::~ComponentAreaLight()
 {
+	deleting = true;
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	
 	if (currentScene)

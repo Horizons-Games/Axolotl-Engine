@@ -47,8 +47,7 @@ void WindowScene::DrawWindowContents()
 				 ImVec2(1, 0));
 
 	DrawSceneMenu();
-
-	if (!App->IsOnPlayMode())
+	if (!App->IsOnPlayMode() && !App->GetModule<ModuleScene>()->IsLoading())
 	{
 		DrawGuizmo();
 	}
@@ -170,6 +169,7 @@ void WindowScene::DrawGuizmo()
 		float4x4 viewMat = float4x4::identity;
 
 		ComponentTransform* focusedTransform = focusedObject->GetComponentInternal<ComponentTransform>();
+		ComponentTransform2D* focusedTransform2D = focusedObject->GetComponentInternal<ComponentTransform2D>();
 
 		// Guizmo 3D
 		if (focusedTransform != nullptr)
@@ -234,9 +234,8 @@ void WindowScene::DrawGuizmo()
 				0x10101010);
 		}
 		//Guizmo 2D
-		else
+		else if (focusedTransform2D != nullptr)
 		{
-			ComponentTransform2D* focusedTransform2D = focusedObject->GetComponentInternal<ComponentTransform2D>();
 			ImGuizmo::SetOrthographic(true);
 			float4x4 projMat = camera->GetOrthoProjectionMatrix().Transposed();
 			float4x4 modelMatrix = focusedTransform2D->GetGlobalMatrix().Transposed();

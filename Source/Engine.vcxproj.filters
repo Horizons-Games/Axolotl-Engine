@@ -318,6 +318,9 @@
     <ClCompile Include="..\Game\Scripts\EnemyDroneScript.cpp">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\RecastMovementTestScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Movement</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentAudioListener.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -424,6 +427,9 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentLine.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
@@ -478,6 +484,12 @@
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem\Importers\NavMeshImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceNavMesh.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\GBuffer\GBuffer.cpp">
       <Filter>DataModels\GBuffer</Filter>
     </ClCompile>
@@ -520,6 +532,15 @@
     <ClCompile Include="Modules\ModuleNavigation.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem\Importers\NavMeshImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceNavMesh.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\WindowNavigation.cpp">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClCompile>
@@ -534,6 +555,18 @@
     </ClCompile>
     <ClCompile Include="DataModels\Components\Component.cpp">
       <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentAgent.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentObstacle.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAgent.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentObstacle.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\DefaultScript.cpp">
       <Filter>UserScripts</Filter>
@@ -596,6 +629,18 @@
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentTrail.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTrail.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTrailTexture.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Animation\StateMachine.cpp">
+      <Filter>DataModels\Animation</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentPlayerInput.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -610,9 +655,6 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIComboManager.cpp">
       <Filter>UserScripts\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp">
-      <Filter>Auxiliar</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Jump</Filter>
@@ -634,6 +676,43 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\MeshEffect.cpp">
+      <Filter>UserScripts\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentRender.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRender.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="Auxiliar\SceneLoader.cpp">
+      <Filter>Auxiliar</Filter>
+    </ClCompile>
+    <ClCompile Include="Scheduler.cpp" />
+    <ClCompile Include="Auxiliar\ConnectedCallback.cpp">
+      <Filter>Auxiliar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
+    <ClCompile Include="..\Game\Scripts\AnimatedLine.cpp">
+      <Filter>UserScripts\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLine.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions\ComponentNotFoundException.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions\ScriptAssertFailedException.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Formatter.cpp" />
+    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
+    <ClCompile Include="Modules\ModuleRandom.cpp">
+      <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -868,9 +947,6 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
-    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
-      <Filter>Auxiliar</Filter>
-    </ClInclude>
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
@@ -946,6 +1022,12 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\RecastMovementTestScript.h">
+      <Filter>UserScripts\Gameplay\Player\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CameraSample.h">
+      <Filter>UserScripts\Level</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
@@ -1067,6 +1149,9 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentLine.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
@@ -1154,6 +1239,15 @@
     <ClInclude Include="Modules\ModuleNavigation.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="FileSystem\Importers\NavMeshImporter.h">
+      <Filter>FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceNavMesh.h">
+      <Filter>DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\WindowNavigation.h">
+      <Filter>DataModels\Windows\EditorWindows</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Components\UI\ComponentSlider.h">
       <Filter>DataModels\Components\UI</Filter>
     </ClInclude>
@@ -1164,6 +1258,18 @@
       <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Camera\CameraDefines.h" />
+    <ClInclude Include="DataModels\Components\ComponentAgent.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentObstacle.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentObstacle.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAgent.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\RangedFastAttackBehaviourScript.h">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
     </ClInclude>
@@ -1264,6 +1370,24 @@
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h">
       <Filter>UserScripts\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Camera\CameraDefines.h">
+      <Filter>DataModels\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentTrail.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTrail.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTrailTexture.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\BlendingType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Animation\StateMachine.h">
+      <Filter>DataModels\Animation</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentPlayerInput.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -1285,9 +1409,6 @@
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="Auxiliar\ComponentNotFoundException.h">
-      <Filter>Auxiliar</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
       <Filter>UserScripts\Gameplay\Player\Jump</Filter>
     </ClInclude>
@@ -1308,6 +1429,48 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h">
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\MeshEffect.h">
+      <Filter>UserScripts\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentRender.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRender.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines\AxoTodo.h" />
+    <ClInclude Include="Auxiliar\SceneLoader.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="Scheduler.h" />
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\FileZippedData.h">
+      <Filter>FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\ConnectedCallback.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\AnimatedLine.h">
+      <Filter>UserScripts\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLine.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\ComponentNotFoundException.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\ScriptAssertFailedException.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Formatter.h" />
+    <ClInclude Include="Modules\ModuleRandom.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1478,6 +1641,9 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Player\Attack\Finishers\Light Finisher">
       <UniqueIdentifier>{62400d05-b28f-42d0-8554-b11dc997773a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exceptions">
+      <UniqueIdentifier>{d89816a3-de30-46fe-9d0f-cf270aa9f568}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2013,9 +2179,6 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
-    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
-      <Filter>Auxiliar</Filter>
-    </ClInclude>
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
@@ -2341,9 +2504,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
       <Filter>DataModels\Windows\EditorWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
-      <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />

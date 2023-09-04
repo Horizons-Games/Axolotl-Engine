@@ -39,6 +39,33 @@ Program::Program(unsigned vertexShader,
 	}
 }
 
+Program::Program(unsigned computeShader, const std::string& computeShaderName, const std::string& programName) :
+	computeShaderFileName(computeShaderName),
+	programName(programName),
+	id(glCreateProgram())
+{
+	glAttachShader(id, computeShader);
+	glLinkProgram(id);
+
+	int res;
+	glGetProgramiv(id, GL_LINK_STATUS, &res);
+	if (res == GL_FALSE)
+	{
+		int len = 0;
+		glGetProgramiv(id, GL_INFO_LOG_LENGTH, &len);
+		if (len > 0)
+		{
+			int written = 0;
+			char* info = (char*)malloc(len);
+			glGetProgramInfoLog(id, len, &written, info);
+			LOG_INFO("Program Log Info: {}", info);
+			free(info);
+		}
+		SDL_assert(SDL_FALSE && "Problem compiling shaders, read console");
+		id = 0;
+	}
+}
+
 Program::~Program()
 {
 	CleanUp();

@@ -43,6 +43,11 @@ void EmitterInstance::Stop()
 	elapsedTime = 0.0f;
 	aliveParticles = 0;
 	lastEmission = 0.0f;
+
+	for (Particle& particle : particles)
+	{
+		particle.lifespan = 0.000f;
+	}
 }
 
 void EmitterInstance::UpdateModules()
