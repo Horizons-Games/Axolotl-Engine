@@ -27,12 +27,12 @@ void SSAO::InitBuffers()
 	glGenFramebuffers(1, &ssaoFrameBuffer);
 	glGenTextures(1, &gSsao);
 
+	int size = sizeof(kernel);
+
 	glGenBuffers(1, &uboKernel);
 	glBindBuffer(GL_UNIFORM_BUFFER, uboKernel);
-
-	int size = sizeof(kernel);
 	glBufferData(GL_UNIFORM_BUFFER, size, nullptr, GL_STATIC_DRAW);
-	glBindBufferRange(GL_UNIFORM_BUFFER, 1, uboKernel, 0, sizeof(kernel));
+	glBindBufferRange(GL_UNIFORM_BUFFER, 1, uboKernel, 0, size);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
@@ -74,9 +74,7 @@ void SSAO::Render(Program* program, int width, int height)
 	program->BindUniformFloat2("screenSize", float2(width, height));
 
 	glBindBuffer(GL_UNIFORM_BUFFER, uboKernel);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3) * KERNEL_SIZE, &kernel.kernel);
-	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(float3) * KERNEL_SIZE, sizeof(float3) * RANDOM_ROT_SIZE,
-				    &kernel.randomTangents);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(kernel), &kernel, GL_STATIC_DRAW);
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 
