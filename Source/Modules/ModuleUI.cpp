@@ -25,7 +25,7 @@
 	#include "DataModels/Windows/EditorWindows/WindowScene.h"
 #endif // ENGINE
 
-ModuleUI::ModuleUI() : cursorRotation(0)
+ModuleUI::ModuleUI()
 {
 }
 

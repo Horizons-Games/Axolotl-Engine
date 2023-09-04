@@ -66,9 +66,9 @@
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
                             "worldAABB_min_x": 537.5,
-                            "worldAABB_min_y": 286.5,
+                            "worldAABB_min_y": 292.5,
                             "worldAABB_max_x": 537.5,
-                            "worldAABB_max_y": 286.5
+                            "worldAABB_max_y": 292.5
                         }
                     },
                     {
@@ -119,9 +119,9 @@
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
                             "worldAABB_min_x": 537.5,
-                            "worldAABB_min_y": 286.5,
+                            "worldAABB_min_y": 292.5,
                             "worldAABB_max_x": 537.5,
-                            "worldAABB_max_y": 286.5
+                            "worldAABB_max_y": 292.5
                         }
                     },
                     {
@@ -287,10 +287,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 484.4444580078125,
-                            "worldAABB_min_y": 233.44444274902344,
-                            "worldAABB_max_x": 590.5555419921875,
-                            "worldAABB_max_y": 339.5555419921875
+                            "worldAABB_min_x": 483.3333435058594,
+                            "worldAABB_min_y": 238.3333282470703,
+                            "worldAABB_max_x": 591.6666870117188,
+                            "worldAABB_max_y": 346.6666564941406
                         }
                     }
                 ]
@@ -325,10 +325,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 484.4444580078125,
-                            "worldAABB_min_y": 233.44444274902344,
-                            "worldAABB_max_x": 590.5555419921875,
-                            "worldAABB_max_y": 339.5555419921875
+                            "worldAABB_min_x": 483.3333435058594,
+                            "worldAABB_min_y": 238.3333282470703,
+                            "worldAABB_max_x": 591.6666870117188,
+                            "worldAABB_max_y": 346.6666564941406
                         }
                     }
                 ]
@@ -363,10 +363,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 466.803466796875,
-                            "worldAABB_min_y": 509.20068359375,
-                            "worldAABB_max_x": 608.196533203125,
-                            "worldAABB_max_y": 551.910400390625
+                            "worldAABB_min_x": 465.3229064941406,
+                            "worldAABB_min_y": 519.8646240234375,
+                            "worldAABB_max_x": 609.6770629882813,
+                            "worldAABB_max_y": 563.46875
                         }
                     },
                     {
@@ -488,10 +488,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 466.803466796875,
-                            "worldAABB_min_y": 509.20068359375,
-                            "worldAABB_max_x": 608.196533203125,
-                            "worldAABB_max_y": 551.910400390625
+                            "worldAABB_min_x": 465.3229064941406,
+                            "worldAABB_min_y": 519.8646240234375,
+                            "worldAABB_max_x": 609.6770629882813,
+                            "worldAABB_max_y": 563.46875
                         }
                     },
                     {
@@ -542,74 +542,6 @@
                             "type": "Component_PlayerInput",
                             "active": true,
                             "removed": true
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Cursor",
-                "tag": "",
-                "uid": 3509722907466882718,
-                "parentUID": 16561938826019233067,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform2D",
-                            "active": true,
-                            "removed": true,
-                            "localPositionX": 0.0,
-                            "localPositionY": 0.0,
-                            "localPositionZ": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localScaleX": 1.0,
-                            "localScaleY": 1.0,
-                            "localScaleZ": 1.0,
-                            "sizeX": 48.0,
-                            "sizeY": 48.0,
-                            "localAABB_min_x": -0.5,
-                            "localAABB_min_y": -0.5,
-                            "localAABB_max_x": 0.5,
-                            "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 524.7666625976563,
-                            "worldAABB_min_y": 273.76666259765625,
-                            "worldAABB_max_x": 550.2333374023438,
-                            "worldAABB_max_y": 299.23333740234375
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Image",
-                            "active": true,
-                            "removed": true,
-                            "imageUID": 4347478819907658403,
-                            "assetPathImage": "Assets/Textures/cursor.png",
-                            "color_x": 1.0,
-                            "color_y": 1.0,
-                            "color_z": 1.0,
-                            "color_w": 1.0,
-                            "renderPercentage": 1.0,
-                            "direction": 0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Script",
-                            "active": true,
-                            "removed": true,
-                            "constructName": "UICursorScript",
-                            "fields": [
-                                {
-                                    "name": "Cursor",
-                                    "value": 3509722907466882718,
-                                    "type": 2
-                                }
-                            ]
                         }
                     }
                 ]

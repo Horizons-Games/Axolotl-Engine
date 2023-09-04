@@ -220,7 +220,6 @@ UpdateStatus ModuleInput::Update()
 				{
 					axis = static_cast<SDL_GameControllerAxis>(sdlEvent.caxis.axis);
 					axisValue = sdlEvent.caxis.value;
-					mouseMotion = float2((float) sdlEvent.motion.xrel, (float) sdlEvent.motion.yrel);
 					if (axis == SDL_CONTROLLER_AXIS_LEFTX)
 					{
 						if (axisValue > 3200)

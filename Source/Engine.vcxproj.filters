@@ -578,9 +578,6 @@
     <ClCompile Include="..\Game\Scripts\UIGameManager.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\UICursorScript.cpp">
-      <Filter>UserScripts\UI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIMissionTrigger.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
@@ -1077,9 +1074,6 @@
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIGameManager.h">
-      <Filter>UserScripts\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\UICursorScript.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UITrigger.h">
