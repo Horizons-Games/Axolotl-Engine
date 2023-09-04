@@ -8,6 +8,7 @@
 #include "Modules/ModulePlayer.h"
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
+#include "Modules/ModuleUI.h"
 
 #include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Cubemap/Cubemap.h"
@@ -88,6 +89,9 @@ void OnLoadedScene()
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	scene->InitAndStartScriptingComponents();
 	scene->InitParticlesComponents();
+
+	ModuleUI* ui = App->GetModule<ModuleUI>();
+	ui->SetUpButtons();
 #endif // !ENGINE
 
 	LOG_VERBOSE("Finished load of scene {}", currentLoadingConfig->scenePath.value());

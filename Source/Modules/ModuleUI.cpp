@@ -25,6 +25,15 @@
 	#include "DataModels/Windows/EditorWindows/WindowScene.h"
 #endif // ENGINE
 
+namespace
+{
+bool compareButtonPositions(const ComponentButton* a, const ComponentButton* b)
+{
+	return a->GetOwner()->GetComponentInternal<ComponentTransform2D>()->GetPosition().y <
+		   b->GetOwner()->GetComponentInternal<ComponentTransform2D>()->GetPosition().y;
+}
+} // namespace
+
 ModuleUI::ModuleUI()
 {
 }
@@ -52,6 +61,21 @@ UpdateStatus ModuleUI::Update()
 	ModuleInput* input = App->GetModule<ModuleInput>();
 
 	bool leftClickDown = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
+	if (!sortedButtonsIds.empty())
+	{
+		JoystickMovement joystickMovement = input->GetDirection();
+
+		int deltaIndex = 0;
+		if (joystickMovement.verticalMovement == JoystickVerticalDirection::BACK)
+		{
+			deltaIndex = 1;
+		}
+		else if (joystickMovement.verticalMovement == JoystickVerticalDirection::FORWARD)
+		{
+			deltaIndex = -1;
+		}
+		currentButtonIndex = (currentButtonIndex + deltaIndex) % sortedButtonsIds.size();
+	}
 
 	for (const ComponentCanvas* canvas : canvasScene)
 	{
@@ -161,6 +185,36 @@ void ModuleUI::CreateVAO()
 	glBindVertexArray(0);
 }
 
+void ModuleUI::SetUpButtons()
+{
+	auto filteredButtons = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneInteractable()  |
+						   std::views::transform(
+							   [](const Component* comp)
+							   {
+								   return dynamic_cast<const ComponentButton*>(comp);
+							   }) |
+						   std::views::filter(
+							   [](const ComponentButton* comp)
+							   {
+								   return comp != nullptr;
+							   });
+
+	std::vector<const ComponentButton*> sortedButtons =
+		std::vector<const ComponentButton*>(std::begin(filteredButtons), std::end(filteredButtons));
+
+	std::sort(std::begin(sortedButtons),
+			  std::end(sortedButtons),
+			  compareButtonPositions);
+
+	auto sortedButtonsIdsView = sortedButtons | std::views::transform(
+													[](const ComponentButton* button)
+													{
+														return button->GetOwner()->GetUID();
+													});
+	sortedButtonsIds.clear();
+	sortedButtonsIds = std::vector<UID>(std::begin(sortedButtonsIdsView), std::end(sortedButtonsIdsView));
+}
+
 void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 											   float2 mouseCursor,
 											   bool leftClicked,
@@ -195,7 +249,9 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 			const ComponentTransform2D* transform = button->GetOwner()->GetComponentInternal<ComponentTransform2D>();
 
 			AABB2D aabb2d = transform->GetWorldAABB();
-			if (aabb2d.Contains(mouseCursor))
+			AXO_TODO("ADD CONTROLLER TO BUTTON CHECK CONDITION");
+			if (aabb2d.Contains(mouseCursor) ||
+				(!sortedButtonsIds.empty() && sortedButtonsIds[currentButtonIndex] == button->GetOwner()->GetUID()))
 			{
 				button->SetHovered(true);
 				if (leftClicked)

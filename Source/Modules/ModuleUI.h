@@ -2,6 +2,8 @@
 #include "Math/float2.h"
 #include "Module.h"
 
+#include "FileSystem/UID.h"
+
 class GameObject;
 
 class ModuleUI : public Module
@@ -21,6 +23,8 @@ public:
 	void CreateVAO();
 	unsigned int GetQuadVAO() const;
 
+	void SetUpButtons();
+
 private:
 	void DetectInteractionWithGameObject(const GameObject* gameObject,
 										 float2 cursorPosition,
@@ -30,6 +34,9 @@ private:
 
 	unsigned int quadVBO;
 	unsigned int quadVAO;
+
+	std::vector<UID> sortedButtonsIds;
+	std::size_t currentButtonIndex;
 };
 
 inline unsigned int ModuleUI::GetQuadVAO() const
