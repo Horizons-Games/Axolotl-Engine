@@ -175,13 +175,13 @@ void FinalBossScript::ReactivateMovement() const
 
 void FinalBossScript::ManageNeutralPhase()
 {
-	int chargeChance = rand() % 1500; // Trust me, 1 in 1500 chance is enough
 	bool isAnAttackHappening = shockWaveAttackScript->IsAttacking() || chargeAttackScript->IsAttacking();
-
 	if (isAnAttackHappening)
 	{
 		return;
 	}
+
+	int chargeChance = rand() % 1500; // Trust me, 1 in 1500 chance is enough
 
 	// If the player gets near the boss, the boss will defend itself with a shockwave if possible
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
@@ -207,15 +207,14 @@ void FinalBossScript::ManageNeutralPhase()
 
 void FinalBossScript::ManageAggressivePhase()
 {
-	int chargeChance = rand() % 500; // Triple the chance of charges
-	int seekingShockWaveChance = rand() % 500;
-
 	bool isAnAttackHappening = shockWaveAttackScript->IsAttacking() || chargeAttackScript->IsAttacking();
-
 	if (isAnAttackHappening)
 	{
 		return;
 	}
+
+	int chargeChance = rand() % 500; // Triple the chance of charges
+	int seekingShockWaveChance = rand() % 500;
 
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack())
@@ -245,16 +244,15 @@ void FinalBossScript::ManageAggressivePhase()
 
 void FinalBossScript::ManageDefensivePhase()
 {
-	int chargeChance = rand() % 2000; // Reduce a lot the chance of charges
-	int shieldChance = rand() % 1000;
-
 	bool isAnAttackHappening = shockWaveAttackScript->IsAttacking() || chargeAttackScript->IsAttacking() ||
 		shieldAttackScript->IsAttacking();
-
 	if (isAnAttackHappening)
 	{
 		return;
 	}
+
+	int chargeChance = rand() % 2000; // Reduce a lot the chance of charges
+	int shieldChance = rand() % 1000;
 
 	// The boss is on the defensive now, if the shield attack is available, they will most likely trigger it
 	if (shieldChance < 5 && shieldAttackScript->CanPerformShieldAttack())
@@ -283,18 +281,17 @@ void FinalBossScript::ManageDefensivePhase()
 
 void FinalBossScript::ManageLastResortPhase()
 {
-	int chargeChance = rand() % 750;
-	int seekingShockWaveChance = rand() % 750;
-	int lastResortMissilesChance = rand() % 250;	// This is his final attack, 
-													// he should trigger almost always when ready IMO
-
 	bool isAnAttackHappening = shockWaveAttackScript->IsAttacking() || chargeAttackScript->IsAttacking() ||
 		missilesAttackScript->IsAttacking();
-
 	if (isAnAttackHappening)
 	{
 		return;
 	}
+
+	int chargeChance = rand() % 750;
+	int seekingShockWaveChance = rand() % 750;
+	int lastResortMissilesChance = rand() % 250;	// This is his final attack, 
+													// he should trigger almost always when ready IMO
 
 	// If the missiles attack is ready, trigger it as much as possible
 	if (lastResortMissilesChance < 1 && missilesAttackScript->CanPerformMissilesAttack())
@@ -324,8 +321,4 @@ void FinalBossScript::ManageLastResortPhase()
 		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
 		bossState = FinalBossStates::WALKING;
 	}
-}
-
-void FinalBossScript::SetReadyToDie()
-{
 }

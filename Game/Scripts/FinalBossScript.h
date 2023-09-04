@@ -49,10 +49,10 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void SetReadyToDie() override;
+	void SetReadyToDie() override = 0;
 
 private:
-	void ChangeBossPhases();
+	void ChangeBossPhase();
 	void ManageActualPhase(FinalBossPhases bossState);
 
 	void TryAttacksIndividually();
