@@ -51,9 +51,9 @@ void HealthSystem::Start()
 		maxHealth = currentHealth;
 	}
 
-	meshEffect->FillMeshes(owner);
-	meshEffect->ReserveSpace(1);
-	meshEffect->AddColor(float3(1.f, 0.f, 0.f));
+	//meshEffect->FillMeshes(owner);
+	//meshEffect->ReserveSpace(1);
+	//meshEffect->AddColor(float3(1.f, 0.f, 0.f));
 
 	if (owner->CompareTag("Player"))
 	{
@@ -63,18 +63,18 @@ void HealthSystem::Start()
 
 void HealthSystem::Update(float deltaTime)
 {
-	meshEffect->DamageEffect();
+	//meshEffect->DamageEffect();
 
 	if (!EntityIsAlive() && owner->CompareTag("Player"))
 	{
-		meshEffect->ClearEffect();
+		//meshEffect->ClearEffect();
 		PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
 		playerDeathManager->ManagePlayerDeath();
 			
 	}
 	else if (!EntityIsAlive() && owner->CompareTag("Enemy"))
 	{
-		meshEffect->ClearEffect();
+		//meshEffect->ClearEffect();
 		EnemyDeathScript* enemyDeathManager = owner->GetComponent<EnemyDeathScript>();
 		enemyDeathManager->ManageEnemyDeath();
 	}
@@ -125,7 +125,7 @@ void HealthSystem::TakeDamage(float damage)
 
 		if (EntityIsAlive())
 		{
-			meshEffect->StartEffect(MAX_TIME_EFFECT_DURATION, TIME_BETWEEN_EFFECTS);
+			//meshEffect->StartEffect(MAX_TIME_EFFECT_DURATION, TIME_BETWEEN_EFFECTS);
 		}
 
 		if (componentParticleSystem)

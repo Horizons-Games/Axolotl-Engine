@@ -62,6 +62,9 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 
 	REGISTER_FIELD(bulletPrefab, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
+
+	REGISTER_FIELD(pistolGameObject, GameObject*);
+
 }
 
 void PlayerAttackScript::Start()
@@ -80,6 +83,8 @@ void PlayerAttackScript::Start()
 	lightFinisherScript = owner->GetComponent<LightFinisherAttackScript>();
 
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	pistolGameObject->Disable();
 }
 
 void PlayerAttackScript::Update(float deltaTime)
@@ -258,6 +263,8 @@ void PlayerAttackScript::JumpNormalAttack()
 void PlayerAttackScript::LightFinisher()
 {
 	animation->SetParameter("LightFinisherAttacking", true);
+	pistolGameObject->Enable();
+
 	isAttacking = true;
 
 	lightFinisherScript->ThrowStunItem();
@@ -352,6 +359,7 @@ void PlayerAttackScript::ResetAttackAnimations()
 				animation->SetParameter("LightFinisherAttacking", false);
 				isAttacking = false;
 				lastAttack = AttackType::NONE;
+				pistolGameObject->Disable();
 			}
 			break;	
 

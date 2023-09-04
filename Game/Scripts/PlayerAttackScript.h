@@ -103,6 +103,7 @@ private:
 	HeavyFinisherAttack* heavyFinisherAttack;
 	GameObject* lightWeapon;
 	GameObject* bulletPrefab;
+	GameObject* pistolGameObject;
 
 	Scene* loadedScene;
 };
