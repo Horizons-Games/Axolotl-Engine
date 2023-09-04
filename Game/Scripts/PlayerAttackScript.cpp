@@ -305,18 +305,11 @@ void PlayerAttackScript::ResetAttackAnimations()
 			break;	
 
 		case AttackType::HEAVYNORMAL:
-			if (animation->GetActualStateName() == "BixIdle" && !animation->IsPlaying())
+			if (!animation->IsPlaying())
 			{
 				animation->SetParameter("IsHeavyAttacking", false);
 				isAttacking = false;
 				lastAttack = AttackType::NONE;
-			}
-
-			else if (animation->GetActualStateName() != "BixIdle" &&
-				animation->GetActualStateName() != "BixHeavyAttack")
-			{
-				animation->SetParameter("IsHeavyAttacking", false);
-				isAttacking = false;
 			}
 			LOG_VERBOSE("ResettingHeavyAttackAnimation");
 			break;	

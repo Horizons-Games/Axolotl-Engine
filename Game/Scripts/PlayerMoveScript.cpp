@@ -80,7 +80,7 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 
 void PlayerMoveScript::Move(float deltaTime)
 {
-	if (componentAnimation->GetActualStateName() == "BixRunning" && playerState != PlayerActions::WALKING)
+	if (componentAnimation->GetActualStateName() == "Running" && playerState != PlayerActions::WALKING)
 	{
 		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 		playerState = PlayerActions::WALKING;
@@ -204,7 +204,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	// Dash
 	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN && canDash)
 	{
-		if (!isDashing && componentAnimation->GetActualStateName() != "BixDashingInit")
+		if (!isDashing && componentAnimation->GetActualStateName() != "DashingInit")
 		{
 			componentAnimation->SetParameter("IsDashing", true);
 			componentAnimation->SetParameter("IsRunning", false);
