@@ -1,18 +1,20 @@
 #version 460
 
-#define KERNEL_SIZE 10
-#define TANGENT_ROWS 5
-#define TANGENT_COLS 5
+#extension GL_ARB_bindless_texture : require
+#extension GL_ARB_shading_language_include : require
 
-in vec2 uv;
+#define KERNEL_SIZE 10
+#define TANGENT_ROWS 4
+#define TANGENT_COLS 4
+
+in vec2 TexCoord;
 out vec4 color;
 
-uniform sampler2D positions;
-uniform sampler2D normals;
-
 uniform vec2 screenSize;
-uniform vec3 randomTangents[TANGENT_ROWS][TANGENT_COLS];
-uniform vec3 kernelSamples[KERNEL_SIZE];
+uniform vec3 viewPos;
+
+layout(binding = 0) uniform sampler2D gPositions;
+layout(binding = 1) uniform sampler2D gNormals;
 
 layout(std140, row_major, binding = 0) uniform Camera 
 {
@@ -26,6 +28,12 @@ layout(std140, row_major, binding = 0) uniform Camera
                     // 16 // 112 (column 3)
 };
 
+layout(std140, binding = 1) uniform Kernel 
+{
+	vec3 kernelSamples[KERNEL_SIZE];
+	vec3 randomTangents[TANGENT_ROWS][TANGENT_COLS];
+};
+
 mat3 createTangentSpace(const vec3 normal, const vec3 randTangent)
 {
 	vec3 tangent = normalize(randTangent-normal*dot(normal, randTangent)); // Gram-Schmidt
@@ -35,26 +43,25 @@ mat3 createTangentSpace(const vec3 normal, const vec3 randTangent)
 
 vec3 getRandomTangent()
 {
-	vec2 screenPos = uv*screenSize;
+	vec2 screenPos = TexCoord*screenSize;
 	ivec2 index = ivec2(int(mod(screenPos.y, TANGENT_ROWS)), int(mod(screenPos.x, TANGENT_COLS)));
 	return randomTangents[index.x][index.y];
 }
 
 float getSceneDepthAtSamplePos(in vec3 samplePos)
 {
-	vec4 clippingSpace = projection*vec4(samplePos, 1.0);
+	vec4 clippingSpace = proj*vec4(samplePos, 1.0);
 	vec2 sampleUV = (clippingSpace.xy/clippingSpace.w)*0.5+0.5;
 
-	return (camera_view*texture(positions, sampleUV)).z;
+	return (view*vec4(texture(gPositions, TexCoord).xyz, 1.0)).z;
 }
 
 void main()
 {
-	vec3 position = camera_view*texture(positions, uv).xyz;
-	vec3 normal = mat3(camera_view)*normalize(texture(normals, uv).xyz);
+	vec3 position = (view*vec4(texture(gPositions, TexCoord).xyz, 1.0)).xyz;
+	vec3 normal = mat3(view)*normalize(texture(gNormals, TexCoord).xyz);
 	mat3 tangentSpace = createTangentSpace(normal, getRandomTangent());
 	int occlusion = 0;
-
 
 	for(int i=0; i< KERNEL_SIZE; ++i)
 	{

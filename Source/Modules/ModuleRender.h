@@ -23,6 +23,7 @@ class GeometryBatch;
 class BatchManager;
 class ComponentMeshRenderer;
 class GBuffer;
+class SSAO;
 
 class ModuleRender : public Module
 {
@@ -115,6 +116,7 @@ private:
 
 	BatchManager* batchManager;
 	GBuffer* gBuffer;
+	SSAO* ssao;
 
 	unsigned uboCamera;
 
