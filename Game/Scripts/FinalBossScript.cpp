@@ -252,10 +252,10 @@ void FinalBossScript::ManageDefensivePhase()
 	}
 
 	int chargeChance = rand() % 2000; // Reduce a lot the chance of charges
-	int shieldChance = rand() % 1000;
+	int shieldChance = rand() % 200;
 
 	// The boss is on the defensive now, if the shield attack is available, they will most likely trigger it
-	if (shieldChance < 5 && shieldAttackScript->CanPerformShieldAttack())
+	if (shieldChance < 1 && shieldAttackScript->CanPerformShieldAttack())
 	{
 		shieldAttackScript->TriggerShieldAttack();
 		bossState = FinalBossStates::DEFENDING;
