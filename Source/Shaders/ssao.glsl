@@ -3,7 +3,7 @@
 #extension GL_ARB_bindless_texture : require
 #extension GL_ARB_shading_language_include : require
 
-#define KERNEL_SIZE 10
+#define KERNEL_SIZE 64
 #define TANGENT_ROWS 4
 #define TANGENT_COLS 4
 

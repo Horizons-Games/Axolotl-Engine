@@ -74,9 +74,9 @@ void SSAO::Render(Program* program, int width, int height)
 	program->BindUniformFloat2("screenSize", float2(width, height));
 
 	glBindBuffer(GL_UNIFORM_BUFFER, uboKernel);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(kernel.kernel), &kernel.kernel[0]);
-	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(kernel.kernel), sizeof(kernel.randomTangents), 
-				    &kernel.randomTangents[0][0]);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3) * KERNEL_SIZE, &kernel.kernel);
+	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(float3) * KERNEL_SIZE, sizeof(float3) * RANDOM_ROT_SIZE,
+				    &kernel.randomTangents);
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 
@@ -120,20 +120,17 @@ void SSAO::CreateRandomTangents()
 	std::uniform_real_distribution<float> randoms(0.0f, 1.0f);
 	std::default_random_engine generator;
 
-	for (unsigned i = 0; i < RANDOM_TANGENTS_ROWS; ++i)
+	for (unsigned i = 0; i < RANDOM_ROT_SIZE; ++i)
 	{
-		for (unsigned j = 0; j < RANDOM_TANGENTS_COLS; ++j)
-		{
-			float3 dir;
+		float3 dir;
 
-			dir.x = randoms(generator) * 2.0f - 1.0f;
-			dir.y = randoms(generator) * 2.0f - 1.0f;
-			dir.z = 0.0f;
+		dir.x = randoms(generator) * 2.0f - 1.0f;
+		dir.y = randoms(generator) * 2.0f - 1.0f;
+		dir.z = 0.0f;
 
-			dir.Normalize();
+		dir.Normalize();
 
-			kernel.randomTangents[i][j] = dir;
-		}
+		kernel.randomTangents[i] = dir;
 	}
 
 }

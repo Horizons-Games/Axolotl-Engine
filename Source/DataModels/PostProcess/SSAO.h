@@ -4,9 +4,8 @@
 
 #include <random>
 
-#define KERNEL_SIZE 10
-#define RANDOM_TANGENTS_ROWS 4
-#define RANDOM_TANGENTS_COLS 4
+#define KERNEL_SIZE 64
+#define RANDOM_ROT_SIZE 16
 
 class Program;
 
@@ -32,7 +31,7 @@ private:
 	struct Kernel
 	{
 		float3 kernel[KERNEL_SIZE];
-		float3 randomTangents[RANDOM_TANGENTS_ROWS][RANDOM_TANGENTS_COLS];
+		float3 randomTangents[RANDOM_ROT_SIZE];
 	};
 
 	GLuint uboKernel = 0;
