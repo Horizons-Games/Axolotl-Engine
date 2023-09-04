@@ -9,6 +9,7 @@ class ComponentAnimation;
 class ComponentParticleSystem;
 
 class BixAttackScript;
+class MeshEffect;
 
 class HealthSystem : public Script
 {
@@ -31,6 +32,7 @@ public:
 	void SetIsImmortal(bool isImmortal);
 	
 private:
+
 	float currentHealth;
 	float maxHealth;
 	bool isImmortal;
@@ -38,6 +40,8 @@ private:
 
 	ComponentAnimation* componentAnimation;
 	ComponentParticleSystem* componentParticleSystem;
+
+	MeshEffect* meshEffect;
 
 	BixAttackScript* attackScript;
 };

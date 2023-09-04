@@ -9,14 +9,16 @@
 #include <vector>
 #include <memory>
 
-#define MAX_PARTICLES 200
+#define MAX_PARTICLES 500
 #define MAX_DURATION 25.0f
 #define MAX_SPEED 75.0f
 #define MAX_SIZE 10.0f
 #define MAX_ROTATION 359.9f
 #define MAX_GRAVITY 100.0f
 #define MAX_RADIUS 1000000000.0f
-#define MIN_RADIUS 0.001f
+#define MAX_ANGLE 89.99f
+#define MIN_RADIUS 0.00f
+#define MIN_ANGLE 0.00f
 
 #define DEFAULT_DURATION 10.0f
 #define DEFAULT_LIFESPAN_X 3.0f

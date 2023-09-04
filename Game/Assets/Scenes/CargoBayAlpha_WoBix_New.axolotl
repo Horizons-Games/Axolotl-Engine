@@ -9,22 +9,30 @@
                 "enabled": true,
                 "static": true,
                 "Components": [
+                  {
+                    "Component": {
+                      "type": "Component_Transform",
+                      "active": true,
+                      "removed": false,
+                      "localPos_X": -1.679765224456787,
+                      "localPos_Y": 0.5659978985786438,
+                      "localPos_Z": -9.001432418823242,
+                      "localRot_X": 0.0,
+                      "localRot_Y": 0.0,
+                      "localRot_Z": 0.0,
+                      "localSca_X": 1.0,
+                      "localSca_Y": 1.0,
+                      "localSca_Z": 1.0
+                    },
                     {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -1.679765224456787,
-                            "localPos_Y": 0.5659978985786438,
-                            "localPos_Z": -9.001432418823242,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
+                      "Component": {
+                        "type": "Component_Render",
+                        "active": false,
+                        "removed": false,
+                        "bloom_intensity": 1.0
+                      }
                     }
+                  }
                 ]
             }
         },

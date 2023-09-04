@@ -2,6 +2,8 @@
 
 #include "Scripting/Script.h"
 
+#include "Exceptions/ScriptAssertFailedException.h"
+
 #include "Application.h"
 
 Script::Script() : App(::App.get())
@@ -70,6 +72,15 @@ void Script::Serialize(ISimpleSerializer* pSerializer)
 				break;
 			}
 
+			case FieldType::STATEMACHINE:
+			{
+				Field<StateMachine*> field = std::get<Field<StateMachine*>>(enumAndField.second);
+				StateMachine* value = field.getter();
+				pSerializer->SerializeProperty(field.name.c_str(), value);
+				field.setter(value);
+				break;
+			}
+
 			default:
 				break;
 		}
@@ -79,4 +90,14 @@ void Script::Serialize(ISimpleSerializer* pSerializer)
 void Script::AddMember(TypeFieldPair&& member)
 {
 	members.push_back(member);
+}
+
+void Script::Assert(bool&& condition, std::string&& errorMessage)
+{
+	if (!condition)
+	{
+		LOG_ERROR(errorMessage);
+		throw ScriptAssertFailedException("Assert failed during execution of script " +
+										  std::string(GetConstructor()->GetName()));
+	}
 }

@@ -1,8 +1,6 @@
 #pragma once
 #include "Component.h"
 
-#pragma message(__FILE__ " TODO: Remove this component")
-
 class ComponentPlayer : public Component
 {
 public:

@@ -64,6 +64,10 @@ void WindowComponentDirLight::DrawWindowContents()
 				modified = true;
 			}
 
+			ImGui::Text("Bias");
+			ImGui::SameLine();
+			ImGui::DragFloat2("##bias", &asDirLight->shadowBias[0], 0.00001f, 0.0f, 0.0f, "%.5f");
+
 			if (modified)
 			{
 				App->GetModule<ModuleScene>()->GetLoadedScene()->RenderDirectionalLight();

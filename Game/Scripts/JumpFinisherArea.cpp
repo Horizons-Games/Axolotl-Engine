@@ -39,7 +39,7 @@ void JumpFinisherArea::Start()
 
 void JumpFinisherArea::Update(float deltaTime)
 {
-	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());
+	rigidBody->UpdateRigidBody();
 
 	if (!triggerParticleSystemTimer)
 	{
