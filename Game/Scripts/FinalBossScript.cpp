@@ -51,49 +51,55 @@ void FinalBossScript::Update(float deltaTime)
 	// Uncomment this line to check the attacks individually (you have to activate each one of them below)
 	//TryAttacksIndividually();
 	
-	// Comment this line if you uncomment the one above and vice versa
-	ManageBossPhases();
+	// Comment these lines if you uncomment the one above and vice versa
+	ChangeBossPhase();
+	ManageActualPhase(bossPhase);
 }
 
-void FinalBossScript::ManageBossPhases()
+void FinalBossScript::ChangeBossPhase()
 {
-	if ((bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.2f &&
-		bossPhase == FinalBossPhases::DEFENSIVE) || bossPhase == FinalBossPhases::LAST_RESORT)
+	if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.2f && 
+		bossPhase == FinalBossPhases::DEFENSIVE)
 	{
-		if (bossPhase != FinalBossPhases::LAST_RESORT)
-		{
-			LOG_INFO("Final Boss is in the LAST RESORT PHASE");
-			bossPhase = FinalBossPhases::LAST_RESORT;
-		}
-
-		ManageLastResortPhase();
+		LOG_INFO("Final Boss is in the LAST RESORT PHASE");
+		bossPhase = FinalBossPhases::LAST_RESORT;
 	}
-	else if ((bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.5f &&
-		bossPhase == FinalBossPhases::AGGRESSIVE) || bossPhase == FinalBossPhases::DEFENSIVE)
+	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.5f &&
+		bossPhase == FinalBossPhases::AGGRESSIVE)
 	{
-		if (bossPhase != FinalBossPhases::DEFENSIVE)
-		{
-			LOG_INFO("Final Boss is in the DEFENSIVE PHASE");
-			bossPhase = FinalBossPhases::DEFENSIVE;
-		}
-
-		ManageDefensivePhase();
+		LOG_INFO("Final Boss is in the DEFENSIVE PHASE");
+		bossPhase = FinalBossPhases::DEFENSIVE;
 	}
-	else if ((bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.8f &&
-		bossPhase == FinalBossPhases::NEUTRAL) || bossPhase == FinalBossPhases::AGGRESSIVE)
+	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.8f &&
+		bossPhase == FinalBossPhases::NEUTRAL)
 	{
-		if (bossPhase != FinalBossPhases::AGGRESSIVE)
-		{
-			LOG_INFO("Final Boss is in the AGGRESSIVE PHASE");
-			bossPhase = FinalBossPhases::AGGRESSIVE;
-		}
-
-		ManageAggressivePhase();
+		LOG_INFO("Final Boss is in the AGGRESSIVE PHASE");
+		bossPhase = FinalBossPhases::AGGRESSIVE;
 	}
-	else if (bossPhase == FinalBossPhases::NEUTRAL)
+}
+
+void FinalBossScript::ManageActualPhase(FinalBossPhases bossState)
+{
+	switch (bossState)
 	{
-		bossPhase = FinalBossPhases::NEUTRAL;
-		ManageNeutralPhase();
+		case FinalBossPhases::NEUTRAL:
+			ManageNeutralPhase();
+			break;
+
+		case FinalBossPhases::AGGRESSIVE:
+			ManageAggressivePhase();
+			break;
+
+		case FinalBossPhases::DEFENSIVE:
+			ManageDefensivePhase();
+			break;
+
+		case FinalBossPhases::LAST_RESORT:
+			ManageLastResortPhase();
+			break;
+
+		default:
+			break;
 	}
 }
 

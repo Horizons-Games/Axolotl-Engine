@@ -52,7 +52,9 @@ public:
 	void SetReadyToDie() override;
 
 private:
-	void ManageBossPhases();
+	void ChangeBossPhases();
+	void ManageActualPhase(FinalBossPhases bossState);
+
 	void TryAttacksIndividually();
 
 	void ReactivateMovement() const;
