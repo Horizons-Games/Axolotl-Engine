@@ -4628,6 +4628,11 @@
                             "constructName": "EnemyDeathScript",
                             "fields": [
                                 {
+                                    "name": "ChanceToGivePowerUp",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "PowerUpParent",
                                     "value": 0,
                                     "type": 2
@@ -7658,6 +7663,11 @@
                             "removed": true,
                             "constructName": "EnemyDeathScript",
                             "fields": [
+                                {
+                                    "name": "ChanceToGivePowerUp",
+                                    "value": false,
+                                    "type": 5
+                                },
                                 {
                                     "name": "PowerUpParent",
                                     "value": 0,
@@ -10935,6 +10945,11 @@
                             "removed": true,
                             "constructName": "EnemyDeathScript",
                             "fields": [
+                                {
+                                    "name": "ChanceToGivePowerUp",
+                                    "value": false,
+                                    "type": 5
+                                },
                                 {
                                     "name": "PowerUpParent",
                                     "value": 0,
@@ -14645,6 +14660,11 @@
                             "removed": true,
                             "constructName": "EnemyDeathScript",
                             "fields": [
+                                {
+                                    "name": "ChanceToGivePowerUp",
+                                    "value": false,
+                                    "type": 5
+                                },
                                 {
                                     "name": "PowerUpParent",
                                     "value": 0,
@@ -18995,7 +19015,7 @@
                             "fields": [
                                 {
                                     "name": "UiComboManager",
-                                    "value": 0,
+                                    "value": 7839789571772863452,
                                     "type": 2
                                 },
                                 {
@@ -19070,7 +19090,7 @@
                 "tag": "",
                 "uid": 17134649343604724471,
                 "parentUID": 17163278416834799811,
-                "enabled": true,
+                "enabled": false,
                 "static": true,
                 "Components": [
                     {
@@ -19292,7 +19312,7 @@
                             "useRotationController": false,
                             "KpForce": 5.0,
                             "KpTorque": 0.05000000074505806,
-                            "gravity_Y": -9.8100004196167,
+                            "gravity_Y": 0.0,
                             "boxSize_X": 0.0,
                             "boxSize_Y": 0.0,
                             "boxSize_Z": 0.0,

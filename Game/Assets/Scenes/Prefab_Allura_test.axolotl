@@ -206,7 +206,7 @@
                                 },
                                 {
                                     "name": "IsMelee",
-                                    "value": true,
+                                    "value": false,
                                     "type": 5
                                 },
                                 {
@@ -221,7 +221,7 @@
                                 },
                                 {
                                     "name": "LightWeapon",
-                                    "value": 7131891700420305440,
+                                    "value": 15439592941999992541,
                                     "type": 2
                                 },
                                 {
@@ -702,7 +702,7 @@
                 "tag": "",
                 "uid": 3414766142340961264,
                 "parentUID": 16553757055216958851,
-                "enabled": true,
+                "enabled": false,
                 "static": true,
                 "Components": [
                     {

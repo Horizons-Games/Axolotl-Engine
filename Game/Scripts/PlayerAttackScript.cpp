@@ -164,6 +164,7 @@ void PlayerAttackScript::LightNormalAttack()
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
 
+
 	if (isMelee)
 	{
 		if (enemyAttacked != nullptr)
@@ -179,6 +180,10 @@ void PlayerAttackScript::LightNormalAttack()
 	}
 	else
 	{
+		if (enemyAttacked != nullptr)
+		{
+			comboSystem->SuccessfulAttack(comboCountLight, AttackType::LIGHTNORMAL);
+		}
 		ThrowBasicAttack(enemyAttacked, attackSoft);
 	}
 	isAttacking = true;
@@ -208,6 +213,10 @@ void PlayerAttackScript::HeavyNormalAttack()
 	}
 	else
 	{
+		if (enemyAttacked != nullptr)
+		{
+			comboSystem->SuccessfulAttack(comboCountHeavy, AttackType::HEAVYNORMAL);
+		}
 		ThrowBasicAttack(enemyAttacked, attackHeavy);
 	}
 	
@@ -300,8 +309,8 @@ void PlayerAttackScript::ResetAttackAnimations()
 				animation->SetParameter("IsLightAttacking", false);
 				isAttacking = false;
 				lastAttack = AttackType::NONE;
+				LOG_VERBOSE("ResettingLightAttackAnimation");
 			}
-			LOG_VERBOSE("ResettingLightAttackAnimation");
 			break;	
 
 		case AttackType::HEAVYNORMAL:
@@ -310,28 +319,28 @@ void PlayerAttackScript::ResetAttackAnimations()
 				animation->SetParameter("IsHeavyAttacking", false);
 				isAttacking = false;
 				lastAttack = AttackType::NONE;
+				LOG_VERBOSE("ResettingHeavyAttackAnimation");
 			}
-			LOG_VERBOSE("ResettingHeavyAttackAnimation");
 			break;	
 
 		case AttackType::JUMPNORMAL:
 
 		case AttackType::JUMPFINISHER:
-			animation->SetParameter("IsJumpAttacking", false);
-			if (animation->GetActualStateName() == "JumpAttackRecovery")
+			if (!animation->IsPlaying())
 			{
+				animation->SetParameter("IsJumpAttacking", false);
 				isAttacking = false;
+				lastAttack = AttackType::NONE;
 			}
 			
 			// There are some times in which the animations happen so quick and the first if is not entered,
 			// so I added this as a safe mesure because, if not, the player would be prevented of attacking,
 			// jumping and moving if the first if is not entered
 
-			else if (animation->GetActualStateName() != "JumpAttack")
+			/*else if (animation->GetActualStateName() != "JumpAttack")
 			{
 				isAttacking = false;
-			}
-			lastAttack = AttackType::NONE;
+			}*/
 			break;
 
 		case AttackType::LIGHTFINISHER:	
