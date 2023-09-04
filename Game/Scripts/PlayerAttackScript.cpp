@@ -84,7 +84,10 @@ void PlayerAttackScript::Start()
 
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
-	pistolGameObject->Disable();
+	if (pistolGameObject) 
+	{
+		pistolGameObject->Disable();
+	}
 }
 
 void PlayerAttackScript::Update(float deltaTime)
@@ -263,7 +266,11 @@ void PlayerAttackScript::JumpNormalAttack()
 void PlayerAttackScript::LightFinisher()
 {
 	animation->SetParameter("LightFinisherAttacking", true);
-	pistolGameObject->Enable();
+
+	if (pistolGameObject)
+	{
+		pistolGameObject->Enable();
+	}
 
 	isAttacking = true;
 
@@ -359,7 +366,10 @@ void PlayerAttackScript::ResetAttackAnimations()
 				animation->SetParameter("LightFinisherAttacking", false);
 				isAttacking = false;
 				lastAttack = AttackType::NONE;
-				pistolGameObject->Disable();
+				if (pistolGameObject)
+				{
+					pistolGameObject->Disable();
+				}
 			}
 			break;	
 
