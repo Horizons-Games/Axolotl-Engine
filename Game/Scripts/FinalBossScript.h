@@ -76,8 +76,6 @@ private:
 	BossShieldAttackScript* shieldAttackScript;
 	BossMissilesAttackScript* missilesAttackScript;
 
-	bool isLookingAtTarget;
-
 	// Modifiable values
 	GameObject* target;
 };
