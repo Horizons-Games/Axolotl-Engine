@@ -96,11 +96,11 @@ public:
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 	Skybox* GetSkybox() const;
 	Cubemap* GetCubemap() const;
+	const bool GetCombatMode() const;
+	const float GetEnemiesToDefeat() const;
 	std::vector<ComponentMeshRenderer*> GetMeshRenderers() const;
 	std::vector<AABB> GetBoundingBoxes() const;
 	std::vector<ComponentAgent*> GetAgentComponents() const;
-	const bool GetCombatMode() const;
-	const float GetEnemiesToDefeat() const;
 
 	std::vector<float> GetVertices();
 	std::vector<int> GetTriangles();
