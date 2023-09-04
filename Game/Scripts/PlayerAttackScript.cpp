@@ -159,7 +159,6 @@ void PlayerAttackScript::LightNormalAttack()
 {
 	//Activate visuals and audios
 	animation->SetParameter("IsLightAttacking", true);
-	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
 
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
@@ -167,6 +166,7 @@ void PlayerAttackScript::LightNormalAttack()
 
 	if (isMelee)
 	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
 		if (enemyAttacked != nullptr)
 		{
 			LOG_VERBOSE("Enemy hit with light attack");
@@ -180,6 +180,7 @@ void PlayerAttackScript::LightNormalAttack()
 	}
 	else
 	{
+		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
 		if (enemyAttacked != nullptr)
 		{
 			comboSystem->SuccessfulAttack(comboCountLight, AttackType::LIGHTNORMAL);
@@ -200,6 +201,7 @@ void PlayerAttackScript::HeavyNormalAttack()
 	
 	if (isMelee)
 	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
 		if (enemyAttacked != nullptr)
 		{
 			LOG_VERBOSE("Enemy hit with heavy attack");
@@ -213,6 +215,7 @@ void PlayerAttackScript::HeavyNormalAttack()
 	}
 	else
 	{
+		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
 		if (enemyAttacked != nullptr)
 		{
 			comboSystem->SuccessfulAttack(comboCountHeavy, AttackType::HEAVYNORMAL);

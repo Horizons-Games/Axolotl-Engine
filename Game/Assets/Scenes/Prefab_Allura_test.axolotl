@@ -703,7 +703,7 @@
                 "uid": 3414766142340961264,
                 "parentUID": 16553757055216958851,
                 "enabled": false,
-                "static": true,
+                "static": false,
                 "Components": [
                     {
                         "Component": {
@@ -1453,43 +1453,6 @@
         },
         {
             "GameObject": {
-                "name": "Empty GameObject",
-                "tag": "",
-                "uid": 3632424630272701574,
-                "parentUID": 2936065966958249174,
-                "enabled": false,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Animation",
-                            "active": true,
-                            "removed": true,
-                            "stateUID": 10945341973357188390,
-                            "assetPathState": "Assets/StateMachine/BixAnimController.state"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "RootNode",
                 "tag": "",
                 "uid": 14402142360222006038,
@@ -1995,7 +1958,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
+                            "localPos_Y": -0.000003814697265625,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -3629,9 +3592,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
+                            "localPos_X": 1.4901161193847656e-8,
                             "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Z": 2.384185791015625e-7,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -3647,8 +3610,8 @@
                             "removed": true,
                             "meshUID": 15602451318858639703,
                             "assetPathMesh": "Assets/Meshes/AlluraControllerV1.Cylinder.001_0.mesh",
-                            "materialUID": 9127658874103991840,
-                            "assetPathMaterial": "Assets/Materials/AlluraControllerV1DefaultMaterial_0.mat"
+                            "materialUID": 7143001884677041520,
+                            "assetPathMaterial": "Assets/Materials/AlluraControllerEE-3.mat"
                         }
                     }
                 ]
@@ -4050,8 +4013,8 @@
                             "removed": true,
                             "meshUID": 4036410676403650777,
                             "assetPathMesh": "Assets/Meshes/AlluraControllerV1.Cylinder_0.mesh",
-                            "materialUID": 9127658874103991840,
-                            "assetPathMaterial": "Assets/Materials/AlluraControllerV1DefaultMaterial_0.mat"
+                            "materialUID": 712279686219878494,
+                            "assetPathMaterial": "Assets/Materials/AlluraControllerV1EE-3Blaster_0.mat"
                         }
                     }
                 ]
@@ -4100,8 +4063,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Y": -2.0116567611694336e-7,
+                            "localPos_Z": 4.0978193283081055e-8,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -4117,8 +4080,8 @@
                             "removed": true,
                             "meshUID": 5572631703786265568,
                             "assetPathMesh": "Assets/Meshes/AlluraControllerV1.Cylinder.004_0.mesh",
-                            "materialUID": 12763213797493245083,
-                            "assetPathMaterial": "Assets/Materials/AlluraControllerV1EE3-Blaster_0.mat"
+                            "materialUID": 712279686219878494,
+                            "assetPathMaterial": "Assets/Materials/AlluraControllerV1EE-3Blaster_0.mat"
                         }
                     }
                 ]
