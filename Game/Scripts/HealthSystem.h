@@ -9,7 +9,7 @@ class ComponentAnimation;
 class ComponentParticleSystem;
 
 class PlayerAttackScript;
-
+class MeshEffect;
 
 class HealthSystem : public Script
 {
@@ -34,6 +34,7 @@ public:
 	void SetDeathCallback(std::function<void(void)>&& callDeath);
 
 private:
+
 	float currentHealth;
 	float maxHealth;
 	bool isImmortal;
@@ -44,6 +45,7 @@ private:
 	ComponentParticleSystem* componentParticleSystem;
 
 	PlayerAttackScript* attackScript;
+	MeshEffect* meshEffect;
 
 	std::function<void(void)> deathCallback;
 };
