@@ -148,7 +148,11 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					gos.push_back(gameObject);
+					ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
+					if (ObjectInFrustum(frustum, transform->GetEncapsuledAABB()))
+					{
+						gos.push_back(gameObject);
+					}
 				}
 			}
 		}
@@ -158,7 +162,11 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					gos.push_back(gameObject);
+					ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
+					if (ObjectInFrustum(frustum, transform->GetEncapsuledAABB()))
+					{
+						gos.push_back(gameObject);
+					}
 				}
 			}
 

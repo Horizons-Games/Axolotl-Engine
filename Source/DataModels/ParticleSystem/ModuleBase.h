@@ -27,6 +27,8 @@ private:
 	float4x4 originTransform;
 	float3 originLocation;
 	Quat originRotation;
+
+	bool allPartsDead;
 };
 
 inline void ModuleBase::SetOrigin(const float3& origin)
