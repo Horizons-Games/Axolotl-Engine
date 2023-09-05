@@ -5,13 +5,17 @@
 
 #include "/Common/Functions/pbr_functions.glsl"
 
+#include "/Common/Functions/srgba_functions.glsl"
+
 #include "/Common/Structs/lights.glsl"
 
-#include "/Common/Uniforms/lights_uniform.glsl"
+#include "/Common/Structs/effect.glsl"
+
+#include "/Common/Structs/tiling.glsl"
 
 struct Material {
     vec4 diffuse_color;         //0 //16
-    int has_diffuse_map;        //16 //4       
+    int has_diffuse_map;        //16 //4
     int has_normal_map;         //20 //4
     int has_metallic_map;       //24 //4
     int has_emissive_map;       //28 //4
@@ -21,12 +25,7 @@ struct Material {
     sampler2D diffuse_map;      //48 //8
     sampler2D normal_map;       //56 //8
     sampler2D metallic_map;     //64 //8 
-    sampler2D emissive_map;     //72 //8 -->80
-};
-
-struct Tiling {
-    vec2 tiling;                //0  //8
-    vec2 offset;                //8  //8 --> 16
+    sampler2D emissive_map;     //72 //8 --> 80
 };
 
 layout(std140, binding=1) uniform Directional
@@ -65,6 +64,10 @@ readonly layout(std430, binding = 11) buffer Materials {
 
 readonly layout(std430, binding = 12) buffer Tilings {
     Tiling tilings[];
+};
+
+readonly layout(std430, binding = 13) buffer Effects {
+    Effect effects[];
 };
 
 // IBL
@@ -284,15 +287,20 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
 void main()
 {
     Material material = materials[InstanceIndex];
+    Effect effect = effects[InstanceIndex];
+
+    if (effect.discardFrag == 1)
+    {
+        discard;
+        return;
+    }
     Tiling tiling = tilings[InstanceIndex];
 
-    vec2 newTexCoord =  TexCoord*tiling.tiling+tiling.offset;
+    vec2 newTexCoord = TexCoord*tiling.percentage*tiling.tiling+tiling.offset;
 
 	vec3 norm = Normal;
     vec3 tangent = FragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
-	vec3 lightDir = normalize(light.position - FragPos);
-    vec4 gammaCorrection = vec4(2.2);
 
     // Diffuse
 	vec4 textureMat = material.diffuse_color;
@@ -300,7 +308,8 @@ void main()
     {
         textureMat = texture(material.diffuse_map, newTexCoord);
     }
-    textureMat = pow(textureMat, gammaCorrection); // sRGB textures to linear space
+    textureMat = SRGBA(textureMat);
+    textureMat.rgb += effect.color;
     
     if(textureMat.a < 0.01)
     {
@@ -372,10 +381,6 @@ void main()
     {
         color += vec3(texture(material.emissive_map, newTexCoord));
     }
-    
-	//hdr rendering
-    color = color / (color + vec3(1.0));
-    color = pow(color, vec3(1.0/gammaCorrection));
-   
+       
     outColor = vec4(color, textureMat.a);
 }

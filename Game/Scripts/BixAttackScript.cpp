@@ -246,19 +246,35 @@ void BixAttackScript::ResetAttackAnimations()
 	switch (currentAttack)
 	{
 		case AttackType::LIGHTNORMAL:
-			if (!animation->IsPlaying())
+			if (animation->GetActualStateName() == "BixIdle" && !animation->IsPlaying())
+			{
+				animation->SetParameter("IsLightAttacking", false);
+				isAttacking = false;
+				
+			}
+			else if (animation->GetActualStateName() != "BixIdle" &&
+				animation->GetActualStateName() != "BixLightAttack")
 			{
 				animation->SetParameter("IsLightAttacking", false);
 				isAttacking = false;
 			}
+			LOG_VERBOSE("ResettingLightAttackAnimation");
 			break;	
 
 		case AttackType::HEAVYNORMAL:
-			if (!animation->IsPlaying())
+			if (animation->GetActualStateName() == "BixIdle" && !animation->IsPlaying())
 			{
 				animation->SetParameter("IsHeavyAttacking", false);
 				isAttacking = false;
 			}
+
+			else if (animation->GetActualStateName() != "BixIdle" &&
+				animation->GetActualStateName() != "BixHeavyAttack")
+			{
+				animation->SetParameter("IsHeavyAttacking", false);
+				isAttacking = false;
+			}
+			LOG_VERBOSE("ResettingHeavyAttackAnimation");
 			break;	
 
 		case AttackType::JUMPNORMAL:

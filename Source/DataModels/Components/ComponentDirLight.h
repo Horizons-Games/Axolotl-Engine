@@ -15,6 +15,10 @@ public:
 
 	void Draw() const override;
 
+	void OnTransformChanged() override;
+
+	float2 shadowBias;
+
 private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;

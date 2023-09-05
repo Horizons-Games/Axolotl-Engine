@@ -5,13 +5,17 @@
 
 #include "/Common/Functions/pbr_functions.glsl"
 
+#include "/Common/Functions/srgba_functions.glsl"
+
 #include "/Common/Structs/lights.glsl"
 
-#include "/Common/Uniforms/lights_uniform.glsl"
+#include "/Common/Structs/tiling.glsl"
+
+#include "/Common/Structs/effect.glsl"
 
 struct Material {
     vec4 diffuse_color;         //0  //16
-    vec3 specular_color;        //16 //16       
+    vec3 specular_color;        //16 //16
     int has_diffuse_map;        //32 //4
     int has_normal_map;         //36 //4
     int has_specular_map;       //40 //4
@@ -22,7 +26,7 @@ struct Material {
     sampler2D normal_map;       //64 //8
     sampler2D specular_map;     //72 //8    
     sampler2D emissive_map;     //80 //8
-    int padding1,padding2;      //88 //8 --> 96
+    int padding1, padding2;     //88 //8 --> 96
 };
 
 layout(std140, binding=1) uniform Directional
@@ -57,6 +61,14 @@ readonly layout(std430, binding=5) buffer AreaLightsTube
 
 readonly layout(std430, binding = 11) buffer Materials {
     Material materials[];
+};
+
+readonly layout(std430, binding = 12) buffer Tilings {
+    Tiling tilings[];
+};
+
+readonly layout(std430, binding = 13) buffer Effects {
+    Effect effects[];
 };
 
 // IBL
@@ -277,20 +289,29 @@ vec3 posA = areaTube[i].positionA.xyz;
 void main()
 {
     Material material = materials[InstanceIndex];
+    Effect effect = effects[InstanceIndex];
+
+    if (effect.discardFrag == 1)
+    {
+        discard;
+        return;
+    }
+    Tiling tiling = tilings[InstanceIndex];
+
+    vec2 newTexCoord = TexCoord*tiling.percentage*tiling.tiling+tiling.offset;
 
 	vec3 norm = Normal;
     vec3 tangent = FragTangent;
     vec3 viewDir = normalize(ViewPos - FragPos);
-	vec3 lightDir = normalize(light.position - FragPos);
-    vec4 gammaCorrection = vec4(2.2);
 
     // Diffuse
 	vec4 textureMat = material.diffuse_color;
     if (material.has_diffuse_map == 1) {
-        textureMat = texture(material.diffuse_map, TexCoord); 
+        textureMat = texture(material.diffuse_map, newTexCoord); 
         //textureMat = pow(textureMat, vec3(2.2));
     }
-    textureMat = pow(textureMat, gammaCorrection);
+    textureMat = SRGBA(textureMat);
+    textureMat.rgb += effect.color;
     
     //Transparency
     textureMat.a = material.has_diffuse_map * textureMat.a + 
@@ -300,7 +321,7 @@ void main()
 	if (material.has_normal_map == 1)
 	{
         mat3 space = CreateTangentSpace(norm, tangent);
-        norm = texture(material.normal_map, TexCoord).rgb;
+        norm = texture(material.normal_map, newTexCoord).rgb;
         norm = norm * 2.0 - 1.0;
         norm.xy *= material.normal_strength;
         norm = normalize(norm);
@@ -311,7 +332,7 @@ void main()
     // Specular
     vec4 specularMat = vec4(material.specular_color, 1.0);
     if (material.has_specular_map == 1) {
-        specularMat = vec4(texture(material.specular_map, TexCoord));
+        specularMat = vec4(texture(material.specular_map, newTexCoord));
     }
 
     vec3 f0 = specularMat.rgb;
@@ -353,12 +374,8 @@ void main()
     //Emissive
     if (material.has_emissive_map == 1) 
     {
-        color += vec3(texture(material.emissive_map, TexCoord));
+        color += vec3(texture(material.emissive_map, newTexCoord));
     }
     
-	//hdr rendering
-    color = color / (color + vec3(1.0));
-    color = pow(color, vec3(1.0/2.2));
-   
     outColor = vec4(color, textureMat.a);
 }
