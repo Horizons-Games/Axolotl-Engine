@@ -47,7 +47,7 @@ void PlayerMoveScript::Start()
 	}
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	jumpScript = owner->GetComponent<PlayerJumpScript>();
-	bixAttackScript = owner->GetComponent<PlayerAttackScript>();
+	playerAttackScript = owner->GetComponent<PlayerAttackScript>();
 	btRigidbody = rigidBody->GetRigidBody();
 
 	camera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
@@ -64,7 +64,7 @@ void PlayerMoveScript::Start()
 void PlayerMoveScript::PreUpdate(float deltaTime)
 {
 
-	if (!bixAttackScript->IsPerfomingJumpAttack())
+	if (!playerAttackScript->IsPerfomingJumpAttack())
 	{
 		if (forceScript)
 		{
@@ -156,7 +156,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	else 
 	{
 		bool playerIsRunning = playerState != PlayerActions::WALKING && playerState != PlayerActions::DASHING
-			&& jumpScript->IsGrounded() && bixAttackScript->IsAttackAvailable();
+			&& jumpScript->IsGrounded() && playerAttackScript->IsAttackAvailable();
 		
 		if (playerIsRunning)
 		{
@@ -166,7 +166,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 
 		//Low velocity while attacking
-		AttackType currentAttack = bixAttackScript->GetCurrentAttackType();
+		AttackType currentAttack = playerAttackScript->GetCurrentAttackType();
 		switch (currentAttack)
 		{
 		case AttackType::LIGHTNORMAL:
@@ -268,8 +268,8 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 	}
 
 	//Look at enemy selected while attacking
-	AttackType currentAttack = bixAttackScript->GetCurrentAttackType();
-	GameObject* enemyGO = bixAttackScript->GetEnemyDetected();
+	AttackType currentAttack = playerAttackScript->GetCurrentAttackType();
+	GameObject* enemyGO = playerAttackScript->GetEnemyDetected();
 	if (enemyGO != nullptr && currentAttack != AttackType::NONE)
 	{
 		ComponentTransform* enemy = enemyGO->GetComponent<ComponentTransform>();

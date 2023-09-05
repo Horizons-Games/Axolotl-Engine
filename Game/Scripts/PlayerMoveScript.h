@@ -81,7 +81,7 @@ private:
 	ModuleInput* input;
 	
 	PlayerJumpScript* jumpScript;
-	PlayerAttackScript* bixAttackScript;
+	PlayerAttackScript* playerAttackScript;
 
 	int previousMovements;
 	int currentMovements;
