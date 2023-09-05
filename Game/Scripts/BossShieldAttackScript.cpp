@@ -84,7 +84,7 @@ void BossShieldAttackScript::TriggerShieldAttack()
 
 bool BossShieldAttackScript::CanPerformShieldAttack() const
 {
-	return shieldAttackCooldown <= 0.0f && !isShielding;
+	return shieldAttackCooldown <= 0.0f && !IsAttacking();
 }
 
 bool BossShieldAttackScript::IsAttacking() const
