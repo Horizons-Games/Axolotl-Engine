@@ -842,10 +842,13 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 					}
 				}
 
-				ComponentRigidBody* rb = gameObject->GetComponentInternal<ComponentRigidBody>();
-				if (rb)
+				else
 				{
-					rb->RemoveRigidBodyFromSimulation();
+					ComponentRigidBody* rb = gameObject->GetComponentInternal<ComponentRigidBody>();
+					if (rb)
+					{
+						rb->RemoveRigidBodyFromSimulation();
+					}
 				}
 			}
 
