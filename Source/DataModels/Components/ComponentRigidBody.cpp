@@ -146,6 +146,11 @@ void ComponentRigidBody::OnTransformChanged()
 #endif
 }
 
+void ComponentRigidBody::Draw() const
+{
+
+}
+
 void ComponentRigidBody::Update()
 {
 	float deltaTime = App->GetDeltaTime();

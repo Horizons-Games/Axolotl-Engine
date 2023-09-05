@@ -1,5 +1,6 @@
 #pragma once
 #include "Auxiliar/Generics/Updatable.h"
+#include "Auxiliar/Generics/Drawable.h"
 #include "Bullet/LinearMath/btVector3.h"
 #include "Bullet/btBulletDynamicsCommon.h"
 #include "Component.h"
@@ -9,7 +10,7 @@ class btRigidBody;
 struct btDefaultMotionState;
 class btCollisionShape;
 
-class ComponentRigidBody : public Component, public Updatable
+class ComponentRigidBody : public Component, public Updatable, public Drawable
 {
 public:
 	enum class Shape
@@ -36,6 +37,8 @@ public:
 	void OnCollisionExit(ComponentRigidBody* other);
 
 	void OnTransformChanged() override;
+
+	void Draw() const override;
 
 	void Update() override;
 
