@@ -654,9 +654,6 @@
     <ClCompile Include="..\Game\Scripts\UIComboManager.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp">
-      <Filter>Auxiliar</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentSkybox.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -1415,9 +1412,6 @@
     </ClInclude>
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\ComponentNotFoundException.h">
-      <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
       <Filter>UserScripts</Filter>
@@ -2457,9 +2451,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Skybox\Skybox.h">
-      <Filter>DataModels\Skybox</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Program\Program.h">
       <Filter>DataModels\Program</Filter>
