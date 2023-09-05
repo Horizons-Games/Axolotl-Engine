@@ -85,27 +85,31 @@ vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, vec
 
     for (int i = 0; i < num_point; ++i)
     {
-        vec3 pos = points[i].position.xyz;
-        vec3 color = points[i].color.rgb;
-        float radius = points[i].position.w;
-        float intensity = points[i].color.a;
+//        float distance = length(points[i].position.xyz - fragPos);
+//        if(distance < points[i].position.w)
+//        {
+            vec3 pos = points[i].position.xyz;
+            vec3 color = points[i].color.rgb;
+            float radius = points[i].position.w;
+            float intensity = points[i].color.a;
 
-        vec3 L = normalize(pos-fragPos);
-        vec3 H = (L+V)/length(L+V);
-        float dotNL = max(dot(N,L), EPSILON);
+            vec3 L = normalize(pos-fragPos);
+            vec3 H = (L+V)/length(L+V);
+            float dotNL = max(dot(N,L), EPSILON);
 
-        vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
-        float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
-        float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
+            vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+            float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
+            float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
-        // Attenuation
-        float distance = length(fragPos-pos);
-        float maxValue = pow(max(1-pow(distance/radius,4), 0),2);
-        float attenuation = maxValue/(pow(distance,2) + 1);
+            // Attenuation
+            float distance = length(fragPos-pos);
+            float maxValue = pow(max(1-pow(distance/radius,4), 0),2);
+            float attenuation = maxValue/(pow(distance,2) + 1);
 
-        vec3 Li = color*intensity*attenuation;
+            vec3 Li = color*intensity*attenuation;
 
-        Lo += (Cd*(1-f0)+0.25*FS*SV*GGXND)*Li*dotNL;
+            Lo += (Cd*(1-f0)+0.25*FS*SV*GGXND)*Li*dotNL;
+//        }
     }
 
     return Lo;
@@ -117,45 +121,49 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, vec3
 
     for (int i = 0; i < num_spot; ++i)
     {
-        vec3 pos = spots[i].position.xyz;
-        vec3 aim = spots[i].aim;
-        vec3 color = spots[i].color.rgb;
-        float radius = spots[i].position.w;
-        float intensity = spots[i].color.a;
-        float innerAngle = spots[i].innerAngle;
-        float outerAngle = spots[i].outerAngle;
+//        float distance = length(spots[i].position.xyz - fragPos);
+//        if(distance < spots[i].position.w)
+//        {
+            vec3 pos = spots[i].position.xyz;
+            vec3 aim = spots[i].aim;
+            vec3 color = spots[i].color.rgb;
+            float radius = spots[i].position.w;
+            float intensity = spots[i].color.a;
+            float innerAngle = spots[i].innerAngle;
+            float outerAngle = spots[i].outerAngle;
 
-        float cosInner = cos(innerAngle);
-        float cosOuter = cos(outerAngle);
+            float cosInner = cos(innerAngle);
+            float cosOuter = cos(outerAngle);
 
-        vec3 L = normalize(pos-fragPos);
-        vec3 H = (L+V)/length(L+V);
-        float dotNL = max(dot(N,L), EPSILON);
+            vec3 L = normalize(pos-fragPos);
+            vec3 H = (L+V)/length(L+V);
+            float dotNL = max(dot(N,L), EPSILON);
 
-        vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
-        float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
-        float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
+            vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+            float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
+            float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
-        // Attenuation
-        float distance = dot(fragPos - pos, aim);
-        float maxValue = pow(max(1 - pow(distance/radius,4), 0),2);
-        float attenuation = maxValue/(pow(distance,2) + 1);
+            // Attenuation
+            float distance = dot(fragPos - pos, aim);
+            float maxValue = pow(max(1 - pow(distance/radius,4), 0),2);
+            float attenuation = maxValue/(pow(distance,2) + 1);
 
-        float C = dot(-L, aim);
-        float Catt = 0.0;
+            float C = dot(-L, aim);
+            float Catt = 0.0;
 
-        if (C > cosInner)
-        {
-            Catt = 1.0;
-        }
-        else if (cosInner > C && C > cosOuter)
-        {
-            Catt = (C-cosOuter)/(cosInner-cosOuter);
-        }
+            if (C > cosInner)
+            {
+                Catt = 1.0;
+            }
+            else if (cosInner > C && C > cosOuter)
+            {
+                Catt = (C-cosOuter)/(cosInner-cosOuter);
+            }
     
-        vec3 Li = color*intensity*attenuation*Catt;
+            vec3 Li = color*intensity*attenuation*Catt;
             
-        Lo += (Cd*(1-f0)+0.25*FS*SV*GGXND)*Li*dotNL;
+            Lo += (Cd*(1-f0)+0.25*FS*SV*GGXND)*Li*dotNL;
+//        }
     }
 
     return Lo;
