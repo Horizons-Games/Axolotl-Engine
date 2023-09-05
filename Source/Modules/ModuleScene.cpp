@@ -12,14 +12,15 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentSkybox.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 
+
 #include "DataModels/Resources/ResourceSkyBox.h"
-#include "DataModels/Skybox/Skybox.h"
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
@@ -28,13 +29,20 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 #include "Components/ComponentParticleSystem.h"
+
+#include "DataModels/Cubemap/Cubemap.h"
+#include "DataModels/Resources/ResourceCubemap.h"
+#include "DataModels/Resources/ResourceSkyBox.h"
+#include "DataModels/Batch/BatchManager.h"
+
 #include "Components/ComponentScript.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Resources/ResourceCubemap.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
-#include "DataModels/Skybox/Skybox.h"
+
+
 #include "DataStructures/Quadtree.h"
 #include "ModulePlayer.h"
 
@@ -322,9 +330,6 @@ void ModuleScene::SaveSceneToJson(Json& jsonScene)
 
 	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
 	rootQuadtree->SaveOptions(jsonScene);
-
-	const Skybox* skybox = loadedScene->GetSkybox();
-	skybox->SaveOptions(jsonScene);
 
 	const Cubemap* cubemap = loadedScene->GetCubemap();
 	cubemap->SaveOptions(jsonScene);

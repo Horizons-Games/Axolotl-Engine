@@ -157,9 +157,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Skybox\Skybox.cpp">
-      <Filter>DataModels\Skybox</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Program\Program.cpp">
       <Filter>DataModels\Program</Filter>
     </ClCompile>
@@ -645,6 +642,15 @@
     <ClCompile Include="..\Game\Scripts\UIComboManager.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentSkybox.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSkybox.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSkyboxInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Jump</Filter>
     </ClCompile>
@@ -935,9 +941,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Skybox\Skybox.h">
-      <Filter>DataModels\Skybox</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Program\Program.h">
       <Filter>DataModels\Program</Filter>
@@ -1443,6 +1446,18 @@
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentSkybox.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSkybox.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSkyboxInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
       <Filter>UserScripts\Gameplay\Player\Jump</Filter>
     </ClInclude>
@@ -1607,9 +1622,6 @@
     </Filter>
     <Filter Include="DataModels\Scene">
       <UniqueIdentifier>{627ee524-a786-4f85-b54b-02612ce25968}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="DataModels\Skybox">
-      <UniqueIdentifier>{e2580d29-b049-4fe4-8b19-f4ac91bdcc68}</UniqueIdentifier>
     </Filter>
     <Filter Include="DataModels\Program">
       <UniqueIdentifier>{ede4d809-0d25-41da-9d4d-167adc480493}</UniqueIdentifier>
@@ -1931,9 +1943,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Skybox\Skybox.cpp">
-      <Filter>DataModels\Skybox</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Program\Program.cpp">
       <Filter>DataModels\Program</Filter>
     </ClCompile>
@@ -2240,9 +2249,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Skybox\Skybox.h">
-      <Filter>DataModels\Skybox</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Program\Program.h">
       <Filter>DataModels\Program</Filter>
@@ -2573,9 +2579,6 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Skybox\Skybox.h">
-      <Filter>DataModels\Skybox</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Program\Program.h">
       <Filter>DataModels\Program</Filter>
     </ClInclude>
@@ -2835,9 +2838,6 @@
     </Filter>
     <Filter Include="DataModels\Scene">
       <UniqueIdentifier>{627ee524-a786-4f85-b54b-02612ce25968}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="DataModels\Skybox">
-      <UniqueIdentifier>{e2580d29-b049-4fe4-8b19-f4ac91bdcc68}</UniqueIdentifier>
     </Filter>
     <Filter Include="DataModels\Program">
       <UniqueIdentifier>{ede4d809-0d25-41da-9d4d-167adc480493}</UniqueIdentifier>
