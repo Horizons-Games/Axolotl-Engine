@@ -1,13 +1,13 @@
 #include "StdAfx.h"
 
-#include "ModuleUI.h"
-
-#include "ModuleScene.h"
-
 #include "Application.h"
+
+#include "ModuleUI.h"
+#include "ModuleScene.h"
 #include "ModuleCamera.h"
 #include "ModuleInput.h"
 #include "ModuleWindow.h"
+
 #include "Scene/Scene.h"
 
 #include "Components/UI/ComponentButton.h"
@@ -29,7 +29,7 @@ namespace
 {
 bool compareButtonPositions(const ComponentButton* a, const ComponentButton* b)
 {
-	return a->GetOwner()->GetComponentInternal<ComponentTransform2D>()->GetPosition().y <
+	return a->GetOwner()->GetComponentInternal<ComponentTransform2D>()->GetPosition().y >
 		   b->GetOwner()->GetComponentInternal<ComponentTransform2D>()->GetPosition().y;
 }
 } // namespace
@@ -61,9 +61,11 @@ UpdateStatus ModuleUI::Update()
 	ModuleInput* input = App->GetModule<ModuleInput>();
 
 	bool leftClickDown = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
-	if (!sortedButtonsIds.empty())
+
+	if (!sortedButtonsIds.empty() && SDL_GetTicks() / 1000.0f > lastButtonChange + 0.2f)
 	{
 		JoystickMovement joystickMovement = input->GetDirection();
+		lastButtonChange = SDL_GetTicks() / 1000.0f;
 
 		int deltaIndex = 0;
 		if (joystickMovement.verticalMovement == JoystickVerticalDirection::BACK)
@@ -196,7 +198,7 @@ void ModuleUI::SetUpButtons()
 						   std::views::filter(
 							   [](const ComponentButton* comp)
 							   {
-								   return comp != nullptr;
+								   return comp != nullptr && comp->IsEnabled();
 							   });
 
 	std::vector<const ComponentButton*> sortedButtons =
@@ -211,6 +213,7 @@ void ModuleUI::SetUpButtons()
 													{
 														return button->GetOwner()->GetUID();
 													});
+
 	sortedButtonsIds.clear();
 	sortedButtonsIds = std::vector<UID>(std::begin(sortedButtonsIdsView), std::end(sortedButtonsIdsView));
 }
@@ -247,11 +250,12 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 		else if (button->IsEnabled())
 		{
 			const ComponentTransform2D* transform = button->GetOwner()->GetComponentInternal<ComponentTransform2D>();
-
+			bool isControllerConnected = App->GetModule<ModuleInput>()->FindController();
 			AABB2D aabb2d = transform->GetWorldAABB();
-			AXO_TODO("ADD CONTROLLER TO BUTTON CHECK CONDITION");
-			if (aabb2d.Contains(mouseCursor) ||
-				(!sortedButtonsIds.empty() && sortedButtonsIds[currentButtonIndex] == button->GetOwner()->GetUID()))
+
+			if (!isControllerConnected && aabb2d.Contains(mouseCursor) ||
+				(isControllerConnected && !sortedButtonsIds.empty() &&
+				 sortedButtonsIds[currentButtonIndex] == button->GetOwner()->GetUID()))
 			{
 				button->SetHovered(true);
 				if (leftClicked)

@@ -43,6 +43,9 @@ public:
 	bool GetFullscreenScene() const;
 	void ToggleFullscreenScene();
 
+	bool GetEditorControls() const;
+	void ToggleEditorControls();
+
 private:
 	std::vector<std::unique_ptr<EditorWindow>> windows;
 	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
@@ -55,6 +58,7 @@ private:
 
 	bool windowResized;
 	bool fullscreenScene;
+	bool editorControls;
 
 	char* StateWindows();
 	void CreateFolderSettings();
@@ -90,7 +94,17 @@ inline void ModuleEditor::ToggleFullscreenScene()
 	fullscreenScene = !fullscreenScene;
 }
 
+inline void ModuleEditor::ToggleEditorControls()
+{
+	editorControls = !editorControls;
+}
+
 inline bool ModuleEditor::GetFullscreenScene() const
 {
 	return fullscreenScene;
+}
+
+inline bool ModuleEditor::GetEditorControls() const
+{
+	return editorControls;
 }

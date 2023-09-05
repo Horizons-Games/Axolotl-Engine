@@ -182,7 +182,7 @@ void Application::OnStop()
 	GetModule<ModulePlayer>()->UnloadNewPlayer();
 	onPlayTimer.Stop();
 	GetModule<ModuleScene>()->OnStop();
-	AXO_TODO("ADD CLEANUP TO DELETE VECTOR");
+	GetModule<ModuleUI>()->ClearButtons();
 }
 
 void Application::OnPause()

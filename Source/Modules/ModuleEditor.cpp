@@ -87,12 +87,12 @@ bool ModuleEditor::Init()
 	windows.push_back(std::unique_ptr<WindowScene>(scene = new WindowScene()));
 	windows.push_back(std::make_unique<WindowConfiguration>());
 	windows.push_back(std::make_unique<WindowResources>());
+	windows.push_back(std::make_unique<WindowNavigation>());
 	windows.push_back(std::unique_ptr<WindowInspector>(inspector = new WindowInspector()));
 	windows.push_back(std::make_unique<WindowHierarchy>());
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowAssetFolder>());
 	windows.push_back(std::make_unique<WindowConsole>());
-	windows.push_back(std::make_unique<WindowNavigation>());
 	
 	char* buffer = StateWindows();
 
@@ -223,7 +223,7 @@ UpdateStatus ModuleEditor::Update()
 		ImGui::DockBuilderAddNode(dockSpaceId, dockSpaceWindowFlags | ImGuiDockNodeFlags_DockSpace);
 		ImGui::DockBuilderSetNodeSize(dockSpaceId, viewport->Size);
 
-		ImGuiID dockIdUp = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Up, 0.08f, nullptr, &dockSpaceId);
+		ImGuiID dockIdUp = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Up, 0.06f, nullptr, &dockSpaceId);
 		ImGuiID dockIdRight = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Right, 0.27f, nullptr, &dockSpaceId);
 		ImGuiID dockIdDown = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Down, 0.32f, nullptr, &dockSpaceId);
 		ImGuiID dockIdLeft = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Left, 0.22f, nullptr, &dockSpaceId);
@@ -255,7 +255,12 @@ UpdateStatus ModuleEditor::Update()
 		bool windowEnabled = mainMenu->IsWindowEnabled(i);
 		if (fullscreenScene)
 		{
-			bool isSceneWindow = i == 0;
+			if (editorControls)
+			{
+				bool isEditorControl = windows[i]->GetName() == "Editor Control";
+				windows[i]->Draw(isEditorControl);
+			}
+			bool isSceneWindow = windows[i]->GetName() == "Scene";
 			windows[i]->Draw(isSceneWindow);
 		}
 		else

@@ -8,7 +8,9 @@
 #include "DataModels/Scene/Scene.h"
 #include "FileSystem/Json.h"
 #include "FileSystem/ModuleFileSystem.h"
+
 #include "ModuleScene.h"
+#include "ModuleEditor.h"
 
 #include "SDL.h"
 
@@ -202,7 +204,11 @@ void WindowMainMenu::DrawHelpMenu()
 		}
 		ImGui::EndMenu();
 	}
-	about->Draw(showAbout);
+	ModuleEditor* editor = App->GetModule<ModuleEditor>();
+	if (!editor->GetFullscreenScene())
+	{
+		about->Draw(showAbout);
+	}
 }
 
 void WindowMainMenu::ShortcutSave()
