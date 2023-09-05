@@ -15,7 +15,7 @@ REGISTERCLASS(PowerUpsManagerScript);
 
 PowerUpsManagerScript::PowerUpsManagerScript() : Script(), amountHealed(20.f), attackIncrease(10.f), defenseIncrease(10.f), 
 	speedIncrease(60.f), maxPowerUpTimer(10.f), currentPowerUpTimer(0.f), player(nullptr), activePowerUp(PowerUpType::NONE),
-	savedPowerUp(PowerUpType::NONE), radiusSeeking(2.5f), setUIManager(nullptr)
+	savedPowerUp(PowerUpType::NONE), radiusSeeking(1.5f), setUIManager(nullptr)
 {
 	REGISTER_FIELD(amountHealed, float);
 	REGISTER_FIELD(attackIncrease, float);
@@ -47,18 +47,16 @@ void PowerUpsManagerScript::Update(float deltaTime)
 	}
 }
 
-bool PowerUpsManagerScript::SavePowerUp(const PowerUpType& type)
+void PowerUpsManagerScript::SavePowerUp(const PowerUpType& type)
 {
 	if (savedPowerUp != PowerUpType::NONE)
 	{
-		return false;
+		return;
 	}
 
 	savedPowerUp = type;
 
 	uiManagerScript->EnableUIPwrUp(savedPowerUp);
-
-	return true;
 }
 
 void PowerUpsManagerScript::UseSavedPowerUp()

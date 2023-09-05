@@ -78,9 +78,9 @@ void PowerUpLogicScript::ActivatePowerUp(GameObject* newParent)
 	type = PowerUpType(rand() % 4 + 1);
 	timer = 0.f;
 
-	owner->SetParent(newParent);
 	ownerTransform->SetLocalPosition(float3::zero);
-	ownerTransform->UpdateTransformMatrices();
+	ownerTransform->SetGlobalPosition(newParent->GetComponent<ComponentTransform>()->GetGlobalPosition());
+	ownerTransform->RecalculateLocalMatrix();
 
 	ownerRb->UpdateRigidBody();
 
@@ -95,10 +95,8 @@ void PowerUpLogicScript::OnCollisionEnter(ComponentRigidBody* other)
 		return;
 	}
 
-	if (powerUpManagerScript->SavePowerUp(type))
-	{
-		DisablePowerUp();
-	}
+	powerUpManagerScript->SavePowerUp(type);
+	DisablePowerUp();
 }
 
 void PowerUpLogicScript::DisablePowerUp() const
