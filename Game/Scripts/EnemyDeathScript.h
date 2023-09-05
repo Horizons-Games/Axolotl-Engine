@@ -5,6 +5,8 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class ComponentParticleSystem;
+
 class EnemyDeathScript : public Script
 {
 public:
@@ -29,4 +31,7 @@ private:
 
 	float despawnTimer;
 	bool startDespawnTimer;
+	bool chanceToGivePowerUp;
+
+	ComponentParticleSystem* particleSystem;
 };

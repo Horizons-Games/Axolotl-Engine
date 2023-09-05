@@ -3,20 +3,26 @@
 
 #include "Application.h"
 #include "Modules/ModuleScene.h"
+#include "Modules/ModulePlayer.h"
 #include "Scene/Scene.h"
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/PowerUpLogicScript.h"
+#include "../Scripts/CameraControllerScript.h"
 #include "../Scripts/FinalBossScript.h"
 
 REGISTERCLASS(EnemyDeathScript);
 
-EnemyDeathScript::EnemyDeathScript() : Script(), despawnTimer(5.0f), startDespawnTimer(false), powerUpParent(nullptr)
+EnemyDeathScript::EnemyDeathScript() : Script(), despawnTimer(5.0f), startDespawnTimer(false), powerUpParent(nullptr),
+particleSystem(nullptr), chanceToGivePowerUp(false)
 {
+	REGISTER_FIELD(chanceToGivePowerUp, bool);
 	REGISTER_FIELD(powerUpParent, GameObject*);
+	REGISTER_FIELD(particleSystem, ComponentParticleSystem*);
 }
 
 void EnemyDeathScript::Update(float deltaTime)
@@ -36,9 +42,13 @@ void EnemyDeathScript::Update(float deltaTime)
 
 void EnemyDeathScript::ManageEnemyDeath()
 {
-	// Only activate powerups when the dead enemy is not a boss
-	// In the future this might also need to check for if it's a miniboss
-	if (!owner->HasComponent<FinalBossScript>())
+
+	if (particleSystem)
+	{
+		particleSystem->Play();
+	}
+
+	if (chanceToGivePowerUp)
 	{
 		GameObject* newPowerUp = RequestPowerUp();
 
@@ -52,6 +62,12 @@ void EnemyDeathScript::ManageEnemyDeath()
 	}
 
 	DisableEnemyActions();
+	float enemiesLeft = App->GetModule<ModuleScene>()->GetLoadedScene()->GetEnemiesToDefeat() - 1;
+	App->GetModule<ModuleScene>()->GetLoadedScene()->SetEnemiesToDefeat(enemiesLeft);
+	if (enemiesLeft == 0)
+	{
+		App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->SetInCombat(false);
+	}
 }
 
 void EnemyDeathScript::ResetDespawnTimerAndEnableActions()

@@ -19,7 +19,7 @@ enum class AreaType;
 
 enum class StateOfSelection
 {
-	NO_SELECTED,
+	NOT_SELECTED,
 	SELECTED,
 	CHILD_SELECTED
 };
@@ -43,6 +43,8 @@ public:
 	void Save(Json& json);
 	void Load(const Json& meta);
 
+	void Render() const;
+	
 	void LoadComponents(const Json& jsonComponents);
 
 	void Draw() const;
@@ -115,7 +117,7 @@ public:
 	void MoveDownChild(const GameObject* childToMove);
 
 	bool IsADescendant(const GameObject* descendant);
-	bool IsRendereable();
+	bool IsRendereable() const;
 
 	bool CompareTag(const std::string& commingTag) const;
 
@@ -176,8 +178,8 @@ inline void GameObject::SetStateOfSelection(StateOfSelection stateOfSelection)
 	}
 	switch (stateOfSelection)
 	{
-		case StateOfSelection::NO_SELECTED:
-			parent->SetStateOfSelection(StateOfSelection::NO_SELECTED);
+		case StateOfSelection::NOT_SELECTED:
+			parent->SetStateOfSelection(StateOfSelection::NOT_SELECTED);
 			break;
 		case StateOfSelection::SELECTED:
 		case StateOfSelection::CHILD_SELECTED:

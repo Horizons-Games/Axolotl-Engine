@@ -29,6 +29,7 @@ public:
 	std::vector<ComponentMeshRenderer*> ChangeBatch(const ComponentMeshRenderer* componentToDelete);
 
 	void BindBatch(bool selected);
+	void BindBatch(std::vector<GameObject*>& objects);
 	void FillMaterial();
 	void ReserveModelSpace();
 
@@ -38,6 +39,8 @@ public:
 	void SetFillMaterials(const bool fillMaterials);
 	void SortByDistanceFarToClose();
 	void SortByDistanceCloseToFar();
+	void SortByDistanceFarToClose(const float3& position);
+	void SortByDistanceCloseToFar(const float3& position);
 	void SetDirty(const bool dirty);
 
 	const int GetFlags() const;
@@ -54,35 +57,35 @@ private:
 
 	struct MaterialMetallic 
 	{
-		float4 diffuse_color = float4::zero; //0 //16
-		int has_diffuse_map = 0;			 //16 //4      
-		int has_normal_map = 0;				 //20 //4
-		int has_metallic_map = 0;			 //24 //4
-		int has_emissive_map = 0;			 //28 //4
-		float smoothness = 0;				 //32 //4
-		float metalness = 0;				 //36 //4
-		float normal_strength = 0;			 //40 //4
-		uint64_t diffuse_map;				 //48 //8
-		uint64_t normal_map;				 //56 //8
-		uint64_t metallic_map;				 //64 //8 
-		uint64_t emissive_map;				 //72 //8 -->80
+		float4 diffuse_color = float4::zero;	//0 //16
+		int has_diffuse_map = 0;				//16 //4
+		int has_normal_map = 0;					//20 //4
+		int has_metallic_map = 0;				//24 //4
+		int has_emissive_map = 0;				//28 //4
+		float smoothness = 0;					//32 //4
+		float metalness = 0;					//36 //4
+		float normal_strength = 0;				//40 //4
+		uint64_t diffuse_map;					//48 //8
+		uint64_t normal_map;					//56 //8
+		uint64_t metallic_map;					//64 //8
+		uint64_t emissive_map;					//72 //8 --> 80
 	};
 
 	struct MaterialSpecular 
 	{
-		float4 diffuse_color = float4::zero;  //0  //16
-		float3 specular_color = float3::zero; //16 //16       
-		int has_diffuse_map = 0;              //32 //4
-		int has_normal_map = 0;               //36 //4
-		int has_specular_map = 0;             //40 //4
-		int has_emissive_map = 0;             //44 //4
-		float smoothness = 0;                 //48 //4
-		float normal_strength = 0;            //52 //4
-		uint64_t diffuse_map;				  //56 //8
-		uint64_t normal_map;				  //64 //8
-		uint64_t specular_map;				  //72 //8    
-		uint64_t emissive_map;				  //80 //8    
-		int padding1 = 0, padding2 = 0;		  //88 //8 --> 96
+		float4 diffuse_color = float4::zero;	//0  //16
+		float3 specular_color = float3::zero;	//16 //16
+		int has_diffuse_map = 0;				//32 //4
+		int has_normal_map = 0;					//36 //4
+		int has_specular_map = 0;				//40 //4
+		int has_emissive_map = 0;				//44 //4
+		float smoothness = 0;					//48 //4
+		float normal_strength = 0;				//52 //4
+		uint64_t diffuse_map;					//56 //8
+		uint64_t normal_map;					//64 //8
+		uint64_t specular_map;					//72 //8
+		uint64_t emissive_map;					//80 //8
+		int padding1, padding2;					//88 //8 --> 96
 	};
 
 	struct ResourceInfo
@@ -103,6 +106,14 @@ private:
 	{
 		float2 tiling;
 		float2 offset;
+		float2 percentage;
+		float2 padding;
+	};
+
+	struct Effect
+	{
+		float3 color;
+		int discard; // works like a boolean
 	};
 
 	struct uint4
@@ -124,9 +135,8 @@ private:
 
 	std::vector<ComponentMeshRenderer*> componentsInBatch;
 	std::vector<std::shared_ptr<ResourceMaterial>> resourcesMaterial;
-	std::unordered_map<const ComponentMeshRenderer*, int> objectIndexes;
+	std::unordered_map<ComponentMeshRenderer*, int> objectIndexes;
 	std::unordered_map<const ComponentMeshRenderer*, int> paletteIndexes;
-	std::unordered_map<const ComponentMeshRenderer*, int> tilingIndexes;
 	std::vector<ResourceInfo*> resourcesInfo;
 	std::vector<PerInstance> perInstances;
 	std::vector<int> instanceData;
@@ -146,6 +156,7 @@ private:
 	unsigned int transforms[DOUBLE_BUFFERS] = { 0, 0 };
 	unsigned int palettes[DOUBLE_BUFFERS] = { 0, 0 };
 	unsigned int tilingBuffer = 0;
+	unsigned int effectBuffer = 0;
 
 	bool createBuffers;
 	bool reserveModelSpace;
@@ -163,6 +174,7 @@ private:
 	const GLuint bindingPointModel = 10;
 	const GLuint bindingPointMaterial = 11;
 	const GLuint bindingPointTiling = 12;
+	const GLuint bindingPointEffect = 13;
 
 	GLbitfield mapFlags;
 	GLbitfield createFlags;
@@ -170,6 +182,7 @@ private:
 	float4x4* transformData[DOUBLE_BUFFERS];
 	float4x4* paletteData[DOUBLE_BUFFERS];
 	Tiling* tilingData;
+	Effect* effectData;
 	MaterialMetallic* metallicMaterialData;
 	MaterialSpecular* specularMaterialData;
 

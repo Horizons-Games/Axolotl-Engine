@@ -2,37 +2,29 @@
 
 #include "Scene.h"
 
-#include "Application.h"
-
-#include "Animation/AnimationController.h"
-
 #include "Batch/BatchManager.h"
 
 #include "Camera/CameraGameObject.h"
 
-#include "Components/ComponentAnimation.h"
+#include "Components/ComponentAgent.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentCameraSample.h"
 #include "Components/ComponentCubemap.h"
+#include "Components/ComponentLine.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentRender.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentCubemap.h"
-#include "Components/ComponentPlayer.h"
-#include "Components/ComponentParticleSystem.h"
 
-#include "Components/UI/ComponentSlider.h"
-#include "Components/UI/ComponentImage.h"
-#include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentTransform2D.h"
 
 #include "DataModels/Cubemap/Cubemap.h"
-#include "DataModels/Program/Program.h"
-
-#include "GameObject/GameObject.h"
 
 #include "DataStructures/Quadtree.h"
 
@@ -40,11 +32,9 @@
 
 #include "FileSystem/ModuleResources.h"
 
-#include "Modules/ModuleProgram.h"
-#include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
+#include "Modules/ModulePlayer.h"
 
-#include "Resources/ResourceAnimation.h"
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceMesh.h"
@@ -66,7 +56,9 @@ Scene::Scene() :
 	ssboSpot(0),
 	rootQuadtree(nullptr),
 	rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE / 2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2),
-						  float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
+						  float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2))),
+	combatMode(false),
+	enemiesToDefeat(0)
 {
 }
 
@@ -74,6 +66,7 @@ Scene::~Scene()
 {
 	sceneGameObjects.clear();
 	sceneCameras.clear();
+	sceneParticleSystems.clear();
 
 	pointLights.clear();
 	spotLights.clear();
@@ -113,6 +106,154 @@ bool Scene::IsInsideACamera(const OBB& obb) const
 bool Scene::IsInsideACamera(const AABB& aabb) const
 {
 	return IsInsideACamera(aabb.ToOBB());
+}
+
+std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frustum)
+{
+	std::vector<GameObject*> objectsInFrustum;
+
+	CalculateObjectsInFrustum(frustum, rootQuadtree.get(), objectsInFrustum);
+
+	for (GameObject* go : nonStaticObjects)
+	{
+		CalculateNonStaticObjectsInFrustum(frustum, go, objectsInFrustum);
+	}
+
+#ifdef ENGINE
+	GameObject* selected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum);
+
+	//for (auto childSelected : selected->GetChildren())
+	//{
+	//	CalculateNonStaticObjectsInFrustum(frustum, childSelected, objectsInFrustum);
+	//}
+#endif
+
+	return objectsInFrustum;
+}
+
+void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad, 
+									  std::vector<GameObject*>& gos)
+{
+	if (FrustumInQuadTree(frustum, quad))
+	{
+		const std::set<GameObject*>& gameObjectsToRender = quad->GetGameObjects();
+
+		if (quad->IsLeaf())
+		{
+			for (GameObject* gameObject : gameObjectsToRender)
+			{
+				if (gameObject->IsActive() && gameObject->IsEnabled())
+				{
+					gos.push_back(gameObject);
+				}
+			}
+		}
+		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
+		{
+			for (GameObject* gameObject : gameObjectsToRender)  //We draw all these objects
+			{
+				if (gameObject->IsActive() && gameObject->IsEnabled())
+				{
+					gos.push_back(gameObject);
+				}
+			}
+
+			CalculateObjectsInFrustum(frustum, quad->GetFrontRightNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetFrontLeftNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetBackRightNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetBackLeftNode(), gos);
+		}
+		else
+		{
+			CalculateObjectsInFrustum(frustum, quad->GetFrontRightNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetFrontLeftNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetBackRightNode(), gos);
+			CalculateObjectsInFrustum(frustum, quad->GetBackLeftNode(), gos);
+		}
+	}
+}
+
+void Scene::CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, GameObject* go,
+										       std::vector<GameObject*>& gos)
+{
+	if (go->GetParent() == nullptr)
+	{
+		return;
+	}
+
+	ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
+	// If an object doesn't have transform component it doesn't need to draw
+	if (transform == nullptr)
+	{
+		return;
+	}
+
+	if (ObjectInFrustum(frustum, transform->GetEncapsuledAABB()))
+	{
+		if (go->HasComponent<ComponentMeshRenderer>())
+		{
+			ComponentMeshRenderer* mesh = go->GetComponentInternal<ComponentMeshRenderer>();
+			if (go->IsActive() && (mesh == nullptr || mesh->IsEnabled()))
+			{
+				gos.push_back(go);
+			}
+		}
+	}
+}
+
+bool Scene::FrustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad)
+{
+	math::Plane planes[6];
+	frustum->GetPlanes(planes);
+
+	math::vec corners[8];
+	quad->GetBoundingBox().GetCornerPoints(corners);
+
+	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
+	{
+		bool onPlane = false;
+		for (int itPoints = 0; itPoints < 8; ++itPoints)
+		{
+			if (!planes[itPlanes].IsOnPositiveSide(corners[itPoints]))
+			{
+				onPlane = true;
+				break;
+			}
+		}
+		if (!onPlane)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool Scene::ObjectInFrustum(const math::Frustum* frustum, const AABB& aabb)
+{
+	math::vec cornerPoints[8];
+	math::Plane frustumPlanes[6];
+
+	frustum->GetPlanes(frustumPlanes);
+	aabb.GetCornerPoints(cornerPoints);
+
+	for (int itPlanes = 0; itPlanes < 6; ++itPlanes)
+	{
+		bool onPlane = false;
+		for (int itPoints = 0; itPoints < 8; ++itPoints)
+		{
+			if (!frustumPlanes[itPlanes].IsOnPositiveSide(cornerPoints[itPoints]))
+			{
+				onPlane = true;
+				break;
+			}
+		}
+		if (!onPlane)
+			return false;
+	}
+
+	return true;
 }
 
 GameObject* Scene::CreateGameObject(const std::string& name, GameObject* parent, bool is3D)
@@ -301,14 +442,44 @@ GameObject* Scene::CreateAudioSourceGameObject(const char* name, GameObject* par
 
 void Scene::DestroyGameObject(const GameObject* gameObject)
 {
-	pendingCreateAndDeleteActions.emplace(
+	App->ScheduleTask(
 		[=]
 		{
 			RemoveFatherAndChildren(gameObject);
 			App->GetModule<ModuleScene>()->RemoveGameObjectAndChildren(gameObject);
 			RemoveGameObjectFromScripts(gameObject);
+			RemoveEndOfLine(gameObject);
+			RemoveComponentLineOfObject(gameObject);
 			delete gameObject->GetParent()->UnlinkChild(gameObject);
 		});
+}
+
+void Scene::RemoveEndOfLine(const GameObject* gameObject)
+{
+	auto componentLine = sceneGameObjects |
+						 std::views::transform(
+							 [](GameObject* gameObject)
+							 {
+								 return gameObject->GetComponentInternal<ComponentLine>();
+							 }) |
+						 std::views::filter(
+							 [gameObject](ComponentLine* component)
+							 {
+								 return component != nullptr && component->GetEnd() == gameObject;
+							 });
+	for (ComponentLine* component : componentLine)
+	{
+		component->SetEnd(nullptr);
+	}
+}
+
+void Scene::RemoveComponentLineOfObject(const GameObject* gameObject)
+{
+	std::erase_if(sceneComponentLines,
+				  [gameObject](ComponentLine* component)
+				  {
+					  return component->GetOwner() == gameObject;
+				  });
 }
 
 void Scene::ConvertModelIntoGameObject(const std::string& model)
@@ -695,16 +866,19 @@ void Scene::GenerateLights()
 
 void Scene::RenderDirectionalLight() const
 {
-	ComponentTransform* dirTransform = directionalLight->GetComponentInternal<ComponentTransform>();
-	ComponentLight* dirComp = directionalLight->GetComponentInternal<ComponentLight>();
+	if (directionalLight)
+	{
+		ComponentTransform* dirTransform = directionalLight->GetComponentInternal<ComponentTransform>();
+		ComponentLight* dirComp = directionalLight->GetComponentInternal<ComponentLight>();
 
-	float3 directionalDir = dirTransform->GetGlobalForward();
-	float4 directionalCol = float4(dirComp->GetColor(), dirComp->GetIntensity());
+		float3 directionalDir = dirTransform->GetGlobalForward();
+		float4 directionalCol = float4(dirComp->GetColor(), dirComp->GetIntensity());
 
-	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &directionalDir);
-	glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(float4), &directionalCol);
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+		glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float3), &directionalDir);
+		glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(float4), &directionalCol);
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	}
 }
 
 void Scene::RenderPointLights() const
@@ -902,11 +1076,12 @@ void Scene::UpdateScenePointLights()
 	{
 		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty() && components[0]->GetLightType() == LightType::POINT && components[0]->IsEnabled())
+			ComponentLight* component = child->GetComponentInternal<ComponentLight>();
+			if (component && component->GetLightType() == LightType::POINT && component->IsEnabled()
+				&& !component->IsDeleting())
 			{
-				ComponentPointLight* pointLightComp = static_cast<ComponentPointLight*>(components[0]);
-				ComponentTransform* transform = components[0]->GetOwner()->GetComponentInternal<ComponentTransform>();
+				ComponentPointLight* pointLightComp = static_cast<ComponentPointLight*>(component);
+				ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
 
 				PointLight pl;
 				pl.position = float4(transform->GetGlobalPosition(), pointLightComp->GetRadius());
@@ -932,10 +1107,11 @@ void Scene::UpdateSceneSpotLights()
 	{
 		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty() && components[0]->GetLightType() == LightType::SPOT && components[0]->IsEnabled())
+			ComponentLight* component = child->GetComponentInternal<ComponentLight>();
+			if (component && component->GetLightType() == LightType::SPOT && component->IsEnabled()
+				&& !component->IsDeleting())
 			{
-				ComponentSpotLight* spotLightComp = static_cast<ComponentSpotLight*>(components[0]);
+				ComponentSpotLight* spotLightComp = static_cast<ComponentSpotLight*>(component);
 				ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
 
 				SpotLight sl;
@@ -968,10 +1144,10 @@ void Scene::UpdateSceneAreaLights()
 	{
 		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
+			ComponentLight* component = child->GetComponentInternal<ComponentLight>();
+			if (component && component->GetLightType() == LightType::AREA && component->IsEnabled())
 			{
-				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(component);
 				ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
 				if (areaLightComp->GetAreaType() == AreaType::SPHERE)
 				{
@@ -1078,10 +1254,11 @@ void Scene::UpdateSceneAreaSpheres()
 	{
 		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
+			ComponentLight* component = child->GetComponentInternal<ComponentLight>();
+			if (component && component->GetLightType() == LightType::AREA && component->IsEnabled()
+				&& !component->IsDeleting())
 			{
-				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(component);
 				ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
 				if (areaLightComp->GetAreaType() == AreaType::SPHERE)
 				{
@@ -1114,10 +1291,11 @@ void Scene::UpdateSceneAreaTubes()
 	{
 		if (child && child->IsActive())
 		{
-			std::vector<ComponentLight*> components = child->GetComponents<ComponentLight>();
-			if (!components.empty() && components[0]->GetLightType() == LightType::AREA && components[0]->IsEnabled())
+			ComponentLight* component = child->GetComponentInternal<ComponentLight>();
+			if (component && component->GetLightType() == LightType::AREA && component->IsEnabled()
+				&& !component->IsDeleting())
 			{
-				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(components[0]);
+				ComponentAreaLight* areaLightComp = static_cast<ComponentAreaLight*>(component);
 				ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
 				if (areaLightComp->GetAreaType() == AreaType::TUBE)
 				{
@@ -1276,15 +1454,14 @@ void Scene::InitNewEmptyScene()
 	std::shared_ptr<ResourceCubemap> resourceCubemap =
 		App->GetModule<ModuleResources>()->RequestResource<ResourceCubemap>("Assets/Cubemaps/sunsetSkybox.cube");
 
-	if (root->GetComponentInternal<ComponentCubemap>() == nullptr)
-	{
-		root->CreateComponent<ComponentCubemap>();
-	}
-
+	InitRender();
+	
 	if (resourceCubemap)
 	{
 		cubemap = std::make_unique<Cubemap>(resourceCubemap);
 	}
+
+	InitCubemap();
 
 	InitLights();
 }
@@ -1384,6 +1561,15 @@ void Scene::RemoveNonStaticObject(const GameObject* gameObject)
 						   std::end(nonStaticObjects));
 }
 
+void Scene::AddUpdatableObject(Updatable* updatable)
+{
+	App->ScheduleTask(
+		[=]
+		{
+			sceneUpdatableObjects.push_back(updatable);
+		});
+}
+
 void Scene::AddSceneGameObjects(const std::vector<GameObject*>& gameObjects)
 {
 	sceneGameObjects.insert(std::end(sceneGameObjects), std::begin(gameObjects), std::end(gameObjects));
@@ -1409,6 +1595,19 @@ void Scene::AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& 
 	sceneParticleSystems.insert(std::end(sceneParticleSystems), std::begin(particleSystems), std::end(particleSystems));
 }
 
+void Scene::AddSceneComponentLines(const std::vector<ComponentLine*>& componentLines)
+{
+	sceneComponentLines.insert(std::end(sceneComponentLines), std::begin(componentLines), std::end(componentLines));
+}
+
+void Scene::InitRender()
+{
+	if (root->GetComponentInternal<ComponentRender>() == nullptr)
+	{
+		root->CreateComponent<ComponentRender>();
+	}
+}
+
 void Scene::InitCubemap()
 {
 	if (root->GetComponentInternal<ComponentCubemap>() == nullptr)
@@ -1416,17 +1615,6 @@ void Scene::InitCubemap()
 		root->CreateComponent<ComponentCubemap>();
 	}
 }
-
-void Scene::ExecutePendingActions()
-{
-	while (!pendingCreateAndDeleteActions.empty())
-	{
-		std::function<void(void)> action = pendingCreateAndDeleteActions.front();
-		action();
-		pendingCreateAndDeleteActions.pop();
-	}
-}
-
 std::vector<float> Scene::GetVertices()
 {
 	std::vector<float> result;
@@ -1518,4 +1706,17 @@ std::vector<float> Scene::GetNormals()
 	}
 
 	return result;
+}
+
+void Scene::SetCombatMode(bool newCombatMode)
+{
+	combatMode = newCombatMode;
+	//App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<ComponentCameraSample>()->SetCombatCameraEnabled(combatMode);
+}
+
+void Scene::SetEnemiesToDefeat(float newEnemiesToDefeat)
+{
+	enemiesToDefeat = newEnemiesToDefeat;
+	if (newEnemiesToDefeat <= 0.0)
+		SetCombatMode(false);
 }

@@ -37,17 +37,12 @@ void EntityDetection::Start()
 	playerTransform = player->GetComponent<ComponentTransform>();
 
 	input = App->GetModule<ModuleInput>();
-
-	rigidBody->SetKpForce(50);
-}
-
-void EntityDetection::Update(float deltaTime)
-{
-	rigidBody->SetPositionTarget(playerTransform->GetGlobalPosition());
 }
 
 void EntityDetection::UpdateEnemyDetection(float distanceFilter)
 {
+	rigidBody->UpdateRigidBody();
+
 	vecForward = playerTransform->GetGlobalForward();
 	originPosition = playerTransform->GetGlobalPosition() - vecForward.Normalized() * interactionOffset;
 
@@ -125,9 +120,14 @@ void EntityDetection::SelectEnemy(float distanceFilter)
 			float minActualThresholdAngle = (angleActualSelected - angleThresholdEnemyIntersection);
 			float maxActualThresholdAngle = (angleActualSelected + angleThresholdEnemyIntersection);
 
-			bool inFrontOfActualSelected = 
-				angle <= maxActualThresholdAngle && originPosition.Distance(enemy->GetGlobalPosition()) < 
-				originPosition.Distance(enemySelected->GetGlobalPosition());
+
+			bool inFrontOfActualSelected = false;
+			if (enemySelected != nullptr) 
+			{
+				inFrontOfActualSelected =
+					angle <= maxActualThresholdAngle && originPosition.Distance(enemy->GetGlobalPosition()) <
+					originPosition.Distance(enemySelected->GetGlobalPosition());
+			}
 
 			if (enemySelected == nullptr || angle < minActualThresholdAngle || inFrontOfActualSelected)
 			{

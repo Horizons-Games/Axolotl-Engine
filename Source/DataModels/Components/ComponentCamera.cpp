@@ -23,11 +23,14 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner) :
 {
 	camera = std::make_unique<CameraGameObject>();
 	camera->Init();
-	camera->SetKpPosition(5.0f);
-	camera->SetKpRotation(5.0f);
-	KpPosition = 5.0f;
-	KpRotation = 5.0f;
-	camera->SetViewPlaneDistance(DEFAULT_GAMEOBJECT_FRUSTUM_DISTANCE);
+
+	ComponentTransform* trans = GetOwner()->GetComponentInternal<ComponentTransform>();
+	camera->SetPosition(trans->GetGlobalPosition());
+	camera->ApplyRotation(trans->GetGlobalRotation());
+
+	isFrustumChecked = false;
+	KpPosition = camera->GetKpPosition();
+	KpRotation = camera->GetKpRotation();
 	Update();
 }
 
@@ -60,6 +63,24 @@ void ComponentCamera::Draw() const
 	if (camera->IsDrawFrustum())
 		App->GetModule<ModuleDebugDraw>()->DrawFrustum(*camera->GetFrustum());
 #endif // ENGINE
+}
+
+void ComponentCamera::OnTransformChanged()
+{
+#ifdef ENGINE
+	if (!App->IsOnPlayMode())
+	{
+		ComponentTransform* trans = GetOwner()->GetComponentInternal<ComponentTransform>();
+
+		camera->SetPosition(trans->GetGlobalPosition());
+		camera->ApplyRotation(trans->GetGlobalRotation());
+
+		if (camera->GetFrustumMode() == EFrustumMode::offsetFrustum)
+		{
+			camera->RecalculateOffsetPlanes();
+		}
+	}
+#endif
 }
 
 void ComponentCamera::SetSampleKpPosition(float kp)

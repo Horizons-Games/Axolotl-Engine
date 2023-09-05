@@ -427,6 +427,9 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentLine.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
@@ -615,6 +618,15 @@
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentTrail.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTrail.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTrailTexture.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Animation\StateMachine.cpp">
       <Filter>DataModels\Animation</Filter>
     </ClCompile>
@@ -632,9 +644,6 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIComboManager.cpp">
       <Filter>UserScripts\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Auxiliar\ComponentNotFoundException.cpp">
-      <Filter>Auxiliar</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Jump</Filter>
@@ -701,6 +710,64 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\HackZoneScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
+    <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\AIMovement.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\MeshEffect.cpp">
+      <Filter>UserScripts\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentRender.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRender.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="Auxiliar\SceneLoader.cpp">
+      <Filter>Auxiliar</Filter>
+    </ClCompile>
+    <ClCompile Include="Scheduler.cpp" />
+    <ClCompile Include="Auxiliar\ConnectedCallback.cpp">
+      <Filter>Auxiliar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
+    <ClCompile Include="..\Game\Scripts\AnimatedLine.cpp">
+      <Filter>UserScripts\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLine.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions\ComponentNotFoundException.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions\ScriptAssertFailedException.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Formatter.cpp" />
+    <ClCompile Include="Modules\ModuleRandom.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyMiniBossTwo.cpp">
+      <Filter>UserScripts\Gameplay\Bosses\Mini Bosses</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BoostOfEnergy.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergyAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SendTriggerCollision.cpp">
+      <Filter>UserScripts\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\Rotator.cpp">
+      <Filter>UserScripts\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -935,9 +1002,6 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
-    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
-      <Filter>Auxiliar</Filter>
-    </ClInclude>
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
@@ -1136,6 +1200,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentCubemap.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentLine.h">
+      <Filter>DataModels\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h">
       <Filter>UserScripts\UI</Filter>
@@ -1343,6 +1410,21 @@
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h">
       <Filter>UserScripts\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Camera\CameraDefines.h">
+      <Filter>DataModels\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentTrail.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentTrail.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowTrailTexture.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\BlendingType.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
     <ClInclude Include="DataModels\Animation\StateMachine.h">
       <Filter>DataModels\Animation</Filter>
     </ClInclude>
@@ -1366,9 +1448,6 @@
     </ClInclude>
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\ComponentNotFoundException.h">
-      <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
       <Filter>UserScripts\Gameplay\Player\Jump</Filter>
@@ -1433,9 +1512,72 @@
     <ClInclude Include="..\Game\Scripts\BossMissilesMissileScript.h">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\MeshEffect.h">
+      <Filter>UserScripts\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentRender.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRender.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
     <ClInclude Include="Defines\AxoTodo.h" />
     <ClInclude Include="..\Game\Scripts\HackZoneScript.h">
       <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CameraSample.h" />
+    <ClInclude Include="..\Game\Scripts\CombatZoneScript.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\AIMovement.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\SceneLoader.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="Scheduler.h" />
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\FileZippedData.h">
+      <Filter>FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\ConnectedCallback.h">
+      <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CombatZoneScript.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\AnimatedLine.h">
+      <Filter>UserScripts\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLine.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\ComponentNotFoundException.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\ScriptAssertFailedException.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Formatter.h" />
+    <ClInclude Include="Modules\ModuleRandom.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EnemyMiniBossTwo.h">
+      <Filter>UserScripts\Gameplay\Bosses\Mini Bosses</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BoostOfEnergy.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergyAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SendTriggerCollision.h">
+      <Filter>UserScripts\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\Rotator.h">
+      <Filter>UserScripts\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1633,6 +1775,18 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack">
       <UniqueIdentifier>{2b97e352-8e22-4d91-ac22-fbfbf32559ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exceptions">
+      <UniqueIdentifier>{d89816a3-de30-46fe-9d0f-cf270aa9f568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Bosses\Mini Bosses">
+      <UniqueIdentifier>{51c415c7-d272-4817-8ce8-f2f76619cae8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergyAttack">
+      <UniqueIdentifier>{545e2d57-65b6-4754-80f4-7c76668ccff8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Utils">
+      <UniqueIdentifier>{5e0a602a-1266-4c8e-abba-0af6541b6b90}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2168,9 +2322,6 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClInclude>
-    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
-      <Filter>Auxiliar</Filter>
-    </ClInclude>
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />
     <ClInclude Include="debugdraw.h" />
@@ -2496,9 +2647,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowResources.h">
       <Filter>DataModels\Windows\EditorWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\CollectionAwareDeleter.h">
-      <Filter>Auxiliar</Filter>
     </ClInclude>
     <ClInclude Include="Application.h" />
     <ClInclude Include="debug_draw.hpp" />

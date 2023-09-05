@@ -1,54 +1,101 @@
 #include "PatrolBehaviourScript.h"
 
+#include "Application.h"
+
+#include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentRigidBody.h"
+#include "Components/ComponentAnimation.h"
+
+
+#include "../Scripts/AIMovement.h"
 
 #include "debugdraw.h"
 #include "AxoLog.h"
 
 REGISTERCLASS(PatrolBehaviourScript);
 
-PatrolBehaviourScript::PatrolBehaviourScript() : Script(), currentWaypointIndex(0),
-	ownerRigidBody(nullptr), ownerTransform(nullptr), currentWayPointTransform(nullptr)
+PatrolBehaviourScript::PatrolBehaviourScript() : Script(), ownerTransform(nullptr),
+aiMovement(nullptr), currentWayPoint(0), isStoppedAtPatrol(true), patrolStopDuration(5.0f), totalPatrolTime(0.0f),
+patrolStateActivated(false), componentAnimation(nullptr), patrolAnimationParamater("")
 {
-	REGISTER_FIELD(waypoints, std::vector<GameObject*>);
+	REGISTER_FIELD(waypointsPatrol, std::vector<ComponentTransform*>);
+	REGISTER_FIELD(patrolStopDuration, float);
+	REGISTER_FIELD(patrolAnimationParamater, std::string);
 }
 
 void PatrolBehaviourScript::Start()
 {
-	for (GameObject* waypoint : waypoints)
-	{
-		transformWaypoints.push_back(waypoint->GetComponent<ComponentTransform>());
-	}
-
-	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
 	ownerTransform = owner->GetComponent<ComponentTransform>();
+	componentAnimation = owner->GetComponent<ComponentAnimation>();
+	aiMovement = owner->GetComponent<AIMovement>();
 
-	currentWayPointTransform = transformWaypoints[0];
+	currentWayPoint = 0;
+
+	if (waypointsPatrol.empty())
+	{
+		waypointsPatrol.push_back(ownerTransform);
+	}
 }
 
-void PatrolBehaviourScript::Patrolling(bool isFirstPatrolling)
+void PatrolBehaviourScript::Update(float deltaTime)
 {
-	if (isFirstPatrolling)
+	if (patrolStateActivated)
 	{
-		GetNearestPatrollingPoint();
-	}
-	else if (ownerTransform->GetGlobalPosition().
-		Equals(transformWaypoints[currentWaypointIndex]->GetGlobalPosition(), 2.0f))
-	{
-		if (currentWaypointIndex + 1 < transformWaypoints.size())
+		if (!isStoppedAtPatrol)
 		{
-			currentWayPointTransform = transformWaypoints[currentWaypointIndex + 1];
-			currentWaypointIndex += 1;
+			Patrolling();
 		}
 		else
 		{
-			currentWayPointTransform = transformWaypoints[0];
-			currentWaypointIndex = 0;
+			totalPatrolTime += deltaTime;
+			if (waypointsPatrol.size() > 1 && totalPatrolTime >= patrolStopDuration)
+			{
+				isStoppedAtPatrol = false;
+				totalPatrolTime = 0;
+
+				CheckNextWaypoint();
+
+				aiMovement->SetTargetPosition(waypointsPatrol[currentWayPoint]->GetGlobalPosition());
+				aiMovement->SetMovementStatuses(true, true);
+
+				componentAnimation->SetParameter(patrolAnimationParamater, true);
+			}
 		}
 	}
+}
 
-	SetProportionalController();
+void PatrolBehaviourScript::StartPatrol()
+{
+	aiMovement->SetTargetPosition(waypointsPatrol[currentWayPoint]->GetGlobalPosition());
+	aiMovement->SetMovementStatuses(true, true);
+	componentAnimation->SetParameter(patrolAnimationParamater, true);
+	patrolStateActivated = true;
+	isStoppedAtPatrol = false;
+}
+
+void PatrolBehaviourScript::StopPatrol()
+{
+	aiMovement->SetMovementStatuses(false, false);
+	patrolStateActivated = false;
+	CheckNextWaypoint();
+}
+
+void PatrolBehaviourScript::Patrolling()
+{
+	if (aiMovement->GetIsAtDestiny())
+	{
+		aiMovement->SetTargetPosition(ownerTransform->GetGlobalPosition());
+		aiMovement->SetMovementStatuses(false, false);
+
+		isStoppedAtPatrol = true;
+		if (patrolAnimationParamater != "")
+			componentAnimation->SetParameter(patrolAnimationParamater, false);
+	}
+}
+
+void PatrolBehaviourScript::CheckNextWaypoint()
+{
+	currentWayPoint = (currentWayPoint + 1) % waypointsPatrol.size();
 }
 
 void PatrolBehaviourScript::RandomPatrolling(bool isFirstPatrolling)
@@ -58,43 +105,22 @@ void PatrolBehaviourScript::RandomPatrolling(bool isFirstPatrolling)
 		GetNearestPatrollingPoint();
 	}
 	else if (ownerTransform->GetGlobalPosition().
-		Equals(transformWaypoints[currentWaypointIndex]->GetGlobalPosition(), 2.0f))
+		Equals(waypointsPatrol[currentWayPoint]->GetGlobalPosition(), 2.0f))
 	{
-		int randomWaypointSelected = rand() % static_cast<int>(transformWaypoints.size());
+		int randomWaypointSelected = rand() % static_cast<int>(waypointsPatrol.size());
 
-		currentWayPointTransform = transformWaypoints[randomWaypointSelected];
-		currentWaypointIndex = randomWaypointSelected;
+		currentWayPoint = randomWaypointSelected;
 	}
-
-	SetProportionalController();
 }
 
 void PatrolBehaviourScript::GetNearestPatrollingPoint()
 {
-	for (int i = 0; i < transformWaypoints.size() ; ++i)
+	for (int i = 0; i < waypointsPatrol.size(); ++i)
 	{
-		if (ownerTransform->GetGlobalPosition().Distance(transformWaypoints[i]->GetGlobalPosition()) <=
-			ownerTransform->GetGlobalPosition().Distance(currentWayPointTransform->GetGlobalPosition()))
+		if (ownerTransform->GetGlobalPosition().Distance(waypointsPatrol[i]->GetGlobalPosition()) <=
+			ownerTransform->GetGlobalPosition().Distance(waypointsPatrol[currentWayPoint]->GetGlobalPosition()))
 		{
-			currentWayPointTransform = transformWaypoints[i];
-			currentWaypointIndex = i;
+			currentWayPoint = i;
 		}
 	}
-}
-
-void PatrolBehaviourScript::SetProportionalController() const
-{
-	ownerRigidBody->SetPositionTarget(currentWayPointTransform->GetGlobalPosition());
-
-	Quat errorRotation =
-		Quat::RotateFromTo(ownerTransform->GetGlobalForward().Normalized(),
-			(currentWayPointTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
-
-#ifdef DEBUG
-	dd::arrow(ownerTransform->GetGlobalPosition(),
-		ownerTransform->GetGlobalPosition() + ownerTransform->GetGlobalForward() * 5.0f, dd::colors::Yellow, 1.0f);
-	dd::arrow(ownerTransform->GetGlobalPosition(), currentWayPointTransform->GetGlobalPosition(), dd::colors::Green, 1.0f);
-#endif // DEBUG
-
-	ownerRigidBody->SetRotationTarget(errorRotation.Normalized());
 }

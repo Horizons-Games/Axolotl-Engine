@@ -5,7 +5,8 @@
 // This script performs a generic patrol behaviour between two (or more) waypoints
 
 class ComponentTransform;
-class ComponentRigidBody;
+class ComponentAnimation;
+class AIMovement;
 
 class PatrolBehaviourScript : public Script
 {
@@ -14,20 +15,26 @@ public:
 	~PatrolBehaviourScript() override = default;
 
 	void Start() override;
+	void Update(float deltaTime) override;
 
-	void Patrolling(bool isFirstPatrolling);
+	void StartPatrol();
+	void StopPatrol();
 	void RandomPatrolling(bool isFirstPatrolling); // Primarily for bosses
 
 private:
-	void GetNearestPatrollingPoint();
 
-	std::vector<GameObject*> waypoints;
-	std::vector<ComponentTransform*> transformWaypoints;
-	int currentWaypointIndex;
-
-	ComponentTransform* currentWayPointTransform;
 	ComponentTransform* ownerTransform;
-	ComponentRigidBody* ownerRigidBody;
+	ComponentAnimation* componentAnimation;
+	AIMovement* aiMovement;
+	std::vector<ComponentTransform*> waypointsPatrol;
+	int currentWayPoint;
+	bool patrolStateActivated;
+	bool isStoppedAtPatrol;
+	float patrolStopDuration;
+	float totalPatrolTime;
+	std::string patrolAnimationParamater;
 
-	void SetProportionalController() const;
+	void GetNearestPatrollingPoint();
+	void Patrolling();
+	void CheckNextWaypoint();
 };

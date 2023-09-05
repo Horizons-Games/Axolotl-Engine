@@ -49,6 +49,7 @@ ComponentPointLight::ComponentPointLight(float radius, const float3& color, floa
 
 ComponentPointLight::~ComponentPointLight()
 {
+	deleting = true;
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	if (currentScene)

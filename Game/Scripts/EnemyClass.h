@@ -24,7 +24,7 @@ public:
 
 	void VisualTarget(bool activate);
 
-	void SetStunnedTime(float newTime);
+	virtual void SetStunnedTime(float newTime);
 	float GetStunnedTime() const;
 
 	bool IsSpawnedEnemy() const;
@@ -34,6 +34,8 @@ public:
 	void DeactivateNeedsToBeReset();
 
 	EnemyTypes GetEnemyType() const;
+
+	virtual void SetReadyToDie() = 0;
 
 protected:
 	bool stunned;
