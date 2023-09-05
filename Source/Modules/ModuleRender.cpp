@@ -795,14 +795,22 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 						float dist = Length(cameraPos - transform->GetGlobalPosition());
 
 						gameObjectsInFrustrum.insert(gameObject);
-						gameObject->GetComponent<ComponentRigidBody>()->AddRigidBodyToSimulation();
+						ComponentRigidBody* rb = gameObject->GetComponentInternal<ComponentRigidBody>();
+						if (rb)
+						{
+							rb->AddRigidBodyToSimulation();
+						}
 						objectsInFrustrumDistances[gameObject] = dist;
 					}
 				}
 
 				else
 				{
-					gameObject->GetComponent<ComponentRigidBody>()->RemoveRigidBodyFromSimulation();
+					ComponentRigidBody* rb = gameObject->GetComponentInternal<ComponentRigidBody>();
+					if (rb)
+					{
+						rb->RemoveRigidBodyFromSimulation();
+					}
 				}
 				
 			}
@@ -825,14 +833,19 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 						float dist = Length(cameraPos - transform->GetGlobalPosition());
 
 						gameObjectsInFrustrum.insert(gameObject);
-						gameObject->GetComponent<ComponentRigidBody>()->AddRigidBodyToSimulation();
+						ComponentRigidBody* rb = gameObject->GetComponentInternal<ComponentRigidBody>();
+						if (rb)
+						{
+							rb->AddRigidBodyToSimulation();
+						}
 						objectsInFrustrumDistances[gameObject] = dist;
 					}
 				}
 
-				else
+				ComponentRigidBody* rb = gameObject->GetComponentInternal<ComponentRigidBody>();
+				if (rb)
 				{
-					gameObject->GetComponent<ComponentRigidBody>()->RemoveRigidBodyFromSimulation();
+					rb->RemoveRigidBodyFromSimulation();
 				}
 			}
 
@@ -879,14 +892,8 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 			float dist = Length(cameraPos - transform->GetGlobalPosition());
 
 			gameObjectsInFrustrum.insert(gameObject);
-			gameObject->GetComponent<ComponentRigidBody>()->AddRigidBodyToSimulation();
 			objectsInFrustrumDistances[gameObject] = dist;
 		}
-	}
-
-	else
-	{
-		gameObject->GetComponent<ComponentRigidBody>()->RemoveRigidBodyFromSimulation();
 	}
 
 	if (!gameObject->GetChildren().empty())
