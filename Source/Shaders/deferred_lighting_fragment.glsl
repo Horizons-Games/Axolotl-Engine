@@ -85,9 +85,9 @@ vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, vec
 
     for (int i = 0; i < num_point; ++i)
     {
-//        float distance = length(points[i].position.xyz - fragPos);
-//        if(distance < points[i].position.w)
-//        {
+        float distance = length(points[i].position.xyz - fragPos);
+        if(distance < points[i].position.w)
+        {
             vec3 pos = points[i].position.xyz;
             vec3 color = points[i].color.rgb;
             float radius = points[i].position.w;
@@ -109,7 +109,7 @@ vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, vec
             vec3 Li = color*intensity*attenuation;
 
             Lo += (Cd*(1-f0)+0.25*FS*SV*GGXND)*Li*dotNL;
-//        }
+        }
     }
 
     return Lo;
@@ -121,9 +121,9 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, vec3
 
     for (int i = 0; i < num_spot; ++i)
     {
-//        float distance = length(spots[i].position.xyz - fragPos);
-//        if(distance < spots[i].position.w)
-//        {
+        float distance = length(spots[i].position.xyz - fragPos);
+        if(distance < spots[i].position.w)
+        {
             vec3 pos = spots[i].position.xyz;
             vec3 aim = spots[i].aim;
             vec3 color = spots[i].color.rgb;
@@ -163,7 +163,7 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, vec3
             vec3 Li = color*intensity*attenuation*Catt;
             
             Lo += (Cd*(1-f0)+0.25*FS*SV*GGXND)*Li*dotNL;
-//        }
+        }
     }
 
     return Lo;
