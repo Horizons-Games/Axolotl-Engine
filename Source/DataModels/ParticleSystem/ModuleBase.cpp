@@ -20,7 +20,7 @@ ModuleBase::ModuleBase(ParticleEmitter* emitter) : ParticleModule(ModuleType::BA
 	originLocation = DEFAULT_ORIGIN;
 	originRotation = Quat::identity;
 
-	allParticlesDead = false;
+	allPartsDead = false;
 }
 
 ModuleBase::~ModuleBase()
@@ -39,8 +39,6 @@ void ModuleBase::Update(EmitterInstance* instance)
 
 	if (instance->GetElapsedTime() <= emitter->GetDuration() || partEmitter->IsLooping())
 	{
-		allParticlesDead = false;
-
 		const GameObject* go = instance->GetOwner()->GetOwner();
 		ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponentInternal<ComponentTransform>());
 
@@ -128,9 +126,12 @@ void ModuleBase::Update(EmitterInstance* instance)
 				particle.initVelocity = particle.direction * velocity;
 			}
 		}
+		allPartsDead = false;
 	}
-	else
+	else if (!allPartsDead)
 	{
+		allPartsDead = true;
+
 		for (int i = 0; i < particles.size(); ++i)
 		{
 			EmitterInstance::Particle& particle = particles[i];
@@ -138,6 +139,10 @@ void ModuleBase::Update(EmitterInstance* instance)
 			if (particle.lifespan <= 0.0f)
 			{
 				particle.dead = true;
+			}
+			else
+			{
+				allPartsDead = false;
 			}
 		}
 	}

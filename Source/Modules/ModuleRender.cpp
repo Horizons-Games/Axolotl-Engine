@@ -779,7 +779,6 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
-
 				ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 				// If an object doesn't have transform component it doesn't need to draw
 				if (transform == nullptr)
