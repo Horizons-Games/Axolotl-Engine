@@ -9,6 +9,7 @@
 #include "Components/ComponentAgent.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentCameraSample.h"
 #include "Components/ComponentCubemap.h"
 #include "Components/ComponentLine.h"
 #include "Components/ComponentMeshRenderer.h"
@@ -32,6 +33,7 @@
 #include "FileSystem/ModuleResources.h"
 
 #include "Modules/ModuleScene.h"
+#include "Modules/ModulePlayer.h"
 
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
@@ -54,7 +56,9 @@ Scene::Scene() :
 	ssboSpot(0),
 	rootQuadtree(nullptr),
 	rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE / 2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2),
-						  float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
+						  float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2))),
+	combatMode(false),
+	enemiesToDefeat(0)
 {
 }
 
@@ -1702,4 +1706,17 @@ std::vector<float> Scene::GetNormals()
 	}
 
 	return result;
+}
+
+void Scene::SetCombatMode(bool newCombatMode)
+{
+	combatMode = newCombatMode;
+	//App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<ComponentCameraSample>()->SetCombatCameraEnabled(combatMode);
+}
+
+void Scene::SetEnemiesToDefeat(float newEnemiesToDefeat)
+{
+	enemiesToDefeat = newEnemiesToDefeat;
+	if (newEnemiesToDefeat <= 0.0)
+		SetCombatMode(false);
 }
