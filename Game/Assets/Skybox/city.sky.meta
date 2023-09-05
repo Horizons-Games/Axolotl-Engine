@@ -1,0 +1,12 @@
+{
+    "UID": 627031165035159897,
+    "Type": "SkyBox",
+    "TexturesAssetPaths": [
+        "Assets/Textures/Right_Skybox.png",
+        "Assets/Textures/Left_Skybox.png",
+        "Assets/Textures/Up_Skybox.png",
+        "Assets/Textures/Down_Skybox.png",
+        "Assets/Textures/Front_Skybox.png",
+        "Assets/Textures/Back_Skybox.png"
+    ]
+}

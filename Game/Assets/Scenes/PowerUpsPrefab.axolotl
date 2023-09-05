@@ -1,0 +1,540 @@
+{
+    "GameObjects": [
+        {
+            "GameObject": {
+                "name": "PowerUpsPrefab",
+                "tag": "",
+                "uid": 9011007661183311806,
+                "parentUID": 0,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Cubemap",
+                            "active": true,
+                            "removed": true,
+                            "intensity": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Directional_Light",
+                "tag": "",
+                "uid": 17809694130222704165,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Directional"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PowerUp Drone 1",
+                "tag": "",
+                "uid": 11306440819102867434,
+                "parentUID": 12473639644339742065,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -7.840948581695557,
+                            "localPos_Y": 3.2121219635009766,
+                            "localPos_Z": -8.762855529785156,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.20000000298023224,
+                            "localSca_Y": 0.20000003278255463,
+                            "localSca_Z": 0.20000003278255463
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 6159512386276426707,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 2,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.9999994039535522,
+                            "boxSize_Y": 1.75,
+                            "boxSize_Z": 0.9999991655349731,
+                            "radius": 1.2999999523162842,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 192.1590576171875,
+                            "rbPos_Y": 3.2121219635009766,
+                            "rbPos_Z": -8.762855529785156
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PowerUpLogicScript",
+                            "fields": [
+                                {
+                                    "name": "PowerUpsManager",
+                                    "value": 9418173620591223368,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PowerUp Drone 2",
+                "tag": "",
+                "uid": 1375892197173359520,
+                "parentUID": 12473639644339742065,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.359014987945557,
+                            "localPos_Y": 3.2121219635009766,
+                            "localPos_Z": -8.701062202453613,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.20000000298023224,
+                            "localSca_Y": 0.20000000298023224,
+                            "localSca_Z": 0.20000000298023224
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 6159512386276426707,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 2,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.9999994039535522,
+                            "boxSize_Y": 1.75,
+                            "boxSize_Z": 0.9999991655349731,
+                            "radius": 1.2999999523162842,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 195.6409912109375,
+                            "rbPos_Y": 3.2121219635009766,
+                            "rbPos_Z": -8.701062202453613
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PowerUpLogicScript",
+                            "fields": [
+                                {
+                                    "name": "PowerUpsManager",
+                                    "value": 9418173620591223368,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PowerUps",
+                "tag": "",
+                "uid": 12473639644339742065,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 200.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Managers",
+                "tag": "",
+                "uid": 9418173620591223368,
+                "parentUID": 12473639644339742065,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -200.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PowerUpsManagerScript",
+                            "fields": [
+                                {
+                                    "name": "AmountHealed",
+                                    "value": 20.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "AttackIncrease",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DefenseIncrease",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "SpeedIncrease",
+                                    "value": 60.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxPowerUpTimer",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "RadiusSeeking",
+                                    "value": 2.5,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DebugDraw",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "SetUIManager",
+                                    "value": 0,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PowerUp Venomite 1",
+                "tag": "",
+                "uid": 10105264902335347340,
+                "parentUID": 12473639644339742065,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -7.840948581695557,
+                            "localPos_Y": 3.2121219635009766,
+                            "localPos_Z": -8.762855529785156,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.20000000298023224,
+                            "localSca_Y": 0.20000003278255463,
+                            "localSca_Z": 0.20000003278255463
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 6159512386276426707,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 2,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.9999994039535522,
+                            "boxSize_Y": 1.75,
+                            "boxSize_Z": 0.9999991655349731,
+                            "radius": 1.2999999523162842,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 192.1590576171875,
+                            "rbPos_Y": 3.2121219635009766,
+                            "rbPos_Z": -8.762855529785156
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PowerUpLogicScript",
+                            "fields": [
+                                {
+                                    "name": "PowerUpsManager",
+                                    "value": 9418173620591223368,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PowerUp Venomite 2",
+                "tag": "",
+                "uid": 10078801361813198795,
+                "parentUID": 12473639644339742065,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -4.359014987945557,
+                            "localPos_Y": 3.2121219635009766,
+                            "localPos_Z": -8.701062202453613,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.20000000298023224,
+                            "localSca_Y": 0.20000000298023224,
+                            "localSca_Z": 0.20000000298023224
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 6159512386276426707,
+                            "assetPathMesh": "Assets/Meshes/sphere.sphere_0.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 2,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.9999994039535522,
+                            "boxSize_Y": 1.75,
+                            "boxSize_Z": 0.9999991655349731,
+                            "radius": 1.2999999523162842,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 195.6409912109375,
+                            "rbPos_Y": 3.2121219635009766,
+                            "rbPos_Z": -8.701062202453613
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PowerUpLogicScript",
+                            "fields": [
+                                {
+                                    "name": "PowerUpsManager",
+                                    "value": 9418173620591223368,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "Quadtree": {
+        "BoundingBox": {
+            "MinPoint": {
+                "x": -125.0,
+                "y": -10.0,
+                "z": -125.0
+            },
+            "MaxPoint": {
+                "x": 75.0,
+                "y": 10.0,
+                "z": 75.0
+            }
+        }
+    },
+    "Skybox": {
+        "skyboxUID": 4377575066284441384,
+        "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+    },
+    "Cubemap": {
+        "cubemapUID": 992078593789236745,
+        "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
+    }
+}

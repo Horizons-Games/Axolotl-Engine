@@ -40,6 +40,18 @@
                     "removed": true,
                     "intensity": 1.0
                   }
+                },
+                {
+                    "Component": {
+                        "type": "Component_Skybox",
+                        "active": true,
+                        "removed": true,
+                        "Skybox": {
+                            "enable": true,
+                            "skyboxUID": 4377575066284441384,
+                            "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+                        }
+                    }
                 }
               ]
             }
@@ -73,9 +85,9 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 537.5,
+                            "worldAABB_min_x": 698.0,
                             "worldAABB_min_y": 292.5,
-                            "worldAABB_max_x": 537.5,
+                            "worldAABB_max_x": 698.0,
                             "worldAABB_max_y": 292.5
                         }
                     },
@@ -126,9 +138,9 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 537.5,
+                            "worldAABB_min_x": 698.0,
                             "worldAABB_min_y": 292.5,
-                            "worldAABB_max_x": 537.5,
+                            "worldAABB_max_x": 698.0,
                             "worldAABB_max_y": 292.5
                         }
                     },
@@ -295,9 +307,9 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 465.3229064941406,
+                            "worldAABB_min_x": 625.8229370117188,
                             "worldAABB_min_y": 519.8646240234375,
-                            "worldAABB_max_x": 609.6770629882813,
+                            "worldAABB_max_x": 770.1770629882813,
                             "worldAABB_max_y": 563.46875
                         }
                     },
@@ -348,9 +360,9 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 483.3333435058594,
+                            "worldAABB_min_x": 643.8333129882813,
                             "worldAABB_min_y": 238.3333282470703,
-                            "worldAABB_max_x": 591.6666870117188,
+                            "worldAABB_max_x": 752.1666870117188,
                             "worldAABB_max_y": 346.6666564941406
                         }
                     }
@@ -386,9 +398,9 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 483.3333435058594,
+                            "worldAABB_min_x": 643.8333129882813,
                             "worldAABB_min_y": 238.3333282470703,
-                            "worldAABB_max_x": 591.6666870117188,
+                            "worldAABB_max_x": 752.1666870117188,
                             "worldAABB_max_y": 346.6666564941406
                         }
                     }
@@ -397,7 +409,7 @@
         },
         {
             "GameObject": {
-                "name": "Main MenuButton",
+                "name": "MAin MenuButton",
                 "tag": "",
                 "uid": 5859220758328456157,
                 "parentUID": 16561938826019233067,
@@ -424,9 +436,9 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 465.3229064941406,
+                            "worldAABB_min_x": 625.8229370117188,
                             "worldAABB_min_y": 519.8646240234375,
-                            "worldAABB_max_x": 609.6770629882813,
+                            "worldAABB_max_x": 770.1770629882813,
                             "worldAABB_max_y": 563.46875
                         }
                     },
@@ -549,9 +561,9 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 465.3229064941406,
+                            "worldAABB_min_x": 625.8229370117188,
                             "worldAABB_min_y": 519.8646240234375,
-                            "worldAABB_max_x": 609.6770629882813,
+                            "worldAABB_max_x": 770.1770629882813,
                             "worldAABB_max_y": 563.46875
                         }
                     },
@@ -572,41 +584,6 @@
                     }
                 ]
             }
-        },
-        {
-            "GameObject": {
-                "name": "Player Input",
-                "tag": "",
-                "uid": 3652224911502822805,
-                "parentUID": 9351076666620844235,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_PlayerInput",
-                            "active": true,
-                            "removed": true
-                        }
-                    }
-                ]
-            }
         }
     ],
     "Quadtree": {
@@ -622,10 +599,6 @@
                 "z": 25.0
             }
         }
-    },
-    "Skybox": {
-        "skyboxUID": 4377575066284441384,
-        "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
     },
     "Cubemap": {
         "cubemapUID": 992078593789236745,

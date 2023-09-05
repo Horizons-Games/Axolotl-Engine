@@ -1,0 +1,15 @@
+{
+    "UID": 18139225230290024173,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/pack_hand_of_dominion_door.Cube.024_0.mesh",
+        "Assets/Meshes/pack_hand_of_dominion_door.Cube.004_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/pack_hand_of_dominion_doorDoor_0.mat",
+        "Assets/Materials/pack_hand_of_dominion_doorDoor_0.mat"
+    ],
+    "AnimAssetPaths": [
+        "Assets/Animation/pack_hand_of_dominion_door.DoorWall_DoorClose.anim"
+    ]
+}

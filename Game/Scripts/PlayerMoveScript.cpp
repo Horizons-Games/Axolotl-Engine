@@ -69,6 +69,13 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 
 void PlayerMoveScript::Move(float deltaTime)
 {
+	if (componentAnimation->GetActualStateName() == "BixRunning" && playerState != PlayerActions::WALKING)
+	{
+		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
+		playerState = PlayerActions::WALKING;
+		componentAnimation->SetParameter("IsRunning", true);
+	}
+
 	btRigidbody->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
 
 	btVector3 movement(0, 0, 0);
@@ -112,15 +119,13 @@ void PlayerMoveScript::Move(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE ||
 		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::LEFT)
 	{
-		if (playerState == PlayerActions::IDLE)
-		{
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
-			componentAnimation->SetParameter("IsRunning", true);
-			playerState = PlayerActions::WALKING;
-		}
-
 		totalDirection += -cameraFrustum.WorldRight().Normalized();
 		currentMovements |= MovementFlag::A_DOWN;
+	}
+
+	if (playerState == PlayerActions::DASHING)
+	{
+		totalDirection = float3::zero;
 	}
 
 	if (previousMovements ^ currentMovements)
@@ -130,22 +135,23 @@ void PlayerMoveScript::Move(float deltaTime)
 
 	if (totalDirection.IsZero())
 	{
-		if (GetPlayerState() != PlayerActions::IDLE)
+		if (playerState != PlayerActions::IDLE)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			componentAnimation->SetParameter("IsRunning", false);
-			SetPlayerState(PlayerActions::IDLE);
+			playerState = PlayerActions::IDLE;
 		}
 	}
-	else {
-		bool playerIsRunning = GetPlayerState() != PlayerActions::WALKING &&
-			!isDashing && jumpScript->IsGrounded() && bixAttackScript->IsAttackAvailable();
+	else 
+	{
+		bool playerIsRunning = playerState != PlayerActions::WALKING && playerState != PlayerActions::DASHING
+			&& jumpScript->IsGrounded() && bixAttackScript->IsAttackAvailable();
 		
 		if (playerIsRunning)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 			componentAnimation->SetParameter("IsRunning", true);
-			SetPlayerState(PlayerActions::WALKING);
+			playerState = PlayerActions::WALKING;
 		}
 
 		//Low velocity while attacking
@@ -191,9 +197,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		{
 			componentAnimation->SetParameter("IsDashing", true);
 			componentAnimation->SetParameter("IsRunning", false);
-			SetPlayerState(PlayerActions::DASHING);
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
+			playerState = PlayerActions::DASHING;
 		}
 
 		nextDash = 3.0f; // From SDL miliseconds (1000.0f) to actual deltaTime seconds (3.0f)
@@ -216,7 +220,7 @@ void PlayerMoveScript::Move(float deltaTime)
 			{
 				btRigidbody->setLinearVelocity(newVelocity);
 				isDashing = false;
-				SetPlayerState(PlayerActions::IDLE);
+				playerState = PlayerActions::IDLE;
 			}
 		}
 	}
@@ -233,6 +237,9 @@ void PlayerMoveScript::Move(float deltaTime)
 		componentAnimation->GetActualStateName() == "BixDashingEnd")
 	{
 		componentAnimation->SetParameter("IsDashing", false);
+		componentAnimation->SetParameter("IsRunning", false);
+		playerState = PlayerActions::DASHING;
+		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 	}
 
 	// Cooldown Dash
@@ -358,6 +365,8 @@ void PlayerMoveScript::Dash()
 	btRigidbody->applyCentralImpulse(btDashImpulse);
 
 	isDashing = true;
+	componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+	componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
 }
 
 bool PlayerMoveScript::IsParalyzed() const
