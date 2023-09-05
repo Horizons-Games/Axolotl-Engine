@@ -49,7 +49,7 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void SetReadyToDie() override = 0;
+	void SetReadyToDie() override {};
 
 private:
 	void ChangeBossPhase();
