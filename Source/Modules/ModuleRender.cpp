@@ -19,6 +19,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentLine.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentRigidBody.h"
 
 #include "Camera/CameraGameObject.h"
 
@@ -794,8 +795,14 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 						float dist = Length(cameraPos - transform->GetGlobalPosition());
 
 						gameObjectsInFrustrum.insert(gameObject);
+						gameObject->GetComponent<ComponentRigidBody>()->AddRigidBodyToSimulation();
 						objectsInFrustrumDistances[gameObject] = dist;
 					}
+				}
+
+				else
+				{
+					gameObject->GetComponent<ComponentRigidBody>()->RemoveRigidBodyFromSimulation();
 				}
 				
 			}
@@ -818,8 +825,14 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 						float dist = Length(cameraPos - transform->GetGlobalPosition());
 
 						gameObjectsInFrustrum.insert(gameObject);
+						gameObject->GetComponent<ComponentRigidBody>()->AddRigidBodyToSimulation();
 						objectsInFrustrumDistances[gameObject] = dist;
 					}
+				}
+
+				else
+				{
+					gameObject->GetComponent<ComponentRigidBody>()->RemoveRigidBodyFromSimulation();
 				}
 			}
 
@@ -866,8 +879,14 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 			float dist = Length(cameraPos - transform->GetGlobalPosition());
 
 			gameObjectsInFrustrum.insert(gameObject);
+			gameObject->GetComponent<ComponentRigidBody>()->AddRigidBodyToSimulation();
 			objectsInFrustrumDistances[gameObject] = dist;
 		}
+	}
+
+	else
+	{
+		gameObject->GetComponent<ComponentRigidBody>()->RemoveRigidBodyFromSimulation();
 	}
 
 	if (!gameObject->GetChildren().empty())

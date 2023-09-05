@@ -142,6 +142,7 @@ public:
 	void SetAngularFactor(btVector3 rotation);
 
 	void RemoveRigidBodyFromSimulation();
+	void AddRigidBodyToSimulation();
 
 	btRigidBody* GetRigidBody() const;
 	ComponentTransform* GetOwnerTransform() const;

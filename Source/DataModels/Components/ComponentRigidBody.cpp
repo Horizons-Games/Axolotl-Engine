@@ -372,8 +372,7 @@ void ComponentRigidBody::InternalLoad(const Json& meta)
 
 void ComponentRigidBody::SignalEnable()
 {
-	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
-	rigidBody->setGravity(gravity);
+	AddRigidBodyToSimulation();
 }
 
 void ComponentRigidBody::SignalDisable()
@@ -384,6 +383,12 @@ void ComponentRigidBody::SignalDisable()
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 {
 	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
+}
+
+void ComponentRigidBody::AddRigidBodyToSimulation()
+{
+	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
+	rigidBody->setGravity(gravity);
 }
 
 void ComponentRigidBody::ClearCollisionEnterDelegate()
