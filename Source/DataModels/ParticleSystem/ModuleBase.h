@@ -24,7 +24,6 @@ public:
 	void DrawImGui() override;
 
 private:
-	bool allParticlesDead;
 	float4x4 originTransform;
 	float3 originLocation;
 	Quat originRotation;
