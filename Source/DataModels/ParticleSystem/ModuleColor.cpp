@@ -38,7 +38,7 @@ void ModuleColor::Update(EmitterInstance* instance)
 		{
 			EmitterInstance::Particle& particle = particles[i];
 
-			if (particle.lifespan >= 0.0f)
+			if (!particle.dead)
 			{
 				float lifeRatio = 1.0f - particle.lifespan / particle.initLife;
 

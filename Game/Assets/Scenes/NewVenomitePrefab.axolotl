@@ -8,32 +8,46 @@
                 "parentUID": 0,
                 "enabled": true,
                 "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Cubemap",
-                            "active": true,
-                            "removed": true,
-                            "intensity": 1.0
-                        }
-                    },
-                    {
+              "Components": [
+                {
+                  "Component": {
+                    "type": "Component_Transform",
+                    "active": true,
+                    "removed": false,
+                    "localPos_X": 0.0,
+                    "localPos_Y": 0.0,
+                    "localPos_Z": 0.0,
+                    "localRot_X": -0.0,
+                    "localRot_Y": 0.0,
+                    "localRot_Z": -0.0,
+                    "localSca_X": 1.0,
+                    "localSca_Y": 1.0,
+                    "localSca_Z": 1.0,
+                    "boudingBoxSca_X": 0.0,
+                    "boudingBoxSca_Y": 0.0,
+                    "boudingBoxSca_Z": 0.0,
+                    "boudingBoxPos_X": 0.0,
+                    "boudingBoxPos_Y": 0.0,
+                    "boudingBoxPos_Z": 0.0
+                  }
+                },
+                {
+                  "Component": {
+                    "type": "Component_Render",
+                    "active": false,
+                    "removed": false,
+                    "bloom_intensity": 1.0
+                  }
+                },
+                {
+                  "Component": {
+                    "type": "Component_Cubemap",
+                    "active": true,
+                    "removed": true,
+                    "intensity": 1.0
+                  }
+                },
+                {
                         "Component": {
                             "type": "Component_Skybox",
                             "active": true,
@@ -44,8 +58,8 @@
                                 "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
                             }
                         }
-                    }
-                ]
+                }
+              ]
             }
         },
         {
@@ -70,7 +84,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     },
                     {
@@ -110,7 +130,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -138,7 +164,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -166,7 +198,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -194,7 +232,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -222,7 +266,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -250,7 +300,13 @@
                             "localRot_Z": -179.99998474121094,
                             "localSca_X": 0.25,
                             "localSca_Y": 0.25,
-                            "localSca_Z": 0.25
+                            "localSca_Z": 0.25,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     },
                     {
@@ -331,7 +387,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 0.30000001192092896,
                             "localSca_Y": 0.30000001192092896,
-                            "localSca_Z": 0.30000001192092896
+                            "localSca_Z": 0.30000001192092896,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     },
                     {
@@ -511,6 +573,11 @@
                                     "name": "EnemyParticleSystem",
                                     "value": 0,
                                     "type": 2
+                                },
+                                {
+                                    "name": "MeshEffect",
+                                    "value": 18068513929722048739,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -600,7 +667,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -628,7 +701,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -656,7 +735,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     },
                     {
@@ -695,7 +780,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -723,7 +814,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     },
                     {
@@ -762,7 +859,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -790,7 +893,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     },
                     {
@@ -829,7 +938,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -857,7 +972,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     },
                     {
@@ -896,7 +1017,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 0.10000000149011612,
                             "localSca_Y": 0.10000000149011612,
-                            "localSca_Z": 0.10000000149011612
+                            "localSca_Z": 0.10000000149011612,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -924,7 +1051,13 @@
                             "localRot_Z": -179.99998474121094,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -952,7 +1085,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -980,7 +1119,13 @@
                             "localRot_Z": -179.99998474121094,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1008,7 +1153,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1036,7 +1187,13 @@
                             "localRot_Z": 179.99996948242188,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1064,7 +1221,13 @@
                             "localRot_Z": 0.9928774237632751,
                             "localSca_X": 0.9999999403953552,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 0.9999999403953552
+                            "localSca_Z": 0.9999999403953552,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1092,7 +1255,13 @@
                             "localRot_Z": -0.000011753648323065136,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1120,7 +1289,13 @@
                             "localRot_Z": -179.99998474121094,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1148,7 +1323,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1176,7 +1357,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1204,7 +1391,13 @@
                             "localRot_Z": 0.49591684341430664,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1232,7 +1425,13 @@
                             "localRot_Z": -1.144170269640199e-8,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1260,7 +1459,13 @@
                             "localRot_Z": -179.99998474121094,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1288,7 +1493,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1316,7 +1527,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1344,7 +1561,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1372,7 +1595,13 @@
                             "localRot_Z": 0.000004660126705857692,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1400,7 +1629,13 @@
                             "localRot_Z": -0.0000020389134078868665,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1428,7 +1663,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1456,7 +1697,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1484,7 +1731,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1512,7 +1765,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1540,7 +1799,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1568,7 +1833,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1596,7 +1867,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1624,7 +1901,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1652,7 +1935,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1680,7 +1969,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1708,7 +2003,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1736,7 +2037,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1764,7 +2071,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1792,7 +2105,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1820,7 +2139,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1848,7 +2173,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1876,7 +2207,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1904,7 +2241,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1932,7 +2275,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1960,7 +2309,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -1988,7 +2343,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2016,7 +2377,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2044,7 +2411,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2072,7 +2445,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2100,7 +2479,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2128,7 +2513,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2156,7 +2547,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2184,7 +2581,13 @@
                             "localRot_Z": -90.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2212,7 +2615,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2240,7 +2649,13 @@
                             "localRot_Z": -46.65156173706055,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2268,7 +2683,13 @@
                             "localRot_Z": -108.1293716430664,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2296,7 +2717,13 @@
                             "localRot_Z": 179.88096618652344,
                             "localSca_X": 1.0,
                             "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2324,7 +2751,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2352,7 +2785,13 @@
                             "localRot_Z": -5.264014362182934e-7,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2380,7 +2819,13 @@
                             "localRot_Z": 179.99998474121094,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2408,7 +2853,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2436,7 +2887,13 @@
                             "localRot_Z": -179.99998474121094,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2464,7 +2921,13 @@
                             "localRot_Z": 179.9999542236328,
                             "localSca_X": 1.0,
                             "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 0.9999999403953552
+                            "localSca_Z": 0.9999999403953552,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2492,7 +2955,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2520,7 +2989,13 @@
                             "localRot_Z": 90.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2548,7 +3023,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2576,7 +3057,13 @@
                             "localRot_Z": 103.48827362060547,
                             "localSca_X": 1.0,
                             "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2604,7 +3091,13 @@
                             "localRot_Z": 71.22159576416016,
                             "localSca_X": 1.0,
                             "localSca_Y": 0.9999999403953552,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2632,7 +3125,13 @@
                             "localRot_Z": 0.12845304608345032,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2660,7 +3159,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2688,7 +3193,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 10.0,
                             "localSca_Y": 10.0,
-                            "localSca_Z": 10.000000953674316
+                            "localSca_Z": 10.000000953674316,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2716,7 +3227,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     },
                     {
@@ -2755,7 +3272,13 @@
                             "localRot_Z": 179.99998474121094,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2783,7 +3306,13 @@
                             "localRot_Z": -8.537730877833383e-7,
                             "localSca_X": 10.0,
                             "localSca_Y": 9.999999046325684,
-                            "localSca_Z": 10.0
+                            "localSca_Z": 10.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2811,7 +3340,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     },
                     {
@@ -2850,7 +3385,13 @@
                             "localRot_Z": -179.99996948242188,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2878,7 +3419,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2906,7 +3453,13 @@
                             "localRot_Z": -2.479200134075654e-7,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2934,7 +3487,13 @@
                             "localRot_Z": -179.99996948242188,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2962,7 +3521,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -2990,7 +3555,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3018,7 +3589,13 @@
                             "localRot_Z": 2.38594388961792,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3046,7 +3623,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3074,7 +3657,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3102,7 +3691,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3130,7 +3725,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3158,7 +3759,13 @@
                             "localRot_Z": -179.99998474121094,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3186,7 +3793,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3214,7 +3827,13 @@
                             "localRot_Z": 90.00000762939453,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3242,7 +3861,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3270,7 +3895,13 @@
                             "localRot_Z": -179.99998474121094,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3298,7 +3929,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3326,7 +3963,13 @@
                             "localRot_Z": -90.00000762939453,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3354,7 +3997,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3382,7 +4031,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3410,7 +4065,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     },
                     {
@@ -3449,7 +4110,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3477,7 +4144,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     },
                     {
@@ -3516,7 +4189,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3544,7 +4223,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     },
                     {
@@ -3583,7 +4268,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3611,7 +4302,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     },
                     {
@@ -3650,7 +4347,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0715583562850952,
                             "localSca_Y": 1.0715583562850952,
-                            "localSca_Z": 1.0715583562850952
+                            "localSca_Z": 1.0715583562850952,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3678,7 +4381,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     },
                     {
@@ -3717,7 +4426,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3745,7 +4460,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     },
                     {
@@ -3784,7 +4505,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 0.30000001192092896,
                             "localSca_Y": 0.30000001192092896,
-                            "localSca_Z": 0.30000001192092896
+                            "localSca_Z": 0.30000001192092896,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3812,7 +4539,13 @@
                             "localRot_Z": -0.0,
                             "localSca_X": 0.30000001192092896,
                             "localSca_Y": 0.30000001192092896,
-                            "localSca_Z": 0.30000001192092896
+                            "localSca_Z": 0.30000001192092896,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -3840,7 +4573,13 @@
                             "localRot_Z": 0.0,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
-                            "localSca_Z": 1.0
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 0.0,
+                            "boudingBoxSca_Y": 0.0,
+                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     },
                     {
@@ -3851,6 +4590,49 @@
                             "particleSystemUID": 3999053471174024690,
                             "assetPathParticleSystem": "Assets/ParticleSystem/DetectParticle.particle",
                             "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "MeshEffectHealth",
+                "tag": "",
+                "uid": 18068513929722048739,
+                "parentUID": 4430577212557804531,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "MeshEffect",
+                            "fields": null
                         }
                     }
                 ]

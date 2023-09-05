@@ -11,6 +11,7 @@ layout(binding = 1) uniform sampler2D gNormal;
 layout(binding = 2) uniform sampler2D gDiffuse;
 layout(binding = 3) uniform sampler2D gSpecular;
 layout(binding = 4) uniform sampler2D gEmissive;
+layout(binding = 5) uniform sampler2D gShadowMap;
 
 layout(std140, binding=1) uniform Directional
 {
@@ -52,6 +53,13 @@ uniform float cubemap_intensity;
 uniform int renderMode;
 
 uniform vec3 viewPos;
+
+// Shadow Mapping
+uniform mat4 lightSpaceMatrix;
+uniform float minBias;
+uniform float maxBias;
+uniform int useShadows;
+uniform int useVSM;
 
 in vec2 TexCoord;
 
@@ -253,6 +261,47 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, 
     return Lo;
 }
 
+float ShadowCalculation(vec4 posFromLight, vec3 normal)
+{
+    // perform perspective divide
+    vec3 projCoords = posFromLight.xyz / posFromLight.w;
+    // transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+    float closestDepth = texture(gShadowMap, projCoords.xy).r; 
+    // get depth of current fragment from light's perspective
+    float currentDepth = projCoords.z;
+    // check whether current frag pos is in shadow
+    float bias = max(minBias * (1.0 - dot(normal, directionalDir)), maxBias);  
+    float shadow = currentDepth - bias > closestDepth ? 1.0 : 0.0;
+
+    return shadow;
+}
+
+float ChebyshevUpperBound(vec4 posFromLight)
+{
+    // perform perspective divide
+    vec3 projCoords = posFromLight.xyz / posFromLight.w;
+    // transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+	// We retrive the two moments previously stored (depth and depth*depth)
+	vec2 moments = texture2D(gShadowMap,projCoords.xy).rg;
+		
+	// Surface is fully lit. as the current fragment is before the light occluder
+	if (projCoords.z <= moments.x)
+		return 1.0 ;
+	
+	// The fragment is either in shadow or penumbra. We now use chebyshev's upperBound to check
+	// How likely this pixel is to be lit (p_max)
+	float variance = moments.y - (moments.x*moments.x);
+	variance = max(variance,0.00002);
+	
+	float d = projCoords.z - moments.x;
+	float p_max = variance / (variance + d*d);
+	
+	return p_max;
+}
+
 void main()
 {             
     // retrieve data from gbuffer
@@ -263,60 +312,70 @@ void main()
     vec4 emissiveMat = texture(gEmissive, TexCoord);
     float smoothness = specularMat.a;
 
-    vec3 viewDir = normalize(viewPos - fragPos);
-    vec4 gammaCorrection = vec4(2.2);
-
-    vec3 Cd = textureMat.rgb;
-    vec3 f0 = specularMat.rgb;
-
-    // smoothness and roughness
-    float roughness = pow(1-smoothness,2) + EPSILON;
-    
-    // Lights
-    vec3 Lo = calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
-
-    if (num_point > 0)
-    {
-        Lo += calculatePointLights(norm, viewDir, Cd, f0, roughness, fragPos);
-    }
-
-    if (num_spot > 0)
-    {
-        Lo += calculateSpotLights(norm, viewDir,Cd, f0, roughness, fragPos);
-    }
-
-    if (num_spheres > 0)
-    {
-        Lo += calculateAreaLightSpheres(norm, viewDir, Cd, f0, roughness, fragPos);
-    }
-
-    if (num_tubes > 0)
-    {
-        Lo += calculateAreaLightTubes(norm, viewDir, Cd, f0, roughness, fragPos);
-    }
-
-    vec3 R = reflect(-viewDir, norm);
-    float NdotV = max(dot(norm, viewDir), EPSILON);
-    vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
-        environmentBRDF, numLevels_IBL) * cubemap_intensity;
-
-    vec3 color = ambient + Lo + emissiveMat.rgb;
-    
-	//hdr rendering
-    color = color / (color + vec3(1.0));
-    color = pow(color, vec3(1.0/gammaCorrection));
-   
     if(renderMode == 0)
     {
-        outColor = vec4(color,1.0);
+        vec3 viewDir = normalize(viewPos - fragPos);
+
+        vec3 Cd = textureMat.rgb;
+        vec3 f0 = specularMat.rgb;
+
+        // smoothness and roughness
+        float roughness = pow(1-smoothness,2) + EPSILON;
+
+        // Shadow Mapping
+        float shadow = 1.0;
+        if (useShadows > 0)
+        {
+            vec4 fragPosFromLightSpace = lightSpaceMatrix*vec4(fragPos, 1.0);
+
+            if (useVSM == 1)
+            {
+                shadow = ChebyshevUpperBound(fragPosFromLightSpace);
+            }
+            else
+            {
+                shadow = 1 - ShadowCalculation(fragPosFromLightSpace, norm);
+            }            
+        }
+    
+        // Lights
+        vec3 Lo = shadow * calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
+
+        if (num_point > 0)
+        {
+            Lo += calculatePointLights(norm, viewDir, Cd, f0, roughness, fragPos);
+        }
+
+        if (num_spot > 0)
+        {
+            Lo += calculateSpotLights(norm, viewDir,Cd, f0, roughness, fragPos);
+        }
+
+        if (num_spheres > 0)
+        {
+            Lo += calculateAreaLightSpheres(norm, viewDir, Cd, f0, roughness, fragPos);
+        }
+
+        if (num_tubes > 0)
+        {
+            Lo += calculateAreaLightTubes(norm, viewDir, Cd, f0, roughness, fragPos);
+        }
+
+        vec3 R = reflect(-viewDir, norm);
+        float NdotV = max(dot(norm, viewDir), EPSILON);
+        vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
+            environmentBRDF, numLevels_IBL) * cubemap_intensity;
+
+        vec3 color = ambient + Lo + emissiveMat.rgb;
+        outColor = vec4(color, 1.0);
     }
     else if (renderMode == 1)
     {
-        outColor = vec4(fragPos, 1.0f);
+        outColor = vec4(fragPos, 1.0);
     }
     else if (renderMode == 2)
     {
-        outColor = vec4(norm, 1.0f);
+        outColor = vec4(norm, 1.0);
     }
     else if (renderMode == 3)
     {

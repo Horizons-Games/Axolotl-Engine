@@ -55,6 +55,8 @@ private:
 	void AddComponentParticle();
 	void AddComponentBreakable();
 	void AddComponentSkybox();
+	void AddComponentTrail();
+	void AddComponentLine();
 	void AddComponentAgent();
 	void AddComponentObstacle();
 

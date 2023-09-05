@@ -16,6 +16,7 @@
 
 #include "DataModels/Components/ComponentCamera.h"
 #include "DataModels/Components/ComponentParticleSystem.h"
+#include "DataModels/Components/ComponentRender.h"
 #include "DataModels/Components/ComponentRigidBody.h"
 #include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/Components/UI/ComponentButton.h"
@@ -75,6 +76,8 @@ void CleanupAndInvokeCallback()
 
 void OnLoadedScene()
 {
+	App->GetModule<ModuleRender>()->FillCharactersBatches();
+
 #ifndef ENGINE
 	ModulePlayer* player = App->GetModule<ModulePlayer>();
 	if (player->GetPlayer())
@@ -110,6 +113,11 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 		if (currentLoadingConfig->mantainCurrentScene && obj->HasComponent<ComponentSkybox>())
 		{
 			obj->RemoveComponent<ComponentSkybox>();
+		}
+
+		if (obj->HasComponent<ComponentRender>() && currentLoadingConfig->mantainCurrentScene)
+		{
+			obj->RemoveComponent<ComponentRender>();
 		}
 		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponents<ComponentCamera>();
 		loadedCameras.insert(std::end(loadedCameras), std::begin(camerasOfObj), std::end(camerasOfObj));
@@ -178,16 +186,30 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 		loadedScene->SetDirectionalLight(directionalLight);
 	}
 
-	loadedScene->InitLights();
-	loadedScene->InitCubemap();
-
-	// if no document was set, the user is creating a new scene. finish the process
-	if (!currentLoadingConfig->doc.has_value())
+	auto initLightsAndFinishSceneLoad = []()
 	{
-		OnLoadedScene();
-		return;
+		Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+		loadedScene->InitLights();
+		loadedScene->InitRender();
+		loadedScene->InitCubemap();
+
+		// if no document was set, the user is creating a new scene. finish the process
+		if (!currentLoadingConfig->doc.has_value())
+		{
+			OnLoadedScene();
+			return;
+		}
+		CleanupAndInvokeCallback();
+	};
+
+	if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
+	{
+		App->ScheduleTask(initLightsAndFinishSceneLoad);
 	}
-	CleanupAndInvokeCallback();
+	else
+	{
+		initLightsAndFinishSceneLoad();
+	}
 }
 
 //////////////////////////////////////////////////////////////////
