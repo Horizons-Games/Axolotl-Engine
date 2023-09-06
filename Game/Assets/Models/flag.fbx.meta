@@ -1,0 +1,15 @@
+{
+    "UID": 10301849849410202891,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/flag.Plane_0.mesh",
+        "Assets/Meshes/flag.Cylinder_0.mesh",
+        "Assets/Meshes/flag.Cylinder.001_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/flagDefaultMaterial_0.mat",
+        "Assets/Materials/flagDefaultMaterial_0.mat",
+        "Assets/Materials/flagDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
