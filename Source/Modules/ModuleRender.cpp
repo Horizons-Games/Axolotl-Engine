@@ -16,6 +16,7 @@
 #include "Components/ComponentDirLight.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentSkybox.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentLine.h"
 #include "Components/ComponentCamera.h"
@@ -24,7 +25,6 @@
 
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Batch/BatchManager.h"
-#include "DataModels/Skybox/Skybox.h"
 #include "DataModels/GBuffer/GBuffer.h"
 
 #include "DataStructures/Quadtree.h"
@@ -36,8 +36,6 @@
 
 #include "Scene/Scene.h"
 #include "Camera/Camera.h"
-
-#include "Skybox/Skybox.h"
 
 #ifdef DEBUG
 	#include "optick.h"
@@ -277,8 +275,6 @@ UpdateStatus ModuleRender::Update()
 
 	Scene* loadedScene = scene->GetLoadedScene();
 
-	const Skybox* skybox = loadedScene->GetSkybox();
-
 	GameObject* player = modulePlayer->GetPlayer(); // we can make all of this variables a class variable to save time
 
 #ifdef ENGINE
@@ -380,6 +376,8 @@ UpdateStatus ModuleRender::Update()
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
 
+	// -------- DEFERRED LIGHTING ---------------
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("DEFERRED LIGHTING"), "DEFERRED LIGHTING");
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -431,12 +429,11 @@ UpdateStatus ModuleRender::Update()
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
 	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
-
+	glPopDebugGroup();
 	// -------- PRE-FORWARD ----------------------
-
-	if (skybox)
+	if (loadedScene->GetRoot()->HasComponent<ComponentSkybox>())
 	{
-		skybox->Draw();
+		loadedScene->GetRoot()->GetComponentInternal<ComponentSkybox>()->Draw();
 	}
 
 	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), width, height);
@@ -809,7 +806,6 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
-
 				ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 				// If an object doesn't have transform component it doesn't need to draw
 				if (transform == nullptr)
