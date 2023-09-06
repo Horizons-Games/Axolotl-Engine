@@ -945,6 +945,11 @@
                             "constructName": "PlayerManagerScript",
                             "fields": [
                                 {
+                                    "name": "IsActivePlayer",
+                                    "value": true,
+                                    "type": 5
+                                },
+                                {
                                     "name": "PlayerAttack",
                                     "value": 20.0,
                                     "type": 0
@@ -963,6 +968,11 @@
                                     "name": "PlayerRotationSpeed",
                                     "value": 10.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "MainCamera",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -11572,7 +11582,7 @@
                             "removed": true,
                             "isKinematic": false,
                             "isTrigger": false,
-                            "drawCollider": false,
+                            "drawCollider": true,
                             "mass": 100.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
@@ -11589,8 +11599,8 @@
                             "radius": 0.3499999940395355,
                             "factor": 0.5,
                             "height": 0.699999988079071,
-                            "rbPos_X": -3.3523621559143066,
-                            "rbPos_Y": 0.0,
+                            "rbPos_X": -3.3399999141693115,
+                            "rbPos_Y": 0.6499999761581421,
                             "rbPos_Z": -14.259493827819824,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
@@ -11780,6 +11790,11 @@
                             "constructName": "PlayerManagerScript",
                             "fields": [
                                 {
+                                    "name": "IsActivePlayer",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "PlayerAttack",
                                     "value": 20.0,
                                     "type": 0
@@ -11798,6 +11813,11 @@
                                     "name": "PlayerRotationSpeed",
                                     "value": 10.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "MainCamera",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -11970,7 +11990,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
+                            "localPos_Y": 0.14617294073104858,
                             "localPos_Z": 0.0,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,

@@ -2,17 +2,23 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
+#include "ModuleInput.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class PlayerJumpScript;
 class PlayerMoveScript;
+class CameraControllerScript;
 
 class PlayerManagerScript : public Script
 {
 public:
 	PlayerManagerScript();
 	~PlayerManagerScript() override = default;
+
+	void PreUpdate(float deltaTime) override {};
+	void Update(float deltaTime) override;
+	void PostUpdate(float deltaTime) override {};
 
 	float GetPlayerAttack() const;
 	float GetPlayerDefense() const;
@@ -33,14 +39,16 @@ public:
 private:
 	void Start() override;
 
-	bool isControllingPlayerOne;
+	bool isActivePlayer;
+
+	ModuleInput* input;
 
 	float playerAttack;
 	float playerDefense;
 	float playerSpeed;
 	float playerRotationSpeed;
-	GameObject* characterOne;
-	GameObject* characterTwo;
+	GameObject* mainCamera;
+	CameraControllerScript* camera;
 
 	// All Principal PlayerManagers
 	PlayerMoveScript* movementManager;

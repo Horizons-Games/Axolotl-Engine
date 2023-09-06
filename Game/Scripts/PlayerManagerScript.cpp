@@ -6,52 +6,57 @@
 #include "../Scripts/PlayerJumpScript.h"
 #include "../Scripts/PlayerRotationScript.h"
 #include "../Scripts/PlayerMoveScript.h"
+#include "../Scripts/CameraControllerScript.h"
+#include "Application.h"
 
 REGISTERCLASS(PlayerManagerScript);
 
-PlayerManagerScript::PlayerManagerScript() : Script(), characterOne(nullptr), characterTwo(nullptr), playerAttack(20.0f), playerDefense(0.f), playerSpeed(6.0f)
+PlayerManagerScript::PlayerManagerScript() : Script(), camera(nullptr), mainCamera(nullptr), input(nullptr), isActivePlayer(false), playerAttack(20.0f), playerDefense(0.f), playerSpeed(6.0f)
 {
+	REGISTER_FIELD(isActivePlayer, bool);
 	REGISTER_FIELD(playerAttack, float);
 	REGISTER_FIELD(playerDefense, float);
 	REGISTER_FIELD(playerSpeed, float);
 	REGISTER_FIELD(playerRotationSpeed, float);
+	REGISTER_FIELD(mainCamera, GameObject*);
 }
 
 void PlayerManagerScript::Start()
 {
-	isControllingPlayerOne = true;
+	input = App->GetModule<ModuleInput>();
+	
+	//camera = mainCamera->GetComponent<CameraControllerScript>();
 	jumpManager = owner->GetComponent<PlayerJumpScript>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
 }
 
+void PlayerManagerScript::Update(float deltaTime)
+{
+	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
+	{
+		TogglePlayerScripts();
+	}
+}
+
 void PlayerManagerScript::TogglePlayerScripts()
 {
-	PlayerMoveScript* moveScriptPlayerOne = characterOne->GetComponent<PlayerMoveScript>();
-	PlayerMoveScript* moveScriptPlayerTwo = characterTwo->GetComponent<PlayerMoveScript>();
+	std::vector<ComponentScript*> scriptComponents = owner->GetComponents<ComponentScript>();
 
-	PlayerJumpScript* jumpScriptPlayerOne = characterOne->GetComponent<PlayerJumpScript>();
-	PlayerJumpScript* jumpScriptPlayerTwo = characterTwo->GetComponent<PlayerJumpScript>();
-
-	if (isControllingPlayerOne)
+	for (ComponentScript* script : scriptComponents)
 	{
-		moveScriptPlayerOne->DisableMovement();
-		jumpScriptPlayerOne->DisableJump();
-
-		moveScriptPlayerTwo->EnableMovement();
-		jumpScriptPlayerTwo->EnableJump();
-
-		isControllingPlayerOne = false;
+		if (script->GetConstructName() == "PlayerMoveScript" || script->GetConstructName() == "PlayerJumpScript")
+		{
+			if (isActivePlayer)
+			{
+				script->Disable();
+			}
+			else
+			{
+				script->Enable();
+			}
+		}
 	}
-	else
-	{
-		moveScriptPlayerTwo->DisableMovement();
-		jumpScriptPlayerTwo->DisableJump();
-
-		moveScriptPlayerOne->EnableMovement();
-		jumpScriptPlayerOne->EnableJump();
-
-		isControllingPlayerOne = true;
-	}
+	isActivePlayer = !isActivePlayer;
 }
 
 
