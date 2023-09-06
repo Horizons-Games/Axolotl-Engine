@@ -304,6 +304,15 @@ void ComponentScript::SetOwner(GameObject* owner)
 	}
 }
 
+void ComponentScript::SetScript(IScript* script)
+{
+	this->script = script;
+	if (script)
+	{
+		script->SetContainer(this);
+	}
+}
+
 bool ComponentScript::ScriptCanBeCalled() const
 {
 	return script && App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling();
@@ -685,4 +694,5 @@ void ComponentScript::InstantiateScript(const Json& jsonComponent)
 	}
 
 	script->SetOwner(GetOwner());
+	script->SetContainer(this);
 }

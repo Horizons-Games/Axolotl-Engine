@@ -11,6 +11,7 @@ class ComponentParticleSystem;
 class BixAttackScript;
 class MeshEffect;
 
+
 class HealthSystem : public Script
 {
 public:
@@ -31,11 +32,14 @@ public:
 	bool IsImmortal() const;
 	void SetIsImmortal(bool isImmortal);
 	
+	void SetDeathCallback(std::function<void(void)>&& callDeath);
+
 private:
 
 	float currentHealth;
 	float maxHealth;
 	bool isImmortal;
+	bool damageTaken;
 	GameObject* enemyParticleSystem;
 
 	ComponentAnimation* componentAnimation;
@@ -44,4 +48,6 @@ private:
 	MeshEffect* meshEffect;
 
 	BixAttackScript* attackScript;
+
+	std::function<void(void)> deathCallback;
 };

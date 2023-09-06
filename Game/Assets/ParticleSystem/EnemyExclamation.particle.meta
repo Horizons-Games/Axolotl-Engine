@@ -1,0 +1,10 @@
+{
+    "UID": 4995696200075722307,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": [
+        "Assets/Textures/exclamationMark.png"
+    ],
+    "ConfigEmitters": [
+        false
+    ]
+}

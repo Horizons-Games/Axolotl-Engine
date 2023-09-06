@@ -19,6 +19,8 @@ ModuleBase::ModuleBase(ParticleEmitter* emitter) : ParticleModule(ModuleType::BA
 	originTransform = float4x4::identity;
 	originLocation = DEFAULT_ORIGIN;
 	originRotation = Quat::identity;
+
+	allPartsDead = false;
 }
 
 ModuleBase::~ModuleBase()
@@ -33,6 +35,8 @@ void ModuleBase::Update(EmitterInstance* instance)
 {
 	const ParticleEmitter* partEmitter = instance->GetEmitter();
 
+	std::vector<EmitterInstance::Particle>& particles = instance->GetParticles();
+
 	if (instance->GetElapsedTime() <= emitter->GetDuration() || partEmitter->IsLooping())
 	{
 		const GameObject* go = instance->GetOwner()->GetOwner();
@@ -44,8 +48,6 @@ void ModuleBase::Update(EmitterInstance* instance)
 		}
 
 		float4x4 globalTransform = objectTransform->GetGlobalMatrix().Mul(originTransform);
-
-		std::vector<EmitterInstance::Particle>& particles = instance->GetParticles();
 
 		for (int i = 0; i < particles.size(); ++i)
 		{
@@ -122,6 +124,25 @@ void ModuleBase::Update(EmitterInstance* instance)
 				float velocity = emitter->IsRandomSpeed() ?
 					instance->CalculateRandomValueInRange(speed.x, speed.y) : speed.x;
 				particle.initVelocity = particle.direction * velocity;
+			}
+		}
+		allPartsDead = false;
+	}
+	else if (!allPartsDead)
+	{
+		allPartsDead = true;
+
+		for (int i = 0; i < particles.size(); ++i)
+		{
+			EmitterInstance::Particle& particle = particles[i];
+
+			if (particle.lifespan <= 0.0f)
+			{
+				particle.dead = true;
+			}
+			else
+			{
+				allPartsDead = false;
 			}
 		}
 	}

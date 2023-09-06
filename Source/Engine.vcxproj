@@ -176,8 +176,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Game\Scripts\AIMovement.cpp" />
     <ClCompile Include="..\Game\Scripts\AnimatedLine.cpp" />
     <ClCompile Include="..\Game\Scripts\AnimatedTexture.cpp" />
+    <ClCompile Include="..\Game\Scripts\BoostOfEnergy.cpp" />
+    <ClCompile Include="..\Game\Scripts\BossChargeAttackScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\BossChargeRockScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\BossMissilesAttackScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\BossMissilesMissileScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\BossShieldAttackScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\BossShieldScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ComboManager.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyClass.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
@@ -185,7 +194,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyMiniBossTwo.cpp" />
     <ClCompile Include="..\Game\Scripts\EntityDetection.cpp" />
+    <ClCompile Include="..\Game\Scripts\FinalBossScript.cpp" />
     <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp" />
     <ClCompile Include="..\Game\Scripts\LightAttackBullet.cpp" />
     <ClCompile Include="..\Game\Scripts\LightFinisherAttackScript.cpp" />
@@ -294,6 +305,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\Rotator.cpp" />
+    <ClCompile Include="..\Game\Scripts\SendTriggerCollision.cpp" />
+    <ClCompile Include="..\Game\Scripts\ShockWaveAttackAreaScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\ShockWaveAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -301,10 +316,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\RangedFastAttackBehaviourScript.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\RangedFastAttackBullet.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
@@ -319,12 +334,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\RecastMovementTestScript.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\CameraSample.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
@@ -423,10 +432,15 @@
     <ClCompile Include="DataModels\Components\ComponentCameraSample.cpp" />
     <ClCompile Include="DataModels\Components\Component.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp" />
-    <ClCompile Include="DataModels\Components\ComponentRender.cpp" />
-    <ClCompile Include="DataModels\Components\ComponentTrail.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentSkybox.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPlayerInput.cpp" />
     <ClCompile Include="DataModels\Components\UI\ComponentSlider.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSkyboxInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentRender.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentTrail.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -481,6 +495,10 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentParticle.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSkybox.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRender.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -545,7 +563,6 @@
     <ClCompile Include="DataModels\Resources\ResourceSkyBox.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceStateMachine.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceTexture.cpp" />
-    <ClCompile Include="DataModels\Skybox\Skybox.cpp" />
     <ClCompile Include="DataModels\Timer\Timer.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\EditorWindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -831,11 +848,22 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Game\Scripts\AIMovement.h" />
     <ClInclude Include="..\Game\Scripts\AnimatedLine.h" />
     <ClInclude Include="..\Game\Scripts\AnimatedTexture.h" />
+    <ClInclude Include="..\Game\Scripts\BoostOfEnergy.h" />
+    <ClInclude Include="..\Game\Scripts\BossChargeAttackScript.h" />
+    <ClInclude Include="..\Game\Scripts\BossChargeRockScript.h" />
+    <ClInclude Include="..\Game\Scripts\BossMissilesAttackScript.h" />
+    <ClInclude Include="..\Game\Scripts\BossMissilesMissileScript.h" />
+    <ClInclude Include="..\Game\Scripts\BossShieldAttackScript.h" />
+    <ClInclude Include="..\Game\Scripts\BossShieldScript.h" />
+    <ClInclude Include="..\Game\Scripts\CombatZoneScript.h" />
     <ClInclude Include="..\Game\Scripts\ComboManager.h" />
     <ClInclude Include="..\Game\Scripts\EnemyClass.h" />
+    <ClInclude Include="..\Game\Scripts\EnemyMiniBossTwo.h" />
     <ClInclude Include="..\Game\Scripts\EntityDetection.h" />
+    <ClInclude Include="..\Game\Scripts\FinalBossScript.h" />
     <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h" />
     <ClInclude Include="..\Game\Scripts\LightAttackBullet.h" />
     <ClInclude Include="..\Game\Scripts\LightFinisherAttackScript.h" />
@@ -861,12 +889,15 @@
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h" />
     <ClInclude Include="..\Game\Scripts\PowerUpLogicScript.h" />
     <ClInclude Include="..\Game\Scripts\PowerUpsManagerScript.h" />
+    <ClInclude Include="..\Game\Scripts\Rotator.h" />
+    <ClInclude Include="..\Game\Scripts\SendTriggerCollision.h" />
+    <ClInclude Include="..\Game\Scripts\ShockWaveAttackAreaScript.h" />
+    <ClInclude Include="..\Game\Scripts\ShockWaveAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h" />
     <ClInclude Include="..\Game\Scripts\RangedFastAttackBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\RangedFastAttackBullet.h" />
     <ClInclude Include="..\Game\Scripts\EnemyDroneScript.h" />
     <ClInclude Include="..\Game\Scripts\RecastMovementTestScript.h" />
-    <ClInclude Include="..\Game\Scripts\CameraSample.h" />
     <ClInclude Include="..\Game\Scripts\HealthSystem.h" />
     <ClInclude Include="..\Game\Scripts\MenuMusic.h" />
     <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h" />
@@ -914,6 +945,7 @@
     <ClInclude Include="Auxiliar\Generics\Drawable.h" />
     <ClInclude Include="Auxiliar\Generics\Updatable.h" />
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
+    <ClInclude Include="DataModels\Components\ComponentSkybox.h" />
     <ClInclude Include="DataModels\Components\ComponentRender.h" />
     <ClInclude Include="DataModels\Components\ComponentTrail.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.h">
@@ -927,6 +959,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Components\UI\ComponentSlider.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSkyboxInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAreaLight.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -956,6 +992,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentParticle.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSkybox.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -1044,7 +1084,6 @@
     <ClInclude Include="DataModels\Resources\ResourceSkyBox.h" />
     <ClInclude Include="DataModels\Resources\ResourceStateMachine.h" />
     <ClInclude Include="DataModels\Resources\ResourceTexture.h" />
-    <ClInclude Include="DataModels\Skybox\Skybox.h" />
     <ClInclude Include="DataModels\Timer\Timer.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\EditorWindow.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
