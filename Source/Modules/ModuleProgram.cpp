@@ -70,7 +70,7 @@ bool ModuleProgram::Start()
 	programs.push_back(CreateProgram("cubemap_vertex.glsl", "pre_filtered_map_fragment.glsl", "PreFilteredMap"));
 
 	programs.push_back(
-		CreateProgram("environment_BRDF_vertex.glsl", "environment_BRDF_fragment.glsl", "EnvironmentBRDF"));
+		CreateProgram("render_clip_space_vertex.glsl", "environment_BRDF_fragment.glsl", "EnvironmentBRDF"));
 
 	programs.push_back
 		(CreateProgram("particle_vertex.glsl", "particle_fragment.glsl", "Particles"));
@@ -81,6 +81,29 @@ bool ModuleProgram::Start()
 	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Metallic_fs.glsl", "GMetallic"));
 	
 	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Specular_fs.glsl", "GSpecular"));
+
+	programs.push_back(CreateProgram("shadow_map_vertex.glsl", "shadow_map_fragment.glsl", "ShadowMapping"));
+
+	programs.push_back(CreateProgram("parallel_reduction.glsl", "ParallelReduction"));
+	
+	programs.push_back(CreateProgram("min_max.glsl", "MinMax"));
+
+	programs.push_back(CreateProgram("shadow_depth_variance.glsl", "ShadowDepthVariance"));
+
+	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "gaussian_blur.glsl", "GaussianBlur"));
+	
+	//programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "bloom.glsl", "Bloom"));
+
+	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "kawase_down_fragment.glsl", "KawaseDown"));
+	
+	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "kawase_up_fragment.glsl", "KawaseUp"));
+
+	programs.push_back(CreateProgram("component_line_vertex.glsl", "component_line_fragment.glsl", "ComponentLine"));
+	
+	programs.push_back(
+		CreateProgram("render_clip_space_vertex.glsl", "color_correction_fragment.glsl", "ColorCorrection"));
+
+	programs.push_back(CreateProgram("trail_vertex.glsl", "trail_fragment.glsl", "Trail"));
 
 	return true;
 }
@@ -127,6 +150,31 @@ std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string& vtxShad
 
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
+
+	return program;
+}
+
+std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string& computeShaderName, const std::string& programName)
+{
+	char* computeBuffer{};
+	App->GetModule<ModuleFileSystem>()->Load((rootPath + computeShaderName).c_str(), computeBuffer);
+	unsigned computeShader = CompileShader(GL_COMPUTE_SHADER, computeBuffer);
+	delete computeBuffer;
+
+	if (computeShader == 0)
+	{
+		return nullptr;
+	}
+
+	std::unique_ptr<Program> program =
+		std::make_unique<Program>(computeShader, computeShaderName, programName);
+
+	if (!program->IsValidProgram())
+	{
+		return nullptr;
+	}
+
+	glDeleteShader(computeShader);
 
 	return program;
 }

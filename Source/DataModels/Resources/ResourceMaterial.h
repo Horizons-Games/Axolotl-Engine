@@ -13,6 +13,8 @@ struct LoadOptionsMaterial
 	bool isTransparent;
 	float2 tiling;
 	float2 offset;
+	float2 percentage;
+	float intensityBloom;
 
 	unsigned int shaderType; //This is a special option because it's both load and import option
 
@@ -25,6 +27,7 @@ struct LoadOptionsMaterial
 		isTransparent(false),
 		tiling(float2(1.0f)),
 		offset(float2(0.0f)),
+		percentage(float2(100.0f)),
 		shaderType(0)
 	{
 	}
@@ -77,6 +80,7 @@ public:
 	const unsigned int& GetShaderType() const;
 	const float2& GetTiling() const;
 	const float2& GetOffset() const;
+	const float2& GetPercentage() const;
 
 	void SetLoadOptions(LoadOptionsMaterial& options);
 	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse);
@@ -94,7 +98,8 @@ public:
 	void SetShaderType(const unsigned int shaderType);
 	void SetTiling(const float2& tiling);
 	void SetOffset(const float2& offset);
-
+	void SetPercentage(const float2& percentage);
+	
 protected:
 	void InternalLoad() override{};
 	void InternalUnload() override{};
@@ -192,6 +197,11 @@ inline const float2& ResourceMaterial::GetOffset() const
 	return loadOptions.offset;
 }
 
+inline const float2& ResourceMaterial::GetPercentage() const
+{
+	return loadOptions.percentage;
+}
+
 inline LoadOptionsMaterial& ResourceMaterial::GetLoadOptions()
 {
 	return loadOptions;
@@ -262,55 +272,59 @@ inline void ResourceMaterial::SetEmission(const std::shared_ptr<ResourceTexture>
 	this->emission = emission;
 }
 
-
 inline void ResourceMaterial::SetDiffuseColor(const float4& diffuseColor)
 {
-	this->loadOptions.diffuseColor = diffuseColor;
+	loadOptions.diffuseColor = diffuseColor;
 }
 
 inline void ResourceMaterial::SetSpecularColor(const float3& specularColor)
 {
-	this->loadOptions.specularColor = specularColor;
+	loadOptions.specularColor = specularColor;
 }
 
 inline void ResourceMaterial::SetNormalStrength(const float normalStrength)
 {
-	this->loadOptions.normalStrength = normalStrength;
+	loadOptions.normalStrength = normalStrength;
 }
 
 inline void ResourceMaterial::SetSmoothness(const float smoothness)
 {
-	this->loadOptions.smoothness = smoothness;
+	loadOptions.smoothness = smoothness;
 }
 
 inline void ResourceMaterial::SetMetalness(const float metalness)
 {
-	this->loadOptions.metalness = metalness;
+	loadOptions.metalness = metalness;
 }
 
 inline void ResourceMaterial::SetTransparent(const bool isTransparent)
 {
-	this->loadOptions.isTransparent = isTransparent;
+	loadOptions.isTransparent = isTransparent;
 }
 
 inline void ResourceMaterial::SetShaderType(const unsigned int shaderType)
 {
 	if (shaderType > 1)
 	{
-		this->loadOptions.shaderType = 0;
+		loadOptions.shaderType = 0;
 	}
 	else
 	{
-		this->loadOptions.shaderType = shaderType;
+		loadOptions.shaderType = shaderType;
 	}
 }
 
 inline void ResourceMaterial::SetTiling(const float2& tiling)
 {
-	this->loadOptions.tiling = tiling;
+	loadOptions.tiling = tiling;
 }
 
 inline void ResourceMaterial::SetOffset(const float2& offset)
 {
-	this->loadOptions.offset = offset;
+	loadOptions.offset = offset;
+}
+
+inline void ResourceMaterial::SetPercentage(const float2& percentage)
+{
+	loadOptions.percentage = percentage;
 }

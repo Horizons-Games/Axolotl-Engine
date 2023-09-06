@@ -29,6 +29,8 @@ public:
 	const Quat& GetGlobalRotation() const;
 	const float3& GetLocalScale() const;
 	const float3& GetGlobalScale() const;
+	const float3& GetBBScale() const;
+	const float3& GetBBPos() const;
 
 	float3 GetLocalForward() const;
 	float3 GetGlobalForward() const;
@@ -51,8 +53,14 @@ public:
 	void SetLocalRotation(const Quat& rotation);
 	void SetGlobalRotation(const Quat& rotation);
 	void SetLocalScale(const float3& scale);
+	void SetOriginScaling(const float3& originScaling);
+	void SetOriginCenter(const float3& originCenter);
 	void SetUniformScale(const float3& scale, Axis modifiedScaleAxis);
 	void SetGlobalTransform(const float4x4& transform);
+
+	void ScaleLocalAABB(float3& scaling);
+
+	void TranslateLocalAABB(float3& translation);
 
 	void SetDrawBoundingBoxes(bool newDraw);
 
@@ -70,10 +78,16 @@ public:
 
 	void CalculateLocalFromNewGlobal(const ComponentTransform* newTransformFrom);
 
+
 private:
 	float3 localPos;
 	Quat localRot;
 	float3 localSca;
+
+	float3 bbPos;
+	float3 bbSca;
+	float3 originScaling;
+	float3 originCenter;
 
 	float3 globalPos;
 	Quat globalRot;
@@ -119,6 +133,16 @@ inline const Quat& ComponentTransform::GetGlobalRotation() const
 inline const float3& ComponentTransform::GetLocalScale() const
 {
 	return localSca;
+}
+
+inline const float3& ComponentTransform::GetBBScale() const
+{
+	return bbSca;
+}
+
+inline const float3& ComponentTransform::GetBBPos() const
+{
+	return bbPos;
 }
 
 inline const float3& ComponentTransform::GetGlobalScale() const
@@ -223,6 +247,16 @@ inline void ComponentTransform::SetLocalScale(const float3& scale)
 	localSca.z = std::max(scale.z, 0.0001f);
 }
 
+inline void ComponentTransform::SetOriginScaling(const float3& originScaling)
+{
+	this->originScaling = originScaling;
+}
+
+inline void ComponentTransform::SetOriginCenter(const float3& originCenter)
+{
+	this->originCenter = originCenter;
+}
+
 inline void ComponentTransform::SetUniformScale(const float3& scale, Axis modifiedScaleAxis)
 {
 	if (modifiedScaleAxis == Axis::X)
@@ -259,3 +293,4 @@ inline void ComponentTransform::SetGlobalTransform(const float4x4& transform)
 {
 	globalMatrix = transform;
 }
+

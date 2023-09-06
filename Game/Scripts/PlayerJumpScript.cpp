@@ -11,6 +11,7 @@
 #include "Components/ComponentScript.h"
 
 #include "../Scripts/BixAttackScript.h"
+#include "../Scripts/PlayerMoveScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 #include "MathGeoLib/Include/Geometry/Ray.h"
@@ -24,7 +25,7 @@ REGISTERCLASS(PlayerJumpScript);
 
 PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(500.0f), canDoubleJump(false),
 componentAnimation(nullptr), componentAudio(nullptr), canJump(true), rigidbody(nullptr),
-coyoteTime(0.4f), groundedCount(0), isGrounded(false), attackScript(nullptr)
+coyoteTime(0.4f), groundedCount(0), isGrounded(false), attackScript(nullptr), playerMoveScript(nullptr)
 {
 	REGISTER_FIELD(coyoteTime, float);
 	REGISTER_FIELD(isGrounded, bool);
@@ -45,6 +46,7 @@ void PlayerJumpScript::Start()
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 
 	attackScript = owner->GetComponent<BixAttackScript>();
+	playerMoveScript = owner->GetComponent<PlayerMoveScript>();
 }
 
 void PlayerJumpScript::PreUpdate(float deltaTime)
@@ -55,7 +57,22 @@ void PlayerJumpScript::PreUpdate(float deltaTime)
 	}
 
 	CheckGround();
-	Jump(deltaTime);
+
+	if (playerMoveScript->GetPlayerState() != PlayerActions::DASHING)
+	{
+		Jump(deltaTime);
+	}
+
+	if (isJumping)
+	{
+		playerMoveScript->SetPlayerState(PlayerActions::JUMPING);
+		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+	}
+
+	if (isGrounded && playerMoveScript->GetPlayerState() == PlayerActions::JUMPING)
+	{
+		playerMoveScript->SetPlayerState(PlayerActions::IDLE);
+	}
 }
 
 void PlayerJumpScript::CheckGround()
@@ -104,7 +121,8 @@ void PlayerJumpScript::Jump(float deltatime)
 		btVector3 movement(0, 1, 0);
 		float3 direction = float3::zero;
 
-		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && (isGrounded || coyoteTimerCount > 0.0f || (doubleJumpAvailable && canDoubleJump)))
+		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && 
+			(isGrounded || coyoteTimerCount > 0.0f || (doubleJumpAvailable && canDoubleJump)))
 		{
 			btVector3 velocity = btRb->getLinearVelocity();
 			velocity.setY(0.0f);

@@ -29,9 +29,14 @@ void WindowFrustum::DrawWindowContents()
 	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
 
 	bool showAABBs = debug->IsShowingBoundingBoxes();
+	bool showRB = debug->IsShowingRigidBody();
 	if (ImGui::Checkbox("Show bounding boxes", &showAABBs))
 	{
 		debug->ShowBoundingBoxes(showAABBs);
+	}
+	if (ImGui::Checkbox("Show Rigid bodies", &showRB))
+	{
+		debug->ShowRigidBody(showRB);
 	}
 	const char* listbox_items[] = { "Basic Frustum", "Offset Frustum", "No Frustum" };
 

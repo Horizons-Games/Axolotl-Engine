@@ -18,6 +18,9 @@
 
 #include "ComponentRigidBody.h"
 
+#include "Exceptions/ComponentNotFoundException.h"
+#include "Exceptions/ScriptAssertFailedException.h"
+
 namespace
 {
 // helper method to handle exception and validity state of the component
@@ -36,6 +39,14 @@ void RunScriptMethodAndHandleException(bool& scriptFailedState, ComponentScript*
 	catch (const ComponentNotFoundException& exception)
 	{
 		LOG_ERROR("Error during execution of script {}, owned by {}. Error message: {}",
+				  script->GetConstructName(),
+				  script->GetOwner(),
+				  exception.what());
+		scriptFailedState = true;
+	}
+	catch (const ScriptAssertFailedException& exception)
+	{
+		LOG_ERROR("Assertion failed during execution of script {}, owned by {}. Error message: {}",
 				  script->GetConstructName(),
 				  script->GetOwner(),
 				  exception.what());
@@ -92,6 +103,10 @@ ComponentScript::ComponentScript(const ComponentScript& other) :
 	started(other.started),
 	script(App->GetScriptFactory()->ConstructScript(other.constructName.c_str()))
 {
+	if (script == nullptr)
+	{
+		return;
+	}
 	for (const TypeFieldPair& typeFieldPair : script->GetFields())
 	{
 		switch (typeFieldPair.first)
@@ -286,6 +301,15 @@ void ComponentScript::SetOwner(GameObject* owner)
 	if (script)
 	{
 		script->SetOwner(owner);
+	}
+}
+
+void ComponentScript::SetScript(IScript* script)
+{
+	this->script = script;
+	if (script)
+	{
+		script->SetContainer(this);
 	}
 }
 
@@ -510,7 +534,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 					if (fieldUID != 0)
 					{
 						UID newFieldUID;
-						if (App->GetModule<ModuleScene>()->hasNewUID(fieldUID, newFieldUID))
+						if (App->GetModule<ModuleScene>()->HasNewUID(fieldUID, newFieldUID))
 						{
 							optField.value().setter(
 								App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(newFieldUID));
@@ -611,7 +635,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 							if (fieldUID != 0)
 							{
 								UID newFieldUID;
-								if (App->GetModule<ModuleScene>()->hasNewUID(fieldUID, newFieldUID))
+								if (App->GetModule<ModuleScene>()->HasNewUID(fieldUID, newFieldUID))
 								{
 									vectorCase.push_back((GameObject*) App->GetModule<ModuleScene>()
 															 ->GetLoadedScene()
@@ -670,4 +694,5 @@ void ComponentScript::InstantiateScript(const Json& jsonComponent)
 	}
 
 	script->SetOwner(GetOwner());
+	script->SetContainer(this);
 }

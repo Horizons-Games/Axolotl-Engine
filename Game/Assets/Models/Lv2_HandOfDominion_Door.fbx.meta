@@ -1,0 +1,13 @@
+{
+    "UID": 5078265417617550952,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Lv2_HandOfDominion_Door.Cube.024_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Lv2_HandOfDominion_DoorDoor_0.mat"
+    ],
+    "AnimAssetPaths": [
+        "Assets/Animation/Lv2_HandOfDominion_Door.DoorWall_DoorOpen.anim"
+    ]
+}

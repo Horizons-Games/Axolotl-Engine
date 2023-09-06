@@ -13,6 +13,7 @@
 #include "DataModels/Scene/Scene.h"
 #include "FileSystem/ModuleFileSystem.h"
 
+#include "FileSystem/FileZippedData.h"
 #include "FileSystem/Json.h"
 
 #include "Windows/EditorWindows/WindowStateMachineEditor.h"
@@ -22,6 +23,7 @@
 #ifdef ENGINE
 	#include "Auxiliar/GameBuilder.h"
 	#include "Animation/StateMachine.h"
+	#include "Auxiliar/SceneLoader.h"
 	#include "Resources/ResourceStateMachine.h"
 	#include "Windows/EditorWindows/WindowAssetFolder.h"
 	#include "Windows/EditorWindows/WindowConfiguration.h"
@@ -131,7 +133,7 @@ bool ModuleEditor::Init()
 
 	mainMenu = std::make_unique<WindowMainMenu>(json);
 	stateMachineEditor = std::make_unique<WindowStateMachineEditor>();
-	buildGameLoading = std::make_unique<WindowLoading>();
+	loadingPopUp = std::make_unique<WindowLoading>();
 
 	ImGuizmo::SetImGuiContext(ImGui::GetCurrentContext());
 #else
@@ -244,7 +246,7 @@ UpdateStatus ModuleEditor::Update()
 
 	mainMenu->Draw();
 
-	DrawLoadingBuild();
+	DrawLoadingPopUp();
 
 	for (int i = 0; i < windows.size(); ++i)
 	{
@@ -260,24 +262,51 @@ UpdateStatus ModuleEditor::Update()
 	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-void ModuleEditor::DrawLoadingBuild()
+void ModuleEditor::DrawLoadingPopUp()
 {
 #ifdef ENGINE
 	bool gameCompiling = builder::Compiling();
 	bool zipping = builder::Zipping();
-	bool gameBuilding = gameCompiling || zipping;
+	bool loadingScene = mainMenu->IsLoadingScene();
+	bool drawLoading = gameCompiling || zipping || loadingScene;
 	if (gameCompiling)
 	{
-		buildGameLoading->AddWaitingOn("Game is being compiled...");
+		loadingPopUp->AddWaitingOn("Game is being compiled...");
 	}
 	if (zipping)
 	{
-		buildGameLoading->AddWaitingOn("Binaries are being zipped...");
+		std::optional<FileZippedData> lastFileZippedData = builder::GetLastFileZippedData();
+		if (lastFileZippedData.has_value())
+		{
+			FileZippedData data = lastFileZippedData.value();
+			// this is too unreliable, since the time it takes to zip each file vastly varies among them
+			// we could maybe keep a history of the time (maybe in a helper class?), but we can do that later
+
+			// std::chrono::minutes expectedTimeRemaining =
+			//	duration_cast<std::chrono::minutes>((data.totalFiles - data.fileZippedIndex) * data.timeTaken);
+			// std::string extraInfo =
+			//	"Estimated time remaining: " + std::to_string(expectedTimeRemaining.count()) + " minutes";
+
+			std::string extraInfo = "Last file zipped: " + data.fileZipped;
+			extraInfo +=
+				"\nCurrent files: " + std::to_string(data.fileZippedIndex) + "/" + std::to_string(data.totalFiles);
+
+			loadingPopUp->AddWaitingOn("Binaries are being zipped...\n" + extraInfo,
+									   static_cast<float>(data.fileZippedIndex) / static_cast<float>(data.totalFiles));
+		}
+		else
+		{
+			loadingPopUp->AddWaitingOn("Binaries are being zipped...", 0.f);
+		}
 	}
-	buildGameLoading->Draw(gameBuilding);
-	if (gameBuilding)
+	if (loadingScene)
 	{
-		buildGameLoading->ResetWaitingOn();
+		loadingPopUp->AddWaitingOn("Scene is being loaded...");
+	}
+	loadingPopUp->Draw(drawLoading);
+	if (drawLoading)
+	{
+		loadingPopUp->ResetWaitingOn();
 	}
 #endif
 }
@@ -346,7 +375,9 @@ std::pair<float, float> ModuleEditor::GetAvailableRegion()
 	ImVec2 region = scene->GetAvailableRegion();
 	return std::make_pair(region.x, region.y);
 #else
-	return App->GetModule<ModuleWindow>()->GetWindowSize();
+	std::pair<int, int> windowSizeAsInt = App->GetModule<ModuleWindow>()->GetWindowSize();
+	return std::make_pair<float, float>(static_cast<float>(windowSizeAsInt.first),
+										static_cast<float>(windowSizeAsInt.second));
 #endif
 }
 
