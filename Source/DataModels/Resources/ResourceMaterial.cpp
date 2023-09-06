@@ -73,10 +73,6 @@ void ResourceMaterial::LoadLoadOptions(Json& meta)
 	loadOptions.diffuseColor.y = static_cast<float>(meta["diffuseColor_y"]);
 	loadOptions.diffuseColor.z = static_cast<float>(meta["diffuseColor_z"]);
 	loadOptions.diffuseColor.w = static_cast<float>(meta["diffuseColor_w"]);
-	if (loadOptions.diffuseColor.w == 0.f)
-	{
-		loadOptions.diffuseColor.w = 1.0f;
-	} 
 	loadOptions.specularColor.x = static_cast<float>(meta["specularColor_x"]);
 	loadOptions.specularColor.y = static_cast<float>(meta["specularColor_y"]);
 	loadOptions.specularColor.z = static_cast<float>(meta["specularColor_z"]);
@@ -86,11 +82,6 @@ void ResourceMaterial::LoadLoadOptions(Json& meta)
 	loadOptions.isTransparent = static_cast<bool>(meta["isTransparent"]);
 	loadOptions.tiling.x = static_cast<float>(meta["tilingx"]);
 	loadOptions.tiling.y = static_cast<float>(meta["tilingy"]);
-	if (loadOptions.tiling.x == 0.f && loadOptions.tiling.y == 0.f)
-	{
-		loadOptions.tiling.x = 1.f;
-		loadOptions.tiling.y = 1.f;
-	}
 	loadOptions.offset.x = static_cast<float>(meta["offsetx"]);
 	loadOptions.offset.y = static_cast<float>(meta["offsety"]);
 	loadOptions.percentage.x = static_cast<float>(meta["percentagex"]);

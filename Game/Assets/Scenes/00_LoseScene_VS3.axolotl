@@ -40,6 +40,18 @@
                     "removed": true,
                     "intensity": 1.0
                   }
+                },
+                {
+                        "Component": {
+                            "type": "Component_Skybox",
+                            "active": true,
+                            "removed": true,
+                            "Skybox": {
+                                "enable": true,
+                                "skyboxUID": 4377575066284441384,
+                                "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+                            }
+                        }
                 }
               ]
             }
@@ -73,10 +85,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 645.0,
-                            "worldAABB_min_y": 567.5,
-                            "worldAABB_max_x": 645.0,
-                            "worldAABB_max_y": 567.5
+                            "worldAABB_min_x": 698.0,
+                            "worldAABB_min_y": 292.5,
+                            "worldAABB_max_x": 698.0,
+                            "worldAABB_max_y": 292.5
                         }
                     },
                     {
@@ -126,10 +138,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 645.0,
-                            "worldAABB_min_y": 567.5,
-                            "worldAABB_max_x": 645.0,
-                            "worldAABB_max_y": 567.5
+                            "worldAABB_min_x": 698.0,
+                            "worldAABB_min_y": 292.5,
+                            "worldAABB_max_x": 698.0,
+                            "worldAABB_max_y": 292.5
                         }
                     },
                     {
@@ -251,7 +263,9 @@
                             "active": true,
                             "removed": false,
                             "frustumOfset": 1.0,
-                            "drawFrustum": false
+                            "drawFrustum": false,
+                            "kpPosition": 0.0,
+                            "kpRotation": 0.0
                         }
                     },
                     {
@@ -293,10 +307,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 577.8125,
-                            "worldAABB_min_y": 500.3125,
-                            "worldAABB_max_x": 712.1875,
-                            "worldAABB_max_y": 634.6875
+                            "worldAABB_min_x": 643.8333129882813,
+                            "worldAABB_min_y": 238.3333282470703,
+                            "worldAABB_max_x": 752.1666870117188,
+                            "worldAABB_max_y": 346.6666564941406
                         }
                     }
                 ]
@@ -331,10 +345,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 577.8125,
-                            "worldAABB_min_y": 500.3125,
-                            "worldAABB_max_x": 712.1875,
-                            "worldAABB_max_y": 634.6875
+                            "worldAABB_min_x": 643.8333129882813,
+                            "worldAABB_min_y": 238.3333282470703,
+                            "worldAABB_max_x": 752.1666870117188,
+                            "worldAABB_max_y": 346.6666564941406
                         }
                     }
                 ]
@@ -369,10 +383,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 555.47265625,
-                            "worldAABB_min_y": 849.51953125,
-                            "worldAABB_max_x": 734.52734375,
-                            "worldAABB_max_y": 903.60546875
+                            "worldAABB_min_x": 625.8229370117188,
+                            "worldAABB_min_y": 519.8646240234375,
+                            "worldAABB_max_x": 770.1770629882813,
+                            "worldAABB_max_y": 563.46875
                         }
                     },
                     {
@@ -452,12 +466,12 @@
                                 {
                                     "name": "IsGameExit",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
                                     "value": false,
-                                    "type": 4
+                                    "type": 5
                                 }
                             ]
                         }
@@ -494,10 +508,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 555.47265625,
-                            "worldAABB_min_y": 849.51953125,
-                            "worldAABB_max_x": 734.52734375,
-                            "worldAABB_max_y": 903.60546875
+                            "worldAABB_min_x": 625.8229370117188,
+                            "worldAABB_min_y": 519.8646240234375,
+                            "worldAABB_max_x": 770.1770629882813,
+                            "worldAABB_max_y": 563.46875
                         }
                     },
                     {
@@ -532,10 +546,6 @@
                 "z": 25.0
             }
         }
-    },
-    "Skybox": {
-        "skyboxUID": 4377575066284441384,
-        "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
     },
     "Cubemap": {
         "cubemapUID": 992078593789236745,

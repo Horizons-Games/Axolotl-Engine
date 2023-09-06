@@ -157,9 +157,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Skybox\Skybox.cpp">
-      <Filter>DataModels\Skybox</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Program\Program.cpp">
       <Filter>DataModels\Program</Filter>
     </ClCompile>
@@ -576,19 +573,10 @@
       <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\RangedFastAttackBehaviourScript.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies\RangedFastAttackBehaviour</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\RangedFastAttackBullet.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\MeleeFastAttackBehaviourScript.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies\RangedFastAttackBehaviour</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Components\ComponentCameraSample.cpp">
       <Filter>DataModels\Components</Filter>
@@ -620,9 +608,6 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\DebugGame.cpp">
       <Filter>UserScripts\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.cpp">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UITextTrigger.cpp">
       <Filter>UserScripts\Level</Filter>
@@ -657,6 +642,15 @@
     <ClCompile Include="..\Game\Scripts\UIComboManager.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentSkybox.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSkybox.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSkyboxInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Jump</Filter>
     </ClCompile>
@@ -678,6 +672,52 @@
     <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\FinalBossScript.cpp">
+      <Filter>UserScripts\Gameplay\Bosses\Final Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\MeleeFastAttackBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossChargeAttackScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossChargeAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossChargeRockScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossChargeAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ShockWaveAttackAreaScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\ShockWaveAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ShockWaveAttackScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\ShockWaveAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossShieldAttackScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossShieldScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PatrolBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossMissilesAttackScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossMissilesMissileScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
+    <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\AIMovement.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\MeshEffect.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
@@ -693,6 +733,9 @@
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="Auxiliar\ConnectedCallback.cpp">
       <Filter>Auxiliar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp">
+      <Filter>UserScripts\Level</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
     <ClCompile Include="..\Game\Scripts\AnimatedLine.cpp">
@@ -711,9 +754,20 @@
       <Filter>Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="Formatter.cpp" />
-    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
     <ClCompile Include="Modules\ModuleRandom.cpp">
       <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\EnemyMiniBossTwo.cpp">
+      <Filter>UserScripts\Gameplay\Bosses\Mini Bosses</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BoostOfEnergy.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergyAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SendTriggerCollision.cpp">
+      <Filter>UserScripts\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\Rotator.cpp">
+      <Filter>UserScripts\Utils</Filter>
     </ClCompile>
     <ClCompile Include="Exceptions\AccessingFailedScriptException.cpp" />
   </ItemGroup>
@@ -889,9 +943,6 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Skybox\Skybox.h">
-      <Filter>DataModels\Skybox</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Program\Program.h">
       <Filter>DataModels\Program</Filter>
     </ClInclude>
@@ -1027,9 +1078,6 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\RecastMovementTestScript.h">
       <Filter>UserScripts\Gameplay\Player\Movement</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CameraSample.h">
-      <Filter>UserScripts\Level</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentAudioListener.h">
       <Filter>DataModels\Components</Filter>
@@ -1273,19 +1321,10 @@
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\RangedFastAttackBehaviourScript.h">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies\RangedFastAttackBehaviour</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\RangedFastAttackBullet.h">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\MeleeFastAttackBehaviourScript.h">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h">
-      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h">
-      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies\RangedFastAttackBehaviour</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Components\ComponentCameraSample.h">
       <Filter>DataModels\Components</Filter>
@@ -1363,9 +1402,6 @@
     <ClInclude Include="..\Game\Scripts\GameManager.h">
       <Filter>UserScripts\Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.h">
-      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\UITextTrigger.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
@@ -1411,6 +1447,18 @@
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentSkybox.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSkybox.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSkyboxInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
       <Filter>UserScripts\Gameplay\Player\Jump</Filter>
     </ClInclude>
@@ -1432,6 +1480,45 @@
     <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h">
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\FinalBossScript.h">
+      <Filter>UserScripts\Gameplay\Bosses\Final Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\MeleeFastAttackBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\MeleeHeavyAttackBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossChargeAttackScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossChargeAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossChargeRockScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossChargeAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ShockWaveAttackAreaScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\ShockWaveAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ShockWaveAttackScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\ShockWaveAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossShieldAttackScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossShieldScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PatrolBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossMissilesAttackScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossMissilesMissileScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\MeshEffect.h">
       <Filter>UserScripts\Graphics</Filter>
     </ClInclude>
@@ -1442,6 +1529,13 @@
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="Defines\AxoTodo.h" />
+    <ClInclude Include="..\Game\Scripts\CameraSample.h" />
+    <ClInclude Include="..\Game\Scripts\CombatZoneScript.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\AIMovement.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClInclude>
     <ClInclude Include="Auxiliar\SceneLoader.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
@@ -1454,6 +1548,9 @@
     </ClInclude>
     <ClInclude Include="Auxiliar\ConnectedCallback.h">
       <Filter>Auxiliar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CombatZoneScript.h">
+      <Filter>UserScripts\Level</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\AnimatedLine.h">
       <Filter>UserScripts\Graphics</Filter>
@@ -1473,6 +1570,18 @@
     <ClInclude Include="Formatter.h" />
     <ClInclude Include="Modules\ModuleRandom.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\EnemyMiniBossTwo.h">
+      <Filter>UserScripts\Gameplay\Bosses\Mini Bosses</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BoostOfEnergy.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergyAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SendTriggerCollision.h">
+      <Filter>UserScripts\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\Rotator.h">
+      <Filter>UserScripts\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Exceptions\AccessingFailedScriptException.h" />
   </ItemGroup>
@@ -1515,9 +1624,6 @@
     </Filter>
     <Filter Include="DataModels\Scene">
       <UniqueIdentifier>{627ee524-a786-4f85-b54b-02612ce25968}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="DataModels\Skybox">
-      <UniqueIdentifier>{e2580d29-b049-4fe4-8b19-f4ac91bdcc68}</UniqueIdentifier>
     </Filter>
     <Filter Include="DataModels\Program">
       <UniqueIdentifier>{ede4d809-0d25-41da-9d4d-167adc480493}</UniqueIdentifier>
@@ -1612,9 +1718,6 @@
     <Filter Include="UserScripts\Gameplay\Behaviours\Movement Behaviours">
       <UniqueIdentifier>{911bcf4f-181f-48db-8333-dfa64145ceda}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\RangedFastAttackBehaviour">
-      <UniqueIdentifier>{79d0b2cb-fa14-4daf-82af-09f2727e8fc2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="DataModels\GBuffer">
       <UniqueIdentifier>{c1f9434a-5fe1-40ba-ab44-e447bf58d6ca}</UniqueIdentifier>
     </Filter>
@@ -1645,8 +1748,44 @@
     <Filter Include="UserScripts\Gameplay\Player\Attack\Finishers\Light Finisher">
       <UniqueIdentifier>{62400d05-b28f-42d0-8554-b11dc997773a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UserScripts\Gameplay\Bosses">
+      <UniqueIdentifier>{1de7b7cf-815c-4a41-925c-49e1a44a7a5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Bosses\Final Boss">
+      <UniqueIdentifier>{f0e59a56-bfac-4bd0-99f7-b63a6790f962}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies">
+      <UniqueIdentifier>{9bd7e7e9-3ce3-4304-a3f7-ee13e1f837d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Basic Enemies\RangedFastAttackBehaviour">
+      <UniqueIdentifier>{79d0b2cb-fa14-4daf-82af-09f2727e8fc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses">
+      <UniqueIdentifier>{75361da6-48f2-44f0-8185-b2bf683e2db7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossChargeAttack">
+      <UniqueIdentifier>{caa4e193-0018-420c-a3f8-aaa52180f8cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack">
+      <UniqueIdentifier>{5a54ea55-6039-4837-a5a9-37b09052d56e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\ShockWaveAttack">
+      <UniqueIdentifier>{ffeb3f6b-4c66-4df7-b73d-88cd2d18524b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack">
+      <UniqueIdentifier>{2b97e352-8e22-4d91-ac22-fbfbf32559ed}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Exceptions">
       <UniqueIdentifier>{d89816a3-de30-46fe-9d0f-cf270aa9f568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Bosses\Mini Bosses">
+      <UniqueIdentifier>{51c415c7-d272-4817-8ce8-f2f76619cae8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BoostOfEnergyAttack">
+      <UniqueIdentifier>{545e2d57-65b6-4754-80f4-7c76668ccff8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Utils">
+      <UniqueIdentifier>{5e0a602a-1266-4c8e-abba-0af6541b6b90}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1805,9 +1944,6 @@
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Skybox\Skybox.cpp">
-      <Filter>DataModels\Skybox</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Program\Program.cpp">
       <Filter>DataModels\Program</Filter>
@@ -2115,9 +2251,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Skybox\Skybox.h">
-      <Filter>DataModels\Skybox</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Program\Program.h">
       <Filter>DataModels\Program</Filter>
@@ -2448,9 +2581,6 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Skybox\Skybox.h">
-      <Filter>DataModels\Skybox</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Program\Program.h">
       <Filter>DataModels\Program</Filter>
     </ClInclude>
@@ -2710,9 +2840,6 @@
     </Filter>
     <Filter Include="DataModels\Scene">
       <UniqueIdentifier>{627ee524-a786-4f85-b54b-02612ce25968}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="DataModels\Skybox">
-      <UniqueIdentifier>{e2580d29-b049-4fe4-8b19-f4ac91bdcc68}</UniqueIdentifier>
     </Filter>
     <Filter Include="DataModels\Program">
       <UniqueIdentifier>{ede4d809-0d25-41da-9d4d-167adc480493}</UniqueIdentifier>
