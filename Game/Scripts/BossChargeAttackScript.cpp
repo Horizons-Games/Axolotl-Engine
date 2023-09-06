@@ -51,8 +51,8 @@ void BossChargeAttackScript::Update(float deltaTime)
 
 void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if ((other->GetOwner()->CompareTag("Wall") || other->GetOwner()->CompareTag("Rock"))
-		&& chargeState == ChargeState::CHARGING)
+	if (chargeState == ChargeState::CHARGING &&
+		(other->GetOwner()->CompareTag("Wall") || other->GetOwner()->CompareTag("Rock")))
 	{
 		chargeState = ChargeState::BOUNCING_WALL;
 

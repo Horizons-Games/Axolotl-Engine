@@ -34,14 +34,15 @@ BossShieldAttackScript::BossShieldAttackScript() : Script(), bossShieldObject(nu
 	REGISTER_FIELD(battleArenaAreaSize, ComponentRigidBody*);
 }
 
+void BossShieldAttackScript::Init()
+{
+	Assert(enemiesToSpawnParent != nullptr,
+		axo::Format("No spawner of enemies set for the Boss Shield Attack!! Owner: {}", GetOwner()));
+}
+
 void BossShieldAttackScript::Start()
 {
 	shieldingTime = shieldingMaxTime;
-
-	if (enemiesToSpawnParent == nullptr)
-	{
-		return;
-	}
 
 	enemiesReadyToSpawn.reserve(enemiesToSpawnParent->GetChildren().size());
 	enemiesNotReadyToSpawn.reserve(enemiesToSpawnParent->GetChildren().size());
@@ -83,7 +84,7 @@ void BossShieldAttackScript::TriggerShieldAttack()
 
 bool BossShieldAttackScript::CanPerformShieldAttack() const
 {
-	return shieldAttackCooldown <= 0.0f && !isShielding;
+	return shieldAttackCooldown <= 0.0f && !IsAttacking();
 }
 
 bool BossShieldAttackScript::IsAttacking() const

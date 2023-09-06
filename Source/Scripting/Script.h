@@ -38,6 +38,8 @@ public:
 protected:
 	void AddMember(TypeFieldPair&& member);
 
+	void Assert(bool&& condition, std::string&& errorMessage);
+
 protected:
 	GameObject* owner;
 	Application* App;

@@ -29,6 +29,7 @@ public:
 	bool IsAttackAvailable() const;
 	bool NeedReposition() const;
 	bool IsPreShooting() const;
+	bool IsConsecutiveShooting() const;
 	bool MovingToNewReposition();
 
 	void ResetScriptValues();

@@ -2,6 +2,8 @@
 
 #include "rapidjson/document.h"
 
+#include "FileSystem/UID.h"
+
 namespace loader
 {
 enum class LoadMode
@@ -16,4 +18,6 @@ void LoadScene(std::variant<std::string, std::reference_wrapper<rapidjson::Docum
 			   LoadMode loadMode);
 
 bool IsLoading();
+
+bool HasNewUID(UID oldUID, UID& newUID);
 } // namespace loader
