@@ -12,6 +12,8 @@
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/EnemyClass.h"
+#include "../Scripts/EnemyMiniBossTwo.h"
+#include "../Scripts/FinalBossScript.h"
 
 REGISTERCLASS(JumpFinisherArea);
 
@@ -91,6 +93,14 @@ void JumpFinisherArea::PushEnemies(float pushForce, float stunTime)
 	for (std::vector<GameObject*>::iterator it = enemiesInTheArea.begin(); it < enemiesInTheArea.end();
 		it++)
 	{
+		// If you think about a better way to identify the bosses lmk, tags are already in use
+		// and as there will only be three bosses, this is a "not so bad" approach I guess
+		AXO_TODO("Add here miniboss 1 script if finally developed, so no boss gets pushed back by this attack");
+		if ((*it)->HasComponent<EnemyMiniBossTwo>() || (*it)->HasComponent<FinalBossScript>())
+		{
+			continue;
+		}
+
 		const ComponentTransform* enemyTransform =
 			(*it)->GetComponent<ComponentTransform>();
 		ComponentRigidBody* enemyRigidBody =
