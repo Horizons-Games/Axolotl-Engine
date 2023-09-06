@@ -1,6 +1,9 @@
 #include "StdAfx.h"
 #include "FinalBossScript.h"
 
+#include "Application.h"
+#include "Modules/ModuleRandom.h"
+
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
@@ -181,7 +184,8 @@ void FinalBossScript::ManageNeutralPhase()
 		return;
 	}
 
-	int chargeChance = rand() % 1500; // Trust me, 1 in 1500 chance is enough
+	// Trust me, 1 in 1500 chance is enough
+	int chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(1500.0f);
 
 	// If the player gets near the boss, the boss will defend itself with a shockwave if possible
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
@@ -213,8 +217,8 @@ void FinalBossScript::ManageAggressivePhase()
 		return;
 	}
 
-	int chargeChance = rand() % 500; // Triple the chance of charges
-	int seekingShockWaveChance = rand() % 500;
+	int chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(500.0f); // Triple the chance of charges
+	int seekingShockWaveChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(500.0f);
 
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack())
@@ -251,8 +255,9 @@ void FinalBossScript::ManageDefensivePhase()
 		return;
 	}
 
-	int chargeChance = rand() % 2000; // Reduce a lot the chance of charges
-	int shieldChance = rand() % 200;
+	// Reduce a lot the chance of charges
+	int chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(2500.0f);
+	int shieldChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(200.0f);
 
 	// The boss is on the defensive now, if the shield attack is available, they will most likely trigger it
 	if (shieldChance < 1 && shieldAttackScript->CanPerformShieldAttack())
@@ -288,10 +293,10 @@ void FinalBossScript::ManageLastResortPhase()
 		return;
 	}
 
-	int chargeChance = rand() % 750;
-	int seekingShockWaveChance = rand() % 750;
-	int lastResortMissilesChance = rand() % 250;	// This is his final attack, 
-													// he should trigger almost always when ready IMO
+	int chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(750.0f);
+	int seekingShockWaveChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(750.0f);
+	// This is his final attack, he should trigger almost always when ready IMO
+	int lastResortMissilesChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(250.0f);
 
 	// If the missiles attack is ready, trigger it as much as possible
 	if (lastResortMissilesChance < 1 && missilesAttackScript->CanPerformMissilesAttack())

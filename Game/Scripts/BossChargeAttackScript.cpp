@@ -2,6 +2,7 @@
 #include "BossChargeAttackScript.h"
 
 #include "Application.h"
+#include "Modules/ModuleRandom.h"
 #include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
 #include "Physics/Physics.h"
@@ -107,9 +108,9 @@ void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
 	{
 		if (isRockAttackVariant)
 		{
-			int randomActivation = rand() % 100;
+			int spawnRockActualChange = App->GetModule<ModuleRandom>()->RandomNumberInRange(100.0f);
 
-			if (randomActivation < spawningRockChance)
+			if (spawnRockActualChange < spawningRockChance)
 			{
 				SpawnRock(float3(transform->GetGlobalPosition().x,
 					transform->GetGlobalPosition().y + rockSpawningHeight,
