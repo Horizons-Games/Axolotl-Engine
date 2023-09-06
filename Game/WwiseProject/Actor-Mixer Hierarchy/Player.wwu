@@ -270,6 +270,83 @@
 								<ActiveSource Name="sfx_footsteps_crouch_01" ID="{9D2917F4-4AA3-4FC4-B39F-572F241DEC7D}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<RandomSequenceContainer Name="sfx_dash_roll-001" ID="{26BABE3F-E7D4-4E2B-B3B8-F975481BC600}" ShortID="437426474">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-5</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="118119-Body_falling_on_a_wood_and_sand_with_a_thud" ID="{4C90154C-10BE-46C6-B1C8-282721DDB8F2}" ShortID="183965398">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-6</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="118119-Body_falling_on_a_wood_and_sand_with_a_thud" ID="{34272E61-C42E-4352-BA5D-5F21418A5459}">
+											<Language>SFX</Language>
+											<AudioFile>118119-Body_falling_on_a_wood_and_sand_with_a_thud.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="873118458"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="118119-Body_falling_on_a_wood_and_sand_with_a_thud" ID="{34272E61-C42E-4352-BA5D-5F21418A5459}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="118254-Body_falling_on_a_wood_with_a_thud_4" ID="{36BBEAB6-C3D3-4144-85BC-6E23D8E8E47B}" ShortID="727837021">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-4</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="118254-Body_falling_on_a_wood_with_a_thud_4" ID="{238283A9-6605-49A4-AD13-EB60D06CA49D}">
+											<Language>SFX</Language>
+											<AudioFile>118254-Body_falling_on_a_wood_with_a_thud_4.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="836273150"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="118254-Body_falling_on_a_wood_with_a_thud_4" ID="{238283A9-6605-49A4-AD13-EB60D06CA49D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="PlayerWeapons" ID="{575130A6-8F22-44CA-B788-17B12A3838A4}" ShortID="350583839">
@@ -591,6 +668,307 @@
 								<ActiveSource Name="sfx_lightsaber_open_01" ID="{CC05B276-9065-44D1-8AA7-3149E09A32EC}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<RandomSequenceContainer Name="sfx_shot_charged_01" ID="{0C7D3D08-7461-40A4-838A-B27360F0D443}" ShortID="711620805">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{7D01B100-57E5-4092-B4E2-A8CD0A17DFFB}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="202"/>
+													<Property Name="Min" Type="Real64" Value="-202"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-6</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="allura_heavy_shot" ID="{85CCDEB9-6155-4575-9B80-6863CA6BFA44}" ShortID="409016333">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="allura_heavy_shot" ID="{EABF9226-5C7C-4FC5-98CD-1BF0181D7380}">
+											<Language>SFX</Language>
+											<AudioFile>allura_heavy_shot.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="653886955"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="allura_heavy_shot" ID="{EABF9226-5C7C-4FC5-98CD-1BF0181D7380}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="sfx_electricShot_shot_01" ID="{E2A51A68-FB78-4491-874C-8B5F7BCBB4CB}" ShortID="312946792">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{280B3F5F-CD84-4AAD-B7D5-8BA4F7F07344}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="253"/>
+													<Property Name="Min" Type="Real64" Value="-253"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-16</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="512818-Alien-Game-Weapon-Electric-Pistol-Shot-2-Glitchy-SciFi-Impact-Hit-Hard" ID="{B563531C-4851-45DC-9277-88CBACD541CD}" ShortID="895732297">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="512818-Alien-Game-Weapon-Electric-Pistol-Shot-2-Glitchy-SciFi-Impact-Hit-Hard" ID="{F042CF27-8970-4939-9C98-EC53D4AA5C00}">
+											<Language>SFX</Language>
+											<AudioFile>512818-Alien-Game-Weapon-Electric-Pistol-Shot-2-Glitchy-SciFi-Impact-Hit-Hard.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1004966524"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="512818-Alien-Game-Weapon-Electric-Pistol-Shot-2-Glitchy-SciFi-Impact-Hit-Hard" ID="{F042CF27-8970-4939-9C98-EC53D4AA5C00}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="512824-Alien-Game-Weapon-Electric-Pistol-Shot-3-Laser-Glitch-Tonal-Gun-Shot-2-Deep" ID="{764F277E-20FD-4C6F-BEA4-55CC51F0B525}" ShortID="177151467">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="512824-Alien-Game-Weapon-Electric-Pistol-Shot-3-Laser-Glitch-Tonal-Gun-Shot-2-Deep" ID="{5407AA1E-1372-421B-A919-59DAC20572F0}">
+											<Language>SFX</Language>
+											<AudioFile>512824-Alien-Game-Weapon-Electric-Pistol-Shot-3-Laser-Glitch-Tonal-Gun-Shot-2-Deep.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="727797297"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="512824-Alien-Game-Weapon-Electric-Pistol-Shot-3-Laser-Glitch-Tonal-Gun-Shot-2-Deep" ID="{5407AA1E-1372-421B-A919-59DAC20572F0}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="sfx_electricShot_impact_01" ID="{1460ED26-30FA-452E-A20F-22E0A7B8918D}" ShortID="650782359">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{7AF0D396-EC30-4BF4-9D8D-FEC86B49B45E}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="202"/>
+													<Property Name="Min" Type="Real64" Value="-176"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-22</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="228952-Perc_-Foundations3Kit_-InnerCircle01_-004" ID="{D136666E-3659-4BD4-A3F4-2DA23AE7782B}" ShortID="22366633">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="228952-Perc_-Foundations3Kit_-InnerCircle01_-004" ID="{F9C408F3-BF63-4578-AF03-CFCADEF443FB}">
+											<Language>SFX</Language>
+											<AudioFile>228952-Perc_-Foundations3Kit_-InnerCircle01_-004.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="291487077"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="228952-Perc_-Foundations3Kit_-InnerCircle01_-004" ID="{F9C408F3-BF63-4578-AF03-CFCADEF443FB}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="sfx_cannon_shot" ID="{A5B02CF9-761F-4C91-AF53-4172A36C6639}" ShortID="641674711">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{93FE0B67-18BB-410A-B64A-5B4599040510}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="303"/>
+													<Property Name="Min" Type="Real64" Value="-228"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-12</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="cannonShot" ID="{90296764-C455-4AB6-9F0E-6E5E154AF121}" ShortID="802365768">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="cannonShot" ID="{A462A23E-FBD9-4A23-B6E9-97C863D7CB87}">
+											<Language>SFX</Language>
+											<AudioFile>cannonShot.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="434555254"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="cannonShot" ID="{A462A23E-FBD9-4A23-B6E9-97C863D7CB87}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="sfx_shot_impact" ID="{5C57A8C1-6F05-47C3-AB94-77CC082C6971}" ShortID="265601707">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{1413A557-077B-4602-BAA4-A591FD2EF4EA}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="278"/>
+													<Property Name="Min" Type="Real64" Value="-379"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-21</Value>
+									</ValueList>
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{8ABC3069-512B-4FB5-9D3A-D6588EC4DBA8}">
+												<PropertyList>
+													<Property Name="Min" Type="Real64" Value="-17"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="shotImpact" ID="{FDA2BAE4-B9C4-45BD-8FEA-C4C81D8865DE}" ShortID="803788127">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="shotImpact" ID="{BA3A70AC-600E-48D0-A540-8CBEBE292919}">
+											<Language>SFX</Language>
+											<AudioFile>shotImpact.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="745303828"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="shotImpact" ID="{BA3A70AC-600E-48D0-A540-8CBEBE292919}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="PlayerAbilities" ID="{7431AFC3-B24D-4D7E-8B8F-2FB454918F1C}" ShortID="469999373">

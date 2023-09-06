@@ -247,7 +247,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{C8D1769B-A08F-6DB2-5F4A-FC2A2C757D86}">
+		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{1320AD69-0A87-7882-20A3-1A65880D38D7}">
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
 			<Media>
@@ -266,6 +266,14 @@
 				<File Id="268604586" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_footsteps_run_01.wav</ShortName>
 					<CachePath>SFX/sfx_footsteps_run_01_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="291487077" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>228952-Perc_-Foundations3Kit_-InnerCircle01_-004.wav</ShortName>
+					<CachePath>SFX/228952-Perc_-Foundations3Kit_-InnerCircle01_-004_10C4C929.wem</CachePath>
+				</File>
+				<File Id="434555254" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>cannonShot.wav</ShortName>
+					<CachePath>SFX/cannonShot_10C4C929.wem</CachePath>
 				</File>
 				<File Id="500728904" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_lightsaber_open_01.wav</ShortName>
@@ -287,13 +295,33 @@
 					<ShortName>sfx_lightsaber_clash_01.wav</ShortName>
 					<CachePath>SFX/sfx_lightsaber_clash_01_10C4C929.wem</CachePath>
 				</File>
+				<File Id="653886955" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>allura_heavy_shot.wav</ShortName>
+					<CachePath>SFX/allura_heavy_shot_10C4C929.wem</CachePath>
+				</File>
 				<File Id="660733524" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_lightsaber_close_01.wav</ShortName>
 					<CachePath>SFX/sfx_lightsaber_close_01_10C4C929.wem</CachePath>
 				</File>
+				<File Id="727797297" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>512824-Alien-Game-Weapon-Electric-Pistol-Shot-3-Laser-Glitch-Tonal-Gun-Shot-2-Deep.wav</ShortName>
+					<CachePath>SFX/512824-Alien-Game-Weapon-Electric-Pistol-Shot-3-Laser-Glitch-Tonal-Gun-Shot-2-Deep_10C4C929.wem</CachePath>
+				</File>
+				<File Id="745303828" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>shotImpact.wav</ShortName>
+					<CachePath>SFX/shotImpact_10C4C929.wem</CachePath>
+				</File>
 				<File Id="759745302" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_dash_whoosh-001.wav</ShortName>
 					<CachePath>SFX/sfx_dash_whoosh-001_10C4C929.wem</CachePath>
+				</File>
+				<File Id="836273150" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>118254-Body_falling_on_a_wood_with_a_thud_4.wav</ShortName>
+					<CachePath>SFX/118254-Body_falling_on_a_wood_with_a_thud_4_10C4C929.wem</CachePath>
+				</File>
+				<File Id="873118458" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>118119-Body_falling_on_a_wood_and_sand_with_a_thud.wav</ShortName>
+					<CachePath>SFX/118119-Body_falling_on_a_wood_and_sand_with_a_thud_10C4C929.wem</CachePath>
 				</File>
 				<File Id="883987314" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_forceWoosh-001.wav</ShortName>
@@ -302,6 +330,10 @@
 				<File Id="984190717" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_footsteps_crouch_01.wav</ShortName>
 					<CachePath>SFX/sfx_footsteps_crouch_01_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="1004966524" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>512818-Alien-Game-Weapon-Electric-Pistol-Shot-2-Glitchy-SciFi-Impact-Hit-Hard.wav</ShortName>
+					<CachePath>SFX/512818-Alien-Game-Weapon-Electric-Pistol-Shot-2-Glitchy-SciFi-Impact-Hit-Hard_10C4C929.wem</CachePath>
 				</File>
 				<File Id="1036642653" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_lightsaber_swing_01.WAV</ShortName>
@@ -314,6 +346,16 @@
 				</Custom>
 			</Plugins>
 			<Events>
+				<Event Id="2024131708" Name="sfx_cannonShot_01">
+					<MediaRefs>
+						<MediaRef Id="434555254"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="485375983" Name="sfx_chargedShot_01">
+					<MediaRefs>
+						<MediaRef Id="653886955"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="1494651949" Name="sfx_dash_01">
 					<MediaRefs>
 						<MediaRef Id="759745302"/>
@@ -322,6 +364,17 @@
 				<Event Id="2967609084" Name="sfx_doubleJump_01">
 					<MediaRefs>
 						<MediaRef Id="137412610"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1558864725" Name="sfx_electricShot_impact_01">
+					<MediaRefs>
+						<MediaRef Id="291487077"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="647605479" Name="sfx_electricShot_shot_01">
+					<MediaRefs>
+						<MediaRef Id="727797297"/>
+						<MediaRef Id="1004966524"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="4185882835" Name="sfx_footsteps_crouch_01">
@@ -409,6 +462,17 @@
 					<MediaRefs>
 						<MediaRef Id="205229415"/>
 						<MediaRef Id="1036642653"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3980201878" Name="sfx_roll_01">
+					<MediaRefs>
+						<MediaRef Id="836273150"/>
+						<MediaRef Id="873118458"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="330613076" Name="sfx_shot_impact_01">
+					<MediaRefs>
+						<MediaRef Id="745303828"/>
 					</MediaRefs>
 				</Event>
 			</Events>
@@ -853,5 +917,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{51CEE78D-DCBB-ED46-F711-8CF1640D6EE0}</FileHash>
+	<FileHash>{CA7824FA-C284-18DE-3F7B-1EDB16AF53E2}</FileHash>
 </SoundBanksInfo>
