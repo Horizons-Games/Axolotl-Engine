@@ -14,12 +14,12 @@ struct LocalIBL
 {
 	uint64_t diffuse;						//0		//8
 	uint64_t prefiltered;					//8		//8
-	float3 position; //aligned like float4	//16	//16
-	float3 minParallax;						//32	//16
-	float3 maxParallax;						//48	//16
+	float4 position; //aligned like float4	//16	//16
+	float4 minParallax;						//32	//16
+	float4 maxParallax;						//48	//16
 	float4x4 toLocal;						//64	//64
-	float3 minInfluence;					//128	//16
-	float3 maxInfluence;					//144	//16 --> 160
+	float4 minInfluence;					//128	//16
+	float4 maxInfluence;					//144	//16 --> 160
 };
 
 class ComponentLocalIBL : public ComponentLight
@@ -98,17 +98,7 @@ inline const AABB& ComponentLocalIBL::GetParallaxAABB()
 	return parallaxAABB;
 }
 
-inline void ComponentLocalIBL::SetParallaxAABB(AABB& aabb)
-{
-	parallaxAABB = aabb;
-}
-
 inline const AABB& ComponentLocalIBL::GetInfluenceAABB()
 {
 	return influenceAABB;
-}
-
-inline void ComponentLocalIBL::SetInfluenceAABB(AABB& aabb)
-{
-	influenceAABB = aabb;
 }

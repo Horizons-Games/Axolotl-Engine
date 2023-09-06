@@ -1417,7 +1417,7 @@ void Scene::UpdateSceneAreaTubes()
 void Scene::UpdateSceneLocalIBLs()
 {
 	localIBLs.clear();
-	cachedTubes.clear();
+	cachedLocalIBLs.clear();
 
 	unsigned int pos = 0;
 
@@ -1434,16 +1434,16 @@ void Scene::UpdateSceneLocalIBLs()
 				LocalIBL localIBL;
 				localIBL.diffuse = local->GetHandleIrradiance();
 				localIBL.prefiltered = local->GetHandlePreFiltered();
-				localIBL.position = local->GetPosition();
+				localIBL.position = float4(local->GetPosition(), 0);
 				AABB parallax = local->GetParallaxAABB();
-				localIBL.maxParallax = parallax.maxPoint;
-				localIBL.minParallax = parallax.minPoint;
+				localIBL.maxParallax = float4(parallax.maxPoint, 0);
+				localIBL.minParallax = float4(parallax.minPoint, 0);
 				float4x4 toLocal = local->GetTransform();
 				toLocal.InverseOrthonormal();
 				localIBL.toLocal = toLocal;
 				AABB influence = local->GetInfluenceAABB();
-				localIBL.maxInfluence = influence.maxPoint;
-				localIBL.minInfluence = influence.minPoint;
+				localIBL.maxInfluence = float4(influence.maxPoint, 0);
+				localIBL.minInfluence = float4(influence.minPoint, 0);
 
 				localIBLs.push_back(localIBL);
 				cachedLocalIBLs.push_back(std::make_pair(local, pos));
@@ -1575,16 +1575,16 @@ void Scene::UpdateSceneLocalIBL(ComponentLocalIBL* compLocal)
 
 			localIBL.diffuse = compLocal->GetHandleIrradiance();
 			localIBL.prefiltered = compLocal->GetHandlePreFiltered();
-			localIBL.position = compLocal->GetPosition();
+			localIBL.position = float4(compLocal->GetPosition(), 0);
 			AABB parallax = compLocal->GetParallaxAABB();
-			localIBL.maxParallax = parallax.maxPoint;
-			localIBL.minParallax = parallax.minPoint;
+			localIBL.maxParallax = float4(parallax.maxPoint, 0);
+			localIBL.minParallax = float4(parallax.minPoint, 0);
 			float4x4 toLocal = compLocal->GetTransform();
 			toLocal.InverseOrthonormal();
 			localIBL.toLocal = toLocal;
 			AABB influence = compLocal->GetInfluenceAABB();
-			localIBL.maxInfluence = influence.maxPoint;
-			localIBL.minInfluence = influence.minPoint;
+			localIBL.maxInfluence = float4(influence.maxPoint, 0);
+			localIBL.minInfluence = float4(influence.minPoint, 0);
 
 			localIBLs[cachedLocalIBLs[i].second] = localIBL;
 		}

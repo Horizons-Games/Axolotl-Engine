@@ -37,8 +37,6 @@
 #include "Scene/Scene.h"
 #include "Camera/Camera.h"
 
-#include "Skybox/Skybox.h"
-
 #ifdef DEBUG
 	#include "optick.h"
 #endif // DEBUG

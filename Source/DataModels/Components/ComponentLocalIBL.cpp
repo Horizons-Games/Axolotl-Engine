@@ -9,6 +9,8 @@
 
 #include "Scene/Scene.h"
 
+#include "Skybox/Skybox.h"
+
 #include "ComponentTransform.h"
 
 #include "FileSystem/Json.h"
@@ -193,6 +195,18 @@ const Quat& ComponentLocalIBL::GetRotation()
 	return GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalRotation();
 }
 
+void ComponentLocalIBL::SetParallaxAABB(AABB& aabb)
+{
+	parallaxAABB = aabb;
+	App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneLocalIBL(this);
+}
+
+void ComponentLocalIBL::SetInfluenceAABB(AABB& aabb)
+{
+	influenceAABB = aabb;
+	App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneLocalIBL(this);
+}
+
 void ComponentLocalIBL::InternalSave(Json& meta)
 {
 }
@@ -212,6 +226,9 @@ void ComponentLocalIBL::RenderToCubeMap(unsigned int cubemapTex, Frustum& frustu
 
 	ModuleRender* modRender = App->GetModule<ModuleRender>();
 	ModuleProgram* modProgram = App->GetModule<ModuleProgram>();
+	Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	const Skybox* skybox = scene->GetSkybox();
 
 	GLuint uboCamera = modRender->GetUboCamera();
 
@@ -228,8 +245,12 @@ void ComponentLocalIBL::RenderToCubeMap(unsigned int cubemapTex, Frustum& frustu
 		BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT), frustum, uboCamera);
 		BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR), frustum, uboCamera);
 
-		std::vector<GameObject*> objectsInFrustum =
-			App->GetModule<ModuleScene>()->GetLoadedScene()->ObtainStaticObjectsInFrustum(&frustum);
+		if (skybox)
+		{
+			skybox->Draw();
+		}
+
+		std::vector<GameObject*> objectsInFrustum = scene->ObtainStaticObjectsInFrustum(&frustum);
 
 		modRender->SortOpaques(frustum.Pos());
 		modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::DEFAULT, false);
