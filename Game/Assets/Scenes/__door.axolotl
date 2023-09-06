@@ -40,6 +40,18 @@
                     "removed": true,
                     "intensity": 0.10000000149011612
                   }
+                },
+                {
+                    "Component": {
+                        "type": "Component_Skybox",
+                        "active": true,
+                        "removed": true,
+                        "Skybox": {
+                            "enable": true,
+                            "skyboxUID": 4377575066284441384,
+                            "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+                        }
+                    }
                 }
               ]
             }
@@ -144,7 +156,13 @@
                             "height": 2.0,
                             "rbPos_X": 72.43083190917969,
                             "rbPos_Y": -11.998383522033691,
-                            "rbPos_Z": 68.2177963256836
+                            "rbPos_Z": 68.2177963256836,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     },
                     {
@@ -586,7 +604,13 @@
                             "height": 2.0,
                             "rbPos_X": 72.43083190917969,
                             "rbPos_Y": -9.198383331298828,
-                            "rbPos_Z": 68.2177963256836
+                            "rbPos_Z": 68.2177963256836,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     }
                 ]
@@ -606,10 +630,6 @@
                 "z": 7875.0
             }
         }
-    },
-    "Skybox": {
-        "skyboxUID": 4377575066284441384,
-        "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
     },
     "Cubemap": {
         "cubemapUID": 992078593789236745,
