@@ -774,7 +774,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf())
 		{
-			quadtree->AddRigidBodiesToSimulation();
+			//quadtree->AddRigidBodiesToSimulation();
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
 				ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
@@ -799,7 +799,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
-			quadtree->AddRigidBodiesToSimulation();
+			//quadtree->AddRigidBodiesToSimulation();
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
 				ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
@@ -829,7 +829,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 		}
 		else
 		{
-			quadtree->RemoveRigidBodiesFromSimulation();
+			//quadtree->RemoveRigidBodiesFromSimulation();
 			FillRenderList(quadtree->GetFrontRightNode());
 			FillRenderList(quadtree->GetFrontLeftNode());
 			FillRenderList(quadtree->GetBackRightNode());
@@ -837,10 +837,10 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 		}
 	}
 
-	else
+	/*else
 	{
 		quadtree->RemoveRigidBodiesFromSimulation();
-	}
+	}*/
 }
 
 void ModuleRender::AddToRenderList(const GameObject* gameObject)
