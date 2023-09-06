@@ -406,7 +406,7 @@ UpdateStatus ModuleRender::Update()
 
 	if (skybox)
 	{
-		skybox->Draw();
+		skybox->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix());
 	}
 
 	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);

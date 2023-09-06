@@ -27,7 +27,7 @@ Skybox::~Skybox()
 {
 }
 
-void Skybox::Draw() const
+void Skybox::Draw(float4x4 view, float4x4 proj) const
 {
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SKYBOX);
 	if (program && skyboxRes)
@@ -42,8 +42,8 @@ void Skybox::Draw() const
 		program->Activate();
 		ModuleCamera* camera = App->GetModule<ModuleCamera>();
 
-		program->BindUniformFloat4x4("view", (const float*) &camera->GetCamera()->GetViewMatrix(), GL_TRUE);
-		program->BindUniformFloat4x4("proj", (const float*) &camera->GetCamera()->GetProjectionMatrix(), GL_TRUE);
+		program->BindUniformFloat4x4("view", (const float*) &view, GL_TRUE);
+		program->BindUniformFloat4x4("proj", (const float*) &proj, GL_TRUE);
 
 		glBindVertexArray(skyboxRes->GetVAO());
 		glActiveTexture(GL_TEXTURE0);
