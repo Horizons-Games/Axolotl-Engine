@@ -5,7 +5,10 @@
 
 #include "Program/Program.h"
 
-SSAO::SSAO()
+#define BIAS 0.025
+#define RADIUS 1.5
+
+SSAO::SSAO() : enabled(true)
 {
 	CreateKernel();
 	CreateRandomTangents();

@@ -7,8 +7,6 @@
 #define KERNEL_SIZE 64
 #define RANDOM_TANGENTS_ROWS 4
 #define RANDOM_TANGENTS_COLS 4
-#define BIAS 0.025
-#define RADIUS 1.5
 
 class Program;
 
@@ -24,6 +22,9 @@ public:
 
 	void CalculateSSAO(Program* program, int width, int height);
 	void BlurSSAO(Program* program, int width, int height);
+
+	void ToggleSSAO();
+	bool IsEnabled();
 
 	GLuint GetSSAOTexture() const;
 
@@ -49,7 +50,19 @@ private:
 	GLuint normalTexture = 0;
 
 	Kernel kernel;
+
+	bool enabled;
 };
+
+inline void SSAO::ToggleSSAO()
+{
+	enabled = !enabled;
+}
+
+inline bool SSAO::IsEnabled()
+{
+	return enabled;
+}
 
 inline GLuint SSAO::GetSSAOTexture() const
 {

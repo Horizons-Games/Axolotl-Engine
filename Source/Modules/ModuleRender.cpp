@@ -34,8 +34,6 @@
 
 #include "Program/Program.h"
 
-#include "PostProcess/SSAO.h"
-
 #include "Scene/Scene.h"
 #include "Camera/Camera.h"
 
@@ -361,14 +359,21 @@ UpdateStatus ModuleRender::Update()
 			GaussianBlur(w, h);
 		}
 	}
+	
+	Program* program;
 
-	//SSAO
-	Program* program = modProgram->GetProgram(ProgramType::SSAO);
-	BindCameraToProgram(program);
-	ssao->CalculateSSAO(program, w, h);
+	// SSAO Calculus and Blurring
+	bool ssaoActivated = ssao->IsEnabled();
 
-	program = modProgram->GetProgram(ProgramType::GAUSSIAN_BLUR);
-	ssao->BlurSSAO(program, w, h);
+	if (ssaoActivated)
+	{
+		program = modProgram->GetProgram(ProgramType::SSAO);
+		BindCameraToProgram(program);
+		ssao->CalculateSSAO(program, w, h);
+
+		program = modProgram->GetProgram(ProgramType::GAUSSIAN_BLUR);
+		ssao->BlurSSAO(program, w, h);
+	}
 
 	// -------- DEFERRED LIGHTING ---------------
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
@@ -402,9 +407,17 @@ UpdateStatus ModuleRender::Update()
 	}
 	program->BindUniformInt("useShadows", static_cast<int>(renderShadows));
 	program->BindUniformInt("useVSM", static_cast<int>(varianceShadowMapping));
+	program->BindUniformInt("useSSAO", static_cast<int>(ssaoActivated));
 
 	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 specular = 4 and emissive = 5
 	program->BindUniformInt("renderMode", modeRender);
+
+	// SSAO texture
+	if (ssaoActivated)
+	{
+		glActiveTexture(GL_TEXTURE6);
+		glBindTexture(GL_TEXTURE_2D, ssao->GetSSAOTexture());
+	}
 
 	glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
 
@@ -561,6 +574,7 @@ UpdateStatus ModuleRender::Update()
 UpdateStatus ModuleRender::PostUpdate()
 {
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 
 	SDL_GL_SwapWindow(App->GetModule<ModuleWindow>()->GetWindow());
 
