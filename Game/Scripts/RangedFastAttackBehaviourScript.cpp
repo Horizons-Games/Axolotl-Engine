@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "RangedFastAttackBehaviourScript.h"
 
 #include "Application.h"
@@ -7,6 +8,7 @@
 
 #include "Scripting/ScriptFactory.h"
 #include "ModuleScene.h"
+#include "ModuleRandom.h"
 #include "Scene/Scene.h"
 
 #include "Components/ComponentAudioSource.h"
@@ -140,6 +142,7 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 	script->SetScript(App->GetScriptFactory()->ConstructScript("RangedFastAttackBullet"));
 	script->SetConstuctor("RangedFastAttackBullet");
 	script->GetScript()->SetOwner(bullet);
+	script->GetScript()->SetContainer(script);
 
 	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletVelocity(bulletVelocity);
 	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletDamage(attackDamage);
@@ -153,9 +156,7 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 	if (currentConsecutiveShots < numConsecutiveShots)
 	{
 		isConsecutiveShooting = true;
-		auto random = std::rand();
-		nextShotDuration = minTimeConsecutiveShot + random /
-			(static_cast <float>(RAND_MAX / (maxTimeConsecutiveShot - minTimeConsecutiveShot)));
+		nextShotDuration = App->GetModule<ModuleRandom>()->RandomNumberInRange(minTimeConsecutiveShot, maxTimeConsecutiveShot);
 		isWaitingForConsecutiveShot = true;
 	}
 	else
@@ -206,6 +207,11 @@ bool RangedFastAttackBehaviourScript::NeedReposition() const
 bool RangedFastAttackBehaviourScript::IsPreShooting() const
 {
 	return isPreShooting;
+}
+
+bool RangedFastAttackBehaviourScript::IsConsecutiveShooting() const
+{
+	return isConsecutiveShooting;
 }
 
 bool RangedFastAttackBehaviourScript::MovingToNewReposition()

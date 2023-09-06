@@ -34,6 +34,9 @@ private:
 	bool scaleModified;
 	Axis modifiedScaleAxis;
 
+	float3 bbTranslation;
+	float3 bbScale;
+
 	bool bbdraw;
 	bool uniformScale;
 };

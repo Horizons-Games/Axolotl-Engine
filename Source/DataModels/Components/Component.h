@@ -15,6 +15,8 @@ public:
 	Component(const Component& component);
 	virtual ~Component();
 
+	virtual void Render() {};
+
 	void Save(Json& meta);
 	void Load(const Json& meta);
 
@@ -118,12 +120,20 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_Script";
 		case ComponentType::CUBEMAP:
 			return "Component_Cubemap";
+		case ComponentType::SKYBOX:
+			return "Component_Skybox";
+		case ComponentType::RENDER:
+			return "Component_Render";
+		case ComponentType::LINE:
+			return "Component_Line";
 		case ComponentType::AGENT:
 			return "Component_Agent";
 		case ComponentType::OBSTACLE:
 			return "Component_Obstacle";
 		case ComponentType::PARTICLE:
 			return "Component_Particle";
+		case ComponentType::TRAIL:
+			return "Component_Trail";
 		default:
 			assert(false && "Wrong component type introduced");
 			return std::string();
@@ -230,9 +240,28 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	{
 		return ComponentType::ANIMATION;
 	}
+	
 	if (typeName == "Component_Cubemap")
 	{
 		return ComponentType::CUBEMAP;
+	}
+	
+	if (typeName == "Component_Skybox")
+	{
+		return ComponentType::SKYBOX;
+	}
+	
+	if (typeName == "Component_Render")
+	{
+		return ComponentType::RENDER;
+	}
+	if (typeName == "Component_Trail")
+	{
+		return ComponentType::TRAIL;
+	}
+	if (typeName == "Component_Line")
+	{
+		return ComponentType::LINE;
 	}
 	if (typeName == "Component_Agent")
 	{

@@ -69,11 +69,6 @@ inline IScript* ComponentScript::GetScript() const
 	return script;
 }
 
-inline void ComponentScript::SetScript(IScript* script)
-{
-	this->script = script;
-}
-
 inline void ComponentScript::SetConstuctor(const std::string& constructor)
 {
 	constructName = constructor;

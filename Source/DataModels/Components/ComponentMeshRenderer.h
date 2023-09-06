@@ -6,8 +6,6 @@
 
 #include "Auxiliar/Generics/Drawable.h"
 
-#include "Math/float4x4.h"
-
 class ResourceMesh;
 class ResourceMaterial;
 class ResourceTexture;
@@ -52,7 +50,13 @@ public:
 	void SetNormalStrength(float normalStrength);
 	void SetTiling(const float2& tiling);
 	void SetOffset(const float2& offset);
-
+	
+	const float3& GetEffectColor() const;
+	void SetEffectColor(float3 effectColor);
+	
+	bool IsDiscarded();
+	void SetDiscard(bool discard);
+	
 	// Default shader attributes (setters)
 	void SetMetalness(float metalness);
 
@@ -115,6 +119,9 @@ private:
 
 	WindowMeshInput* inputMesh;
 	WindowMaterialInput* inputMaterial;
+
+	float3 effectColor;
+	bool discard;
 
 	GeometryBatch* batch;
 };

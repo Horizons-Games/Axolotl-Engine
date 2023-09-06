@@ -2,10 +2,24 @@
 
 #include "Scripting/Script.h"
 
+#include "DataModels/Components/ComponentScript.h"
+
+#include "Exceptions/ScriptAssertFailedException.h"
+
 #include "Application.h"
 
 Script::Script() : App(::App.get())
 {
+}
+
+void Script::Enable()
+{
+	container->Enable();
+}
+
+void Script::Disable()
+{
+	container->Disable();
 }
 
 void Script::Serialize(ISimpleSerializer* pSerializer)
@@ -88,4 +102,14 @@ void Script::Serialize(ISimpleSerializer* pSerializer)
 void Script::AddMember(TypeFieldPair&& member)
 {
 	members.push_back(member);
+}
+
+void Script::Assert(bool&& condition, std::string&& errorMessage)
+{
+	if (!condition)
+	{
+		LOG_ERROR(errorMessage);
+		throw ScriptAssertFailedException("Assert failed during execution of script " +
+										  std::string(GetConstructor()->GetName()));
+	}
 }
