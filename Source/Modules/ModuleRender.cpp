@@ -770,9 +770,11 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 
 	if (camera->IsInside(quadtree->GetBoundingBox()))
 	{
+
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf())
 		{
+			quadtree->AddRigidBodiesToSimulation();
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
 				ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
@@ -781,7 +783,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 				{
 					return;
 				}
-
+				
 				if (camera->IsInside(transform->GetEncapsuledAABB()))
 				{
 					if (gameObject->IsActive() && gameObject->IsEnabled())
@@ -789,28 +791,15 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 						float dist = Length(cameraPos - transform->GetGlobalPosition());
 
 						gameObjectsInFrustrum.insert(gameObject);
-						ComponentRigidBody* rb = gameObject->GetComponentInternal<ComponentRigidBody>();
-						if (rb)
-						{
-							rb->AddRigidBodyToSimulation();
-						}
 						objectsInFrustrumDistances[gameObject] = dist;
 					}
 				}
 
-				else
-				{
-					ComponentRigidBody* rb = gameObject->GetComponentInternal<ComponentRigidBody>();
-					if (rb)
-					{
-						rb->RemoveRigidBodyFromSimulation();
-					}
-				}
-				
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
+			quadtree->AddRigidBodiesToSimulation();
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
 				ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
@@ -827,23 +816,10 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 						float dist = Length(cameraPos - transform->GetGlobalPosition());
 
 						gameObjectsInFrustrum.insert(gameObject);
-						ComponentRigidBody* rb = gameObject->GetComponentInternal<ComponentRigidBody>();
-						if (rb)
-						{
-							rb->AddRigidBodyToSimulation();
-						}
 						objectsInFrustrumDistances[gameObject] = dist;
 					}
 				}
 
-				else
-				{
-					ComponentRigidBody* rb = gameObject->GetComponentInternal<ComponentRigidBody>();
-					if (rb)
-					{
-						rb->RemoveRigidBodyFromSimulation();
-					}
-				}
 			}
 
 			FillRenderList(quadtree->GetFrontRightNode()); // And also call all the children to render
@@ -853,11 +829,17 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 		}
 		else
 		{
+			quadtree->RemoveRigidBodiesFromSimulation();
 			FillRenderList(quadtree->GetFrontRightNode());
 			FillRenderList(quadtree->GetFrontLeftNode());
 			FillRenderList(quadtree->GetBackRightNode());
 			FillRenderList(quadtree->GetBackLeftNode());
 		}
+	}
+
+	else
+	{
+		quadtree->RemoveRigidBodiesFromSimulation();
 	}
 }
 
