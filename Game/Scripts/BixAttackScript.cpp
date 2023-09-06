@@ -197,7 +197,10 @@ void BixAttackScript::JumpNormalAttack()
 	jumpFinisherScript->PerformGroundSmash(10.0f, 2.0f); // Bix jumping attack
 	//jumpFinisherScript->ShootForceBullet(10.0f, 2.0f); // Allura jumping attack, placed it here for now
 
-	comboSystem->SuccessfulAttack(20.0f, currentAttack);
+	if (enemyDetection->AreAnyEnemiesInTheArea())
+	{
+		comboSystem->SuccessfulAttack(20.0f, currentAttack);
+	}
 }
 
 void BixAttackScript::LightFinisher()

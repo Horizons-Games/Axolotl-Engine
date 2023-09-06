@@ -25,6 +25,7 @@ public:
 	virtual void OnCollisionExit(ComponentRigidBody* other) override;
 
 	GameObject* GetEnemySelected() const;
+	bool AreAnyEnemiesInTheArea() const;
 
 private:
 	void DrawDetectionLines(float distanceFilter);

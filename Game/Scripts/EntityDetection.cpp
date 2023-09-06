@@ -208,3 +208,8 @@ GameObject* EntityDetection::GetEnemySelected() const
 		return nullptr;
 	}
 }
+
+bool EntityDetection::AreAnyEnemiesInTheArea() const
+{
+	return !enemiesInTheArea.empty();
+}
