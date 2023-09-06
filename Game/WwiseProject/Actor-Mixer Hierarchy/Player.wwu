@@ -272,9 +272,22 @@
 						</Sound>
 						<RandomSequenceContainer Name="sfx_dash_roll-001" ID="{26BABE3F-E7D4-4E2B-B3B8-F975481BC600}" ShortID="437426474">
 							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{00071779-1A0B-4A52-8D42-FF6A1B7E5ABC}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="101"/>
+													<Property Name="Min" Type="Real64" Value="-126"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-5</Value>
+										<Value>-9</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
