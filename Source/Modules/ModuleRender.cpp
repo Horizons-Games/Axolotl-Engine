@@ -365,7 +365,10 @@ UpdateStatus ModuleRender::Update()
 	//SSAO
 	Program* program = modProgram->GetProgram(ProgramType::SSAO);
 	BindCameraToProgram(program);
-	ssao->Render(program, w, h);
+	ssao->CalculateSSAO(program, w, h);
+
+	program = modProgram->GetProgram(ProgramType::GAUSSIAN_BLUR);
+	ssao->BlurSSAO(program, w, h);
 
 	// -------- DEFERRED LIGHTING ---------------
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
@@ -771,7 +774,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 
 	// SSAO
 	ssao->UpdateBuffers(width, height);
-	ssao->SetTextures(gBuffer->GetDepthTexture(), gBuffer->GetPositionTexture(), gBuffer->GetNormalTexture());
+	ssao->SetTextures(gBuffer->GetPositionTexture(), gBuffer->GetNormalTexture());
 }
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
