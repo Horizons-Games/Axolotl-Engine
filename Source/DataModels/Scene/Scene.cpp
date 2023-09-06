@@ -137,6 +137,12 @@ std::vector<GameObject*> Scene::ObtainStaticObjectsInFrustum(const math::Frustum
 
 	CalculateObjectsInFrustum(frustum, rootQuadtree.get(), objectsInFrustum);
 
+#ifdef ENGINE
+	GameObject* selected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum);
+
+#endif
+
 	return objectsInFrustum;
 }
 
@@ -153,7 +159,16 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					gos.push_back(gameObject);
+					ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
+
+					if (ObjectInFrustum(frustum, transform->GetEncapsuledAABB()))
+					{
+						ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
+						if (mesh->IsEnabled())
+						{
+							gos.push_back(gameObject);
+						}
+					}
 				}
 			}
 		}
@@ -163,7 +178,16 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					gos.push_back(gameObject);
+					ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
+
+					if (ObjectInFrustum(frustum, transform->GetEncapsuledAABB()))
+					{
+						ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
+						if (mesh->IsEnabled())
+						{
+							gos.push_back(gameObject);
+						}
+					}
 				}
 			}
 

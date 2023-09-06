@@ -35,7 +35,9 @@ public:
 	void OnTransformChanged() override;
 
 	const uint64_t& GetHandleIrradiance();
+	const GLuint GetIrradiance();
 	const uint64_t& GetHandlePreFiltered();
+	const GLuint GetPreFiltered();
 	
 	const AABB& GetParallaxAABB();
 	void SetParallaxAABB(AABB& aabb);
@@ -53,7 +55,7 @@ public:
 
 private:
 	void RenderToCubeMap(unsigned int cubemapTex, Frustum& frustum, int resolution = RESOLUTION, int mipmapLevel = 0);
-	void BindCameraToProgram(Program* program);
+	void BindCameraToProgram(Program* program, Frustum& frustum, unsigned int uboCamera);
 
 	GLuint frameBuffer;
 	GLuint diffuse;
@@ -70,6 +72,16 @@ private:
 	uint64_t handleIrradiance;
 	uint64_t handlePreFiltered;
 };
+
+inline const GLuint ComponentLocalIBL::GetIrradiance()
+{
+	return diffuse;
+}
+
+inline const GLuint ComponentLocalIBL::GetPreFiltered()
+{
+	return preFiltered;
+}
 
 inline const float3 ComponentLocalIBL::GetPosition()
 {

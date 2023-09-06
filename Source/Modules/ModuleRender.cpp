@@ -1117,6 +1117,7 @@ void ModuleRender::SortTransparents(const float3& pos)
 {
 	batchManager->SortTransparents(pos);
 }
+
 void ModuleRender::ShadowDepthVariacne(int width, int height)
 {
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SHADOW_DEPTH_VARIANCE);
