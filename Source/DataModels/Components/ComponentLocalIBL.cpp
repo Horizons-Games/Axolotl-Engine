@@ -247,7 +247,7 @@ void ComponentLocalIBL::RenderToCubeMap(unsigned int cubemapTex, Frustum& frustu
 
 		if (skybox)
 		{
-			skybox->Draw();
+			skybox->Draw(frustum.ViewMatrix(), frustum.ProjectionMatrix());
 		}
 
 		std::vector<GameObject*> objectsInFrustum = scene->ObtainStaticObjectsInFrustum(&frustum);
