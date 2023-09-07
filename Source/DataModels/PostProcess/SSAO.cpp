@@ -50,7 +50,7 @@ void SSAO::UpdateBuffers(int width, int height)
 	glBindFramebuffer(GL_FRAMEBUFFER, ssaoFrameBuffer);
 
 	glBindTexture(GL_TEXTURE_2D, gSsao);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_R16F, width, height, 0, GL_RED, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -66,7 +66,7 @@ void SSAO::UpdateBuffers(int width, int height)
 		glBindFramebuffer(GL_FRAMEBUFFER, ssaoBlurFrameBuffer[i]);
 
 		glBindTexture(GL_TEXTURE_2D, gSsaoBlured[i]);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_R16F, width, height, 0, GL_RED, GL_FLOAT, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
