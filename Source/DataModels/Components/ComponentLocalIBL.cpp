@@ -198,12 +198,14 @@ void ComponentLocalIBL::SetParallaxAABB(AABB& aabb)
 {
 	parallaxAABB = aabb;
 	App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneLocalIBL(this);
+	App->GetModule<ModuleScene>()->GetLoadedScene()->RenderLocalIBL(this);
 }
 
 void ComponentLocalIBL::SetInfluenceAABB(AABB& aabb)
 {
 	influenceAABB = aabb;
 	App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneLocalIBL(this);
+	App->GetModule<ModuleScene>()->GetLoadedScene()->RenderLocalIBL(this);
 }
 
 void ComponentLocalIBL::InternalSave(Json& meta)
