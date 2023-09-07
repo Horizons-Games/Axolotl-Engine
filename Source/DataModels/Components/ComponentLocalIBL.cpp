@@ -155,15 +155,15 @@ void ComponentLocalIBL::OnTransformChanged()
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	float3 positionParent = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
-	float3 halfsize = parallaxAABB.HalfSize();
 
-	parallaxAABB.minPoint = (originCenterParallax - halfsize) + positionParent;
-	parallaxAABB.maxPoint = (originCenterParallax + halfsize) + positionParent;
-	
-	halfsize = influenceAABB.HalfSize();
+	float3 parallaxOffset = positionParent - originCenterParallax;
+	float3 influenceOffset = positionParent - originCenterInfluence;
 
-	influenceAABB.minPoint = (originCenterInfluence - halfsize) + positionParent;
-	influenceAABB.maxPoint = (originCenterInfluence + halfsize) + positionParent;
+	parallaxAABB.Translate(parallaxOffset);
+	influenceAABB.Translate(influenceOffset);
+
+	originCenterParallax += parallaxOffset;
+	originCenterInfluence += influenceOffset;
 
 	currentScene->UpdateSceneLocalIBL(this);
 	currentScene->RenderLocalIBL(this);
