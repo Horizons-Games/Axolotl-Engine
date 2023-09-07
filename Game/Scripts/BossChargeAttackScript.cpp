@@ -108,7 +108,7 @@ void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
 	{
 		if (isRockAttackVariant)
 		{
-			int spawnRockActualChange = App->GetModule<ModuleRandom>()->RandomNumberInRange(100.0f);
+			float spawnRockActualChange = App->GetModule<ModuleRandom>()->RandomNumberInRange(100.0f);
 
 			if (spawnRockActualChange < spawningRockChance)
 			{
