@@ -12,6 +12,7 @@ layout(binding = 2) uniform sampler2D gDiffuse;
 layout(binding = 3) uniform sampler2D gSpecular;
 layout(binding = 4) uniform sampler2D gEmissive;
 layout(binding = 5) uniform sampler2D gShadowMap;
+layout(binding = 6) uniform sampler2D gSSAO;
 
 layout(std140, binding=1) uniform Directional
 {
@@ -60,6 +61,7 @@ uniform float minBias;
 uniform float maxBias;
 uniform int useShadows;
 uniform int useVSM;
+uniform int useSSAO;
 
 in vec2 TexCoord;
 
@@ -322,6 +324,7 @@ void main()
     vec4 textureMat = texture(gDiffuse, TexCoord);
     vec4 specularMat = texture(gSpecular, TexCoord);
     vec4 emissiveMat = texture(gEmissive, TexCoord);
+    vec3 ssaoFactor = vec3(texture(gSSAO, TexCoord).r);
     float smoothness = specularMat.a;
 
     if(renderMode == 0)
@@ -379,6 +382,7 @@ void main()
             environmentBRDF, numLevels_IBL) * cubemap_intensity;
 
         vec3 color = ambient + Lo + emissiveMat.rgb;
+        color = useSSAO == 1 ? color*ssaoFactor : color;
         outColor = vec4(color, 1.0);
     }
     else if (renderMode == 1)
