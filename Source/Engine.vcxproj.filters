@@ -769,7 +769,7 @@
       <Filter>UserScripts\Utils</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\PostProcess\SSAO.cpp">
-      <Filter>DataModels\PosProcess</Filter>
+      <Filter>DataModels\PostProcess</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1584,7 +1584,7 @@
       <Filter>UserScripts\Utils</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\PostProcess\SSAO.h">
-      <Filter>DataModels\PosProcess</Filter>
+      <Filter>DataModels\PostProcess</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
