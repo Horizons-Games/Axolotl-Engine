@@ -272,23 +272,42 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 		else if (button->IsEnabled())
 		{
 			const ComponentTransform2D* transform = button->GetOwner()->GetComponentInternal<ComponentTransform2D>();
-			bool isControllerConnected = App->GetModule<ModuleInput>()->FindController();
 			AABB2D aabb2d = transform->GetWorldAABB();
+			ModuleInput* input = App->GetModule<ModuleInput>();
 
-			if (!isControllerConnected && aabb2d.Contains(mouseCursor) ||
-				(isControllerConnected && !sortedButtonsIds.empty() &&
-				 sortedButtonsIds[currentButtonIndex] == button->GetOwner()->GetUID()))
+			if (!sortedButtonsIds.empty())
 			{
-				button->SetHovered(true);
-				if (leftClicked)
+				if (input->GetCurrentInputMethod() == InputMethod::KEYBOARD && aabb2d.Contains(mouseCursor))
 				{
-					button->SetClicked(true);
+					for (int i = 0; i < sortedButtonsIds.size(); ++i)
+					{
+						if (button->GetOwner()->GetUID() == sortedButtonsIds[i])
+						{
+							currentButtonIndex = i;
+							break;
+						}
+					}
+
+					button->SetHovered(true);
+					if (leftClicked)
+					{
+						button->SetClicked(true);
+					}
 				}
-			}
-			else
-			{
-				button->SetHovered(false);
-				//button->SetClicked(false);
+				else if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD &&
+						 sortedButtonsIds[currentButtonIndex] == button->GetOwner()->GetUID())
+				{
+					button->SetHovered(true);
+					if (leftClicked)
+					{
+						button->SetClicked(true);
+					}
+				}
+				else
+				{
+					button->SetHovered(false);
+					// button->SetClicked(false);
+				}
 			}
 		}
 	}
