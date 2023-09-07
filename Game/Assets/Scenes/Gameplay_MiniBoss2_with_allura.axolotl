@@ -29064,7 +29064,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
+                            "localPos_Y": 0.00006103515625,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -29087,8 +29087,8 @@
                             "removed": true,
                             "meshUID": 1553196095436477634,
                             "assetPathMesh": "Assets/Meshes/AlluraControllerV1.Cylinder.008_0.mesh",
-                            "materialUID": 712279686219878494,
-                            "assetPathMaterial": "Assets/Materials/AlluraControllerV1EE-3Blaster_0.mat"
+                            "materialUID": 7143001884677041520,
+                            "assetPathMaterial": "Assets/Materials/AlluraControllerEE-3.mat"
                         }
                     }
                 ]

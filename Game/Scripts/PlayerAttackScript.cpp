@@ -73,8 +73,11 @@ void PlayerAttackScript::Start()
 	transform = owner->GetComponent<ComponentTransform>();
 	animation = owner->GetComponent<ComponentAnimation>();
 
-	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_OPEN);
-	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);
+	if (isMelee)
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_OPEN);
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);
+	}
 
 	playerManager = owner->GetComponent<PlayerManagerScript>();
 	comboSystem = owner->GetComponent<ComboManager>();

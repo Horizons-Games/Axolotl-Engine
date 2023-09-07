@@ -2,7 +2,7 @@
     "UID": 13292401699891064518,
     "Type": "Materials",
     "DiffuseAssetPath": "Assets/Textures/AlluraControllerV1_Allura_Hair_AlbedoTransparency.png",
-    "NormalAssetPath": "",
+    "NormalAssetPath": "Assets/Textures/AlluraControllerV1_Allura_Hair_Normal.png",
     "OcclusionAssetPath": "",
     "MetalicAssetPath": "Assets/Textures/AlluraControllerV1_Allura_Hair_MetallicSmoothness.png",
     "EmissiveAssetPath": "",
@@ -21,5 +21,7 @@
     "tilingx": 1.0,
     "tilingy": 1.0,
     "offsetx": 0.0,
-    "offsety": 0.0
+    "offsety": 0.0,
+    "percentagex": 100.0,
+    "percentagey": 100.0
 }
