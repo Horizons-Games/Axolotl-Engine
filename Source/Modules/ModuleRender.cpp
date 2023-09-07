@@ -9,6 +9,7 @@
 #include "ModuleWindow.h"
 #include "ModuleNavigation.h"
 
+#include "Camera/Camera.h"
 #include "Camera/CameraGameObject.h"
 
 #include "Cubemap/Cubemap.h"
@@ -20,8 +21,6 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentLine.h"
 #include "Components/ComponentCamera.h"
-
-#include "Camera/CameraGameObject.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Batch/BatchManager.h"
@@ -35,7 +34,6 @@
 #include "Program/Program.h"
 
 #include "Scene/Scene.h"
-#include "Camera/Camera.h"
 
 #ifdef DEBUG
 	#include "optick.h"
