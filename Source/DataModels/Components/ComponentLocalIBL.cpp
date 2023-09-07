@@ -208,10 +208,41 @@ void ComponentLocalIBL::SetInfluenceAABB(AABB& aabb)
 
 void ComponentLocalIBL::InternalSave(Json& meta)
 {
+	meta["parallax_min_x"] = static_cast<float>(parallaxAABB.minPoint.x);
+	meta["parallax_min_y"] = static_cast<float>(parallaxAABB.minPoint.y);
+	meta["parallax_min_z"] = static_cast<float>(parallaxAABB.minPoint.z);
+	
+	meta["parallax_max_x"] = static_cast<float>(parallaxAABB.maxPoint.x);
+	meta["parallax_max_y"] = static_cast<float>(parallaxAABB.maxPoint.y);
+	meta["parallax_max_z"] = static_cast<float>(parallaxAABB.maxPoint.z);
+
+	meta["influence_min_x"] = static_cast<float>(influenceAABB.minPoint.x);
+	meta["influence_min_y"] = static_cast<float>(influenceAABB.minPoint.y);
+	meta["influence_min_z"] = static_cast<float>(influenceAABB.minPoint.z);
+
+	meta["influence_max_x"] = static_cast<float>(influenceAABB.maxPoint.x);
+	meta["influence_max_y"] = static_cast<float>(influenceAABB.maxPoint.y);
+	meta["influence_max_z"] = static_cast<float>(influenceAABB.maxPoint.z);	
 }
 
 void ComponentLocalIBL::InternalLoad(const Json& meta)
 {
+	parallaxAABB.minPoint.x = static_cast<float>(meta["parallax_min_x"]);
+	parallaxAABB.minPoint.y = static_cast<float>(meta["parallax_min_y"]);
+	parallaxAABB.minPoint.z = static_cast<float>(meta["parallax_min_z"]);
+
+	parallaxAABB.maxPoint.x = static_cast<float>(meta["parallax_max_x"]);
+	parallaxAABB.maxPoint.y = static_cast<float>(meta["parallax_max_y"]);
+	parallaxAABB.maxPoint.z = static_cast<float>(meta["parallax_max_z"]);
+
+	influenceAABB.minPoint.x = static_cast<float>(meta["influence_min_x"]);
+	influenceAABB.minPoint.y = static_cast<float>(meta["influence_min_y"]);
+	influenceAABB.minPoint.z = static_cast<float>(meta["influence_min_z"]);
+
+	influenceAABB.maxPoint.x = static_cast<float>(meta["influence_max_x"]);
+	influenceAABB.maxPoint.y = static_cast<float>(meta["influence_max_y"]);
+	influenceAABB.maxPoint.z = static_cast<float>(meta["influence_max_z"]);
+
 	GenerateMaps();
 }
 
