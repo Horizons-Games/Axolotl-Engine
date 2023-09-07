@@ -14,10 +14,10 @@
 REGISTERCLASS(CameraControllerScript);
 
 CameraControllerScript::CameraControllerScript() : Script(),
-		samplePointsObject(nullptr), transform(nullptr), player(nullptr)
+		samplePointsObject(nullptr), transform(nullptr), player{ (nullptr),(nullptr) }
 {
 	REGISTER_FIELD(samplePointsObject, GameObject*);
-	REGISTER_FIELD(player, GameObject*);
+	REGISTER_FIELD_WITH_ACCESSORS(PlayerGameObject, std::vector<GameObject*>);
 	REGISTER_FIELD(xOffset, float);
 	REGISTER_FIELD(yOffset, float);
 	REGISTER_FIELD(zOffset, float);
@@ -37,7 +37,7 @@ void CameraControllerScript::Start()
 	}
 	transform = owner->GetComponent<ComponentTransform>();
 	camera = GetOwner()->GetComponentInternal<ComponentCamera>();
-	playerTransform = player->GetComponent<ComponentTransform>();
+	playerTransform = player[0]->GetComponent<ComponentTransform>();
 
 	finalTargetPosition = transform->GetGlobalPosition();
 	finalTargetOrientation = transform->GetGlobalRotation();
@@ -125,6 +125,13 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 	{
 		components->OnTransformChanged();
 	}
+}
+
+void CameraControllerScript::ChangeCurrentPlayer(int numPlayer) 
+{
+
+	playerTransform = player[numPlayer]->GetComponent<ComponentTransform>();
+
 }
 
 void CameraControllerScript::CalculateOffsetVector()

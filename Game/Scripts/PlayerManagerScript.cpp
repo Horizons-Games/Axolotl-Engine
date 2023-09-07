@@ -11,9 +11,10 @@
 
 REGISTERCLASS(PlayerManagerScript);
 
-PlayerManagerScript::PlayerManagerScript() : Script(), camera(nullptr), mainCamera(nullptr), input(nullptr), isActivePlayer(false), playerAttack(20.0f), playerDefense(0.f), playerSpeed(6.0f)
+PlayerManagerScript::PlayerManagerScript() : Script(), camera(nullptr), mainCamera(nullptr), input(nullptr), controlledPlayerNum(0), isActivePlayer(false), playerAttack(20.0f), playerDefense(0.f), playerSpeed(6.0f)
 {
 	REGISTER_FIELD(isActivePlayer, bool);
+	REGISTER_FIELD(controlledPlayerNum, float);
 	REGISTER_FIELD(playerAttack, float);
 	REGISTER_FIELD(playerDefense, float);
 	REGISTER_FIELD(playerSpeed, float);
@@ -25,7 +26,7 @@ void PlayerManagerScript::Start()
 {
 	input = App->GetModule<ModuleInput>();
 	
-	//camera = mainCamera->GetComponent<CameraControllerScript>();
+	camera = mainCamera->GetComponent<CameraControllerScript>();
 	jumpManager = owner->GetComponent<PlayerJumpScript>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
 }
@@ -53,6 +54,7 @@ void PlayerManagerScript::TogglePlayerScripts()
 			else
 			{
 				script->Enable();
+				camera->ChangeCurrentPlayer(controlledPlayerNum);
 			}
 		}
 	}

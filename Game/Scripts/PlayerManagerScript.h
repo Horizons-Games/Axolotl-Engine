@@ -47,6 +47,7 @@ private:
 	float playerDefense;
 	float playerSpeed;
 	float playerRotationSpeed;
+	float controlledPlayerNum;
 	GameObject* mainCamera;
 	CameraControllerScript* camera;
 
