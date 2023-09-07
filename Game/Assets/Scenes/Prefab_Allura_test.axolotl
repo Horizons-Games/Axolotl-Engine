@@ -247,7 +247,7 @@
                                 },
                                 {
                                     "name": "LightWeapon",
-                                    "value": 15439592941999992541,
+                                    "value": 0,
                                     "type": 2
                                 },
                                 {
@@ -312,7 +312,7 @@
                             "fields": [
                                 {
                                     "name": "DashForce",
-                                    "value": 2000.0,
+                                    "value": 1000.0,
                                     "type": 0
                                 },
                                 {
@@ -372,7 +372,7 @@
                                 },
                                 {
                                     "name": "CanDoubleJump",
-                                    "value": false,
+                                    "value": true,
                                     "type": 5
                                 },
                                 {
@@ -1005,7 +1005,7 @@
                             "removed": false,
                             "localPos_X": 0.0,
                             "localPos_Y": 2.4011542797088623,
-                            "localPos_Z": 2.4872474670410156,
+                            "localPos_Z": 2.487241268157959,
                             "localRot_X": -90.00000762939453,
                             "localRot_Y": -0.000049632551963441074,
                             "localRot_Z": 180.0,
@@ -1064,7 +1064,7 @@
                             "height": 2.0,
                             "rbPos_X": 0.0003662109375,
                             "rbPos_Y": 0.7203463315963745,
-                            "rbPos_Z": 0.7461742758750916,
+                            "rbPos_Z": 0.7461724281311035,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -1153,7 +1153,7 @@
                             "fields": [
                                 {
                                     "name": "ReturnToPlayer",
-                                    "value": true,
+                                    "value": false,
                                     "type": 5
                                 },
                                 {
@@ -1188,7 +1188,7 @@
                                 },
                                 {
                                     "name": "Mesh",
-                                    "value": 15439592941999992541,
+                                    "value": 1786652705246473510,
                                     "type": 2
                                 }
                             ]
@@ -1244,198 +1244,6 @@
                             "particleSystemUID": 17849944368398849094,
                             "assetPathParticleSystem": "Assets/ParticleSystem/NewSpark1.particle",
                             "playAtStart": false
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "LightSaber",
-                "tag": "",
-                "uid": 15439592941999992541,
-                "parentUID": 749810966611303994,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": -0.30943238735198975,
-                            "localPos_Y": 1.680670142173767,
-                            "localPos_Z": 0.33237457275390625,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 90.0,
-                            "localSca_X": 0.0010000000474974513,
-                            "localSca_Y": 0.0010000000474974513,
-                            "localSca_Z": 0.0010000000474974513,
-                            "boudingBoxSca_X": 1.0,
-                            "boudingBoxSca_Y": 1.0,
-                            "boudingBoxSca_Z": 1.0,
-                            "boudingBoxPos_X": 0.0,
-                            "boudingBoxPos_Y": 0.0,
-                            "boudingBoxPos_Z": 0.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "RootNode",
-                "tag": "",
-                "uid": 10211856550912856915,
-                "parentUID": 15439592941999992541,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 1.0,
-                            "boudingBoxSca_Y": 1.0,
-                            "boudingBoxSca_Z": 1.0,
-                            "boudingBoxPos_X": 0.0,
-                            "boudingBoxPos_Y": 0.0,
-                            "boudingBoxPos_Z": 0.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "LightSaberOn",
-                "tag": "",
-                "uid": 7924193001606141039,
-                "parentUID": 10211856550912856915,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 100.0,
-                            "localSca_Y": 100.0,
-                            "localSca_Z": 100.0,
-                            "boudingBoxSca_X": 1.0,
-                            "boudingBoxSca_Y": 1.0,
-                            "boudingBoxSca_Z": 1.0,
-                            "boudingBoxPos_X": 0.0,
-                            "boudingBoxPos_Y": 0.0,
-                            "boudingBoxPos_Z": 0.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "LightSaber.Mesh.003_0",
-                "tag": "",
-                "uid": 16587154205726779349,
-                "parentUID": 7924193001606141039,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 1.0,
-                            "boudingBoxSca_Y": 1.0,
-                            "boudingBoxSca_Z": 1.0,
-                            "boudingBoxPos_X": 0.0,
-                            "boudingBoxPos_Y": 0.0,
-                            "boudingBoxPos_Z": 0.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 10805726888889445053,
-                            "assetPathMesh": "Assets/Meshes/LightSaber.Mesh.003_0.mesh",
-                            "materialUID": 5058827442130050130,
-                            "assetPathMaterial": "Assets/Materials/LightSaberLightSaber.001_0.mat"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "LightSaber.Mesh.003_1",
-                "tag": "",
-                "uid": 16778813599070420117,
-                "parentUID": 7924193001606141039,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 1.0,
-                            "boudingBoxSca_Y": 1.0,
-                            "boudingBoxSca_Z": 1.0,
-                            "boudingBoxPos_X": 0.0,
-                            "boudingBoxPos_Y": 0.0,
-                            "boudingBoxPos_Z": 0.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 17294277305134340052,
-                            "assetPathMesh": "Assets/Meshes/LightSaber.Mesh.003_1.mesh",
-                            "materialUID": 3082660891142083239,
-                            "assetPathMaterial": "Assets/Materials/LightSaberLightSaberEmission_1.mat"
                         }
                     }
                 ]
@@ -1543,16 +1351,6 @@
                                     "type": 0
                                 }
                             ]
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Particle",
-                            "active": false,
-                            "removed": true,
-                            "particleSystemUID": 1731042919886501754,
-                            "assetPathParticleSystem": "Assets/ParticleSystem/LightFinisherBulletParticles.particle",
-                            "playAtStart": false
                         }
                     },
                     {
@@ -2191,8 +1989,8 @@
                             "removed": true,
                             "meshUID": 1553196095436477634,
                             "assetPathMesh": "Assets/Meshes/AlluraControllerV1.Cylinder.008_0.mesh",
-                            "materialUID": 712279686219878494,
-                            "assetPathMaterial": "Assets/Materials/AlluraControllerV1EE-3Blaster_0.mat"
+                            "materialUID": 7143001884677041520,
+                            "assetPathMaterial": "Assets/Materials/AlluraControllerEE-3.mat"
                         }
                     }
                 ]
@@ -5905,6 +5703,85 @@
                             "removed": true,
                             "constructName": "MeshEffect",
                             "fields": null
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cannonball",
+                "tag": "",
+                "uid": 1786652705246473510,
+                "parentUID": 749810966611303994,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.184897780418396,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 3.3333332538604736,
+                            "localSca_Y": 3.3333332538604736,
+                            "localSca_Z": 3.3333332538604736,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cannonball.Cannonball_0",
+                "tag": "",
+                "uid": 10466168210605711337,
+                "parentUID": 1786652705246473510,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.026502374559640884,
+                            "localPos_Y": 0.5879622101783752,
+                            "localPos_Z": 0.5324435830116272,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.10000000149011612,
+                            "localSca_Y": 0.10000000149011612,
+                            "localSca_Z": 0.10000000149011612,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 7071359272337065142,
+                            "assetPathMesh": "Assets/Meshes/Cannonball.Cannonball_0.mesh",
+                            "materialUID": 9801526070362420493,
+                            "assetPathMaterial": "Assets/Materials/CannonballCannonball_metal_0.mat"
                         }
                     }
                 ]

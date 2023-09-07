@@ -5,6 +5,7 @@ class ComponentTransform;
 class ComponentAudioSource;
 class ComponentRigidBody;
 class ComponentParticleSystem;
+class PlayerAttackScript;
 
 class LightAttackBullet : public Script
 {
@@ -36,6 +37,7 @@ private:
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
 	ComponentParticleSystem* particleSystem;
+	PlayerAttackScript* playerAttackScript;
 
 	float particleSystemTimer;
 	float particleSystemCurrentTimer;

@@ -191,7 +191,7 @@ void PlayerAttackScript::LightNormalAttack()
 	}
 	else
 	{
-		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CANNON_SHOT);
 		if (enemyAttacked != nullptr)
 		{
 			comboSystem->SuccessfulAttack(comboCountLight, AttackType::LIGHTNORMAL);
@@ -205,7 +205,6 @@ void PlayerAttackScript::HeavyNormalAttack()
 {
 	//Activate visuals and audios
 	animation->SetParameter("IsHeavyAttacking", true);
-	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
 
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
@@ -226,7 +225,7 @@ void PlayerAttackScript::HeavyNormalAttack()
 	}
 	else
 	{
-		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CHARGED_SHOT);
 		if (enemyAttacked != nullptr)
 		{
 			comboSystem->SuccessfulAttack(comboCountHeavy, AttackType::HEAVYNORMAL);
@@ -277,6 +276,10 @@ void PlayerAttackScript::LightFinisher()
 
 	isAttacking = true;
 
+	if (!isMelee)
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ELECTRIC_SHOT);
+	}
 	lightFinisherScript->ThrowStunItem();
 
 	comboSystem->SuccessfulAttack(-comboCountLight * 2, AttackType::LIGHTFINISHER);
@@ -289,6 +292,7 @@ void PlayerAttackScript::HeavyFinisher()
 	animation->SetParameter("HeavyFinisherExit", false);
 	animation->SetParameter("HeavyFinisherInit", true);
 	isAttacking = true;
+	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CANNON_SHOT);
 	if (enemyAttacked != nullptr)
 	{
 		heavyFinisherAttack->PerformHeavyFinisher(enemyAttacked->GetComponent<ComponentTransform>(), 
