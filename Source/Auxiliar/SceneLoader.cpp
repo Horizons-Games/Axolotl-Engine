@@ -413,6 +413,11 @@ void StartJsonLoad(Json&& sceneJson)
 
 void StartLoadScene()
 {
+	
+	ModuleRender* moduleRender = App->GetModule<ModuleRender>();
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	ModuleUI* ui = App->GetModule<ModuleUI>();
+
 	// existing document passed by user
 	if (currentLoadingConfig->doc.has_value())
 	{
@@ -422,22 +427,23 @@ void StartLoadScene()
 	}
 
 	LOG_VERBOSE("Started load of scene {}", currentLoadingConfig->scenePath.value());
-
+	
 	// no document, new scene has to be loaded
 	if (!currentLoadingConfig->mantainCurrentScene)
 	{
-		App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
+		moduleRender->GetBatchManager()->CleanBatches();
 	}
 	else
 	{
-		App->GetModule<ModuleRender>()->GetBatchManager()->SetDirtybatches();
+		moduleRender->GetBatchManager()->SetDirtybatches();
 	}
-
-	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
 	std::string fileName =
 		App->GetModule<ModuleFileSystem>()->GetFileName(currentLoadingConfig->scenePath.value()).c_str();
 	char* buffer{};
+
+	ui->ClearButtons();
+
 #ifdef ENGINE
 	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
 

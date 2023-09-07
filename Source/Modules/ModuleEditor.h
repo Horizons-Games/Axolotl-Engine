@@ -40,11 +40,11 @@ public:
 	void RefreshInspector() const;
 	std::pair<float, float> GetAvailableRegion();
 
-	bool GetFullscreenScene() const;
+	bool IsSceneFullscreen() const;
 	void ToggleFullscreenScene();
 
-	bool GetEditorControls() const;
-	void ToggleEditorControls();
+	bool IsEditorControlEnabled() const;
+	void ToggleEditorControl();
 
 private:
 	std::vector<std::unique_ptr<EditorWindow>> windows;
@@ -58,7 +58,7 @@ private:
 
 	bool windowResized;
 	bool fullscreenScene;
-	bool editorControls;
+	bool editorControl;
 
 	char* StateWindows();
 	void CreateFolderSettings();
@@ -94,17 +94,17 @@ inline void ModuleEditor::ToggleFullscreenScene()
 	fullscreenScene = !fullscreenScene;
 }
 
-inline void ModuleEditor::ToggleEditorControls()
+inline void ModuleEditor::ToggleEditorControl()
 {
-	editorControls = !editorControls;
+	editorControl = !editorControl;
 }
 
-inline bool ModuleEditor::GetFullscreenScene() const
+inline bool ModuleEditor::IsSceneFullscreen() const
 {
 	return fullscreenScene;
 }
 
-inline bool ModuleEditor::GetEditorControls() const
+inline bool ModuleEditor::IsEditorControlEnabled() const
 {
-	return editorControls;
+	return editorControl;
 }

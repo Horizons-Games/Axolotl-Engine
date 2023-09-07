@@ -205,7 +205,7 @@ void WindowMainMenu::DrawHelpMenu()
 		ImGui::EndMenu();
 	}
 	ModuleEditor* editor = App->GetModule<ModuleEditor>();
-	if (!editor->GetFullscreenScene())
+	if (!editor->IsSceneFullscreen())
 	{
 		about->Draw(showAbout);
 	}

@@ -52,6 +52,12 @@
 const std::string ModuleEditor::settingsFolder = "Settings/";
 const std::string ModuleEditor::set = "Settings/WindowsStates.conf";
 
+namespace
+{
+constexpr const char* windowSceneName = "Scene";
+constexpr const char* windowEditorControlName = "Editor Control";
+} // namespace
+
 ModuleEditor::ModuleEditor() :
 	mainMenu(nullptr),
 	scene(nullptr),
@@ -255,12 +261,12 @@ UpdateStatus ModuleEditor::Update()
 		bool windowEnabled = mainMenu->IsWindowEnabled(i);
 		if (fullscreenScene)
 		{
-			if (editorControls)
+			if (editorControl)
 			{
-				bool isEditorControl = windows[i]->GetName() == "Editor Control";
+				bool isEditorControl = windows[i]->GetName() == windowEditorControlName;
 				windows[i]->Draw(isEditorControl);
 			}
-			bool isSceneWindow = windows[i]->GetName() == "Scene";
+			bool isSceneWindow = windows[i]->GetName() == windowSceneName;
 			windows[i]->Draw(isSceneWindow);
 		}
 		else
@@ -269,7 +275,10 @@ UpdateStatus ModuleEditor::Update()
 		}
 		mainMenu->SetWindowEnabled(i, windowEnabled);
 	}
-	stateMachineEditor->Draw(stateMachineWindowEnable);
+	if (!fullscreenScene)
+	{
+		stateMachineEditor->Draw(stateMachineWindowEnable);
+	}
 #else
 	debugOptions->Draw();
 #endif
