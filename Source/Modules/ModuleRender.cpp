@@ -357,7 +357,7 @@ UpdateStatus ModuleRender::Update()
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
 
 	// -------- DEFERRED LIGHTING ---------------
-
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("DEFERRED LIGHTING"), "DEFERRED LIGHTING");
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -401,7 +401,7 @@ UpdateStatus ModuleRender::Update()
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
 	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
-
+	glPopDebugGroup();
 	// -------- PRE-FORWARD ----------------------
 	if (loadedScene->GetRoot()->HasComponent<ComponentSkybox>())
 	{
@@ -774,7 +774,6 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
-
 				ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 				// If an object doesn't have transform component it doesn't need to draw
 				if (transform == nullptr)
