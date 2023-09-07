@@ -27,12 +27,16 @@
 
 namespace
 {
-bool compareButtonPositions(const ComponentButton* a, const ComponentButton* b)
+bool CompareButtonPositions(const ComponentButton* a, const ComponentButton* b)
 {
 	return a->GetOwner()->GetComponentInternal<ComponentTransform2D>()->GetPosition().y >
 		   b->GetOwner()->GetComponentInternal<ComponentTransform2D>()->GetPosition().y;
 }
 } // namespace
+namespace
+{
+constexpr const float cooldownTime = 0.2f;
+}
 
 ModuleUI::ModuleUI()
 {
@@ -62,7 +66,7 @@ UpdateStatus ModuleUI::Update()
 
 	bool leftClickDown = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
 
-	if (!sortedButtonsIds.empty() && SDL_GetTicks() / 1000.0f > lastButtonChange + 0.2f)
+	if (!sortedButtonsIds.empty() && SDL_GetTicks() / 1000.0f > lastButtonChange + cooldownTime)
 	{
 		JoystickMovement joystickMovement = input->GetDirection();
 		lastButtonChange = SDL_GetTicks() / 1000.0f;
@@ -206,7 +210,7 @@ void ModuleUI::SetUpButtons()
 
 	std::sort(std::begin(sortedButtons),
 			  std::end(sortedButtons),
-			  compareButtonPositions);
+			  CompareButtonPositions);
 
 	auto sortedButtonsIdsView = sortedButtons | std::views::transform(
 													[](const ComponentButton* button)
