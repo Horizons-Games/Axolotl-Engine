@@ -107,6 +107,8 @@ ComponentScript::ComponentScript(const ComponentScript& other) :
 	{
 		return;
 	}
+
+	script->SetContainer(this);
 	for (const TypeFieldPair& typeFieldPair : script->GetFields())
 	{
 		switch (typeFieldPair.first)
