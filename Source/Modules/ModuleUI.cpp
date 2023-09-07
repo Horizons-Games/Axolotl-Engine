@@ -33,10 +33,11 @@ bool CompareButtonPositions(const ComponentButton* a, const ComponentButton* b)
 		   b->GetOwner()->GetComponentInternal<ComponentTransform2D>()->GetPosition().y;
 }
 } // namespace
+
 namespace
 {
-constexpr const float cooldownTime = 0.2f;
-}
+constexpr const float cooldownTime = 0.15f;
+} // namespace
 
 ModuleUI::ModuleUI()
 {
@@ -63,6 +64,7 @@ UpdateStatus ModuleUI::Update()
 	float2 point = App->GetModule<ModuleInput>()->GetMousePosition();
 #endif
 	ModuleInput* input = App->GetModule<ModuleInput>();
+	ModuleScene* scene = App->GetModule<ModuleScene>();
 
 	bool leftClickDown = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
 
@@ -71,16 +73,32 @@ UpdateStatus ModuleUI::Update()
 		JoystickMovement joystickMovement = input->GetDirection();
 		lastButtonChange = SDL_GetTicks() / 1000.0f;
 
-		int deltaIndex = 0;
-		if (joystickMovement.verticalMovement == JoystickVerticalDirection::BACK)
+		int i = currentButtonIndex;
+
+		do
 		{
-			deltaIndex = 1;
-		}
-		else if (joystickMovement.verticalMovement == JoystickVerticalDirection::FORWARD)
-		{
-			deltaIndex = -1;
-		}
-		currentButtonIndex = (currentButtonIndex + deltaIndex) % sortedButtonsIds.size();
+			if (joystickMovement.verticalMovement == JoystickVerticalDirection::FORWARD)
+			{
+				i = (i - 1 + sortedButtonsIds.size()) % sortedButtonsIds.size();
+			}
+			else if (joystickMovement.verticalMovement == JoystickVerticalDirection::BACK ||
+					 !scene->GetLoadedScene()
+						  ->SearchGameObjectByID(sortedButtonsIds[i])
+						  ->GetComponent<ComponentButton>()
+						  ->IsEnabled())
+			{
+				i = (i + 1) % sortedButtonsIds.size();
+			}
+
+			if (scene->GetLoadedScene()
+					->SearchGameObjectByID(sortedButtonsIds[i])
+					->GetComponent<ComponentButton>()
+					->IsEnabled())
+			{
+				currentButtonIndex = i;
+				break;
+			}
+		} while (i != currentButtonIndex);
 	}
 
 	for (const ComponentCanvas* canvas : canvasScene)
@@ -202,7 +220,7 @@ void ModuleUI::SetUpButtons()
 						   std::views::filter(
 							   [](const ComponentButton* comp)
 							   {
-								   return comp != nullptr && comp->IsEnabled();
+								   return comp != nullptr;
 							   });
 
 	std::vector<const ComponentButton*> sortedButtons =
