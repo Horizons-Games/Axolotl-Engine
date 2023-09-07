@@ -23,20 +23,12 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Render",
-                            "active": false,
-                            "removed": false,
-                            "bloom_intensity": 1.0
                         }
                     },
                     {
@@ -45,6 +37,14 @@
                             "active": true,
                             "removed": true,
                             "intensity": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Render",
+                            "active": true,
+                            "removed": false,
+                            "bloom_intensity": 1.0
                         }
                     }
                 ]
@@ -73,9 +73,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -119,9 +119,9 @@
                             "localSca_X": 0.30000001192092896,
                             "localSca_Y": 0.30000001192092896,
                             "localSca_Z": 0.30000001192092896,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -221,9 +221,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -301,9 +301,9 @@
                             "localSca_X": 0.20000000298023224,
                             "localSca_Y": 0.20000003278255463,
                             "localSca_Z": 0.20000003278255463,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -396,9 +396,9 @@
                             "localSca_X": 0.20000000298023224,
                             "localSca_Y": 0.20000000298023224,
                             "localSca_Z": 0.20000000298023224,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -491,9 +491,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -525,9 +525,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -609,9 +609,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -643,9 +643,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -703,9 +703,9 @@
                             "localSca_X": 37.73861312866211,
                             "localSca_Y": 1.0,
                             "localSca_Z": 32.32350158691406,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -783,9 +783,9 @@
                             "localSca_X": 0.30000001192092896,
                             "localSca_Y": 0.30000001192092896,
                             "localSca_Z": 0.30000001192092896,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -936,7 +936,7 @@
                                 },
                                 {
                                     "name": "MeshEffect",
-                                    "value": 15696025634388416978,
+                                    "value": 0,
                                     "type": 2
                                 }
                             ]
@@ -1228,9 +1228,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1262,9 +1262,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1296,9 +1296,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1330,9 +1330,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1364,9 +1364,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1398,9 +1398,9 @@
                             "localSca_X": 4.979173183441162,
                             "localSca_Y": 4.979173183441162,
                             "localSca_Z": 4.979173183441162,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1432,9 +1432,9 @@
                             "localSca_X": 4.979173183441162,
                             "localSca_Y": 4.979173183441162,
                             "localSca_Z": 4.979173183441162,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1466,9 +1466,9 @@
                             "localSca_X": 4.979173183441162,
                             "localSca_Y": 4.979173183441162,
                             "localSca_Z": 4.979173183441162,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1500,9 +1500,9 @@
                             "localSca_X": 3.533360242843628,
                             "localSca_Y": 3.533360242843628,
                             "localSca_Z": 3.533360242843628,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1534,9 +1534,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1568,9 +1568,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1602,9 +1602,9 @@
                             "localSca_X": 3.533360242843628,
                             "localSca_Y": 3.533360242843628,
                             "localSca_Z": 3.533360242843628,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1636,9 +1636,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1670,9 +1670,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1704,9 +1704,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1738,9 +1738,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1772,9 +1772,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1806,9 +1806,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1840,9 +1840,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1874,9 +1874,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1908,9 +1908,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1942,9 +1942,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -1976,9 +1976,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2010,9 +2010,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2044,9 +2044,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2078,9 +2078,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2112,9 +2112,9 @@
                             "localSca_X": 3.533360242843628,
                             "localSca_Y": 3.533360242843628,
                             "localSca_Z": 3.533360242843628,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2146,9 +2146,9 @@
                             "localSca_X": 3.533360242843628,
                             "localSca_Y": 3.533360242843628,
                             "localSca_Z": 3.533360242843628,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2180,9 +2180,9 @@
                             "localSca_X": 3.533360242843628,
                             "localSca_Y": 3.533360242843628,
                             "localSca_Z": 3.533360242843628,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2214,9 +2214,9 @@
                             "localSca_X": 3.533360242843628,
                             "localSca_Y": 3.533360242843628,
                             "localSca_Z": 3.533360242843628,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2248,9 +2248,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2282,9 +2282,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2316,9 +2316,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2350,9 +2350,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2384,9 +2384,9 @@
                             "localSca_X": 4.979173183441162,
                             "localSca_Y": 4.979173183441162,
                             "localSca_Z": 4.979173183441162,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2418,9 +2418,9 @@
                             "localSca_X": 4.979173183441162,
                             "localSca_Y": 4.979173183441162,
                             "localSca_Z": 4.979173183441162,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2452,9 +2452,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2486,9 +2486,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2520,9 +2520,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2554,9 +2554,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2588,9 +2588,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2622,9 +2622,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2656,9 +2656,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2701,9 +2701,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2735,9 +2735,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2780,9 +2780,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2814,9 +2814,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2859,9 +2859,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2893,9 +2893,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2938,9 +2938,9 @@
                             "localSca_X": 0.10000000149011612,
                             "localSca_Y": 0.10000000149011612,
                             "localSca_Z": 0.10000000149011612,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -2972,9 +2972,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3006,9 +3006,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3040,9 +3040,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3074,9 +3074,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3108,9 +3108,9 @@
                             "localSca_X": 0.9999999403953552,
                             "localSca_Y": 0.9999999403953552,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3142,9 +3142,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3176,9 +3176,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3210,9 +3210,9 @@
                             "localSca_X": 0.9999999403953552,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3244,9 +3244,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3278,9 +3278,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3312,9 +3312,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3346,9 +3346,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3380,9 +3380,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3414,9 +3414,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3448,9 +3448,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3482,9 +3482,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3516,9 +3516,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3550,9 +3550,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3584,9 +3584,9 @@
                             "localSca_X": 0.9999999403953552,
                             "localSca_Y": 0.9999999403953552,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3618,9 +3618,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3652,9 +3652,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3686,9 +3686,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3720,9 +3720,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3754,9 +3754,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3788,9 +3788,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3822,9 +3822,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3856,9 +3856,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3890,9 +3890,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3924,9 +3924,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3958,9 +3958,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -3992,9 +3992,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4026,9 +4026,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4060,9 +4060,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4094,9 +4094,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4128,9 +4128,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4162,9 +4162,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4196,9 +4196,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4230,9 +4230,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4264,9 +4264,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4298,9 +4298,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4332,9 +4332,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4366,9 +4366,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4400,9 +4400,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4434,9 +4434,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4468,9 +4468,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4502,9 +4502,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 0.9999999403953552,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4536,9 +4536,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4570,9 +4570,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4604,9 +4604,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4638,9 +4638,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4672,9 +4672,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4706,9 +4706,9 @@
                             "localSca_X": 0.9999999403953552,
                             "localSca_Y": 0.9999999403953552,
                             "localSca_Z": 0.9999999403953552,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4740,9 +4740,9 @@
                             "localSca_X": 0.9999999403953552,
                             "localSca_Y": 0.9999999403953552,
                             "localSca_Z": 0.9999999403953552,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4774,9 +4774,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4808,9 +4808,9 @@
                             "localSca_X": 0.9999999403953552,
                             "localSca_Y": 0.9999999403953552,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4842,9 +4842,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4876,9 +4876,9 @@
                             "localSca_X": 0.9999999403953552,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4910,9 +4910,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4944,9 +4944,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 0.9999999403953552,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -4978,9 +4978,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5012,9 +5012,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5046,9 +5046,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5080,9 +5080,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5114,9 +5114,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5148,9 +5148,9 @@
                             "localSca_X": 0.9999999403953552,
                             "localSca_Y": 0.9999999403953552,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5182,9 +5182,9 @@
                             "localSca_X": 0.9999999403953552,
                             "localSca_Y": 0.9999999403953552,
                             "localSca_Z": 0.9999999403953552,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5216,9 +5216,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5250,9 +5250,9 @@
                             "localSca_X": 0.9999999403953552,
                             "localSca_Y": 0.9999999403953552,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5284,9 +5284,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5318,9 +5318,9 @@
                             "localSca_X": 0.9999999403953552,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5352,9 +5352,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5386,9 +5386,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5420,9 +5420,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5454,9 +5454,9 @@
                             "localSca_X": 0.9999999403953552,
                             "localSca_Y": 0.9999999403953552,
                             "localSca_Z": 0.9999999403953552,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5488,9 +5488,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 0.9999999403953552,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5522,9 +5522,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 0.9999999403953552,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5556,9 +5556,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 0.9999999403953552,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5590,9 +5590,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5624,9 +5624,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5658,9 +5658,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5692,9 +5692,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5726,9 +5726,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 0.9999999403953552,
                             "localSca_Z": 0.9999999403953552,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5760,9 +5760,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5794,9 +5794,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5828,9 +5828,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5862,9 +5862,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5896,9 +5896,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 0.9999999403953552,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5930,9 +5930,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 0.9999999403953552,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5964,9 +5964,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -5998,9 +5998,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6032,9 +6032,9 @@
                             "localSca_X": 10.0,
                             "localSca_Y": 10.0,
                             "localSca_Z": 10.000000953674316,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6066,9 +6066,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6111,9 +6111,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6156,9 +6156,9 @@
                             "localSca_X": 10.0,
                             "localSca_Y": 9.999999046325684,
                             "localSca_Z": 9.999999046325684,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6190,9 +6190,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6235,9 +6235,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6269,9 +6269,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6303,9 +6303,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6337,9 +6337,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6371,9 +6371,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6405,9 +6405,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6439,9 +6439,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6473,9 +6473,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6507,9 +6507,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6541,9 +6541,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6575,9 +6575,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6609,9 +6609,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6643,9 +6643,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6677,9 +6677,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6711,9 +6711,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6745,9 +6745,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6779,9 +6779,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6813,9 +6813,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6847,9 +6847,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6881,9 +6881,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6915,9 +6915,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6960,9 +6960,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -6994,9 +6994,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7039,9 +7039,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7073,9 +7073,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7118,9 +7118,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7152,9 +7152,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7197,9 +7197,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7231,9 +7231,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7276,9 +7276,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7310,9 +7310,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7355,9 +7355,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7389,9 +7389,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7434,9 +7434,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7468,9 +7468,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7513,9 +7513,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7547,9 +7547,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7592,9 +7592,9 @@
                             "localSca_X": 0.9999999403953552,
                             "localSca_Y": 0.9999999403953552,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7626,9 +7626,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7671,9 +7671,9 @@
                             "localSca_X": 46.232181549072266,
                             "localSca_Y": 46.232181549072266,
                             "localSca_Z": 46.232181549072266,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7705,9 +7705,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7750,9 +7750,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7784,9 +7784,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7818,9 +7818,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7852,9 +7852,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7886,9 +7886,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7920,9 +7920,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -7933,7 +7933,7 @@
                             "type": "Component_RigidBody",
                             "active": true,
                             "removed": true,
-                            "isKinematic": true,
+                            "isKinematic": false,
                             "isTrigger": true,
                             "drawCollider": true,
                             "mass": 100.0,
@@ -8019,9 +8019,9 @@
                             "localSca_X": 0.20000000298023224,
                             "localSca_Y": 0.20000003278255463,
                             "localSca_Z": 0.20000003278255463,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -8114,9 +8114,9 @@
                             "localSca_X": 0.20000000298023224,
                             "localSca_Y": 0.20000000298023224,
                             "localSca_Z": 0.20000000298023224,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -8215,10 +8215,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 574.0,
-                            "worldAABB_min_y": 365.5,
-                            "worldAABB_max_x": 574.0,
-                            "worldAABB_max_y": 365.5
+                            "worldAABB_min_x": 821.5,
+                            "worldAABB_min_y": 445.5,
+                            "worldAABB_max_x": 821.5,
+                            "worldAABB_max_y": 445.5
                         }
                     },
                     {
@@ -8310,10 +8310,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.2083129882813,
-                            "worldAABB_min_y": 305.7083435058594,
-                            "worldAABB_max_x": 633.7916870117188,
-                            "worldAABB_max_y": 425.2916564941406
+                            "worldAABB_min_x": 739.0,
+                            "worldAABB_min_y": 363.0,
+                            "worldAABB_max_x": 904.0,
+                            "worldAABB_max_y": 528.0
                         }
                     }
                 ]
@@ -8348,10 +8348,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 42.625,
-                            "worldAABB_max_x": 1148.0,
-                            "worldAABB_max_y": 688.375
+                            "worldAABB_min_x": 29.5,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 1613.5,
+                            "worldAABB_max_y": 891.0
                         }
                     },
                     {
@@ -8401,10 +8401,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.2083129882813,
-                            "worldAABB_min_y": 305.7083435058594,
-                            "worldAABB_max_x": 633.7916870117188,
-                            "worldAABB_max_y": 425.2916564941406
+                            "worldAABB_min_x": 739.0,
+                            "worldAABB_min_y": 363.0,
+                            "worldAABB_max_x": 904.0,
+                            "worldAABB_max_y": 528.0
                         }
                     }
                 ]
@@ -8439,10 +8439,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.2083129882813,
-                            "worldAABB_min_y": 305.7083435058594,
-                            "worldAABB_max_x": 633.7916870117188,
-                            "worldAABB_max_y": 425.2916564941406
+                            "worldAABB_min_x": 739.0,
+                            "worldAABB_min_y": 363.0,
+                            "worldAABB_max_x": 904.0,
+                            "worldAABB_max_y": 528.0
                         }
                     }
                 ]
@@ -8477,10 +8477,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.2083129882813,
-                            "worldAABB_min_y": 305.7083435058594,
-                            "worldAABB_max_x": 633.7916870117188,
-                            "worldAABB_max_y": 425.2916564941406
+                            "worldAABB_min_x": 739.0,
+                            "worldAABB_min_y": 363.0,
+                            "worldAABB_max_x": 904.0,
+                            "worldAABB_max_y": 528.0
                         }
                     }
                 ]
@@ -8515,10 +8515,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 42.625,
-                            "worldAABB_max_x": 1148.0,
-                            "worldAABB_max_y": 688.375
+                            "worldAABB_min_x": 29.5,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 1613.5,
+                            "worldAABB_max_y": 891.0
                         }
                     },
                     {
@@ -8568,10 +8568,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.2083129882813,
-                            "worldAABB_min_y": 305.7083435058594,
-                            "worldAABB_max_x": 633.7916870117188,
-                            "worldAABB_max_y": 425.2916564941406
+                            "worldAABB_min_x": 739.0,
+                            "worldAABB_min_y": 363.0,
+                            "worldAABB_max_x": 904.0,
+                            "worldAABB_max_y": 528.0
                         }
                     }
                 ]
@@ -8606,10 +8606,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 42.625,
-                            "worldAABB_max_x": 1148.0,
-                            "worldAABB_max_y": 688.375
+                            "worldAABB_min_x": 29.5,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 1613.5,
+                            "worldAABB_max_y": 891.0
                         }
                     },
                     {
@@ -8659,10 +8659,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.2083129882813,
-                            "worldAABB_min_y": 305.7083435058594,
-                            "worldAABB_max_x": 633.7916870117188,
-                            "worldAABB_max_y": 425.2916564941406
+                            "worldAABB_min_x": 739.0,
+                            "worldAABB_min_y": 363.0,
+                            "worldAABB_max_x": 904.0,
+                            "worldAABB_max_y": 528.0
                         }
                     }
                 ]
@@ -8697,10 +8697,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 470.859375,
-                            "worldAABB_min_y": 206.54559326171875,
-                            "worldAABB_max_x": 677.140625,
-                            "worldAABB_max_y": 257.66748046875
+                            "worldAABB_min_x": 679.1875,
+                            "worldAABB_min_y": 226.17616271972656,
+                            "worldAABB_max_x": 963.8125,
+                            "worldAABB_max_y": 296.7136535644531
                         }
                     },
                     {
@@ -8750,10 +8750,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 494.3276062011719,
-                            "worldAABB_min_y": 305.44189453125,
-                            "worldAABB_max_x": 653.67236328125,
-                            "worldAABB_max_y": 353.57415771484375
+                            "worldAABB_min_x": 711.5687255859375,
+                            "worldAABB_min_y": 362.6323547363281,
+                            "worldAABB_max_x": 931.4312744140625,
+                            "worldAABB_max_y": 429.0448303222656
                         }
                     },
                     {
@@ -8875,10 +8875,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 494.3276062011719,
-                            "worldAABB_min_y": 365.6592712402344,
-                            "worldAABB_max_x": 653.67236328125,
-                            "worldAABB_max_y": 413.7915344238281
+                            "worldAABB_min_x": 711.5687255859375,
+                            "worldAABB_min_y": 445.7197265625,
+                            "worldAABB_max_x": 931.4312744140625,
+                            "worldAABB_max_y": 512.1322021484375
                         }
                     },
                     {
@@ -9000,10 +9000,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.2083129882813,
-                            "worldAABB_min_y": 305.7083435058594,
-                            "worldAABB_max_x": 633.7916870117188,
-                            "worldAABB_max_y": 425.2916564941406
+                            "worldAABB_min_x": 739.0,
+                            "worldAABB_min_y": 363.0,
+                            "worldAABB_max_x": 904.0,
+                            "worldAABB_max_y": 528.0
                         }
                     }
                 ]
@@ -9038,10 +9038,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.2083129882813,
-                            "worldAABB_min_y": 305.7083435058594,
-                            "worldAABB_max_x": 633.7916870117188,
-                            "worldAABB_max_y": 425.2916564941406
+                            "worldAABB_min_x": 739.0,
+                            "worldAABB_min_y": 363.0,
+                            "worldAABB_max_x": 904.0,
+                            "worldAABB_max_y": 528.0
                         }
                     }
                 ]
@@ -9076,10 +9076,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 494.3276062011719,
-                            "worldAABB_min_y": 425.8766174316406,
-                            "worldAABB_max_x": 653.67236328125,
-                            "worldAABB_max_y": 474.0088806152344
+                            "worldAABB_min_x": 711.5687255859375,
+                            "worldAABB_min_y": 528.8070678710938,
+                            "worldAABB_max_x": 931.4312744140625,
+                            "worldAABB_max_y": 595.2195434570313
                         }
                     },
                     {
@@ -9201,10 +9201,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 494.3276062011719,
-                            "worldAABB_min_y": 486.0939636230469,
-                            "worldAABB_max_x": 653.67236328125,
-                            "worldAABB_max_y": 534.2262573242188
+                            "worldAABB_min_x": 711.5687255859375,
+                            "worldAABB_min_y": 611.8944702148438,
+                            "worldAABB_max_x": 931.4312744140625,
+                            "worldAABB_max_y": 678.3069458007813
                         }
                     },
                     {
@@ -9326,10 +9326,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 494.3276062011719,
-                            "worldAABB_min_y": 305.44195556640625,
-                            "worldAABB_max_x": 653.67236328125,
-                            "worldAABB_max_y": 353.57421875
+                            "worldAABB_min_x": 711.5687255859375,
+                            "worldAABB_min_y": 362.6324462890625,
+                            "worldAABB_max_x": 931.4312744140625,
+                            "worldAABB_max_y": 429.044921875
                         }
                     },
                     {
@@ -9379,10 +9379,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 494.3276062011719,
-                            "worldAABB_min_y": 365.6592712402344,
-                            "worldAABB_max_x": 653.67236328125,
-                            "worldAABB_max_y": 413.7915344238281
+                            "worldAABB_min_x": 711.5687255859375,
+                            "worldAABB_min_y": 445.7197265625,
+                            "worldAABB_max_x": 931.4312744140625,
+                            "worldAABB_max_y": 512.1322021484375
                         }
                     },
                     {
@@ -9432,10 +9432,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 494.3276062011719,
-                            "worldAABB_min_y": 425.8766174316406,
-                            "worldAABB_max_x": 653.67236328125,
-                            "worldAABB_max_y": 474.0088806152344
+                            "worldAABB_min_x": 711.5687255859375,
+                            "worldAABB_min_y": 528.8070678710938,
+                            "worldAABB_max_x": 931.4312744140625,
+                            "worldAABB_max_y": 595.2195434570313
                         }
                     },
                     {
@@ -9485,10 +9485,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 494.3276062011719,
-                            "worldAABB_min_y": 486.0939636230469,
-                            "worldAABB_max_x": 653.67236328125,
-                            "worldAABB_max_y": 534.2262573242188
+                            "worldAABB_min_x": 711.5687255859375,
+                            "worldAABB_min_y": 611.8944702148438,
+                            "worldAABB_max_x": 931.4312744140625,
+                            "worldAABB_max_y": 678.3069458007813
                         }
                     },
                     {
@@ -9538,10 +9538,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.2083129882813,
-                            "worldAABB_min_y": 305.7083435058594,
-                            "worldAABB_max_x": 633.7916870117188,
-                            "worldAABB_max_y": 425.2916564941406
+                            "worldAABB_min_x": 739.0,
+                            "worldAABB_min_y": 363.0,
+                            "worldAABB_max_x": 904.0,
+                            "worldAABB_max_y": 528.0
                         }
                     }
                 ]
@@ -9576,10 +9576,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 42.625,
-                            "worldAABB_max_x": 1148.0,
-                            "worldAABB_max_y": 688.375
+                            "worldAABB_min_x": 29.5,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 1613.5,
+                            "worldAABB_max_y": 891.0
                         }
                     },
                     {
@@ -9629,10 +9629,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 971.6852416992188,
-                            "worldAABB_min_y": 78.88291931152344,
-                            "worldAABB_max_x": 1038.65185546875,
-                            "worldAABB_max_y": 95.62458801269531
+                            "worldAABB_min_x": 1370.2225341796875,
+                            "worldAABB_min_y": 50.02833938598633,
+                            "worldAABB_max_x": 1462.6224365234375,
+                            "worldAABB_max_y": 73.12834167480469
                         }
                     },
                     {
@@ -9754,10 +9754,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 42.625,
-                            "worldAABB_max_x": 1148.0,
-                            "worldAABB_max_y": 688.375
+                            "worldAABB_min_x": 29.5,
+                            "worldAABB_min_y": 0.0,
+                            "worldAABB_max_x": 1613.5,
+                            "worldAABB_max_y": 891.0
                         }
                     },
                     {
@@ -9807,10 +9807,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.2083129882813,
-                            "worldAABB_min_y": 305.7083435058594,
-                            "worldAABB_max_x": 633.7916870117188,
-                            "worldAABB_max_y": 425.2916564941406
+                            "worldAABB_min_x": 739.0,
+                            "worldAABB_min_y": 363.0,
+                            "worldAABB_max_x": 904.0,
+                            "worldAABB_max_y": 528.0
                         }
                     }
                 ]
@@ -9845,10 +9845,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.2083129882813,
-                            "worldAABB_min_y": 305.7083435058594,
-                            "worldAABB_max_x": 633.7916870117188,
-                            "worldAABB_max_y": 425.2916564941406
+                            "worldAABB_min_x": 739.0,
+                            "worldAABB_min_y": 363.0,
+                            "worldAABB_max_x": 904.0,
+                            "worldAABB_max_y": 528.0
                         }
                     }
                 ]
@@ -9883,10 +9883,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 14.020729064941406,
-                            "worldAABB_min_y": 120.22566223144531,
-                            "worldAABB_max_x": 188.31344604492188,
-                            "worldAABB_max_y": 170.74961853027344
+                            "worldAABB_min_x": 48.845664978027344,
+                            "worldAABB_min_y": 107.07267761230469,
+                            "worldAABB_max_x": 289.3331604003906,
+                            "worldAABB_max_y": 176.78517150878906
                         }
                     },
                     {
@@ -9936,10 +9936,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1163.0771484375,
-                            "worldAABB_min_y": 69.8302001953125,
-                            "worldAABB_max_x": 1505.982421875,
-                            "worldAABB_max_y": 162.50729370117188
+                            "worldAABB_min_x": 1634.303466796875,
+                            "worldAABB_min_y": 37.537506103515625,
+                            "worldAABB_max_x": 2107.44091796875,
+                            "worldAABB_max_y": 165.41250610351563
                         }
                     },
                     {
@@ -10006,10 +10006,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 80.62184143066406,
-                            "worldAABB_min_y": 25.989429473876953,
-                            "worldAABB_max_x": 200.20518493652344,
-                            "worldAABB_max_y": 145.57276916503906
+                            "worldAABB_min_x": 140.7413330078125,
+                            "worldAABB_min_y": -22.953582763671875,
+                            "worldAABB_max_x": 305.7413330078125,
+                            "worldAABB_max_y": 142.04641723632813
                         }
                     },
                     {
@@ -10058,10 +10058,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 13.505699157714844,
-                            "worldAABB_min_y": 49.75661849975586,
-                            "worldAABB_max_x": 267.3213195800781,
-                            "worldAABB_max_y": 121.80557250976563
+                            "worldAABB_min_x": 48.13508605957031,
+                            "worldAABB_min_y": 9.840167999267578,
+                            "worldAABB_max_x": 398.34759521484375,
+                            "worldAABB_max_y": 109.25267028808594
                         }
                     },
                     {
@@ -10111,10 +10111,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 117.67105102539063,
-                            "worldAABB_min_y": 92.11498260498047,
-                            "worldAABB_max_x": 248.01687622070313,
-                            "worldAABB_max_y": 104.07331085205078
+                            "worldAABB_min_x": 191.8614501953125,
+                            "worldAABB_min_y": 68.28582763671875,
+                            "worldAABB_max_x": 371.71142578125,
+                            "worldAABB_max_y": 84.78582763671875
                         }
                     },
                     {
@@ -10164,10 +10164,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 258.8409423828125,
-                            "worldAABB_min_y": 67.84359741210938,
-                            "worldAABB_max_x": 273.78887939453125,
-                            "worldAABB_max_y": 103.71859741210938
+                            "worldAABB_min_x": 386.6463928222656,
+                            "worldAABB_min_y": 34.796417236328125,
+                            "worldAABB_max_x": 407.2713928222656,
+                            "worldAABB_max_y": 84.29641723632813
                         }
                     },
                     {
@@ -10233,10 +10233,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 80.62190246582031,
-                            "worldAABB_min_y": 25.989154815673828,
-                            "worldAABB_max_x": 200.2052459716797,
-                            "worldAABB_max_y": 145.57249450683594
+                            "worldAABB_min_x": 140.74139404296875,
+                            "worldAABB_min_y": -22.9539794921875,
+                            "worldAABB_max_x": 305.74139404296875,
+                            "worldAABB_max_y": 142.0460205078125
                         }
                     },
                     {
@@ -10285,10 +10285,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 20.830238342285156,
-                            "worldAABB_min_y": 70.8329086303711,
-                            "worldAABB_max_x": 259.9969177246094,
-                            "worldAABB_max_y": 100.7287368774414
+                            "worldAABB_min_x": 58.24139404296875,
+                            "worldAABB_min_y": 38.9210205078125,
+                            "worldAABB_max_x": 388.24139404296875,
+                            "worldAABB_max_y": 80.1710205078125
                         }
                     },
                     {
@@ -10338,10 +10338,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 117.67120361328125,
-                            "worldAABB_min_y": 92.11455535888672,
-                            "worldAABB_max_x": 248.01702880859375,
-                            "worldAABB_max_y": 104.07288360595703
+                            "worldAABB_min_x": 191.8616943359375,
+                            "worldAABB_min_y": 68.28524780273438,
+                            "worldAABB_max_x": 371.711669921875,
+                            "worldAABB_max_y": 84.78524780273438
                         }
                     },
                     {
@@ -10391,10 +10391,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 251.6127471923828,
-                            "worldAABB_min_y": 67.84332275390625,
-                            "worldAABB_max_x": 266.5606689453125,
-                            "worldAABB_max_y": 103.71832275390625
+                            "worldAABB_min_x": 376.6729736328125,
+                            "worldAABB_min_y": 34.7960205078125,
+                            "worldAABB_max_x": 397.2979736328125,
+                            "worldAABB_max_y": 84.2960205078125
                         }
                     },
                     {
@@ -10460,10 +10460,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.2083129882813,
-                            "worldAABB_min_y": 305.7083435058594,
-                            "worldAABB_max_x": 633.7916870117188,
-                            "worldAABB_max_y": 425.2916564941406
+                            "worldAABB_min_x": 739.0,
+                            "worldAABB_min_y": 363.0,
+                            "worldAABB_max_x": 904.0,
+                            "worldAABB_max_y": 528.0
                         }
                     }
                 ]
@@ -10498,10 +10498,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 911.2249755859375,
-                            "worldAABB_min_y": 532.9166259765625,
-                            "worldAABB_max_x": 1030.808349609375,
-                            "worldAABB_max_y": 652.5
+                            "worldAABB_min_x": 1286.800048828125,
+                            "worldAABB_min_y": 676.5,
+                            "worldAABB_max_x": 1451.800048828125,
+                            "worldAABB_max_y": 841.5
                         }
                     },
                     {
@@ -10550,10 +10550,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 900.4625244140625,
-                            "worldAABB_min_y": 522.1541748046875,
-                            "worldAABB_max_x": 1041.57080078125,
-                            "worldAABB_max_y": 663.262451171875
+                            "worldAABB_min_x": 1271.9500732421875,
+                            "worldAABB_min_y": 661.6500244140625,
+                            "worldAABB_max_x": 1466.6500244140625,
+                            "worldAABB_max_y": 856.3499755859375
                         }
                     },
                     {
@@ -10603,10 +10603,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 900.4625244140625,
-                            "worldAABB_min_y": 522.1541748046875,
-                            "worldAABB_max_x": 1041.57080078125,
-                            "worldAABB_max_y": 663.262451171875
+                            "worldAABB_min_x": 1271.9500732421875,
+                            "worldAABB_min_y": 661.6500244140625,
+                            "worldAABB_max_x": 1466.6500244140625,
+                            "worldAABB_max_y": 856.3499755859375
                         }
                     },
                     {
@@ -10656,10 +10656,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 963.542724609375,
-                            "worldAABB_min_y": 574.7708129882813,
-                            "worldAABB_max_x": 978.4906005859375,
-                            "worldAABB_max_y": 610.6458129882813
+                            "worldAABB_min_x": 1358.987548828125,
+                            "worldAABB_min_y": 734.25,
+                            "worldAABB_max_x": 1379.612548828125,
+                            "worldAABB_max_y": 783.75
                         }
                     },
                     {
@@ -10725,10 +10725,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 911.2249755859375,
-                            "worldAABB_min_y": 532.9166259765625,
-                            "worldAABB_max_x": 1030.808349609375,
-                            "worldAABB_max_y": 652.5
+                            "worldAABB_min_x": 1286.800048828125,
+                            "worldAABB_min_y": 676.5,
+                            "worldAABB_max_x": 1451.800048828125,
+                            "worldAABB_max_y": 841.5
                         }
                     },
                     {
@@ -10777,10 +10777,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 900.4625244140625,
-                            "worldAABB_min_y": 522.1541748046875,
-                            "worldAABB_max_x": 1041.57080078125,
-                            "worldAABB_max_y": 663.262451171875
+                            "worldAABB_min_x": 1271.9500732421875,
+                            "worldAABB_min_y": 661.6500244140625,
+                            "worldAABB_max_x": 1466.6500244140625,
+                            "worldAABB_max_y": 856.3499755859375
                         }
                     },
                     {
@@ -10830,10 +10830,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 900.4625244140625,
-                            "worldAABB_min_y": 522.1541748046875,
-                            "worldAABB_max_x": 1041.57080078125,
-                            "worldAABB_max_y": 663.262451171875
+                            "worldAABB_min_x": 1271.9500732421875,
+                            "worldAABB_min_y": 661.6500244140625,
+                            "worldAABB_max_x": 1466.6500244140625,
+                            "worldAABB_max_y": 856.3499755859375
                         }
                     },
                     {
@@ -10883,10 +10883,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1033.1595458984375,
-                            "worldAABB_min_y": 574.7708129882813,
-                            "worldAABB_max_x": 1048.1075439453125,
-                            "worldAABB_max_y": 610.6458129882813
+                            "worldAABB_min_x": 1455.0443115234375,
+                            "worldAABB_min_y": 734.25,
+                            "worldAABB_max_x": 1475.6693115234375,
+                            "worldAABB_max_y": 783.75
                         }
                     },
                     {
@@ -10952,10 +10952,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 911.2249755859375,
-                            "worldAABB_min_y": 532.9166259765625,
-                            "worldAABB_max_x": 1030.808349609375,
-                            "worldAABB_max_y": 652.5
+                            "worldAABB_min_x": 1286.800048828125,
+                            "worldAABB_min_y": 676.5,
+                            "worldAABB_max_x": 1451.800048828125,
+                            "worldAABB_max_y": 841.5
                         }
                     },
                     {
@@ -11004,10 +11004,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 900.4625244140625,
-                            "worldAABB_min_y": 522.1541748046875,
-                            "worldAABB_max_x": 1041.57080078125,
-                            "worldAABB_max_y": 663.262451171875
+                            "worldAABB_min_x": 1271.9500732421875,
+                            "worldAABB_min_y": 661.6500244140625,
+                            "worldAABB_max_x": 1466.6500244140625,
+                            "worldAABB_max_y": 856.3499755859375
                         }
                     },
                     {
@@ -11057,10 +11057,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 900.4625244140625,
-                            "worldAABB_min_y": 522.1541748046875,
-                            "worldAABB_max_x": 1041.57080078125,
-                            "worldAABB_max_y": 663.262451171875
+                            "worldAABB_min_x": 1271.9500732421875,
+                            "worldAABB_min_y": 661.6500244140625,
+                            "worldAABB_max_x": 1466.6500244140625,
+                            "worldAABB_max_y": 856.3499755859375
                         }
                     },
                     {
@@ -11110,10 +11110,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1033.603759765625,
-                            "worldAABB_min_y": 574.7708129882813,
-                            "worldAABB_max_x": 1048.5517578125,
-                            "worldAABB_max_y": 610.6458129882813
+                            "worldAABB_min_x": 1455.6572265625,
+                            "worldAABB_min_y": 734.25,
+                            "worldAABB_max_x": 1476.2822265625,
+                            "worldAABB_max_y": 783.75
                         }
                     },
                     {
@@ -11179,10 +11179,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 911.2249755859375,
-                            "worldAABB_min_y": 532.9166259765625,
-                            "worldAABB_max_x": 1030.808349609375,
-                            "worldAABB_max_y": 652.5
+                            "worldAABB_min_x": 1286.800048828125,
+                            "worldAABB_min_y": 676.5,
+                            "worldAABB_max_x": 1451.800048828125,
+                            "worldAABB_max_y": 841.5
                         }
                     },
                     {
@@ -11231,10 +11231,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 900.4625244140625,
-                            "worldAABB_min_y": 522.1541748046875,
-                            "worldAABB_max_x": 1041.57080078125,
-                            "worldAABB_max_y": 663.262451171875
+                            "worldAABB_min_x": 1271.9500732421875,
+                            "worldAABB_min_y": 661.6500244140625,
+                            "worldAABB_max_x": 1466.6500244140625,
+                            "worldAABB_max_y": 856.3499755859375
                         }
                     },
                     {
@@ -11284,10 +11284,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 900.4625244140625,
-                            "worldAABB_min_y": 522.1541748046875,
-                            "worldAABB_max_x": 1041.57080078125,
-                            "worldAABB_max_y": 663.262451171875
+                            "worldAABB_min_x": 1271.9500732421875,
+                            "worldAABB_min_y": 661.6500244140625,
+                            "worldAABB_max_x": 1466.6500244140625,
+                            "worldAABB_max_y": 856.3499755859375
                         }
                     },
                     {
@@ -11337,10 +11337,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1080.3284912109375,
-                            "worldAABB_min_y": 574.7708129882813,
-                            "worldAABB_max_x": 1095.2764892578125,
-                            "worldAABB_max_y": 610.6458129882813
+                            "worldAABB_min_x": 1520.12744140625,
+                            "worldAABB_min_y": 734.25,
+                            "worldAABB_max_x": 1540.75244140625,
+                            "worldAABB_max_y": 783.75
                         }
                     },
                     {
@@ -11400,9 +11400,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -11413,7 +11413,7 @@
                             "type": "Component_RigidBody",
                             "active": true,
                             "removed": true,
-                            "isKinematic": true,
+                            "isKinematic": false,
                             "isTrigger": true,
                             "drawCollider": true,
                             "mass": 1.0,
@@ -11505,10 +11505,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 957.9814453125,
-                            "worldAABB_min_y": 32.99553298950195,
-                            "worldAABB_max_x": 1077.5648193359375,
-                            "worldAABB_max_y": 152.57887268066406
+                            "worldAABB_min_x": 1351.314208984375,
+                            "worldAABB_min_y": -13.28662109375,
+                            "worldAABB_max_x": 1516.314208984375,
+                            "worldAABB_max_y": 151.71337890625
                         }
                     },
                     {
@@ -11563,10 +11563,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 957.9814453125,
-                            "worldAABB_min_y": 32.99553298950195,
-                            "worldAABB_max_x": 1077.5648193359375,
-                            "worldAABB_max_y": 152.57887268066406
+                            "worldAABB_min_x": 1351.314208984375,
+                            "worldAABB_min_y": -13.28662109375,
+                            "worldAABB_max_x": 1516.314208984375,
+                            "worldAABB_max_y": 151.71337890625
                         }
                     },
                     {
@@ -11615,10 +11615,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 898.1898193359375,
-                            "worldAABB_min_y": 77.83928680419922,
-                            "worldAABB_max_x": 1137.3564453125,
-                            "worldAABB_max_y": 107.73511505126953
+                            "worldAABB_min_x": 1268.814208984375,
+                            "worldAABB_min_y": 48.58837890625,
+                            "worldAABB_max_x": 1598.814208984375,
+                            "worldAABB_max_y": 89.83837890625
                         }
                     },
                     {
@@ -11668,10 +11668,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 898.1898193359375,
-                            "worldAABB_min_y": 77.83928680419922,
-                            "worldAABB_max_x": 1137.3564453125,
-                            "worldAABB_max_y": 107.73511505126953
+                            "worldAABB_min_x": 1268.814208984375,
+                            "worldAABB_min_y": 48.58837890625,
+                            "worldAABB_max_x": 1598.814208984375,
+                            "worldAABB_max_y": 89.83837890625
                         }
                     },
                     {
@@ -11721,10 +11721,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 957.9814453125,
-                            "worldAABB_min_y": 92.099609375,
-                            "worldAABB_max_x": 1077.5648193359375,
-                            "worldAABB_max_y": 211.68295288085938
+                            "worldAABB_min_x": 1351.314208984375,
+                            "worldAABB_min_y": 68.26461791992188,
+                            "worldAABB_max_x": 1516.314208984375,
+                            "worldAABB_max_y": 233.26461791992188
                         }
                     }
                 ]
@@ -11759,10 +11759,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1034.9632568359375,
-                            "worldAABB_min_y": 92.099609375,
-                            "worldAABB_max_x": 1154.5465087890625,
-                            "worldAABB_max_y": 211.68295288085938
+                            "worldAABB_min_x": 1457.532958984375,
+                            "worldAABB_min_y": 68.26461791992188,
+                            "worldAABB_max_x": 1622.532958984375,
+                            "worldAABB_max_y": 233.26461791992188
                         }
                     }
                 ]
@@ -11797,10 +11797,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1076.8173828125,
-                            "worldAABB_min_y": 133.9537811279297,
-                            "worldAABB_max_x": 1112.6923828125,
-                            "worldAABB_max_y": 169.8287811279297
+                            "worldAABB_min_x": 1515.282958984375,
+                            "worldAABB_min_y": 126.01461791992188,
+                            "worldAABB_max_x": 1564.782958984375,
+                            "worldAABB_max_y": 175.51461791992188
                         }
                     },
                     {
@@ -11850,10 +11850,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 960.3731079101563,
-                            "worldAABB_min_y": 92.099609375,
-                            "worldAABB_max_x": 1079.9564208984375,
-                            "worldAABB_max_y": 211.68295288085938
+                            "worldAABB_min_x": 1354.6141357421875,
+                            "worldAABB_min_y": 68.26461791992188,
+                            "worldAABB_max_x": 1519.6141357421875,
+                            "worldAABB_max_y": 233.26461791992188
                         }
                     }
                 ]
@@ -11888,10 +11888,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1002.227294921875,
-                            "worldAABB_min_y": 133.9537811279297,
-                            "worldAABB_max_x": 1038.102294921875,
-                            "worldAABB_max_y": 169.8287811279297
+                            "worldAABB_min_x": 1412.3641357421875,
+                            "worldAABB_min_y": 126.01461791992188,
+                            "worldAABB_max_x": 1461.8641357421875,
+                            "worldAABB_max_y": 175.51461791992188
                         }
                     },
                     {
@@ -11941,10 +11941,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 885.633544921875,
-                            "worldAABB_min_y": 92.099609375,
-                            "worldAABB_max_x": 1005.2169189453125,
-                            "worldAABB_max_y": 211.68295288085938
+                            "worldAABB_min_x": 1251.4891357421875,
+                            "worldAABB_min_y": 68.26461791992188,
+                            "worldAABB_max_x": 1416.4891357421875,
+                            "worldAABB_max_y": 233.26461791992188
                         }
                     }
                 ]
@@ -11979,10 +11979,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 927.4877319335938,
-                            "worldAABB_min_y": 133.9537811279297,
-                            "worldAABB_max_x": 963.3627319335938,
-                            "worldAABB_max_y": 169.8287811279297
+                            "worldAABB_min_x": 1309.2391357421875,
+                            "worldAABB_min_y": 126.01461791992188,
+                            "worldAABB_max_x": 1358.7391357421875,
+                            "worldAABB_max_y": 175.51461791992188
                         }
                     },
                     {
@@ -12032,10 +12032,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 989.0731201171875,
-                            "worldAABB_min_y": 123.1912841796875,
-                            "worldAABB_max_x": 1046.47314453125,
-                            "worldAABB_max_y": 180.59127807617188
+                            "worldAABB_min_x": 1394.2142333984375,
+                            "worldAABB_min_y": 111.16461944580078,
+                            "worldAABB_max_x": 1473.4141845703125,
+                            "worldAABB_max_y": 190.3646240234375
                         }
                     },
                     {
@@ -12085,10 +12085,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 989.0731201171875,
-                            "worldAABB_min_y": 123.1912841796875,
-                            "worldAABB_max_x": 1046.47314453125,
-                            "worldAABB_max_y": 180.59127807617188
+                            "worldAABB_min_x": 1394.2142333984375,
+                            "worldAABB_min_y": 111.16461944580078,
+                            "worldAABB_max_x": 1473.4141845703125,
+                            "worldAABB_max_y": 190.3646240234375
                         }
                     },
                     {
@@ -12132,9 +12132,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0000001192092896,
                             "localSca_Z": 1.0000001192092896,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -12145,7 +12145,7 @@
                             "type": "Component_RigidBody",
                             "active": true,
                             "removed": true,
-                            "isKinematic": true,
+                            "isKinematic": false,
                             "isTrigger": true,
                             "drawCollider": true,
                             "mass": 100.0,
@@ -12231,9 +12231,9 @@
                             "localSca_X": 0.25,
                             "localSca_Y": 0.2500000298023224,
                             "localSca_Z": 0.2500000298023224,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -12343,9 +12343,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -12377,9 +12377,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -12447,7 +12447,7 @@
                             "fields": [
                                 {
                                     "name": "ParticleSystemTimer",
-                                    "value": 5.0,
+                                    "value": 0.5,
                                     "type": 0
                                 }
                             ]
@@ -12496,9 +12496,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -12632,9 +12632,9 @@
                             "localSca_X": 0.0010000000474974513,
                             "localSca_Y": 0.0010000000474974513,
                             "localSca_Z": 0.0010000000474974513,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -12666,9 +12666,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -12700,9 +12700,9 @@
                             "localSca_X": 100.0,
                             "localSca_Y": 100.0,
                             "localSca_Z": 100.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -12734,9 +12734,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -12779,9 +12779,9 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
@@ -12824,47 +12824,6 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 0.0,
-                            "boudingBoxSca_Y": 0.0,
-                            "boudingBoxSca_Z": 0.0,
-                            "boudingBoxPos_X": 0.0,
-                            "boudingBoxPos_Y": 0.0,
-                            "boudingBoxPos_Z": 0.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_PlayerInput",
-                            "active": true,
-                            "removed": true
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Mesh Effect",
-                "tag": "",
-                "uid": 15696025634388416978,
-                "parentUID": 1326767777895378518,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0,
                             "boudingBoxSca_X": 1.0,
                             "boudingBoxSca_Y": 1.0,
                             "boudingBoxSca_Z": 1.0,
@@ -12875,11 +12834,9 @@
                     },
                     {
                         "Component": {
-                            "type": "Component_Script",
+                            "type": "Component_PlayerInput",
                             "active": true,
-                            "removed": true,
-                            "constructName": "MeshEffect",
-                            "fields": null
+                            "removed": true
                         }
                     }
                 ]

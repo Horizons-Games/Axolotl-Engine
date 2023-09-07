@@ -311,10 +311,18 @@ void WindowHierarchy::SetUpFilter(const std::string& nameFilter)
 	std::list<GameObject*> entireHierarchy =
 		App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot()->GetAllDescendants();
 
+	std::string nameFilterToLower;
+	std::transform(std::begin(nameFilter), std::end(nameFilter), std::back_inserter(nameFilterToLower), ::tolower);
+
 	auto objectsWithName = entireHierarchy | std::views::filter(
-												 [&nameFilter](const GameObject* gameObject)
+												 [&nameFilterToLower](const GameObject* gameObject)
 												 {
-													 return gameObject->GetName().find(nameFilter) != std::string::npos;
+													 std::string gameObjectName = gameObject->GetName();
+													 std::transform(std::begin(gameObjectName),
+																	std::end(gameObjectName),
+																	std::begin(gameObjectName),
+																	::tolower);
+													 return gameObjectName.find(nameFilterToLower) != std::string::npos;
 												 });
 	for (const GameObject* gameObject : objectsWithName)
 	{

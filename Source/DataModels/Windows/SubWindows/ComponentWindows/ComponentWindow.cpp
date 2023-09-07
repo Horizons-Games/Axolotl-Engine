@@ -16,6 +16,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCamera.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCameraSample.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCanvas.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSkybox.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCubemap.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentDirLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentImage.h"
@@ -46,6 +47,7 @@
 #include "Components/ComponentBreakable.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentCameraSample.h"
+#include "Components/ComponentSkybox.h"
 #include "Components/ComponentCubemap.h"
 #include "Components/ComponentDirLight.h"
 #include "Components/ComponentMeshCollider.h"
@@ -129,6 +131,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentTrail>(static_cast<ComponentTrail*>(component));
 			case ComponentType::CUBEMAP:
 				return std::make_unique<WindowComponentCubemap>(static_cast<ComponentCubemap*>(component));
+			case ComponentType::SKYBOX:
+				return std::make_unique<WindowComponentSkybox>(static_cast<ComponentSkybox*>(component));
 			case ComponentType::LINE:
 				return std::make_unique<WindowComponentLine>(static_cast<ComponentLine*>(component));
 			case ComponentType::RENDER:

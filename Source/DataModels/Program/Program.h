@@ -25,6 +25,7 @@ public:
 	void BindUniformFloat4x4(const int location, const float* data, bool transpose);
 	void BindUniformFloat3(const std::string& name, const float3& data);
 	void BindUniformFloat3(const int location, const float3& data);
+	void BindUniformFloat3v(const int location, const std::vector<float3>& data);
 	void BindUniformFloat4(const std::string& name, const float4& data);
 	void BindUniformFloat4(const int location, const float4& data);
 	void BindUniformFloat2(const std::string& name, const float2& data);
@@ -107,6 +108,11 @@ inline void Program::BindUniformFloat3(const std::string& name, const float3& da
 inline void Program::BindUniformFloat3(const int location, const float3& data)
 {
 	glUniform3f(location, data.x, data.y, data.z);
+}
+
+inline void Program::BindUniformFloat3v(const int location, const std::vector<float3>& data)
+{
+	glUniform3fv(location, static_cast<GLsizei>(data.size()), &data[0].x);
 }
 
 inline void Program::BindUniformFloat4(const std::string& name, const float4& data)

@@ -46,6 +46,18 @@
                     "removed": true,
                     "intensity": 1.0
                   }
+                },
+                {
+                    "Component": {
+                        "type": "Component_Skybox",
+                        "active": true,
+                        "removed": true,
+                        "Skybox": {
+                            "enable": true,
+                            "skyboxUID": 4377575066284441384,
+                            "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+                        }
+                    }
                 }
               ]
             }
@@ -7240,7 +7252,7 @@
                 "uid": 4500489434448241040,
                 "parentUID": 16553757055216958851,
                 "enabled": true,
-                "static": false,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -7339,7 +7351,7 @@
                 "uid": 2771581099466463176,
                 "parentUID": 2936065966958249174,
                 "enabled": true,
-                "static": false,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -7438,7 +7450,7 @@
                 "uid": 3414766142340961264,
                 "parentUID": 16553757055216958851,
                 "enabled": false,
-                "static": false,
+                "static": true,
                 "Components": [
                     {
                         "Component": {
@@ -7769,7 +7781,7 @@
                             "fields": [
                                 {
                                     "name": "ParticleSystemTimer",
-                                    "value": 5.0,
+                                    "value": 0.5,
                                     "type": 0
                                 }
                             ]
@@ -8180,10 +8192,6 @@
                 "z": 75.0
             }
         }
-    },
-    "Skybox": {
-        "skyboxUID": 4377575066284441384,
-        "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
     },
     "Cubemap": {
         "cubemapUID": 992078593789236745,

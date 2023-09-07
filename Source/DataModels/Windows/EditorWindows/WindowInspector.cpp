@@ -22,14 +22,22 @@
 #include "Components/ComponentCameraSample.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentSkybox.h"
 #include "Components/ComponentTrail.h"
 #include "Components/ComponentLine.h"
 #include "Components/ComponentAgent.h"
 #include "Components/ComponentObstacle.h"
 
+
+#include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
 #include "Auxiliar/AddComponentAction.h"
+
+namespace
+{
+	const std::string names[] = { "Right", "Left", "Top", "Bottom", "Back", "Front" };
+}
 
 WindowInspector::WindowInspector() :
 	EditorWindow("Inspector"),
@@ -301,8 +309,8 @@ void WindowInspector::InspectSelectedGameObject()
 
 	ImGui::Separator();
 
-	if (WindowRightClick() && lastSelectedGameObject != loadedScene->GetRoot() &&
-		lastSelectedGameObject != loadedScene->GetDirectionalLight())
+	if ((WindowRightClick() && lastSelectedGameObject != loadedScene->GetDirectionalLight()) && !loadedScene->GetRoot() ||
+		(WindowRightClick() && loadedScene->GetRoot() && !lastSelectedGameObject->HasComponent<ComponentSkybox>()))
 	{
 		ImGui::OpenPopup("AddComponent");
 	}
@@ -311,11 +319,22 @@ void WindowInspector::InspectSelectedGameObject()
 	{
 		if (lastSelectedGameObject)
 		{
-			for (const AddComponentAction& action : actions)
+			if (lastSelectedGameObject == loadedScene->GetRoot())
 			{
-				if (action.condition(lastSelectedGameObject) && ImGui::MenuItem(action.actionName.c_str()))
+				if (!lastSelectedGameObject->HasComponent<ComponentSkybox>())
+					if (ImGui::MenuItem("Create Skybox Component"))
+					{
+						AddComponentSkybox();
+					}
+			}
+			else
+			{
+				for (const AddComponentAction& action : actions)
 				{
-					action.callback();
+					if (action.condition(lastSelectedGameObject) && ImGui::MenuItem(action.actionName.c_str()))
+					{
+						action.callback();
+					}
 				}
 			}
 		}
@@ -369,6 +388,9 @@ void WindowInspector::InspectSelectedResource()
 			case ResourceType::Texture:
 				DrawTextureOptions();
 				break;
+			case ResourceType::SkyBox:
+				DrawSkyboxOptions();
+				break;
 			default:
 				break;
 		}
@@ -390,6 +412,33 @@ void WindowInspector::SetResource(const std::weak_ptr<Resource>& resource)
 				break;
 			default:
 				break;
+		}
+	}
+}
+
+
+void WindowInspector::DrawSkyboxOptions()
+{
+	std::shared_ptr<ResourceSkyBox> resourceSkybox = std::dynamic_pointer_cast<ResourceSkyBox>(resource.lock());
+	if (resourceSkybox->GetTextures().size() > 0)
+	{
+		ImGui::Text("Current skybox:");
+		ImGui::SameLine();
+		ImGui::Text(resourceSkybox->GetAssetsPath().c_str());
+		ImGui::SameLine();
+		std::vector<std::shared_ptr<ResourceTexture>> textures = resourceSkybox->GetTextures();
+
+		for (size_t i = 0; i < textures.size(); i++)
+		{
+			ImGui::Text(names[i].c_str());
+			ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(textures[i]->GetGlTexture())),
+							ImVec2(100, 100));
+			ImGui::SameLine();
+			std::string buttonName = "See Resource of " + names[i];
+			if (ImGui::Button(buttonName.c_str()))
+			{
+				resource = textures[i];
+			}
 		}
 	}
 }
@@ -546,6 +595,11 @@ void WindowInspector::AddComponentParticle()
 void WindowInspector::AddComponentBreakable()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::BREAKABLE);
+}
+
+void WindowInspector::AddComponentSkybox()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::SKYBOX);
 }
 
 void WindowInspector::AddComponentTrail()

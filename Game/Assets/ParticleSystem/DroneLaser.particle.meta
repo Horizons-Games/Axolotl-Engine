@@ -3,9 +3,13 @@
     "Type": "ParticleSystem",
     "TexturesAssetPaths": [
         "Assets/Textures/muzzle_01_rotated.png",
-        "Assets/Textures/muzzle_01_rotated.png"
+        "Assets/Textures/muzzle_01_rotated.png",
+        "Assets/Textures/default_particle.png",
+        "Assets/Textures/SoundWave2.png"
     ],
     "ConfigEmitters": [
+        true,
+        true,
         true,
         true
     ]

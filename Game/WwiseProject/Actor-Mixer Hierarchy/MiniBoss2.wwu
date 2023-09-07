@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}" SchemaVersion="110" RootDocumentID="{4D2D502C-0683-46CA-93AE-C19E110AB138}" ParentDocumentID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}">
+	<AudioObjects>
+		<WorkUnit Name="MiniBoss2" ID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}" OwnerID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}" PersistMode="Nested">
+			<ChildrenList>
+				<Sound Name="sfx_miniBoss2_preShot-001" ID="{01223F00-7C82-43E5-AAC0-C0220588DB97}" ShortID="387462399">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-10</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+						</Reference>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="162107-SFX-Whoosh-Hi-Tech_Power_Boost" ID="{D3668054-7BF3-4123-9C6B-14D2C4A00D5D}">
+							<Language>SFX</Language>
+							<AudioFile>162107-SFX-Whoosh-Hi-Tech_Power_Boost.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="244928591"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="162107-SFX-Whoosh-Hi-Tech_Power_Boost" ID="{D3668054-7BF3-4123-9C6B-14D2C4A00D5D}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="sfx_miniBoss2_shot-001" ID="{A9BBE772-C25B-471F-9D53-A9F5BE25E507}" ShortID="557661924">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-16</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+						</Reference>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="259042-Energy_-electric_centrifuge-hi_pitch_up" ID="{E0AF6CEB-5F82-4D58-B952-F463B8457741}">
+							<Language>SFX</Language>
+							<AudioFile>259042-Energy_-electric_centrifuge-hi_pitch_up.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="586038170"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="259042-Energy_-electric_centrifuge-hi_pitch_up" ID="{E0AF6CEB-5F82-4D58-B952-F463B8457741}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Sound Name="sfx_miniBoss2_aiming-001" ID="{60B7CFD0-EAA5-4E8E-86D7-6471D3D6EA4F}" ShortID="645489055">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-8</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+						</Reference>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="305119-RE201_033C_EMF_MOTOR_Doppler_Passes_Sustained_Slow_High_Rate_ELEKTROSLUCH" ID="{9E9ED6E6-8BF4-426E-8D3A-763301EDC401}">
+							<Language>SFX</Language>
+							<AudioFile>305119-RE201_033C_EMF_MOTOR_Doppler_Passes_Sustained_Slow_High_Rate_ELEKTROSLUCH.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="820488217"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="305119-RE201_033C_EMF_MOTOR_Doppler_Passes_Sustained_Slow_High_Rate_ELEKTROSLUCH" ID="{9E9ED6E6-8BF4-426E-8D3A-763301EDC401}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

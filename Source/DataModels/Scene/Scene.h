@@ -17,7 +17,6 @@ class ComponentLine;
 class GameObject;
 
 class Quadtree;
-class Skybox;
 class Cubemap;
 class Updatable;
 
@@ -112,8 +111,9 @@ public:
 	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
 	const std::vector<ComponentLine*>& GetSceneComponentLines() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
-	Skybox* GetSkybox() const;
 	Cubemap* GetCubemap() const;
+	const bool GetCombatMode() const;
+	const float GetEnemiesToDefeat() const;
 	std::vector<ComponentMeshRenderer*> GetMeshRenderers() const;
 	std::vector<AABB> GetBoundingBoxes() const;
 	std::vector<ComponentAgent*> GetAgentComponents() const;
@@ -124,7 +124,6 @@ public:
 
 	void SetRoot(GameObject* newRoot);
 	void SetRootQuadtree(std::unique_ptr<Quadtree> quadtree);
-	void SetSkybox(std::unique_ptr<Skybox> skybox);
 	void SetCubemap(std::unique_ptr<Cubemap> cubemap);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void SetSceneCameras(const std::vector<ComponentCamera*>& cameras);
@@ -133,6 +132,8 @@ public:
 	void SetSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems); // unused
 	void SetComponentLines(const std::vector<ComponentLine*>& componentLines); // unused
 	void SetDirectionalLight(GameObject* directionalLight);
+	void SetCombatMode(bool combatMode);
+	void SetEnemiesToDefeat(float enemiesToDefeat);
 
 	void AddSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void AddSceneCameras(const std::vector<ComponentCamera*>& cameras);
@@ -169,7 +170,6 @@ private:
 	void GenerateLights();
 	void RemoveGameObjectFromScripts(const GameObject* gameObject);
 
-	std::unique_ptr<Skybox> skybox;
 	std::unique_ptr<Cubemap> cubemap;
 	std::unique_ptr<GameObject> root;
 
@@ -208,6 +208,9 @@ private:
 	unsigned ssboSphere;
 	unsigned ssboTube;
 	unsigned ssboLocalIBL;
+
+	bool combatMode;
+	float enemiesToDefeat;
 
 	AABB rootQuadtreeAABB;
 	// Render Objects
@@ -300,11 +303,6 @@ inline Quadtree* Scene::GetRootQuadtree() const
 	return rootQuadtree.get();
 }
 
-inline Skybox* Scene::GetSkybox() const
-{
-	return skybox.get();
-}
-
 inline Cubemap* Scene::GetCubemap() const
 {
 	return cubemap.get();
@@ -368,4 +366,14 @@ inline void Scene::RemoveComponentLine(const ComponentLine* componentLine)
 			return lines == componentLine;
 		}),
 		std::end(sceneComponentLines));
+}
+
+inline const bool Scene::GetCombatMode() const
+{
+	return combatMode;
+}
+
+inline const float Scene::GetEnemiesToDefeat() const
+{
+	return enemiesToDefeat;
 }

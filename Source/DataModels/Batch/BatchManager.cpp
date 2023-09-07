@@ -151,7 +151,7 @@ bool BatchManager::IsACharacter(const ComponentMeshRenderer* newComponent)
 {
 	GameObject* go = newComponent->GetOwner();
 	GameObject* root = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot();
-	while (go != root)
+	while (go != nullptr && go != root)
 	{
 		if (go->GetTag() == "Player" || go->GetTag() == "Enemy")
 		{
