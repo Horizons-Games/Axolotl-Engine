@@ -771,6 +771,9 @@
     <ClCompile Include="DataModels\PostProcess\SSAO.cpp">
       <Filter>DataModels\PostProcess</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Render\Shadows.cpp">
+      <Filter>DataModels\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1586,6 +1589,9 @@
     <ClInclude Include="DataModels\PostProcess\SSAO.h">
       <Filter>DataModels\PostProcess</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Render\Shadows.h">
+      <Filter>DataModels\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1791,6 +1797,9 @@
     </Filter>
     <Filter Include="DataModels\PostProcess">
       <UniqueIdentifier>{378aa69b-879a-45bc-8d90-4c8dc788a32a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Render">
+      <UniqueIdentifier>{701145da-de98-4a67-be5b-f78bd0c29386}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
