@@ -66,12 +66,9 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 
 	if (!playerAttackScript->IsPerfomingJumpAttack())
 	{
-		if (forceScript)
+		if (forceScript && forceScript->IsForceActive())
 		{
-			if (forceScript->IsForceActive())
-			{
-				return;
-			}
+			return;
 		}
 		Move(deltaTime);
 		MoveRotate(deltaTime);
