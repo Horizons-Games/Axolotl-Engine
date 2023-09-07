@@ -9,8 +9,7 @@
 
 #include "Scene/Scene.h"
 
-#include "Skybox/Skybox.h"
-
+#include "ComponentSkybox.h"
 #include "ComponentTransform.h"
 
 #include "FileSystem/Json.h"
@@ -228,7 +227,7 @@ void ComponentLocalIBL::RenderToCubeMap(unsigned int cubemapTex, Frustum& frustu
 	ModuleProgram* modProgram = App->GetModule<ModuleProgram>();
 	Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
-	const Skybox* skybox = scene->GetSkybox();
+	ComponentSkybox* skybox = scene->GetRoot()->GetComponentInternal<ComponentSkybox>();
 
 	GLuint uboCamera = modRender->GetUboCamera();
 
