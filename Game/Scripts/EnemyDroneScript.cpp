@@ -101,6 +101,9 @@ void EnemyDroneScript::CheckState()
 		if (droneState != DroneBehaviours::EXPLOSIONATTACK && componentAnimation->GetActualStateName() != "Flinch"
 			&& flinchAnimationOffset == true)
 		{
+			componentAnimation->SetParameter("IsSeeking", false);
+			componentAnimation->SetParameter("IsAttacking", false);
+			componentAnimation->SetParameter("IsStopToAttack", false);
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
 			heavyAttackScript->TriggerExplosion();
 
@@ -123,6 +126,11 @@ void EnemyDroneScript::CheckState()
 			fastAttackScript->StartAttack();
 
 			componentAnimation->SetParameter("IsSeeking", false);
+			
+			if (droneState == DroneBehaviours::SEEK)
+			{
+				componentAnimation->SetParameter("IsStopToAttack", true);
+			}
 
 			droneState = DroneBehaviours::FASTATTACK;
 		}
@@ -134,6 +142,8 @@ void EnemyDroneScript::CheckState()
 		{
 			patrolScript->StopPatrol();
 			aiMovement->SetMovementStatuses(false, true);
+
+			componentAnimation->SetParameter("IsSeeking", true);
 
 			if (exclamationVFX)
 			{
@@ -220,8 +230,11 @@ void EnemyDroneScript::UpdateBehaviour(float deltaTime)
 
 		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
 
-		if (componentAnimation->GetActualStateName() != "Flinch")
+		if (componentAnimation->GetActualStateName() != "Flinch"
+			&& componentAnimation->GetActualStateName() != "StopToAttack")
 		{
+			componentAnimation->SetParameter("IsStopToAttack", false);
+
 			if (fastAttackScript->IsAttackAvailable())
 			{
 				fastAttackScript->PerformAttack();

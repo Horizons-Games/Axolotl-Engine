@@ -75,8 +75,6 @@ void HealthSystem::Update(float deltaTime)
 	else if (!EntityIsAlive() && owner->CompareTag("Enemy"))
 	{
 		meshEffect->ClearEffect();
-		EnemyDeathScript* enemyDeathManager = owner->GetComponent<EnemyDeathScript>();
-		enemyDeathManager->ManageEnemyDeath();
 	}
 
 	if (damageTaken)
