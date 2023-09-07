@@ -406,6 +406,11 @@ bool PlayerAttackScript::IsAttackAvailable() const
 	return !isAttacking;
 }
 
+bool PlayerAttackScript::IsMeleeAvailable() const
+{
+	return isMelee;
+}
+
 bool PlayerAttackScript::IsPerfomingJumpAttack() const
 {
 	return (currentAttack == AttackType::JUMPFINISHER || currentAttack == AttackType::JUMPNORMAL);

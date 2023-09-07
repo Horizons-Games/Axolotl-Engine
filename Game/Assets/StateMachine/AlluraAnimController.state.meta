@@ -9,9 +9,6 @@
         "Assets/Animation/AlluraControllerV1.Armature_AlluraIdleRandom2Intro.anim",
         "Assets/Animation/AlluraControllerV1.Armature_Attack1AlluraKeeping.anim",
         "Assets/Animation/AlluraControllerV1.Armature_Attack3Allura.anim",
-        "Assets/Animation/BixControllerv4_1.Armature_DashInit.anim",
-        "Assets/Animation/BixControllerv4_1.Armature_DashKeeping.anim",
-        "Assets/Animation/BixControllerv4_1.Armature_DashFinish.anim",
         "Assets/Animation/BixControllerv4_1.Armature_ReceiveDamage.anim",
         "Assets/Animation/Bix.Armature_Death.anim",
         "Assets/Animation/BixControllerv4_1.Armature_Jump.anim",
@@ -20,6 +17,7 @@
         "Assets/Animation/Allura_Characterv2.Armature_Armature_Armature_AreaAttackAllura.002.anim",
         "Assets/Animation/BixControllerv4_1.Armature_JumpAttackRecover.anim",
         "Assets/Animation/AlluraControllerV1.Armature_SpecialAttackAlluraH2.anim",
-        "Assets/Animation/AlluraControllerV1.Armature_SpecialAttackAlluraL.anim"
+        "Assets/Animation/AlluraControllerV1.Armature_SpecialAttackAlluraL.anim",
+        "Assets/Animation/AlluraControllerV1.Armature_AlluraRollKeeping.anim"
     ]
 }

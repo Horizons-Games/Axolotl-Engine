@@ -377,7 +377,15 @@ void PlayerMoveScript::Dash()
 
 	isDashing = true;
 	componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-	componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
+
+	if (playerAttackScript->IsMeleeAvailable())
+	{
+		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
+	}
+	else
+	{
+		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::ROLL);
+	}
 }
 
 bool PlayerMoveScript::IsParalyzed() const
