@@ -7,6 +7,8 @@
 
 #include "FileSystem/UID.h"
 
+#include "PostProcess/SSAO.h"
+
 #define KAWASE_DUAL_SAMPLERS 4
 #define GAUSSIAN_BLUR_SHADOW_MAP 2
 
@@ -50,6 +52,7 @@ public:
 	void SwitchBloomActivation();
 	void ToggleShadows();
 	void ToggleVSM();
+	void ToggleSSAO();
 
 	GLuint GetRenderedTexture() const;
 	float GetObjectDistance(const GameObject* gameObject);
@@ -115,6 +118,7 @@ private:
 
 	BatchManager* batchManager;
 	GBuffer* gBuffer;
+	SSAO* ssao;
 
 	unsigned uboCamera;
 
@@ -192,6 +196,11 @@ inline void ModuleRender::ToggleShadows()
 inline void ModuleRender::ToggleVSM()
 {
 	varianceShadowMapping = !varianceShadowMapping;
+}
+
+inline void ModuleRender::ToggleSSAO()
+{
+	ssao->ToggleSSAO();
 }
 
 inline GLuint ModuleRender::GetRenderedTexture() const
