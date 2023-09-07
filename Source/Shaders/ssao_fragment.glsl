@@ -8,7 +8,7 @@
 #define TANGENT_COLS 4
 
 in vec2 TexCoord;
-out vec4 color;
+out float color;
 
 uniform vec2 screenSize;
 uniform float bias;
@@ -73,5 +73,5 @@ void main()
 		occlusion += (sampleDepth >= samplePos.z + bias ? 1.0 : 0.0) * rangeCheck;
 	}
 
-	color = vec4(vec3(1.0-occlusion/float(KERNEL_SIZE)), 1.0f);
+	color = 1.0-occlusion/float(KERNEL_SIZE);
 }

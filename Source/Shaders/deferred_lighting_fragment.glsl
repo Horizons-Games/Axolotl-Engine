@@ -324,7 +324,7 @@ void main()
     vec4 textureMat = texture(gDiffuse, TexCoord);
     vec4 specularMat = texture(gSpecular, TexCoord);
     vec4 emissiveMat = texture(gEmissive, TexCoord);
-    vec3 ssaoFactor = vec3(texture(gSSAO, TexCoord).r);
+    float ssaoFactor = texture(gSSAO, TexCoord).r;
     float smoothness = specularMat.a;
 
     if(renderMode == 0)
