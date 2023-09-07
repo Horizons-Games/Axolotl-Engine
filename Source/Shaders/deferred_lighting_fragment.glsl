@@ -125,7 +125,8 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, vec3
         vec3 color = spots[i].color.rgb;
         float radius = spots[i].position.w;
         float distance = dot(fragPos - pos, aim);
-        if(distance <= radius)
+
+        if(distance <= radius && distance >= 0.0)
         {
             float intensity = spots[i].color.a;
             float innerAngle = spots[i].innerAngle;
