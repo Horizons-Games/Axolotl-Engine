@@ -324,7 +324,6 @@ void main()
     vec4 textureMat = texture(gDiffuse, TexCoord);
     vec4 specularMat = texture(gSpecular, TexCoord);
     vec4 emissiveMat = texture(gEmissive, TexCoord);
-    float ssaoFactor = texture(gSSAO, TexCoord).r;
     float smoothness = specularMat.a;
 
     if(renderMode == 0)
@@ -382,7 +381,7 @@ void main()
             environmentBRDF, numLevels_IBL) * cubemap_intensity;
 
         vec3 color = ambient + Lo + emissiveMat.rgb;
-        color = useSSAO == 1 ? color*ssaoFactor : color;
+        color = useSSAO == 1 ? color*texture(gSSAO, TexCoord).r : color;
         outColor = vec4(color, 1.0);
     }
     else if (renderMode == 1)

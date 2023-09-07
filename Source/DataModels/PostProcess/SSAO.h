@@ -41,13 +41,13 @@ private:
 		float4 randomTangents[RANDOM_TANGENTS_ROWS][RANDOM_TANGENTS_COLS];
 	};
 
-	GLuint uboKernel = 0;
-	GLuint ssaoFrameBuffer = 0;
-	GLuint gSsao = 0;
+	GLuint uboKernel;
+	GLuint ssaoFrameBuffer;
+	GLuint gSsao;
 	GLuint ssaoBlurFrameBuffer[2] = { 0, 0 };
 	GLuint gSsaoBlured[2] = { 0, 0 };
-	GLuint positionTexture= 0;
-	GLuint normalTexture = 0;
+	GLuint positionTexture;
+	GLuint normalTexture;
 
 	Kernel kernel;
 

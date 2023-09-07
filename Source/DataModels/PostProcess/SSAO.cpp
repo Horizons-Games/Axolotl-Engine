@@ -10,6 +10,12 @@
 
 SSAO::SSAO() : enabled(true)
 {
+	uboKernel = 0;
+	ssaoFrameBuffer = 0;
+	gSsao = 0;
+	positionTexture = 0;
+	normalTexture = 0;
+
 	CreateKernel();
 	CreateRandomTangents();
 }
