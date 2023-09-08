@@ -9,6 +9,7 @@
 #include "Components/ComponentTransform.h"
 #include "GameObject/GameObject.h"
 #include "debugdraw.h"
+#include "Modules/ModuleDebugDraw.h"
 
 #ifndef ENGINE
 	#include "Modules/ModuleEditor.h"
@@ -82,7 +83,7 @@ UpdateStatus ModulePhysics::PreUpdate()
 		ManageCollisions();
 	}
 
-	if (drawableRigidBodies > 0)
+	if (App->GetModule<ModuleDebugDraw>()->IsShowingRigidBody())
 	{
 		dynamicsWorld->debugDrawWorld();
 	}
@@ -200,7 +201,7 @@ void ModulePhysics::AddRigidBody(ComponentRigidBody* rb, btRigidBody* body)
 {
 	if (rigidBodyComponents[rb->GetID()] != nullptr)
 	{
-		LOG_WARNING("Trying to add rigidbody twice! Owner: {}", rb->GetOwner());
+		//LOG_WARNING("Trying to add rigidbody twice! Owner: {}", rb->GetOwner());
 		return;
 	}
 	dynamicsWorld->addRigidBody(body);

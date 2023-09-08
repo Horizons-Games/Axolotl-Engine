@@ -582,7 +582,7 @@ const char* DDRenderInterfaceCoreGL::textFragShaderSrc =
 
 DDRenderInterfaceCoreGL* ModuleDebugDraw::implementation = 0;
 
-ModuleDebugDraw::ModuleDebugDraw() : showBoundingBoxes(false)
+ModuleDebugDraw::ModuleDebugDraw() : showBoundingBoxes(false),showRigidBody(false)
 {
 }
 

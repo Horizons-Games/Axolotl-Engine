@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{1A4E0FA7-87FC-4E7B-9672-FD69A89FDDCB}" SchemaVersion="110" RootDocumentID="{AA397C40-3770-4439-AC7E-10F711A90387}" ParentDocumentID="{DA6DFEB4-9E33-4AA8-8321-65EA7BC79F93}">
+	<Events>
+		<WorkUnit Name="MiniBoss2" ID="{1A4E0FA7-87FC-4E7B-9672-FD69A89FDDCB}" OwnerID="{DA6DFEB4-9E33-4AA8-8321-65EA7BC79F93}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="sfx_boostOfEnergy_aiming" ID="{A14D30C6-E4F8-43F6-BF5C-0F271181BCAC}">
+					<ChildrenList>
+						<Action Name="" ID="{EA609FC0-BFBB-4C2E-8CE0-9D27D5E37D20}" ShortID="1009507030">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_miniBoss2_aiming-001" ID="{60B7CFD0-EAA5-4E8E-86D7-6471D3D6EA4F}" WorkUnitID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_boostOfEnergy_preShot" ID="{2B5C714B-1DB6-49E0-9D56-44B924183C42}">
+					<ChildrenList>
+						<Action Name="" ID="{1D3C6DAE-03D3-46CD-A341-914862D2EC87}" ShortID="565838030">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_miniBoss2_preShot-001" ID="{01223F00-7C82-43E5-AAC0-C0220588DB97}" WorkUnitID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_boostOfEnergy_shot" ID="{5B08699F-3F2B-49CB-8EA3-37C2E29B6FD7}">
+					<ChildrenList>
+						<Action Name="" ID="{FA3DFF49-1CAE-4FD1-90E7-39677FD268A4}" ShortID="689173404">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_miniBoss2_shot-001" ID="{A9BBE772-C25B-471F-9D53-A9F5BE25E507}" WorkUnitID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_boostOfEnergy_shot_stop" ID="{90EA0421-69A3-4DC0-A9F6-A449EC4122A7}">
+					<ChildrenList>
+						<Action Name="" ID="{960DF5E5-A399-458C-9D93-0C4BEBDB7806}" ShortID="401897803">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_miniBoss2_shot-001" ID="{A9BBE772-C25B-471F-9D53-A9F5BE25E507}" WorkUnitID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_boostOfEnergy_aiming_stop" ID="{2A0E2D09-EEAD-49F0-AA68-63AB0B96D8C4}">
+					<ChildrenList>
+						<Action Name="" ID="{5BC9F693-E253-4E9D-B8BA-53D52852FCBF}" ShortID="355420262">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_miniBoss2_aiming-001" ID="{60B7CFD0-EAA5-4E8E-86D7-6471D3D6EA4F}" WorkUnitID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>
