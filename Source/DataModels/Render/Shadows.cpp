@@ -6,7 +6,9 @@
 #include "Batch/BatchManager.h"
 
 #include "Camera/Camera.h"
+#include "Camera/CameraGameObject.h"
 
+#include "Components/ComponentCamera.h"
 #include "Components/ComponentTransform.h"
 
 #include "GameObject/GameObject.h"
@@ -23,6 +25,8 @@
 #include "Program/Program.h";
 
 #include "Scene/Scene.h"
+
+#include "debugdraw.h"
 
 Shadows::Shadows()
 {
@@ -228,15 +232,10 @@ float2 Shadows::ParallelReduction(GBuffer* gBuffer)
 	return minMax;
 }
 
-void Shadows::RenderShadowMap(const GameObject* light, const float2& minMax)
+void Shadows::RenderShadowMap(const GameObject* light, const float2& minMax, Camera* camera)
 {
-	// Get light position
-	const ComponentTransform* lightTransform = light->GetComponent<ComponentTransform>();
-	const float3& lightPos = lightTransform->GetGlobalPosition();
-
-	// Compute camera frustrum bounding sphere
-	math::Frustum* cameraFrustum = new Frustum(*App->GetModule<ModuleCamera>()->GetCamera()->GetFrustum());
-
+	math::Frustum* cameraFrustum = new Frustum(*camera->GetFrustum());
+	
 	// SDSM: Calculus for the final near an far planes
 	float n = cameraFrustum->NearPlaneDistance();
 	float f = cameraFrustum->FarPlaneDistance();
@@ -251,6 +250,7 @@ void Shadows::RenderShadowMap(const GameObject* light, const float2& minMax)
 
 	cameraFrustum->SetViewPlaneDistances(lightNear, lightFar);
 
+	// Compute camera frustrum bounding sphere
 	float3 corners[8];
 	cameraFrustum->GetCornerPoints(corners);
 
@@ -265,6 +265,9 @@ void Shadows::RenderShadowMap(const GameObject* light, const float2& minMax)
 	// Compute bounding box
 	math::Frustum frustum;
 
+	const ComponentTransform* lightTransform = light->GetComponent<ComponentTransform>();
+	const float3& lightPos = lightTransform->GetGlobalPosition();
+
 	float3 lightFront = lightTransform->GetGlobalForward();
 	float3 lightRight = Cross(lightFront, float3(0.0f, 1.0f, 0.0f)).Normalized();
 	float3 lifghtUp = math::Cross(lightRight, lightFront).Normalized();
@@ -274,6 +277,9 @@ void Shadows::RenderShadowMap(const GameObject* light, const float2& minMax)
 	frustum.SetUp(lifghtUp);
 	frustum.SetViewPlaneDistances(0.0f, sphereRadius * 2.0f);
 	frustum.SetOrthographic(sphereRadius * 2.0f, sphereRadius * 2.0f);
+
+	//dd::frustum(cameraFrustum->ViewProjMatrix().Inverted(), dd::colors::Yellow);
+	//dd::frustum(frustum.ViewProjMatrix().Inverted(), dd::colors::Yellow);;
 
 	// Frustum culling with the created light frustum to obtain the meshes of the scene to take into account
 	std::vector<GameObject*> objectsInFrustum =

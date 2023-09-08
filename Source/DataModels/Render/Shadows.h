@@ -3,9 +3,12 @@
 #include "GL/glew.h"
 
 #define GAUSSIAN_BLUR_SHADOW_MAP 2
+#define FRUSTUM_PARTITIONS 1
+#define FRUSTUM_INTERVALS { 0.25 }
 
-class Program;
+class Camera;
 class GBuffer;
+class Program;
 
 class Shadows
 {
@@ -20,7 +23,7 @@ public:
 	void BindShadowMap(Program* program);
 
 	float2 ParallelReduction(GBuffer* gBuffer);
-	void RenderShadowMap(const GameObject* light, const float2& minMax);
+	void RenderShadowMap(const GameObject* light, const float2& minMax, Camera* camera);
 	void ShadowDepthVariance();
 	void GaussianBlur();
 

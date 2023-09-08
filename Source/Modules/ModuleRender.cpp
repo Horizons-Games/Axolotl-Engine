@@ -265,29 +265,33 @@ UpdateStatus ModuleRender::Update()
 
 	GameObject* player = modulePlayer->GetPlayer(); // we can make all of this variables a class variable to save time
 
+	// Camera
+	Camera* checkedCamera = GetFrustumCheckedCamera();
+	Camera* engineCamera = App->GetModule<ModuleCamera>()->GetCamera();
+
 #ifdef ENGINE
 	if (App->IsOnPlayMode())
 #else
 	if (player)
 #endif
 	{
-		AddToRenderList(player);
+		AddToRenderList(player, checkedCamera);
 	}
 
 	GameObject* goSelected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
 
-	FillRenderList(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree());
+	FillRenderList(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRootQuadtree(), checkedCamera);
 	
 	std::vector<GameObject*> nonStaticsGOs = App->GetModule<ModuleScene>()->GetLoadedScene()->GetNonStaticObjects();
 
 	for (GameObject* nonStaticObj : nonStaticsGOs)
 	{
-		AddToRenderList(nonStaticObj);
+		AddToRenderList(nonStaticObj, checkedCamera);
 	}
 	
 	if (goSelected)
 	{
-		AddToRenderList(goSelected);
+		AddToRenderList(goSelected, checkedCamera, true);
 	}
 
 	if (App->GetModule<ModuleDebugDraw>()->IsShowingBoundingBoxes())
@@ -302,8 +306,8 @@ UpdateStatus ModuleRender::Update()
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_METALLIC));
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_SPECULAR));
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_METALLIC), engineCamera);
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_SPECULAR), engineCamera);
 
 	// -------- DEFERRED GEOMETRY -----------
 	gBuffer->BindFrameBuffer();
@@ -333,7 +337,7 @@ UpdateStatus ModuleRender::Update()
 	{
 		// ---- PARALLEL REDUCTION ----
 		float2 minMax = shadows->ParallelReduction(gBuffer);
-		shadows->RenderShadowMap(loadedScene->GetDirectionalLight(), minMax);
+		shadows->RenderShadowMap(loadedScene->GetDirectionalLight(), minMax, checkedCamera);
 
 		if (shadows->UseVSM())
 		{
@@ -348,7 +352,7 @@ UpdateStatus ModuleRender::Update()
 	if (ssao->IsEnabled())
 	{
 		program = modProgram->GetProgram(ProgramType::SSAO);
-		BindCameraToProgram(program);
+		BindCameraToProgram(program, engineCamera);
 		ssao->CalculateSSAO(program, w, h);
 
 		program = modProgram->GetProgram(ProgramType::GAUSSIAN_BLUR);
@@ -356,9 +360,9 @@ UpdateStatus ModuleRender::Update()
 	}
 
 	// -------- DEFERRED LIGHTING ---------------
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT), engineCamera);
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR), engineCamera);
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT), engineCamera);
 
 	// -------- DEFERRED LIGHTING ---------------
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("DEFERRED LIGHTING"), "DEFERRED LIGHTING");
@@ -713,14 +717,12 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 	ssao->SetTextures(gBuffer->GetPositionTexture(), gBuffer->GetNormalTexture());
 }
 
-void ModuleRender::FillRenderList(const Quadtree* quadtree)
+void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 {
 	if (quadtree == nullptr)
 	{
 		return;
 	}
-
-	Camera* camera = GetFrustumCheckedCamera();
 		
 	float3 cameraPos = camera->GetPosition();
 
@@ -774,26 +776,23 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 				}
 			}
 
-			FillRenderList(quadtree->GetFrontRightNode()); // And also call all the children to render
-			FillRenderList(quadtree->GetFrontLeftNode());
-			FillRenderList(quadtree->GetBackRightNode());
-			FillRenderList(quadtree->GetBackLeftNode());
+			FillRenderList(quadtree->GetFrontRightNode(), camera); // And also call all the children to render
+			FillRenderList(quadtree->GetFrontLeftNode(), camera);
+			FillRenderList(quadtree->GetBackRightNode(), camera);
+			FillRenderList(quadtree->GetBackLeftNode(), camera);
 		}
 		else
 		{
-			FillRenderList(quadtree->GetFrontRightNode());
-			FillRenderList(quadtree->GetFrontLeftNode());
-			FillRenderList(quadtree->GetBackRightNode());
-			FillRenderList(quadtree->GetBackLeftNode());
+			FillRenderList(quadtree->GetFrontRightNode(), camera);
+			FillRenderList(quadtree->GetFrontLeftNode(), camera);
+			FillRenderList(quadtree->GetBackRightNode(), camera);
+			FillRenderList(quadtree->GetBackLeftNode(), camera);
 		}
 	}
 }
 
-void ModuleRender::AddToRenderList(const GameObject* gameObject)
+void ModuleRender::AddToRenderList(const GameObject* gameObject, Camera* camera, bool recursive)
 {
-	
-	Camera* camera = GetFrustumCheckedCamera();
-
 	float3 cameraPos = camera->GetPosition();
 
 	if (gameObject->GetParent() == nullptr)
@@ -813,19 +812,26 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject)
 		ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
 		if (gameObject->IsActive() && (mesh == nullptr || mesh->IsEnabled()))
 		{
-			const ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
-			float dist = Length(cameraPos - transform->GetGlobalPosition());
+			ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 
-			gameObjectsInFrustrum.insert(gameObject);
-			objectsInFrustrumDistances[gameObject] = dist;
+			if (camera->IsInside(transform->GetEncapsuledAABB()))
+			{
+				if (gameObject->IsActive() && gameObject->IsEnabled())
+				{
+					float dist = Length(cameraPos - transform->GetGlobalPosition());
+
+					gameObjectsInFrustrum.insert(gameObject);
+					objectsInFrustrumDistances[gameObject] = dist;
+				}
+			}
 		}
 	}
 
-	if (!gameObject->GetChildren().empty())
+	if (recursive && !gameObject->GetChildren().empty())
 	{
 		for (GameObject* children : gameObject->GetChildren())
 		{
-			AddToRenderList(children);
+			AddToRenderList(children, camera, recursive);
 		}
 	}
 }
@@ -885,13 +891,13 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 	}
 }
 
-void ModuleRender::BindCameraToProgram(Program* program)
+void ModuleRender::BindCameraToProgram(Program* program, Camera* camera)
 {
 	program->Activate();
 
-	const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
-	const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
-	float3 viewPos = App->GetModule<ModuleCamera>()->GetCamera()->GetPosition();
+	const float4x4& view = camera->GetFrustum()->ViewMatrix();
+	const float4x4& proj = camera->GetFrustum()->ProjectionMatrix();
+	float3 viewPos = camera->GetPosition();
 
 	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);

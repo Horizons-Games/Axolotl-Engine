@@ -65,8 +65,8 @@ public:
 
 	BatchManager* GetBatchManager() const;
 
-	void FillRenderList(const Quadtree* quadtree);
-	void AddToRenderList(const GameObject* gameObject);
+	void FillRenderList(const Quadtree* quadtree, Camera* camera);
+	void AddToRenderList(const GameObject* gameObject, Camera* camera, bool recursive = false);
 
 	bool IsObjectInsideFrustrum(const GameObject* gameObject);
 
@@ -98,7 +98,7 @@ private:
 
 	void DrawHighlight(GameObject* gameObject);
 
-	void BindCameraToProgram(Program* program);
+	void BindCameraToProgram(Program* program, Camera* camera);
 	void BindCubemapToProgram(Program* program);
 
 	void KawaseDualFiltering();
