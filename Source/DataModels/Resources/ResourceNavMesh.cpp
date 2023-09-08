@@ -428,6 +428,10 @@ ResourceNavMesh::ResourceNavMesh(UID resourceUID,
 ResourceNavMesh::~ResourceNavMesh()
 {
 	CleanUp();
+	delete ctx;
+	delete talloc;
+	delete tcomp;
+	delete tmproc;
 }
 
 void DrawTiles(duDebugDraw* dd, dtTileCache* tc)
