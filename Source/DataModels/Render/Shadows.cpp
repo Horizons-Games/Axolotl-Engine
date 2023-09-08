@@ -44,10 +44,20 @@ Shadows::Shadows()
 
 	useShadows = true;
 	useVarianceShadowMapping = true;
+
+	for (unsigned i = 0; i <= FRUSTUM_PARTITIONS; ++i)
+	{
+		frustums[i] = new Frustum();
+	}
 }
 
 Shadows::~Shadows()
 {
+	for (unsigned i = 0; i <= FRUSTUM_PARTITIONS; ++i)
+	{
+		delete frustums[i];
+	}
+
 	CleanUp();
 }
 
@@ -250,6 +260,8 @@ void Shadows::RenderShadowMap(const GameObject* light, const float2& minMax, Cam
 
 	cameraFrustum->SetViewPlaneDistances(lightNear, lightFar);
 
+	PartitionIntoSubFrustums(cameraFrustum);
+
 	// Compute camera frustrum bounding sphere
 	float3 corners[8];
 	cameraFrustum->GetCornerPoints(corners);
@@ -370,4 +382,22 @@ void Shadows::GaussianBlur()
 	program->Deactivate();
 
 	glPopDebugGroup();
+}
+
+void Shadows::PartitionIntoSubFrustums(Frustum* frustum)
+{
+	float lastNearPlane = frustum->NearPlaneDistance();
+
+	for (unsigned i = 0; i < FRUSTUM_PARTITIONS; ++i)
+	{
+		float farPlane = frustum->FarPlaneDistance() * frustumIntervals[i] + lastNearPlane;
+		
+		*frustums[i] = *frustum;
+		frustums[i]->SetViewPlaneDistances(lastNearPlane, farPlane);
+
+		lastNearPlane = farPlane;
+	}
+
+	frustums[FRUSTUM_PARTITIONS] = new Frustum(*frustum);
+	frustums[FRUSTUM_PARTITIONS]->SetViewPlaneDistances(lastNearPlane, frustum->FarPlaneDistance());
 }

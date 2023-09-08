@@ -3,8 +3,10 @@
 #include "GL/glew.h"
 
 #define GAUSSIAN_BLUR_SHADOW_MAP 2
+
 #define FRUSTUM_PARTITIONS 1
-#define FRUSTUM_INTERVALS { 0.25 }
+
+constexpr float frustumIntervals[FRUSTUM_PARTITIONS] = { 0.25 };
 
 class Camera;
 class GBuffer;
@@ -26,6 +28,7 @@ public:
 	void RenderShadowMap(const GameObject* light, const float2& minMax, Camera* camera);
 	void ShadowDepthVariance();
 	void GaussianBlur();
+	void PartitionIntoSubFrustums(Frustum* frustum);
 
 	bool UseShadows() const;
 	bool UseVSM() const;
@@ -48,6 +51,8 @@ private:
 
 	float4x4 lightView;
 	float4x4 lightProj;
+
+	Frustum* frustums[FRUSTUM_PARTITIONS + 1];
 
 	bool useShadows;
 	bool useVarianceShadowMapping;
