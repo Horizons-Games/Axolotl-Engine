@@ -73,32 +73,35 @@ UpdateStatus ModuleUI::Update()
 		JoystickMovement joystickMovement = input->GetDirection();
 		lastButtonChange = SDL_GetTicks() / 1000.0f;
 
-		int i = currentButtonIndex;
-
+		int newIndex = currentButtonIndex;
 		do
 		{
 			if (joystickMovement.verticalMovement == JoystickVerticalDirection::FORWARD)
 			{
-				i = (i - 1 + sortedButtonsIds.size()) % sortedButtonsIds.size();
+				// We sum the size to avoid negative values, if this is not used we can not jump
+				// from the first button to the last
+				newIndex = (newIndex - 1 + sortedButtonsIds.size()) % sortedButtonsIds.size();
 			}
+			// When the current button is not enabled we keep looping until we find one enabled,
+			// this avoids getting stuck in a disabled button when we change from a scene to another
 			else if (joystickMovement.verticalMovement == JoystickVerticalDirection::BACK ||
 					 !scene->GetLoadedScene()
-						  ->SearchGameObjectByID(sortedButtonsIds[i])
+						  ->SearchGameObjectByID(sortedButtonsIds[newIndex])
 						  ->GetComponent<ComponentButton>()
 						  ->IsEnabled())
 			{
-				i = (i + 1) % sortedButtonsIds.size();
+				newIndex = (newIndex + 1) % sortedButtonsIds.size();
 			}
 
 			if (scene->GetLoadedScene()
-					->SearchGameObjectByID(sortedButtonsIds[i])
+					->SearchGameObjectByID(sortedButtonsIds[newIndex])
 					->GetComponent<ComponentButton>()
 					->IsEnabled())
 			{
-				currentButtonIndex = i;
+				currentButtonIndex = newIndex;
 				break;
 			}
-		} while (i != currentButtonIndex);
+		} while (newIndex != currentButtonIndex);
 	}
 
 	for (const ComponentCanvas* canvas : canvasScene)
