@@ -11,6 +11,7 @@
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/SendTriggerCollision.h"
+#include "../Scripts/SeekBehaviourScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -38,7 +39,6 @@ shootingPosition(nullptr), transform(nullptr), audioSource(nullptr)
 	REGISTER_FIELD(deactivationDuration, float);
 	REGISTER_FIELD(mesh, ComponentTransform*);
 	REGISTER_FIELD(light, ComponentLight*);
-	REGISTER_FIELD(target, ComponentTransform*);
 	REGISTER_FIELD(damageZone, ComponentRigidBody*);
 	REGISTER_FIELD(shootingPosition, ComponentTransform*);
 }
@@ -47,6 +47,7 @@ void BoostOfEnergy::Start()
 {
 	transform = owner->GetComponent<ComponentTransform>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
+	target = owner->GetComponent<SeekBehaviourScript>()->GetTarget()->GetComponent<ComponentTransform>();
 
 	mesh->GetOwner()->Disable();
 	light->Disable();

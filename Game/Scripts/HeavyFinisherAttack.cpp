@@ -178,7 +178,6 @@ void HeavyFinisherAttack::HitEnemy()
 	{
 		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CANNON_SHOT_IMPACT); // Provisional sfx
 	}
-	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
 	vfx->SetPlayAtStart(true);
 	vfx->Play();
 	enemiesAlreadyHit.push_back(target);
