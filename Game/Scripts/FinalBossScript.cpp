@@ -27,7 +27,7 @@ void FinalBossScript::Start()
 	enemyType = EnemyTypes::FINAL_BOSS;
 
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
-	rigidBody->SetKpForce(0.25f);
+	//rigidBody->SetKpForce(0.25f);
 	transform = owner->GetComponent<ComponentTransform>();
 	targetTransform = target->GetComponent<ComponentTransform>();
 
@@ -105,7 +105,7 @@ void FinalBossScript::TryAttacksIndividually()
 	if (!isPerformingAnAttack)
 	{
 		ReactivateMovement();
-		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING); 
+		patrolScript->RandomPatrolling(false); 
 		if (bossState != FinalBossStates::WALKING)
 		{
 			patrolScript->StartPatrol();
@@ -353,6 +353,7 @@ void FinalBossScript::ManageLastResortPhase()
 	{
 		if (bossState == FinalBossStates::WALKING)
 		{
+			
 			patrolScript->StopPatrol();
 		}
 		shockWaveAttackScript->TriggerNormalShockWaveAttack(targetTransform);

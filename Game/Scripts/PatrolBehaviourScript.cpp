@@ -100,17 +100,20 @@ void PatrolBehaviourScript::CheckNextWaypoint()
 
 void PatrolBehaviourScript::RandomPatrolling(bool isFirstPatrolling)
 {
-	if (isFirstPatrolling)
+	/*if (isFirstPatrolling)
 	{
 		GetNearestPatrollingPoint();
 	}
 	else if (ownerTransform->GetGlobalPosition().
 		Equals(waypointsPatrol[currentWayPoint]->GetGlobalPosition(), 2.0f))
+	{*/
+	if (isFirstPatrolling)
 	{
 		int randomWaypointSelected = rand() % static_cast<int>(waypointsPatrol.size());
 
 		currentWayPoint = randomWaypointSelected;
 	}
+	//}
 }
 
 void PatrolBehaviourScript::GetNearestPatrollingPoint()
