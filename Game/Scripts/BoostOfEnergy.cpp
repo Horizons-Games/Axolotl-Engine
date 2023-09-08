@@ -47,7 +47,7 @@ void BoostOfEnergy::Start()
 {
 	transform = owner->GetComponent<ComponentTransform>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
-	target = owner->GetComponent<SeekBehaviourScript>()->GetTarget()->GetComponent<ComponentTransform>();
+	target = owner->GetParent();
 
 	mesh->GetOwner()->Disable();
 	light->Disable();
@@ -91,7 +91,7 @@ void BoostOfEnergy::Update(float deltaTime)
 		if (isPlayerInDamageZone && (lastDamageTime >= damageFrequency))
 		{
 			lastDamageTime = 0.0f;
-			target->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(attackDamage);
+			target->GetComponent<HealthSystem>()->TakeDamage(attackDamage);
 		}
 
 		shootingTimer += deltaTime;
