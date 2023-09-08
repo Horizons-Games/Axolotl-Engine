@@ -72,38 +72,39 @@ UpdateStatus ModuleNavigation::PostUpdate()
 
 void ModuleNavigation::SaveOptions(Json& meta)
 {
+	Json jsonNavMesh = meta["NavMesh"];
 	if (navMesh)
 	{
-		Json jsonNavMesh = meta["NavMesh"];
-
 		jsonNavMesh["navMeshUID"] = static_cast<UID>(navMesh->GetUID());
 		jsonNavMesh["assetPathNavMesh"] = navMesh->GetAssetsPath().c_str();
+	}
+	else
+	{
+		jsonNavMesh["navMeshUID"] = 0;
+		jsonNavMesh["assetPathNavMesh"] = "";
 	}
 }
 
 void ModuleNavigation::LoadOptions(Json& meta)
 {
 	Json jsonNavMesh = meta["NavMesh"];
-	if (jsonNavMesh.Size() > 0)
-	{
-		std::shared_ptr<ResourceNavMesh> resourceNavMesh;
+	std::shared_ptr<ResourceNavMesh> resourceNavMesh;
 #ifdef ENGINE
-		std::string path = jsonNavMesh["assetPathNavMesh"];
-		bool resourceExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
-		if (resourceExists)
-		{
-			resourceNavMesh = App->GetModule<ModuleResources>()->RequestResource<ResourceNavMesh>(path);
-		}
+	std::string path = jsonNavMesh["assetPathNavMesh"];
+	bool resourceExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
+	if (resourceExists)
+	{
+		resourceNavMesh = App->GetModule<ModuleResources>()->RequestResource<ResourceNavMesh>(path);
+	}
 #else
-		UID uid = jsonNavMesh["navMeshUID"];
+	UID uid = jsonNavMesh["navMeshUID"];
+	if (uid != 0)
+	{
 		resourceNavMesh = App->GetModule<ModuleResources>()->SearchResource<ResourceNavMesh>(uid);
+	}
 
 #endif
-		if (resourceNavMesh)
-		{
-			SetNavMesh(resourceNavMesh);
-		}
-	}
+	SetNavMesh(resourceNavMesh);
 }
 
 void ModuleNavigation::BakeNavMesh()
