@@ -143,7 +143,10 @@ void NavMeshImporter::Save(const std::shared_ptr<ResourceNavMesh>& resource, cha
 	cursor += bytes;
 
 	if (tileCache == nullptr)
+	{
 		return;
+	}
+
 	for (int i = 0; i < tileCache->getTileCount(); i++)
 	{
 		const dtCompressedTile* tile = tileCache->getTile(i);
@@ -164,8 +167,7 @@ void NavMeshImporter::Save(const std::shared_ptr<ResourceNavMesh>& resource, cha
 		cursor += bytes;
 
 		bytes = sizeof(unsigned char) * tile->dataSize;
-
-		memcpy(cursor, tile->data, bytes);
+		memcpy_s(cursor, bytes, tile->data, bytes);
 		cursor += bytes;
 	}
 }
@@ -357,9 +359,14 @@ void NavMeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceNavMe
 			break;
 		}
 
-		unsigned char* data = new unsigned char;
+		unsigned char* data = (unsigned char*) malloc(tileHeader[1]);
+		if (!data)
+		{
+			break;
+		}
+		memset(data, 0, tileHeader[1]);
 		bytes = sizeof(unsigned char) * tileHeader[1];
-		memcpy(data, fileBuffer, bytes);
+		memcpy_s(data, bytes, fileBuffer, bytes);
 		fileBuffer += bytes;
 		resource->AddTile(data, tileHeader[1]);
 	}

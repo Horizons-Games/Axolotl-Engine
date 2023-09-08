@@ -535,10 +535,6 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 {
 	CleanUp();
 
-	talloc = new LinearAllocator(32000);
-	tcomp = new FastLZCompressor;
-	tmproc = new MeshProcess;
-	
 	navMesh = dtAllocNavMesh();
 	if (!navMesh)
 	{
@@ -637,10 +633,6 @@ bool ResourceNavMesh::Build(Scene* scene)
 		LOG_ERROR("There's no mesh to build");
 		return false;
 	}
-
-	talloc = new LinearAllocator(32000);
-	tcomp = new FastLZCompressor;
-	tmproc = new MeshProcess;
 
 	float bmin[3] = { FLT_MAX, FLT_MAX, FLT_MAX };
 	float bmax[3] = { FLT_MIN, FLT_MIN, FLT_MIN };

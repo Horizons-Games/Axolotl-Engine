@@ -406,7 +406,6 @@ void ModuleResources::ReimportResource(UID resourceUID)
 			char* saveBuffer = {};
 			unsigned int size = 0;
 			navMeshImporter->Save(navMeshResource, saveBuffer, size);
-
 			App->GetModule<ModuleFileSystem>()->Save(navMeshResource->GetAssetsPath().c_str(), saveBuffer, size);
 			delete saveBuffer;
 			break;
