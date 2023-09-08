@@ -13,8 +13,8 @@ class Scene;
 struct NavMeshHeader
 {
 	int numTiles;
-	const float* bmin;
 	int maxTiles;
+	float bmin[3];
 };
 
 class ResourceNavMesh : virtual public Resource

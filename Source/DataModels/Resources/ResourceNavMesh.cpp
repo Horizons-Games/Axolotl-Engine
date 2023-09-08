@@ -682,8 +682,8 @@ bool ResourceNavMesh::Build(Scene* scene)
 	const int th = (gh + ts - 1) / ts;
 
 	LOG_DEBUG("Building navigation:");
-	LOG_DEBUG(" - %d x %d cells", cfg.width, cfg.height);
-	LOG_DEBUG(" - %.1fK verts, %.1fK tris", verts.size() / 1000.0f, ntris / 1000.0f);
+	//LOG_DEBUG(" - %d x %d cells", cfg.width, cfg.height);
+	//LOG_DEBUG(" - %.1fK verts, %.1fK tris", verts.size() / 1000.0f, ntris / 1000.0f);
 
 	int tileBits = rcMin((int) dtIlog2(dtNextPow2(tw * th * EXPECTED_LAYERS_PER_TILE)), 14);
 	if (tileBits > 14)
@@ -810,7 +810,7 @@ bool ResourceNavMesh::Build(Scene* scene)
 
 	//RELEASE(chunkyMesh);
 
-	LOG_DEBUG("navmeshMemUsage = %.1f kB", navmeshMemUsage / 1024.0f);
+	//LOG_DEBUG("navmeshMemUsage = %.1f kB", navmeshMemUsage / 1024.0f);
 
 	InitCrowd();
 
@@ -924,13 +924,6 @@ void ResourceNavMesh::CleanUp()
 
 	dtFreeTileCache(tileCache);
 	tileCache = nullptr;
-
-	delete ctx;
-
-	delete talloc;
-	delete tcomp;
-	delete tmproc;
-	
 }
 
 dtCrowd* ResourceNavMesh::GetCrowd() const
@@ -964,12 +957,10 @@ NavMeshHeader ResourceNavMesh::GetNavMeshHeader() const
 	if (navMesh == nullptr || tileCache == nullptr)
 	{
 		header.numTiles = 0;
-		float def[3] = {};
-		header.bmin = def;
 		header.maxTiles = 0;
 		return header;
 	}
-	header.bmin = navMesh->getParams()->orig;
+	std::copy(navMesh->getParams()->orig, navMesh->getParams()->orig + 3, header.bmin);
 	header.maxTiles = tileCache->getParams()->maxTiles;
 	return header;
 }
