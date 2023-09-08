@@ -81,7 +81,7 @@ void ModuleResources::CreateDefaultResource(ResourceType type, const std::string
 	{
 		case ResourceType::NavMesh:
 			assetsPath += NAVMESH_EXTENSION;
-			App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/DefaultNav.nav", assetsPath);
+			App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/DefaultNavMesh.nav", assetsPath);
 			ImportResource(assetsPath);
 			break;
 		case ResourceType::Material:
