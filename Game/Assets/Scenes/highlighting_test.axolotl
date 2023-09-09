@@ -40,6 +40,18 @@
                     "removed": true,
                     "intensity": 1.0
                   }
+                },
+                {
+                        "Component": {
+                            "type": "Component_Skybox",
+                            "active": true,
+                            "removed": true,
+                            "Skybox": {
+                                "enable": true,
+                                "skyboxUID": 627031165035159897,
+                                "skyboxAssetPath": "Assets/SkyBox/city.sky"
+                            }
+                        }
                 }
               ]
             }
