@@ -30,10 +30,11 @@ void PlayerHackingUseScript::Start()
 
 void PlayerHackingUseScript::Update(float deltaTime)
 {
+
 	if (input->GetKey(SDL_SCANCODE_H) != KeyState::IDLE && !isHackingActive)
 	{
 		FindHackZone(hackingTag);
-		if (hackZone && !hackZone->GetCompleted())
+		if (hackZone && !hackZone->IsCompleted())
 		{
 			InitHack();
 		}
@@ -53,22 +54,26 @@ void PlayerHackingUseScript::Update(float deltaTime)
 			{
 				userKeyInputs.push_back(keyCombination[keyIndex]);
 				keyIndex++;
+				LOG_DEBUG("user add key to combination");
 			}
 
 			if (input->GetGamepadButton(buttonCombination[buttonIndex]) != KeyState::IDLE)
 			{
 				userButtonInputs.push_back(buttonCombination[buttonIndex]);
 				buttonIndex++;
+				LOG_DEBUG("user add button to combination");
 			}
 
 			if (userKeyInputs == keyCombination)
 			{
+				LOG_DEBUG("hacking completed");
 				FinishHack();
 				hackZone->SetCompleted();
 			}
 
 			if (userButtonInputs == buttonCombination)
 			{
+				LOG_DEBUG("hacking completed");
 				FinishHack();
 				hackZone->SetCompleted();
 			}
@@ -121,6 +126,7 @@ void PlayerHackingUseScript::InitHack()
 	keyIndex = 0;
 
 	PrintCombination();
+	LOG_DEBUG("hacking is active");
 }
 
 void PlayerHackingUseScript::FinishHack()
@@ -130,6 +136,8 @@ void PlayerHackingUseScript::FinishHack()
 
 	userKeyInputs.clear();
 	userButtonInputs.clear();
+
+	LOG_DEBUG("hacking is finished");
 }
 
 void PlayerHackingUseScript::DisableAllInteractions()

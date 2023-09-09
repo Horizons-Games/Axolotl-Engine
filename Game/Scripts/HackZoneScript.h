@@ -16,7 +16,7 @@ public:
 	float GetMaxTime() const;
 	float GetSequenceSize() const;
 
-	bool GetCompleted() const;
+	bool IsCompleted() const;
 	void SetCompleted();
 
 	const std::vector<SDL_Scancode>& GetKeyCombination() const;
@@ -61,7 +61,7 @@ inline const std::vector<SDL_GameControllerButton>& HackZoneScript::GetButtonCom
 	return buttonCombination;
 }
 
-inline bool HackZoneScript::GetCompleted() const
+inline bool HackZoneScript::IsCompleted() const
 {
 	return completed;
 }
