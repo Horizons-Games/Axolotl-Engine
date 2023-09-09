@@ -9,6 +9,7 @@
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
 #include "Modules/ModuleUI.h"
+#include "ModuleNavigation.h"
 
 #include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Cubemap/Cubemap.h"
@@ -374,6 +375,7 @@ void StartJsonLoad(Json&& sceneJson)
 		loadedScene->SetRootQuadtree(std::make_unique<Quadtree>(AABB(float3::zero, float3::zero)));
 		rootQuadtree = loadedScene->GetRootQuadtree();
 		rootQuadtree->LoadOptions(sceneJson);
+		App->GetModule<ModuleNavigation>()->LoadOptions(sceneJson);
 	}
 
 	auto createCubemap = [sceneJson]() mutable

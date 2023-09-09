@@ -27,10 +27,10 @@
 #include "DataModels/Batch/BatchManager.h"
 #include "DataModels/GBuffer/GBuffer.h"
 
+#include "DataStructures/Quadtree.h"
+
 #include "FileSystem/ModuleResources.h"
 #include "FileSystem/ModuleFileSystem.h"
-
-#include "DataStructures/Quadtree.h"
 
 #include "Program/Program.h"
 
@@ -140,6 +140,7 @@ ModuleRender::~ModuleRender()
 {
 	delete batchManager;
 	delete gBuffer;
+	delete ssao;
 	objectsInFrustrumDistances.clear();
 	gameObjectsInFrustrum.clear();
 }
@@ -163,6 +164,7 @@ bool ModuleRender::Init()
 
 	batchManager = new BatchManager();
 	gBuffer = new GBuffer();
+	ssao = new SSAO();
 	renderShadows = true;
 	varianceShadowMapping = true;
 
@@ -218,6 +220,8 @@ bool ModuleRender::Init()
 	glGenTextures(1, &shadowVarianceTexture);
 
 	glGenBuffers(1, &minMaxBuffer);
+
+	ssao->InitBuffers();
 
 	std::pair<int, int> windowSize = window->GetWindowSize();
 	UpdateBuffers(windowSize.first, windowSize.second);
@@ -351,18 +355,34 @@ UpdateStatus ModuleRender::Update()
 			GaussianBlur(w, h);
 		}
 	}
+	
+	Program* program;
 
+	// SSAO Calculus and Blurring
+	bool ssaoActivated = ssao->IsEnabled();
+
+	if (ssaoActivated)
+	{
+		program = modProgram->GetProgram(ProgramType::SSAO);
+		BindCameraToProgram(program);
+		ssao->CalculateSSAO(program, w, h);
+
+		program = modProgram->GetProgram(ProgramType::GAUSSIAN_BLUR);
+		ssao->BlurSSAO(program, w, h);
+	}
+
+	// -------- DEFERRED LIGHTING ---------------
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
 
 	// -------- DEFERRED LIGHTING ---------------
-
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("DEFERRED LIGHTING"), "DEFERRED LIGHTING");
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	Program* program = modProgram->GetProgram(ProgramType::DEFERRED_LIGHT);
+	program = modProgram->GetProgram(ProgramType::DEFERRED_LIGHT);
 	program->Activate();
 
 	gBuffer->BindTexture();
@@ -385,9 +405,17 @@ UpdateStatus ModuleRender::Update()
 	}
 	program->BindUniformInt("useShadows", static_cast<int>(renderShadows));
 	program->BindUniformInt("useVSM", static_cast<int>(varianceShadowMapping));
+	program->BindUniformInt("useSSAO", static_cast<int>(ssaoActivated));
 
 	//Use to debug other Gbuffer/value default = 0 position = 1 normal = 2 diffuse = 3 specular = 4 and emissive = 5
 	program->BindUniformInt("renderMode", modeRender);
+
+	// SSAO texture
+	if (ssaoActivated)
+	{
+		glActiveTexture(GL_TEXTURE6);
+		glBindTexture(GL_TEXTURE_2D, ssao->GetSSAOTexture());
+	}
 
 	glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
 
@@ -401,7 +429,7 @@ UpdateStatus ModuleRender::Update()
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
 	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
-
+	glPopDebugGroup();
 	// -------- PRE-FORWARD ----------------------
 	if (loadedScene->GetRoot()->HasComponent<ComponentSkybox>())
 	{
@@ -480,7 +508,6 @@ UpdateStatus ModuleRender::Update()
 	}
 
 	// -------- POST EFFECTS ---------------------
-
 	KawaseDualFiltering();
 
 	// Color correction
@@ -526,7 +553,7 @@ UpdateStatus ModuleRender::Update()
 #endif // ENGINE
 
 
-	if (navigation->GetDrawNavMesh())
+	if (navigation->GetNavMesh() != nullptr && navigation->GetDrawNavMesh())
 	{
 		navigation->DrawGizmos();
 	}
@@ -544,6 +571,7 @@ UpdateStatus ModuleRender::Update()
 UpdateStatus ModuleRender::PostUpdate()
 {
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 
 	SDL_GL_SwapWindow(App->GetModule<ModuleWindow>()->GetWindow());
 
@@ -754,6 +782,10 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RG32F, width, height);
 
 	glBindTexture(GL_TEXTURE_2D, 0); //Unbind the texture
+
+	// SSAO
+	ssao->UpdateBuffers(width, height);
+	ssao->SetTextures(gBuffer->GetPositionTexture(), gBuffer->GetNormalTexture());
 }
 
 void ModuleRender::FillRenderList(const Quadtree* quadtree)
@@ -774,7 +806,6 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree)
 		{
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
-
 				ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
 				// If an object doesn't have transform component it doesn't need to draw
 				if (transform == nullptr)

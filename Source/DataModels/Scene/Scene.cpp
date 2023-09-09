@@ -39,6 +39,7 @@
 
 #include "Modules/ModuleScene.h"
 #include "Modules/ModulePlayer.h"
+#include "Modules/ModuleNavigation.h"
 
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
@@ -148,7 +149,11 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					gos.push_back(gameObject);
+					ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
+					if (ObjectInFrustum(frustum, transform->GetEncapsuledAABB()))
+					{
+						gos.push_back(gameObject);
+					}
 				}
 			}
 		}
@@ -158,7 +163,11 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					gos.push_back(gameObject);
+					ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
+					if (ObjectInFrustum(frustum, transform->GetEncapsuledAABB()))
+					{
+						gos.push_back(gameObject);
+					}
 				}
 			}
 
@@ -1435,6 +1444,7 @@ void Scene::UpdateSceneAreaTube(const ComponentAreaLight* compTube)
 void Scene::InitNewEmptyScene()
 {
 	App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
+	App->GetModule<ModuleNavigation>()->SetNavMesh(nullptr);
 
 	root = std::make_unique<GameObject>("New Scene");
 	root->InitNewEmptyGameObject();
