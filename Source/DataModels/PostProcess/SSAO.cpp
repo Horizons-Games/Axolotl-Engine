@@ -5,7 +5,7 @@
 
 #include "Program/Program.h"
 
-#define BIAS 0.025f
+#define BIAS 0.05f
 #define RADIUS 1.5f
 
 SSAO::SSAO() : enabled(true)
