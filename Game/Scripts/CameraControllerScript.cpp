@@ -14,7 +14,7 @@
 REGISTERCLASS(CameraControllerScript);
 
 CameraControllerScript::CameraControllerScript() : Script(),
-		samplePointsObject(nullptr), transform(nullptr), player{ (nullptr),(nullptr) }
+		samplePointsObject(nullptr), transform(nullptr)
 {
 	REGISTER_FIELD(samplePointsObject, GameObject*);
 	REGISTER_FIELD_WITH_ACCESSORS(PlayerGameObject, std::vector<GameObject*>);
@@ -37,7 +37,14 @@ void CameraControllerScript::Start()
 	}
 	transform = owner->GetComponent<ComponentTransform>();
 	camera = GetOwner()->GetComponentInternal<ComponentCamera>();
-	playerTransform = player[0]->GetComponent<ComponentTransform>();
+	Assert(!players.empty(), "Player empty");
+
+	for (GameObject* player : players) 
+	{
+		Assert(player, "One of the players is null");
+	}
+
+	playerTransform = players[currentPlayerIndex]->GetComponent<ComponentTransform>();
 
 	finalTargetPosition = transform->GetGlobalPosition();
 	finalTargetOrientation = transform->GetGlobalRotation();
@@ -127,10 +134,10 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 	}
 }
 
-void CameraControllerScript::ChangeCurrentPlayer(int numPlayer) 
+void CameraControllerScript::ChangeCurrentPlayer() 
 {
-
-	playerTransform = player[numPlayer]->GetComponent<ComponentTransform>();
+	currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+	playerTransform = players[currentPlayerIndex]->GetComponent<ComponentTransform>();
 
 }
 

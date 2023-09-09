@@ -8,7 +8,6 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class PlayerJumpScript;
 class PlayerMoveScript;
-class CameraControllerScript;
 
 class PlayerManagerScript : public Script
 {
@@ -17,15 +16,12 @@ public:
 	~PlayerManagerScript() override = default;
 
 	void PreUpdate(float deltaTime) override {};
-	void Update(float deltaTime) override;
 	void PostUpdate(float deltaTime) override {};
 
 	float GetPlayerAttack() const;
 	float GetPlayerDefense() const;
 	float GetPlayerSpeed() const;
 	float GetPlayerRotationSpeed() const;
-
-	void TogglePlayerScripts();
 
 	void IncreasePlayerAttack(float attackIncrease);
 	void IncreasePlayerDefense(float defenseIncrease);
@@ -47,9 +43,6 @@ private:
 	float playerDefense;
 	float playerSpeed;
 	float playerRotationSpeed;
-	float controlledPlayerNum;
-	GameObject* mainCamera;
-	CameraControllerScript* camera;
 
 	// All Principal PlayerManagers
 	PlayerMoveScript* movementManager;

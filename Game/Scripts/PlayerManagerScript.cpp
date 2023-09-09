@@ -6,61 +6,26 @@
 #include "../Scripts/PlayerJumpScript.h"
 #include "../Scripts/PlayerRotationScript.h"
 #include "../Scripts/PlayerMoveScript.h"
-#include "../Scripts/CameraControllerScript.h"
 #include "Application.h"
 
 REGISTERCLASS(PlayerManagerScript);
 
-PlayerManagerScript::PlayerManagerScript() : Script(), camera(nullptr), mainCamera(nullptr), input(nullptr), controlledPlayerNum(0), isActivePlayer(false), playerAttack(20.0f), playerDefense(0.f), playerSpeed(6.0f)
+PlayerManagerScript::PlayerManagerScript() : Script(), input(nullptr), isActivePlayer(false), playerAttack(20.0f), playerDefense(0.f), playerSpeed(6.0f)
 {
 	REGISTER_FIELD(isActivePlayer, bool);
-	REGISTER_FIELD(controlledPlayerNum, float);
 	REGISTER_FIELD(playerAttack, float);
 	REGISTER_FIELD(playerDefense, float);
 	REGISTER_FIELD(playerSpeed, float);
 	REGISTER_FIELD(playerRotationSpeed, float);
-	REGISTER_FIELD(mainCamera, GameObject*);
 }
 
 void PlayerManagerScript::Start()
 {
 	input = App->GetModule<ModuleInput>();
 	
-	camera = mainCamera->GetComponent<CameraControllerScript>();
 	jumpManager = owner->GetComponent<PlayerJumpScript>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
 }
-
-void PlayerManagerScript::Update(float deltaTime)
-{
-	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
-	{
-		TogglePlayerScripts();
-	}
-}
-
-void PlayerManagerScript::TogglePlayerScripts()
-{
-	std::vector<ComponentScript*> scriptComponents = owner->GetComponents<ComponentScript>();
-
-	for (ComponentScript* script : scriptComponents)
-	{
-		if (script->GetConstructName() == "PlayerMoveScript" || script->GetConstructName() == "PlayerJumpScript")
-		{
-			if (isActivePlayer)
-			{
-				script->Disable();
-			}
-			else
-			{
-				script->Enable();
-				camera->ChangeCurrentPlayer(controlledPlayerNum);
-			}
-		}
-	}
-	isActivePlayer = !isActivePlayer;
-}
-
 
 bool PlayerManagerScript::IsGrounded() const
 {
