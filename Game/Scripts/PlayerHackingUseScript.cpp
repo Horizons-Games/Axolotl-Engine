@@ -129,7 +129,7 @@ void PlayerHackingUseScript::InitHack()
 	buttonIndex = 0;
 	keyIndex = 0;
 
-	PrintCombination();
+	PrintCombination(); //SUBSTITUTE WITH CANVAS UI
 	LOG_DEBUG("hacking is active");
 }
 

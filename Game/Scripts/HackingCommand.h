@@ -3,6 +3,7 @@
 #include "Scripting\Script.h"
 #include <vector>
 
+
 class HackingCommand : public Script
 {
 public:
@@ -11,8 +12,7 @@ public:
 
 	void Start() override;
 
-private:
-
-	
+	HackingCommands GetCommand(SDL_Scancode key);
+	HackingCommands GetCommand(SDL_GameControllerButton key);
 };
 
