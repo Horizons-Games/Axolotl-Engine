@@ -32,6 +32,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 {
 
 	currentTime += deltaTime;
+
 	if (input->GetKey(SDL_SCANCODE_H) != KeyState::IDLE && !isHackingActive)
 	{
 		FindHackZone(hackingTag);
@@ -51,19 +52,20 @@ void PlayerHackingUseScript::Update(float deltaTime)
 		else
 		{
 
-			if (input->GetKey(keyCombination[keyIndex]) != KeyState::IDLE)
+			if (input->GetKey(keyCombination[keyIndex]) == KeyState::UP)
 			{
 				userKeyInputs.push_back(keyCombination[keyIndex]);
 				keyIndex++;
 				LOG_DEBUG("user add key to combination");
 			}
 
-			if (input->GetGamepadButton(buttonCombination[buttonIndex]) != KeyState::IDLE)
+			if (input->GetGamepadButton(buttonCombination[buttonIndex]) == KeyState::UP)
 			{
 				userButtonInputs.push_back(buttonCombination[buttonIndex]);
 				buttonIndex++;
 				LOG_DEBUG("user add button to combination");
 			}
+
 
 			if (userKeyInputs == keyCombination)
 			{
