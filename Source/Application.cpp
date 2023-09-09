@@ -171,6 +171,7 @@ void Application::OnPlay()
 	{
 		// Active Scripts
 		GetModule<ModuleScene>()->OnPlay();
+		GetModule<ModuleUI>()->SetUpButtons();
 	}
 }
 
@@ -181,6 +182,7 @@ void Application::OnStop()
 	GetModule<ModulePlayer>()->UnloadNewPlayer();
 	onPlayTimer.Stop();
 	GetModule<ModuleScene>()->OnStop();
+	GetModule<ModuleUI>()->ClearButtons();
 }
 
 void Application::OnPause()

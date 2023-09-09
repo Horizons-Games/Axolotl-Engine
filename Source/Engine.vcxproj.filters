@@ -502,7 +502,6 @@
     <ClCompile Include="FileSystem\UIDGenerator.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
-    <ClCompile Include="StdAfx.cpp" />
     <ClCompile Include="..\Game\Scripts\UIOptionsMenu.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
