@@ -167,7 +167,7 @@ void NavMeshImporter::Save(const std::shared_ptr<ResourceNavMesh>& resource, cha
 		cursor += bytes;
 
 		bytes = sizeof(unsigned char) * tile->dataSize;
-		memcpy_s(cursor, bytes, tile->data, bytes);
+		memcpy(cursor, tile->data, bytes);
 		cursor += bytes;
 	}
 }
@@ -359,14 +359,9 @@ void NavMeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceNavMe
 			break;
 		}
 
-		unsigned char* data = (unsigned char*) malloc(tileHeader[1]);
-		if (!data)
-		{
-			break;
-		}
-		memset(data, 0, tileHeader[1]);
-		bytes = sizeof(unsigned char) * tileHeader[1];
-		memcpy_s(data, bytes, fileBuffer, bytes);
+		unsigned char* data = new unsigned char [tileHeader[1]]{};
+		bytes = sizeof(unsigned char) * (unsigned int) tileHeader[1];
+		memcpy(data, fileBuffer, bytes);
 		fileBuffer += bytes;
 		resource->AddTile(data, tileHeader[1]);
 	}

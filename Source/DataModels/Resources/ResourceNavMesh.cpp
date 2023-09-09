@@ -958,6 +958,7 @@ NavMeshHeader ResourceNavMesh::GetNavMeshHeader() const
 	}
 	std::copy(navMesh->getParams()->orig, navMesh->getParams()->orig + 3, header.bmin);
 	header.maxTiles = tileCache->getParams()->maxTiles;
+	header.numTiles = 0;
 	return header;
 }
 
