@@ -7,8 +7,6 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAgent.h"
 
-#include "AxoLog.h"
-
 REGISTERCLASS(AIMovement);
 
 AIMovement::AIMovement() : Script(), componentTransform(nullptr), rigidBody(nullptr), movementSpeed(1.0f),
@@ -201,8 +199,6 @@ void AIMovement::CheckIfHasArrived()
 {
 	float2 currentPos = float2(componentTransform->GetGlobalPosition().x, componentTransform->GetGlobalPosition().z);
 	float2 destinyPos = float2(targetPosition.x, targetPosition.z);
-
-	LOG_DEBUG("distance to target: {}", currentPos.Distance(destinyPos));
 
 	if (currentPos.Distance(destinyPos) < targetPositionOffset)
 	{
