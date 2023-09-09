@@ -92,6 +92,9 @@ bool ModuleProgram::Start()
 	programs.push_back(CreateProgram("shadow_depth_variance.glsl", "ShadowDepthVariance"));
 
 	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "gaussian_blur.glsl", "GaussianBlur"));
+
+	programs.push_back(CreateProgram("render_clip_space_vertex_3d.glsl", "gaussian_blur_3d_fragment.glsl", 
+									 "gaussian_blur_3d_geometry.glsl", "GaussianBlur3D"));
 	
 	//programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "bloom.glsl", "Bloom"));
 

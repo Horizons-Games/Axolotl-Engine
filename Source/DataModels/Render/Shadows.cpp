@@ -48,7 +48,7 @@ Shadows::Shadows()
 	}
 
 	useShadows = true;
-	useVarianceShadowMapping = false;
+	useVarianceShadowMapping = true;
 	useCSMDebug = false;
 }
 
@@ -344,9 +344,10 @@ void Shadows::ShadowDepthVariance()
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D_ARRAY, gShadowMaps);
 
-	glBindImageTexture(0, shadowVarianceTexture, 0, false, 0, GL_WRITE_ONLY, GL_RG32F);
+	glBindImageTexture(0, shadowVarianceTexture, 0, GL_TRUE, 0, GL_WRITE_ONLY, GL_RG32F);
 
 	program->BindUniformInt2("inSize", screenSize.first, screenSize.second);
+	program->BindUniformInt("cascadeCount", FRUSTUM_PARTITIONS + 1);
 
 	unsigned int numGroupsX = (screenSize.first + (16 - 1)) / 16;
 	unsigned int numGroupsY = (screenSize.second + (8 - 1)) / 8;
@@ -365,7 +366,7 @@ void Shadows::GaussianBlur()
 {
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Gaussian Blur"), "Gaussian Blur");
 
-	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::GAUSSIAN_BLUR);
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::GAUSSIAN_BLUR_3D);
 	program->Activate();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, blurShadowMapBuffer[0]);

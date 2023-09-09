@@ -1,6 +1,7 @@
 #version 460
 
 layout(binding = 0) uniform sampler2DArray inTexture;
+uniform int cascadeCount;
 
 uniform layout(binding=0, rg32f) writeonly image2DArray outImage;
 uniform ivec2 inSize;
@@ -13,12 +14,11 @@ void main()
 	{
 		ivec2 inCoord = ivec2(gl_GlobalInvocationID.xy);
 
-		float depth0 = texelFetch(inTexture, ivec3(inCoord, 0), 0).r;
-		float depth1 = texelFetch(inTexture, ivec3(inCoord, 1), 0).r;
-		float sqdDepth0 = depth0*depth0; 
-		float sqdDepth1 = depth1*depth1;
-
-		imageStore(outImage, ivec3(inCoord, 0), vec4(depth0, sqdDepth0, 0.0, 1.0));
-		imageStore(outImage, ivec3(inCoord, 1), vec4(depth1, sqdDepth1, 0.0, 1.0));
+		for (unsigned int i = 0; i < cascadeCount; ++i)
+		{
+			float depth = texelFetch(inTexture, ivec3(inCoord, i), 0).r;
+			float sqdDepth = depth*depth;
+			imageStore(outImage, ivec3(inCoord, i), vec4(depth, sqdDepth, 0.0, 1.0));
+		}
 	}
 }
