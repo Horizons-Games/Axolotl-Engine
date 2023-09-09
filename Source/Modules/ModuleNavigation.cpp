@@ -26,22 +26,11 @@ bool ModuleNavigation::Init()
 
 bool ModuleNavigation::Start()
 {
-	ModuleResources* moduleResources = App->GetModule<ModuleResources>();
-	moduleResources->CreateDefaultResource(ResourceType::NavMesh, "navMesh");
-	navMesh = moduleResources->RequestResource<ResourceNavMesh>("Assets/NavMesh/navMesh.nav");
-
 	return true;
 }
 
 bool ModuleNavigation::CleanUp()
 {
-	// WIP: This should be done when playMode is stopped
-	/*Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-	for (ComponentAgent* agent : currentScene->GetAgentComponents())
-	{
-		agent->RemoveAgentFromCrowd();
-	}*/
-
 	return true;
 }
 
@@ -81,22 +70,55 @@ UpdateStatus ModuleNavigation::PostUpdate()
 	return UpdateStatus::UPDATE_CONTINUE;
 }
 
-void ModuleNavigation::ChangeNavMesh(UID navMeshId_)
+void ModuleNavigation::SaveOptions(Json& meta)
 {
-	// App->resources->DecreaseReferenceCount(navMeshId);
-	navMeshId = navMeshId_;
-	// App->resources->IncreaseReferenceCount(navMeshId);
+	Json jsonNavMesh = meta["NavMesh"];
+	if (navMesh)
+	{
+		jsonNavMesh["navMeshUID"] = static_cast<UID>(navMesh->GetUID());
+		jsonNavMesh["assetPathNavMesh"] = navMesh->GetAssetsPath().c_str();
+	}
+	else
+	{
+		jsonNavMesh["navMeshUID"] = 0;
+		jsonNavMesh["assetPathNavMesh"] = "";
+	}
+}
+
+void ModuleNavigation::LoadOptions(Json& meta)
+{
+	Json jsonNavMesh = meta["NavMesh"];
+	std::shared_ptr<ResourceNavMesh> resourceNavMesh;
+#ifdef ENGINE
+	std::string path = jsonNavMesh["assetPathNavMesh"];
+	bool resourceExists = path != "" && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
+	if (resourceExists)
+	{
+		resourceNavMesh = App->GetModule<ModuleResources>()->RequestResource<ResourceNavMesh>(path);
+	}
+#else
+	UID uid = jsonNavMesh["navMeshUID"];
+	if (uid != 0)
+	{
+		resourceNavMesh = App->GetModule<ModuleResources>()->SearchResource<ResourceNavMesh>(uid);
+	}
+
+#endif
+	SetNavMesh(resourceNavMesh);
 }
 
 void ModuleNavigation::BakeNavMesh()
 {
 	/*MSTimer timer;
 	timer.Start();*/
-	LOG_DEBUG("Loading NavMesh");
+	LOG_DEBUG("Baking NavMesh");
 	bool generated = navMesh->Build(App->GetModule<ModuleScene>()->GetLoadedScene());
 	// unsigned timeMs = timer.Stop();
 	if (generated)
 	{
+		navMesh->SetChanged(true);
+		App->GetModule<ModuleResources>()->ReimportResource(navMesh->GetUID());
+
 		navMesh->GetTileCache()->update(App->GetDeltaTime(), navMesh->GetNavMesh());
 		navMesh->GetCrowd()->update(App->GetDeltaTime(), nullptr);
 
@@ -116,6 +138,11 @@ void ModuleNavigation::DrawGizmos()
 std::shared_ptr<ResourceNavMesh> ModuleNavigation::GetNavMesh()
 {
 	return navMesh;
+}
+
+void ModuleNavigation::SetNavMesh(const std::shared_ptr<ResourceNavMesh> resource)
+{
+	navMesh = resource;
 }
 
 void ModuleNavigation::Raycast(float3 startPosition, float3 targetPosition, bool& hitResult, float3& hitPosition)

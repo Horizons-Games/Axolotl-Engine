@@ -526,7 +526,7 @@ UpdateStatus ModuleRender::Update()
 #endif // ENGINE
 
 
-	if (navigation->GetDrawNavMesh())
+	if (navigation->GetNavMesh() != nullptr && navigation->GetDrawNavMesh())
 	{
 		navigation->DrawGizmos();
 	}

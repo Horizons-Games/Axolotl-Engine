@@ -39,6 +39,7 @@
 
 #include "Modules/ModuleScene.h"
 #include "Modules/ModulePlayer.h"
+#include "Modules/ModuleNavigation.h"
 
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
@@ -1443,6 +1444,7 @@ void Scene::UpdateSceneAreaTube(const ComponentAreaLight* compTube)
 void Scene::InitNewEmptyScene()
 {
 	App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
+	App->GetModule<ModuleNavigation>()->SetNavMesh(nullptr);
 
 	root = std::make_unique<GameObject>("New Scene");
 	root->InitNewEmptyGameObject();
