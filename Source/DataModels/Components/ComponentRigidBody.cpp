@@ -32,7 +32,6 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 	btRigidBody::btRigidBodyConstructionInfo inforb(100.f, motionState.get(), shape.get());
 	inforb.m_friction = 0.0f;
 	rigidBody = std::make_unique<btRigidBody>(inforb);
-	//App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	SetUpMobility();
 
 	rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
@@ -73,7 +72,6 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
 	inforb.m_friction = 0.0f;
 	rigidBody = std::make_unique<btRigidBody>(inforb);
 
-	//App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	SetUpMobility();
 
 	rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
