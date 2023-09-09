@@ -107,6 +107,8 @@ ComponentScript::ComponentScript(const ComponentScript& other) :
 	{
 		return;
 	}
+
+	script->SetContainer(this);
 	for (const TypeFieldPair& typeFieldPair : script->GetFields())
 	{
 		switch (typeFieldPair.first)
@@ -301,6 +303,15 @@ void ComponentScript::SetOwner(GameObject* owner)
 	if (script)
 	{
 		script->SetOwner(owner);
+	}
+}
+
+void ComponentScript::SetScript(IScript* script)
+{
+	this->script = script;
+	if (script)
+	{
+		script->SetContainer(this);
 	}
 }
 
@@ -685,4 +696,5 @@ void ComponentScript::InstantiateScript(const Json& jsonComponent)
 	}
 
 	script->SetOwner(GetOwner());
+	script->SetContainer(this);
 }

@@ -754,6 +754,9 @@
       <Filter>Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="Formatter.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowNavMeshInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
     <ClCompile Include="Modules\ModuleRandom.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -1567,6 +1570,9 @@
       <Filter>Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="Formatter.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowNavMeshInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
     <ClInclude Include="Modules\ModuleRandom.h">
       <Filter>Modules</Filter>
     </ClInclude>
