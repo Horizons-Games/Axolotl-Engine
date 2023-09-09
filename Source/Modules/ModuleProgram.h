@@ -51,6 +51,10 @@ public:
 private:
 	std::unique_ptr<Program> CreateProgram(const std::string& vtxShaderFileName,
 										   const std::string& frgShaderFileName,
+										   const std::string& gtyShaderFileName,
+										   const std::string& programName);
+	std::unique_ptr<Program> CreateProgram(const std::string& vtxShaderFileName,
+										   const std::string& frgShaderFileName,
 										   const std::string& programName);
 	std::unique_ptr<Program> CreateProgram(const std::string& computeShaderName,
 										   const std::string& programName);

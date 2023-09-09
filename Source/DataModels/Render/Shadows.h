@@ -4,9 +4,9 @@
 
 #define GAUSSIAN_BLUR_SHADOW_MAP 2
 
-#define FRUSTUM_PARTITIONS 1
+#define FRUSTUM_PARTITIONS 2
 
-constexpr float frustumIntervals[FRUSTUM_PARTITIONS] = { 0.25 };
+constexpr float frustumIntervals[FRUSTUM_PARTITIONS] = { 0.05f, 0.15f };
 
 class Camera;
 class GBuffer;
@@ -22,13 +22,12 @@ public:
 	void InitBuffers();
 	void UpdateBuffers(unsigned width, unsigned height);
 
-	void BindShadowMap(Program* program);
+	void BindShadowMaps(Program* program);
 
 	float2 ParallelReduction(GBuffer* gBuffer);
 	void RenderShadowMap(const GameObject* light, const float2& minMax, Camera* camera);
 	void ShadowDepthVariance();
 	void GaussianBlur();
-	void PartitionIntoSubFrustums(Frustum* frustum);
 
 	bool UseShadows() const;
 	bool UseVSM() const;
@@ -37,9 +36,24 @@ public:
 	void ToggleVSM();
 
 private:
+	void PartitionIntoSubFrustums(Frustum* frustum);
+	Frustum& ComputeLightFrustum(const GameObject* light, Frustum* cameraFrustum);
+
+private:
+	struct LightSpaceMatrices
+	{
+		float4x4 proj[FRUSTUM_PARTITIONS + 1];
+		float4x4 view[FRUSTUM_PARTITIONS + 1];
+	};
+
+	struct CascadePlaneDistances
+	{
+		float farDistances[FRUSTUM_PARTITIONS + 1];
+	};
+
 	// Shadow Mapping buffers and textures
 	GLuint shadowMapBuffer = 0;
-	GLuint gShadowMap = 0;
+	GLuint gShadowMaps = 0;
 	GLuint parallelReductionInTexture = 0;
 	GLuint parallelReductionOutTexture = 0;
 	GLuint minMaxBuffer = 0;
@@ -47,12 +61,16 @@ private:
 	// Variance Shadow Mapping buffers and textures
 	GLuint shadowVarianceTexture = 0;
 	GLuint blurShadowMapBuffer[GAUSSIAN_BLUR_SHADOW_MAP];
-	GLuint gBluredShadowMap[GAUSSIAN_BLUR_SHADOW_MAP];
+	GLuint gBluredShadowMaps[GAUSSIAN_BLUR_SHADOW_MAP];
 
-	float4x4 lightView;
-	float4x4 lightProj;
+	GLuint uboFrustums;
+	GLuint uboCascadeDistances;
+
+	float4x4 cameraView;
 
 	Frustum* frustums[FRUSTUM_PARTITIONS + 1];
+	LightSpaceMatrices frustumMatrices;
+	CascadePlaneDistances cascadeDistances;
 
 	bool useShadows;
 	bool useVarianceShadowMapping;

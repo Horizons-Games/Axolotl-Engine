@@ -23,24 +23,24 @@
 
 ComponentDirLight::ComponentDirLight() : ComponentLight(LightType::DIRECTIONAL, false)
 {
-	shadowBias = float2(0.006f, 0.0009f);
+	shadowBias = float2(0.37f, 0.005f);
 }
 
 ComponentDirLight::ComponentDirLight(GameObject* parent) : ComponentLight(LightType::DIRECTIONAL, parent, false)
 {
-	shadowBias = float2(0.006f, 0.0009f);
+	shadowBias = float2(0.37f, 0.005f);
 }
 
 ComponentDirLight::ComponentDirLight(const float3& color, float intensity) :
 	ComponentLight(LightType::DIRECTIONAL, color, intensity, false)
 {
-	shadowBias = float2(0.006f, 0.0009f);
+	shadowBias = float2(0.37f, 0.005f);
 }
 
 ComponentDirLight::ComponentDirLight(const float3& color, float intensity, GameObject* parent) :
 	ComponentLight(LightType::DIRECTIONAL, color, intensity, parent, false)
 {
-	shadowBias = float2(0.006f, 0.0009f);
+	shadowBias = float2(0.37f, 0.005f);
 }
 
 ComponentDirLight::~ComponentDirLight()

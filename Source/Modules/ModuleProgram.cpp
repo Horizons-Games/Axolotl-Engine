@@ -82,7 +82,8 @@ bool ModuleProgram::Start()
 	
 	programs.push_back(CreateProgram("default_vertex.glsl", "gBuffer_Specular_fs.glsl", "GSpecular"));
 
-	programs.push_back(CreateProgram("shadow_map_vertex.glsl", "shadow_map_fragment.glsl", "ShadowMapping"));
+	programs.push_back(CreateProgram("shadow_map_vertex.glsl", "shadow_map_fragment.glsl", "shadow_map_geometry.glsl", 
+		                             "ShadowMapping"));
 
 	programs.push_back(CreateProgram("parallel_reduction.glsl", "ParallelReduction"));
 	
@@ -123,17 +124,63 @@ void ModuleProgram::UpdateProgram(const std::string& vtxShaderFileName,
 	}
 }
 
+std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string& vtxShaderFileName, 
+													  const std::string& frgShaderFileName, 
+													  const std::string& gtyShaderFileName, 
+													  const std::string& programName)
+{
+	char* vertexBuffer{};
+	App->GetModule<ModuleFileSystem>()->Load((rootPath + vtxShaderFileName).c_str(), vertexBuffer);
+	LOG_INFO("Compiling shader {}", vtxShaderFileName);
+	unsigned vertexShader = CompileShader(GL_VERTEX_SHADER, vertexBuffer);
+	delete vertexBuffer;
+
+	char* fragmentBuffer{};
+	App->GetModule<ModuleFileSystem>()->Load((rootPath + frgShaderFileName).c_str(), fragmentBuffer);
+	LOG_INFO("Compiling shader {}", frgShaderFileName);
+	unsigned fragmentShader = CompileShader(GL_FRAGMENT_SHADER, fragmentBuffer);
+	delete fragmentBuffer;
+
+	char* geometryBuffer{};
+	App->GetModule<ModuleFileSystem>()->Load((rootPath + gtyShaderFileName).c_str(), geometryBuffer);
+	LOG_INFO("Compiling shader {}", gtyShaderFileName);
+	unsigned geometryShader = CompileShader(GL_GEOMETRY_SHADER, geometryBuffer);
+	delete geometryBuffer;
+
+	if (vertexShader == 0 || fragmentShader == 0 || geometryShader == 0)
+	{
+		return nullptr;
+	}
+
+	std::unique_ptr<Program> program =
+		std::make_unique<Program>(vertexShader, fragmentShader, geometryShader,
+								  vtxShaderFileName, frgShaderFileName, gtyShaderFileName,  programName);
+
+	if (!program->IsValidProgram())
+	{
+		return nullptr;
+	}
+
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
+	glDeleteShader(geometryShader);
+
+	return program;
+}
+
 std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string& vtxShaderFileName,
 													  const std::string& frgShaderFileName,
 													  const std::string& programName)
 {
 	char* vertexBuffer{};
 	App->GetModule<ModuleFileSystem>()->Load((rootPath + vtxShaderFileName).c_str(), vertexBuffer);
+	LOG_INFO("Compiling shader {}", vtxShaderFileName);
 	unsigned vertexShader = CompileShader (GL_VERTEX_SHADER, vertexBuffer);
 	delete vertexBuffer;
 
 	char* fragmentBuffer{};
 	App->GetModule<ModuleFileSystem>()->Load((rootPath + frgShaderFileName).c_str(), fragmentBuffer);
+	LOG_INFO("Compiling shader {}", frgShaderFileName);
 	unsigned fragmentShader = CompileShader (GL_FRAGMENT_SHADER,fragmentBuffer);
 	delete fragmentBuffer;
 
@@ -160,6 +207,7 @@ std::unique_ptr<Program> ModuleProgram::CreateProgram(const std::string& compute
 {
 	char* computeBuffer{};
 	App->GetModule<ModuleFileSystem>()->Load((rootPath + computeShaderName).c_str(), computeBuffer);
+	LOG_INFO("Compiling shader {}", computeShaderName);
 	unsigned computeShader = CompileShader(GL_COMPUTE_SHADER, computeBuffer);
 	delete computeBuffer;
 

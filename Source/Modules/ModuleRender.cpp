@@ -378,7 +378,7 @@ UpdateStatus ModuleRender::Update()
 	// Binding Shadow map depth buffer
 	if (shadows->UseShadows())
 	{
-		shadows->BindShadowMap(program);
+		shadows->BindShadowMaps(program);
 
 		ComponentDirLight* directLight = static_cast<ComponentDirLight*>(
 			App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight()->GetComponent<ComponentLight>());
