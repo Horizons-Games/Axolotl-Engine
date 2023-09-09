@@ -31,6 +31,7 @@ void PlayerHackingUseScript::Start()
 void PlayerHackingUseScript::Update(float deltaTime)
 {
 
+	currentTime += deltaTime;
 	if (input->GetKey(SDL_SCANCODE_H) != KeyState::IDLE && !isHackingActive)
 	{
 		FindHackZone(hackingTag);
@@ -42,7 +43,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 
 	if (isHackingActive)
 	{
-		if ((SDL_GetTicks() - currentTime) / 1000.0f > maxHackTime)
+		if (currentTime > maxHackTime)
 		{
 			FinishHack();
 		}
@@ -112,7 +113,7 @@ void PlayerHackingUseScript::InitHack()
 {
 	DisableAllInteractions();
 	isHackingActive = true;
-	currentTime = SDL_GetTicks();
+	currentTime = App->GetDeltaTime();
 	maxHackTime = hackZone->GetMaxTime();
 	hackZone->GenerateCombination();
 
