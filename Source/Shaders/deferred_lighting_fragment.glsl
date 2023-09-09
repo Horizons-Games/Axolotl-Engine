@@ -82,6 +82,7 @@ uniform float maxBias;
 uniform int useShadows;
 uniform int useVSM;
 uniform int useSSAO;
+uniform int toggleCSMDebug;
 
 in vec2 TexCoord;
 
@@ -429,7 +430,8 @@ void main()
         vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
             environmentBRDF, numLevels_IBL) * cubemap_intensity;
 
-        vec3 color = ambient + Lo + emissiveMat.rgb + layerColor;
+        vec3 color = ambient + Lo + emissiveMat.rgb;
+        color += toggleCSMDebug == 1 ? layerColor : vec3(0.0, 0.0, 0.0);
         color = useSSAO == 1 ? color*texture(gSSAO, TexCoord).r : color;
         outColor = vec4(color, 1.0);
     }

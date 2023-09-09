@@ -34,6 +34,7 @@ public:
 
 	void ToggleShadows();
 	void ToggleVSM();
+	void ToggleCSMDebug();
 
 private:
 	void PartitionIntoSubFrustums(Frustum* frustum);
@@ -74,6 +75,7 @@ private:
 
 	bool useShadows;
 	bool useVarianceShadowMapping;
+	bool useCSMDebug;
 
 	std::pair<unsigned, unsigned> screenSize;
 };
@@ -96,4 +98,9 @@ inline void Shadows::ToggleShadows()
 inline void Shadows::ToggleVSM()
 {
 	useVarianceShadowMapping = !useVarianceShadowMapping;
+}
+
+inline void Shadows::ToggleCSMDebug()
+{
+	useCSMDebug = !useCSMDebug;
 }

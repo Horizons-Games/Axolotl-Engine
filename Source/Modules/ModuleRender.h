@@ -55,6 +55,7 @@ public:
 	void ToggleShadows();
 	void ToggleVSM();
 	void ToggleSSAO();
+	void ToggleCSMDebug();
 
 	GLuint GetCameraUBO() const;
 	GLuint GetRenderedTexture() const;
@@ -187,6 +188,11 @@ inline void ModuleRender::ToggleVSM()
 inline void ModuleRender::ToggleSSAO()
 {
 	ssao->ToggleSSAO();
+}
+
+inline void ModuleRender::ToggleCSMDebug()
+{
+	shadows->ToggleCSMDebug();
 }
 
 inline GLuint ModuleRender::GetCameraUBO() const

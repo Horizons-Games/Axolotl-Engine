@@ -49,6 +49,7 @@ Shadows::Shadows()
 
 	useShadows = true;
 	useVarianceShadowMapping = false;
+	useCSMDebug = false;
 }
 
 Shadows::~Shadows()
@@ -190,6 +191,7 @@ void Shadows::BindShadowMaps(Program* program)
 	glBufferData(GL_UNIFORM_BUFFER, sizeof(CascadePlaneDistances), &cascadeDistances, GL_STATIC_DRAW);
 
 	program->BindUniformFloat4x4("cameraViewMatrix", reinterpret_cast<const float*>(&cameraView), GL_TRUE);
+	program->BindUniformInt("toggleCSMDebug", static_cast<int>(useCSMDebug));
 }
 
 float2 Shadows::ParallelReduction(GBuffer* gBuffer)
