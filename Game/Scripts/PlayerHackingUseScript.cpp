@@ -85,12 +85,13 @@ void PlayerHackingUseScript::Update(float deltaTime)
 	}
 }
 
+//TEMPORARY METHOD
 void PlayerHackingUseScript::PrintCombination()
 {
 	std::string combination;
 	for (auto element : keyCombination)
 	{
-		char c = '\0';  // Initialize with null character
+		char c = '\0';
 		switch (element) {
 		case SDL_SCANCODE_A: 
 			c = 'A'; 
@@ -102,7 +103,7 @@ void PlayerHackingUseScript::PrintCombination()
 			c = 'C'; 
 			break;
 		default: 
-			break; // do nothing
+			break;
 		}
 		combination += c;
 		

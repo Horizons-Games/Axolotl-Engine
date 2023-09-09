@@ -31,7 +31,7 @@ void HackZoneScript::Start()
 
 void HackZoneScript::Update(float deltaTime)
 {
-	dd::sphere(position, dd::colors::GreenYellow, influenceRadius);
+	dd::sphere(position, dd::colors::Blue, influenceRadius);
 }
 
 void HackZoneScript::GenerateCombination()
