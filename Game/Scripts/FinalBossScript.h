@@ -49,10 +49,12 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void SetReadyToDie() override;
+	void SetReadyToDie() override {};
 
 private:
-	void ManageBossPhases();
+	void ChangeBossPhase();
+	void ManageActualPhase(FinalBossPhases bossState);
+
 	void TryAttacksIndividually();
 
 	void ReactivateMovement() const;
@@ -75,8 +77,6 @@ private:
 	ShockWaveAttackScript* shockWaveAttackScript;
 	BossShieldAttackScript* shieldAttackScript;
 	BossMissilesAttackScript* missilesAttackScript;
-
-	bool isLookingAtTarget;
 
 	// Modifiable values
 	GameObject* target;

@@ -68,7 +68,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 		
 		while (gameObjectAttached == nullptr && raytries < 4)
 		{
-			Ray ray(origin + float3(0.f, 1 * raytries, 0.f), transform->GetGlobalForward() );
+			Ray ray(origin + float3(0.f, 1.f * static_cast<float>(raytries), 0.f), transform->GetGlobalForward());
 			LineSegment line(ray, 300);
 			raytries++;
 
@@ -230,7 +230,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 		} 
 
 		float2 mouseMotion = input->GetMouseMotion();
-		nextPosition.y = nextPosition.y -= mouseMotion.y * 0.2 * deltaTime;
+		nextPosition.y = nextPosition.y -= mouseMotion.y * 0.2f * deltaTime;
 
 
 
