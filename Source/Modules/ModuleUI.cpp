@@ -67,11 +67,11 @@ UpdateStatus ModuleUI::Update()
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 
 	bool leftClickDown = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
+	lastButtonChange = lastButtonChange + App->GetDeltaTime();
 
-	if (!sortedButtonsIds.empty() && SDL_GetTicks() / 1000.0f > lastButtonChange + cooldownTime)
+	if (!sortedButtonsIds.empty() && lastButtonChange > cooldownTime)
 	{
 		JoystickMovement joystickMovement = input->GetDirection();
-		lastButtonChange = SDL_GetTicks() / 1000.0f;
 
 		int newIndex = currentButtonIndex;
 		do
@@ -92,16 +92,12 @@ UpdateStatus ModuleUI::Update()
 			{
 				newIndex = (newIndex + 1) % sortedButtonsIds.size();
 			}
-
-			if (scene->GetLoadedScene()
-					->SearchGameObjectByID(sortedButtonsIds[newIndex])
-					->GetComponent<ComponentButton>()
-					->IsEnabled())
-			{
-				currentButtonIndex = newIndex;
-				break;
-			}
-		} while (newIndex != currentButtonIndex);
+		} while (newIndex != currentButtonIndex && !scene->GetLoadedScene()
+														   ->SearchGameObjectByID(sortedButtonsIds[newIndex])
+														   ->GetComponent<ComponentButton>()
+														   ->IsEnabled());
+		currentButtonIndex = newIndex;
+		lastButtonChange = 0.0f;
 	}
 
 	for (const ComponentCanvas* canvas : canvasScene)

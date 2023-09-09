@@ -261,13 +261,12 @@ UpdateStatus ModuleEditor::Update()
 		bool windowEnabled = mainMenu->IsWindowEnabled(i);
 		if (fullscreenScene)
 		{
+			bool canBeDrawn = windows[i]->GetName() == windowSceneName;
 			if (editorControl)
 			{
-				bool isEditorControl = windows[i]->GetName() == windowEditorControlName;
-				windows[i]->Draw(isEditorControl);
+				canBeDrawn = canBeDrawn || windows[i]->GetName() == windowEditorControlName;
 			}
-			bool isSceneWindow = windows[i]->GetName() == windowSceneName;
-			windows[i]->Draw(isSceneWindow);
+			windows[i]->Draw(canBeDrawn);
 		}
 		else
 		{
