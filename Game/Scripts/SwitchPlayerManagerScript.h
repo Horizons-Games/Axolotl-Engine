@@ -31,10 +31,12 @@ private:
 	void Start() override;
 
 	ModuleInput* input;
-
 	Timer changePlayerTimer;
+
 	GameObject* mainCamera;
 	CameraControllerScript* camera;
+	ComponentTransform* cameraTransform;
+
 	std::vector<GameObject*> players;
 
 	ComponentTransform* player0Transform;

@@ -47,89 +47,97 @@ void CameraControllerScript::Start()
 
 void CameraControllerScript::PreUpdate(float deltaTime)
 {
-
-	ComponentCameraSample* closestSample = FindClosestSample(playerTransform->GetGlobalPosition());
-
-	if (closestSample)
+	if (!changingCurrentPlayer)
 	{
-		if (closestSample->GetFixedOffsetEnabled())
-		{
-			CalculateOffsetVector(closestSample->GetFixedOffset() - playerTransform->GetGlobalPosition());
-		}
-		else
-		{
-			CalculateOffsetVector(closestSample->GetOffset());
-		}
-		
-		if (closestSample->GetFocusOffsetEnabled())
-		{
-			CalculateFocusOffsetVector(closestSample->GetFocusOffset());
-		}
-		else
-		{
-			CalculateFocusOffsetVector();
-		}
+		ComponentCameraSample* closestSample = FindClosestSample(playerTransform->GetGlobalPosition());
 
-		if (closestSample->GetKpPositionEnabled())
+		if (closestSample)
 		{
-			camera->SetSampleKpPosition(closestSample->GetKpPosition());
-			
+			if (closestSample->GetFixedOffsetEnabled())
+			{
+				CalculateOffsetVector(closestSample->GetFixedOffset() - playerTransform->GetGlobalPosition());
+			}
+			else
+			{
+				CalculateOffsetVector(closestSample->GetOffset());
+			}
+
+			if (closestSample->GetFocusOffsetEnabled())
+			{
+				CalculateFocusOffsetVector(closestSample->GetFocusOffset());
+			}
+			else
+			{
+				CalculateFocusOffsetVector();
+			}
+
+			if (closestSample->GetKpPositionEnabled())
+			{
+				camera->SetSampleKpPosition(closestSample->GetKpPosition());
+
+			}
+			else
+			{
+				camera->RestoreKpPosition();
+			}
+
+			if (closestSample->GetKpRotationEnabled())
+			{
+				camera->SetSampleKpRotation(closestSample->GetKpRotation());
+			}
+			else
+			{
+				camera->RestoreKpRotation();
+			}
 		}
 		else
 		{
+			CalculateOffsetVector();
+			CalculateFocusOffsetVector();
 			camera->RestoreKpPosition();
-		}
-		
-		if (closestSample->GetKpRotationEnabled())
-		{
-			camera->SetSampleKpRotation(closestSample->GetKpRotation());
-		}
-		else
-		{
 			camera->RestoreKpRotation();
 		}
+
+		float3 sourceDirection = camera->GetCamera()->GetFrustum()->Front().Normalized();
+		float3 targetDirection = (playerTransform->GetGlobalPosition()
+			+ defaultFocusOffsetVector
+			- camera->GetCamera()->GetPosition()).Normalized();
+
+		Quat orientationOffset = Quat::identity;
+
+		if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.001f))
+		{
+			Quat rot = Quat::RotateFromTo(sourceDirection, targetDirection);
+			orientationOffset = rot * camera->GetCamera()->GetRotation();
+		}
+		else
+		{
+			orientationOffset = camera->GetCamera()->GetRotation();
+		}
+
+		finalTargetPosition = playerTransform->GetGlobalPosition() + defaultOffsetVector;
+		finalTargetOrientation = orientationOffset;
+
+		transform->SetGlobalPosition(finalTargetPosition);
+		transform->SetGlobalRotation(finalTargetOrientation);
+		transform->RecalculateLocalMatrix();
+
+		for (Component* components : owner->GetComponents())
+		{
+			components->OnTransformChanged();
+		}
 	}
-	else
-	{
-		CalculateOffsetVector();
-		CalculateFocusOffsetVector();
-		camera->RestoreKpPosition();
-		camera->RestoreKpRotation();
-	}
+}
 
-	float3 sourceDirection = camera->GetCamera()->GetFrustum()->Front().Normalized();
-	float3 targetDirection = (playerTransform->GetGlobalPosition()
-		+ defaultFocusOffsetVector
-		- camera->GetCamera()->GetPosition()).Normalized();
-
-	Quat orientationOffset = Quat::identity;
-
-	if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.001f))
-	{
-		Quat rot = Quat::RotateFromTo(sourceDirection, targetDirection);
-		orientationOffset = rot * camera->GetCamera()->GetRotation();
-	}
-	else
-	{
-		orientationOffset = camera->GetCamera()->GetRotation();
-	}
-
-	finalTargetPosition = playerTransform->GetGlobalPosition() + defaultOffsetVector;
-	finalTargetOrientation = orientationOffset;
-
-	transform->SetGlobalPosition(finalTargetPosition);
-	transform->SetGlobalRotation(finalTargetOrientation);
-	transform->RecalculateLocalMatrix();
-
-	for (Component* components : owner->GetComponents())
-	{
-		components->OnTransformChanged();
-	}
+void CameraControllerScript::StartChangeCurrentPlayer(bool change) 
+{
+	changingCurrentPlayer = change;
 }
 
 void CameraControllerScript::ChangeCurrentPlayer(ComponentTransform* currentPlayer) 
 {
 	playerTransform = currentPlayer;
+	changingCurrentPlayer = false;
 }
 
 void CameraControllerScript::CalculateOffsetVector()
