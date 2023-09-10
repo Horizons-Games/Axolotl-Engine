@@ -2,6 +2,8 @@
 #include "SwitchPlayerManagerScript.h"
 
 #include "Components/ComponentScript.h"
+#include "Components/ComponentTransform.h"
+#include "ModuleInput.h"
 
 #include "../Scripts/CameraControllerScript.h"
 #include "Application.h"
@@ -19,14 +21,23 @@ void SwitchPlayerManagerScript::Start()
 	input = App->GetModule<ModuleInput>();
 	
 	camera = mainCamera->GetComponent<CameraControllerScript>();
+	/*player0Transform = players[0]->GetComponent<ComponentTransform>();
+	player1Transform = players[1]->GetComponent<ComponentTransform>();*/
 	
 }
 
 void SwitchPlayerManagerScript::Update(float deltaTime)
 {
-	if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
+	if (!isChangingPlayer)
 	{
-		TogglePlayerScripts();
+		if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
+		{
+			TogglePlayerScripts();
+		}
+	}
+	else 
+	{
+		IsChangingCurrentPlayer();
 	}
 }
 
@@ -36,11 +47,34 @@ void SwitchPlayerManagerScript::TogglePlayerScripts()
 	{
 		players[0]->Disable();
 		players[1]->Enable();
+
+		/*LOG_DEBUG("Switching players.");
+		LOG_DEBUG("Player 0 position: {}, {}, {}", player0Transform->GetGlobalPosition().x, player0Transform->GetGlobalPosition().y, player0Transform->GetGlobalPosition().z);
+		LOG_DEBUG("Player 1 position before teleport: {}, {}, {}", player1Transform->GetGlobalPosition().x, player1Transform->GetGlobalPosition().y, player1Transform->GetGlobalPosition().z);
+
+		player1Transform->SetGlobalPosition(player0Transform->GetGlobalPosition());
+
+		LOG_DEBUG("Player 1 position after teleport: {}, {}, {}", player1Transform->GetGlobalPosition().x, player1Transform->GetGlobalPosition().y, player1Transform->GetGlobalPosition().z);*/
+
 	}
 	else
 	{
 		players[0]->Enable();
 		players[1]->Disable();
 	}
-	camera->ChangeCurrentPlayer();
+
+	changePlayerTimer.Start();
+	isChangingPlayer = true;
+	
+}
+
+void SwitchPlayerManagerScript::IsChangingCurrentPlayer()
+{
+	if (changePlayerTimer.Read() >= 3000)
+	{
+		camera->ChangeCurrentPlayer();
+
+		changePlayerTimer.Stop();
+		isChangingPlayer = false;
+	}
 }

@@ -2,13 +2,13 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
-#include "ModuleInput.h"
+#include "Timer/Timer.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
-class PlayerJumpScript;
-class PlayerMoveScript;
 class CameraControllerScript;
+class ComponentTransform;
+class ModuleInput;
 
 class SwitchPlayerManagerScript : public Script
 {
@@ -24,16 +24,22 @@ public:
 	void SetPlayerGameObject(const std::vector<GameObject*>& vecGO);
 
 	void TogglePlayerScripts();
+	void IsChangingCurrentPlayer();
 
 private:
 	void Start() override;
 
 	ModuleInput* input;
 
+	Timer changePlayerTimer;
 	GameObject* mainCamera;
 	CameraControllerScript* camera;
 	std::vector<GameObject*> players;
 
+	ComponentTransform* player0Transform;
+	ComponentTransform* player1Transform;
+
+	bool isChangingPlayer;
 };
 
 inline const std::vector<GameObject*>& SwitchPlayerManagerScript::GetPlayerGameObject() const

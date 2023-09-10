@@ -138,7 +138,6 @@ void CameraControllerScript::ChangeCurrentPlayer()
 {
 	currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
 	playerTransform = players[currentPlayerIndex]->GetComponent<ComponentTransform>();
-
 }
 
 void CameraControllerScript::CalculateOffsetVector()
