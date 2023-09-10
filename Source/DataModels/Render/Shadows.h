@@ -53,17 +53,17 @@ private:
 	};
 
 	// Shadow Mapping buffers and textures
-	GLuint shadowMapBuffer = 0;
-	GLuint gShadowMaps = 0;
-	GLuint parallelReductionInFrameBuffer = 0;
-	GLuint parallelReductionInTexture = 0;
-	GLuint parallelReductionOutFrameBuffer = 0;
-	GLuint parallelReductionOutTexture = 0;
-	GLuint minMaxBuffer = 0;
+	GLuint shadowMapBuffer;
+	GLuint gShadowMaps;
+	GLuint parallelReductionInFrameBuffer;
+	GLuint parallelReductionInTexture;
+	GLuint parallelReductionOutFrameBuffer;
+	GLuint parallelReductionOutTexture;
+	GLuint minMaxBuffer;
 
 	// Variance Shadow Mapping buffers and textures
-	GLuint shadowVarianceFrameBuffer = 0;
-	GLuint shadowVarianceTexture = 0;
+	GLuint shadowVarianceFrameBuffer;
+	GLuint shadowVarianceTexture;
 	GLuint blurShadowMapBuffer[GAUSSIAN_BLUR_SHADOW_MAP];
 	GLuint gBluredShadowMaps[GAUSSIAN_BLUR_SHADOW_MAP];
 

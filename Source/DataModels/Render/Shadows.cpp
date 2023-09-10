@@ -32,9 +32,15 @@ Shadows::Shadows()
 {
 	shadowMapBuffer = 0;
 	gShadowMaps = 0;
+	parallelReductionInFrameBuffer = 0;
 	parallelReductionInTexture = 0;
+	parallelReductionOutFrameBuffer = 0;
 	parallelReductionOutTexture = 0;
 	minMaxBuffer = 0;
+	shadowVarianceFrameBuffer = 0;
+	shadowVarianceTexture = 0;
+	uboFrustums = 0;
+	uboCascadeDistances = 0;
 
 	for (unsigned i = 0; i < GAUSSIAN_BLUR_SHADOW_MAP; ++i)
 	{
