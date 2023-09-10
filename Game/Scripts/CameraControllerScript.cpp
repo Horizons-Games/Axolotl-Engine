@@ -17,7 +17,6 @@ CameraControllerScript::CameraControllerScript() : Script(),
 		samplePointsObject(nullptr), transform(nullptr)
 {
 	REGISTER_FIELD(samplePointsObject, GameObject*);
-	REGISTER_FIELD_WITH_ACCESSORS(PlayerGameObject, std::vector<GameObject*>);
 	REGISTER_FIELD(xOffset, float);
 	REGISTER_FIELD(yOffset, float);
 	REGISTER_FIELD(zOffset, float);
@@ -37,14 +36,8 @@ void CameraControllerScript::Start()
 	}
 	transform = owner->GetComponent<ComponentTransform>();
 	camera = GetOwner()->GetComponentInternal<ComponentCamera>();
-	Assert(!players.empty(), "Player empty");
 
-	for (GameObject* player : players) 
-	{
-		Assert(player, "One of the players is null");
-	}
-
-	playerTransform = players[currentPlayerIndex]->GetComponent<ComponentTransform>();
+	playerTransform = samplePointsObject->GetComponent<ComponentTransform>(); //Temporaly assign this instead of a player, SwitchPlayerManagerScript will sent the current player to ChangeCurrentPlayer()
 
 	finalTargetPosition = transform->GetGlobalPosition();
 	finalTargetOrientation = transform->GetGlobalRotation();
@@ -134,10 +127,9 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 	}
 }
 
-void CameraControllerScript::ChangeCurrentPlayer() 
+void CameraControllerScript::ChangeCurrentPlayer(ComponentTransform* currentPlayer) 
 {
-	currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-	playerTransform = players[currentPlayerIndex]->GetComponent<ComponentTransform>();
+	playerTransform = currentPlayer;
 }
 
 void CameraControllerScript::CalculateOffsetVector()

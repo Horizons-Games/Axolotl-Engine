@@ -38,6 +38,7 @@ private:
 
 	ComponentTransform* player0Transform;
 	ComponentTransform* player1Transform;
+	ComponentTransform* currentPlayerTransform;
 
 	bool isChangingPlayer;
 };

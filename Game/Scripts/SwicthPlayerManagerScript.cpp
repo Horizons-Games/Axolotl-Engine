@@ -21,9 +21,10 @@ void SwitchPlayerManagerScript::Start()
 	input = App->GetModule<ModuleInput>();
 	
 	camera = mainCamera->GetComponent<CameraControllerScript>();
-	/*player0Transform = players[0]->GetComponent<ComponentTransform>();
-	player1Transform = players[1]->GetComponent<ComponentTransform>();*/
-	
+	player0Transform = players[0]->GetComponent<ComponentTransform>();
+	player1Transform = players[1]->GetComponent<ComponentTransform>();
+
+	camera->ChangeCurrentPlayer(player0Transform);
 }
 
 void SwitchPlayerManagerScript::Update(float deltaTime)
@@ -55,12 +56,13 @@ void SwitchPlayerManagerScript::TogglePlayerScripts()
 		player1Transform->SetGlobalPosition(player0Transform->GetGlobalPosition());
 
 		LOG_DEBUG("Player 1 position after teleport: {}, {}, {}", player1Transform->GetGlobalPosition().x, player1Transform->GetGlobalPosition().y, player1Transform->GetGlobalPosition().z);*/
-
+		currentPlayerTransform = player1Transform;
 	}
 	else
 	{
 		players[0]->Enable();
 		players[1]->Disable();
+		currentPlayerTransform = player0Transform;
 	}
 
 	changePlayerTimer.Start();
@@ -72,7 +74,7 @@ void SwitchPlayerManagerScript::IsChangingCurrentPlayer()
 {
 	if (changePlayerTimer.Read() >= 3000)
 	{
-		camera->ChangeCurrentPlayer();
+		camera->ChangeCurrentPlayer(currentPlayerTransform);
 
 		changePlayerTimer.Stop();
 		isChangingPlayer = false;

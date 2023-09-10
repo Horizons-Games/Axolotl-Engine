@@ -17,9 +17,7 @@ public:
 	void SetInCombat(bool newCombat);
 	bool IsInCombat();
 
-	void ChangeCurrentPlayer();
-	const std::vector<GameObject*>& GetPlayerGameObject() const;
-	void SetPlayerGameObject(const std::vector<GameObject*>& vecGO);
+	void ChangeCurrentPlayer(ComponentTransform* currentPlayer);
 
 private:
 	void CalculateOffsetVector();
@@ -30,8 +28,6 @@ private:
 	ComponentCameraSample* FindClosestSample(float3 position);
 
 private: 
-	int currentPlayerIndex;
-
 	float3 finalTargetPosition;
 	Quat finalTargetOrientation;
 
@@ -44,7 +40,6 @@ private:
 	ComponentTransform* transform;
 	ComponentCamera* camera;
 
-	std::vector<GameObject*> players;
 	ComponentTransform* playerTransform;
 
 	float xOffset;
@@ -65,14 +60,4 @@ inline void CameraControllerScript::SetInCombat(bool newmode)
 inline bool CameraControllerScript::IsInCombat()
 {
 	return inCombat;
-}
-
-inline const std::vector<GameObject*>& CameraControllerScript::GetPlayerGameObject() const
-{
-	return players;
-}
-
-inline void CameraControllerScript::SetPlayerGameObject(const std::vector<GameObject*>& vecGO)
-{
-	this->players = vecGO;
 }
