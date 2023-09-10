@@ -61,12 +61,26 @@ void LightProxy::SphereShape(const char* name, float size, unsigned slices, unsi
 		par_shapes_scale(mesh, size, size, size);
 
 		sphere->SetNumVertices(mesh->npoints);
-		sphere->SetNumIndexes(mesh->ntriangles);
+		std::vector<float3> vertices(mesh->points, mesh->points + (mesh->npoints * 3));
+		sphere->SetVertices(vertices);
 
-		resources->AddResource(std::shared_ptr<Resource>(sphere), "Source/PreMades/par_shapes_sphere.mesh");
+		std::vector<float3> normals(mesh->normals, mesh->normals + (mesh->npoints * 3));
+		sphere->SetNormals(normals);
+
+		std::vector<float2> tcoordsCopy(mesh->tcoords, mesh->tcoords + (mesh->npoints * 2));
+		std::vector<float3> tcoords;
+		for (int i = 0; i < tcoordsCopy.size(); i++)
+		{
+			tcoords.push_back(float3(tcoordsCopy[i].x, tcoordsCopy[i].y, 0.0f));
+		}
+		sphere->SetTextureCoords(tcoords);
+
+		sphere->SetNumFaces(mesh->ntriangles);
+		std::vector<std::vector<unsigned int>> facesIndexes(mesh->triangles, mesh->triangles + (mesh->ntriangles * 3));
+
+		sphere->Load();
 
 		par_shapes_free_mesh(mesh);
-
 	}
 }
 
@@ -81,7 +95,7 @@ void LightProxy::ConeShape(const char* name, float height, float radius, unsigne
 		cone->SetNumVertices(mesh->npoints);
 		cone->SetNumIndexes(mesh->ntriangles);
 
-		resources->AddResource(std::shared_ptr<Resource>(cone), "Source/PreMades/par_shapes_cone.mesh");
+		//resources->AddResource(std::shared_ptr<Resource>(cone), "Source/PreMades/par_shapes_cone.mesh");
 
 		par_shapes_free_mesh(mesh);
 	}
@@ -99,7 +113,7 @@ void LightProxy::CylinderShape(const char* name, float height, float radius, uns
 		cone->SetNumVertices(mesh->npoints);
 		cone->SetNumIndexes(mesh->ntriangles);
 
-		resources->AddResource(std::shared_ptr<Resource>(cone), "Source/PreMades/par_shapes_cylinder.mesh");
+		//resources->AddResource(std::shared_ptr<Resource>(cone), "Source/PreMades/par_shapes_cylinder.mesh");
 
 		par_shapes_free_mesh(mesh);
 	}

@@ -23,11 +23,11 @@ public:
 
 private:
 
-	friend class ModuleResources;
+	//friend class ModuleResources;
 
 	int numPointLight;
 	int numSpotLight ;
-	ModuleResources* resources;
+	//ModuleResources* resources;
 
 	ResourceMesh* sphere = nullptr;
 	ResourceMesh* cone = nullptr;
