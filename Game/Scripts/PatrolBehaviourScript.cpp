@@ -104,8 +104,7 @@ void PatrolBehaviourScript::RandomPatrolling(bool isFirstPatrolling)
 	{
 		GetNearestPatrollingPoint();
 	}
-	else if (ownerTransform->GetGlobalPosition().
-		Equals(waypointsPatrol[currentWayPoint]->GetGlobalPosition(), 2.0f))
+	else if (ownerTransform->GetGlobalPosition().Equals(waypointsPatrol[currentWayPoint]->GetGlobalPosition(), 2.0f))
 	{
 		int randomWaypointSelected = rand() % static_cast<int>(waypointsPatrol.size());
 
