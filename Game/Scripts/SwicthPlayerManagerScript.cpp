@@ -55,7 +55,6 @@ void SwitchPlayerManagerScript::TogglePlayerScripts()
 		players[0]->Disable();
 		players[1]->Enable();
 
-		player1Transform->SetLocalPosition(player0Transform->GetLocalPosition());
 		player1Transform->SetGlobalPosition(player0Transform->GetGlobalPosition());
 		player1RigidBody->SetRigidBodyOrigin(rigidBodyVec3);
 
@@ -68,7 +67,6 @@ void SwitchPlayerManagerScript::TogglePlayerScripts()
 		players[0]->Enable();
 		players[1]->Disable();
 
-		player0Transform->SetLocalPosition(player1Transform->GetLocalPosition());
 		player0Transform->SetGlobalPosition(player1Transform->GetGlobalPosition());
 		player0RigidBody->SetRigidBodyOrigin(rigidBodyVec3);
 
