@@ -72,7 +72,7 @@ private:
 	ComponentRigidBody* damageZone;
 	SendTriggerCollision* sendTriggerCollision;
 	ComponentTransform* mesh;
-	ComponentTransform* target;
+	GameObject* target;
 	ComponentLight* light;
 	ComponentTransform* shootingPosition;
 	ComponentAudioSource* audioSource;

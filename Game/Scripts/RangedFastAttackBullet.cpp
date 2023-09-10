@@ -23,9 +23,10 @@
 
 REGISTERCLASS(RangedFastAttackBullet);
 
+
 RangedFastAttackBullet::RangedFastAttackBullet() : Script(), parentTransform(nullptr), rigidBody(nullptr), velocity(15.0f), 
 audioSource(nullptr), bulletLifeTime(10.0f), damageAttack(10.0f), rayAttackSize(100.0f), originTime(0.0f), 
-particleSystem(nullptr), waitParticlesToDestroy(false), particlesDuration(1.0f), mesh(nullptr)
+particleSystem(nullptr), waitParticlesToDestroy(false), particlesDuration(1.0f), mesh(nullptr), targetTag("Not Selected")
 {
 }
 
@@ -54,7 +55,7 @@ void RangedFastAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 		return;
 	}
 
-	if (other->GetOwner()->CompareTag("Player"))
+	if (other->GetOwner()->CompareTag(targetTag))
 	{
 		HealthSystem* playerHealthScript = other->GetOwner()->GetComponent<HealthSystem>();
 		playerHealthScript->TakeDamage(damageAttack);
@@ -105,6 +106,11 @@ void RangedFastAttackBullet::DestroyBullet()
 void RangedFastAttackBullet::SetBulletVelocity(float nVelocity)
 {
 	velocity = nVelocity;
+}
+
+void RangedFastAttackBullet::SetTargetTag(std::string nTag)
+{
+	targetTag = nTag;
 }
 
 void RangedFastAttackBullet::SetBulletDamage(float damage)
