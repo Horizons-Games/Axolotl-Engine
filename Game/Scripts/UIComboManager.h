@@ -48,6 +48,7 @@ private:
 	bool clearCombo;
 
 	float transparency;
-	float transparencyInput;
+	float transparencyInputSoft;
+	float transparencyInputHeavy;
 	bool alphaActivated;
 };

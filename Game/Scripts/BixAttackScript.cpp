@@ -153,7 +153,7 @@ void BixAttackScript::LightNormalAttack()
 
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
-	if(enemyAttacked != nullptr)
+	if(true)
 	{
 		LOG_VERBOSE("Enemy hit with light attack");
 		comboSystem->SuccessfulAttack(comboCountSoft, currentAttack);
@@ -175,7 +175,7 @@ void BixAttackScript::HeavyNormalAttack()
 
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
-	if (enemyAttacked != nullptr)
+	if (true)
 	{
 		LOG_VERBOSE("Enemy hit with heavy attack");
 		comboSystem->SuccessfulAttack(comboCountHeavy, currentAttack);

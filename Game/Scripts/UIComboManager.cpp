@@ -27,17 +27,44 @@ void UIComboManager::Init()
 	inputPositions.push_back(owner->GetChildren()[1]->GetChildren()[2]);
 	
 	transparency = noFillBar->GetComponent<ComponentImage>()->GetColor().w/255;
-
+	transparencyInputHeavy = inputPrefabHeavy->GetComponent<ComponentImage>()->GetColor().w / 255;
+	transparencyInputSoft = inputPrefabSoft->GetComponent<ComponentImage>()->GetColor().w / 255;
+	//transparencyInputHeavy = 1.0f;
+	//transparencyInputSoft = 1.0f;
 }
 
 void UIComboManager::Update(float deltaTime)
 {
 	if (clearCombo)
 	{
+		if (transparencyInputHeavy && transparencyInputSoft <= 0.0f)
+		{
+			transparencyInputHeavy = 1.0f;
+			transparencyInputSoft = 1.0f;
+		}
+
+
+		if (clearCombo <= 1.0f) 
+		{
+			for (int i = 0; i < 11; i++)
+			{
+				transparencyInputSoft -= deltaTime;
+				transparencyInputHeavy -= deltaTime;
+
+				inputPrefabHeavy->GetComponent<ComponentImage>()->SetColor(float4(1, 1, 1, transparencyInputHeavy));
+				inputPrefabSoft->GetComponent<ComponentImage>()->SetColor(float4(1, 1, 1, transparencyInputSoft));
+			}
+		
+		}
+
+
 		if (clearComboTimer <= 0.0f)
 		{
+
 			CleanInputVisuals();
 			clearCombo = false;
+			noFillBar->Disable();
+
 		}
 		else
 		{
@@ -144,13 +171,13 @@ void UIComboManager::ClearCombo(bool finish)
 	clearCombo = true;
 	if(finish)
 	{
-		clearComboTimer = 0.5f;
+		clearComboTimer = 1.0f;
 		
 		//Particles, audio, etc
 	}
 	else 
 	{
-		clearComboTimer = 0.1f;
+		clearComboTimer = 0.5f;
 		//Particles, audio, etc
 	}
 }
