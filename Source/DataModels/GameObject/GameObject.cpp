@@ -838,8 +838,6 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 				break;
 
 			case LightType::LOCAL_IBL:
-				ComponentLight* light = static_cast<ComponentLight*>(referenceBeforeMove);
-
 				scene->UpdateSceneLocalIBLs();
 				scene->RenderLocalIBLs();
 				break;

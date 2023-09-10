@@ -210,6 +210,8 @@ void ComponentLocalIBL::SetInfluenceAABB(AABB& aabb)
 
 void ComponentLocalIBL::InternalSave(Json& meta)
 {
+	meta["lightType"] = GetNameByLightType(lightType).c_str();
+
 	meta["parallax_min_x"] = static_cast<float>(parallaxAABB.minPoint.x);
 	meta["parallax_min_y"] = static_cast<float>(parallaxAABB.minPoint.y);
 	meta["parallax_min_z"] = static_cast<float>(parallaxAABB.minPoint.z);
@@ -229,6 +231,8 @@ void ComponentLocalIBL::InternalSave(Json& meta)
 
 void ComponentLocalIBL::InternalLoad(const Json& meta)
 {
+	lightType = GetLightTypeByName(meta["lightType"]);
+
 	parallaxAABB.minPoint.x = static_cast<float>(meta["parallax_min_x"]);
 	parallaxAABB.minPoint.y = static_cast<float>(meta["parallax_min_y"]);
 	parallaxAABB.minPoint.z = static_cast<float>(meta["parallax_min_z"]);
@@ -236,6 +240,8 @@ void ComponentLocalIBL::InternalLoad(const Json& meta)
 	parallaxAABB.maxPoint.x = static_cast<float>(meta["parallax_max_x"]);
 	parallaxAABB.maxPoint.y = static_cast<float>(meta["parallax_max_y"]);
 	parallaxAABB.maxPoint.z = static_cast<float>(meta["parallax_max_z"]);
+	
+	originCenterParallax = parallaxAABB.CenterPoint();
 
 	influenceAABB.minPoint.x = static_cast<float>(meta["influence_min_x"]);
 	influenceAABB.minPoint.y = static_cast<float>(meta["influence_min_y"]);
@@ -245,7 +251,7 @@ void ComponentLocalIBL::InternalLoad(const Json& meta)
 	influenceAABB.maxPoint.y = static_cast<float>(meta["influence_max_y"]);
 	influenceAABB.maxPoint.z = static_cast<float>(meta["influence_max_z"]);
 
-	GenerateMaps();
+	originCenterInfluence = influenceAABB.CenterPoint();
 }
 
 void ComponentLocalIBL::RenderToCubeMap(unsigned int cubemapTex, Frustum& frustum, int resolution, int mipmapLevel)
