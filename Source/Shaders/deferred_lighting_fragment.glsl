@@ -12,6 +12,7 @@ layout(binding = 2) uniform sampler2D gDiffuse;
 layout(binding = 3) uniform sampler2D gSpecular;
 layout(binding = 4) uniform sampler2D gEmissive;
 layout(binding = 5) uniform sampler2D gShadowMap;
+layout(binding = 6) uniform sampler2D gSSAO;
 
 layout(std140, binding=1) uniform Directional
 {
@@ -60,6 +61,7 @@ uniform float minBias;
 uniform float maxBias;
 uniform int useShadows;
 uniform int useVSM;
+uniform int useSSAO;
 
 in vec2 TexCoord;
 
@@ -125,7 +127,8 @@ vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, vec3
         vec3 color = spots[i].color.rgb;
         float radius = spots[i].position.w;
         float distance = dot(fragPos - pos, aim);
-        if(distance <= radius)
+
+        if(distance <= radius && distance >= 0.0)
         {
             float intensity = spots[i].color.a;
             float innerAngle = spots[i].innerAngle;
@@ -378,6 +381,7 @@ void main()
             environmentBRDF, numLevels_IBL) * cubemap_intensity;
 
         vec3 color = ambient + Lo + emissiveMat.rgb;
+        color = useSSAO == 1 ? color*texture(gSSAO, TexCoord).r : color;
         outColor = vec4(color, 1.0);
     }
     else if (renderMode == 1)

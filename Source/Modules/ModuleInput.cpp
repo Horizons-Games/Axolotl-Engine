@@ -158,6 +158,7 @@ UpdateStatus ModuleInput::Update()
 				{
 					keysState[sdlEvent.key.keysym.scancode] = KeyState::DOWN;
 				}
+				inputMethod = InputMethod::KEYBOARD;
 				break;
 
 			case SDL_KEYUP:
@@ -165,31 +166,37 @@ UpdateStatus ModuleInput::Update()
 				{
 					keysState[sdlEvent.key.keysym.scancode] = KeyState::UP;
 				}
+				inputMethod = InputMethod::KEYBOARD;
 				break;
 
 			case SDL_MOUSEBUTTONDOWN:
 				mouseButtonState[sdlEvent.button.button] = KeyState::DOWN;
+				inputMethod = InputMethod::KEYBOARD;
 				break;
 
 			case SDL_MOUSEBUTTONUP:
 				mouseButtonState[sdlEvent.button.button] = KeyState::UP;
+				inputMethod = InputMethod::KEYBOARD;
 				break;
 
 			case SDL_MOUSEMOTION:
 				mousePosX = sdlEvent.motion.x;
 				mousePosY = sdlEvent.motion.y;
 				mouseMotion = float2((float) sdlEvent.motion.xrel, (float) sdlEvent.motion.yrel);
+				inputMethod = InputMethod::KEYBOARD;
 				break;
 
 			case SDL_MOUSEWHEEL:
 				mouseWheel = float2((float) sdlEvent.wheel.x, (float) sdlEvent.wheel.y);
 				mouseWheelScrolled = true;
+				inputMethod = InputMethod::KEYBOARD;
 				break;
 
 			case SDL_CONTROLLERDEVICEADDED:
 				if (!controller)
 				{
 					controller = SDL_GameControllerOpen(sdlEvent.cdevice.which);
+					inputMethod = InputMethod::GAMEPAD;
 				}
 				break;
 
@@ -199,6 +206,10 @@ UpdateStatus ModuleInput::Update()
 					SDL_GameControllerClose(controller);
 					controller = FindController();
 				}
+				if (!controller)
+				{
+					inputMethod = InputMethod::KEYBOARD;
+				}
 				break;
 
 			case SDL_CONTROLLERBUTTONDOWN:
@@ -206,6 +217,7 @@ UpdateStatus ModuleInput::Update()
 				{
 					gamepadState[sdlEvent.cbutton.button] = KeyState::DOWN;
 				}
+				inputMethod = InputMethod::GAMEPAD;
 				break;
 
 			case SDL_CONTROLLERBUTTONUP:
@@ -213,6 +225,7 @@ UpdateStatus ModuleInput::Update()
 				{
 					gamepadState[sdlEvent.cbutton.button] = KeyState::UP;
 				}
+				inputMethod = InputMethod::GAMEPAD;
 				break;
 
 			case SDL_CONTROLLERAXISMOTION:
@@ -225,10 +238,12 @@ UpdateStatus ModuleInput::Update()
 						if (axisValue > 3200)
 						{
 							direction.horizontalMovement = JoystickHorizontalDirection::RIGHT;
+							inputMethod = InputMethod::GAMEPAD;
 						}
 						else if (axisValue < -3200)
 						{
 							direction.horizontalMovement = JoystickHorizontalDirection::LEFT;	
+					inputMethod = InputMethod::GAMEPAD;
 						}
 						else
 						{
@@ -241,10 +256,12 @@ UpdateStatus ModuleInput::Update()
 						if (axisValue < -3200)
 						{
 							direction.verticalMovement = JoystickVerticalDirection::FORWARD;
+							inputMethod = InputMethod::GAMEPAD;
 						}
 						else if (axisValue > 3200)
 						{
 							direction.verticalMovement = JoystickVerticalDirection::BACK;
+							inputMethod = InputMethod::GAMEPAD;
 						}					
 						else
 						{
@@ -324,6 +341,11 @@ UpdateStatus ModuleInput::Update()
 	if (keysState[SDL_SCANCODE_F5] == KeyState::DOWN && SDL_ShowCursor(SDL_QUERY))
 	{
 		App->GetModule<ModuleRender>()->ChangeRenderMode();
+	}
+
+	if (keysState[SDL_SCANCODE_F6] == KeyState::DOWN && SDL_ShowCursor(SDL_QUERY))
+	{
+		App->GetModule<ModuleRender>()->ToggleSSAO();
 	}
 
 #endif
