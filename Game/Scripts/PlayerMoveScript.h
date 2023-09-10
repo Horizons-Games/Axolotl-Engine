@@ -16,7 +16,7 @@ class ComponentRigidBody;
 class PlayerManagerScript;
 class PlayerJumpScript;
 class PlayerForceUseScript;
-class BixAttackScript;
+class PlayerAttackScript;
 class btRigidBody;
 
 enum class PlayerActions
@@ -81,7 +81,7 @@ private:
 	ModuleInput* input;
 	
 	PlayerJumpScript* jumpScript;
-	BixAttackScript* bixAttackScript;
+	PlayerAttackScript* playerAttackScript;
 
 	int previousMovements;
 	int currentMovements;

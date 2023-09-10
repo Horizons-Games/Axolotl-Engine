@@ -6,7 +6,7 @@ class ComponentPlayer;
 class HealthSystem;
 class ComponentTransform;
 class ComponentRigidBody;
-class BixAttackScript;
+class PlayerAttackScript;
 class PlayerMoveScript;
 class PlayerJumpScript;
 class PlayerRotationScript;
@@ -43,7 +43,7 @@ private:
 	GameObject* player;
 	GameObject* DebugPowerUp;
 	HealthSystem* playerHealthSystem;
-	BixAttackScript* playerAttackScript;
+	PlayerAttackScript* playerAttackScript;
 	PlayerMoveScript* playerMoveScript;
 	PlayerJumpScript* playerJumpScript;
 	PlayerRotationScript* playerRotationScript;
