@@ -8,6 +8,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class CameraControllerScript;
 class ComponentTransform;
+class ComponentRigidBody;
 class ModuleInput;
 
 class SwitchPlayerManagerScript : public Script
@@ -39,6 +40,9 @@ private:
 	ComponentTransform* player0Transform;
 	ComponentTransform* player1Transform;
 	ComponentTransform* currentPlayerTransform;
+
+	ComponentRigidBody* player0RigidBody;
+	ComponentRigidBody* player1RigidBody;
 
 	bool isChangingPlayer;
 };

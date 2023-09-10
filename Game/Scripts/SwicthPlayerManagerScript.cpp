@@ -3,6 +3,7 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentRigidBody.h"
 #include "ModuleInput.h"
 
 #include "../Scripts/CameraControllerScript.h"
@@ -23,6 +24,9 @@ void SwitchPlayerManagerScript::Start()
 	camera = mainCamera->GetComponent<CameraControllerScript>();
 	player0Transform = players[0]->GetComponent<ComponentTransform>();
 	player1Transform = players[1]->GetComponent<ComponentTransform>();
+
+	player0RigidBody = players[0]->GetComponent<ComponentRigidBody>();
+	player1RigidBody = players[1]->GetComponent<ComponentRigidBody>();
 
 	camera->ChangeCurrentPlayer(player0Transform);
 }
@@ -46,22 +50,28 @@ void SwitchPlayerManagerScript::TogglePlayerScripts()
 {
 	if (players[0]->IsEnabled())
 	{
+		btVector3 rigidBodyVec3(player0Transform->GetGlobalPosition().x, player0Transform->GetGlobalPosition().y, player0Transform->GetGlobalPosition().z);
+
 		players[0]->Disable();
 		players[1]->Enable();
 
-		/*LOG_DEBUG("Switching players.");
-		LOG_DEBUG("Player 0 position: {}, {}, {}", player0Transform->GetGlobalPosition().x, player0Transform->GetGlobalPosition().y, player0Transform->GetGlobalPosition().z);
-		LOG_DEBUG("Player 1 position before teleport: {}, {}, {}", player1Transform->GetGlobalPosition().x, player1Transform->GetGlobalPosition().y, player1Transform->GetGlobalPosition().z);
-
+		player1Transform->SetLocalPosition(player0Transform->GetLocalPosition());
 		player1Transform->SetGlobalPosition(player0Transform->GetGlobalPosition());
+		player1RigidBody->SetRigidBodyOrigin(rigidBodyVec3);
 
-		LOG_DEBUG("Player 1 position after teleport: {}, {}, {}", player1Transform->GetGlobalPosition().x, player1Transform->GetGlobalPosition().y, player1Transform->GetGlobalPosition().z);*/
 		currentPlayerTransform = player1Transform;
 	}
 	else
 	{
+		btVector3 rigidBodyVec3(player1Transform->GetGlobalPosition().x, player1Transform->GetGlobalPosition().y, player1Transform->GetGlobalPosition().z);
+
 		players[0]->Enable();
 		players[1]->Disable();
+
+		player0Transform->SetLocalPosition(player1Transform->GetLocalPosition());
+		player0Transform->SetGlobalPosition(player1Transform->GetGlobalPosition());
+		player0RigidBody->SetRigidBodyOrigin(rigidBodyVec3);
+
 		currentPlayerTransform = player0Transform;
 	}
 
