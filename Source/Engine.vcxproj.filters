@@ -736,7 +736,6 @@
     <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
     <ClCompile Include="..\Game\Scripts\AnimatedLine.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
@@ -770,6 +769,9 @@
     </ClCompile>
     <ClCompile Include="DataModels\PostProcess\SSAO.cpp">
       <Filter>DataModels\PosProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="LightProxy.cpp">
+      <Filter>DataModels\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1586,6 +1588,9 @@
     <ClInclude Include="DataModels\PostProcess\SSAO.h">
       <Filter>DataModels\PosProcess</Filter>
     </ClInclude>
+    <ClInclude Include="LightProxy.h">
+      <Filter>DataModels\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1791,6 +1796,9 @@
     </Filter>
     <Filter Include="DataModels\PosProcess">
       <UniqueIdentifier>{378aa69b-879a-45bc-8d90-4c8dc788a32a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Render">
+      <UniqueIdentifier>{a7ed1389-7b28-4d90-a000-63593e10db6c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

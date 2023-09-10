@@ -771,6 +771,7 @@
     <ClCompile Include="DataModels\GBuffer\GBuffer.cpp" />
     <ClCompile Include="FileSystem\UIDGenerator.cpp" />
     <ClCompile Include="Formatter.cpp" />
+    <ClCompile Include="LightProxy.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="DataModels\ParticleSystem\ModuleRenderer.cpp" />
     <ClCompile Include="Modules\ModuleNavigation.cpp" />
@@ -1320,6 +1321,7 @@
     <ClInclude Include="DataModels\GBuffer\GBuffer.h" />
     <ClInclude Include="DataModels\ParticleSystem\ModuleRenderer.h" />
     <ClInclude Include="Formatter.h" />
+    <ClInclude Include="LightProxy.h" />
     <ClInclude Include="Modules\ModuleNavigation.h" />
     <ClInclude Include="FileSystem\UID.h" />
     <ClInclude Include="FileSystem\UIDGenerator.h" />

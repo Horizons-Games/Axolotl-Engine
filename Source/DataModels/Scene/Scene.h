@@ -110,6 +110,8 @@ public:
 	Cubemap* GetCubemap() const;
 	const bool GetCombatMode() const;
 	const float GetEnemiesToDefeat() const;
+	const int GetSizeSpotLights() const;
+	const int GetSizePointLights() const;
 	std::vector<ComponentMeshRenderer*> GetMeshRenderers() const;
 	std::vector<AABB> GetBoundingBoxes() const;
 	std::vector<ComponentAgent*> GetAgentComponents() const;
@@ -365,4 +367,14 @@ inline const bool Scene::GetCombatMode() const
 inline const float Scene::GetEnemiesToDefeat() const
 {
 	return enemiesToDefeat;
+}
+
+inline const int Scene::GetSizeSpotLights() const
+{
+	return spotLights.size();
+}
+
+inline const int Scene::GetSizePointLights() const
+{
+	return pointLights.size();
 }

@@ -8,6 +8,7 @@
 #include "FileSystem/UID.h"
 
 #include "PostProcess/SSAO.h"
+#include "LightProxy.h"
 
 #define KAWASE_DUAL_SAMPLERS 4
 #define GAUSSIAN_BLUR_SHADOW_MAP 2
@@ -119,6 +120,7 @@ private:
 	BatchManager* batchManager;
 	GBuffer* gBuffer;
 	SSAO* ssao;
+	LightProxy* lightProxy;
 
 	unsigned uboCamera;
 
