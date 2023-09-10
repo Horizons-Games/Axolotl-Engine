@@ -287,10 +287,6 @@ void Shadows::RenderShadowMap(const GameObject* light, const float2& minMax, Cam
 	float lightNear = S / (T + minMax[0]);
 	float lightFar = S / (T + minMax[1]);
 
-	if (lightNear > lightFar) {
-		lightNear = 0.1f;
-	}
-
 	cameraFrustum->SetViewPlaneDistances(lightNear, lightFar);
 
 	// Compute whole camera frustum to do culling only once
