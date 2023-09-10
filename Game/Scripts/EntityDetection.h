@@ -27,6 +27,8 @@ public:
 	GameObject* GetEnemySelected() const;
 	bool AreAnyEnemiesInTheArea() const;
 
+	std::vector<ComponentRigidBody*>& GetEnemiesInTheArea();
+
 private:
 	void DrawDetectionLines(float distanceFilter);
 	void SelectEnemy(float distanceFilter);
@@ -43,7 +45,7 @@ private:
 	float interactionOffset;
 	float angleThresholdEnemyIntersection;
 
-	std::vector<ComponentTransform*> enemiesInTheArea;
+	std::vector<ComponentRigidBody*> enemiesInTheArea;
 	ComponentTransform* enemySelected;
 
 	float3 vecForward;

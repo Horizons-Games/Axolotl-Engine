@@ -88,6 +88,8 @@ void BixAttackScript::Update(float deltaTime)
 
 	else
 	{
+		if (jumpFinisherScript->IsActive()) 
+		{
 		ResetAttackAnimations();
 	}
 }
