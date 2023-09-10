@@ -70,8 +70,11 @@ void Shadows::CleanUp()
 	glDeleteFramebuffers(GAUSSIAN_BLUR_SHADOW_MAP, &blurShadowMapBuffer[0]);
 	glDeleteTextures(GAUSSIAN_BLUR_SHADOW_MAP, &gBluredShadowMaps[0]);
 
+	glDeleteFramebuffers(1, &parallelReductionInFrameBuffer);
 	glDeleteTextures(1, &parallelReductionInTexture);
+	glDeleteFramebuffers(1, &parallelReductionOutFrameBuffer);
 	glDeleteTextures(1, &parallelReductionOutTexture);
+	glDeleteFramebuffers(1, &shadowVarianceFrameBuffer);
 	glDeleteTextures(1, &shadowVarianceTexture);
 
 	glDeleteBuffers(1, &minMaxBuffer);
@@ -87,8 +90,11 @@ void Shadows::InitBuffers()
 	glGenFramebuffers(GAUSSIAN_BLUR_SHADOW_MAP, &blurShadowMapBuffer[0]);
 	glGenTextures(GAUSSIAN_BLUR_SHADOW_MAP, &gBluredShadowMaps[0]);
 
+	glGenFramebuffers(1, &parallelReductionInFrameBuffer);
 	glGenTextures(1, &parallelReductionInTexture);
+	glGenFramebuffers(1, &parallelReductionOutFrameBuffer);
 	glGenTextures(1, &parallelReductionOutTexture);
+	glGenFramebuffers(1, &shadowVarianceFrameBuffer);
 	glGenTextures(1, &shadowVarianceTexture);
 
 	glGenBuffers(1, &minMaxBuffer);
@@ -130,18 +136,63 @@ void Shadows::UpdateBuffers(unsigned width, unsigned height)
 		LOG_ERROR("ERROR::FRAMEBUFFER:: Shadow Map framebuffer not completed!");
 	}
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, parallelReductionInFrameBuffer);
 
 	glBindTexture(GL_TEXTURE_2D, parallelReductionInTexture);
-	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RG32F, screenSize.first, screenSize.second);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RG32F, screenSize.first, screenSize.second, 0, GL_RG, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, parallelReductionInTexture, 0);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer Parallel in is not complete!");
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, parallelReductionOutFrameBuffer);
+
 	glBindTexture(GL_TEXTURE_2D, parallelReductionOutTexture);
-	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RG32F, screenSize.first, screenSize.second);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RG32F, screenSize.first, screenSize.second, 0, GL_RG, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, parallelReductionOutTexture, 0);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer Parallel out is not complete!");
+	}
 
 	//VSM Buffers
 
+	glBindFramebuffer(GL_FRAMEBUFFER, shadowVarianceFrameBuffer);
+
 	glBindTexture(GL_TEXTURE_2D_ARRAY, shadowVarianceTexture);
-	glTexStorage3D(GL_TEXTURE_2D_ARRAY, 1, GL_RG32F, screenSize.first, screenSize.second, 
-		           static_cast<GLint>(FRUSTUM_PARTITIONS + 1));
+	glTexImage3D(GL_TEXTURE_2D_ARRAY,
+		0,
+		GL_RG32F,
+		screenSize.first, screenSize.second,
+		static_cast<GLint>(FRUSTUM_PARTITIONS + 1),
+		0,
+		GL_RG,
+		GL_FLOAT,
+		NULL);
+	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, shadowVarianceTexture, 0);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
+	}
 
 	for (unsigned i = 0; i < GAUSSIAN_BLUR_SHADOW_MAP; ++i)
 	{
@@ -171,6 +222,7 @@ void Shadows::UpdateBuffers(unsigned width, unsigned height)
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D_ARRAY, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	glBindBuffer(GL_UNIFORM_BUFFER, uboFrustums);

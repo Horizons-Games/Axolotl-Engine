@@ -383,8 +383,11 @@ UpdateStatus ModuleRender::Update()
 		ComponentDirLight* directLight = static_cast<ComponentDirLight*>(
 			App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight()->GetComponent<ComponentLight>());
 
-		program->BindUniformFloat("minBias", directLight->shadowBias[0]);
-		program->BindUniformFloat("maxBias", directLight->shadowBias[1]);
+		if (!shadows->UseVSM())
+		{
+			program->BindUniformFloat("minBias", directLight->shadowBias[0]);
+			program->BindUniformFloat("maxBias", directLight->shadowBias[1]);
+		}
 	}
 	program->BindUniformInt("useShadows", static_cast<int>(shadows->UseShadows()));
 	program->BindUniformInt("useVSM", static_cast<int>(shadows->UseVSM()));
