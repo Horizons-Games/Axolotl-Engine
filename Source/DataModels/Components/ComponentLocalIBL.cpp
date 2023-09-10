@@ -26,57 +26,10 @@ ComponentLocalIBL::ComponentLocalIBL(GameObject* parent) :
 	parallaxAABB({ { -10, -10, -10 }, { 10, 10, 10 } }), influenceAABB({ { -10, -10, -10 }, { 10, 10, 10 } }), 
 	originCenterParallax(parallaxAABB.CenterPoint()), originCenterInfluence(influenceAABB.CenterPoint())
 {
-	// Generate framebuffer & renderBuffer
-	glGenFramebuffers(1, &frameBuffer);
-
-	// irradianceMap
-	glGenTextures(1, &diffuse);
-
-	glBindTexture(GL_TEXTURE_CUBE_MAP, diffuse);
-	for (unsigned int i = 0; i < 6; ++i)
-	{
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-			0,
-			GL_RGB16F,
-			RESOLUTION,
-			RESOLUTION,
-			0,
-			GL_RGB,
-			GL_FLOAT,
-			nullptr);
-	}
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	// pre-filtered map
-	glGenTextures(1, &preFiltered);
-
-	glBindTexture(GL_TEXTURE_CUBE_MAP, preFiltered);
-	for (unsigned int i = 0; i < 6; ++i)
-	{
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-			0,
-			GL_RGB16F,
-			RESOLUTION, //TODO look resolution
-			RESOLUTION,
-			0,
-			GL_RGB,
-			GL_FLOAT,
-			nullptr);
-	}
-
-	numMipMaps = static_cast<int>(log(static_cast<float>(RESOLUTION)) / log(2));
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_BASE_LEVEL, 0);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAX_LEVEL, numMipMaps);
-	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+	App->ScheduleTask([this]()
+		{
+			Initialize();
+		});
 }
 
 ComponentLocalIBL::~ComponentLocalIBL()
@@ -84,6 +37,9 @@ ComponentLocalIBL::~ComponentLocalIBL()
 	glDeleteFramebuffers(1, &frameBuffer);
 	glDeleteTextures(1, &diffuse);
 	glDeleteTextures(1, &preFiltered);
+
+	glMakeTextureHandleNonResidentARB(handleIrradiance);
+	glMakeTextureHandleNonResidentARB(handlePreFiltered);
 
 	deleting = true;
 
@@ -252,6 +208,66 @@ void ComponentLocalIBL::InternalLoad(const Json& meta)
 	influenceAABB.maxPoint.z = static_cast<float>(meta["influence_max_z"]);
 
 	originCenterInfluence = influenceAABB.CenterPoint();
+}
+
+void ComponentLocalIBL::Initialize()
+{
+	// Generate framebuffer & renderBuffer
+	glGenFramebuffers(1, &frameBuffer);
+
+	// irradianceMap
+	glGenTextures(1, &diffuse);
+
+	glBindTexture(GL_TEXTURE_CUBE_MAP, diffuse);
+	for (unsigned int i = 0; i < 6; ++i)
+	{
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+			0,
+			GL_RGB16F,
+			RESOLUTION,
+			RESOLUTION,
+			0,
+			GL_RGB,
+			GL_FLOAT,
+			nullptr);
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	// pre-filtered map
+	glGenTextures(1, &preFiltered);
+
+	glBindTexture(GL_TEXTURE_CUBE_MAP, preFiltered);
+	for (unsigned int i = 0; i < 6; ++i)
+	{
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+			0,
+			GL_RGB16F,
+			RESOLUTION, //TODO look resolution
+			RESOLUTION,
+			0,
+			GL_RGB,
+			GL_FLOAT,
+			nullptr);
+	}
+
+	numMipMaps = static_cast<int>(log(static_cast<float>(RESOLUTION)) / log(2));
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_BASE_LEVEL, 0);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAX_LEVEL, numMipMaps);
+	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+
+	App->ScheduleTask([this]()
+		{
+			GenerateMaps();
+		});
 }
 
 void ComponentLocalIBL::RenderToCubeMap(unsigned int cubemapTex, Frustum& frustum, int resolution, int mipmapLevel)

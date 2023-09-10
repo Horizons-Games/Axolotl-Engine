@@ -54,6 +54,7 @@ public:
 	void InternalLoad(const Json& meta) override;
 
 private:
+	void Initialize();
 	void RenderToCubeMap(unsigned int cubemapTex, Frustum& frustum, int resolution = RESOLUTION, int mipmapLevel = 0);
 	void BindCameraToProgram(Program* program, Frustum& frustum, unsigned int uboCamera);
 

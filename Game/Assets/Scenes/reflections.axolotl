@@ -46,6 +46,18 @@
                             "removed": false,
                             "intensity": 1.0
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Skybox",
+                            "active": true,
+                            "removed": true,
+                            "Skybox": {
+                                "enable": true,
+                                "skyboxUID": 4377575066284441384,
+                                "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+                            }
+                        }
                     }
                 ]
             }
@@ -1317,6 +1329,60 @@
                     }
                 ]
             }
+        },
+        {
+            "GameObject": {
+                "name": "Local IBL",
+                "tag": "",
+                "uid": 12058216838052288843,
+                "parentUID": 545909808580930235,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.3569600582122803,
+                            "localPos_Y": 3.538369655609131,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": true,
+                            "lightType": "LightType_Local_IBL",
+                            "parallax_min_x": -8.643041610717773,
+                            "parallax_min_y": -6.461629867553711,
+                            "parallax_min_z": -10.0,
+                            "parallax_max_x": 11.356958389282227,
+                            "parallax_max_y": 13.538374900817871,
+                            "parallax_max_z": 10.0,
+                            "influence_min_x": -8.643041610717773,
+                            "influence_min_y": -6.461629867553711,
+                            "influence_min_z": -10.0,
+                            "influence_max_x": -3.6430394649505615,
+                            "influence_max_y": 13.538374900817871,
+                            "influence_max_z": 10.0
+                        }
+                    }
+                ]
+            }
         }
     ],
     "Quadtree": {
@@ -1332,10 +1398,6 @@
                 "z": 25.0
             }
         }
-    },
-    "Skybox": {
-        "skyboxUID": 4377575066284441384,
-        "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
     },
     "Cubemap": {
         "cubemapUID": 992078593789236745,
