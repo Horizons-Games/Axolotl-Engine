@@ -21,10 +21,12 @@ public:
 	virtual void OnCollisionEnter(ComponentRigidBody* other) override;
 	virtual void OnCollisionExit(ComponentRigidBody* other) override;
 
-	void PushEnemies(float pushForce, float stunTime);
+	void VisualLandingEffect();
+
+	void PushEnemies(float pushForce, float stunTime, std::vector<ComponentRigidBody*>* enemies = nullptr);
 
 private:
-	std::vector<GameObject*> enemiesInTheArea;
+	std::vector<ComponentRigidBody*> enemiesInTheArea;
 
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;

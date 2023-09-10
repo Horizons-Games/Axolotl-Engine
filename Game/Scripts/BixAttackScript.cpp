@@ -90,6 +90,9 @@ void BixAttackScript::Update(float deltaTime)
 	{
 		if (jumpFinisherScript->IsActive()) 
 		{
+			UpdateJumpAttack();
+		}
+
 		ResetAttackAnimations();
 	}
 }
@@ -124,7 +127,7 @@ void BixAttackScript::PerformCombos()
 
 		case AttackType::JUMPNORMAL:
 			LOG_VERBOSE("Normal Attack Jump");
-			JumpNormalAttack();
+			InitJumpAttack();
 			break;
 
 		case AttackType::LIGHTFINISHER:
@@ -139,7 +142,7 @@ void BixAttackScript::PerformCombos()
 
 		case AttackType::JUMPFINISHER:
 			LOG_VERBOSE("Finisher Jump");
-			JumpFinisher();
+			InitJumpAttack();
 			break;
 
 		default:
@@ -191,17 +194,50 @@ void BixAttackScript::HeavyNormalAttack()
 	isAttacking = true;
 }
 
-void BixAttackScript::JumpNormalAttack()
+void BixAttackScript::InitJumpAttack()
 {
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
 
-	jumpFinisherScript->PerformGroundSmash(10.0f, 2.0f); // Bix jumping attack
-	//jumpFinisherScript->ShootForceBullet(10.0f, 2.0f); // Allura jumping attack, placed it here for now
+	jumpFinisherScript->PerformGroundSmash();  // Bix start jumping finisher
+}
 
+void BixAttackScript::UpdateJumpAttack()
+{
+	bool landed = false;
+	//if (isMelee) landing is player grounded if not then is the projectile detection for the moment I only put this
+	landed = playerManager->IsGrounded();
+
+	if (landed)
+	{
+		if (currentAttack == AttackType::JUMPNORMAL)
+		{
+			EndJumpNormalAttack();
+		}
+		else
+		{
+			EndJumpFinisherAttack();
+		}
+	}
+}
+
+void BixAttackScript::EndJumpNormalAttack() 
+{
+	jumpFinisherScript->VisualLandingEffect();
 	if (enemyDetection->AreAnyEnemiesInTheArea())
 	{
+		jumpFinisherScript->PushEnemies(10.0f, 2.0f, enemyDetection->GetEnemiesInTheArea());
 		comboSystem->SuccessfulAttack(20.0f, currentAttack);
+	}
+}
+
+void BixAttackScript::EndJumpFinisherAttack()
+{
+	jumpFinisherScript->VisualLandingEffect();
+	if (enemyDetection->AreAnyEnemiesInTheArea())
+	{
+		jumpFinisherScript->PushEnemies(15.0f, 4.0f, enemyDetection->GetEnemiesInTheArea());
+		comboSystem->SuccessfulAttack(-35.0f, currentAttack);
 	}
 }
 
@@ -233,17 +269,6 @@ void BixAttackScript::HeavyFinisher()
 		heavyFinisherAttack->PerformEmptyHeavyFinisher(GetOwner()->GetComponent<ComponentTransform>());
 		comboSystem->SuccessfulAttack(-50.0f, currentAttack);
 	}
-}
-
-void BixAttackScript::JumpFinisher()
-{
-	animation->SetParameter("IsJumpAttacking", true);
-	isAttacking = true;
-
-	jumpFinisherScript->PerformGroundSmash(15.0f, 4.0f); // Bix jumping finisher
-	//jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
-
-	comboSystem->SuccessfulAttack(-35.0f, currentAttack);
 }
 
 void BixAttackScript::ResetAttackAnimations()

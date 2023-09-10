@@ -68,7 +68,7 @@ void JumpFinisherArea::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->GetTag() == "Enemy" && other->GetOwner()->IsEnabled())
 	{
-		enemiesInTheArea.push_back(other->GetOwner());
+		enemiesInTheArea.push_back(other);
 	}
 }
 
@@ -76,39 +76,46 @@ void JumpFinisherArea::OnCollisionExit(ComponentRigidBody* other)
 {
 	enemiesInTheArea.erase(
 		std::remove_if(
-			std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const GameObject* gameObject)
+			std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const ComponentRigidBody* componentRigidBody)
 			{
-				return gameObject == other->GetOwner();
+				return componentRigidBody == other;
 			}
 		),
 		std::end(enemiesInTheArea));
 }
 
-void JumpFinisherArea::PushEnemies(float pushForce, float stunTime)
+void JumpFinisherArea::VisualLandingEffect() 
 {
-	const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 	particleSystem->Play();
 	triggerParticleSystemTimer = true;
+}
 
-	for (std::vector<GameObject*>::iterator it = enemiesInTheArea.begin(); it < enemiesInTheArea.end();
+void JumpFinisherArea::PushEnemies(float pushForce, float stunTime, std::vector<ComponentRigidBody*>* enemies)
+{
+	const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
+
+	if (enemies == nullptr) 
+	{
+		enemies = &enemiesInTheArea;
+	}
+
+	for (std::vector<ComponentRigidBody*>::iterator it = (*enemies).begin(); it < (*enemies).end();
 		it++)
 	{
+		GameObject* ownerEnemy = (*it)->GetOwner();
 		// If you think about a better way to identify the bosses lmk, tags are already in use
 		// and as there will only be three bosses, this is a "not so bad" approach I guess
 		AXO_TODO("Add here miniboss 1 script if finally developed, so no boss gets pushed back by this attack");
-		if ((*it)->HasComponent<EnemyMiniBossTwo>() || (*it)->HasComponent<FinalBossScript>())
+		if (ownerEnemy->HasComponent<EnemyMiniBossTwo>() || ownerEnemy->HasComponent<FinalBossScript>())
 		{
 			continue;
 		}
 
-		const ComponentTransform* enemyTransform =
-			(*it)->GetComponent<ComponentTransform>();
-		ComponentRigidBody* enemyRigidBody =
-			(*it)->GetComponent<ComponentRigidBody>();
+		ComponentTransform* enemyTransform = (*it)->GetOwnerTransform();
 
-		btRigidBody* enemybtRigidbody = enemyRigidBody->GetRigidBody();
-		enemyRigidBody->DisablePositionController();
-		enemyRigidBody->DisableRotationController();
+		btRigidBody* enemybtRigidbody = (*it)->GetRigidBody();
+		(*it)->DisablePositionController();
+		(*it)->DisableRotationController();
 		enemybtRigidbody->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
 		enemybtRigidbody->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
 
@@ -122,10 +129,10 @@ void JumpFinisherArea::PushEnemies(float pushForce, float stunTime)
 		btVector3 newVelocity(nextPosition.x, nextPosition.y, nextPosition.z);
 		enemybtRigidbody->setLinearVelocity(newVelocity);
 
-		EnemyClass* enemyScript = (*it)->GetComponent<EnemyClass>();
+		EnemyClass* enemyScript = ownerEnemy->GetComponent<EnemyClass>();
 		enemyScript->SetStunnedTime(stunTime);
 
-		HealthSystem* enemyHealthScript = (*it)->GetComponent<HealthSystem>();
+		HealthSystem* enemyHealthScript = ownerEnemy->GetComponent<HealthSystem>();
 ;
 		// We apply the same damage to the enemies as the push force used to push them
 		enemyHealthScript->TakeDamage(pushForce);
