@@ -4,9 +4,9 @@
 
 #define GAUSSIAN_BLUR_SHADOW_MAP 2
 
-#define FRUSTUM_PARTITIONS 2
+#define FRUSTUM_PARTITIONS 1
 
-constexpr float frustumIntervals[FRUSTUM_PARTITIONS] = { 0.05f, 0.15f };
+constexpr float frustumIntervals[FRUSTUM_PARTITIONS] = { 0.15f };
 
 class Camera;
 class GBuffer;
