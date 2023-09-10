@@ -11,7 +11,7 @@
 
 REGISTERCLASS(SwitchPlayerManagerScript);
 
-SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), mainCamera(nullptr), input(nullptr)
+SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), mainCamera(nullptr), input(nullptr), currentPlayerID(0)
 {
 	REGISTER_FIELD(mainCamera, GameObject*);
 	REGISTER_FIELD_WITH_ACCESSORS(PlayerGameObject, std::vector<GameObject*>);
@@ -24,13 +24,7 @@ void SwitchPlayerManagerScript::Start()
 	camera = mainCamera->GetComponent<CameraControllerScript>();
 	cameraTransform = mainCamera->GetComponent<ComponentTransform>();
 
-	player0Transform = players[0]->GetComponent<ComponentTransform>();
-	player1Transform = players[1]->GetComponent<ComponentTransform>();
-
-	player0RigidBody = players[0]->GetComponent<ComponentRigidBody>();
-	player1RigidBody = players[1]->GetComponent<ComponentRigidBody>();
-
-	camera->ChangeCurrentPlayer(player0Transform);
+	camera->ChangeCurrentPlayer(players[currentPlayerID]->GetComponent<ComponentTransform>());
 }
 
 void SwitchPlayerManagerScript::Update(float deltaTime)
@@ -61,29 +55,21 @@ void SwitchPlayerManagerScript::IsChangingCurrentPlayer()
 {
 	if (changePlayerTimer.Read() >= 3000)
 	{
-		btVector3 rigidBodyVec3(cameraTransform->GetGlobalPosition().x, player0Transform->GetGlobalPosition().y, cameraTransform->GetGlobalPosition().z);
+		//Disabling the current player
+		players[currentPlayerID]->Disable();
 
-		if (players[0]->IsEnabled())
-		{
-			players[0]->Disable();
-			players[1]->Enable();
+		btVector3 rigidBodyVec3(cameraTransform->GetGlobalPosition().x, players[currentPlayerID]->GetComponent<ComponentTransform>()->GetGlobalPosition().y,
+			cameraTransform->GetGlobalPosition().z);
 
-			player1Transform->SetGlobalPosition(player0Transform->GetGlobalPosition());
-			player1RigidBody->SetRigidBodyOrigin(rigidBodyVec3);
+		currentPlayerID = (currentPlayerID + 1) % players.size(); //Here we change current player ID
 
-			currentPlayerTransform = player1Transform;
-		}
-		else
-		{
-			players[0]->Enable();
-			players[1]->Disable();
+		//Enabling the new current player
+		players[currentPlayerID]->Enable();
 
-			player0Transform->SetGlobalPosition(player1Transform->GetGlobalPosition());
-			player0RigidBody->SetRigidBodyOrigin(rigidBodyVec3);
-
-			currentPlayerTransform = player0Transform;
-		}
-		camera->ChangeCurrentPlayer(currentPlayerTransform);
+		players[currentPlayerID]->GetComponent<ComponentRigidBody>()->SetRigidBodyOrigin(rigidBodyVec3);
+		
+		camera->ChangeCurrentPlayer(players[currentPlayerID]->GetComponent<ComponentTransform>());
+		
 
 		changePlayerTimer.Stop();
 		isChangingPlayer = false;

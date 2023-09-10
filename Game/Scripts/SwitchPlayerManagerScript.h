@@ -30,6 +30,8 @@ public:
 private:
 	void Start() override;
 
+	int currentPlayerID;
+
 	ModuleInput* input;
 	Timer changePlayerTimer;
 
@@ -38,13 +40,6 @@ private:
 	ComponentTransform* cameraTransform;
 
 	std::vector<GameObject*> players;
-
-	ComponentTransform* player0Transform;
-	ComponentTransform* player1Transform;
-	ComponentTransform* currentPlayerTransform;
-
-	ComponentRigidBody* player0RigidBody;
-	ComponentRigidBody* player1RigidBody;
 
 	bool isChangingPlayer;
 };
