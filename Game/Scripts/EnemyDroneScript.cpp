@@ -188,6 +188,8 @@ void EnemyDroneScript::CheckState()
 
 void EnemyDroneScript::UpdateBehaviour(float deltaTime)
 {
+	float3 target = seekTargetTransform->GetGlobalPosition();
+
 	switch (droneState)
 	{
 	case DroneBehaviours::PATROL:
@@ -198,7 +200,8 @@ void EnemyDroneScript::UpdateBehaviour(float deltaTime)
 
 		enemyDetectionTime += deltaTime;
 
-		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+		aiMovement->SetTargetPosition(target);
+		aiMovement->SetRotationTargetPosition(target);
 
 		if (enemyDetectionTime >= enemyDetectionDuration)
 		{
@@ -218,7 +221,8 @@ void EnemyDroneScript::UpdateBehaviour(float deltaTime)
 
 	case DroneBehaviours::FASTATTACK:
 
-		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+		aiMovement->SetTargetPosition(target);
+		aiMovement->SetRotationTargetPosition(target);
 
 		if (componentAnimation->GetActualStateName() != "Flinch")
 		{
@@ -246,7 +250,8 @@ void EnemyDroneScript::UpdateBehaviour(float deltaTime)
 
 	case DroneBehaviours::EXPLOSIONATTACK:
 
-		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+		aiMovement->SetTargetPosition(target);
+		aiMovement->SetRotationTargetPosition(target);
 
 		break;
 	}

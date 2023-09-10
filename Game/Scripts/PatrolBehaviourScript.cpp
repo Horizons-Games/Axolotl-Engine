@@ -55,7 +55,10 @@ void PatrolBehaviourScript::Update(float deltaTime)
 
 				CheckNextWaypoint();
 
-				aiMovement->SetTargetPosition(waypointsPatrol[currentWayPoint]->GetGlobalPosition());
+				float3 target = waypointsPatrol[currentWayPoint]->GetGlobalPosition();
+
+				aiMovement->SetTargetPosition(target);
+				aiMovement->SetRotationTargetPosition(target);
 				aiMovement->SetMovementStatuses(true, true);
 
 				componentAnimation->SetParameter(patrolAnimationParamater, true);
@@ -66,7 +69,10 @@ void PatrolBehaviourScript::Update(float deltaTime)
 
 void PatrolBehaviourScript::StartPatrol()
 {
-	aiMovement->SetTargetPosition(waypointsPatrol[currentWayPoint]->GetGlobalPosition());
+	float3 target = waypointsPatrol[currentWayPoint]->GetGlobalPosition();
+
+	aiMovement->SetTargetPosition(target);
+	aiMovement->SetRotationTargetPosition(target);
 	aiMovement->SetMovementStatuses(true, true);
 	componentAnimation->SetParameter(patrolAnimationParamater, true);
 	patrolStateActivated = true;
@@ -84,7 +90,10 @@ void PatrolBehaviourScript::Patrolling()
 {
 	if (aiMovement->GetIsAtDestiny())
 	{
-		aiMovement->SetTargetPosition(ownerTransform->GetGlobalPosition());
+		float3 target = ownerTransform->GetGlobalPosition();
+
+		aiMovement->SetTargetPosition(target);
+		aiMovement->SetRotationTargetPosition(target);
 		aiMovement->SetMovementStatuses(false, false);
 
 		isStoppedAtPatrol = true;
