@@ -7,6 +7,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentAgent.h"
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
@@ -40,6 +41,7 @@ void FinalBossScript::Start()
 	shockWaveAttackScript = owner->GetComponent<ShockWaveAttackScript>();
 	shieldAttackScript = owner->GetComponent<BossShieldAttackScript>();
 	missilesAttackScript = owner->GetComponent<BossMissilesAttackScript>();
+	agent = owner->GetComponent<ComponentAgent>();
 
 	LOG_INFO("Final Boss is in the NEUTRAL PHASE");
 }
@@ -52,11 +54,11 @@ void FinalBossScript::Update(float deltaTime)
 	}
 
 	// Uncomment this line to check the attacks individually (you have to activate each one of them below)
-	//TryAttacksIndividually();
+	TryAttacksIndividually();
 	
 	// Comment these lines if you uncomment the one above and vice versa
-	ChangeBossPhase();
-	ManageActualPhase(bossPhase);
+	//ChangeBossPhase();
+	//ManageActualPhase(bossPhase);
 }
 
 void FinalBossScript::ChangeBossPhase()
@@ -123,14 +125,12 @@ void FinalBossScript::TryAttacksIndividually()
 	}
 
 	// Uncomment this to check the plasma hammer attack (NORMAL shockwave) -----------
-	/*
-	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
+	/*if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack() && !isPerformingAnAttack)
 	{
 		shockWaveAttackScript->TriggerNormalShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
-	}
-	*/
+	}*/
 
 	// Uncomment this to check the plasma hammer attack (SEEKING shockwave) ----------
 	/*
@@ -175,6 +175,10 @@ void FinalBossScript::TryAttacksIndividually()
 
 void FinalBossScript::ReactivateMovement() const
 {
+	agent->SetMaxAcceleration(agent->GetInitialMaxAcceleration());
+	agent->SetMaxSpeed(agent->GetInitialMaxSpeed());
+	//agent->AddAgentToCrowd();
+
 	/*rigidBody->SetKpForce(0.3f);
 	rigidBody->SetIsKinematic(false);
 	rigidBody->SetUpMobility();*/

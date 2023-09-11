@@ -15,6 +15,7 @@ class BossChargeAttackScript;
 class ShockWaveAttackScript;
 class BossShieldAttackScript;
 class BossMissilesAttackScript;
+class ComponentAgent;
 
 enum class FinalBossPhases
 {
@@ -77,6 +78,7 @@ private:
 	ShockWaveAttackScript* shockWaveAttackScript;
 	BossShieldAttackScript* shieldAttackScript;
 	BossMissilesAttackScript* missilesAttackScript;
+	ComponentAgent* agent;
 
 	// Modifiable values
 	GameObject* target;

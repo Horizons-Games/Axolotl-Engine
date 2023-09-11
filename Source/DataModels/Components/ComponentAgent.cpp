@@ -110,10 +110,10 @@ void ComponentAgent::SetMaxSpeed(float newSpeed)
 {
 	maxSpeed = newSpeed;
 
-	if (maxSpeed > initialMaxSpeed)
+	/*if (maxSpeed > initialMaxSpeed)
 	{
 		initialMaxSpeed = maxSpeed;
-	}
+	}*/
 
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
 	dtCrowdAgent* ag = navMesh->GetCrowd()->getEditableAgent(agentId);
@@ -128,10 +128,10 @@ void ComponentAgent::SetMaxAcceleration(float newAcceleration)
 {
 	maxAcceleration = newAcceleration;
 
-	if (maxAcceleration > initialMaxAcceleration)
+	/*if (maxAcceleration > initialMaxAcceleration)
 	{
 		initialMaxAcceleration = maxAcceleration;
-	}
+	}*/
 
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
 	dtCrowdAgent* ag = navMesh->GetCrowd()->getEditableAgent(agentId);
