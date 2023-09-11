@@ -150,16 +150,15 @@ public:
 	
 	void AddParticleSystem(ComponentParticleSystem* particleSystem);
 	void AddComponentLines(ComponentLine* componentLine);
-	void AddComponentLocalIBL(ComponentLocalIBL* componentLocalIBL);
 	
 	void RemoveParticleSystem(const ComponentParticleSystem* particleSystem);
 	void RemoveComponentLine(const ComponentLine* componentLine);
-	void RemoveComponentLocalIBL(const ComponentLocalIBL* componentLocalIBL);
 
 	void InitNewEmptyScene();
 	void InitLights();
 	void InitRender();
 	void InitCubemap();
+	void InitLocalsIBL();
 
 	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D);
 

@@ -197,6 +197,7 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 		loadedScene->InitLights();
 		loadedScene->InitRender();
 		loadedScene->InitCubemap();
+		loadedScene->InitLocalsIBL();
 
 		// if no document was set, the user is creating a new scene. finish the process
 		if (!currentLoadingConfig->doc.has_value())

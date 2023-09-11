@@ -270,11 +270,6 @@ void ComponentLocalIBL::Initialize()
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_BASE_LEVEL, 0);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAX_LEVEL, numMipMaps);
 	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
-
-	App->ScheduleTask([this]()
-		{
-			GenerateMaps();
-		});
 }
 
 void ComponentLocalIBL::RenderToCubeMap(unsigned int cubemapTex, Frustum& frustum, int resolution, int mipmapLevel)
