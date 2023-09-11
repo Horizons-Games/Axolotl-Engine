@@ -1727,3 +1727,27 @@ void Scene::SetEnemiesToDefeat(float newEnemiesToDefeat)
 	if (newEnemiesToDefeat <= 0.0)
 		SetCombatMode(false);
 }
+
+const ComponentPointLight* Scene::GetPointLight(int index) const
+{
+	if (index >= 0 && index < cachedPoints.size())
+	{
+		return cachedPoints[index].first;
+	}
+	else
+	{
+		return nullptr;
+	}
+}
+
+const ComponentSpotLight* Scene::GetSpotLight(int index) const
+{
+	if (index >= 0 && index < cachedSpots.size())
+	{
+		return cachedSpots[index].first;
+	}
+	else
+	{
+		return nullptr;
+	}
+}

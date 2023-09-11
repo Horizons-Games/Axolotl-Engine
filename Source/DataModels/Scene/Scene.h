@@ -112,6 +112,8 @@ public:
 	const float GetEnemiesToDefeat() const;
 	const int GetSizeSpotLights() const;
 	const int GetSizePointLights() const;
+	const ComponentPointLight* GetPointLight(int index) const;
+	const ComponentSpotLight* GetSpotLight(int index) const;
 	std::vector<ComponentMeshRenderer*> GetMeshRenderers() const;
 	std::vector<AABB> GetBoundingBoxes() const;
 	std::vector<ComponentAgent*> GetAgentComponents() const;
