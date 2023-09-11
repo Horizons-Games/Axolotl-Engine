@@ -59,6 +59,8 @@ private:
 	void BindCameraToProgram(Program* program, Frustum& frustum, unsigned int uboCamera);
 
 	GLuint frameBuffer;
+	GLuint depth;
+
 	GLuint diffuse;
 	GLuint preFiltered;
 	

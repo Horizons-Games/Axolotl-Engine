@@ -42,6 +42,8 @@ ComponentLocalIBL::ComponentLocalIBL(GameObject* parent) :
 ComponentLocalIBL::~ComponentLocalIBL()
 {
 	glDeleteFramebuffers(1, &frameBuffer);
+	glDeleteRenderbuffers(1, &depth);
+
 	glDeleteTextures(1, &diffuse);
 	glDeleteTextures(1, &preFiltered);
 
@@ -62,6 +64,7 @@ ComponentLocalIBL::~ComponentLocalIBL()
 void ComponentLocalIBL::GenerateMaps()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
 	glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
 	Frustum frustum;
@@ -222,6 +225,12 @@ void ComponentLocalIBL::Initialize()
 {
 	// Generate framebuffer & renderBuffer
 	glGenFramebuffers(1, &frameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+
+	glGenRenderbuffers(1, &depth);
+	glBindRenderbuffer(GL_RENDERBUFFER, depth);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, RESOLUTION, RESOLUTION);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depth);
 
 	// irradianceMap
 	glGenTextures(1, &diffuse);
@@ -271,6 +280,7 @@ void ComponentLocalIBL::Initialize()
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_BASE_LEVEL, 0);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAX_LEVEL, numMipMaps);
 	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void ComponentLocalIBL::RenderToCubeMap(unsigned int cubemapTex, Frustum& frustum, int resolution, int mipmapLevel)
