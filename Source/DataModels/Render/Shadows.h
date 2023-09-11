@@ -49,7 +49,7 @@ private:
 
 	struct CascadePlaneDistances
 	{
-		float farDistances[FRUSTUM_PARTITIONS + 1];
+		float4 farDistances[FRUSTUM_PARTITIONS + 1];
 	};
 
 	// Shadow Mapping buffers and textures

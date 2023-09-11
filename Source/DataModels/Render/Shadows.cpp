@@ -459,7 +459,7 @@ void Shadows::PartitionIntoSubFrustums(Frustum* frustum)
 		*frustums[i] = *frustum;
 		frustums[i]->SetViewPlaneDistances(lastNearPlane, farPlane);
 
-		cascadeDistances.farDistances[i] = farPlane;
+		cascadeDistances.farDistances[i].x = farPlane;
 
 		lastNearPlane = farPlane;
 	}
@@ -467,7 +467,7 @@ void Shadows::PartitionIntoSubFrustums(Frustum* frustum)
 	*frustums[FRUSTUM_PARTITIONS] = *frustum;
 	frustums[FRUSTUM_PARTITIONS]->SetViewPlaneDistances(lastNearPlane, frustum->FarPlaneDistance());
 
-	cascadeDistances.farDistances[FRUSTUM_PARTITIONS] = frustum->FarPlaneDistance();
+	cascadeDistances.farDistances[FRUSTUM_PARTITIONS].x = frustum->FarPlaneDistance();
 }
 
 Frustum& Shadows::ComputeLightFrustum(const GameObject* light, Frustum* cameraFrustum)
