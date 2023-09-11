@@ -875,19 +875,39 @@ void ModuleRender::DrawMeshesByFilter(std::vector<GameObject*>& objects, Program
 	case ProgramType::DEFAULT:
 		program = modProgram->GetProgram(ProgramType::DEFAULT);
 		filter = batchManager->HAS_METALLIC;
-		normalBehaviour ? filter |= batchManager->HAS_TRANSPARENCY : filter |= batchManager->HAS_OPAQUE;
+		if (normalBehaviour)
+		{
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			filter |= batchManager->HAS_TRANSPARENCY;
+		}
+		else
+		{
+			filter |= batchManager->HAS_OPAQUE;
+		}
 		program->Activate();
 		batchManager->DrawMeshesByFilters(objects, filter);
 		program->Deactivate();
+		glDisable(GL_BLEND);
 		break;
 	
 	case ProgramType::SPECULAR:
 		program = modProgram->GetProgram(ProgramType::SPECULAR);
 		filter = batchManager->HAS_SPECULAR;
-		normalBehaviour ? filter |= batchManager->HAS_TRANSPARENCY : filter |= batchManager->HAS_OPAQUE;
+		if (normalBehaviour)
+		{
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			filter |= batchManager->HAS_TRANSPARENCY;
+		}
+		else
+		{
+			filter |= batchManager->HAS_OPAQUE;
+		}
 		program->Activate();
 		batchManager->DrawMeshesByFilters(objects, filter);
 		program->Deactivate();
+		glDisable(GL_BLEND);
 		break;
 	
 	case ProgramType::G_METALLIC:
