@@ -481,6 +481,8 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 						currentAttackAnimation = "";
 						isAttacking = false;
 						lastAttack = AttackType::NONE;
+						isHeavyFinisherReceivedAux = false;
+						break;
 					}
 				}
 				isHeavyFinisherReceivedAux = true;
