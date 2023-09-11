@@ -23,9 +23,16 @@
 
 ComponentLocalIBL::ComponentLocalIBL(GameObject* parent) :
 	ComponentLight(LightType::LOCAL_IBL, parent, true), preFiltered(0), handleIrradiance(0), handlePreFiltered(0),
-	parallaxAABB({ { -10, -10, -10 }, { 10, 10, 10 } }), influenceAABB({ { -10, -10, -10 }, { 10, 10, 10 } }), 
-	originCenterParallax(parallaxAABB.CenterPoint()), originCenterInfluence(influenceAABB.CenterPoint()), first(true)
+	first(true)
 {
+	if (GetOwner()->HasComponent<ComponentTransform>())
+	{
+		float3 pos = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
+		parallaxAABB = { pos + float3(-10, -10, -10), pos + float3(10, 10, 10) };
+		influenceAABB = { pos + float3(-10, -10, -10), pos + float3(10, 10, 10) };
+		originCenterParallax = parallaxAABB.CenterPoint();
+		originCenterInfluence = influenceAABB.CenterPoint();
+	}
 	App->ScheduleTask([this]()
 		{
 			Initialize();
