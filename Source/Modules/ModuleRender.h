@@ -109,7 +109,6 @@ private:
 	void DrawHighlight(GameObject* gameObject);
 
 	void BindCameraToProgram(Program* program, Camera* camera);
-	void BindCubemapToProgram(Program* program);
 
 	void KawaseDualFiltering();
 
