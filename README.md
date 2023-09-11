@@ -68,6 +68,7 @@ This engine has been created by [Horizons Games](https://github.com/Horizons-Gam
 **Shadows**
 - Directional light shadows implemented with Sample Distribution shadow maps (SDSM)
 - Variance Shadow Mapping (VSM) for smoother shadows around the edges.
+- Cascade Shadow Maps implemented in order to improve shadow resolution in big scenes
 
 **Component Line**
 
@@ -167,6 +168,7 @@ You can drag and drop different models and edit it's meshes and textures (loadin
 - F4 to toggle VSM on/off
 - F5 to change the rendered buffer texture
 - F6 to toggle SSAO on/off
+- F7 to toggle CSM debugging on/off
 
 # Note
 
