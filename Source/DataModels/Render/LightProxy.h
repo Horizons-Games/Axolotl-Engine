@@ -14,10 +14,9 @@ public:
 
 	void DrawAreaLights(Program* program, GLuint frameBuffer);
 
-	void SphereShape(const char* name, float size, unsigned slices, unsigned stacks, UID uid);
-	void ConeShape(const char* name, float height, float radius, unsigned slices, unsigned stacks, UID uid);
-	void CylinderShape(const char* name, float height, float radius, unsigned slices, unsigned stacks,
-		UID uid);
+	void SphereShape(float size, unsigned slices, unsigned stacks);
+	void ConeShape(float height, float radius, unsigned slices, unsigned stacks);
+	void CylinderShape(float height, float radius, unsigned slices, unsigned stacks);
 
 
 private:

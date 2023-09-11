@@ -54,7 +54,7 @@ void LightProxy::DrawAreaLights(Program* program, GLuint frameBuffer)
 	program->Deactivate();
 }
 
-void LightProxy::SphereShape(const char* name, float size, unsigned slices, unsigned stacks, UID uid)
+void LightProxy::SphereShape(float size, unsigned slices, unsigned stacks)
 {
 	par_shapes_mesh* mesh = par_shapes_create_parametric_sphere(slices, stacks);
 
@@ -86,7 +86,7 @@ void LightProxy::SphereShape(const char* name, float size, unsigned slices, unsi
 	}
 }
 
-void LightProxy::ConeShape(const char* name, float height, float radius, unsigned slices, unsigned stacks, UID uid)
+void LightProxy::ConeShape(float height, float radius, unsigned slices, unsigned stacks)
 {
 	par_shapes_mesh* mesh = par_shapes_create_cone(slices, stacks);
 
@@ -96,15 +96,12 @@ void LightProxy::ConeShape(const char* name, float height, float radius, unsigne
 
 		cone->SetNumVertices(mesh->npoints);
 		cone->SetNumIndexes(mesh->ntriangles);
-
-		//resources->AddResource(std::shared_ptr<Resource>(cone), "Source/PreMades/par_shapes_cone.mesh");
-
 		par_shapes_free_mesh(mesh);
 	}
 
 }
 
-void LightProxy::CylinderShape(const char* name, float height, float radius, unsigned slices, unsigned stacks, UID uid)
+void LightProxy::CylinderShape(float height, float radius, unsigned slices, unsigned stacks)
 {
 	par_shapes_mesh* mesh = par_shapes_create_cylinder(slices, stacks);
 
@@ -114,9 +111,6 @@ void LightProxy::CylinderShape(const char* name, float height, float radius, uns
 
 		cone->SetNumVertices(mesh->npoints);
 		cone->SetNumIndexes(mesh->ntriangles);
-
-		//resources->AddResource(std::shared_ptr<Resource>(cone), "Source/PreMades/par_shapes_cylinder.mesh");
-
 		par_shapes_free_mesh(mesh);
 	}
 }
