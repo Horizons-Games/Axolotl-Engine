@@ -11,7 +11,7 @@ class ComponentAnimation;
 class ComponentAudioSource;
 class ComponentRigidBody;
 
-class BixAttackScript;
+class PlayerAttackScript;
 class PlayerMoveScript;
 
 class PlayerJumpScript : public Script
@@ -48,6 +48,6 @@ private:
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudio;
 
-	BixAttackScript* attackScript;
+	PlayerAttackScript* attackScript;
 	PlayerMoveScript* playerMoveScript;
 };

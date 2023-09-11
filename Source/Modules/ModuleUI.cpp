@@ -1,13 +1,13 @@
 #include "StdAfx.h"
 
-#include "ModuleUI.h"
-
-#include "ModuleScene.h"
-
 #include "Application.h"
+
+#include "ModuleUI.h"
+#include "ModuleScene.h"
 #include "ModuleCamera.h"
 #include "ModuleInput.h"
 #include "ModuleWindow.h"
+
 #include "Scene/Scene.h"
 
 #include "Components/UI/ComponentButton.h"
@@ -25,9 +25,27 @@
 	#include "DataModels/Windows/EditorWindows/WindowScene.h"
 #endif // ENGINE
 
-ModuleUI::ModuleUI(){};
+namespace
+{
+bool CompareButtonPositions(const ComponentButton* a, const ComponentButton* b)
+{
+	return a->GetOwner()->GetComponentInternal<ComponentTransform2D>()->GetPosition().y >
+		   b->GetOwner()->GetComponentInternal<ComponentTransform2D>()->GetPosition().y;
+}
+} // namespace
 
-ModuleUI::~ModuleUI(){};
+namespace
+{
+constexpr const float cooldownTime = 0.15f;
+} // namespace
+
+ModuleUI::ModuleUI()
+{
+}
+
+ModuleUI::~ModuleUI()
+{
+}
 
 bool ModuleUI::Init()
 {
@@ -46,12 +64,46 @@ UpdateStatus ModuleUI::Update()
 	float2 point = App->GetModule<ModuleInput>()->GetMousePosition();
 #endif
 	ModuleInput* input = App->GetModule<ModuleInput>();
+	ModuleScene* scene = App->GetModule<ModuleScene>();
 
 	bool leftClickDown = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
+	lastButtonChange = lastButtonChange + App->GetDeltaTime();
+
+	if (!sortedButtonsIds.empty() && lastButtonChange > cooldownTime)
+	{
+		JoystickMovement joystickMovement = input->GetDirection();
+
+		int newIndex = currentButtonIndex;
+		do
+		{
+			if (joystickMovement.verticalMovement == JoystickVerticalDirection::FORWARD)
+			{
+				// We sum the size to avoid negative values, if this is not used we can not jump
+				// from the first button to the last
+				newIndex = (newIndex - 1 + sortedButtonsIds.size()) % sortedButtonsIds.size();
+			}
+			// When the current button is not enabled we keep looping until we find one enabled,
+			// this avoids getting stuck in a disabled button when we change from a scene to another
+			else if (joystickMovement.verticalMovement == JoystickVerticalDirection::BACK ||
+					 !scene->GetLoadedScene()
+						  ->SearchGameObjectByID(sortedButtonsIds[newIndex])
+						  ->GetComponent<ComponentButton>()
+						  ->IsEnabled())
+			{
+				newIndex = (newIndex + 1) % sortedButtonsIds.size();
+			}
+		} while (newIndex != currentButtonIndex && !scene->GetLoadedScene()
+														   ->SearchGameObjectByID(sortedButtonsIds[newIndex])
+														   ->GetComponent<ComponentButton>()
+														   ->IsEnabled());
+		currentButtonIndex = newIndex;
+		lastButtonChange = 0.0f;
+	}
 
 	for (const ComponentCanvas* canvas : canvasScene)
 	{
 		const GameObject* canvasGameObject = canvas->GetOwner();
+		
 		DetectInteractionWithGameObject(
 			canvasGameObject, point, leftClickDown, !canvasGameObject->GetParent()->IsEnabled());
 	}
@@ -156,8 +208,39 @@ void ModuleUI::CreateVAO()
 	glBindVertexArray(0);
 }
 
+void ModuleUI::SetUpButtons()
+{
+	auto filteredButtons = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneInteractable()  |
+						   std::views::transform(
+							   [](const Component* comp)
+							   {
+								   return dynamic_cast<const ComponentButton*>(comp);
+							   }) |
+						   std::views::filter(
+							   [](const ComponentButton* comp)
+							   {
+								   return comp != nullptr;
+							   });
+
+	std::vector<const ComponentButton*> sortedButtons =
+		std::vector<const ComponentButton*>(std::begin(filteredButtons), std::end(filteredButtons));
+
+	std::sort(std::begin(sortedButtons),
+			  std::end(sortedButtons),
+			  CompareButtonPositions);
+
+	auto sortedButtonsIdsView = sortedButtons | std::views::transform(
+													[](const ComponentButton* button)
+													{
+														return button->GetOwner()->GetUID();
+													});
+
+	sortedButtonsIds.clear();
+	sortedButtonsIds = std::vector<UID>(std::begin(sortedButtonsIdsView), std::end(sortedButtonsIdsView));
+}
+
 void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
-											   float2 mousePosition,
+											   float2 mouseCursor,
 											   bool leftClicked,
 											   bool disabledHierarchy)
 {
@@ -188,28 +271,49 @@ void ModuleUI::DetectInteractionWithGameObject(const GameObject* gameObject,
 		else if (button->IsEnabled())
 		{
 			const ComponentTransform2D* transform = button->GetOwner()->GetComponentInternal<ComponentTransform2D>();
-
 			AABB2D aabb2d = transform->GetWorldAABB();
+			ModuleInput* input = App->GetModule<ModuleInput>();
 
-			if (aabb2d.Contains(mousePosition))
+			if (!sortedButtonsIds.empty())
 			{
-				button->SetHovered(true);
-				if (leftClicked)
+				if (input->GetCurrentInputMethod() == InputMethod::KEYBOARD && aabb2d.Contains(mouseCursor))
 				{
-					button->SetClicked(true);
+					for (int i = 0; i < sortedButtonsIds.size(); ++i)
+					{
+						if (button->GetOwner()->GetUID() == sortedButtonsIds[i])
+						{
+							currentButtonIndex = i;
+							break;
+						}
+					}
+
+					button->SetHovered(true);
+					if (leftClicked)
+					{
+						button->SetClicked(true);
+					}
 				}
-			}
-			else
-			{
-				button->SetHovered(false);
-				//button->SetClicked(false);
+				else if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD &&
+						 sortedButtonsIds[currentButtonIndex] == button->GetOwner()->GetUID())
+				{
+					button->SetHovered(true);
+					if (leftClicked)
+					{
+						button->SetClicked(true);
+					}
+				}
+				else
+				{
+					button->SetHovered(false);
+					// button->SetClicked(false);
+				}
 			}
 		}
 	}
 
 	for (const GameObject* child : gameObject->GetChildren())
 	{
-		DetectInteractionWithGameObject(child, mousePosition, leftClicked, disabledHierarchy);
+		DetectInteractionWithGameObject(child, mouseCursor, leftClicked, disabledHierarchy);
 	}
 }
 

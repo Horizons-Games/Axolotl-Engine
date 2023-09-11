@@ -157,9 +157,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Skybox\Skybox.cpp">
-      <Filter>DataModels\Skybox</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Program\Program.cpp">
       <Filter>DataModels\Program</Filter>
     </ClCompile>
@@ -472,7 +469,7 @@
     <ClCompile Include="..\Game\Scripts\PlayerMoveScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Movement</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp">
+    <ClCompile Include="..\Game\Scripts\PlayerAttackScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp">
@@ -505,7 +502,6 @@
     <ClCompile Include="FileSystem\UIDGenerator.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
-    <ClCompile Include="StdAfx.cpp" />
     <ClCompile Include="..\Game\Scripts\UIOptionsMenu.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
@@ -645,6 +641,15 @@
     <ClCompile Include="..\Game\Scripts\UIComboManager.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentSkybox.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSkybox.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSkyboxInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Jump</Filter>
     </ClCompile>
@@ -752,6 +757,9 @@
       <Filter>Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="Formatter.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowNavMeshInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
     <ClCompile Include="Modules\ModuleRandom.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -772,6 +780,12 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIHackingManager.cpp">
       <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\PostProcess\SSAO.cpp">
+      <Filter>DataModels\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Render\Shadows.cpp">
+      <Filter>DataModels\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -945,9 +959,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Skybox\Skybox.h">
-      <Filter>DataModels\Skybox</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Program\Program.h">
       <Filter>DataModels\Program</Filter>
@@ -1253,7 +1264,7 @@
     <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h">
       <Filter>UserScripts\Gameplay\Player\Movement</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\BixAttackScript.h">
+    <ClInclude Include="..\Game\Scripts\PlayerAttackScript.h">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h">
@@ -1453,6 +1464,18 @@
     <ClInclude Include="Auxiliar\Reflection\VectorField.h">
       <Filter>Auxiliar\Reflection</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h">
+      <Filter>UserScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentSkybox.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSkybox.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSkyboxInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
       <Filter>UserScripts\Gameplay\Player\Jump</Filter>
     </ClInclude>
@@ -1567,6 +1590,9 @@
       <Filter>Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="Formatter.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowNavMeshInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
     <ClInclude Include="Modules\ModuleRandom.h">
       <Filter>Modules</Filter>
     </ClInclude>
@@ -1587,6 +1613,12 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIHackingManager.h">
       <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\PostProcess\SSAO.h">
+      <Filter>DataModels\PostProcess</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Render\Shadows.h">
+      <Filter>DataModels\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1628,9 +1660,6 @@
     </Filter>
     <Filter Include="DataModels\Scene">
       <UniqueIdentifier>{627ee524-a786-4f85-b54b-02612ce25968}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="DataModels\Skybox">
-      <UniqueIdentifier>{e2580d29-b049-4fe4-8b19-f4ac91bdcc68}</UniqueIdentifier>
     </Filter>
     <Filter Include="DataModels\Program">
       <UniqueIdentifier>{ede4d809-0d25-41da-9d4d-167adc480493}</UniqueIdentifier>
@@ -1797,6 +1826,12 @@
     <Filter Include="UserScripts\Utils">
       <UniqueIdentifier>{5e0a602a-1266-4c8e-abba-0af6541b6b90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DataModels\PostProcess">
+      <UniqueIdentifier>{378aa69b-879a-45bc-8d90-4c8dc788a32a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Render">
+      <UniqueIdentifier>{701145da-de98-4a67-be5b-f78bd0c29386}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataModels\Timer\Timer.cpp">
@@ -1954,9 +1989,6 @@
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Skybox\Skybox.cpp">
-      <Filter>DataModels\Skybox</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Program\Program.cpp">
       <Filter>DataModels\Program</Filter>
@@ -2264,9 +2296,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Skybox\Skybox.h">
-      <Filter>DataModels\Skybox</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Program\Program.h">
       <Filter>DataModels\Program</Filter>
@@ -2597,9 +2626,6 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowMeshInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Skybox\Skybox.h">
-      <Filter>DataModels\Skybox</Filter>
-    </ClInclude>
     <ClInclude Include="DataModels\Program\Program.h">
       <Filter>DataModels\Program</Filter>
     </ClInclude>
@@ -2859,9 +2885,6 @@
     </Filter>
     <Filter Include="DataModels\Scene">
       <UniqueIdentifier>{627ee524-a786-4f85-b54b-02612ce25968}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="DataModels\Skybox">
-      <UniqueIdentifier>{e2580d29-b049-4fe4-8b19-f4ac91bdcc68}</UniqueIdentifier>
     </Filter>
     <Filter Include="DataModels\Program">
       <UniqueIdentifier>{ede4d809-0d25-41da-9d4d-167adc480493}</UniqueIdentifier>

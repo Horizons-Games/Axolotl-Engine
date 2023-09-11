@@ -32,7 +32,7 @@ void PlayerDeathScript::ManagePlayerDeath() const
 {
 
 #ifndef ENGINE
-	if (loseSceneName != "" && !componentAnimation->IsPlaying() && componentAnimation->GetActualStateName() == "BixDying")
+	if (loseSceneName != "" && !componentAnimation->IsPlaying() && componentAnimation->GetActualStateName() == "Dying")
 	{
 		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + loseSceneName + ".axolotl");
 	}

@@ -5,7 +5,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentParticleSystem.h"
 
-#include "../Scripts/BixAttackScript.h"
+#include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/EnemyClass.h"
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
@@ -57,7 +57,7 @@ void HealthSystem::Start()
 
 	if (owner->CompareTag("Player"))
 	{
-		attackScript = owner->GetComponent<BixAttackScript>();
+		attackScript = owner->GetComponent<PlayerAttackScript>();
 	}
 }
 
@@ -75,8 +75,6 @@ void HealthSystem::Update(float deltaTime)
 	else if (!EntityIsAlive() && owner->CompareTag("Enemy"))
 	{
 		meshEffect->ClearEffect();
-		EnemyDeathScript* enemyDeathManager = owner->GetComponent<EnemyDeathScript>();
-		enemyDeathManager->ManageEnemyDeath();
 	}
 
 	if (damageTaken)

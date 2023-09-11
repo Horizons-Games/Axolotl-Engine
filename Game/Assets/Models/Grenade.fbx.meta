@@ -1,0 +1,11 @@
+{
+    "UID": 8454330023023059004,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Grenade.Cylinder.008_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/GrenadeDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
