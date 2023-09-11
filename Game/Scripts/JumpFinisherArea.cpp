@@ -17,98 +17,36 @@
 
 REGISTERCLASS(JumpFinisherArea);
 
-JumpFinisherArea::JumpFinisherArea() : Script(), parentTransform(nullptr), rigidBody(nullptr),
-	initParticleSystem(nullptr), landingParticleSystem(nullptr), particleSystemTimer(1.0f), 
-	triggerParticleSystemTimer(false), particleSystemCurrentTimer(0.0f), throwableForceArea(false)
+JumpFinisherArea::JumpFinisherArea() : Script(), initVisuals(nullptr), landingParticleSystem(nullptr)
 {
-	REGISTER_FIELD(particleSystemTimer, float);
-	REGISTER_FIELD(throwableForceArea, bool);
+	REGISTER_FIELD(initVisuals, GameObject*);
 
-	enemiesInTheArea.reserve(10);
 }
 
 void JumpFinisherArea::Start()
 {
-	rigidBody = owner->GetComponent<ComponentRigidBody>();
-	rigidBody->Enable();
-	rigidBody->SetIsTrigger(true);
-
-	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
-
-	//initParticleSystem = owner->GetChildren()[0]->GetComponent<ComponentParticleSystem>();
-	//initParticleSystem->Enable();
+	initVisuals->Disable();
 	landingParticleSystem = owner->GetChildren()[1]->GetComponent<ComponentParticleSystem>();
 	landingParticleSystem->Enable();
-	particleSystemCurrentTimer = particleSystemTimer;
-}
-
-void JumpFinisherArea::Update(float deltaTime)
-{
-	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());
-
-	if (!triggerParticleSystemTimer)
-	{
-		return;
-	}
-
-	particleSystemCurrentTimer -= deltaTime;
-	if (particleSystemCurrentTimer <= 0.0f)
-	{
-		particleSystemCurrentTimer = particleSystemTimer;
-		triggerParticleSystemTimer = false;
-		landingParticleSystem->Stop();
-
-		if (throwableForceArea)
-		{
-			// If the force area is from a bullet, destroy the area after playing the particle effects
-			App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(landingParticleSystem);
-			App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
-		}
-	}
-}
-
-void JumpFinisherArea::OnCollisionEnter(ComponentRigidBody* other)
-{
-	if (other->GetOwner()->GetTag() == "Enemy" && other->GetOwner()->IsEnabled())
-	{
-		enemiesInTheArea.push_back(other);
-	}
-}
-
-void JumpFinisherArea::OnCollisionExit(ComponentRigidBody* other)
-{
-	enemiesInTheArea.erase(
-		std::remove_if(
-			std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const ComponentRigidBody* componentRigidBody)
-			{
-				return componentRigidBody == other;
-			}
-		),
-		std::end(enemiesInTheArea));
 }
 
 void JumpFinisherArea::VisualStartEffect() 
 {
-	initParticleSystem->Play();
+	initVisuals->Enable();
 }
 
 void JumpFinisherArea::VisualLandingEffect() 
 {
-	initParticleSystem->Stop();
+	initVisuals->Disable();
+	landingParticleSystem->Stop();
 	landingParticleSystem->Play();
-	triggerParticleSystemTimer = true;
 }
 
-void JumpFinisherArea::PushEnemies(float pushForce, float stunTime, std::vector<ComponentRigidBody*>* enemies)
+void JumpFinisherArea::PushEnemies(float pushForce, float stunTime, std::vector<ComponentRigidBody*>& enemies)
 {
 	const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 
-	if (enemies == nullptr) 
-	{
-		enemies = &enemiesInTheArea;
-	}
-
-	for (std::vector<ComponentRigidBody*>::iterator it = (*enemies).begin(); it < (*enemies).end();
+	for (std::vector<ComponentRigidBody*>::iterator it = enemies.begin(); it < enemies.end();
 		it++)
 	{
 		GameObject* ownerEnemy = (*it)->GetOwner();
