@@ -51,7 +51,7 @@ private:
 
 	void UpdateEnemyDetection();
 
-	void PerformCombos();
+	void PerformCombos(float deltaTime);
 
 	void LightNormalAttack();
 	void HeavyNormalAttack();
@@ -71,6 +71,11 @@ private:
 	float attackCooldownCounter;
 	float comboInitTimer;
 	float comboNormalAttackTimer;
+	float triggerNextAttackDuration;
+	float triggerNextAttackTimer;
+	bool isNextLightAttackTriggered;
+	bool isNextHeavyAttackTriggered;
+	std::string currentAttackComboAnimation;
 
 	bool isDeathTouched;
 
