@@ -72,6 +72,11 @@ private:
 
 	uint64_t handleIrradiance;
 	uint64_t handlePreFiltered;
+
+	float3 initialParallaxOffset;
+	float3 initialInfluenceOffset;
+
+	bool first;
 };
 
 inline const GLuint ComponentLocalIBL::GetIrradiance()

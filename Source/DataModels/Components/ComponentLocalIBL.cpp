@@ -24,7 +24,7 @@
 ComponentLocalIBL::ComponentLocalIBL(GameObject* parent) :
 	ComponentLight(LightType::LOCAL_IBL, parent, true), preFiltered(0), handleIrradiance(0), handlePreFiltered(0),
 	parallaxAABB({ { -10, -10, -10 }, { 10, 10, 10 } }), influenceAABB({ { -10, -10, -10 }, { 10, 10, 10 } }), 
-	originCenterParallax(parallaxAABB.CenterPoint()), originCenterInfluence(influenceAABB.CenterPoint())
+	originCenterParallax(parallaxAABB.CenterPoint()), originCenterInfluence(influenceAABB.CenterPoint()), first(true)
 {
 	App->ScheduleTask([this]()
 		{
@@ -112,8 +112,15 @@ void ComponentLocalIBL::OnTransformChanged()
 
 	float3 positionParent = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
 
-	float3 parallaxOffset = positionParent - originCenterParallax;
-	float3 influenceOffset = positionParent - originCenterInfluence;
+	if (first)
+	{
+		initialParallaxOffset = originCenterParallax - positionParent;
+		initialInfluenceOffset = originCenterInfluence - positionParent;
+		first = false;
+	}
+
+	float3 parallaxOffset = initialParallaxOffset + positionParent - originCenterParallax;
+	float3 influenceOffset = initialInfluenceOffset + positionParent - originCenterInfluence;
 
 	parallaxAABB.Translate(parallaxOffset);
 	influenceAABB.Translate(influenceOffset);
@@ -196,7 +203,7 @@ void ComponentLocalIBL::InternalLoad(const Json& meta)
 	parallaxAABB.maxPoint.x = static_cast<float>(meta["parallax_max_x"]);
 	parallaxAABB.maxPoint.y = static_cast<float>(meta["parallax_max_y"]);
 	parallaxAABB.maxPoint.z = static_cast<float>(meta["parallax_max_z"]);
-	
+
 	originCenterParallax = parallaxAABB.CenterPoint();
 
 	influenceAABB.minPoint.x = static_cast<float>(meta["influence_min_x"]);
