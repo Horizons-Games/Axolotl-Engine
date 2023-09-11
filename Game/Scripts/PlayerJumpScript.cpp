@@ -153,7 +153,7 @@ void PlayerJumpScript::Jump(float deltatime)
 	}
 }
 
-void PlayerJumpScript::changingCurrentPlayer(bool changePlayer)
+void PlayerJumpScript::ChangingCurrentPlayer(bool changePlayer)
 {
 	isChangingPlayer = changePlayer;
 }

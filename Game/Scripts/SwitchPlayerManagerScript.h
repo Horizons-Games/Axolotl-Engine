@@ -49,6 +49,7 @@ private:
 	btVector3 rigidBodyVec3;
 
 	bool isChangingPlayer;
+	bool isNewPlayerEnabled;
 };
 
 inline const std::vector<GameObject*>& SwitchPlayerManagerScript::GetPlayerGameObject() const

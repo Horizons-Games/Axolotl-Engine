@@ -17,7 +17,7 @@ public:
 	void SetInCombat(bool newCombat);
 	bool IsInCombat();
 
-	void StopCamera(bool stopped);
+	void ToggleCameraState();
 	void ChangeCurrentPlayer(ComponentTransform* currentPlayer);
 
 private:

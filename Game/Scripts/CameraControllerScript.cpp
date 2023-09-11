@@ -37,7 +37,7 @@ void CameraControllerScript::Start()
 	transform = owner->GetComponent<ComponentTransform>();
 	camera = GetOwner()->GetComponentInternal<ComponentCamera>();
 
-	playerTransform = samplePointsObject->GetComponent<ComponentTransform>(); //Temporaly assign this instead of a player, SwitchPlayerManagerScript will sent the current player to ChangeCurrentPlayer()
+	playerTransform = samplePointsObject->GetComponent<ComponentTransform>(); // Temporaly assign this instead of a player, SwitchPlayerManagerScript will sent the current player to ChangeCurrentPlayer()
 
 	finalTargetPosition = transform->GetGlobalPosition();
 	finalTargetOrientation = transform->GetGlobalRotation();
@@ -129,9 +129,9 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 	}
 }
 
-void CameraControllerScript::StopCamera(bool stop)
+void CameraControllerScript::ToggleCameraState()
 {
-	stopped = stop;
+	stopped = !stopped;
 }
 
 void CameraControllerScript::ChangeCurrentPlayer(ComponentTransform* currentPlayer) 

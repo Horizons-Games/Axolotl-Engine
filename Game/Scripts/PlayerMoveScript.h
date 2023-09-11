@@ -51,8 +51,8 @@ public:
 	bool IsParalyzed() const;
 	void SetIsParalyzed(bool isParalyzed);
 
-	void changingCurrentPlayer(bool changePlayer);
-	void changingNewCurrentPlayer(bool changeNewPlayer);
+	void ChangingCurrentPlayer(bool changePlayer);
+	void ChangingNewCurrentPlayer(bool changeNewPlayer);
 
 	PlayerActions GetPlayerState() const;
 	void SetPlayerState(PlayerActions playerState);

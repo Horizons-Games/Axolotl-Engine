@@ -261,12 +261,12 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 }
 
-void PlayerMoveScript::changingCurrentPlayer(bool changePlayer) 
+void PlayerMoveScript::ChangingCurrentPlayer(bool changePlayer) 
 {
 	isChangingPlayer = changePlayer;
 }
 
-void PlayerMoveScript::changingNewCurrentPlayer(bool changeNewPlayer) 
+void PlayerMoveScript::ChangingNewCurrentPlayer(bool changeNewPlayer) 
 {
 	isChangingNewPlayer = changeNewPlayer;
 }
