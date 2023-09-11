@@ -153,7 +153,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	else 
 	{
 		bool playerIsRunning = playerState != PlayerActions::WALKING && playerState != PlayerActions::DASHING
-			&& jumpScript->IsGrounded()/* && playerAttackScript->IsAttackAvailable()*/;
+			&& jumpScript->IsGrounded();
 		
 		if (playerIsRunning)
 		{
