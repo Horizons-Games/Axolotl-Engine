@@ -5,13 +5,13 @@
 #define EPSILON 1e-5
 
 vec3 GetAmbientLight(in vec3 normal, in vec3 R, float NdotV, float roughness, in vec3 diffuseColor, in vec3 specularColor,
-samplerCube diffuse_IBL, samplerCube prefiltered_IBL, sampler2D environmentBRDF, int numLevels_IBL)
+samplerCube diffuse, samplerCube prefiltered, sampler2D environmentBRDF, int numLevels)
 {
-    vec3 irradiance = texture(diffuse_IBL, normal).rgb;
-    vec3 radiance = textureLod(prefiltered_IBL, R, roughness * numLevels_IBL).rgb;
+    vec3 irradiance = texture(diffuse, normal).rgb;
+    vec3 radiance = textureLod(prefiltered, R, roughness * numLevels).rgb;
     vec2 fab = texture(environmentBRDF, vec2(NdotV, roughness)).rg;
-    vec3 diffuse = (diffuseColor * (1 - specularColor));
-    return diffuse * irradiance + radiance * (specularColor * fab.x + fab.y);
+    vec3 color = (diffuseColor * (1 - specularColor));
+    return color * irradiance + radiance * (specularColor * fab.x + fab.y);
 }
 
 mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
