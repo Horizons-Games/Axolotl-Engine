@@ -100,7 +100,7 @@ bool ModuleProgram::Start()
 
 	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "ssao_fragment.glsl", "SSAO"));
 
-	programs.push_back(CreateProgram("lightCuling_vs.glsl", "lightCuling_fs.glsl", "LightCulling"));
+	//programs.push_back(CreateProgram("lightCuling_vs.glsl", "lightCuling_fs.glsl", "LightCulling"));
 
 	programs.push_back(CreateProgram("component_line_vertex.glsl", "component_line_fragment.glsl", "ComponentLine"));
 	

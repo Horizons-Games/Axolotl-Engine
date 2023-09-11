@@ -316,7 +316,7 @@ UpdateStatus ModuleRender::Update()
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_METALLIC));
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_SPECULAR));
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::LIGHT_CULLING));
+	//BindCameraToProgram(modProgram->GetProgram(ProgramType::LIGHT_CULLING));
 
 	// -------- DEFERRED GEOMETRY -----------
 	gBuffer->BindFrameBuffer();

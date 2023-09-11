@@ -176,6 +176,7 @@
     <ClInclude Include="MathGeoLib\Include\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\Include\Math\vec2d.h" />
     <ClInclude Include="MathGeoLib\Include\Time\Clock.h" />
+    <ClInclude Include="par_shapes.h" />
     <ClInclude Include="recastnavigation\DebugUtils\DebugDraw.h" />
     <ClInclude Include="recastnavigation\DebugUtils\DetourDebugDraw.h" />
     <ClInclude Include="recastnavigation\DebugUtils\RecastDebugDraw.h" />

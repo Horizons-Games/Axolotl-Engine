@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "LightProxy.h"
 #include "Application.h"
+#include "par_shapes.h"
+
 
 #include "ModuleCamera.h"
 #include "ModuleScene.h"

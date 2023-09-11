@@ -1,6 +1,5 @@
 #pragma once
 #include "GL/glew.h"
-#include "par_shapes.h"
 #include "FileSystem/UID.h"
 #include "Resources/ResourceMesh.h"
 
