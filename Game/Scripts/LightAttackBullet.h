@@ -16,7 +16,6 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void SetBulletVelocity(float nVelocity);
 	void SetStunTime(float nStunTime);
 	void SetEnemy(GameObject* nEnemy);
 	void SetDamage(float nDamageAttack);
@@ -29,6 +28,7 @@ private:
 	float stunTime;
 	float damageAttack;
 	float maxDistanceBullet;
+	float lifeTime;
 
 	float3 defaultTargetPos;
 
@@ -36,6 +36,7 @@ private:
 	ComponentAudioSource* audioSource;
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
+	ComponentTransform* targetTransform;
 	ComponentParticleSystem* particleSystem;
 	PlayerAttackScript* playerAttackScript;
 

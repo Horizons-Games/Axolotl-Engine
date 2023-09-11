@@ -24,19 +24,22 @@ REGISTERCLASS(LightAttackBullet);
 LightAttackBullet::LightAttackBullet() :
 	Script(),
 	enemy(nullptr),
-	velocity(15.0f),
+	velocity(25.0f),
 	audioSource(nullptr),
 	stunTime(10.0f),
 	damageAttack(10.0f),
 	defaultTargetPos(0,0,0),
-	maxDistanceBullet(10.0f),
+	maxDistanceBullet(100.0f),
 	particleSystem(nullptr), 
 	particleSystemTimer(1.0f), 
 	triggerParticleSystemTimer(false), 
-	particleSystemCurrentTimer(0.0f)
+	particleSystemCurrentTimer(0.0f),
+	lifeTime(20.0f),
+	parentTransform(nullptr),
+	targetTransform(nullptr)
 {
 	REGISTER_FIELD(particleSystemTimer, float);
-	REGISTER_FIELD(maxDistanceBullet, float);
+	REGISTER_FIELD(velocity, float);
 }
 
 void LightAttackBullet::Start()
@@ -50,11 +53,16 @@ void LightAttackBullet::Start()
 	rigidBody->SetDefaultPosition();
 	rigidBody->SetUseRotationController(true);
 
-	defaultTargetPos = parentTransform->GetGlobalForward();
-	defaultTargetPos.Normalize();
-	defaultTargetPos = defaultTargetPos * maxDistanceBullet;
-	defaultTargetPos += parentTransform->GetGlobalPosition();	
-	defaultTargetPos.y = 0;
+	float3 forward = parentTransform->GetGlobalForward();
+	forward.Normalize();
+
+	btRigidBody* btRb = rigidBody->GetRigidBody();
+	btRb->setLinearVelocity(
+		btVector3(
+			forward.x,
+			0,
+			forward.z) * velocity);
+
 
 	particleSystem = owner->GetComponent<ComponentParticleSystem>();
 	particleSystem->Enable();
@@ -67,15 +75,23 @@ void LightAttackBullet::Update(float deltaTime)
 {
 	if (enemy != nullptr)
 	{
-		rigidBody->SetPositionTarget(enemy->GetComponent<ComponentTransform>()->GetGlobalPosition());
+		float3 targetPos = targetTransform->GetGlobalPosition();
+		targetPos.y = 0.75f; 
+		float3 forward = targetPos - owner->GetComponent<ComponentTransform>()->GetGlobalPosition();
+		forward.Normalize();
+
+		btRigidBody* btRb = rigidBody->GetRigidBody();
+		btRb->setLinearVelocity(
+			btVector3(
+				forward.x,
+				0,
+				forward.z) * velocity);
 	}
 
-	else
+	lifeTime -= deltaTime;
+	if (lifeTime <= 0.0f)
 	{
-		defaultTargetPos.y -= 0.1f;
-		rigidBody->SetKpForce(2.0f);
-
-		rigidBody->SetPositionTarget(defaultTargetPos);
+		DestroyBullet();
 	}
 
 	if (!triggerParticleSystemTimer)
@@ -95,12 +111,6 @@ void LightAttackBullet::Update(float deltaTime)
 	}
 }
 
-void LightAttackBullet::SetBulletVelocity(float nVelocity)
-{
-	velocity = nVelocity;
-	rigidBody->SetKpForce(velocity);
-}
-
 void LightAttackBullet::SetStunTime(float nStunTime)
 {
 	stunTime = nStunTime;
@@ -109,6 +119,10 @@ void LightAttackBullet::SetStunTime(float nStunTime)
 void LightAttackBullet::SetEnemy(GameObject* nEnemy)
 {
 	enemy = nEnemy;
+	if (enemy)
+	{
+		targetTransform = enemy->GetComponent<ComponentTransform>();
+	}
 }
 
 void LightAttackBullet::SetDamage(float nDamageAttack)

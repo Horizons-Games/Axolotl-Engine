@@ -61,7 +61,6 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	REGISTER_FIELD(lightWeapon, GameObject*);
 
 	REGISTER_FIELD(bulletPrefab, GameObject*);
-	REGISTER_FIELD(bulletVelocity, float);
 
 	REGISTER_FIELD(pistolGameObject, GameObject*);
 
@@ -242,7 +241,6 @@ void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDama
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
 	LightAttackBullet* ligthAttackBulletScript = bullet->GetComponent<LightAttackBullet>();
 
-	ligthAttackBulletScript->SetBulletVelocity(bulletVelocity);
 	ligthAttackBulletScript->SetEnemy(enemyDetection->GetEnemySelected());
 	ligthAttackBulletScript->SetStunTime(0);
 	ligthAttackBulletScript->SetDamage(nDamage);
