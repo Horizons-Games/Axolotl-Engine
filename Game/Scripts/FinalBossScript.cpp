@@ -15,6 +15,7 @@
 #include "../Scripts/ShockWaveAttackScript.h"
 #include "../Scripts/BossShieldAttackScript.h"
 #include "../Scripts/BossMissilesAttackScript.h"
+#include "../Scripts/AIMovement.h"
 
 REGISTERCLASS(FinalBossScript);
 
@@ -42,6 +43,7 @@ void FinalBossScript::Start()
 	shieldAttackScript = owner->GetComponent<BossShieldAttackScript>();
 	missilesAttackScript = owner->GetComponent<BossMissilesAttackScript>();
 	agent = owner->GetComponent<ComponentAgent>();
+	aiMovement = owner->GetComponent<AIMovement>();
 
 	LOG_INFO("Final Boss is in the NEUTRAL PHASE");
 }
@@ -115,10 +117,10 @@ void FinalBossScript::TryAttacksIndividually()
 
 	if (!isPerformingAnAttack)
 	{
-		ReactivateMovement();
 		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
 		if (bossState != FinalBossStates::WALKING)
 		{
+			ReactivateMovement();
 			patrolScript->StartPatrol();
 		}
 		bossState = FinalBossStates::WALKING;
@@ -175,13 +177,23 @@ void FinalBossScript::TryAttacksIndividually()
 
 void FinalBossScript::ReactivateMovement() const
 {
-	agent->SetMaxAcceleration(agent->GetInitialMaxAcceleration());
-	agent->SetMaxSpeed(agent->GetInitialMaxSpeed());
-	//agent->AddAgentToCrowd();
+	rigidBody->SetIsKinematic(true);
+	//rigidBody->SetMass(0.0f);
+	rigidBody->SetUpMobility();
 
-	/*rigidBody->SetKpForce(0.3f);
+	agent->AddAgentToCrowd();
+	aiMovement->SetMovementStatuses(true, true);
+}
+
+void FinalBossScript::RemoveAgent() const
+{
+	agent->RemoveAgentFromCrowd();
+
+	aiMovement->SetMovementStatuses(false, false);
 	rigidBody->SetIsKinematic(false);
-	rigidBody->SetUpMobility();*/
+	rigidBody->SetKpForce(0.5f);
+	rigidBody->SetMass(1000.0f);
+	rigidBody->SetUpMobility();
 }
 
 void FinalBossScript::ManageNeutralPhase()
@@ -219,10 +231,10 @@ void FinalBossScript::ManageNeutralPhase()
 	// If neither of those, the final boss will patrol around
 	else if (!shockWaveAttackScript->IsAttacking() && !chargeAttackScript->IsAttacking())
 	{
-		ReactivateMovement();
 		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
 		if (bossState != FinalBossStates::WALKING)
 		{
+			ReactivateMovement();
 			patrolScript->StartPatrol();
 		}
 		bossState = FinalBossStates::WALKING;
@@ -272,10 +284,10 @@ void FinalBossScript::ManageAggressivePhase()
 	}
 	else if (!shockWaveAttackScript->IsAttacking() && !chargeAttackScript->IsAttacking())
 	{
-		ReactivateMovement();
 		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING); 
 		if (bossState != FinalBossStates::WALKING)
 		{
+			ReactivateMovement();
 			patrolScript->StartPatrol();
 		}
 		bossState = FinalBossStates::WALKING;
@@ -326,10 +338,10 @@ void FinalBossScript::ManageDefensivePhase()
 	}
 	else if (!shockWaveAttackScript->IsAttacking() && !chargeAttackScript->IsAttacking())
 	{
-		ReactivateMovement();
 		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING); 
 		if (bossState != FinalBossStates::WALKING)
 		{
+			ReactivateMovement();
 			patrolScript->StartPatrol();
 		}
 		bossState = FinalBossStates::WALKING;
@@ -391,10 +403,10 @@ void FinalBossScript::ManageLastResortPhase()
 	}
 	else if (!shockWaveAttackScript->IsAttacking() && !chargeAttackScript->IsAttacking())
 	{
-		ReactivateMovement();
 		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING); 
 		if (bossState != FinalBossStates::WALKING)
 		{
+			ReactivateMovement();
 			patrolScript->StartPatrol();
 		}
 		bossState = FinalBossStates::WALKING;
