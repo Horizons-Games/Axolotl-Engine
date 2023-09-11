@@ -195,7 +195,7 @@ void ComponentTrail::InternalLoad(const Json& meta)
 						  ImColor(static_cast<float>(jsonColors[i]["color_x"]),
 								  static_cast<float>(jsonColors[i]["color_y"]),
 								  static_cast<float>(jsonColors[i]["color_z"]),
-								  static_cast<float>(jsonColors[i]["color_a"])));
+								  static_cast<float>(jsonColors[i]["color_w"])));
 	}
 	gradient->refreshCache();
 #ifdef ENGINE
