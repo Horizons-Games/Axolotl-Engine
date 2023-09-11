@@ -46,7 +46,7 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	lightFinisherScript(nullptr), normalAttackDistance(0), heavyFinisherAttack(nullptr), lightWeapon(nullptr),
 	comboCountHeavy(10.0f), comboCountLight(30.0f), comboCountJump(20.0f), triggerNextAttackDuration(0.5f), 
 	triggerNextAttackTimer(0.0f), isNextAttackTriggered(false), currentAttackAnimation(""),
-	numAttackComboAnimation(0.0f)
+	numAttackComboAnimation(0.0f), isHeavyFinisherReceivedAux(false)
 {
 	REGISTER_FIELD(comboCountHeavy, float);
 	REGISTER_FIELD(comboCountLight, float);
@@ -355,9 +355,12 @@ void PlayerAttackScript::LightFinisher()
 
 void PlayerAttackScript::HeavyFinisher()
 {
-	lightWeapon->Disable();
+	if (lightWeapon)
+	{
+		lightWeapon->Disable();
+	}
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
-	//animation->SetParameter("HeavyFinisherExit", false);
+	animation->SetParameter("HeavyFinisherEnd", false);
 	animation->SetParameter("HeavyFinisherInit", true);
 	isAttacking = true;
 	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CANNON_SHOT);
@@ -461,17 +464,26 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 			break;	
 
 		case AttackType::HEAVYFINISHER:
-			if (animation->GetController()->GetStateName() != currentAttackAnimation)
+			animation->SetParameter("HeavyFinisherInit", false);
+			if (!heavyFinisherAttack->IsAttacking()) 
 			{
-				animation->SetParameter("HeavyFinisherInit", false);
-				//animation->SetParameter("HeavyFinisherExit", true);
-				lightWeapon->Enable();
-				if (animation->GetActualStateName() != "HeavyFinisherInit"
-					&& animation->GetActualStateName() != "HeavyFinisherEnd")
+				currentAttackAnimation = "HeavyAttackFinishEnd";
+				animation->SetParameter("HeavyFinisherEnd", true);
+				if (lightWeapon)
 				{
-					isAttacking = false;
-					lastAttack = AttackType::NONE;
+					lightWeapon->Enable();
 				}
+				if (isHeavyFinisherReceivedAux)
+				{
+					animation->SetParameter("HeavyFinisherEnd", false);
+					if (animation->GetController()->GetStateName() != currentAttackAnimation)
+					{
+						currentAttackAnimation = "";
+						isAttacking = false;
+						lastAttack = AttackType::NONE;
+					}
+				}
+				isHeavyFinisherReceivedAux = true;
 			}
 			break;
 

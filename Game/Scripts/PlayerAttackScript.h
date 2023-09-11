@@ -78,6 +78,8 @@ private:
 	std::string currentAttackAnimation;
 	float numAttackComboAnimation;
 
+	bool isHeavyFinisherReceivedAux;
+
 	bool isDeathTouched;
 
 	ModuleInput* input;
