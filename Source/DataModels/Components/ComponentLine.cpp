@@ -164,7 +164,8 @@ void ComponentLine::Render()
 {
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
-	if (camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
+
+	if (IsEnabled() && camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
 #ifdef ENGINE
 		//Draw the BoundingBox of ComponentLine
