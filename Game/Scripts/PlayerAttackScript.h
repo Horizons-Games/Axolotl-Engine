@@ -74,8 +74,8 @@ private:
 	float comboNormalAttackTimer;
 	float triggerNextAttackDuration;
 	float triggerNextAttackTimer;
-	bool isNextLightAttackTriggered;
-	std::string currentAttackComboAnimation;
+	bool isNextAttackTriggered;
+	std::string currentAttackAnimation;
 	float numAttackComboAnimation;
 
 	bool isDeathTouched;
