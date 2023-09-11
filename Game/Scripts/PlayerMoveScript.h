@@ -52,6 +52,7 @@ public:
 	void SetIsParalyzed(bool isParalyzed);
 
 	void changingCurrentPlayer(bool changePlayer);
+	void changingNewCurrentPlayer(bool changeNewPlayer);
 
 	PlayerActions GetPlayerState() const;
 	void SetPlayerState(PlayerActions playerState);
@@ -93,4 +94,5 @@ private:
 	void Dash();
 
 	bool isChangingPlayer;
+	bool isChangingNewPlayer;
 };

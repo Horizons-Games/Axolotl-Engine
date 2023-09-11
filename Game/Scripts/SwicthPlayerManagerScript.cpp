@@ -62,19 +62,16 @@ void SwitchPlayerManagerScript::IsChangingCurrentPlayer()
 	{
 		currentPlayerID = (currentPlayerID + 1) % players.size(); //Here we change current player ID
 
-		//Enabling the new current player
-		players[currentPlayerID]->Enable();
-
-		players[currentPlayerID]->GetComponent<ComponentRigidBody>()->SetRigidBodyOrigin(rigidBodyVec3);
 		
 		camera->ChangeCurrentPlayer(players[currentPlayerID]->GetComponent<ComponentTransform>());
-		
+		movementManager->changingNewCurrentPlayer(false);
+		jumpManager->changingCurrentPlayer(false);
 
 		changePlayerTimer.Stop();
 		isChangingPlayer = false;
 	}
 
-	else if (changePlayerTimer.Read() >= 2000)
+	else if (changePlayerTimer.Read() >= 2000 && changePlayerTimer.Read() < 2010)
 	{
 		movementManager->changingCurrentPlayer(false);
 		//The position where the newCurrentPlayer will appear
@@ -82,6 +79,16 @@ void SwitchPlayerManagerScript::IsChangingCurrentPlayer()
 				cameraTransform->GetGlobalPosition().z);
 		//Disabling the current player
 		players[currentPlayerID]->Disable();
+
+		movementManager = players[(currentPlayerID + 1) % players.size()]->GetComponent<PlayerMoveScript>();
+		jumpManager = players[(currentPlayerID + 1) % players.size()]->GetComponent<PlayerJumpScript>();
+		movementManager->changingNewCurrentPlayer(true);
+		jumpManager->changingCurrentPlayer(true);
+		
+		//Enabling the new current player
+		players[(currentPlayerID + 1) % players.size()]->Enable();
+
+		players[(currentPlayerID + 1) % players.size()]->GetComponent<ComponentRigidBody>()->SetRigidBodyOrigin(rigidBodyVec3);
 	}
 
 	else if (changePlayerTimer.Read() >= 1000)
