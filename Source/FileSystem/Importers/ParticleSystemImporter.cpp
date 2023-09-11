@@ -87,6 +87,7 @@ void ParticleSystemImporter::Save
 			{
 				case ParticleModule::ModuleType::BASE:
 					size += sizeof(float) * 7;
+					size += sizeof(bool);
 					break;
 				case ParticleModule::ModuleType::SPAWN:
 					size += sizeof(float);
@@ -486,6 +487,12 @@ void ParticleSystemImporter::SaveModule(char*& cursor, ParticleModule*& module)
 
 			cursor += bytes;
 
+			bytes = sizeof(bool);
+			bool following = base->IsFollowingTransform();
+			memcpy(cursor, &following, bytes);
+
+			cursor += bytes;
+
 			break;
 		}
 		case ParticleModule::ModuleType::SPAWN:
@@ -649,6 +656,14 @@ void ParticleSystemImporter::LoadModule(const char*& fileBuffer, ParticleModule*
 			memcpy(&rotation, fileBuffer, bytes);
 
 			base->SetRotation(rotation);
+
+			fileBuffer += bytes;
+
+			bytes = sizeof(bool);
+			bool following;
+			memcpy(&following, fileBuffer, bytes);
+
+			base->SetFollowTransform(following);
 
 			fileBuffer += bytes;
 
