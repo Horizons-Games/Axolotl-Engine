@@ -11,6 +11,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/JumpFinisherArea.h"
 #include "../Scripts/JumpFinisherAttackBullet.h"
@@ -33,6 +34,7 @@ void JumpFinisherAttack::PerformGroundSmash()
 	ComponentRigidBody* ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
 	btRigidBody* ownerBulletRigidBody = ownerRigidBody->GetRigidBody();
 	ownerBulletRigidBody->setLinearVelocity(btVector3(0.0f, -15.0f, 0.0f));
+	forceArea->VisualStartEffect();
 	activated = true;
 }
 

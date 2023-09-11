@@ -17,8 +17,9 @@
 
 REGISTERCLASS(JumpFinisherArea);
 
-JumpFinisherArea::JumpFinisherArea() : Script(), parentTransform(nullptr), rigidBody(nullptr), particleSystem(nullptr),
-	particleSystemTimer(1.0f), triggerParticleSystemTimer(false), particleSystemCurrentTimer(0.0f), throwableForceArea(false)
+JumpFinisherArea::JumpFinisherArea() : Script(), parentTransform(nullptr), rigidBody(nullptr),
+	initParticleSystem(nullptr), landingParticleSystem(nullptr), particleSystemTimer(1.0f), 
+	triggerParticleSystemTimer(false), particleSystemCurrentTimer(0.0f), throwableForceArea(false)
 {
 	REGISTER_FIELD(particleSystemTimer, float);
 	REGISTER_FIELD(throwableForceArea, bool);
@@ -34,8 +35,10 @@ void JumpFinisherArea::Start()
 
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 
-	particleSystem = owner->GetComponent<ComponentParticleSystem>();
-	particleSystem->Enable();
+	//initParticleSystem = owner->GetChildren()[0]->GetComponent<ComponentParticleSystem>();
+	//initParticleSystem->Enable();
+	landingParticleSystem = owner->GetChildren()[1]->GetComponent<ComponentParticleSystem>();
+	landingParticleSystem->Enable();
 	particleSystemCurrentTimer = particleSystemTimer;
 }
 
@@ -53,12 +56,12 @@ void JumpFinisherArea::Update(float deltaTime)
 	{
 		particleSystemCurrentTimer = particleSystemTimer;
 		triggerParticleSystemTimer = false;
-		particleSystem->Stop();
+		landingParticleSystem->Stop();
 
 		if (throwableForceArea)
 		{
 			// If the force area is from a bullet, destroy the area after playing the particle effects
-			App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(particleSystem);
+			App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(landingParticleSystem);
 			App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 		}
 	}
@@ -84,9 +87,15 @@ void JumpFinisherArea::OnCollisionExit(ComponentRigidBody* other)
 		std::end(enemiesInTheArea));
 }
 
+void JumpFinisherArea::VisualStartEffect() 
+{
+	initParticleSystem->Play();
+}
+
 void JumpFinisherArea::VisualLandingEffect() 
 {
-	particleSystem->Play();
+	initParticleSystem->Stop();
+	landingParticleSystem->Play();
 	triggerParticleSystemTimer = true;
 }
 

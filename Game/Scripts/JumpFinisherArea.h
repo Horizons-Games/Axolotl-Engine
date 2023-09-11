@@ -21,6 +21,7 @@ public:
 	virtual void OnCollisionEnter(ComponentRigidBody* other) override;
 	virtual void OnCollisionExit(ComponentRigidBody* other) override;
 
+	void VisualStartEffect();
 	void VisualLandingEffect();
 
 	void PushEnemies(float pushForce, float stunTime, std::vector<ComponentRigidBody*>* enemies = nullptr);
@@ -30,7 +31,8 @@ private:
 
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
-	ComponentParticleSystem* particleSystem;
+	ComponentParticleSystem* initParticleSystem;
+	ComponentParticleSystem* landingParticleSystem;
 
 	bool triggerParticleSystemTimer;
 	float particleSystemTimer;
