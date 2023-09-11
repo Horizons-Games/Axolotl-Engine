@@ -46,7 +46,7 @@ void JumpFinisherAttack::VisualLandingEffect()
 
 void JumpFinisherAttack::PushEnemies(float pushForce, float stunTime, std::vector<ComponentRigidBody*>& enemies) 
 {
-	forceArea->PushEnemies(pushForce, stunTime, enemies);
+	forceArea->PushEnemies(pushForce, stunTime, &enemies);
 }
 
 void JumpFinisherAttack::ShootForceBullet(float pushForce, float stunTime)
