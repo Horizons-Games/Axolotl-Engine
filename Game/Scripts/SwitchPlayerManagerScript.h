@@ -24,7 +24,7 @@ public:
 	const std::vector<GameObject*>& GetPlayerGameObject() const;
 	void SetPlayerGameObject(const std::vector<GameObject*>& vecGO);
 
-	void TogglePlayerScripts();
+	void ChangeCurrentPlayer();
 	void IsChangingCurrentPlayer();
 
 private:

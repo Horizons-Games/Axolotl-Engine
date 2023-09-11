@@ -33,7 +33,7 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 	{
 		if (input->GetKey(SDL_SCANCODE_C) == KeyState::DOWN)
 		{
-			TogglePlayerScripts();
+			ChangeCurrentPlayer();
 		}
 	}
 	else 
@@ -42,9 +42,9 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 	}
 }
 
-void SwitchPlayerManagerScript::TogglePlayerScripts()
+void SwitchPlayerManagerScript::ChangeCurrentPlayer()
 {
-	camera->StartChangeCurrentPlayer(true);
+	camera->StopCamera(true);
 
 	changePlayerTimer.Start();
 	isChangingPlayer = true;

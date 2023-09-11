@@ -17,7 +17,7 @@ public:
 	void SetInCombat(bool newCombat);
 	bool IsInCombat();
 
-	void StartChangeCurrentPlayer(bool changing);
+	void StopCamera(bool stopped);
 	void ChangeCurrentPlayer(ComponentTransform* currentPlayer);
 
 private:
@@ -51,7 +51,7 @@ private:
 	float yFocusOffset;
 
 	bool inCombat;
-	bool changingCurrentPlayer;
+	bool stopped;
 };
 
 inline void CameraControllerScript::SetInCombat(bool newmode)

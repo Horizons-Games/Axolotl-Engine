@@ -47,7 +47,7 @@ void CameraControllerScript::Start()
 
 void CameraControllerScript::PreUpdate(float deltaTime)
 {
-	if (!changingCurrentPlayer)
+	if (!stopped)
 	{
 		ComponentCameraSample* closestSample = FindClosestSample(playerTransform->GetGlobalPosition());
 
@@ -129,15 +129,15 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 	}
 }
 
-void CameraControllerScript::StartChangeCurrentPlayer(bool change) 
+void CameraControllerScript::StopCamera(bool stop)
 {
-	changingCurrentPlayer = change;
+	stopped = stop;
 }
 
 void CameraControllerScript::ChangeCurrentPlayer(ComponentTransform* currentPlayer) 
 {
 	playerTransform = currentPlayer;
-	changingCurrentPlayer = false;
+	stopped = false;
 }
 
 void CameraControllerScript::CalculateOffsetVector()
