@@ -23,9 +23,11 @@ enum class ProgramType
 	MIN_MAX,
 	SHADOW_DEPTH_VARIANCE,
 	GAUSSIAN_BLUR,
+	GAUSSIAN_BLUR_3D,
 	//BLOOM,
 	KAWASE_DOWN,
 	KAWASE_UP,
+	SSAO,
 	COMPONENT_LINE,
 	COLOR_CORRECTION,
 	TRAIL,
@@ -48,6 +50,10 @@ public:
 	Program* GetProgram(ProgramType type) const;
 
 private:
+	std::unique_ptr<Program> CreateProgram(const std::string& vtxShaderFileName,
+										   const std::string& frgShaderFileName,
+										   const std::string& gtyShaderFileName,
+										   const std::string& programName);
 	std::unique_ptr<Program> CreateProgram(const std::string& vtxShaderFileName,
 										   const std::string& frgShaderFileName,
 										   const std::string& programName);

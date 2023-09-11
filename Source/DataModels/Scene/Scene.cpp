@@ -206,7 +206,7 @@ void Scene::CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, Gam
 		if (go->HasComponent<ComponentMeshRenderer>())
 		{
 			ComponentMeshRenderer* mesh = go->GetComponentInternal<ComponentMeshRenderer>();
-			if (go->IsActive() && (mesh == nullptr || mesh->IsEnabled()))
+			if (go->IsActive() && (mesh != nullptr || mesh->IsEnabled()))
 			{
 				gos.push_back(go);
 			}

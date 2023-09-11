@@ -31,6 +31,12 @@ enum class JoystickVerticalDirection
 	NONE
 };
 
+enum class InputMethod
+{
+	KEYBOARD,
+	GAMEPAD
+};
+
 struct JoystickMovement
 {
 	JoystickHorizontalDirection horizontalMovement;
@@ -54,6 +60,8 @@ public:
 	KeyState GetMouseButton(int mouseButton) const;
 	KeyState GetGamepadButton(int gamepadButton) const;
 
+	InputMethod GetCurrentInputMethod() const;
+	
 	// This setter methods will override user input
 	// Use them with care
 	void SetKey(SDL_Scancode scanCode, KeyState newState);
@@ -97,6 +105,7 @@ private:
 	int mousePosY;
 
 	JoystickMovement direction;
+	InputMethod inputMethod;
 
 	bool mouseWheelScrolled;
 	bool inFocus;
@@ -267,4 +276,9 @@ inline SDL_GameControllerAxis ModuleInput::GetJoystickAxis() const
 inline Sint16 ModuleInput::GetJoystickAxisValue() const
 {
 	return axisValue;
+}
+
+inline InputMethod ModuleInput::GetCurrentInputMethod() const
+{
+	return inputMethod;
 }
