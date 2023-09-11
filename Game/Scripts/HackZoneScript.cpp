@@ -4,7 +4,10 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 
+#ifdef ENGINE
 #include "debugdraw.h"
+#endif // ENGINE
+
 
 #include <algorithm>
 #include <random>
@@ -27,7 +30,9 @@ void HackZoneScript::Start()
 
 void HackZoneScript::Update(float deltaTime)
 {
+#ifdef ENGINE
 	dd::sphere(position, dd::colors::Blue, influenceRadius);
+#endif // ENGINE
 }
 
 void HackZoneScript::GenerateCombination()
