@@ -54,16 +54,12 @@ void SwitchPlayerManagerScript::ChangeCurrentPlayer()
 
 	changePlayerTimer.Start();
 	isChangingPlayer = true;
-	
 }
 
 void SwitchPlayerManagerScript::IsChangingCurrentPlayer()
 {
 	if (changePlayerTimer.Read() >= 3000)
 	{
-		btVector3 rigidBodyVec3(cameraTransform->GetGlobalPosition().x, players[currentPlayerID]->GetComponent<ComponentTransform>()->GetGlobalPosition().y,
-			cameraTransform->GetGlobalPosition().z);
-
 		currentPlayerID = (currentPlayerID + 1) % players.size(); //Here we change current player ID
 
 		//Enabling the new current player
@@ -81,6 +77,9 @@ void SwitchPlayerManagerScript::IsChangingCurrentPlayer()
 	else if (changePlayerTimer.Read() >= 2000)
 	{
 		movementManager->changingCurrentPlayer(false);
+		//The position where the newCurrentPlayer will appear
+		rigidBodyVec3 = btVector3(cameraTransform->GetGlobalPosition().x, players[currentPlayerID]->GetComponent<ComponentTransform>()->GetGlobalPosition().y,
+				cameraTransform->GetGlobalPosition().z);
 		//Disabling the current player
 		players[currentPlayerID]->Disable();
 	}

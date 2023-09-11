@@ -3,6 +3,7 @@
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
 #include "Timer/Timer.h"
+#include "Bullet\LinearMath\btVector3.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -44,6 +45,8 @@ private:
 	std::vector<GameObject*> players;
 	PlayerMoveScript* movementManager;
 	PlayerJumpScript* jumpManager;
+
+	btVector3 rigidBodyVec3;
 
 	bool isChangingPlayer;
 };
