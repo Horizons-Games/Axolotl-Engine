@@ -70,12 +70,6 @@ void ComponentLocalIBL::GenerateMaps()
 	frustum.SetPos(GetPosition());
 	frustum.SetViewPlaneDistances(0.1f, 100.0f);
 
-	ModuleProgram* modProgram = App->GetModule<ModuleProgram>();
-	ModuleRender* modRender = App->GetModule<ModuleRender>();
-
-	modRender->BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
-	modRender->BindCubemapToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
-
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Local IBL")), "Local IBL");
 
 	// Render in Irradiance
