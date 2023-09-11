@@ -121,7 +121,7 @@ void PlayerJumpScript::Jump(float deltatime)
 		btVector3 movement(0, 1, 0);
 		float3 direction = float3::zero;
 
-		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && 
+		if ((App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN || isChangingPlayer) && 
 			(isGrounded || coyoteTimerCount > 0.0f || (doubleJumpAvailable && canDoubleJump)))
 		{
 			btVector3 velocity = btRb->getLinearVelocity();
@@ -151,6 +151,11 @@ void PlayerJumpScript::Jump(float deltatime)
 			}
 		}
 	}
+}
+
+void PlayerJumpScript::changingCurrentPlayer(bool changePlayer)
+{
+	isChangingPlayer = changePlayer;
 }
 
 bool PlayerJumpScript::IsJumping() const

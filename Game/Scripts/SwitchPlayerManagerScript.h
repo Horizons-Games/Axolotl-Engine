@@ -9,6 +9,8 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class CameraControllerScript;
 class ComponentTransform;
 class ComponentRigidBody;
+class PlayerMoveScript;
+class PlayerJumpScript;
 class ModuleInput;
 
 class SwitchPlayerManagerScript : public Script
@@ -40,6 +42,8 @@ private:
 	ComponentTransform* cameraTransform;
 
 	std::vector<GameObject*> players;
+	PlayerMoveScript* movementManager;
+	PlayerJumpScript* jumpManager;
 
 	bool isChangingPlayer;
 };

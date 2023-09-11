@@ -51,6 +51,8 @@ public:
 	bool IsParalyzed() const;
 	void SetIsParalyzed(bool isParalyzed);
 
+	void changingCurrentPlayer(bool changePlayer);
+
 	PlayerActions GetPlayerState() const;
 	void SetPlayerState(PlayerActions playerState);
 	PlayerJumpScript* GetJumpScript() const;
@@ -89,4 +91,6 @@ private:
 	float3 desiredRotation;
 	
 	void Dash();
+
+	bool isChangingPlayer;
 };

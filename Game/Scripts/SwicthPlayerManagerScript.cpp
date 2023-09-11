@@ -4,6 +4,8 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
+#include "../Scripts/PlayerMoveScript.h"
+#include "../Scripts/PlayerJumpScript.h"
 #include "ModuleInput.h"
 
 #include "../Scripts/CameraControllerScript.h"
@@ -44,7 +46,11 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 
 void SwitchPlayerManagerScript::ChangeCurrentPlayer()
 {
+	movementManager = players[currentPlayerID]->GetComponent<PlayerMoveScript>();
+	jumpManager = players[currentPlayerID]->GetComponent<PlayerJumpScript>();
 	camera->StopCamera(true);
+	movementManager->changingCurrentPlayer(true);
+	jumpManager->changingCurrentPlayer(true);
 
 	changePlayerTimer.Start();
 	isChangingPlayer = true;
@@ -55,9 +61,6 @@ void SwitchPlayerManagerScript::IsChangingCurrentPlayer()
 {
 	if (changePlayerTimer.Read() >= 3000)
 	{
-		//Disabling the current player
-		players[currentPlayerID]->Disable();
-
 		btVector3 rigidBodyVec3(cameraTransform->GetGlobalPosition().x, players[currentPlayerID]->GetComponent<ComponentTransform>()->GetGlobalPosition().y,
 			cameraTransform->GetGlobalPosition().z);
 
@@ -73,5 +76,17 @@ void SwitchPlayerManagerScript::IsChangingCurrentPlayer()
 
 		changePlayerTimer.Stop();
 		isChangingPlayer = false;
+	}
+
+	else if (changePlayerTimer.Read() >= 2000)
+	{
+		movementManager->changingCurrentPlayer(false);
+		//Disabling the current player
+		players[currentPlayerID]->Disable();
+	}
+
+	else if (changePlayerTimer.Read() >= 1000)
+	{
+		jumpManager->changingCurrentPlayer(false);
 	}
 }

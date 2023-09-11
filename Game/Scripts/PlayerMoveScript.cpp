@@ -100,8 +100,9 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 
 	// Forward
-	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE ||
-		input->GetDirection().verticalMovement == JoystickVerticalDirection::FORWARD)
+	if ((input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE ||
+		input->GetDirection().verticalMovement == JoystickVerticalDirection::FORWARD) &&
+		!isChangingPlayer)
 	{
 		totalDirection += cameraFrustum.Front().Normalized();
 		currentMovements |= MovementFlag::W_DOWN;
@@ -109,23 +110,26 @@ void PlayerMoveScript::Move(float deltaTime)
 
 	// Back
 	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE ||
-		input->GetDirection().verticalMovement == JoystickVerticalDirection::BACK)
+		input->GetDirection().verticalMovement == JoystickVerticalDirection::BACK ||
+		isChangingPlayer)
 	{
 		totalDirection += -cameraFrustum.Front().Normalized();
 		currentMovements |= MovementFlag::S_DOWN;
 	}
 
 	// Right
-	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE ||
-		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::RIGHT)
+	if ((input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE ||
+		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::RIGHT) &&
+		!isChangingPlayer)
 	{
 		totalDirection += cameraFrustum.WorldRight().Normalized();
 		currentMovements |= MovementFlag::D_DOWN;
 	}
 
 	// Left
-	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE ||
-		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::LEFT)
+	if ((input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE ||
+		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::LEFT) &&
+		!isChangingPlayer)
 	{
 		totalDirection += -cameraFrustum.WorldRight().Normalized();
 		currentMovements |= MovementFlag::A_DOWN;
@@ -255,6 +259,11 @@ void PlayerMoveScript::Move(float deltaTime)
 	{
 		canDash = true;
 	}
+}
+
+void PlayerMoveScript::changingCurrentPlayer(bool changePlayer) 
+{
+	isChangingPlayer = changePlayer;
 }
 
 void PlayerMoveScript::MoveRotate(float deltaTime)

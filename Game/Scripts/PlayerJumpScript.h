@@ -29,6 +29,8 @@ public:
 	bool IsGrounded() const;
 	bool IsJumping() const;
 
+	void changingCurrentPlayer(bool changePlayer);
+
 private:
 	void CheckGround();
 	void Jump(float deltatime);
@@ -43,6 +45,7 @@ private:
 	float jumpParameter;
 	bool canDoubleJump;
 	bool canJump;
+	bool isChangingPlayer;
 
 	ComponentRigidBody* rigidbody;
 	ComponentAnimation* componentAnimation;
