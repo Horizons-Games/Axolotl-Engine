@@ -502,7 +502,6 @@
     <ClCompile Include="FileSystem\UIDGenerator.cpp">
       <Filter>FileSystem</Filter>
     </ClCompile>
-    <ClCompile Include="StdAfx.cpp" />
     <ClCompile Include="..\Game\Scripts\UIOptionsMenu.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
@@ -759,6 +758,9 @@
       <Filter>Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="Formatter.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowNavMeshInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
     <ClCompile Include="Modules\ModuleRandom.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -776,6 +778,9 @@
     </ClCompile>
     <ClCompile Include="DataModels\PostProcess\SSAO.cpp">
       <Filter>DataModels\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Render\Shadows.cpp">
+      <Filter>DataModels\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1580,6 +1585,9 @@
       <Filter>Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="Formatter.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowNavMeshInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
     <ClInclude Include="Modules\ModuleRandom.h">
       <Filter>Modules</Filter>
     </ClInclude>
@@ -1597,6 +1605,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\PostProcess\SSAO.h">
       <Filter>DataModels\PostProcess</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Render\Shadows.h">
+      <Filter>DataModels\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1803,6 +1814,9 @@
     </Filter>
     <Filter Include="DataModels\PostProcess">
       <UniqueIdentifier>{378aa69b-879a-45bc-8d90-4c8dc788a32a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Render">
+      <UniqueIdentifier>{701145da-de98-4a67-be5b-f78bd0c29386}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

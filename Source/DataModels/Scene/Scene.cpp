@@ -39,6 +39,7 @@
 
 #include "Modules/ModuleScene.h"
 #include "Modules/ModulePlayer.h"
+#include "Modules/ModuleNavigation.h"
 
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
@@ -233,7 +234,7 @@ void Scene::CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, Gam
 		if (go->HasComponent<ComponentMeshRenderer>())
 		{
 			ComponentMeshRenderer* mesh = go->GetComponentInternal<ComponentMeshRenderer>();
-			if (go->IsActive() && (mesh == nullptr || mesh->IsEnabled()))
+			if (go->IsActive() && (mesh != nullptr || mesh->IsEnabled()))
 			{
 				gos.push_back(go);
 			}
@@ -1601,6 +1602,7 @@ void Scene::UpdateSceneLocalIBL(ComponentLocalIBL* compLocal)
 void Scene::InitNewEmptyScene()
 {
 	App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
+	App->GetModule<ModuleNavigation>()->SetNavMesh(nullptr);
 
 	root = std::make_unique<GameObject>("New Scene");
 	root->InitNewEmptyGameObject();

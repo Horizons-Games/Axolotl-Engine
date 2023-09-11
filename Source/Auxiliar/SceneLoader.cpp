@@ -8,6 +8,8 @@
 #include "Modules/ModulePlayer.h"
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
+#include "Modules/ModuleUI.h"
+#include "ModuleNavigation.h"
 
 #include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Cubemap/Cubemap.h"
@@ -88,6 +90,9 @@ void OnLoadedScene()
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	scene->InitAndStartScriptingComponents();
 	scene->InitParticlesComponents();
+
+	ModuleUI* ui = App->GetModule<ModuleUI>();
+	ui->SetUpButtons();
 #endif // !ENGINE
 
 	LOG_VERBOSE("Finished load of scene {}", currentLoadingConfig->scenePath.value());
@@ -370,6 +375,7 @@ void StartJsonLoad(Json&& sceneJson)
 		loadedScene->SetRootQuadtree(std::make_unique<Quadtree>(AABB(float3::zero, float3::zero)));
 		rootQuadtree = loadedScene->GetRootQuadtree();
 		rootQuadtree->LoadOptions(sceneJson);
+		App->GetModule<ModuleNavigation>()->LoadOptions(sceneJson);
 	}
 
 	auto createCubemap = [sceneJson]() mutable
@@ -409,6 +415,11 @@ void StartJsonLoad(Json&& sceneJson)
 
 void StartLoadScene()
 {
+	
+	ModuleRender* moduleRender = App->GetModule<ModuleRender>();
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	ModuleUI* ui = App->GetModule<ModuleUI>();
+
 	// existing document passed by user
 	if (currentLoadingConfig->doc.has_value())
 	{
@@ -418,22 +429,23 @@ void StartLoadScene()
 	}
 
 	LOG_VERBOSE("Started load of scene {}", currentLoadingConfig->scenePath.value());
-
+	
 	// no document, new scene has to be loaded
 	if (!currentLoadingConfig->mantainCurrentScene)
 	{
-		App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
+		moduleRender->GetBatchManager()->CleanBatches();
 	}
 	else
 	{
-		App->GetModule<ModuleRender>()->GetBatchManager()->SetDirtybatches();
+		moduleRender->GetBatchManager()->SetDirtybatches();
 	}
-
-	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
 	std::string fileName =
 		App->GetModule<ModuleFileSystem>()->GetFileName(currentLoadingConfig->scenePath.value()).c_str();
 	char* buffer{};
+
+	ui->ClearButtons();
+
 #ifdef ENGINE
 	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
 

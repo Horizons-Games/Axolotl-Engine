@@ -5,7 +5,7 @@
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
 #include "Resources/ResourceNavMesh.h"
-#include "Defines/ExtensionDefines.h"
+#include "DetourTileCache/DetourTileCache.h"
 
 #include "Defines/ExtensionDefines.h"
 
@@ -13,8 +13,7 @@ void NavMeshImporter::Import(const char* filePath, std::shared_ptr<ResourceNavMe
 {
 	char* loadBuffer;
 	App->GetModule<ModuleFileSystem>()->Load(filePath, loadBuffer);
-	//For the moment we will create directly all the resources so we don't have a PreMade to load
-	//Load(loadBuffer, resource);
+	Load(loadBuffer, resource);
 
 	char* saveBuffer{};
 	unsigned int size;
@@ -22,23 +21,44 @@ void NavMeshImporter::Import(const char* filePath, std::shared_ptr<ResourceNavMe
 	App->GetModule<ModuleFileSystem>()->Save(
 		(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), saveBuffer, size);
 
-	//Temporary Asset Save
-	App->GetModule<ModuleFileSystem>()->Save(
-		resource->GetAssetsPath(), saveBuffer, size);
-
-	//delete loadBuffer;
+	delete loadBuffer;
 	delete saveBuffer;
 }
 
 void NavMeshImporter::Save(const std::shared_ptr<ResourceNavMesh>& resource, char*& fileBuffer, unsigned int& size)
 {
-	size = (sizeof(float) * 7 + sizeof(int) * 10 + sizeof(bool) + sizeof(unsigned char));
+	// Mesh and Tile parameters + header
+	size = (sizeof(float) * 7 + sizeof(int) * 10 + sizeof(bool) + sizeof(unsigned char)) 
+		   + sizeof(NavMeshHeader);
+
+	NavMeshHeader header = resource->GetNavMeshHeader();
+
+	dtTileCache* tileCache = resource->GetTileCache();
+	if (tileCache != nullptr)
+	{
+		for (int i = 0; i < tileCache->getTileCount(); ++i)
+		{
+			const dtCompressedTile* tile = tileCache->getTile(i);
+			if (!tile || !tile->header || !tile->dataSize)
+			{
+				continue;
+			}
+
+			size += sizeof(int) * 2;						// TileHeader
+			size += sizeof(unsigned char) * tile->dataSize; // Tile content
+			header.numTiles++;
+		}
+	}
 
 	char* cursor = new char[size]{};
 
 	fileBuffer = cursor;
 
-	unsigned int bytes = sizeof(float);
+	unsigned int bytes = sizeof(NavMeshHeader);
+	memcpy(cursor, &header, bytes);
+	cursor += bytes;
+
+	bytes = sizeof(float);
 
 	float agentHeight = resource->GetAgentHeight();
 	memcpy(cursor, &agentHeight, bytes);
@@ -121,11 +141,46 @@ void NavMeshImporter::Save(const std::shared_ptr<ResourceNavMesh>& resource, cha
 	unsigned char navMeshDrawFlags = resource->GetNavMeshDrawFlags();
 	memcpy(cursor, &navMeshDrawFlags, bytes);
 	cursor += bytes;
+
+	if (tileCache == nullptr)
+	{
+		return;
+	}
+
+	for (int i = 0; i < tileCache->getTileCount(); i++)
+	{
+		const dtCompressedTile* tile = tileCache->getTile(i);
+		if (!tile || !tile->header || !tile->dataSize)
+		{
+			continue;
+		}
+
+		unsigned int tileHeader[2] = 
+		{ 
+			tileCache->getTileRef(tile), 
+			tile->dataSize
+		};
+
+		bytes = sizeof(tileHeader);
+
+		memcpy(cursor, tileHeader, bytes);
+		cursor += bytes;
+
+		bytes = sizeof(unsigned char) * tile->dataSize;
+		memcpy(cursor, tile->data, bytes);
+		cursor += bytes;
+	}
 }
 
 void NavMeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceNavMesh> resource)
 {
-	unsigned int bytes = sizeof(float);
+	NavMeshHeader header;
+
+	unsigned int bytes = sizeof(NavMeshHeader);
+	memcpy(&header, fileBuffer, bytes);
+	fileBuffer += bytes;
+
+	bytes = sizeof(float);
 
 	float* agentHeight = new float;
 	memcpy(agentHeight, fileBuffer, bytes);
@@ -284,4 +339,31 @@ void NavMeshImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceNavMe
 	delete navMeshDrawFlags;
 
 	fileBuffer += bytes;
+	if (header.numTiles == 0 || header.maxTiles == 0)
+	{
+		return;
+	}
+
+	resource->InitNavMesh(header.bmin);
+	resource->InitTileCache(header.bmin, header.maxTiles);
+	for (int i = 0; i < header.numTiles; i++)
+	{
+		unsigned int tileHeader[2];
+
+		bytes = sizeof(tileHeader);
+		memcpy(tileHeader, fileBuffer, bytes);
+		fileBuffer += bytes;
+
+		if (!tileHeader[0] || !tileHeader[1])
+		{
+			break;
+		}
+
+		unsigned char* data = new unsigned char [tileHeader[1]]{};
+		bytes = sizeof(unsigned char) * (unsigned int) tileHeader[1];
+		memcpy(data, fileBuffer, bytes);
+		fileBuffer += bytes;
+		resource->AddTile(data, tileHeader[1]);
+	}
+	resource->InitCrowd();
 }
