@@ -29,6 +29,7 @@ protected:
 private:
 	void ManageResize();
 	void DrawGuizmo();
+	void DrawSceneMenu();
 
 	GLuint texture;
 	float currentWidth;
@@ -39,6 +40,7 @@ private:
 
 	bool useSnap;
 	bool manipulatedLastFrame;
+
 	float4x4 manipulatedViewMatrix;
 	float3 snap;
 

@@ -279,7 +279,7 @@ void EnemyDroneScript::ResetValues()
 	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
 	std::unordered_map<std::string, TypeFieldPairParameter> componentAnimationParameters =
 		componentAnimation->GetStateMachine()->GetParameters();
-	for (std::pair<std::string, TypeFieldPairParameter> parameter : componentAnimationParameters)
+	for (const std::pair<std::string, TypeFieldPairParameter>& parameter : componentAnimationParameters)
 	{
 		componentAnimation->SetParameter(parameter.first, false);
 	}

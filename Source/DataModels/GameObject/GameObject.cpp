@@ -10,6 +10,7 @@
 #include "DataModels/Components/ComponentCamera.h"
 #include "DataModels/Components/ComponentRender.h"
 #include "DataModels/Components/ComponentCubemap.h"
+#include "DataModels/Components/ComponentSkybox.h"
 #include "DataModels/Components/ComponentDirLight.h"
 #include "DataModels/Components/ComponentLight.h"
 #include "DataModels/Components/ComponentMeshCollider.h"
@@ -696,6 +697,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::LINE:
 		{
 			newComponent = std::make_unique<ComponentLine>(true, this);
+			break;
+		}
+
+
+		case ComponentType::SKYBOX:
+		{
+			newComponent = std::make_unique<ComponentSkybox>(true, this);
 			break;
 		}
 

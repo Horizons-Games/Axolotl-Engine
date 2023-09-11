@@ -1,0 +1,9 @@
+{
+    "UID": 13454485344039206622,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": null,
+    "ConfigEmitters": [
+        true,
+        true
+    ]
+}

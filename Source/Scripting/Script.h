@@ -31,6 +31,11 @@ public:
 	GameObject* GetOwner() const override;
 	void SetOwner(GameObject* owner) override;
 
+	ComponentScript* GetContainer() const override;
+	void SetContainer(ComponentScript* container) override;
+	void Enable() override;
+	void Disable() override;
+
 	const std::vector<TypeFieldPair>& GetFields() const override;
 
 	void Serialize(ISimpleSerializer* pSerializer) override;
@@ -43,6 +48,7 @@ protected:
 protected:
 	GameObject* owner;
 	Application* App;
+	ComponentScript* container;
 
 private:
 	std::vector<TypeFieldPair> members;
@@ -56,6 +62,16 @@ inline GameObject* Script::GetOwner() const
 inline void Script::SetOwner(GameObject* owner)
 {
 	this->owner = owner;
+}
+
+inline ComponentScript* Script::GetContainer() const
+{
+	return container;
+}
+
+inline void Script::SetContainer(ComponentScript* container)
+{
+	this->container = container;
 }
 
 inline const std::vector<TypeFieldPair>& Script::GetFields() const

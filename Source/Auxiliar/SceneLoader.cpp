@@ -8,11 +8,12 @@
 #include "Modules/ModulePlayer.h"
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
+#include "Modules/ModuleUI.h"
+#include "ModuleNavigation.h"
 
 #include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Scene/Scene.h"
-#include "DataModels/Skybox/Skybox.h"
 #include "DataStructures/Quadtree.h"
 
 #include "DataModels/Components/ComponentCamera.h"
@@ -22,6 +23,7 @@
 #include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/Components/UI/ComponentButton.h"
 #include "DataModels/Components/UI/ComponentCanvas.h"
+#include "DataModels/Components/ComponentSkybox.h"
 
 #include "Defines/ExtensionDefines.h"
 #include "Defines/FileSystemDefines.h"
@@ -88,6 +90,9 @@ void OnLoadedScene()
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	scene->InitAndStartScriptingComponents();
 	scene->InitParticlesComponents();
+
+	ModuleUI* ui = App->GetModule<ModuleUI>();
+	ui->SetUpButtons();
 #endif // !ENGINE
 
 	LOG_VERBOSE("Finished load of scene {}", currentLoadingConfig->scenePath.value());
@@ -110,6 +115,11 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 
 	for (GameObject* obj : loadedObjects)
 	{
+		if (currentLoadingConfig->mantainCurrentScene && obj->HasComponent<ComponentSkybox>())
+		{
+			obj->RemoveComponent<ComponentSkybox>();
+		}
+
 		if (obj->HasComponent<ComponentRender>() && currentLoadingConfig->mantainCurrentScene)
 		{
 			obj->RemoveComponent<ComponentRender>();
@@ -365,10 +375,7 @@ void StartJsonLoad(Json&& sceneJson)
 		loadedScene->SetRootQuadtree(std::make_unique<Quadtree>(AABB(float3::zero, float3::zero)));
 		rootQuadtree = loadedScene->GetRootQuadtree();
 		rootQuadtree->LoadOptions(sceneJson);
-
-		loadedScene->SetSkybox(std::make_unique<Skybox>());
-		Skybox* skybox = loadedScene->GetSkybox();
-		skybox->LoadOptions(sceneJson);
+		App->GetModule<ModuleNavigation>()->LoadOptions(sceneJson);
 	}
 
 	auto createCubemap = [sceneJson]() mutable
@@ -408,6 +415,11 @@ void StartJsonLoad(Json&& sceneJson)
 
 void StartLoadScene()
 {
+	
+	ModuleRender* moduleRender = App->GetModule<ModuleRender>();
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	ModuleUI* ui = App->GetModule<ModuleUI>();
+
 	// existing document passed by user
 	if (currentLoadingConfig->doc.has_value())
 	{
@@ -417,22 +429,23 @@ void StartLoadScene()
 	}
 
 	LOG_VERBOSE("Started load of scene {}", currentLoadingConfig->scenePath.value());
-
+	
 	// no document, new scene has to be loaded
 	if (!currentLoadingConfig->mantainCurrentScene)
 	{
-		App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
+		moduleRender->GetBatchManager()->CleanBatches();
 	}
 	else
 	{
-		App->GetModule<ModuleRender>()->GetBatchManager()->SetDirtybatches();
+		moduleRender->GetBatchManager()->SetDirtybatches();
 	}
-
-	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
 	std::string fileName =
 		App->GetModule<ModuleFileSystem>()->GetFileName(currentLoadingConfig->scenePath.value()).c_str();
 	char* buffer{};
+
+	ui->ClearButtons();
+
 #ifdef ENGINE
 	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
 
