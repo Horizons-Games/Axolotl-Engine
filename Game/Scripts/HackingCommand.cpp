@@ -12,9 +12,6 @@ HackingCommand::HackingCommand()
 {
 }
 
-void HackingCommand::Start()
-{
-}
 
 HackingCommandType HackingCommand::GetCommand(SDL_Scancode key)
 {
@@ -30,9 +27,10 @@ HackingCommandType HackingCommand::GetCommand(SDL_Scancode key)
 	}
 }
 
-HackingCommandType HackingCommand::GetCommand(SDL_GameControllerButton key)
+
+HackingCommandType HackingCommand::GetCommand(SDL_GameControllerButton button)
 {
-	auto it = buttonHackingMap.find(key);
+	auto it = buttonHackingMap.find(button);
 
 	if (it != buttonHackingMap.end())
 	{
@@ -41,5 +39,19 @@ HackingCommandType HackingCommand::GetCommand(SDL_GameControllerButton key)
 	else
 	{
 		return HackingCommandType::COMMAND_X;
+	}
+}
+
+const std::pair<SDL_Scancode, SDL_GameControllerButton>& HackingCommand::FromCommand(HackingCommandType command)
+{
+	auto it = commandHackingMap.find(command);
+
+	if (it != commandHackingMap.end())
+	{
+		return it->second;
+	}
+	else
+	{
+		return { SDL_SCANCODE_SPACE, SDL_CONTROLLER_BUTTON_A };
 	}
 }

@@ -3,6 +3,8 @@
 #include "Scripting\Script.h"
 #include <vector>
 
+#include "HackingCommand.h"
+
 class HackZoneScript : public Script
 {
 public:
@@ -19,8 +21,7 @@ public:
 	bool IsCompleted() const;
 	void SetCompleted();
 
-	const std::vector<SDL_Scancode>& GetKeyCombination() const;
-	const std::vector<SDL_GameControllerButton>& GetButtonCombination() const;
+	const std::vector<HackingCommandType>& GetCommandCombination() const;
 	
 	void GenerateCombination();
 
@@ -31,8 +32,7 @@ private:
 	float sequenceSize;
 	bool completed;
 
-	std::vector<SDL_Scancode> keyCombination;
-	std::vector<SDL_GameControllerButton> buttonCombination;
+	std::vector<HackingCommandType> commandCombination;
 
 	float3 position;
 };
@@ -52,13 +52,9 @@ inline float HackZoneScript::GetSequenceSize() const
 	return sequenceSize;
 }
 
-inline const std::vector<SDL_Scancode>& HackZoneScript::GetKeyCombination() const
+inline const std::vector<HackingCommandType>& HackZoneScript::GetCommandCombination() const
 {
-	return keyCombination;
-}
-inline const std::vector<SDL_GameControllerButton>& HackZoneScript::GetButtonCombination() const
-{
-	return buttonCombination;
+	return commandCombination;
 }
 
 inline bool HackZoneScript::IsCompleted() const

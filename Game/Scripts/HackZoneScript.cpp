@@ -19,13 +19,9 @@ HackZoneScript::HackZoneScript()
 	REGISTER_FIELD(sequenceSize, float);
 }
 
-
-
 void HackZoneScript::Start()
 {
-	keyCombination.reserve(sequenceSize);
-	buttonCombination.reserve(sequenceSize);
-
+	commandCombination.reserve(sequenceSize);
 	position = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
 }
 
@@ -36,36 +32,24 @@ void HackZoneScript::Update(float deltaTime)
 
 void HackZoneScript::GenerateCombination()
 {
-	std::vector<SDL_Scancode> allKeys = 
+	HackingCommandType allCommands[] = 
 	{ 
-		SDL_SCANCODE_E, 
-		SDL_SCANCODE_T, 
-		/*SDL_SCANCODE_SPACE, 
-		SDL_SCANCODE_R */
+		/*COMMAND_A, 
+		COMMAND_B, */
+		COMMAND_X, 
+		COMMAND_Y 
 	};
-	std::vector<SDL_GameControllerButton> allButtons = 
-	{ 
-		SDL_CONTROLLER_BUTTON_X, 
-		SDL_CONTROLLER_BUTTON_Y,
-		/*SDL_CONTROLLER_BUTTON_A,
-		SDL_CONTROLLER_BUTTON_B*/
-	};
+	size_t allCommandsSize = sizeof(allCommands) / sizeof(allCommands[0]);
+
 
 	std::random_device rd;
 	std::default_random_engine generator(rd());
 
-	keyCombination.clear();
-	buttonCombination.clear();
+	commandCombination.clear();
 
-	for (int i = 0; i < (int)sequenceSize; ++i)
+	for (size_t i = 0; i < sequenceSize; ++i)
 	{
-		std::uniform_int_distribution<int> distribution(0, allKeys.size() - 1);
-		keyCombination.push_back(allKeys[distribution(generator)]);
-	}
-
-	for (int i = 0; i < (int)sequenceSize; ++i)
-	{
-		std::uniform_int_distribution<int> distribution(0, allButtons.size() - 1);
-		buttonCombination.push_back(allButtons[distribution(generator)]);
+		std::uniform_int_distribution<size_t> distribution(0, allCommandsSize - 1);
+		commandCombination.push_back(allCommands[distribution(generator)]);
 	}
 }

@@ -28,16 +28,22 @@ const std::map<SDL_Scancode, HackingCommandType> keyHackingMap =
 	{ SDL_SCANCODE_T, COMMAND_Y },
 };
 
+const std::map<HackingCommandType, std::pair<SDL_Scancode, SDL_GameControllerButton>> commandHackingMap =
+{
+	{ COMMAND_A , {SDL_SCANCODE_SPACE, SDL_CONTROLLER_BUTTON_A}},
+	{ COMMAND_B , {SDL_SCANCODE_R, SDL_CONTROLLER_BUTTON_B}},
+	{ COMMAND_X , {SDL_SCANCODE_E, SDL_CONTROLLER_BUTTON_X}},
+	{ COMMAND_Y , {SDL_SCANCODE_T, SDL_CONTROLLER_BUTTON_Y}},
+};
 
-class HackingCommand : public Script
+
+class HackingCommand
 {
 public:
 	HackingCommand();
-	~HackingCommand() override = default;
-
-	void Start() override;
 
 	static HackingCommandType GetCommand(SDL_Scancode key);
-	static HackingCommandType GetCommand(SDL_GameControllerButton key);
+	static HackingCommandType GetCommand(SDL_GameControllerButton button);
+	static const std::pair<SDL_Scancode, SDL_GameControllerButton>& FromCommand(HackingCommandType command);
 };
 

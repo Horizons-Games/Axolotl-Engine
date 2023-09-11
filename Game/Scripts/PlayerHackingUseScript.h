@@ -2,6 +2,8 @@
 
 #include "Scripting\Script.h"
 
+#include "HackingCommand.h"
+
 class ModuleInput;
 class ComponentTransform;
 class ComponentRigidBody;
@@ -21,7 +23,7 @@ public:
 
 	bool IsHackingActive() const;
 
-	void PrintCombination(); //TEMPORARY METHOD
+	void PrintCombination(); //DEBUG METHOD
 
 private:
 
@@ -46,14 +48,10 @@ private:
 	ComponentTransform* transform;
 	ComponentRigidBody* rigidBody;
 
-	std::vector<SDL_Scancode> userKeyInputs;
-	std::vector<SDL_GameControllerButton> userButtonInputs;
+	std::vector<HackingCommandType> userCommandInputs;
+	std::vector<HackingCommandType> commandCombination;
 
-	std::vector<SDL_Scancode> keyCombination;
-	std::vector<SDL_GameControllerButton> buttonCombination;
-
-	int buttonIndex;
-	int keyIndex;
+	int commandIndex;
 };
 
 inline bool PlayerHackingUseScript::IsHackingActive() const

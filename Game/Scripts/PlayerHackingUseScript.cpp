@@ -52,62 +52,49 @@ void PlayerHackingUseScript::Update(float deltaTime)
 
 		else
 		{
+			HackingCommandType commandHack = commandCombination[commandIndex];
 
-			if (input->GetKey(keyCombination[keyIndex]) == KeyState::UP)
+			auto keyButtonPair = HackingCommand::FromCommand(commandHack);
+			SDL_Scancode key = keyButtonPair.first;
+			SDL_GameControllerButton button = keyButtonPair.second;
+
+			if (input->GetKey(key) == KeyState::UP || input->GetGamepadButton(button) == KeyState::UP)
 			{
-				userKeyInputs.push_back(keyCombination[keyIndex]);
-				keyIndex++;
-				LOG_DEBUG("user add key to combination");
+				userCommandInputs.push_back(commandHack);
+				commandIndex++;
+				LOG_DEBUG("user add key/button to combination");
 
 				hackingManager->RemoveInputVisuals();
 			}
 
-			if (input->GetGamepadButton(buttonCombination[buttonIndex]) == KeyState::UP)
-			{
-				userButtonInputs.push_back(buttonCombination[buttonIndex]);
-				buttonIndex++;
-				LOG_DEBUG("user add button to combination");
-
-				hackingManager->RemoveInputVisuals();
-			}
-
-
-			if (userKeyInputs == keyCombination)
+			if (userCommandInputs == commandCombination)
 			{
 				LOG_DEBUG("hacking completed");
 				FinishHack();
-				hackZone->SetCompleted();
-			}
-
-			if (userButtonInputs == buttonCombination)
-			{
-				LOG_DEBUG("hacking completed");
-				FinishHack();
-				hackZone->SetCompleted();
 			}
 
 		}
 	}
 }
 
-//TEMPORARY METHOD
+//DEBUG METHOD
 void PlayerHackingUseScript::PrintCombination()
 {
 	std::string combination;
-	for (auto element : keyCombination)
+	for (auto element :commandCombination)
 	{
 		char c = '\0';
 		switch (element) {
-		case SDL_SCANCODE_SPACE: 
+		case COMMAND_A: 
 			c = '_'; 
 			break;
-		case SDL_SCANCODE_R: 
+		case COMMAND_B:
 			c = 'R'; 
 			break;
-		case SDL_SCANCODE_E: 
+		case COMMAND_X:
 			c = 'E'; 
 			break;
-		case SDL_SCANCODE_T:
+		case COMMAND_Y:
 			c = 'T';
 			break;
 		default: 
@@ -128,20 +115,15 @@ void PlayerHackingUseScript::InitHack()
 	maxHackTime = hackZone->GetMaxTime();
 	hackZone->GenerateCombination();
 
-	userKeyInputs.reserve(hackZone->GetSequenceSize());
-	userButtonInputs.reserve(hackZone->GetSequenceSize());
+	userCommandInputs.reserve(hackZone->GetSequenceSize());
 
-	keyCombination = hackZone->GetKeyCombination();
-
-	for (auto key : keyCombination)
+	commandCombination = hackZone->GetCommandCombination();
+	for (auto command : commandCombination)
 	{
-		hackingManager->AddInputVisuals(HackingCommand::GetCommand(key));
+		hackingManager->AddInputVisuals(command);
 	}
 
-	buttonCombination = hackZone->GetButtonCombination();
-
-	buttonIndex = 0;
-	keyIndex = 0;
+	commandIndex = 0;
 
 	PrintCombination(); //SUBSTITUTE WITH CANVAS UI
 	LOG_DEBUG("hacking is active");
@@ -152,10 +134,11 @@ void PlayerHackingUseScript::FinishHack()
 	EnableAllInteractions();
 	isHackingActive = false;
 
-	userKeyInputs.clear();
-	userButtonInputs.clear();
+	userCommandInputs.clear();
 
 	hackingManager->CleanInputVisuals();
+
+	hackZone->SetCompleted();
 
 	LOG_DEBUG("hacking is finished");
 }
