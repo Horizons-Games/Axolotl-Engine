@@ -11,6 +11,7 @@ enum HackingCommandType
 	COMMAND_X,
 	COMMAND_Y
 };
+
 const std::map<SDL_GameControllerButton, HackingCommandType> buttonHackingMap =
 {
 	{ SDL_CONTROLLER_BUTTON_A, COMMAND_A },
@@ -36,7 +37,7 @@ public:
 
 	void Start() override;
 
-	HackingCommandType GetCommand(SDL_Scancode key);
-	HackingCommandType GetCommand(SDL_GameControllerButton key);
+	static HackingCommandType GetCommand(SDL_Scancode key);
+	static HackingCommandType GetCommand(SDL_GameControllerButton key);
 };
 

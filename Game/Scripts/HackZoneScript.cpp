@@ -36,8 +36,20 @@ void HackZoneScript::Update(float deltaTime)
 
 void HackZoneScript::GenerateCombination()
 {
-	std::vector<SDL_Scancode> allKeys = { SDL_SCANCODE_A, SDL_SCANCODE_B, SDL_SCANCODE_C };
-	std::vector<SDL_GameControllerButton> allButtons = { SDL_CONTROLLER_BUTTON_A, SDL_CONTROLLER_BUTTON_B };
+	std::vector<SDL_Scancode> allKeys = 
+	{ 
+		SDL_SCANCODE_E, 
+		SDL_SCANCODE_T, 
+		/*SDL_SCANCODE_SPACE, 
+		SDL_SCANCODE_R */
+	};
+	std::vector<SDL_GameControllerButton> allButtons = 
+	{ 
+		SDL_CONTROLLER_BUTTON_X, 
+		SDL_CONTROLLER_BUTTON_Y,
+		/*SDL_CONTROLLER_BUTTON_A,
+		SDL_CONTROLLER_BUTTON_B*/
+	};
 
 	std::random_device rd;
 	std::default_random_engine generator(rd());

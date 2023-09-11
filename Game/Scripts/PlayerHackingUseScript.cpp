@@ -2,6 +2,7 @@
 #include "PlayerHackingUseScript.h"
 
 #include "HackZoneScript.h"
+#include "UIHackingManager.h"
 
 #include "Application.h"
 #include "ModuleInput.h"
@@ -17,6 +18,7 @@ REGISTERCLASS(PlayerHackingUseScript);
 PlayerHackingUseScript::PlayerHackingUseScript()
 	: Script(), isHackingActive(false), hackingTag("Hackeable")
 {
+	REGISTER_FIELD(hackingManager, UIHackingManager*);
 }
 
 void PlayerHackingUseScript::Start()
@@ -25,7 +27,6 @@ void PlayerHackingUseScript::Start()
 	transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 	rigidBody = GetOwner()->GetComponentInternal<ComponentRigidBody>();
 	hackZone = nullptr;
-
 }
 
 void PlayerHackingUseScript::Update(float deltaTime)
@@ -57,6 +58,8 @@ void PlayerHackingUseScript::Update(float deltaTime)
 				userKeyInputs.push_back(keyCombination[keyIndex]);
 				keyIndex++;
 				LOG_DEBUG("user add key to combination");
+
+				hackingManager->RemoveInputVisuals();
 			}
 
 			if (input->GetGamepadButton(buttonCombination[buttonIndex]) == KeyState::UP)
@@ -64,6 +67,8 @@ void PlayerHackingUseScript::Update(float deltaTime)
 				userButtonInputs.push_back(buttonCombination[buttonIndex]);
 				buttonIndex++;
 				LOG_DEBUG("user add button to combination");
+
+				hackingManager->RemoveInputVisuals();
 			}
 
 
@@ -93,14 +98,17 @@ void PlayerHackingUseScript::PrintCombination()
 	{
 		char c = '\0';
 		switch (element) {
-		case SDL_SCANCODE_A: 
-			c = 'A'; 
+		case SDL_SCANCODE_SPACE: 
+			c = '_'; 
 			break;
-		case SDL_SCANCODE_B: 
-			c = 'B'; 
+		case SDL_SCANCODE_R: 
+			c = 'R'; 
 			break;
-		case SDL_SCANCODE_C: 
-			c = 'C'; 
+		case SDL_SCANCODE_E: 
+			c = 'E'; 
+			break;
+		case SDL_SCANCODE_T:
+			c = 'T';
 			break;
 		default: 
 			break;
@@ -124,6 +132,12 @@ void PlayerHackingUseScript::InitHack()
 	userButtonInputs.reserve(hackZone->GetSequenceSize());
 
 	keyCombination = hackZone->GetKeyCombination();
+
+	for (auto key : keyCombination)
+	{
+		hackingManager->AddInputVisuals(HackingCommand::GetCommand(key));
+	}
+
 	buttonCombination = hackZone->GetButtonCombination();
 
 	buttonIndex = 0;
@@ -140,6 +154,8 @@ void PlayerHackingUseScript::FinishHack()
 
 	userKeyInputs.clear();
 	userButtonInputs.clear();
+
+	hackingManager->CleanInputVisuals();
 
 	LOG_DEBUG("hacking is finished");
 }

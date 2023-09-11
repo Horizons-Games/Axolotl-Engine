@@ -7,6 +7,7 @@ class ComponentTransform;
 class ComponentRigidBody;
 
 class HackZoneScript;
+class UIHackingManager;
 
 class PlayerHackingUseScript : public Script
 {
@@ -35,6 +36,7 @@ private:
 	bool isHackingActive;
 	std::string hackingTag;
 	HackZoneScript* hackZone;
+	UIHackingManager* hackingManager;
 
 	float currentTime;
 	float maxHackTime;

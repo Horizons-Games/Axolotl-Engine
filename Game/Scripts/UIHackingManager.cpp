@@ -10,35 +10,24 @@
 
 REGISTERCLASS(UIHackingManager);
 
-UIHackingManager::UIHackingManager() : Script(), clearHackingTimer(0.0f), clearHacking(false)
+UIHackingManager::UIHackingManager() : Script()
 {
 	REGISTER_FIELD(command_X, GameObject*);
 	REGISTER_FIELD(command_Y, GameObject*);
-	REGISTER_FIELD(command_A, GameObject*);
-	REGISTER_FIELD(command_B, GameObject*);
+	/*REGISTER_FIELD(command_A, GameObject*);
+	REGISTER_FIELD(command_B, GameObject*);*/
 }
 
 void UIHackingManager::Init()
 {
-	inputPositions.push_back(owner->GetChildren()[1]->GetChildren()[0]);
-	inputPositions.push_back(owner->GetChildren()[1]->GetChildren()[1]);
-	inputPositions.push_back(owner->GetChildren()[1]->GetChildren()[2]);
+	inputPositions.push_back(owner->GetChildren()[0]->GetChildren()[0]);
+	inputPositions.push_back(owner->GetChildren()[0]->GetChildren()[1]);
+	inputPositions.push_back(owner->GetChildren()[0]->GetChildren()[2]);
 }
 
 void UIHackingManager::Update(float deltaTime)
 {
-	if (clearHacking)
-	{
-		if (clearHackingTimer <= 0.0f)
-		{
-			CleanInputVisuals();
-			clearHacking = false;
-		}
-		else
-		{
-			clearHackingTimer -= deltaTime;
-		}
-	}
+	
 }
 
 void UIHackingManager::AddInputVisuals(HackingCommandType type)
@@ -54,12 +43,12 @@ void UIHackingManager::AddInputVisuals(HackingCommandType type)
 		case HackingCommandType::COMMAND_Y:
 			prefab = command_Y;
 			break;
-		case HackingCommandType::COMMAND_A:
+		/*case HackingCommandType::COMMAND_A:
 			prefab = command_A;
 			break;
 		case HackingCommandType::COMMAND_B:
 			prefab = command_B;
-			break;
+			break;*/
 		default:
 			break;
 		}
@@ -75,20 +64,13 @@ void UIHackingManager::AddInputVisuals(HackingCommandType type)
 	}
 }
 
-void UIHackingManager::ClearCombo(bool finish)
+void UIHackingManager::RemoveInputVisuals()
 {
-	clearHacking = true;
-	if(finish)
-	{
-		clearHackingTimer = 0.5f;
-		//Particles, audio, etc
-	}
-	else 
-	{
-		clearHackingTimer = 0.1f;
-		//Particles, audio, etc
-	}
+	const GameObject* inputDeleted = inputVisuals[inputVisuals.size()-1];
+	inputVisuals.pop_back();
+	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(inputDeleted);
 }
+
 
 void UIHackingManager::CleanInputVisuals()
 {
