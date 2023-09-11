@@ -45,8 +45,8 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), jumpFinisherScript(nullptr),
 	lightFinisherScript(nullptr), normalAttackDistance(0), heavyFinisherAttack(nullptr), lightWeapon(nullptr),
 	comboCountHeavy(10.0f), comboCountLight(30.0f), comboCountJump(20.0f), triggerNextAttackDuration(0.5f), 
-	triggerNextAttackTimer(0.0f), isNextLightAttackTriggered(false), isNextHeavyAttackTriggered(false),
-	currentAttackComboAnimation("")
+	triggerNextAttackTimer(0.0f), isNextLightAttackTriggered(false),currentAttackComboAnimation(""), 
+	numAttackComboAnimation(0.0f)
 {
 	REGISTER_FIELD(comboCountHeavy, float);
 	REGISTER_FIELD(comboCountLight, float);
@@ -111,9 +111,10 @@ void PlayerAttackScript::Update(float deltaTime)
 
 	if (!IsAttackAvailable())
 	{
-		ResetAttackAnimations();
+		ResetAttackAnimations(deltaTime);
 	}
-	PerformCombos(deltaTime);
+
+	PerformCombos();
 }
 
 void PlayerAttackScript::UpdateEnemyDetection()
@@ -129,10 +130,10 @@ void PlayerAttackScript::UpdateEnemyDetection()
 	}
 }
 
-void PlayerAttackScript::PerformCombos(float deltaTime)
+void PlayerAttackScript::PerformCombos()
 {
 	if ((lastAttack == AttackType::LIGHTNORMAL || lastAttack == AttackType::HEAVYNORMAL)
-		&& !isNextLightAttackTriggered && !isNextHeavyAttackTriggered)
+		&& !isNextLightAttackTriggered)
 	{
 		animation->SetParameter("IsLightAttacking", false);
 	}
@@ -141,23 +142,25 @@ void PlayerAttackScript::PerformCombos(float deltaTime)
 
 	if (!IsAttackAvailable())
 	{
-		if (!isNextLightAttackTriggered && !isNextHeavyAttackTriggered)
+		if (!isNextLightAttackTriggered)
 		{
 			switch (currentAttack)
 			{
 			case AttackType::LIGHTNORMAL:
+			case AttackType::HEAVYNORMAL:
 				if (lastAttack == AttackType::LIGHTNORMAL)
 				{
 					isNextLightAttackTriggered = true;
 					triggerNextAttackTimer = triggerNextAttackDuration;
-					animation->SetParameter("IsLightAttacking", true);
-				}
-				break;
-			case AttackType::HEAVYNORMAL:
-				if (lastAttack == AttackType::HEAVYNORMAL)
-				{
-					isNextHeavyAttackTriggered = true;
-					triggerNextAttackTimer = triggerNextAttackDuration;
+					if (numAttackComboAnimation == 2.0f)
+					{
+						numAttackComboAnimation = 0.0f;
+					}
+					else
+					{
+						numAttackComboAnimation += 1.0f;
+					}
+					animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
 					animation->SetParameter("IsLightAttacking", true);
 				}
 				break;
@@ -169,22 +172,14 @@ void PlayerAttackScript::PerformCombos(float deltaTime)
 		switch (currentAttack)
 		{
 			case AttackType::LIGHTNORMAL:
-				if (!isNextLightAttackTriggered && !isNextHeavyAttackTriggered)
+			case AttackType::HEAVYNORMAL:
+				if (!isNextLightAttackTriggered)
 				{
 					LOG_VERBOSE("Normal Normal Attack Soft");
+					numAttackComboAnimation = 0.0f;
+					animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
 					LightNormalAttack();
 					isNextLightAttackTriggered = false;
-					lastAttack = currentAttack;
-					currentAttackComboAnimation = "LightAttack";
-				}
-				break;
-
-			case AttackType::HEAVYNORMAL:
-				if (!isNextHeavyAttackTriggered && !isNextLightAttackTriggered)
-				{
-					LOG_VERBOSE("Normal Attack Heavy");
-					HeavyNormalAttack();
-					isNextHeavyAttackTriggered = false;
 					lastAttack = currentAttack;
 					currentAttackComboAnimation = "LightAttack";
 				}
@@ -377,16 +372,17 @@ void PlayerAttackScript::JumpFinisher()
 	comboSystem->SuccessfulAttack(-comboCountJump * 2, AttackType::JUMPFINISHER);
 }
 
-void PlayerAttackScript::ResetAttackAnimations()
+void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 {
 	switch (lastAttack)
 	{
-		case AttackType::LIGHTNORMAL:			
+		case AttackType::LIGHTNORMAL:
+		case AttackType::HEAVYNORMAL:
 			if (animation->GetController()->GetStateName() != currentAttackComboAnimation)
 			{
-				currentAttackComboAnimation = animation->GetController()->GetStateName();
 				if (isNextLightAttackTriggered)
 				{
+					currentAttackComboAnimation = animation->GetController()->GetStateName();
 					LOG_VERBOSE("Normal Attack Soft");
 					LightNormalAttack();
 					lastAttack = AttackType::LIGHTNORMAL;
@@ -395,32 +391,18 @@ void PlayerAttackScript::ResetAttackAnimations()
 				}
 				else
 				{
-					animation->SetParameter("IsLightAttacking", false);
-					isAttacking = false;
-					lastAttack = AttackType::NONE;
-					LOG_VERBOSE("ResettingLightAttackAnimation");
-				}
-			}
-			break;	
-
-		case AttackType::HEAVYNORMAL:
-			if (animation->GetController()->GetStateName() != currentAttackComboAnimation)
-			{
-				currentAttackComboAnimation = animation->GetController()->GetStateName();
-				if (isNextHeavyAttackTriggered)
-				{
-					LOG_VERBOSE("Normal Attack Heavy");
-					HeavyNormalAttack();
-					lastAttack = AttackType::HEAVYNORMAL;
-					isAttacking = true;
-					isNextHeavyAttackTriggered = false;
-				}
-				else
-				{
-					animation->SetParameter("IsLightAttacking", false);
-					isAttacking = false;
-					lastAttack = AttackType::NONE;
-					LOG_VERBOSE("ResettingHeavyAttackAnimation");
+					triggerNextAttackTimer -= deltaTime;
+					if (triggerNextAttackTimer <= 0.0f)
+					{
+						triggerNextAttackTimer = triggerNextAttackDuration;
+						currentAttackComboAnimation = animation->GetController()->GetStateName();
+						numAttackComboAnimation = 0.0f;
+						animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
+						animation->SetParameter("IsLightAttacking", false);
+						isAttacking = false;
+						lastAttack = AttackType::NONE;
+						LOG_VERBOSE("ResettingLightAttackAnimation");
+					}
 				}
 			}
 			break;	
@@ -516,7 +498,13 @@ void PlayerAttackScript::SetIsDeathTouched(bool isDeathTouched)
 
 AttackType PlayerAttackScript::GetCurrentAttackType() const
 {
-	return currentAttack;
+	return lastAttack;
+}
+
+bool PlayerAttackScript::IsInAttackAnimation() const
+{
+	std::string animString = animation->GetController()->GetStateName();
+	return animString == "LightAttack" || animString == "SecondAttack" || animString == "HeavyAttack";
 }
 
 GameObject* PlayerAttackScript::GetEnemyDetected() const

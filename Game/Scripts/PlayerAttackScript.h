@@ -43,6 +43,7 @@ public:
 	bool IsPerfomingJumpAttack() const;
 
 	AttackType GetCurrentAttackType() const;
+	bool IsInAttackAnimation() const;
 	GameObject* GetEnemyDetected() const;
 
 private:
@@ -51,7 +52,7 @@ private:
 
 	void UpdateEnemyDetection();
 
-	void PerformCombos(float deltaTime);
+	void PerformCombos();
 
 	void LightNormalAttack();
 	void HeavyNormalAttack();
@@ -60,7 +61,7 @@ private:
 	void HeavyFinisher();
 	void JumpFinisher();
 
-	void ResetAttackAnimations();
+	void ResetAttackAnimations(float deltaTime);
 
 	void DamageEnemy(GameObject* enemyAttacked, float damageAttack);
 	void ThrowBasicAttack(GameObject* enemyAttacked, float nDamage);
@@ -74,8 +75,8 @@ private:
 	float triggerNextAttackDuration;
 	float triggerNextAttackTimer;
 	bool isNextLightAttackTriggered;
-	bool isNextHeavyAttackTriggered;
 	std::string currentAttackComboAnimation;
+	float numAttackComboAnimation;
 
 	bool isDeathTouched;
 

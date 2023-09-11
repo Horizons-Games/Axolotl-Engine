@@ -153,7 +153,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	else 
 	{
 		bool playerIsRunning = playerState != PlayerActions::WALKING && playerState != PlayerActions::DASHING
-			&& jumpScript->IsGrounded() && playerAttackScript->IsAttackAvailable();
+			&& jumpScript->IsGrounded()/* && playerAttackScript->IsAttackAvailable()*/;
 		
 		if (playerIsRunning)
 		{
@@ -163,16 +163,9 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 
 		//Low velocity while attacking
-		AttackType currentAttack = playerAttackScript->GetCurrentAttackType();
-		switch (currentAttack)
+		if (playerAttackScript->IsInAttackAnimation())
 		{
-		case AttackType::LIGHTNORMAL:
-				newSpeed = newSpeed / lightAttacksMoveFactor;
-			break;
-		case AttackType::HEAVYNORMAL:
-		case AttackType::LIGHTFINISHER:
-			newSpeed = newSpeed / heavyAttacksMoveFactor;
-			break;
+			newSpeed = newSpeed / lightAttacksMoveFactor;
 		}
 
 		totalDirection.y = 0;
