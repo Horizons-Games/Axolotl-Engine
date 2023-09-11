@@ -268,7 +268,7 @@ void PlayerAttackScript::InitJumpAttack()
 	}
 }
 
-void BixAttackScript::UpdateJumpAttack()
+void PlayerAttackScript::UpdateJumpAttack()
 {
 	bool landed = false;
 	//if (isMelee) landing is player grounded if not then is the projectile detection for the moment I only put this
@@ -287,7 +287,7 @@ void BixAttackScript::UpdateJumpAttack()
 	}
 }
 
-void BixAttackScript::EndJumpNormalAttack() 
+void PlayerAttackScript::EndJumpNormalAttack()
 {
 	jumpFinisherScript->VisualLandingEffect();
 	if (enemyDetection->AreAnyEnemiesInTheArea())
@@ -297,7 +297,7 @@ void BixAttackScript::EndJumpNormalAttack()
 	}
 }
 
-void BixAttackScript::EndJumpFinisherAttack()
+void PlayerAttackScript::EndJumpFinisherAttack()
 {
 	jumpFinisherScript->VisualLandingEffect();
 	if (enemyDetection->AreAnyEnemiesInTheArea())
@@ -348,22 +348,22 @@ void PlayerAttackScript::HeavyFinisher()
 	}
 }
 
-void PlayerAttackScript::JumpFinisher()
-{
-	animation->SetParameter("IsJumpAttacking", true);
-	isAttacking = true;
-
-	if(isMelee)
-	{
-		jumpFinisherScript->PerformGroundSmash(15.0f, 4.0f); // Bix jumping finisher
-	}
-	else
-	{
-		jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
-	}
-
-	comboSystem->SuccessfulAttack(-comboCountJump * 2, AttackType::JUMPFINISHER);
-}
+//void PlayerAttackScript::JumpFinisher()
+//{
+//	animation->SetParameter("IsJumpAttacking", true);
+//	isAttacking = true;
+//
+//	if(isMelee)
+//	{
+//		jumpFinisherScript->PerformGroundSmash(15.0f, 4.0f); // Bix jumping finisher
+//	}
+//	else
+//	{
+//		jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
+//	}
+//
+//	comboSystem->SuccessfulAttack(-comboCountJump * 2, AttackType::JUMPFINISHER);
+//}
 
 void PlayerAttackScript::ResetAttackAnimations()
 {
