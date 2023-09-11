@@ -326,6 +326,11 @@ UpdateStatus ModuleInput::Update()
 		App->GetModule<ModuleRender>()->ChangeRenderMode();
 	}
 
+	if (keysState[SDL_SCANCODE_F6] == KeyState::DOWN && SDL_ShowCursor(SDL_QUERY))
+	{
+		App->GetModule<ModuleRender>()->ToggleSSAO();
+	}
+
 #endif
 
 	return UpdateStatus::UPDATE_CONTINUE;

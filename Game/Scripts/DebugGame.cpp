@@ -11,7 +11,7 @@
 #include "Components/ComponentRigidBody.h"
 
 #include "../Scripts/HealthSystem.h"
-#include "../Scripts/BixAttackScript.h"
+#include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/PlayerMoveScript.h"
 #include "../Scripts/PlayerJumpScript.h"
 #include "../Scripts/PlayerRotationScript.h"
@@ -44,7 +44,7 @@ void DebugGame::Start()
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
 
 	playerHealthSystem = player->GetComponent<HealthSystem>();
-	playerAttackScript = player->GetComponent<BixAttackScript>();
+	playerAttackScript = player->GetComponent<PlayerAttackScript>();
 	playerMoveScript = player->GetComponent<PlayerMoveScript>();
 	playerJumpScript = player->GetComponent<PlayerJumpScript>();
 	playerRotationScript = player->GetComponent<PlayerRotationScript>();

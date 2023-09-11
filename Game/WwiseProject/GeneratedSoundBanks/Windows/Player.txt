@@ -1,8 +1,13 @@
 Event	ID	Name			Wwise Object Path	Notes
+	330613076	sfx_shot_impact_01			\SFX\Player\sfx_shot_impact_01	
+	485375983	sfx_chargedShot_01			\SFX\Player\sfx_chargedShot_01	
+	647605479	sfx_electricShot_shot_01			\SFX\Player\sfx_electricShot_shot_01	
 	964751236	sfx_lightsaber_hum_stop			\SFX\Player\sfx_lightsaber_hum_stop	
 	1430818805	sfx_footsteps_walk_stop			\SFX\Player\sfx_footsteps_walk_stop	
 	1494651949	sfx_dash_01			\SFX\Player\sfx_dash_01	
+	1558864725	sfx_electricShot_impact_01			\SFX\Player\sfx_electricShot_impact_01	
 	1792116364	sfx_lightsaber_clash			\SFX\Player\sfx_lightsaber_clash	
+	2024131708	sfx_cannonShot_01			\SFX\Player\sfx_cannonShot_01	
 	2355582310	sfx_footsteps_run_01			\SFX\Player\sfx_footsteps_run_01	
 	2967609084	sfx_doubleJump_01			\SFX\Player\sfx_doubleJump_01	
 	3050257279	sfx_footsteps_run_stop			\SFX\Player\sfx_footsteps_run_stop	
@@ -10,6 +15,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3335399033	sfx_lightsaber_swing			\SFX\Player\sfx_lightsaber_swing	
 	3736508461	sfx_force_stop			\SFX\Player\sfx_force_stop	
 	3824416186	sfx_footsteps_crouch_stop			\SFX\Player\sfx_footsteps_crouch_stop	
+	3980201878	sfx_roll_01			\SFX\Player\sfx_roll_01	
 	4115447157	sfx_jump_01			\SFX\Player\sfx_jump_01	
 	4135941005	sfx_lightsaber_hum_01			\SFX\Player\sfx_lightsaber_hum_01	
 	4171386676	sfx_footsteps_walk_01			\SFX\Player\sfx_footsteps_walk_01	
@@ -25,14 +31,22 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	137412610	sfx_doubleJump_whoosh-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_doubleJump_whoosh-001_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\sfx_doubleJump_whoosh-001		149404
 	205229415	sfx_lightsaber_swing_02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_lightsaber_swing_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_lightsaber_swing\sfx_lightsaber_swing_02		112092
 	268604586	sfx_footsteps_run_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_footsteps_run_01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\sfx_footsteps_run_01		489484
+	291487077	228952-Perc_-Foundations3Kit_-InnerCircle01_-004	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\228952-Perc_-Foundations3Kit_-InnerCircle01_-004_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_electricShot_impact_01\228952-Perc_-Foundations3Kit_-InnerCircle01_-004		95596
+	434555254	cannonShot	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\cannonShot_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_cannon_shot\cannonShot		726944
 	500728904	sfx_lightsaber_open_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_lightsaber_open_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_lightsaber_open_01		301212
 	545082851	sfx_footsteps_walk_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_footsteps_walk_01_C5579977.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\sfx_footsteps_walk_01		932180
 	580951369	sfx_jump_whoosh-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_jump_whoosh-001_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\sfx_jump_whoosh-001		149404
 	595687169	sfx_lightsaber_hum_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_lightsaberLoop_01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_lightsaber_hum_01		1018684
 	621220616	sfx_lightsaber_clash_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_lightsaber_clash_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_lightsaber_clash_01		83256
+	653886955	allura_heavy_shot	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\allura_heavy_shot_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_shot_charged_01\allura_heavy_shot		793096
 	660733524	sfx_lightsaber_close_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_lightsaber_close_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_lightsaber_close_01		265592
+	727797297	512824-Alien-Game-Weapon-Electric-Pistol-Shot-3-Laser-Glitch-Tonal-Gun-Shot-2-Deep	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\512824-Alien-Game-Weapon-Electric-Pistol-Shot-3-Laser-Glitch-Tonal-Gun-Shot-2-Deep_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_electricShot_shot_01\512824-Alien-Game-Weapon-Electric-Pistol-Shot-3-Laser-Glitch-Tonal-Gun-Shot-2-Deep		413432
+	745303828	shotImpact	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\shotImpact_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_shot_impact\shotImpact		91736
 	759745302	sfx_dash_whoosh-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_dash_whoosh-001_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\sfx_dash_whoosh-001		69688
+	836273150	118254-Body_falling_on_a_wood_with_a_thud_4	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\118254-Body_falling_on_a_wood_with_a_thud_4_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\sfx_dash_roll-001\118254-Body_falling_on_a_wood_with_a_thud_4		70752
+	873118458	118119-Body_falling_on_a_wood_and_sand_with_a_thud	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\118119-Body_falling_on_a_wood_and_sand_with_a_thud_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\sfx_dash_roll-001\118119-Body_falling_on_a_wood_and_sand_with_a_thud		68704
 	883987314	sfx_forceWoosh-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_forceWoosh-001_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerAbilities\sfx_forceWoosh-001		514080
 	984190717	sfx_footsteps_crouch_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_footsteps_crouch_01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\sfx_footsteps_crouch_01		1629300
+	1004966524	512818-Alien-Game-Weapon-Electric-Pistol-Shot-2-Glitchy-SciFi-Impact-Hit-Hard	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\512818-Alien-Game-Weapon-Electric-Pistol-Shot-2-Glitchy-SciFi-Impact-Hit-Hard_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_electricShot_shot_01\512818-Alien-Game-Weapon-Electric-Pistol-Shot-2-Glitchy-SciFi-Impact-Hit-Hard		661088
 	1036642653	sfx_lightsaber_swing_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_lightsaber_swing_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\sfx_lightsaber_swing\sfx_lightsaber_swing_01		21472
 

@@ -17,6 +17,11 @@
 #include "Components/ComponentRender.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentCubemap.h"
+#include "Components/ComponentSkybox.h"
+#include "Components/ComponentPlayer.h"
+#include "Components/ComponentParticleSystem.h"
+
 
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
@@ -34,6 +39,7 @@
 
 #include "Modules/ModuleScene.h"
 #include "Modules/ModulePlayer.h"
+#include "Modules/ModuleNavigation.h"
 
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
@@ -42,8 +48,6 @@
 #include "Resources/ResourceSkyBox.h"
 
 #include "Scripting/IScript.h"
-
-#include "Skybox/Skybox.h"
 
 #include <GL/glew.h>
 #include <stack>
@@ -145,7 +149,11 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					gos.push_back(gameObject);
+					ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
+					if (ObjectInFrustum(frustum, transform->GetEncapsuledAABB()))
+					{
+						gos.push_back(gameObject);
+					}
 				}
 			}
 		}
@@ -155,7 +163,11 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 			{
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
-					gos.push_back(gameObject);
+					ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
+					if (ObjectInFrustum(frustum, transform->GetEncapsuledAABB()))
+					{
+						gos.push_back(gameObject);
+					}
 				}
 			}
 
@@ -1432,6 +1444,7 @@ void Scene::UpdateSceneAreaTube(const ComponentAreaLight* compTube)
 void Scene::InitNewEmptyScene()
 {
 	App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
+	App->GetModule<ModuleNavigation>()->SetNavMesh(nullptr);
 
 	root = std::make_unique<GameObject>("New Scene");
 	root->InitNewEmptyGameObject();
@@ -1446,9 +1459,10 @@ void Scene::InitNewEmptyScene()
 	std::shared_ptr<ResourceSkyBox> resourceSkybox =
 		App->GetModule<ModuleResources>()->RequestResource<ResourceSkyBox>("Assets/Skybox/skybox.sky");
 
-	if (resourceSkybox)
+	if (root->GetComponentInternal<ComponentSkybox>() == nullptr)
 	{
-		skybox = std::make_unique<Skybox>(resourceSkybox);
+		ComponentSkybox* p = root->CreateComponent<ComponentSkybox>();
+		p->SetSkyboxResource(resourceSkybox);
 	}
 
 	std::shared_ptr<ResourceCubemap> resourceCubemap =
@@ -1483,11 +1497,6 @@ void Scene::InitLights()
 void Scene::SetRootQuadtree(std::unique_ptr<Quadtree> quadtree)
 {
 	rootQuadtree = std::move(quadtree);
-}
-
-void Scene::SetSkybox(std::unique_ptr<Skybox> skybox)
-{
-	this->skybox = std::move(skybox);
 }
 
 void Scene::SetCubemap(std::unique_ptr<Cubemap> cubemap)

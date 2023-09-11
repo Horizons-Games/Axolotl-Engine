@@ -5,6 +5,7 @@ class ComponentTransform;
 class ComponentAudioSource;
 class ComponentRigidBody;
 class ComponentParticleSystem;
+class PlayerAttackScript;
 
 class LightAttackBullet : public Script
 {
@@ -18,6 +19,7 @@ public:
 	void SetBulletVelocity(float nVelocity);
 	void SetStunTime(float nStunTime);
 	void SetEnemy(GameObject* nEnemy);
+	void SetDamage(float nDamageAttack);
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
@@ -35,6 +37,7 @@ private:
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
 	ComponentParticleSystem* particleSystem;
+	PlayerAttackScript* playerAttackScript;
 
 	float particleSystemTimer;
 	float particleSystemCurrentTimer;
