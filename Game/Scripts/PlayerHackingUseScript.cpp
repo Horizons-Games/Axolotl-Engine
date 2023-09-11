@@ -55,7 +55,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 		{
 			SDL_Scancode key;
 			SDL_GameControllerButton button;
-			for (auto command : allHackingCommands)
+			for (auto command : HackingCommand::allHackingCommands)
 			{
 				auto keyButtonPair = HackingCommand::FromCommand(command);
 				key = keyButtonPair->first;
@@ -87,7 +87,6 @@ void PlayerHackingUseScript::Update(float deltaTime)
 				FinishHack();
 			}
 
-			//TODO: Compare if the current input entered by user makes that the following condition will never be true
 			if (userCommandInputs == commandCombination)
 			{
 				LOG_DEBUG("hacking completed");
@@ -145,7 +144,7 @@ void PlayerHackingUseScript::InitHack()
 		hackingManager->AddInputVisuals(command);
 	}
 
-	PrintCombination(); //SUBSTITUTE WITH CANVAS UI
+	PrintCombination();
 	LOG_DEBUG("hacking is active");
 }
 

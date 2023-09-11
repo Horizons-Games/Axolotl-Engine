@@ -32,7 +32,7 @@ void HackZoneScript::Update(float deltaTime)
 
 void HackZoneScript::GenerateCombination()
 {
-	HackingCommandType allCommands[] = 
+	HackingCommandType allCommands[] = //Auxiliar array until we place all the images in UI
 	{ 
 		/*COMMAND_A, 
 		COMMAND_B, */

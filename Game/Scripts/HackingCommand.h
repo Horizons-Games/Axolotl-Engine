@@ -12,6 +12,8 @@ enum HackingCommandType
 	COMMAND_Y,
 };
 
+
+
 class HackingCommand
 {
 public:
@@ -19,6 +21,8 @@ public:
 	HackingCommand();
 
 	static const std::pair<SDL_Scancode, SDL_GameControllerButton>* FromCommand(HackingCommandType command);
+
+	static const std::vector<HackingCommandType> allHackingCommands;
 
 private:
 
