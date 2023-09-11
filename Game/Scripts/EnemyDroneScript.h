@@ -44,7 +44,7 @@ public:
 
 private:
 	void CalculateNextPosition() const;
-	void CheckState();
+	void CheckState(float deltaTime);
 	void UpdateBehaviour(float deltaTime);
 
 	DroneBehaviours droneState;
@@ -54,6 +54,8 @@ private:
 	bool flinchAnimationOffset; //This is not ideal but couldn't find a way to wait for waiting the Flinch animation to play
 	float enemyDetectionDuration;
 	float enemyDetectionTime;
+	float minStopTimeAfterSeek;
+	float minStopDurationAfterSeek;
 
 	PatrolBehaviourScript* patrolScript;
 	SeekBehaviourScript* seekScript;
