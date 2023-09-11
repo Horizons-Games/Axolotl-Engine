@@ -1,57 +1,28 @@
 #include "StdAfx.h"
 #include "HackingCommand.h"
 
-
-#include <map>
-#include <SDL/include/SDL_gamecontroller.h>
-#include <SDL/include/SDL_scancode.h>
-
-
+const std::map<HackingCommandType, std::pair<SDL_Scancode, SDL_GameControllerButton>> HackingCommand::commandHackingMap =
+{
+	{ COMMAND_A , {SDL_SCANCODE_SPACE, SDL_CONTROLLER_BUTTON_A}},
+	{ COMMAND_B , {SDL_SCANCODE_R, SDL_CONTROLLER_BUTTON_B}},
+	{ COMMAND_X , {SDL_SCANCODE_E, SDL_CONTROLLER_BUTTON_X}},
+	{ COMMAND_Y , {SDL_SCANCODE_T, SDL_CONTROLLER_BUTTON_Y}},
+};
 
 HackingCommand::HackingCommand()
 {
 }
 
-
-HackingCommandType HackingCommand::GetCommand(SDL_Scancode key)
-{
-	auto it = keyHackingMap.find(key);
-
-	if (it != keyHackingMap.end()) 
-	{
-		return it->second;
-	}
-	else 
-	{
-		return HackingCommandType::COMMAND_X;
-	}
-}
-
-
-HackingCommandType HackingCommand::GetCommand(SDL_GameControllerButton button)
-{
-	auto it = buttonHackingMap.find(button);
-
-	if (it != buttonHackingMap.end())
-	{
-		return it->second;
-	}
-	else
-	{
-		return HackingCommandType::COMMAND_X;
-	}
-}
-
-const std::pair<SDL_Scancode, SDL_GameControllerButton>& HackingCommand::FromCommand(HackingCommandType command)
+const std::pair<SDL_Scancode, SDL_GameControllerButton>* HackingCommand::FromCommand(HackingCommandType command)
 {
 	auto it = commandHackingMap.find(command);
 
 	if (it != commandHackingMap.end())
 	{
-		return it->second;
+		return &it->second;
 	}
 	else
 	{
-		return { SDL_SCANCODE_SPACE, SDL_CONTROLLER_BUTTON_A };
+		return nullptr;
 	}
 }

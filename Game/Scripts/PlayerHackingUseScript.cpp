@@ -29,6 +29,7 @@ void PlayerHackingUseScript::Start()
 	hackZone = nullptr;
 }
 
+
 void PlayerHackingUseScript::Update(float deltaTime)
 {
 
@@ -52,25 +53,46 @@ void PlayerHackingUseScript::Update(float deltaTime)
 
 		else
 		{
-			HackingCommandType commandHack = commandCombination[commandIndex];
-
-			auto keyButtonPair = HackingCommand::FromCommand(commandHack);
-			SDL_Scancode key = keyButtonPair.first;
-			SDL_GameControllerButton button = keyButtonPair.second;
-
-			if (input->GetKey(key) == KeyState::UP || input->GetGamepadButton(button) == KeyState::UP)
+			SDL_Scancode key;
+			SDL_GameControllerButton button;
+			for (auto command : allHackingCommands)
 			{
-				userCommandInputs.push_back(commandHack);
-				commandIndex++;
-				LOG_DEBUG("user add key/button to combination");
+				auto keyButtonPair = HackingCommand::FromCommand(command);
+				key = keyButtonPair->first;
+				button = keyButtonPair->second;
 
-				hackingManager->RemoveInputVisuals();
+				if (input->GetKey(key) == KeyState::UP || input->GetGamepadButton(button) == KeyState::UP)
+				{
+					userCommandInputs.push_back(command);
+					LOG_DEBUG("user add key/button to combination");
+
+					hackingManager->RemoveInputVisuals();
+					break;
+				}
 			}
 
+			bool isMismatch = false;
+			for (int i = 0; i < userCommandInputs.size(); ++i)
+			{
+				if (userCommandInputs[i] != commandCombination[i])
+				{
+					isMismatch = true;
+					break;
+				}
+			}
+
+			if (isMismatch)
+			{
+				LOG_DEBUG("Mismatch detected. Hacking will fail.");
+				FinishHack();
+			}
+
+			//TODO: Compare if the current input entered by user makes that the following condition will never be true
 			if (userCommandInputs == commandCombination)
 			{
 				LOG_DEBUG("hacking completed");
 				FinishHack();
+				hackZone->SetCompleted();
 			}
 
 		}
@@ -123,8 +145,6 @@ void PlayerHackingUseScript::InitHack()
 		hackingManager->AddInputVisuals(command);
 	}
 
-	commandIndex = 0;
-
 	PrintCombination(); //SUBSTITUTE WITH CANVAS UI
 	LOG_DEBUG("hacking is active");
 }
@@ -137,8 +157,6 @@ void PlayerHackingUseScript::FinishHack()
 	userCommandInputs.clear();
 
 	hackingManager->CleanInputVisuals();
-
-	hackZone->SetCompleted();
 
 	LOG_DEBUG("hacking is finished");
 }

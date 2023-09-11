@@ -11,6 +11,10 @@ class ComponentRigidBody;
 class HackZoneScript;
 class UIHackingManager;
 
+
+const std::vector<HackingCommandType> allHackingCommands = { COMMAND_A, COMMAND_B, COMMAND_X, COMMAND_Y };
+
+
 class PlayerHackingUseScript : public Script
 {
 public:
@@ -50,8 +54,6 @@ private:
 
 	std::vector<HackingCommandType> userCommandInputs;
 	std::vector<HackingCommandType> commandCombination;
-
-	int commandIndex;
 };
 
 inline bool PlayerHackingUseScript::IsHackingActive() const
