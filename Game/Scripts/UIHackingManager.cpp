@@ -34,7 +34,7 @@ void UIHackingManager::Update(float deltaTime)
 
 void UIHackingManager::AddInputVisuals(HackingCommandType type)
 {
-	if (inputVisuals.size() < 3)
+	if (inputVisuals.size() < 6)
 	{
 		GameObject* prefab = nullptr;
 		switch (type)

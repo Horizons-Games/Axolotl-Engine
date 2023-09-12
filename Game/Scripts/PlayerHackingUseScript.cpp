@@ -39,7 +39,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 
 	currentTime += deltaTime;
 
-	if (input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE && !isHackingActive)
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::UP && !isHackingActive)
 	{
 		FindHackZone(hackingTag);
 		if (hackZone && !hackZone->IsCompleted())
@@ -51,7 +51,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 	if (isHackingActive)
 	{
 		
-		if (input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE)
+		if (input->GetKey(SDL_SCANCODE_TAB) != KeyState::IDLE)
 		{
 			FinishHack();
 		}
@@ -121,9 +121,6 @@ void PlayerHackingUseScript::PrintCombination()
 			break;
 		case COMMAND_B:
 			c = 'R'; 
-			break;
-		case COMMAND_X:
-			c = 'E'; 
 			break;
 		case COMMAND_Y:
 			c = 'T';
