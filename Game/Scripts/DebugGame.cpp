@@ -83,38 +83,42 @@ void DebugGame::Start()
 
 void DebugGame::Update(float deltaTime)
 {
-	//KEYBOARD INPUTS
 	if (input->GetKey(SDL_SCANCODE_B) == KeyState::DOWN)
 	{
 		SwitchDebugMode();
 	}
 
-	if (input->GetKey(SDL_SCANCODE_4) == KeyState::DOWN && isDebugModeActive)
+	if (!isDebugModeActive)
+	{
+		return;
+	}
+
+	if (input->GetKey(SDL_SCANCODE_4) == KeyState::DOWN)
 	{
 		GodCamera();
 	}
 
-	if (input->GetKey(SDL_SCANCODE_5) == KeyState::DOWN && isDebugModeActive)
+	if (input->GetKey(SDL_SCANCODE_5) == KeyState::DOWN)
 	{
 		PowerUpDrop();
 	}
 
-	if (input->GetKey(SDL_SCANCODE_7) == KeyState::DOWN && isDebugModeActive)
+	if (input->GetKey(SDL_SCANCODE_7) == KeyState::DOWN)
 	{
 		FillHealth();
 	}
 
-	if (input->GetKey(SDL_SCANCODE_8) == KeyState::DOWN && isDebugModeActive)
+	if (input->GetKey(SDL_SCANCODE_8) == KeyState::DOWN)
 	{
 		BeImmortal();
 	}
 
-	if (input->GetKey(SDL_SCANCODE_9) == KeyState::DOWN && isDebugModeActive)
+	if (input->GetKey(SDL_SCANCODE_9) == KeyState::DOWN)
 	{
 		DeathTouch();
 	}
 
-	if (input->GetKey(SDL_SCANCODE_0) == KeyState::DOWN && isDebugModeActive)
+	if (input->GetKey(SDL_SCANCODE_0) == KeyState::DOWN)
 	{
 		Teleport();
 		playerOnLocation = false;
@@ -141,13 +145,13 @@ void DebugGame::SwitchDebugMode()
 	if (!isDebugModeActive)
 	{
 		isDebugModeActive = true;
-		LOG_VERBOSE("DEBUG MODE ACTIVATED");
+		LOG_INFO("DEBUG MODE ACTIVATED");
 	}
 
 	else
 	{
 		isDebugModeActive = false;
-		LOG_VERBOSE("DEBUG MODE DEACTIVATED");
+		LOG_INFO("DEBUG MODE DEACTIVATED");
 	}
 }
 
@@ -162,7 +166,7 @@ void DebugGame::GodCamera() const
 		
 		camera->SetSelectedPosition(1);
 		camera->SetSelectedCamera(camera->GetSelectedPosition());
-		LOG_VERBOSE("GOD CAMERA ACTIVATED");
+		LOG_INFO("GOD CAMERA ACTIVATED");
 	}
 
 	else if (playerMoveScript->IsParalyzed() && !playerJumpScript->CanJump())
@@ -172,7 +176,7 @@ void DebugGame::GodCamera() const
 		
 		camera->SetSelectedPosition(0);
 		camera->SetSelectedCamera(camera->GetSelectedPosition());
-		LOG_VERBOSE("GOD CAMERA DEACTIVATED");
+		LOG_INFO("GOD CAMERA DEACTIVATED");
 	}
 }
 
@@ -190,7 +194,7 @@ void DebugGame::PowerUpDrop() const
 void DebugGame::FillHealth() const
 {
 	playerHealthSystem->HealLife(playerHealthSystem->GetMaxHealth());
-	LOG_VERBOSE("Full Health");
+	LOG_INFO("HEALTH FILLED UP");
 }
 
 void DebugGame::BeImmortal() const
@@ -198,12 +202,12 @@ void DebugGame::BeImmortal() const
 	if (!playerHealthSystem->IsImmortal()) 
 	{
 		playerHealthSystem->SetIsImmortal(true);
-		LOG_VERBOSE("Immortal ON");
+		LOG_INFO("IMMORTALITY ACTIVATED");
 	}
 	else
 	{
 		playerHealthSystem->SetIsImmortal(false);
-		LOG_VERBOSE("Immortal OFF");
+		LOG_INFO("IMMORTALITY DEACTIVATED");
 	}
 }
 
@@ -212,12 +216,12 @@ void DebugGame::DeathTouch() const
 	if (!playerAttackScript->IsDeathTouched())
 	{
 		playerAttackScript->SetIsDeathTouched(true);
-		LOG_VERBOSE("Death Touch ON");
+		LOG_INFO("DEATH TOUCH ACTIVATED");
 	}
 	else
 	{
 		playerAttackScript->SetIsDeathTouched(false);
-		LOG_VERBOSE("Death Touch OFF");
+		LOG_INFO("DEATH TOUCH DEACTIVATED");
 	}
 }
 
@@ -228,5 +232,5 @@ void DebugGame::Teleport()
 	playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
 	debugCurrentPosIndex = (debugCurrentPosIndex + 1) % debugPoints.size();
 
-	LOG_VERBOSE("TELEPORTING TO %d", debugCurrentPosIndex);
+	LOG_INFO("TELEPORTING TO %d", debugCurrentPosIndex);
 }
