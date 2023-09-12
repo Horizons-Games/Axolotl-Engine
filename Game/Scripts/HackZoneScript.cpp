@@ -39,9 +39,8 @@ void HackZoneScript::GenerateCombination()
 {
 	HackingCommandType allCommands[] = //Auxiliar array until we place all the images in UI
 	{ 
-		/*COMMAND_A, 
-		COMMAND_B, */
-		COMMAND_X, 
+		COMMAND_A,
+		COMMAND_B, 
 		COMMAND_Y 
 	};
 	size_t allCommandsSize = sizeof(allCommands) / sizeof(allCommands[0]);

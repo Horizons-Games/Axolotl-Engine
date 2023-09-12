@@ -39,7 +39,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 
 	currentTime += deltaTime;
 
-	if (input->GetKey(SDL_SCANCODE_H) != KeyState::IDLE && !isHackingActive)
+	if (input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE && !isHackingActive)
 	{
 		FindHackZone(hackingTag);
 		if (hackZone && !hackZone->IsCompleted())
@@ -48,13 +48,14 @@ void PlayerHackingUseScript::Update(float deltaTime)
 		}
 	}
 
-	if (input->GetKey(SDL_SCANCODE_J) != KeyState::IDLE && isHackingActive)
-	{
-		FinishHack();
-	}
-
 	if (isHackingActive)
 	{
+		
+		if (input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE)
+		{
+			FinishHack();
+		}
+
 		if (currentTime > maxHackTime)
 		{
 			RestartHack();
