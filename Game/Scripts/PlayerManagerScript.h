@@ -7,6 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class PlayerJumpScript;
 class PlayerMoveScript;
+class PlayerRotationScript;
 
 class PlayerManagerScript : public Script
 {
@@ -26,6 +27,7 @@ public:
 	bool IsGrounded() const;
 	PlayerJumpScript* GetJumpManager() const;
 	PlayerMoveScript* GetMovementManager() const;
+	void ParalyzePlayer(bool paralyzed);
 	void SetPlayerSpeed(float playerSpeed);
 
 private:
@@ -40,4 +42,5 @@ private:
 	// All Principal PlayerManagers
 	PlayerMoveScript* movementManager;
 	PlayerJumpScript* jumpManager;
+	PlayerRotationScript* rotationManager;
 };
