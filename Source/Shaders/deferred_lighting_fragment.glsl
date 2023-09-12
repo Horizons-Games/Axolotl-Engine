@@ -2,7 +2,6 @@
 
 #extension GL_ARB_bindless_texture : require
 #extension GL_ARB_shading_language_include : require
-#extension GL_NV_uniform_buffer_std430_layout : enable
 
 #include "/Common/Functions/pbr_functions.glsl"
 
@@ -40,7 +39,7 @@ layout(std140, row_major, binding = 2) uniform LightSpaceMatrices
                                   // 16 // 112 (column 3)
 };
 
-layout(std430, binding = 3) uniform CascadePlaneDistances 
+layout(std140, binding = 3) uniform CascadePlaneDistances 
 {
     float cascadePlaneDistances[CASCADES];
 };
