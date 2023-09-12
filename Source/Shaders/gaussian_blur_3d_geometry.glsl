@@ -1,6 +1,6 @@
 #version 460 core
    
-#define CASCADES 3
+#define CASCADES 2
 
 layout(triangles, invocations = CASCADES) in;
 layout(triangle_strip, max_vertices = 3) out;

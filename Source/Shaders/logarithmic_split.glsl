@@ -1,6 +1,6 @@
 #version 460
 
-#define PARTITIONS 2
+#define PARTITIONS 1
 
 uniform vec2 nearFar;
 uniform int splits;
