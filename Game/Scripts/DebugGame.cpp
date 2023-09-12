@@ -79,7 +79,7 @@ void DebugGame::Update(float deltaTime)
 	else if (input->GetKey(SDL_SCANCODE_F2) == KeyState::DOWN)
 	{
 #ifndef ENGINE
-		//App->GetModule<ModuleScene>()->LoadScene(/*SCENE TWO FULL PATH*/);
+		App->GetModule<ModuleScene>()->LoadScene("Lib/Scenes/_LEVEL02_ALFA.axolotl");
 		LOG_INFO("LOADING LEVEL 2");
 #endif // ENGINE
 	}
