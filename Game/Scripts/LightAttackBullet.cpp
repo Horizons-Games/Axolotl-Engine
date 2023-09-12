@@ -34,7 +34,7 @@ LightAttackBullet::LightAttackBullet() :
 	particleSystemTimer(1.0f), 
 	triggerParticleSystemTimer(false), 
 	particleSystemCurrentTimer(0.0f),
-	lifeTime(20.0f),
+	lifeTime(12.0f),
 	parentTransform(nullptr),
 	targetTransform(nullptr)
 {

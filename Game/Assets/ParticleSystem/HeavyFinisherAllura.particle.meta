@@ -1,0 +1,12 @@
+{
+    "UID": 11675911561245700034,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": [
+        "Assets/Textures/HandPaintedLightning2.png",
+        "Assets/Textures/RandomPieces.png"
+    ],
+    "ConfigEmitters": [
+        true,
+        true
+    ]
+}
