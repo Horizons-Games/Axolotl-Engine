@@ -56,32 +56,36 @@ void ElevatorCore::Start()
 
 void ElevatorCore::Update(float deltaTime)
 {
-	if (activeState == ActiveActions::ACTIVE) {
-		/*ComponentTransform* transform = elevator->GetComponentInternal<ComponentTransform>();
+	if (activeState == ActiveActions::ACTIVE) 
+	{
+		ComponentTransform* transform = elevator->GetComponentInternal<ComponentTransform>();
 		float3 pos = transform->GetGlobalPosition();
 		pos.y -= 0.1;
 		transform->SetGlobalPosition(pos);
-		LOG_DEBUG("POS.Y: {}, FINAL POS: {}", pos.y, finalPos);*/
+
+		transform->RecalculateLocalMatrix();
+		transform->UpdateTransformMatrices();
+		elevator->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
+		bixPrefab->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
+
+
+		LOG_DEBUG("POS.Y: {}, FINAL POS: {}", pos.y, finalPos);
 		
-		elevator->GetComponentInternal<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity({0.f,-1.f, 0.f});
+		if (pos.y < finalPos)
+		{
+			activeState = ActiveActions::INACTIVE;
+		}
 
-		btVector3 origin = elevator->GetComponentInternal<ComponentRigidBody>()->GetRigidBodyOrigin();
-
-		if (origin.getY() < finalPos) activeState = ActiveActions::INACTIVE;
-		//transform->RecalculateLocalMatrix();
-		//transform->UpdateTransformMatrices();
-		/*elevator->GetComponentInternal<ComponentRigidBody>()->Disable();
-		elevator->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();*/
 
 		componentRigidBody->Disable();
 		
-		bixPrefab->SetParent(elevator);
-		bixPrefab->GetComponentInternal<ComponentRigidBody>()->Disable();
 	}
-	else {
-		//bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetDefaultPosition();
-		//bixPrefab->GetComponentInternal<ComponentRigidBody>()->AddRigidBodyToSimulation();
-		bixPrefab->GetComponentInternal<ComponentRigidBody>()->Enable();
+
+	else
+	{
+
+		bixPrefab->SetParent(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
+		bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(false);
 	}
 }
 
@@ -97,6 +101,9 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 			//componentRigidBody->Disable();
 			componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 			activeState = ActiveActions::ACTIVE;
+
+			bixPrefab->SetParent(elevator);
+			bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(true);
 		}
 	}
 }

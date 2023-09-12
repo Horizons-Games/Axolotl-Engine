@@ -735,7 +735,6 @@
     <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
     <ClCompile Include="..\Game\Scripts\AnimatedLine.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
@@ -776,6 +775,7 @@
     <ClCompile Include="DataModels\Render\Shadows.cpp">
       <Filter>DataModels\Render</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1597,6 +1597,7 @@
     <ClInclude Include="DataModels\Render\Shadows.h">
       <Filter>DataModels\Render</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ElevatorCore.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
