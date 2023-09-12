@@ -27,11 +27,6 @@ void UIHackingManager::Init()
 	inputPositions.push_back(owner->GetChildren()[0]->GetChildren()[5]);
 }
 
-void UIHackingManager::Update(float deltaTime)
-{
-	
-}
-
 void UIHackingManager::AddInputVisuals(HackingCommandType type)
 {
 	if (inputVisuals.size() < 6)

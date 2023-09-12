@@ -16,7 +16,6 @@ public:
 	~UIHackingManager() override = default;
 
 	void Init() override;
-	void Update(float deltaTime) override;
 
 	void AddInputVisuals(HackingCommandType type);
 	void RemoveInputVisuals();
