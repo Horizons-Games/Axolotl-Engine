@@ -4,6 +4,8 @@
 #include "ModulePlayer.h"
 #include "ModuleInput.h"
 #include "ModuleCamera.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
 
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentScript.h"
@@ -65,31 +67,46 @@ void DebugGame::Update(float deltaTime)
 		return;
 	}
 
-	if (input->GetKey(SDL_SCANCODE_3) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_F2) == KeyState::DOWN)
+	{
+		App->GetModule<ModuleScene>()->LoadScene("Lib/Scenes/__LEVEL1_ALFA.axolotl");
+		LOG_INFO("LOADING LEVEL 1");
+	}
+	else if (input->GetKey(SDL_SCANCODE_F3) == KeyState::DOWN)
+	{
+		//App->GetModule<ModuleScene>()->LoadScene(/*SCENE TWO FULL PATH*/);
+		LOG_INFO("LOADING LEVEL 2");
+	}
+	else if (input->GetKey(SDL_SCANCODE_F4) == KeyState::DOWN)
+	{
+		App->GetModule<ModuleScene>()->LoadScene("Lib/Scenes/Gameplay_FinalBoss.axolotl");
+		LOG_INFO("LOADING BOSS FIGHT");
+	}
+	else if (input->GetKey(SDL_SCANCODE_F5) == KeyState::DOWN)
 	{
 		FillComboBar();
 	}
-	else if (input->GetKey(SDL_SCANCODE_4) == KeyState::DOWN)
+	else if (input->GetKey(SDL_SCANCODE_F6) == KeyState::DOWN)
 	{
 		GodCamera();
 	}
-	else if (input->GetKey(SDL_SCANCODE_5) == KeyState::DOWN)
+	else if (input->GetKey(SDL_SCANCODE_F7) == KeyState::DOWN)
 	{
 		PowerUpDrop();
 	}
-	else if (input->GetKey(SDL_SCANCODE_7) == KeyState::DOWN)
+	else if (input->GetKey(SDL_SCANCODE_F8) == KeyState::DOWN)
 	{
 		FillHealth();
 	}
-	else if (input->GetKey(SDL_SCANCODE_8) == KeyState::DOWN)
+	else if (input->GetKey(SDL_SCANCODE_F9) == KeyState::DOWN)
 	{
 		BeImmortal();
 	}
-	else if (input->GetKey(SDL_SCANCODE_9) == KeyState::DOWN)
+	else if (input->GetKey(SDL_SCANCODE_F10) == KeyState::DOWN)
 	{
 		DeathTouch();
 	}
-	else if (input->GetKey(SDL_SCANCODE_0) == KeyState::DOWN)
+	else if (input->GetKey(SDL_SCANCODE_F11) == KeyState::DOWN)
 	{
 		Teleport();
 		playerOnLocation = false;
