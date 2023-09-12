@@ -4,9 +4,7 @@
 
 #define GAUSSIAN_BLUR_SHADOW_MAP 2
 
-#define FRUSTUM_PARTITIONS 1
-
-constexpr float frustumIntervals[FRUSTUM_PARTITIONS] = { 0.15f };
+#define FRUSTUM_PARTITIONS 2
 
 class Camera;
 class GBuffer;
@@ -37,7 +35,7 @@ public:
 	void ToggleCSMDebug();
 
 private:
-	void PartitionIntoSubFrustums(Frustum* frustum);
+	void LogarithmicPartition(Frustum* frustum);
 	Frustum& ComputeLightFrustum(const GameObject* light, Frustum* cameraFrustum);
 
 private:

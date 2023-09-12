@@ -6,7 +6,7 @@
 
 #include "/Common/Structs/lights.glsl"
 
-#define CASCADES 2
+#define CASCADES 3
 
 layout(binding = 0) uniform sampler2D gPosition;
 layout(binding = 1) uniform sampler2D gNormal;

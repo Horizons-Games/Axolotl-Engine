@@ -353,7 +353,7 @@ void Shadows::RenderShadowMap(const GameObject* light, const float2& minMax, Cam
 		App->GetModule<ModuleScene>()->GetLoadedScene()->ObtainObjectsInFrustum(&frustum);
 
 	// Calculate sub frustum
-	PartitionIntoSubFrustums(cameraFrustum);
+	LogarithmicPartition(cameraFrustum);
 
 	for (int i = 0; i <= FRUSTUM_PARTITIONS; ++i)
 	{
@@ -448,26 +448,34 @@ void Shadows::GaussianBlur()
 	glPopDebugGroup();
 }
 
-void Shadows::PartitionIntoSubFrustums(Frustum* frustum)
+void Shadows::LogarithmicPartition(Frustum* frustum)
 {
-	float lastNearPlane = frustum->NearPlaneDistance();
+	float nearPlane = frustum->NearPlaneDistance();
+	float farPlane = frustum->FarPlaneDistance();
+	float lastFarPlane = nearPlane;
+	float lambda = 0.85f;
+	float logarithmicSplit;
+	float uniformSplit;
+	float splitPosition;
 
 	for (unsigned i = 0; i < FRUSTUM_PARTITIONS; ++i)
 	{
-		float farPlane = frustum->FarPlaneDistance() * frustumIntervals[i] + lastNearPlane;
-		
+		logarithmicSplit = nearPlane * math::Pow((farPlane / nearPlane), (float(i + 1) / float(FRUSTUM_PARTITIONS + 1)));
+		uniformSplit = nearPlane + (farPlane - nearPlane) * (float(i + 1) / float(FRUSTUM_PARTITIONS + 1));
+		splitPosition = lambda * logarithmicSplit + (1.0f - lambda) * uniformSplit;
+
 		*frustums[i] = *frustum;
-		frustums[i]->SetViewPlaneDistances(lastNearPlane, farPlane);
+		frustums[i]->SetViewPlaneDistances(lastFarPlane, splitPosition);
 
-		cascadeDistances.farDistances[i].x = farPlane;
+		cascadeDistances.farDistances[i].x = splitPosition;
 
-		lastNearPlane = farPlane;
+		lastFarPlane = splitPosition;
 	}
 
 	*frustums[FRUSTUM_PARTITIONS] = *frustum;
-	frustums[FRUSTUM_PARTITIONS]->SetViewPlaneDistances(lastNearPlane, frustum->FarPlaneDistance());
+	frustums[FRUSTUM_PARTITIONS]->SetViewPlaneDistances(lastFarPlane, farPlane);
 
-	cascadeDistances.farDistances[FRUSTUM_PARTITIONS].x = frustum->FarPlaneDistance();
+	cascadeDistances.farDistances[FRUSTUM_PARTITIONS].x = farPlane;
 }
 
 Frustum& Shadows::ComputeLightFrustum(const GameObject* light, Frustum* cameraFrustum)
