@@ -166,3 +166,9 @@ bool ComboManager::IsSpecialActivated() const
 {
 	return specialActivated;
 }
+
+void ComboManager::FillComboBar()
+{
+	specialCount = maxSpecialCount;
+	uiComboManager->SetComboBarValue(specialCount);
+}
