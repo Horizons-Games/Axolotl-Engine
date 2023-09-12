@@ -671,6 +671,9 @@
     <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerHackingUseScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\FinalBossScript.cpp">
       <Filter>UserScripts\Gameplay\Bosses\Final Boss</Filter>
     </ClCompile>
@@ -710,6 +713,9 @@
     <ClCompile Include="..\Game\Scripts\BossMissilesMissileScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossMissilesAttack</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\HackZoneScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
@@ -735,7 +741,6 @@
     <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
     <ClCompile Include="..\Game\Scripts\AnimatedLine.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
@@ -769,6 +774,12 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\Rotator.cpp">
       <Filter>UserScripts\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\HackingCommand.cpp">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIHackingManager.cpp">
+      <Filter>UserScripts\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\MinMaxForce.cpp">
       <Filter>UserScripts\Level</Filter>
@@ -1489,6 +1500,9 @@
     <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h">
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerHackingUseScript.h">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\FinalBossScript.h">
       <Filter>UserScripts\Gameplay\Bosses\Final Boss</Filter>
     </ClInclude>
@@ -1538,6 +1552,9 @@
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="Defines\AxoTodo.h" />
+    <ClInclude Include="..\Game\Scripts\HackZoneScript.h">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\CombatZoneScript.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
@@ -1593,6 +1610,12 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\Rotator.h">
       <Filter>UserScripts\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\HackingCommand.h">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIHackingManager.h">
+      <Filter>UserScripts\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\MinMaxForce.h">
       <Filter>UserScripts\Level</Filter>
@@ -1766,6 +1789,9 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Player\Attack\Finishers\Light Finisher">
       <UniqueIdentifier>{62400d05-b28f-42d0-8554-b11dc997773a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Player\Abilities\Hacking">
+      <UniqueIdentifier>{ea2317b9-cf1a-47e2-9acf-ecdcd3a9d63a}</UniqueIdentifier>
     </Filter>
     <Filter Include="UserScripts\Gameplay\Bosses">
       <UniqueIdentifier>{1de7b7cf-815c-4a41-925c-49e1a44a7a5d}</UniqueIdentifier>

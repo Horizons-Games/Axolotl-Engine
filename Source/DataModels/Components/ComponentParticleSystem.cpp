@@ -260,3 +260,15 @@ void ComponentParticleSystem::RemoveEmitter(int pos)
 	delete emitters[pos];
 	emitters.erase(emitters.begin() + pos);
 }
+
+bool ComponentParticleSystem::IsFinished() const
+{
+	for (int i = 0; i < emitters.size(); i++)
+	{
+		if (emitters[i]->GetEmitter()->IsLooping() || emitters[i]->GetEmitter()->GetDuration() > emitters[i]->GetElapsedTime())
+		{
+			return false;
+		}
+	}
+	return true;
+}

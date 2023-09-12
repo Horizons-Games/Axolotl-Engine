@@ -2,72 +2,72 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "test",
+                "name": "Test",
                 "tag": "",
-                "uid": 17348994936573097478,
+                "uid": 7455660981990347641,
                 "parentUID": 0,
                 "enabled": true,
                 "static": false,
-              "Components": [
-                {
-                  "Component": {
-                    "type": "Component_Transform",
-                    "active": true,
-                    "removed": false,
-                    "localPos_X": 0.0,
-                    "localPos_Y": 0.0,
-                    "localPos_Z": 0.0,
-                    "localRot_X": -0.0,
-                    "localRot_Y": 0.0,
-                    "localRot_Z": -0.0,
-                    "localSca_X": 1.0,
-                    "localSca_Y": 1.0,
-                    "localSca_Z": 1.0,
-                    "boudingBoxSca_X": 1.0,
-                    "boudingBoxSca_Y": 1.0,
-                    "boudingBoxSca_Z": 1.0,
-                    "boudingBoxPos_X": 0.0,
-                    "boudingBoxPos_Y": 0.0,
-                    "boudingBoxPos_Z": 0.0
-                  }
-                },
-                {
-                  "Component": {
-                    "type": "Component_Render",
-                    "active": false,
-                    "removed": false,
-                    "bloom_intensity": 1.0
-                  }
-                },
-                {
-                  "Component": {
-                    "type": "Component_Cubemap",
-                    "active": true,
-                    "removed": true,
-                    "intensity": 1.0
-                  }
-                },
-                {
-                    "Component": {
-                        "type": "Component_Skybox",
-                        "active": true,
-                        "removed": true,
-                        "Skybox": {
-                            "enable": true,
-                            "skyboxUID": 4377575066284441384,
-                            "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Skybox",
+                            "active": true,
+                            "removed": true,
+                            "Skybox": {
+                                "enable": true,
+                                "skyboxUID": 4377575066284441384,
+                                "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+                            }
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Render",
+                            "active": true,
+                            "removed": false,
+                            "bloom_intensity": 0.10000000149011612
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Cubemap",
+                            "active": true,
+                            "removed": false,
+                            "intensity": 1.0
                         }
                     }
-                }
-              ]
+                ]
             }
         },
         {
             "GameObject": {
                 "name": "Directional_Light",
                 "tag": "",
-                "uid": 111677913157535307,
-                "parentUID": 17348994936573097478,
+                "uid": 6408896398942401342,
+                "parentUID": 7455660981990347641,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -110,10 +110,10 @@
         },
         {
             "GameObject": {
-                "name": "Cube",
+                "name": "Empty GameObject",
                 "tag": "",
-                "uid": 6854720690837752779,
-                "parentUID": 17348994936573097478,
+                "uid": 12459602972800255416,
+                "parentUID": 7455660981990347641,
                 "enabled": true,
                 "static": false,
                 "Components": [
@@ -131,23 +131,149 @@
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 1.9249999523162842,
-                            "boudingBoxSca_Y": 2.2249999046325684,
-                            "boudingBoxSca_Z": 2.075000047683716,
-                            "boudingBoxPos_X": 8.199999809265137,
-                            "boudingBoxPos_Y": 6.099999904632568,
-                            "boudingBoxPos_Z": -10.125
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     },
                     {
                         "Component": {
-                            "type": "Component_MeshRenderer",
+                            "type": "Component_Line",
                             "active": true,
                             "removed": true,
-                            "meshUID": 5838496268976162218,
-                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
-                            "materialUID": 4337559970860798462,
-                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                            "numTiles": 1,
+                            "speed": 0.0,
+                            "offset_x": 0.0,
+                            "offset_y": 0.0,
+                            "tiling_x": 1.0,
+                            "tiling_y": 1.0,
+                            "sizeFading_x": 1.2100000381469727,
+                            "sizeFading_y": 1.0,
+                            "sizeFadingPoints_x": 0.0,
+                            "sizeFadingPoints_y": 1.0,
+                            "sizeFadingPoints_z": 0.0,
+                            "sizeFadingPoints_w": 0.0,
+                            "numberOfMarks": 2,
+                            "ColorsGradient": [
+                                {
+                                    "color_x": 0.0,
+                                    "color_y": 0.0,
+                                    "color_z": 0.0,
+                                    "color_w": 0.0,
+                                    "pos": 0.0
+                                },
+                                {
+                                    "color_x": 1.0,
+                                    "color_y": 1.0,
+                                    "color_z": 1.0,
+                                    "color_w": 0.0,
+                                    "pos": 1.0
+                                }
+                            ],
+                            "textureUID": 13912187505016891225,
+                            "assetPathTexture": "Assets/Textures/beam.tga",
+                            "EndPoint": 198399892569289625
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "AnimatedLine",
+                            "fields": null
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Basic Camera",
+                "tag": "MainCamera",
+                "uid": 12397587448734135606,
+                "parentUID": 7455660981990347641,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 2.4954097270965576,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 180.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": false,
+                            "kpPosition": 5.0,
+                            "kpRotation": 5.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Player",
+                            "active": true,
+                            "removed": true,
+                            "static": true,
+                            "mouse": false,
+                            "actualPlayer": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Empty GameObject",
+                "tag": "",
+                "uid": 198399892569289625,
+                "parentUID": 12459602972800255416,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.0600779056549072,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]
@@ -168,12 +294,12 @@
             }
         }
     },
-    "Skybox": {
-        "skyboxUID": 4377575066284441384,
-        "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
-    },
     "Cubemap": {
         "cubemapUID": 992078593789236745,
         "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
+    },
+    "NavMesh": {
+        "navMeshUID": 0,
+        "assetPathNavMesh": ""
     }
 }
