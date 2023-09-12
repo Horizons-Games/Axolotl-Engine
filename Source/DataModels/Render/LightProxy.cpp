@@ -39,9 +39,6 @@ void LightProxy::DrawAreaLights(Program* program, GLuint frameBuffer)
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-
 	program->Activate();
 	program->BindUniformFloat4x4("proj", proj.ptr(), true);
 	program->BindUniformFloat4x4("view", view.ptr(), true);
