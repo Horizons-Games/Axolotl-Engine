@@ -15,9 +15,6 @@ public:
 	PlayerManagerScript();
 	~PlayerManagerScript() override = default;
 
-	void PreUpdate(float deltaTime) override {};
-	void PostUpdate(float deltaTime) override {};
-
 	float GetPlayerAttack() const;
 	float GetPlayerDefense() const;
 	float GetPlayerSpeed() const;
