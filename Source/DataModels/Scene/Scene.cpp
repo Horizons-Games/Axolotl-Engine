@@ -1751,3 +1751,16 @@ const ComponentSpotLight* Scene::GetSpotLight(int index) const
 		return nullptr;
 	}
 }
+
+const SpotLight& Scene::GetSpotLightsStruct(int index) const
+{
+	if (index >= 0 && index < spotLights.size())
+	{
+		return spotLights[index];
+	}
+	else
+	{
+		SpotLight defaultSpotlight;
+		return defaultSpotlight;
+	}
+}

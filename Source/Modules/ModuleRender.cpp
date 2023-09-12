@@ -141,6 +141,7 @@ ModuleRender::~ModuleRender()
 	delete batchManager;
 	delete gBuffer;
 	delete ssao;
+	delete lightProxy;
 	objectsInFrustrumDistances.clear();
 	gameObjectsInFrustrum.clear();
 }
@@ -165,6 +166,7 @@ bool ModuleRender::Init()
 	batchManager = new BatchManager();
 	gBuffer = new GBuffer();
 	ssao = new SSAO();
+	lightProxy = new LightProxy();
 	renderShadows = true;
 	varianceShadowMapping = true;
 
@@ -421,6 +423,8 @@ UpdateStatus ModuleRender::Update()
 	glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
 
 	program->Deactivate();
+	program = modProgram->GetProgram(ProgramType::LIGHT_CULLING);
+	lightProxy->DrawAreaLights(program, frameBuffer[0]);
 
 	int width, height;
 
