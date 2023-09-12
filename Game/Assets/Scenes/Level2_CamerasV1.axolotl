@@ -1,0 +1,756 @@
+{
+    "GameObjects": [
+        {
+            "GameObject": {
+                "name": "Level2_CamerasV1",
+                "tag": "",
+                "uid": 67125992557613803,
+                "parentUID": 0,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Cubemap",
+                            "active": true,
+                            "removed": true,
+                            "intensity": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Render",
+                            "active": true,
+                            "removed": false,
+                            "bloom_intensity": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Directional_Light",
+                "tag": "",
+                "uid": 4356211327956745432,
+                "parentUID": 67125992557613803,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Directional"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "SamplePointsObject",
+                "tag": "",
+                "uid": 11469531495090776228,
+                "parentUID": 67125992557613803,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Door_Generator",
+                "tag": "",
+                "uid": 18254749676956151535,
+                "parentUID": 11469531495090776228,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 13.164360046386719,
+                            "localPos_Y": 2.5217089653015137,
+                            "localPos_Z": 5.27726936340332,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 4.061999797821045,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 3.0,
+                            "positionOffsetZ": -4.0,
+                            "positionFixedX": 30.0,
+                            "positionFixedY": 0.0,
+                            "positionFixedZ": 6.0,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": false,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": 13.164360046386719,
+                            "positionY": 2.5217089653015137,
+                            "positionZ": 5.27726936340332
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Door_Benches",
+                "tag": "",
+                "uid": 17064039693897657515,
+                "parentUID": 11469531495090776228,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -20.570528030395508,
+                            "localPos_Y": 2.5217089653015137,
+                            "localPos_Z": 5.27726936340332,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 4.061999797821045,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 3.0,
+                            "positionOffsetZ": -4.0,
+                            "positionFixedX": 30.0,
+                            "positionFixedY": 0.0,
+                            "positionFixedZ": 6.0,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": false,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": -20.570528030395508,
+                            "positionY": 2.5217089653015137,
+                            "positionZ": 5.27726936340332
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Door_Empty",
+                "tag": "",
+                "uid": 14123305120392659058,
+                "parentUID": 11469531495090776228,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -10.007108688354492,
+                            "localPos_Y": 2.5217089653015137,
+                            "localPos_Z": -5.289886474609375,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 4.061999797821045,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 3.0,
+                            "positionOffsetZ": 4.0,
+                            "positionFixedX": 30.0,
+                            "positionFixedY": 0.0,
+                            "positionFixedZ": 6.0,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": false,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": -10.007108688354492,
+                            "positionY": 2.5217089653015137,
+                            "positionZ": -5.289886474609375
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Benches",
+                "tag": "",
+                "uid": 9751777261348558313,
+                "parentUID": 11469531495090776228,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -30.636669158935547,
+                            "localPos_Y": 2.5217089653015137,
+                            "localPos_Z": 12.79772663116455,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 8.906000137329102,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 3.0,
+                            "positionOffsetZ": -4.0,
+                            "positionFixedX": -20.570999145507813,
+                            "positionFixedY": 6.0,
+                            "positionFixedZ": 6.1519999504089355,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": true,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": -30.636669158935547,
+                            "positionY": 2.5217089653015137,
+                            "positionZ": 12.79772663116455
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Benches",
+                "tag": "",
+                "uid": 6829547769039283065,
+                "parentUID": 11469531495090776228,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -21.325429916381836,
+                            "localPos_Y": 2.5217089653015137,
+                            "localPos_Z": 12.79772663116455,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 8.906000137329102,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 3.0,
+                            "positionOffsetZ": -4.0,
+                            "positionFixedX": -20.570999145507813,
+                            "positionFixedY": 6.0,
+                            "positionFixedZ": 6.1519999504089355,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": true,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": -21.325429916381836,
+                            "positionY": 2.5217089653015137,
+                            "positionZ": 12.79772663116455
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Benches",
+                "tag": "",
+                "uid": 5797895317125688137,
+                "parentUID": 11469531495090776228,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -11.935446739196777,
+                            "localPos_Y": 2.5217089653015137,
+                            "localPos_Z": 12.79772663116455,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 8.906000137329102,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 3.0,
+                            "positionOffsetZ": -4.0,
+                            "positionFixedX": -20.570999145507813,
+                            "positionFixedY": 6.0,
+                            "positionFixedZ": 6.1519999504089355,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": true,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": -11.935446739196777,
+                            "positionY": 2.5217089653015137,
+                            "positionZ": 12.79772663116455
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "White",
+                "tag": "",
+                "uid": 4142806117338550903,
+                "parentUID": 11469531495090776228,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -16.970958709716797,
+                            "localPos_Y": 2.5217032432556152,
+                            "localPos_Z": -20.35234832763672,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 15.781000137329102,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 3.0,
+                            "positionOffsetZ": -4.0,
+                            "positionFixedX": -10.006999969482422,
+                            "positionFixedY": 6.0,
+                            "positionFixedZ": -6.0,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": true,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": -16.970958709716797,
+                            "positionY": 2.5217032432556152,
+                            "positionZ": -20.35234832763672
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "White",
+                "tag": "",
+                "uid": 13258715208344837946,
+                "parentUID": 11469531495090776228,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.2928051948547363,
+                            "localPos_Y": 2.5217032432556152,
+                            "localPos_Z": -20.35234832763672,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 15.781000137329102,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 3.0,
+                            "positionOffsetZ": -4.0,
+                            "positionFixedX": -10.006999969482422,
+                            "positionFixedY": 6.0,
+                            "positionFixedZ": -6.0,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": true,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": -3.2928051948547363,
+                            "positionY": 2.5217032432556152,
+                            "positionZ": -20.35234832763672
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Benches",
+                "tag": "",
+                "uid": 13764252384656197164,
+                "parentUID": 11469531495090776228,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 8.597594261169434,
+                            "localPos_Y": 2.5217089653015137,
+                            "localPos_Z": 14.286609649658203,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 10.625,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 3.0,
+                            "positionOffsetZ": -4.0,
+                            "positionFixedX": 13.33899974822998,
+                            "positionFixedY": 6.0,
+                            "positionFixedZ": 6.1519999504089355,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": true,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": 8.597594261169434,
+                            "positionY": 2.5217089653015137,
+                            "positionZ": 14.286609649658203
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Benches",
+                "tag": "",
+                "uid": 2928861344948640002,
+                "parentUID": 11469531495090776228,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 19.878293991088867,
+                            "localPos_Y": 2.5217089653015137,
+                            "localPos_Z": 14.286609649658203,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 10.625,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 3.0,
+                            "positionOffsetZ": -4.0,
+                            "positionFixedX": 13.33899974822998,
+                            "positionFixedY": 6.0,
+                            "positionFixedZ": 6.1519999504089355,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": true,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": 19.878293991088867,
+                            "positionY": 2.5217089653015137,
+                            "positionZ": 14.286609649658203
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "Quadtree": {
+        "BoundingBox": {
+            "MinPoint": {
+                "x": -1325.0,
+                "y": -30.23092269897461,
+                "z": -525.0
+            },
+            "MaxPoint": {
+                "x": 275.0,
+                "y": 875.380126953125,
+                "z": 1075.0
+            }
+        }
+    },
+    "Cubemap": {
+        "cubemapUID": 992078593789236745,
+        "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
+    },
+    "NavMesh": {
+        "navMeshUID": 0,
+        "assetPathNavMesh": ""
+    }
+}
