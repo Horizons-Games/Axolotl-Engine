@@ -36,6 +36,7 @@ private:
 
 private:
 
+	bool isHackingButtonPressed;
 	bool isHackingActive;
 	std::string hackingTag;
 	HackZoneScript* hackZone;

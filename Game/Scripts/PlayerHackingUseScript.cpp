@@ -31,6 +31,8 @@ void PlayerHackingUseScript::Start()
 	transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 	rigidBody = GetOwner()->GetComponentInternal<ComponentRigidBody>();
 	hackZone = nullptr;
+
+	isHackingButtonPressed = false;
 }
 
 
@@ -39,19 +41,25 @@ void PlayerHackingUseScript::Update(float deltaTime)
 
 	currentTime += deltaTime;
 
-	if (input->GetKey(SDL_SCANCODE_E) == KeyState::UP && !isHackingActive)
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingActive)
 	{
 		FindHackZone(hackingTag);
 		if (hackZone && !hackZone->IsCompleted())
 		{
 			InitHack();
+			isHackingButtonPressed = true;
 		}
 	}
 
 	if (isHackingActive)
 	{
 		
-		if (input->GetKey(SDL_SCANCODE_TAB) != KeyState::IDLE)
+		if (input->GetKey(SDL_SCANCODE_E) == KeyState::UP)
+		{
+			isHackingButtonPressed = false;
+		}
+
+		if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingButtonPressed)
 		{
 			FinishHack();
 		}
