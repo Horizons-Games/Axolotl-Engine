@@ -90,13 +90,12 @@ vec3 BisectionIntersection(vec3 pos, vec3 a, vec3 b)
 
 // reflection
 
-vec3 ParallaxCorrection(vec3 fragPos, vec3 R, mat4 inverseProxyTransform, vec3 maxBox, vec3 minBox)
+vec3 ParallaxCorrection(vec3 localPos, vec3 R, mat4 inverseProxyTransform, vec3 maxBox, vec3 minBox)
 {
     // Convert to Local OBB space
-    vec3 localPos = (inverseProxyTransform * vec4(fragPos, 1.0)).xyz;
     vec3 localR = mat3(inverseProxyTransform) * R;
-    vec3 first = (maxBox-localPos)/localR;
-    vec3 second = (minBox-localPos)/localR;
+    vec3 first = (maxBox - localPos) / localR;
+    vec3 second = (minBox - localPos) / localR;
     
     // Compute the furthest on of each coordinate
     vec3 furthest = max(first, second);
@@ -104,8 +103,7 @@ vec3 ParallaxCorrection(vec3 fragPos, vec3 R, mat4 inverseProxyTransform, vec3 m
     // Gets the minimum
     float dist = min(min(furthest.x, furthest.y), furthest.z);
 
-    vec3 corrected = localPos+localR*dist;
-    return corrected;
+    return localPos + localR * dist; // corrected
 }
 
 #endif
