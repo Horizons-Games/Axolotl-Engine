@@ -32,6 +32,7 @@ private:
 	void FindHackZone(const std::string& tag);
 	void InitHack();
 	void FinishHack();
+	void RestartHack();
 
 private:
 

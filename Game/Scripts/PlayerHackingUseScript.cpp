@@ -48,11 +48,16 @@ void PlayerHackingUseScript::Update(float deltaTime)
 		}
 	}
 
+	if (input->GetKey(SDL_SCANCODE_J) != KeyState::IDLE && isHackingActive)
+	{
+		FinishHack();
+	}
+
 	if (isHackingActive)
 	{
 		if (currentTime > maxHackTime)
 		{
-			FinishHack();
+			RestartHack();
 		}
 
 		else
@@ -88,7 +93,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 			if (isMismatch)
 			{
 				LOG_DEBUG("Mismatch detected. Hacking will fail.");
-				FinishHack();
+				RestartHack();
 			}
 
 			if (userCommandInputs == commandCombination)
@@ -162,6 +167,28 @@ void PlayerHackingUseScript::FinishHack()
 	hackingManager->CleanInputVisuals();
 
 	LOG_DEBUG("hacking is finished");
+}
+
+void PlayerHackingUseScript::RestartHack()
+{
+	userCommandInputs.clear();
+	hackingManager->CleanInputVisuals();
+
+	currentTime = App->GetDeltaTime();
+	maxHackTime = hackZone->GetMaxTime();
+	hackZone->GenerateCombination();
+
+	userCommandInputs.reserve(hackZone->GetSequenceSize());
+
+	commandCombination = hackZone->GetCommandCombination();
+	for (auto command : commandCombination)
+	{
+		hackingManager->AddInputVisuals(command);
+	}
+
+	PrintCombination();
+
+	LOG_DEBUG("hacking is restarted");
 }
 
 void PlayerHackingUseScript::DisableAllInteractions()
