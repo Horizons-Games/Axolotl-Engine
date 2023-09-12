@@ -13,6 +13,15 @@ ModuleColor::ModuleColor(ParticleEmitter* emitter) : ParticleModule(ModuleType::
 	gradient = new ImGradient();
 }
 
+ModuleColor::ModuleColor(ParticleEmitter* emitter, ModuleColor* color) : 
+	ParticleModule(ModuleType::COLOR, emitter)
+{
+	initAlpha = color->GetInitAlpha();
+	endAlpha = color->GetEndAlpha();
+	gradient = color->GetGradient();
+	enabled = color->IsEnabled();
+}
+
 ModuleColor::~ModuleColor()
 {
 	delete gradient;

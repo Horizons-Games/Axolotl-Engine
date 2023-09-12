@@ -28,6 +28,8 @@
 
 #include "debugdraw.h"
 
+#define LAMBDA 0.85f
+
 Shadows::Shadows()
 {
 	shadowMapBuffer = 0;
@@ -36,11 +38,12 @@ Shadows::Shadows()
 	parallelReductionInTexture = 0;
 	parallelReductionOutFrameBuffer = 0;
 	parallelReductionOutTexture = 0;
-	minMaxBuffer = 0;
 	shadowVarianceFrameBuffer = 0;
 	shadowVarianceTexture = 0;
 	uboFrustums = 0;
 	uboCascadeDistances = 0;
+	ssboMinMax = 0;
+	ssboLogSplit = 0;
 
 	for (unsigned i = 0; i < GAUSSIAN_BLUR_SHADOW_MAP; ++i)
 	{
@@ -56,6 +59,8 @@ Shadows::Shadows()
 	useShadows = true;
 	useVarianceShadowMapping = true;
 	useCSMDebug = false;
+
+	lambda = LAMBDA;
 }
 
 Shadows::~Shadows()
@@ -83,7 +88,7 @@ void Shadows::CleanUp()
 	glDeleteFramebuffers(1, &shadowVarianceFrameBuffer);
 	glDeleteTextures(1, &shadowVarianceTexture);
 
-	glDeleteBuffers(1, &minMaxBuffer);
+	glDeleteBuffers(1, &ssboMinMax);
 	glDeleteBuffers(1, &uboFrustums);
 	glDeleteBuffers(1, &uboCascadeDistances);
 }
@@ -103,7 +108,8 @@ void Shadows::InitBuffers()
 	glGenFramebuffers(1, &shadowVarianceFrameBuffer);
 	glGenTextures(1, &shadowVarianceTexture);
 
-	glGenBuffers(1, &minMaxBuffer);
+	glGenBuffers(1, &ssboMinMax);
+	glGenBuffers(1, &ssboLogSplit);
 
 	glGenBuffers(1, &uboFrustums);
 	glGenBuffers(1, &uboCascadeDistances);
@@ -311,15 +317,15 @@ float2 Shadows::ParallelReduction(GBuffer* gBuffer)
 
 	float2 minMax(0.0f, 0.0f);
 
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, minMaxBuffer);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboMinMax);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(minMax), &minMax[0], GL_DYNAMIC_DRAW);
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, minMaxBuffer);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, ssboMinMax);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
 	glDispatchCompute(1, 1, 1);
 	glMemoryBarrier(GL_BUFFER_UPDATE_BARRIER_BIT);
 
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, minMaxBuffer);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboMinMax);
 	glGetBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(minMax), &minMax[0]);
 
 	glPopDebugGroup();
@@ -453,16 +459,37 @@ void Shadows::LogarithmicPartition(Frustum* frustum)
 	float nearPlane = frustum->NearPlaneDistance();
 	float farPlane = frustum->FarPlaneDistance();
 	float lastFarPlane = nearPlane;
-	float lambda = 0.85f;
-	float logarithmicSplit;
-	float uniformSplit;
-	float splitPosition;
+
+	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::LOG_SPLIT);
+	program->Activate();
+
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("logarithmic Split")), 
+					 "logarithmic Split");
+
+	program->BindUniformFloat2("nearFar", float2(nearPlane, farPlane));
+	program->BindUniformInt("splits", FRUSTUM_PARTITIONS);
+	program->BindUniformFloat("lambda", lambda);
+
+	float splitPositions[FRUSTUM_PARTITIONS];
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLogSplit);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(splitPositions), &splitPositions[0], GL_DYNAMIC_DRAW);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, ssboLogSplit);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	glDispatchCompute(FRUSTUM_PARTITIONS, 1, 1);
+	glMemoryBarrier(GL_BUFFER_UPDATE_BARRIER_BIT);
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLogSplit);
+	glGetBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(splitPositions), &splitPositions[0]);
+
+	glPopDebugGroup();
+
+	program->Deactivate();
 
 	for (unsigned i = 0; i < FRUSTUM_PARTITIONS; ++i)
 	{
-		logarithmicSplit = nearPlane * math::Pow((farPlane / nearPlane), (float(i + 1) / float(FRUSTUM_PARTITIONS + 1)));
-		uniformSplit = nearPlane + (farPlane - nearPlane) * (float(i + 1) / float(FRUSTUM_PARTITIONS + 1));
-		splitPosition = lambda * logarithmicSplit + (1.0f - lambda) * uniformSplit;
+		float splitPosition = splitPositions[i];
 
 		*frustums[i] = *frustum;
 		frustums[i]->SetViewPlaneDistances(lastFarPlane, splitPosition);

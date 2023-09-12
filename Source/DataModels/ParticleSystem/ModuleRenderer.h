@@ -15,6 +15,7 @@ public:
 	enum class Alignment { SCREEN, WORLD, AXIAL_Y, AXIAL_X, AXIAL_Z, LOCAL};
 public:
 	ModuleRenderer(ParticleEmitter* emitter);
+	ModuleRenderer(ParticleEmitter* emitter, ModuleRenderer* renderer);
 	~ModuleRenderer();
 
 	void Spawn(EmitterInstance* instance) override;
