@@ -112,6 +112,7 @@ public:
 	const float GetEnemiesToDefeat() const;
 	const int GetSizeSpotLights() const;
 	const SpotLight& GetSpotLightsStruct(int index) const;
+	const PointLight& GetPointLightsStruct(int index) const;
 	const int GetSizePointLights() const;
 	const ComponentPointLight* GetPointLight(int index) const;
 	const ComponentSpotLight* GetSpotLight(int index) const;

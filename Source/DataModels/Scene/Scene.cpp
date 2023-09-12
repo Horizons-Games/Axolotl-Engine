@@ -1764,3 +1764,16 @@ const SpotLight& Scene::GetSpotLightsStruct(int index) const
 		return defaultSpotlight;
 	}
 }
+
+const PointLight& Scene::GetPointLightsStruct(int index) const
+{
+	if (index >= 0 && index < pointLights.size())
+	{
+		return pointLights[index];
+	}
+	else
+	{
+		PointLight defaultPointlight;
+		return defaultPointlight;
+	}
+}

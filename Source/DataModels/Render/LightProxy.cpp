@@ -31,14 +31,8 @@ LightProxy::~LightProxy()
 void LightProxy::DrawAreaLights(Program* program, GLuint frameBuffer)
 {
 	Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-	if (loadedScene->GetSizePointLights() > 0)
-	{
-		numPointLight = loadedScene->GetSizePointLights();
-	}
-	if (loadedScene->GetSizeSpotLights() > 0)
-	{
-		numSpotLight = loadedScene->GetSizeSpotLights();
-	}
+	numPointLight = loadedScene->GetSizePointLights();
+	numSpotLight = loadedScene->GetSizeSpotLights();
 
 	const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
 	const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
@@ -60,15 +54,17 @@ void LightProxy::DrawAreaLights(Program* program, GLuint frameBuffer)
 	for (int i = 0, num = numPointLight; i < num; ++i)
 	{
 		const ComponentPointLight* pointlight = loadedScene->GetPointLight(i);
+		PointLight light = loadedScene->GetPointLightsStruct(i);
 		if (pointlight->GetOwner()->IsEnabled())
 		{
 			//It's a sphere so don't need rotation and a scale from radius is enough
 			float4x4 model = static_cast<float4x4>(float4x4::UniformScale(pointlight->GetRadius()));
-
+			program->BindUniformFloat4x4("model", model.ptr(), true);
+			program->BindUniformFloat4("color", float4(light.color * pointlight->GetIntensity()));
 			SphereShape(pointlight->GetRadius(),20,20);
 		}
 		glBindVertexArray(sphere->GetVAO());
-		glDrawElementsInstanced(GL_TRIANGLES, sphere->GetNumVertices(), GL_UNSIGNED_INT, nullptr, sphere->GetNumIndexes());
+		glDrawElementsInstanced(GL_TRIANGLES, sphere->GetNumVertices(), GL_UNSIGNED_INT, nullptr, sphere->GetNumIndexes()*3);
 		glBindVertexArray(0);
 	}
 
@@ -90,11 +86,12 @@ void LightProxy::DrawAreaLights(Program* program, GLuint frameBuffer)
 			model = model * float4x4::Scale(spotlight->GetRadius(), spotlight->GetInnerAngle(),
 				spotlight->GetOuterAngle());
 
-
+			program->BindUniformFloat4x4("model", model.ptr(), true);
+			program->BindUniformFloat4("color", float4(light.color * spotlight->GetIntensity()));
 			ConeShape(spotlight->GetRadius(),spotlight->GetRadius(),20,20);
 		}
 		glBindVertexArray(cone->GetVAO());
-		glDrawElementsInstanced(GL_TRIANGLES, cone->GetNumVertices(), GL_UNSIGNED_INT, nullptr, cone->GetNumIndexes());
+		glDrawElementsInstanced(GL_TRIANGLES, cone->GetNumVertices(), GL_UNSIGNED_INT, nullptr, cone->GetNumIndexes()*3);
 		glBindVertexArray(0);
 	}
 
