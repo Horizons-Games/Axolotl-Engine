@@ -151,6 +151,7 @@ void PlayerAttackScript::PerformCombos()
 			case AttackType::HEAVYNORMAL:
 				if (lastAttack == AttackType::LIGHTNORMAL || lastAttack == AttackType::HEAVYNORMAL)
 				{
+					lastAttack = currentAttack;
 					isNextAttackTriggered = true;
 					triggerNextAttackTimer = triggerNextAttackDuration;
 					if (numAttackComboAnimation == 2.0f) //Move between three attack animations
@@ -187,7 +188,6 @@ void PlayerAttackScript::PerformCombos()
 		switch (currentAttack)
 		{
 			case AttackType::LIGHTNORMAL:
-			case AttackType::HEAVYNORMAL:
 				if (!isNextAttackTriggered) //Calling only when is not currently attacking
 				{
 					LOG_VERBOSE("Normal Normal Attack Soft");
@@ -197,6 +197,18 @@ void PlayerAttackScript::PerformCombos()
 					isNextAttackTriggered = false;
 					lastAttack = currentAttack;
 					currentAttackAnimation = "LightAttack";
+				}
+				break;
+			case AttackType::HEAVYNORMAL:
+				if (!isNextAttackTriggered) //Calling only when is not currently attacking
+				{
+					LOG_VERBOSE("Normal Normal Attack Soft");
+					numAttackComboAnimation = 0.0f;
+					animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
+					HeavyNormalAttack();
+					isNextAttackTriggered = false;
+					lastAttack = currentAttack;
+					currentAttackAnimation = "LightAttack"; //Change if new heavy animations are implemented
 				}
 				break;
 
@@ -272,7 +284,7 @@ void PlayerAttackScript::LightNormalAttack()
 void PlayerAttackScript::HeavyNormalAttack()
 {
 	//Activate visuals and audios
-	animation->SetParameter("IsLightAttacking", true);
+	animation->SetParameter("IsLightAttacking", true); //Change if new heavy animations are implemented
 
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
@@ -406,8 +418,16 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 				{
 					currentAttackAnimation = animation->GetController()->GetStateName();
 					LOG_VERBOSE("Normal Attack Soft");
-					LightNormalAttack();
-					lastAttack = AttackType::LIGHTNORMAL;
+					if (lastAttack == AttackType::LIGHTNORMAL)
+					{
+						LightNormalAttack();
+						lastAttack = AttackType::LIGHTNORMAL;
+					}
+					else
+					{
+						HeavyNormalAttack();
+						lastAttack = AttackType::HEAVYNORMAL;
+					}
 					isAttacking = true;
 					isNextAttackTriggered = false;
 				}
