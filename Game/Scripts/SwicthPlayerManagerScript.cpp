@@ -33,7 +33,7 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 {
 	if (!isChangingPlayer)
 	{
-		if (input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE)
+		if (input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE && players.size() > 1)
 		{
 			ChangeCurrentPlayer();
 		}
