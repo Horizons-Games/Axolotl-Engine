@@ -72,21 +72,21 @@ void DebugGame::Update(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_F1) == KeyState::DOWN)
 	{
 #ifndef ENGINE
-		App->GetModule<ModuleScene>()->LoadScene("Lib/Scenes/__LEVEL1_ALFA.axolotl");
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/__LEVEL1_ALFA.axolotl");
 		LOG_INFO("LOADING LEVEL 1");
 #endif // ENGINE
 	}
 	else if (input->GetKey(SDL_SCANCODE_F2) == KeyState::DOWN)
 	{
 #ifndef ENGINE
-		App->GetModule<ModuleScene>()->LoadScene("Lib/Scenes/_LEVEL02_ALFA.axolotl");
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_LEVEL02_ALFA.axolotl");
 		LOG_INFO("LOADING LEVEL 2");
 #endif // ENGINE
 	}
 	else if (input->GetKey(SDL_SCANCODE_F3) == KeyState::DOWN)
 	{
 #ifndef ENGINE
-		App->GetModule<ModuleScene>()->LoadScene("Lib/Scenes/Gameplay_FinalBoss.axolotl");
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/Gameplay_FinalBoss.axolotl");
 		LOG_INFO("LOADING BOSS FIGHT");
 #endif // ENGINE
 	}

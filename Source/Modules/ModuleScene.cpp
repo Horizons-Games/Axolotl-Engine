@@ -182,11 +182,11 @@ UpdateStatus ModuleScene::PostUpdate()
 			}
 		}
 
-		if (!sceneToLoad.empty())
-		{
-			LoadScene(sceneToLoad);
-			sceneToLoad = std::string();
-		}
+	}
+	if (!sceneToLoad.empty())
+	{
+		LoadScene(sceneToLoad);
+		sceneToLoad = std::string();
 	}
 
 	return UpdateStatus::UPDATE_CONTINUE;
