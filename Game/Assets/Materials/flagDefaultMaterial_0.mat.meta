@@ -1,5 +1,5 @@
 {
-    "UID": 2738834097830506073,
+    "UID": 17652407957154373287,
     "Type": "Materials",
     "DiffuseAssetPath": "Assets/Textures/flag_DefaultMaterial_BaseColor.png",
     "NormalAssetPath": "Assets/Textures/flag_DefaultMaterial_Normal.png",
@@ -21,7 +21,5 @@
     "tilingx": 1.0,
     "tilingy": 1.0,
     "offsetx": 0.0,
-    "offsety": 0.0,
-    "percentagex": 100.0,
-    "percentagey": 100.0
+    "offsety": 0.0
 }

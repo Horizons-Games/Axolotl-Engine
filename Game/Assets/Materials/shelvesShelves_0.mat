@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/shelves_Shelves_BaseColor.png",
+    "NormalAssetPath": "Assets/Textures/shelves_Shelves_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/shelves_Shelves_Metallic.png",
+    "EmissiveAssetPath": "Assets/Textures/shelves_Shelves_Emissive.png"
+}

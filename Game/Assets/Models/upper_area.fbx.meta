@@ -1,0 +1,13 @@
+{
+    "UID": 1529265442723669313,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/upper_area.Cube.008_0.mesh",
+        "Assets/Meshes/upper_area.Cube.009_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/upper_areaDefaultMaterial_0.mat",
+        "Assets/Materials/upper_areaDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

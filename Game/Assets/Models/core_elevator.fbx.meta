@@ -1,0 +1,13 @@
+{
+    "UID": 15471345308117380194,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/core_elevator.Cube_0.mesh",
+        "Assets/Meshes/core_elevator.Cube.001_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/core_elevatorMaterial_0.mat",
+        "Assets/Materials/core_elevatorDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
