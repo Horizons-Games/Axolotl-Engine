@@ -3,6 +3,10 @@
 
 #include "HackZoneScript.h"
 #include "UIHackingManager.h"
+#include "PlayerManagerScript.h"
+#include "PlayerJumpScript.h"
+#include "PlayerMoveScript.h"
+#include "PlayerAttackScript.h"
 
 #include "Application.h"
 #include "ModuleInput.h"
@@ -162,12 +166,28 @@ void PlayerHackingUseScript::FinishHack()
 
 void PlayerHackingUseScript::DisableAllInteractions()
 {
-
+	rigidBody->Disable();
+	PlayerManagerScript* manager = GetOwner()->GetComponentInternal<PlayerManagerScript>();
+	PlayerJumpScript* jump = GetOwner()->GetComponentInternal<PlayerJumpScript>();
+	PlayerMoveScript* move = GetOwner()->GetComponentInternal<PlayerMoveScript>();
+	PlayerAttackScript* attack = GetOwner()->GetComponentInternal<PlayerAttackScript>();
+	manager->Disable();
+	jump->Disable();
+	move->Disable();
+	attack->Disable();
 }
 
 void PlayerHackingUseScript::EnableAllInteractions()
 {
-
+	rigidBody->Enable();
+	PlayerManagerScript* manager = GetOwner()->GetComponentInternal<PlayerManagerScript>();
+	PlayerJumpScript* jump = GetOwner()->GetComponentInternal<PlayerJumpScript>();
+	PlayerMoveScript* move = GetOwner()->GetComponentInternal<PlayerMoveScript>();
+	PlayerAttackScript* attack = GetOwner()->GetComponentInternal<PlayerAttackScript>();
+	manager->Enable();
+	jump->Enable();
+	move->Enable();
+	attack->Enable();
 }
 
 void PlayerHackingUseScript::FindHackZone(const std::string& tag)
