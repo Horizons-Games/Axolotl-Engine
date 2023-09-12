@@ -26,7 +26,7 @@ public:
 
 private:
 	void GenerateMaps();
-	void RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel = 0);
+	void RenderToCubemap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel = 0);
 	void CreateVAO();
 
 	GLuint frameBuffer;
