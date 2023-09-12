@@ -83,6 +83,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 				rigidBody->SetStatic(false);
 				offsetFromPickedPoint = hittedTransform->GetGlobalPosition() - hit.hitPoint;
 				pickedRotation = hittedTransform->GetGlobalRotation();
+				pickedPlayerPosition = owner->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
 				if (gameObjectAttached->GetTag() == "ForceableDoors" && !rigidBody->IsTrigger())
 				{
@@ -223,12 +224,21 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 		float3 currentDistance = hittedTransform->GetGlobalPosition() - nextPosition;
 		
-		if (std::abs(currentDistance.x) > 2 && std::abs(currentDistance.z) > 2 && currentTimeForce < 14.5f)
+		if ( std::abs(currentDistance.x) > 2 && std::abs(currentDistance.z) > 2 && currentTimeForce < 14.5f )
 		{
 			breakForce = true;
 			currentTimeForce = 10;
 			return;
 		} 
+		float difX = pickedPlayerPosition.x - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().x;
+		float difY = pickedPlayerPosition.y - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().y;
+		float difZ = pickedPlayerPosition.z - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().z;
+		if ( abs(difX) + abs(difY) + abs(difZ) > 0.2f)
+		{
+			breakForce = true;
+			currentTimeForce = 10;
+			return;
+		}
 
 		float2 mouseMotion = input->GetMouseMotion();
 		nextPosition.y = nextPosition.y -= mouseMotion.y * 0.2f * deltaTime;
