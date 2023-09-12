@@ -1,0 +1,21 @@
+{
+    "UID": 10585034947121186155,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/HOD_GR_EnergySphere.Sphere_0.mesh",
+        "Assets/Meshes/HOD_GR_EnergySphere.Sphere.001_0.mesh",
+        "Assets/Meshes/HOD_GR_EnergySphere.Torus.005_0.mesh",
+        "Assets/Meshes/HOD_GR_EnergySphere.Torus.007_0.mesh",
+        "Assets/Meshes/HOD_GR_EnergySphere.Torus.004_0.mesh",
+        "Assets/Meshes/HOD_GR_EnergySphere.Torus.006_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/HOD_GR_EnergySphereDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_EnergySphereDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_EnergySphereDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_EnergySphereDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_EnergySphereDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_EnergySphereDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

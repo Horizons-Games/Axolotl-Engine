@@ -56,10 +56,12 @@ private:
 
 	void LightNormalAttack();
 	void HeavyNormalAttack();
-	void JumpNormalAttack();
+	void InitJumpAttack();
+	void UpdateJumpAttack();
+	void EndJumpNormalAttack();
+	void EndJumpFinisherAttack();
 	void LightFinisher();
 	void HeavyFinisher();
-	void JumpFinisher();
 
 	void ResetAttackAnimations(float deltaTime);
 

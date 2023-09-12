@@ -25,6 +25,8 @@ void PlayerManagerScript::Start()
 {
 	jumpManager = owner->GetComponent<PlayerJumpScript>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
+	rotationManager = owner->GetComponent<PlayerRotationScript>();
+
 }
 
 bool PlayerManagerScript::IsGrounded() const
@@ -85,6 +87,13 @@ PlayerJumpScript* PlayerManagerScript::GetJumpManager() const
 PlayerMoveScript* PlayerManagerScript::GetMovementManager() const
 {
 	return movementManager;
+}
+
+void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
+{
+	movementManager->SetIsParalyzed(paralyzed);
+	jumpManager->SetCanJump(!paralyzed);
+	rotationManager->SetCanRotate(!paralyzed);
 }
 
 void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)

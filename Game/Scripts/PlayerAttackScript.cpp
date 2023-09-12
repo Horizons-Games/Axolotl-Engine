@@ -107,11 +107,16 @@ void PlayerAttackScript::Update(float deltaTime)
 	// Check if the special was activated
 	comboSystem->CheckSpecial(deltaTime);
 
-	
-
 	if (!IsAttackAvailable())
 	{
-		ResetAttackAnimations(deltaTime);
+		if (jumpFinisherScript->IsActive())
+		{
+			UpdateJumpAttack();
+		}
+		else 
+		{
+			ResetAttackAnimations(deltaTime);
+		}
 	}
 
 	PerformCombos();
@@ -169,7 +174,9 @@ void PlayerAttackScript::PerformCombos()
 
 			case AttackType::HEAVYFINISHER:
 			case AttackType::JUMPFINISHER:
+				break;
 			case AttackType::JUMPNORMAL:
+				break;
 			case AttackType::LIGHTFINISHER:
 				triggerNextAttackTimer = triggerNextAttackDuration;
 				currentAttackAnimation = animation->GetController()->GetStateName();
@@ -214,7 +221,7 @@ void PlayerAttackScript::PerformCombos()
 
 			case AttackType::JUMPNORMAL:
 				LOG_VERBOSE("Normal Attack Jump");
-				JumpNormalAttack();
+				InitJumpAttack();
 				lastAttack = currentAttack;
 				currentAttackAnimation = "JumpAttack";
 				break;
@@ -235,7 +242,7 @@ void PlayerAttackScript::PerformCombos()
 
 			case AttackType::JUMPFINISHER:
 				LOG_VERBOSE("Finisher Jump");
-				JumpFinisher();
+				InitJumpAttack();
 				lastAttack = currentAttack;
 				currentAttackAnimation = "JumpAttack";
 				break;
@@ -328,21 +335,68 @@ void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDama
 	ligthAttackBulletScript->SetDamage(nDamage);
 }
 
-void PlayerAttackScript::JumpNormalAttack()
+void PlayerAttackScript::InitJumpAttack()
 {
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
-
+	playerManager->ParalyzePlayer(true);
 	if (isMelee)
 	{
-		jumpFinisherScript->PerformGroundSmash(10.0f, 2.0f); // Bix jumping attack
+		jumpFinisherScript->PerformGroundSmash(); // Bix jumping attack
 	}
 	else
 	{
 		jumpFinisherScript->ShootForceBullet(10.0f, 2.0f); // Allura jumping attack, placed it here for now
 	}
+}
 
-	comboSystem->SuccessfulAttack(comboCountJump, AttackType::JUMPNORMAL);
+void PlayerAttackScript::UpdateJumpAttack()
+{
+	bool landed = false;
+	//if (isMelee) landing is player grounded if not then is the projectile detection for the moment I only put this
+	if(isMelee) 
+	{
+		landed = playerManager->IsGrounded();
+
+	}
+	else 
+	{
+		//TODO Add Alura Checks
+		landed = true;
+	}
+
+	if (landed)
+	{
+		animation->SetParameter("IsJumpAttacking", false);
+		if (currentAttack == AttackType::JUMPNORMAL)
+		{
+			EndJumpNormalAttack();
+		}
+		else
+		{
+			EndJumpFinisherAttack();
+		}
+	}
+}
+
+void PlayerAttackScript::EndJumpNormalAttack()
+{
+	jumpFinisherScript->VisualLandingEffect();
+	if (enemyDetection->AreAnyEnemiesInTheArea())
+	{
+		jumpFinisherScript->PushEnemies(10.0f, 2.0f, enemyDetection->GetEnemiesInTheArea());
+		comboSystem->SuccessfulAttack(comboCountJump, currentAttack);
+	}
+}
+
+void PlayerAttackScript::EndJumpFinisherAttack()
+{
+	jumpFinisherScript->VisualLandingEffect();
+	if (enemyDetection->AreAnyEnemiesInTheArea())
+	{
+		jumpFinisherScript->PushEnemies(15.0f, 4.0f, enemyDetection->GetEnemiesInTheArea());
+		comboSystem->SuccessfulAttack(-35.0f, currentAttack);
+	}
 }
 
 void PlayerAttackScript::LightFinisher()
@@ -389,22 +443,22 @@ void PlayerAttackScript::HeavyFinisher()
 	}
 }
 
-void PlayerAttackScript::JumpFinisher()
-{
-	animation->SetParameter("IsJumpAttacking", true);
-	isAttacking = true;
-
-	if(isMelee)
-	{
-		jumpFinisherScript->PerformGroundSmash(15.0f, 4.0f); // Bix jumping finisher
-	}
-	else
-	{
-		jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
-	}
-
-	comboSystem->SuccessfulAttack(-comboCountJump * 2, AttackType::JUMPFINISHER);
-}
+//void PlayerAttackScript::JumpFinisher()
+//{
+//	animation->SetParameter("IsJumpAttacking", true);
+//	isAttacking = true;
+//
+//	if(isMelee)
+//	{
+//		jumpFinisherScript->PerformGroundSmash(15.0f, 4.0f); // Bix jumping finisher
+//	}
+//	else
+//	{
+//		jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
+//	}
+//
+//	comboSystem->SuccessfulAttack(-comboCountJump * 2, AttackType::JUMPFINISHER);
+//}
 
 void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 {
@@ -451,15 +505,21 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 			break;	
 
 		case AttackType::JUMPNORMAL:
-
 		case AttackType::JUMPFINISHER:
+		{
+			std::string actualName = currentAttackAnimation;
+			if (isMelee)
+			{
+				actualName = "JumpAttackRecovery";
+			}
 			if (animation->GetController()->GetStateName() != currentAttackAnimation)
 			{
+				playerManager->ParalyzePlayer(false);
 				animation->SetParameter("IsJumpAttacking", false);
 				isAttacking = false;
 				lastAttack = AttackType::NONE;
 			}
-			
+
 			// There are some times in which the animations happen so quick and the first if is not entered,
 			// so I added this as a safe mesure because, if not, the player would be prevented of attacking,
 			// jumping and moving if the first if is not entered
@@ -469,7 +529,7 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 				isAttacking = false;
 			}*/
 			break;
-
+		}
 		case AttackType::LIGHTFINISHER:	
 			if (animation->GetController()->GetStateName() != currentAttackAnimation)
 			{

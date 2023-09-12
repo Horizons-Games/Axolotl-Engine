@@ -1,0 +1,17 @@
+{
+    "UID": 8325132935710038963,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/HOD_GR_Generators.Cylinder.003_0.mesh",
+        "Assets/Meshes/HOD_GR_Generators.Cylinder.004_0.mesh",
+        "Assets/Meshes/HOD_GR_Generators.Cylinder.008_0.mesh",
+        "Assets/Meshes/HOD_GR_Generators.Cylinder.009_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/HOD_GR_GeneratorsDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_GeneratorsDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_GeneratorsDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_GeneratorsDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
