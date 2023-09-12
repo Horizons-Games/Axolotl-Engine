@@ -12,10 +12,9 @@ REGISTERCLASS(UIHackingManager);
 
 UIHackingManager::UIHackingManager() : Script()
 {
-	REGISTER_FIELD(command_X, GameObject*);
+	REGISTER_FIELD(command_A, GameObject*);
+	REGISTER_FIELD(command_B, GameObject*);
 	REGISTER_FIELD(command_Y, GameObject*);
-	/*REGISTER_FIELD(command_A, GameObject*);
-	REGISTER_FIELD(command_B, GameObject*);*/
 }
 
 void UIHackingManager::Init()
@@ -23,6 +22,9 @@ void UIHackingManager::Init()
 	inputPositions.push_back(owner->GetChildren()[0]->GetChildren()[0]);
 	inputPositions.push_back(owner->GetChildren()[0]->GetChildren()[1]);
 	inputPositions.push_back(owner->GetChildren()[0]->GetChildren()[2]);
+	inputPositions.push_back(owner->GetChildren()[0]->GetChildren()[3]);
+	inputPositions.push_back(owner->GetChildren()[0]->GetChildren()[4]);
+	inputPositions.push_back(owner->GetChildren()[0]->GetChildren()[5]);
 }
 
 void UIHackingManager::Update(float deltaTime)
@@ -37,18 +39,15 @@ void UIHackingManager::AddInputVisuals(HackingCommandType type)
 		GameObject* prefab = nullptr;
 		switch (type)
 		{
-		case HackingCommandType::COMMAND_X:
-			prefab = command_X;
-			break;
-		case HackingCommandType::COMMAND_Y:
-			prefab = command_Y;
-			break;
-		/*case HackingCommandType::COMMAND_A:
+		case HackingCommandType::COMMAND_A:
 			prefab = command_A;
 			break;
 		case HackingCommandType::COMMAND_B:
 			prefab = command_B;
-			break;*/
+			break;
+		case HackingCommandType::COMMAND_Y:
+			prefab = command_Y;
+			break;
 		default:
 			break;
 		}

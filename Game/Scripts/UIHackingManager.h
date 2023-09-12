@@ -24,10 +24,10 @@ public:
 	void CleanInputVisuals();
 
 private:
-	GameObject* command_X;
+
+	GameObject* command_A;
+	GameObject* command_B;
 	GameObject* command_Y;
-	/*GameObject* command_A;
-	GameObject* command_B;*/
 
 	std::deque<GameObject*> inputVisuals;
 	std::vector<GameObject*> inputPositions;
