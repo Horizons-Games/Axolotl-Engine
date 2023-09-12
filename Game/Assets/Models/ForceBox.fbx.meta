@@ -1,0 +1,11 @@
+{
+    "UID": 2484767917409421459,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/ForceBox.Cube_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/ForceBoxMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
