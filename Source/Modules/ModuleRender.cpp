@@ -267,7 +267,7 @@ UpdateStatus ModuleRender::Update()
 
 	// Camera
 	Camera* checkedCamera = GetFrustumCheckedCamera();
-	Camera* engineCamera = App->GetModule<ModuleCamera>()->GetCamera();
+	Camera* engineCamera = camera->GetCamera();
 
 #ifdef ENGINE
 	if (App->IsOnPlayMode())
@@ -418,10 +418,10 @@ UpdateStatus ModuleRender::Update()
 	if (loadedScene->GetRoot()->HasComponent<ComponentSkybox>())
 	{
 		loadedScene->GetRoot()->GetComponentInternal<ComponentSkybox>()->
-			Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix());
+			Draw(engineCamera->GetViewMatrix(), engineCamera->GetProjectionMatrix());
 	}
 
-	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), w, h);
+	debug->Draw(engineCamera->GetViewMatrix(), engineCamera->GetProjectionMatrix(), w, h);
 
 	// -------- DEFERRED + FORWARD ---------------
 
@@ -608,7 +608,6 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 
 	glBindRenderbuffer(GL_RENDERBUFFER, depthStencilRenderBuffer);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthStencilRenderBuffer);
 
 	glBindTexture(GL_TEXTURE_2D, renderedTexture[0]);
