@@ -50,7 +50,7 @@ void RangedFastAttackBullet::Update(float deltaTime)
 
 void RangedFastAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->IsTrigger() || other->GetOwner()->CompareTag("Enemy") || waitParticlesToDestroy)
+	if (waitParticlesToDestroy)
 	{
 		return;
 	}
