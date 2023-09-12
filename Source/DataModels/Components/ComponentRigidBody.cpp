@@ -235,7 +235,10 @@ void ComponentRigidBody::SetUpMobility()
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_STATIC_OBJECT);
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 		rigidBody->setActivationState(DISABLE_DEACTIVATION);
-		rigidBody->setMassProps(0, { 0, 0, 0 }); // To review: is this necessary here?
+
+		rigidBody->setMassProps(0, { 0, 0, 0 }); 
+		AXO_TODO("Is this necessary here?");
+		
 	}
 	else if (IsStatic())
 	{
