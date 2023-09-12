@@ -66,12 +66,9 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 
 	if (!playerAttackScript->IsPerfomingJumpAttack())
 	{
-		if (forceScript)
+		if (forceScript && forceScript->IsForceActive())
 		{
-			if (forceScript->IsForceActive())
-			{
-				return;
-			}
+			return;
 		}
 		Move(deltaTime);
 		MoveRotate(deltaTime);
@@ -377,7 +374,15 @@ void PlayerMoveScript::Dash()
 
 	isDashing = true;
 	componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-	componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
+
+	if (playerAttackScript->IsMeleeAvailable())
+	{
+		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
+	}
+	else
+	{
+		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::ROLL);
+	}
 }
 
 bool PlayerMoveScript::IsParalyzed() const

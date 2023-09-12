@@ -18,7 +18,6 @@ class ComponentAgent;
 class GameObject;
 
 class Quadtree;
-class Skybox;
 class Cubemap;
 class Updatable;
 
@@ -108,7 +107,6 @@ public:
 	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
 	const std::vector<ComponentLine*>& GetSceneComponentLines() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
-	Skybox* GetSkybox() const;
 	Cubemap* GetCubemap() const;
 	const bool GetCombatMode() const;
 	const float GetEnemiesToDefeat() const;
@@ -122,7 +120,6 @@ public:
 
 	void SetRoot(GameObject* newRoot);
 	void SetRootQuadtree(std::unique_ptr<Quadtree> quadtree);
-	void SetSkybox(std::unique_ptr<Skybox> skybox);
 	void SetCubemap(std::unique_ptr<Cubemap> cubemap);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void SetSceneCameras(const std::vector<ComponentCamera*>& cameras);
@@ -166,7 +163,6 @@ private:
 	void GenerateLights();
 	void RemoveGameObjectFromScripts(const GameObject* gameObject);
 
-	std::unique_ptr<Skybox> skybox;
 	std::unique_ptr<Cubemap> cubemap;
 	std::unique_ptr<GameObject> root;
 
@@ -294,11 +290,6 @@ inline void Scene::SetDirectionalLight(GameObject* directionalLight)
 inline Quadtree* Scene::GetRootQuadtree() const
 {
 	return rootQuadtree.get();
-}
-
-inline Skybox* Scene::GetSkybox() const
-{
-	return skybox.get();
 }
 
 inline Cubemap* Scene::GetCubemap() const

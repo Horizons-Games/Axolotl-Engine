@@ -73,8 +73,11 @@ void PlayerAttackScript::Start()
 	transform = owner->GetComponent<ComponentTransform>();
 	animation = owner->GetComponent<ComponentAnimation>();
 
-	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_OPEN);
-	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);
+	if (isMelee)
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_OPEN);
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);
+	}
 
 	playerManager = owner->GetComponent<PlayerManagerScript>();
 	comboSystem = owner->GetComponent<ComboManager>();
@@ -188,7 +191,7 @@ void PlayerAttackScript::LightNormalAttack()
 	}
 	else
 	{
-		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CANNON_SHOT);
 		if (enemyAttacked != nullptr)
 		{
 			comboSystem->SuccessfulAttack(comboCountLight, AttackType::LIGHTNORMAL);
@@ -202,7 +205,6 @@ void PlayerAttackScript::HeavyNormalAttack()
 {
 	//Activate visuals and audios
 	animation->SetParameter("IsHeavyAttacking", true);
-	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);
 
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
@@ -223,7 +225,7 @@ void PlayerAttackScript::HeavyNormalAttack()
 	}
 	else
 	{
-		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CHARGED_SHOT);
 		if (enemyAttacked != nullptr)
 		{
 			comboSystem->SuccessfulAttack(comboCountHeavy, AttackType::HEAVYNORMAL);
@@ -274,6 +276,10 @@ void PlayerAttackScript::LightFinisher()
 
 	isAttacking = true;
 
+	if (!isMelee)
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ELECTRIC_SHOT);
+	}
 	lightFinisherScript->ThrowStunItem();
 
 	comboSystem->SuccessfulAttack(-comboCountLight * 2, AttackType::LIGHTFINISHER);
@@ -286,6 +292,7 @@ void PlayerAttackScript::HeavyFinisher()
 	animation->SetParameter("HeavyFinisherExit", false);
 	animation->SetParameter("HeavyFinisherInit", true);
 	isAttacking = true;
+	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CANNON_SHOT);
 	if (enemyAttacked != nullptr)
 	{
 		heavyFinisherAttack->PerformHeavyFinisher(enemyAttacked->GetComponent<ComponentTransform>(), 
@@ -404,6 +411,11 @@ void PlayerAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAtta
 bool PlayerAttackScript::IsAttackAvailable() const
 {
 	return !isAttacking;
+}
+
+bool PlayerAttackScript::IsMeleeAvailable() const
+{
+	return isMelee;
 }
 
 bool PlayerAttackScript::IsPerfomingJumpAttack() const

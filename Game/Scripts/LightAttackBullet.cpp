@@ -15,6 +15,7 @@
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/EnemyClass.h"
+#include "../Scripts/PlayerAttackScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -58,6 +59,8 @@ void LightAttackBullet::Start()
 	particleSystem = owner->GetComponent<ComponentParticleSystem>();
 	particleSystem->Enable();
 	particleSystemCurrentTimer = particleSystemTimer;
+
+	playerAttackScript = owner->GetParent()->GetComponent<PlayerAttackScript>();
 }
 
 void LightAttackBullet::Update(float deltaTime)
@@ -117,9 +120,16 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->CompareTag("Enemy"))
 	{
+		if (playerAttackScript->IsMeleeAvailable())
+		{
+			audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
+		}
+		else
+		{
+			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ELECTRIC_SHOT); // Provisional sfx
+		}
 		other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(damageAttack);
 		other->GetOwner()->GetComponent<EnemyClass>()->SetStunnedTime(stunTime);
-		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
 
 		// Disable the visuals and the rigidbody while the particles are being played
 		rigidBody->SetIsTrigger(true);
@@ -130,6 +140,14 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 
 	else if (!other->IsTrigger() && !other->GetOwner()->CompareTag("Player"))
 	{
+		if (playerAttackScript->IsMeleeAvailable())
+		{
+			audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
+		}
+		else
+		{
+			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ELECTRIC_SHOT); // Provisional sfx
+		}
 		DestroyBullet();
 	}
 }
