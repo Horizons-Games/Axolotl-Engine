@@ -7124,10 +7124,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 879.5,
-                            "worldAABB_min_y": 567.0,
-                            "worldAABB_max_x": 879.5,
-                            "worldAABB_max_y": 567.0
+                            "worldAABB_min_x": 460.5,
+                            "worldAABB_min_y": 268.5,
+                            "worldAABB_max_x": 460.5,
+                            "worldAABB_max_y": 268.5
                         }
                     },
                     {
@@ -7219,10 +7219,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 475.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 658.6145629882813
+                            "worldAABB_min_x": 412.53125,
+                            "worldAABB_min_y": 220.53125,
+                            "worldAABB_max_x": 508.46875,
+                            "worldAABB_max_y": 316.46875
                         }
                     }
                 ]
@@ -7258,9 +7258,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 72.28125,
-                            "worldAABB_max_x": 1759.0,
-                            "worldAABB_max_y": 1061.71875
+                            "worldAABB_min_y": 9.46875,
+                            "worldAABB_max_x": 921.0,
+                            "worldAABB_max_y": 527.53125
                         }
                     },
                     {
@@ -7310,10 +7310,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 475.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 658.6145629882813
+                            "worldAABB_min_x": 412.53125,
+                            "worldAABB_min_y": 220.53125,
+                            "worldAABB_max_x": 508.46875,
+                            "worldAABB_max_y": 316.46875
                         }
                     }
                 ]
@@ -7348,10 +7348,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 475.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 658.6145629882813
+                            "worldAABB_min_x": 412.53125,
+                            "worldAABB_min_y": 220.53125,
+                            "worldAABB_max_x": 508.46875,
+                            "worldAABB_max_y": 316.46875
                         }
                     }
                 ]
@@ -7386,10 +7386,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 475.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 658.6145629882813
+                            "worldAABB_min_x": 412.53125,
+                            "worldAABB_min_y": 220.53125,
+                            "worldAABB_max_x": 508.46875,
+                            "worldAABB_max_y": 316.46875
                         }
                     }
                 ]
@@ -7425,9 +7425,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 72.28125,
-                            "worldAABB_max_x": 1759.0,
-                            "worldAABB_max_y": 1061.71875
+                            "worldAABB_min_y": 9.46875,
+                            "worldAABB_max_x": 921.0,
+                            "worldAABB_max_y": 527.53125
                         }
                     },
                     {
@@ -7477,10 +7477,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 475.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 658.6145629882813
+                            "worldAABB_min_x": 412.53125,
+                            "worldAABB_min_y": 220.53125,
+                            "worldAABB_max_x": 508.46875,
+                            "worldAABB_max_y": 316.46875
                         }
                     }
                 ]
@@ -7516,9 +7516,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 72.28125,
-                            "worldAABB_max_x": 1759.0,
-                            "worldAABB_max_y": 1061.71875
+                            "worldAABB_min_y": 9.46875,
+                            "worldAABB_max_x": 921.0,
+                            "worldAABB_max_y": 527.53125
                         }
                     },
                     {
@@ -7568,10 +7568,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 475.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 658.6145629882813
+                            "worldAABB_min_x": 412.53125,
+                            "worldAABB_min_y": 220.53125,
+                            "worldAABB_max_x": 508.46875,
+                            "worldAABB_max_y": 316.46875
                         }
                     }
                 ]
@@ -7606,10 +7606,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 721.46484375,
-                            "worldAABB_min_y": 323.4453125,
-                            "worldAABB_max_x": 1037.53515625,
-                            "worldAABB_max_y": 401.7757568359375
+                            "worldAABB_min_x": 377.75390625,
+                            "worldAABB_min_y": 140.9764862060547,
+                            "worldAABB_max_x": 543.24609375,
+                            "worldAABB_max_y": 181.98976135253906
                         }
                     },
                     {
@@ -7659,10 +7659,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 757.423583984375,
-                            "worldAABB_min_y": 474.9771423339844,
-                            "worldAABB_max_x": 1001.576416015625,
-                            "worldAABB_max_y": 548.7268676757813
+                            "worldAABB_min_x": 396.5816345214844,
+                            "worldAABB_min_y": 220.31748962402344,
+                            "worldAABB_max_x": 524.4183349609375,
+                            "worldAABB_max_y": 258.9323425292969
                         }
                     },
                     {
@@ -7784,10 +7784,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 757.423583984375,
-                            "worldAABB_min_y": 567.2440185546875,
-                            "worldAABB_max_x": 1001.576416015625,
-                            "worldAABB_max_y": 640.9937744140625
+                            "worldAABB_min_x": 396.5816345214844,
+                            "worldAABB_min_y": 268.62774658203125,
+                            "worldAABB_max_x": 524.4183349609375,
+                            "worldAABB_max_y": 307.24261474609375
                         }
                     },
                     {
@@ -7909,10 +7909,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 475.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 658.6145629882813
+                            "worldAABB_min_x": 412.53125,
+                            "worldAABB_min_y": 220.53125,
+                            "worldAABB_max_x": 508.46875,
+                            "worldAABB_max_y": 316.46875
                         }
                     }
                 ]
@@ -7947,10 +7947,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 475.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 658.6145629882813
+                            "worldAABB_min_x": 412.53125,
+                            "worldAABB_min_y": 220.53125,
+                            "worldAABB_max_x": 508.46875,
+                            "worldAABB_max_y": 316.46875
                         }
                     }
                 ]
@@ -7985,10 +7985,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 757.423583984375,
-                            "worldAABB_min_y": 659.5108642578125,
-                            "worldAABB_max_x": 1001.576416015625,
-                            "worldAABB_max_y": 733.2606201171875
+                            "worldAABB_min_x": 396.5816345214844,
+                            "worldAABB_min_y": 316.9380187988281,
+                            "worldAABB_max_x": 524.4183349609375,
+                            "worldAABB_max_y": 355.5528869628906
                         }
                     },
                     {
@@ -8110,10 +8110,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 757.423583984375,
-                            "worldAABB_min_y": 751.7777099609375,
-                            "worldAABB_max_x": 1001.576416015625,
-                            "worldAABB_max_y": 825.5274658203125
+                            "worldAABB_min_x": 396.5816345214844,
+                            "worldAABB_min_y": 365.248291015625,
+                            "worldAABB_max_x": 524.4183349609375,
+                            "worldAABB_max_y": 403.8631591796875
                         }
                     },
                     {
@@ -8235,10 +8235,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 757.423583984375,
-                            "worldAABB_min_y": 474.97723388671875,
-                            "worldAABB_max_x": 1001.576416015625,
-                            "worldAABB_max_y": 548.7269897460938
+                            "worldAABB_min_x": 396.5816345214844,
+                            "worldAABB_min_y": 220.31752014160156,
+                            "worldAABB_max_x": 524.4183349609375,
+                            "worldAABB_max_y": 258.932373046875
                         }
                     },
                     {
@@ -8288,10 +8288,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 757.423583984375,
-                            "worldAABB_min_y": 567.2440185546875,
-                            "worldAABB_max_x": 1001.576416015625,
-                            "worldAABB_max_y": 640.9937744140625
+                            "worldAABB_min_x": 396.5816345214844,
+                            "worldAABB_min_y": 268.62774658203125,
+                            "worldAABB_max_x": 524.4183349609375,
+                            "worldAABB_max_y": 307.24261474609375
                         }
                     },
                     {
@@ -8341,10 +8341,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 757.423583984375,
-                            "worldAABB_min_y": 659.5108642578125,
-                            "worldAABB_max_x": 1001.576416015625,
-                            "worldAABB_max_y": 733.2606201171875
+                            "worldAABB_min_x": 396.5816345214844,
+                            "worldAABB_min_y": 316.9380187988281,
+                            "worldAABB_max_x": 524.4183349609375,
+                            "worldAABB_max_y": 355.5528869628906
                         }
                     },
                     {
@@ -8394,10 +8394,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 757.423583984375,
-                            "worldAABB_min_y": 751.7777099609375,
-                            "worldAABB_max_x": 1001.576416015625,
-                            "worldAABB_max_y": 825.5274658203125
+                            "worldAABB_min_x": 396.5816345214844,
+                            "worldAABB_min_y": 365.248291015625,
+                            "worldAABB_max_x": 524.4183349609375,
+                            "worldAABB_max_y": 403.8631591796875
                         }
                     },
                     {
@@ -8447,10 +8447,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 475.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 658.6145629882813
+                            "worldAABB_min_x": 412.53125,
+                            "worldAABB_min_y": 220.53125,
+                            "worldAABB_max_x": 508.46875,
+                            "worldAABB_max_y": 316.46875
                         }
                     }
                 ]
@@ -8486,9 +8486,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 72.28125,
-                            "worldAABB_max_x": 1759.0,
-                            "worldAABB_max_y": 1061.71875
+                            "worldAABB_min_y": 9.46875,
+                            "worldAABB_max_x": 921.0,
+                            "worldAABB_max_y": 527.53125
                         }
                     },
                     {
@@ -8538,10 +8538,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1488.84521484375,
-                            "worldAABB_min_y": 127.83670806884766,
-                            "worldAABB_max_x": 1591.45361328125,
-                            "worldAABB_max_y": 153.48880004882813
+                            "worldAABB_min_x": 779.5488891601563,
+                            "worldAABB_min_y": 38.557186126708984,
+                            "worldAABB_max_x": 833.2738647460938,
+                            "worldAABB_max_y": 51.98843765258789
                         }
                     },
                     {
@@ -8664,9 +8664,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 72.28125,
-                            "worldAABB_max_x": 1759.0,
-                            "worldAABB_max_y": 1061.71875
+                            "worldAABB_min_y": 9.46875,
+                            "worldAABB_max_x": 921.0,
+                            "worldAABB_max_y": 527.53125
                         }
                     },
                     {
@@ -8716,10 +8716,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 475.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 658.6145629882813
+                            "worldAABB_min_x": 412.53125,
+                            "worldAABB_min_y": 220.53125,
+                            "worldAABB_max_x": 508.46875,
+                            "worldAABB_max_y": 316.46875
                         }
                     }
                 ]
@@ -8754,10 +8754,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 475.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 658.6145629882813
+                            "worldAABB_min_x": 412.53125,
+                            "worldAABB_min_y": 220.53125,
+                            "worldAABB_max_x": 508.46875,
+                            "worldAABB_max_y": 316.46875
                         }
                     }
                 ]
@@ -8792,10 +8792,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 21.48291015625,
-                            "worldAABB_min_y": 191.18328857421875,
-                            "worldAABB_max_x": 288.5394287109375,
-                            "worldAABB_max_y": 268.59759521484375
+                            "worldAABB_min_x": 11.248329162597656,
+                            "worldAABB_min_y": 71.72502136230469,
+                            "worldAABB_max_x": 151.07723999023438,
+                            "worldAABB_max_y": 112.25862121582031
                         }
                     },
                     {
@@ -8845,10 +8845,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1782.101806640625,
-                            "worldAABB_min_y": 113.96585845947266,
-                            "worldAABB_max_x": 2307.511474609375,
-                            "worldAABB_max_y": 255.96847534179688
+                            "worldAABB_min_x": 933.095947265625,
+                            "worldAABB_min_y": 31.294525146484375,
+                            "worldAABB_max_x": 1208.19677734375,
+                            "worldAABB_max_y": 105.64608764648438
                         }
                     },
                     {
@@ -8915,10 +8915,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 123.5312271118164,
-                            "worldAABB_min_y": 46.791725158691406,
-                            "worldAABB_max_x": 306.7604064941406,
-                            "worldAABB_max_y": 230.02090454101563
+                            "worldAABB_min_x": 64.68008422851563,
+                            "worldAABB_min_y": -3.87738037109375,
+                            "worldAABB_max_x": 160.61758422851563,
+                            "worldAABB_max_y": 92.06011962890625
                         }
                     },
                     {
@@ -8967,10 +8967,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 20.69384765625,
-                            "worldAABB_min_y": 83.20852661132813,
-                            "worldAABB_max_x": 409.5977783203125,
-                            "worldAABB_max_y": 193.60409545898438
+                            "worldAABB_min_x": 10.835159301757813,
+                            "worldAABB_min_y": 15.190196990966797,
+                            "worldAABB_max_x": 214.46250915527344,
+                            "worldAABB_max_y": 72.99253845214844
                         }
                     },
                     {
@@ -9020,10 +9020,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 180.29910278320313,
-                            "worldAABB_min_y": 148.1112518310547,
-                            "worldAABB_max_x": 380.0188903808594,
-                            "worldAABB_max_y": 166.4341583251953
+                            "worldAABB_min_x": 94.40333557128906,
+                            "worldAABB_min_y": 49.17280578613281,
+                            "worldAABB_max_x": 198.97520446777344,
+                            "worldAABB_max_y": 58.76655578613281
                         }
                     },
                     {
@@ -9073,10 +9073,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 396.6038513183594,
-                            "worldAABB_min_y": 110.92193603515625,
-                            "worldAABB_max_x": 419.5074768066406,
-                            "worldAABB_max_y": 165.89068603515625
+                            "worldAABB_min_x": 207.6589813232422,
+                            "worldAABB_min_y": 29.70074462890625,
+                            "worldAABB_max_x": 219.6511688232422,
+                            "worldAABB_max_y": 58.48199462890625
                         }
                     },
                     {
@@ -9142,10 +9142,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 123.53128814697266,
-                            "worldAABB_min_y": 46.791297912597656,
-                            "worldAABB_max_x": 306.7604675292969,
-                            "worldAABB_max_y": 230.02047729492188
+                            "worldAABB_min_x": 64.68011474609375,
+                            "worldAABB_min_y": -3.877593994140625,
+                            "worldAABB_max_x": 160.61761474609375,
+                            "worldAABB_max_y": 92.05990600585938
                         }
                     },
                     {
@@ -9194,10 +9194,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 31.916702270507813,
-                            "worldAABB_min_y": 115.50223541259766,
-                            "worldAABB_max_x": 398.37506103515625,
-                            "worldAABB_max_y": 161.3095245361328
+                            "worldAABB_min_x": 16.71136474609375,
+                            "worldAABB_min_y": 32.098968505859375,
+                            "worldAABB_max_x": 208.58636474609375,
+                            "worldAABB_max_y": 56.083343505859375
                         }
                     },
                     {
@@ -9247,10 +9247,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 180.29934692382813,
-                            "worldAABB_min_y": 148.11061096191406,
-                            "worldAABB_max_x": 380.0191345214844,
-                            "worldAABB_max_y": 166.4335174560547
+                            "worldAABB_min_x": 94.40345764160156,
+                            "worldAABB_min_y": 49.17247009277344,
+                            "worldAABB_max_x": 198.97532653808594,
+                            "worldAABB_max_y": 58.76622009277344
                         }
                     },
                     {
@@ -9300,10 +9300,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 385.528564453125,
-                            "worldAABB_min_y": 110.9215087890625,
-                            "worldAABB_max_x": 408.43218994140625,
-                            "worldAABB_max_y": 165.8902587890625
+                            "worldAABB_min_x": 201.86004638671875,
+                            "worldAABB_min_y": 29.700531005859375,
+                            "worldAABB_max_x": 213.85223388671875,
+                            "worldAABB_max_y": 58.481781005859375
                         }
                     },
                     {
@@ -9369,10 +9369,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 787.8854370117188,
-                            "worldAABB_min_y": 475.3854064941406,
-                            "worldAABB_max_x": 971.1145629882813,
-                            "worldAABB_max_y": 658.6145629882813
+                            "worldAABB_min_x": 412.53125,
+                            "worldAABB_min_y": 220.53125,
+                            "worldAABB_max_x": 508.46875,
+                            "worldAABB_max_y": 316.46875
                         }
                     }
                 ]
@@ -9407,10 +9407,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1396.2061767578125,
-                            "worldAABB_min_y": 823.5208740234375,
-                            "worldAABB_max_x": 1579.4354248046875,
-                            "worldAABB_max_y": 1006.75
+                            "worldAABB_min_x": 731.0437622070313,
+                            "worldAABB_min_y": 402.8125,
+                            "worldAABB_max_x": 826.9812622070313,
+                            "worldAABB_max_y": 498.75
                         }
                     },
                     {
@@ -9459,10 +9459,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1379.715576171875,
-                            "worldAABB_min_y": 807.0302124023438,
-                            "worldAABB_max_x": 1595.926025390625,
-                            "worldAABB_max_y": 1023.2406616210938
+                            "worldAABB_min_x": 722.4093627929688,
+                            "worldAABB_min_y": 394.1781311035156,
+                            "worldAABB_max_x": 835.6156616210938,
+                            "worldAABB_max_y": 507.3843688964844
                         }
                     },
                     {
@@ -9512,10 +9512,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1379.715576171875,
-                            "worldAABB_min_y": 807.0302124023438,
-                            "worldAABB_max_x": 1595.926025390625,
-                            "worldAABB_max_y": 1023.2406616210938
+                            "worldAABB_min_x": 722.4093627929688,
+                            "worldAABB_min_y": 394.1781311035156,
+                            "worldAABB_max_x": 835.6156616210938,
+                            "worldAABB_max_y": 507.3843688964844
                         }
                     },
                     {
@@ -9565,10 +9565,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1476.3690185546875,
-                            "worldAABB_min_y": 887.6510620117188,
-                            "worldAABB_max_x": 1499.2725830078125,
-                            "worldAABB_max_y": 942.6198120117188
+                            "worldAABB_min_x": 773.0164184570313,
+                            "worldAABB_min_y": 436.390625,
+                            "worldAABB_max_x": 785.0086059570313,
+                            "worldAABB_max_y": 465.171875
                         }
                     },
                     {
@@ -9634,10 +9634,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1396.2061767578125,
-                            "worldAABB_min_y": 823.5208740234375,
-                            "worldAABB_max_x": 1579.4354248046875,
-                            "worldAABB_max_y": 1006.75
+                            "worldAABB_min_x": 731.0437622070313,
+                            "worldAABB_min_y": 402.8125,
+                            "worldAABB_max_x": 826.9812622070313,
+                            "worldAABB_max_y": 498.75
                         }
                     },
                     {
@@ -9686,10 +9686,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1379.715576171875,
-                            "worldAABB_min_y": 807.0302124023438,
-                            "worldAABB_max_x": 1595.926025390625,
-                            "worldAABB_max_y": 1023.2406616210938
+                            "worldAABB_min_x": 722.4093627929688,
+                            "worldAABB_min_y": 394.1781311035156,
+                            "worldAABB_max_x": 835.6156616210938,
+                            "worldAABB_max_y": 507.3843688964844
                         }
                     },
                     {
@@ -9739,10 +9739,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1379.715576171875,
-                            "worldAABB_min_y": 807.0302124023438,
-                            "worldAABB_max_x": 1595.926025390625,
-                            "worldAABB_max_y": 1023.2406616210938
+                            "worldAABB_min_x": 722.4093627929688,
+                            "worldAABB_min_y": 394.1781311035156,
+                            "worldAABB_max_x": 835.6156616210938,
+                            "worldAABB_max_y": 507.3843688964844
                         }
                     },
                     {
@@ -9792,10 +9792,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1583.0382080078125,
-                            "worldAABB_min_y": 887.6510620117188,
-                            "worldAABB_max_x": 1605.9417724609375,
-                            "worldAABB_max_y": 942.6198120117188
+                            "worldAABB_min_x": 828.8676147460938,
+                            "worldAABB_min_y": 436.390625,
+                            "worldAABB_max_x": 840.8598022460938,
+                            "worldAABB_max_y": 465.171875
                         }
                     },
                     {
@@ -9861,10 +9861,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1396.2061767578125,
-                            "worldAABB_min_y": 823.5208740234375,
-                            "worldAABB_max_x": 1579.4354248046875,
-                            "worldAABB_max_y": 1006.75
+                            "worldAABB_min_x": 731.0437622070313,
+                            "worldAABB_min_y": 402.8125,
+                            "worldAABB_max_x": 826.9812622070313,
+                            "worldAABB_max_y": 498.75
                         }
                     },
                     {
@@ -9913,10 +9913,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1379.715576171875,
-                            "worldAABB_min_y": 807.0302124023438,
-                            "worldAABB_max_x": 1595.926025390625,
-                            "worldAABB_max_y": 1023.2406616210938
+                            "worldAABB_min_x": 722.4093627929688,
+                            "worldAABB_min_y": 394.1781311035156,
+                            "worldAABB_max_x": 835.6156616210938,
+                            "worldAABB_max_y": 507.3843688964844
                         }
                     },
                     {
@@ -9966,10 +9966,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1379.715576171875,
-                            "worldAABB_min_y": 807.0302124023438,
-                            "worldAABB_max_x": 1595.926025390625,
-                            "worldAABB_max_y": 1023.2406616210938
+                            "worldAABB_min_x": 722.4093627929688,
+                            "worldAABB_min_y": 394.1781311035156,
+                            "worldAABB_max_x": 835.6156616210938,
+                            "worldAABB_max_y": 507.3843688964844
                         }
                     },
                     {
@@ -10019,10 +10019,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1583.7188720703125,
-                            "worldAABB_min_y": 887.6510620117188,
-                            "worldAABB_max_x": 1606.6224365234375,
-                            "worldAABB_max_y": 942.6198120117188
+                            "worldAABB_min_x": 829.2239990234375,
+                            "worldAABB_min_y": 436.390625,
+                            "worldAABB_max_x": 841.2161865234375,
+                            "worldAABB_max_y": 465.171875
                         }
                     },
                     {
@@ -10088,10 +10088,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1396.2061767578125,
-                            "worldAABB_min_y": 823.5208740234375,
-                            "worldAABB_max_x": 1579.4354248046875,
-                            "worldAABB_max_y": 1006.75
+                            "worldAABB_min_x": 731.0437622070313,
+                            "worldAABB_min_y": 402.8125,
+                            "worldAABB_max_x": 826.9812622070313,
+                            "worldAABB_max_y": 498.75
                         }
                     },
                     {
@@ -10140,10 +10140,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1379.715576171875,
-                            "worldAABB_min_y": 807.0302124023438,
-                            "worldAABB_max_x": 1595.926025390625,
-                            "worldAABB_max_y": 1023.2406616210938
+                            "worldAABB_min_x": 722.4093627929688,
+                            "worldAABB_min_y": 394.1781311035156,
+                            "worldAABB_max_x": 835.6156616210938,
+                            "worldAABB_max_y": 507.3843688964844
                         }
                     },
                     {
@@ -10193,10 +10193,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1379.715576171875,
-                            "worldAABB_min_y": 807.0302124023438,
-                            "worldAABB_max_x": 1595.926025390625,
-                            "worldAABB_max_y": 1023.2406616210938
+                            "worldAABB_min_x": 722.4093627929688,
+                            "worldAABB_min_y": 394.1781311035156,
+                            "worldAABB_max_x": 835.6156616210938,
+                            "worldAABB_max_y": 507.3843688964844
                         }
                     },
                     {
@@ -10246,10 +10246,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1655.311767578125,
-                            "worldAABB_min_y": 887.6510620117188,
-                            "worldAABB_max_x": 1678.21533203125,
-                            "worldAABB_max_y": 942.6198120117188
+                            "worldAABB_min_x": 866.7095336914063,
+                            "worldAABB_min_y": 436.390625,
+                            "worldAABB_max_x": 878.7017211914063,
+                            "worldAABB_max_y": 465.171875
                         }
                     },
                     {
@@ -11642,7 +11642,7 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -63.91648483276367,
+                            "localPos_X": 53.70339584350586,
                             "localPos_Y": 0.10388749837875366,
                             "localPos_Z": -0.6221542954444885,
                             "localRot_X": -0.0,
@@ -11702,7 +11702,7 @@
                             "radius": 0.3499999940395355,
                             "factor": 0.5,
                             "height": 0.699999988079071,
-                            "rbPos_X": -63.91685104370117,
+                            "rbPos_X": 53.70302963256836,
                             "rbPos_Y": 0.7538871169090271,
                             "rbPos_Z": -0.6221542954444885,
                             "xAxisBlocked": false,
@@ -18820,7 +18820,7 @@
                             "radius": 8.0,
                             "factor": 1.0,
                             "height": 2.0,
-                            "rbPos_X": -63.91648483276367,
+                            "rbPos_X": 53.70339584350586,
                             "rbPos_Y": 0.10388749837875366,
                             "rbPos_Z": -0.6221542954444885,
                             "xAxisBlocked": false,
@@ -18919,7 +18919,7 @@
                             "radius": 6.5,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -63.91685104370117,
+                            "rbPos_X": 53.70302963256836,
                             "rbPos_Y": 0.10388749837875366,
                             "rbPos_Z": -0.3626633286476135,
                             "xAxisBlocked": false,
@@ -19018,7 +19018,7 @@
                             "radius": 8.0,
                             "factor": 1.0,
                             "height": 2.0,
-                            "rbPos_X": -63.876590728759766,
+                            "rbPos_X": 53.743289947509766,
                             "rbPos_Y": 0.8538874983787537,
                             "rbPos_Z": 0.3778457045555115,
                             "xAxisBlocked": false,
@@ -19135,7 +19135,7 @@
                             "radius": 0.10000000149011612,
                             "factor": 0.5,
                             "height": 0.10000000149011612,
-                            "rbPos_X": -63.876590728759766,
+                            "rbPos_X": 53.743289947509766,
                             "rbPos_Y": 0.8538874983787537,
                             "rbPos_Z": 0.3778457045555115,
                             "xAxisBlocked": false,
@@ -19281,7 +19281,7 @@
                             "radius": 4.499998569488525,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -63.91648483276367,
+                            "rbPos_X": 53.70339584350586,
                             "rbPos_Y": 1.30446457862854,
                             "rbPos_Z": 0.6214694380760193,
                             "xAxisBlocked": false,
@@ -19432,7 +19432,7 @@
                             "radius": 10.0,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": -64.1540756225586,
+                            "rbPos_X": 53.46580505371094,
                             "rbPos_Y": 0.10388749837875366,
                             "rbPos_Z": -0.6126633286476135,
                             "xAxisBlocked": false,
@@ -20139,10 +20139,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1467.847900390625,
-                            "worldAABB_min_y": 57.526710510253906,
-                            "worldAABB_max_x": 1651.0771484375,
-                            "worldAABB_max_y": 240.75588989257813
+                            "worldAABB_min_x": 768.5548095703125,
+                            "worldAABB_min_y": 1.743377685546875,
+                            "worldAABB_max_x": 864.4923095703125,
+                            "worldAABB_max_y": 97.68087768554688
                         }
                     },
                     {
@@ -20197,10 +20197,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1467.847900390625,
-                            "worldAABB_min_y": 57.526710510253906,
-                            "worldAABB_max_x": 1651.0771484375,
-                            "worldAABB_max_y": 240.75588989257813
+                            "worldAABB_min_x": 768.5548095703125,
+                            "worldAABB_min_y": 1.743377685546875,
+                            "worldAABB_max_x": 864.4923095703125,
+                            "worldAABB_max_y": 97.68087768554688
                         }
                     },
                     {
@@ -20249,10 +20249,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1376.2333984375,
-                            "worldAABB_min_y": 126.2376480102539,
-                            "worldAABB_max_x": 1742.691650390625,
-                            "worldAABB_max_y": 172.04493713378906
+                            "worldAABB_min_x": 720.5860595703125,
+                            "worldAABB_min_y": 37.719940185546875,
+                            "worldAABB_max_x": 912.4610595703125,
+                            "worldAABB_max_y": 61.704315185546875
                         }
                     },
                     {
@@ -20302,10 +20302,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1376.2333984375,
-                            "worldAABB_min_y": 126.2376480102539,
-                            "worldAABB_max_x": 1742.691650390625,
-                            "worldAABB_max_y": 172.04493713378906
+                            "worldAABB_min_x": 720.5860595703125,
+                            "worldAABB_min_y": 37.719940185546875,
+                            "worldAABB_max_x": 912.4610595703125,
+                            "worldAABB_max_y": 61.704315185546875
                         }
                     },
                     {
@@ -20355,10 +20355,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1467.847900390625,
-                            "worldAABB_min_y": 148.08770751953125,
-                            "worldAABB_max_x": 1651.0771484375,
-                            "worldAABB_max_y": 331.31689453125
+                            "worldAABB_min_x": 768.5548095703125,
+                            "worldAABB_min_y": 49.160491943359375,
+                            "worldAABB_max_x": 864.4923095703125,
+                            "worldAABB_max_y": 145.09799194335938
                         }
                     }
                 ]
@@ -20393,10 +20393,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1585.8016357421875,
-                            "worldAABB_min_y": 148.08770751953125,
-                            "worldAABB_max_x": 1769.0308837890625,
-                            "worldAABB_max_y": 331.31689453125
+                            "worldAABB_min_x": 830.3145751953125,
+                            "worldAABB_min_y": 49.160491943359375,
+                            "worldAABB_max_x": 926.2520751953125,
+                            "worldAABB_max_y": 145.09799194335938
                         }
                     }
                 ]
@@ -20431,10 +20431,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1649.931884765625,
-                            "worldAABB_min_y": 212.21792602539063,
-                            "worldAABB_max_x": 1704.900634765625,
-                            "worldAABB_max_y": 267.1866760253906
+                            "worldAABB_min_x": 863.8927001953125,
+                            "worldAABB_min_y": 82.73861694335938,
+                            "worldAABB_max_x": 892.6739501953125,
+                            "worldAABB_max_y": 111.51986694335938
                         }
                     },
                     {
@@ -20484,10 +20484,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1471.512451171875,
-                            "worldAABB_min_y": 148.08770751953125,
-                            "worldAABB_max_x": 1654.74169921875,
-                            "worldAABB_max_y": 331.31689453125
+                            "worldAABB_min_x": 770.4735717773438,
+                            "worldAABB_min_y": 49.160491943359375,
+                            "worldAABB_max_x": 866.4110717773438,
+                            "worldAABB_max_y": 145.09799194335938
                         }
                     }
                 ]
@@ -20522,10 +20522,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1535.6427001953125,
-                            "worldAABB_min_y": 212.21792602539063,
-                            "worldAABB_max_x": 1590.6114501953125,
-                            "worldAABB_max_y": 267.1866760253906
+                            "worldAABB_min_x": 804.0516967773438,
+                            "worldAABB_min_y": 82.73861694335938,
+                            "worldAABB_max_x": 832.8329467773438,
+                            "worldAABB_max_y": 111.51986694335938
                         }
                     },
                     {
@@ -20575,10 +20575,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1356.9942626953125,
-                            "worldAABB_min_y": 148.08770751953125,
-                            "worldAABB_max_x": 1540.2235107421875,
-                            "worldAABB_max_y": 331.31689453125
+                            "worldAABB_min_x": 710.5126342773438,
+                            "worldAABB_min_y": 49.160491943359375,
+                            "worldAABB_max_x": 806.4501342773438,
+                            "worldAABB_max_y": 145.09799194335938
                         }
                     }
                 ]
@@ -20613,10 +20613,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1421.12451171875,
-                            "worldAABB_min_y": 212.21792602539063,
-                            "worldAABB_max_x": 1476.09326171875,
-                            "worldAABB_max_y": 267.1866760253906
+                            "worldAABB_min_x": 744.0907592773438,
+                            "worldAABB_min_y": 82.73861694335938,
+                            "worldAABB_max_x": 772.8720092773438,
+                            "worldAABB_max_y": 111.51986694335938
                         }
                     },
                     {
@@ -20666,10 +20666,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1515.487548828125,
-                            "worldAABB_min_y": 195.727294921875,
-                            "worldAABB_max_x": 1603.4375,
-                            "worldAABB_max_y": 283.67730712890625
+                            "worldAABB_min_x": 793.49853515625,
+                            "worldAABB_min_y": 74.10424041748047,
+                            "worldAABB_max_x": 839.548583984375,
+                            "worldAABB_max_y": 120.15424346923828
                         }
                     },
                     {
@@ -20719,10 +20719,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1515.487548828125,
-                            "worldAABB_min_y": 195.727294921875,
-                            "worldAABB_max_x": 1603.4375,
-                            "worldAABB_max_y": 283.67730712890625
+                            "worldAABB_min_x": 793.49853515625,
+                            "worldAABB_min_y": 74.10424041748047,
+                            "worldAABB_max_x": 839.548583984375,
+                            "worldAABB_max_y": 120.15424346923828
                         }
                     },
                     {
@@ -81999,7 +81999,7 @@
                             "removed": false,
                             "localPos_X": 6.019378662109375,
                             "localPos_Y": -0.12208980321884155,
-                            "localPos_Z": 25.99492073059082,
+                            "localPos_Z": 26.0049991607666,
                             "localRot_X": 4.604231218507948e-9,
                             "localRot_Y": -3.1951066005654734e-23,
                             "localRot_Z": -7.952082460398191e-13,
@@ -82180,7 +82180,7 @@
                             "removed": false,
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Z": 5.960464477539063e-8,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -82440,7 +82440,7 @@
                             "removed": false,
                             "localPos_X": 0.0,
                             "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Z": 5.960464477539063e-8,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -82768,7 +82768,7 @@
                             "removed": false,
                             "localPos_X": -30.636669158935547,
                             "localPos_Y": 2.5217089653015137,
-                            "localPos_Z": 12.79772663116455,
+                            "localPos_Z": 14.066295623779297,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
@@ -82788,7 +82788,7 @@
                             "type": "Component_CameraSample",
                             "active": true,
                             "removed": true,
-                            "influenceRadius": 8.906000137329102,
+                            "influenceRadius": 10.156000137329102,
                             "positionOffsetX": 0.0,
                             "positionOffsetY": 3.0,
                             "positionOffsetZ": -4.0,
@@ -82806,7 +82806,7 @@
                             "isSampleKpRotationEnabled": false,
                             "positionX": -30.636669158935547,
                             "positionY": 2.5217089653015137,
-                            "positionZ": 12.79772663116455
+                            "positionZ": 14.066295623779297
                         }
                     }
                 ]
@@ -82828,7 +82828,7 @@
                             "removed": false,
                             "localPos_X": -21.325429916381836,
                             "localPos_Y": 2.5217089653015137,
-                            "localPos_Z": 12.79772663116455,
+                            "localPos_Z": 14.065999984741211,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
@@ -82848,7 +82848,7 @@
                             "type": "Component_CameraSample",
                             "active": true,
                             "removed": true,
-                            "influenceRadius": 8.906000137329102,
+                            "influenceRadius": 10.156000137329102,
                             "positionOffsetX": 0.0,
                             "positionOffsetY": 3.0,
                             "positionOffsetZ": -4.0,
@@ -82866,7 +82866,7 @@
                             "isSampleKpRotationEnabled": false,
                             "positionX": -21.325429916381836,
                             "positionY": 2.5217089653015137,
-                            "positionZ": 12.79772663116455
+                            "positionZ": 14.065999984741211
                         }
                     }
                 ]
@@ -82888,7 +82888,7 @@
                             "removed": false,
                             "localPos_X": -11.935446739196777,
                             "localPos_Y": 2.5217089653015137,
-                            "localPos_Z": 12.79772663116455,
+                            "localPos_Z": 14.065999984741211,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
@@ -82908,7 +82908,7 @@
                             "type": "Component_CameraSample",
                             "active": true,
                             "removed": true,
-                            "influenceRadius": 8.906000137329102,
+                            "influenceRadius": 10.156000137329102,
                             "positionOffsetX": 0.0,
                             "positionOffsetY": 3.0,
                             "positionOffsetZ": -4.0,
@@ -82926,7 +82926,7 @@
                             "isSampleKpRotationEnabled": false,
                             "positionX": -11.935446739196777,
                             "positionY": 2.5217089653015137,
-                            "positionZ": 12.79772663116455
+                            "positionZ": 14.065999984741211
                         }
                     }
                 ]
@@ -83054,7 +83054,7 @@
         },
         {
             "GameObject": {
-                "name": "Benches",
+                "name": "Control",
                 "tag": "",
                 "uid": 2493253852189195375,
                 "parentUID": 55172903859927983,
@@ -83114,7 +83114,7 @@
         },
         {
             "GameObject": {
-                "name": "Benches",
+                "name": "Control",
                 "tag": "",
                 "uid": 3621194330429999787,
                 "parentUID": 55172903859927983,
@@ -96981,6 +96981,880 @@
                             "xRotationAxisBlocked": false,
                             "yRotationAxisBlocked": false,
                             "zRotationAxisBlocked": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "MiniBoss",
+                "tag": "",
+                "uid": 2444768916629073318,
+                "parentUID": 55172903859927983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.7982770204544067,
+                            "localPos_Y": -10.898222923278809,
+                            "localPos_Z": 46.901405334472656,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 28.75,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 3.0,
+                            "positionOffsetZ": -4.0,
+                            "positionFixedX": 14.50100040435791,
+                            "positionFixedY": 0.0,
+                            "positionFixedZ": 67.9800033569336,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": true,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": -0.7982770204544067,
+                            "positionY": -10.898222923278809,
+                            "positionZ": 46.901405334472656
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "MiniBoss",
+                "tag": "",
+                "uid": 17270499176667723375,
+                "parentUID": 55172903859927983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 30.35198211669922,
+                            "localPos_Y": -10.898222923278809,
+                            "localPos_Z": 46.901405334472656,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 28.75,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 3.0,
+                            "positionOffsetZ": -4.0,
+                            "positionFixedX": 14.50100040435791,
+                            "positionFixedY": 0.0,
+                            "positionFixedZ": 67.9800033569336,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": true,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": 30.35198211669922,
+                            "positionY": -10.898222923278809,
+                            "positionZ": 46.901405334472656
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Test",
+                "tag": "",
+                "uid": 7969228229520320706,
+                "parentUID": 67125992557613803,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 14.500556945800781,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 67.97982025146484,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "MiniBoss",
+                "tag": "",
+                "uid": 2461551790173939844,
+                "parentUID": 55172903859927983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 30.35198211669922,
+                            "localPos_Y": -10.898222923278809,
+                            "localPos_Z": 61.40037536621094,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 28.75,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 3.0,
+                            "positionOffsetZ": -4.0,
+                            "positionFixedX": 14.50100040435791,
+                            "positionFixedY": -1.0,
+                            "positionFixedZ": 67.9800033569336,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": true,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": 30.35198211669922,
+                            "positionY": -10.898222923278809,
+                            "positionZ": 61.40037536621094
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "MiniBoss",
+                "tag": "",
+                "uid": 2472642280256742727,
+                "parentUID": 55172903859927983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.7982770204544067,
+                            "localPos_Y": -10.898222923278809,
+                            "localPos_Z": 59.71059036254883,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 28.75,
+                            "positionOffsetX": 0.0,
+                            "positionOffsetY": 3.0,
+                            "positionOffsetZ": -4.0,
+                            "positionFixedX": 14.50100040435791,
+                            "positionFixedY": -1.0,
+                            "positionFixedZ": 67.9800033569336,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": true,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": -0.7982770204544067,
+                            "positionY": -10.898222923278809,
+                            "positionZ": 59.71059036254883
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lifter",
+                "tag": "",
+                "uid": 7986416460371258114,
+                "parentUID": 55172903859927983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.093544960021973,
+                            "localPos_Y": 2.0458574295043945,
+                            "localPos_Z": 26.530742645263672,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 3.0999999046325684,
+                            "positionOffsetX": -4.0,
+                            "positionOffsetY": 4.0,
+                            "positionOffsetZ": 0.0,
+                            "positionFixedX": 13.33899974822998,
+                            "positionFixedY": 6.0,
+                            "positionFixedZ": 6.1519999504089355,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": false,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": 6.093544960021973,
+                            "positionY": 2.0458574295043945,
+                            "positionZ": 26.530742645263672
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lifter",
+                "tag": "",
+                "uid": 6139031751093858998,
+                "parentUID": 55172903859927983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.093544960021973,
+                            "localPos_Y": -0.17214369773864746,
+                            "localPos_Z": 26.530742645263672,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 3.0999999046325684,
+                            "positionOffsetX": -4.0,
+                            "positionOffsetY": 4.0,
+                            "positionOffsetZ": 0.0,
+                            "positionFixedX": 13.33899974822998,
+                            "positionFixedY": 6.0,
+                            "positionFixedZ": 6.1519999504089355,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": false,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": 6.093544960021973,
+                            "positionY": -0.17214369773864746,
+                            "positionZ": 26.530742645263672
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lifter",
+                "tag": "",
+                "uid": 2416963545340634829,
+                "parentUID": 55172903859927983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.093544960021973,
+                            "localPos_Y": -3.1702663898468018,
+                            "localPos_Z": 26.530742645263672,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 3.0999999046325684,
+                            "positionOffsetX": -4.0,
+                            "positionOffsetY": 4.0,
+                            "positionOffsetZ": 0.0,
+                            "positionFixedX": 13.33899974822998,
+                            "positionFixedY": 6.0,
+                            "positionFixedZ": 6.1519999504089355,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": false,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": 6.093544960021973,
+                            "positionY": -3.1702663898468018,
+                            "positionZ": 26.530742645263672
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lifter",
+                "tag": "",
+                "uid": 8462525555835330837,
+                "parentUID": 55172903859927983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.093544960021973,
+                            "localPos_Y": -6.0,
+                            "localPos_Z": 26.530742645263672,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 3.0999999046325684,
+                            "positionOffsetX": -4.0,
+                            "positionOffsetY": 4.0,
+                            "positionOffsetZ": 0.0,
+                            "positionFixedX": 13.33899974822998,
+                            "positionFixedY": 6.0,
+                            "positionFixedZ": 6.1519999504089355,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": false,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": 6.093544960021973,
+                            "positionY": -6.0,
+                            "positionZ": 26.530742645263672
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lifter",
+                "tag": "",
+                "uid": 5446171621294147146,
+                "parentUID": 55172903859927983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.093544960021973,
+                            "localPos_Y": -9.0,
+                            "localPos_Z": 26.530742645263672,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 3.0999999046325684,
+                            "positionOffsetX": -4.0,
+                            "positionOffsetY": 4.0,
+                            "positionOffsetZ": 0.0,
+                            "positionFixedX": 13.33899974822998,
+                            "positionFixedY": 6.0,
+                            "positionFixedZ": 6.1519999504089355,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": false,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": 6.093544960021973,
+                            "positionY": -9.0,
+                            "positionZ": 26.530742645263672
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lifter_R",
+                "tag": "",
+                "uid": 12251712619326854982,
+                "parentUID": 55172903859927983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 23.36915397644043,
+                            "localPos_Y": 2.0458574295043945,
+                            "localPos_Z": 26.530742645263672,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 3.0999999046325684,
+                            "positionOffsetX": 4.0,
+                            "positionOffsetY": 4.0,
+                            "positionOffsetZ": 0.0,
+                            "positionFixedX": 13.33899974822998,
+                            "positionFixedY": 6.0,
+                            "positionFixedZ": 6.1519999504089355,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": false,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": 23.36915397644043,
+                            "positionY": 2.0458574295043945,
+                            "positionZ": 26.530742645263672
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lifter_R",
+                "tag": "",
+                "uid": 17379072132425987689,
+                "parentUID": 55172903859927983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 23.36915397644043,
+                            "localPos_Y": -1.0,
+                            "localPos_Z": 26.530742645263672,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 3.0999999046325684,
+                            "positionOffsetX": 4.0,
+                            "positionOffsetY": 4.0,
+                            "positionOffsetZ": 0.0,
+                            "positionFixedX": 13.33899974822998,
+                            "positionFixedY": 6.0,
+                            "positionFixedZ": 6.1519999504089355,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": false,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": 23.36915397644043,
+                            "positionY": -1.0,
+                            "positionZ": 26.530742645263672
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lifter_R",
+                "tag": "",
+                "uid": 16657560450216431930,
+                "parentUID": 55172903859927983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 23.36915397644043,
+                            "localPos_Y": -4.0,
+                            "localPos_Z": 26.530742645263672,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 3.0999999046325684,
+                            "positionOffsetX": 4.0,
+                            "positionOffsetY": 4.0,
+                            "positionOffsetZ": 0.0,
+                            "positionFixedX": 13.33899974822998,
+                            "positionFixedY": 6.0,
+                            "positionFixedZ": 6.1519999504089355,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": false,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": 23.36915397644043,
+                            "positionY": -4.0,
+                            "positionZ": 26.530742645263672
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lifter_R",
+                "tag": "",
+                "uid": 6019539388501904218,
+                "parentUID": 55172903859927983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 23.36915397644043,
+                            "localPos_Y": -7.0,
+                            "localPos_Z": 26.530742645263672,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 3.0999999046325684,
+                            "positionOffsetX": 4.0,
+                            "positionOffsetY": 4.0,
+                            "positionOffsetZ": 0.0,
+                            "positionFixedX": 13.33899974822998,
+                            "positionFixedY": 6.0,
+                            "positionFixedZ": 6.1519999504089355,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": false,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": 23.36915397644043,
+                            "positionY": -7.0,
+                            "positionZ": 26.530742645263672
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Lifter_R",
+                "tag": "",
+                "uid": 16885500443008866855,
+                "parentUID": 55172903859927983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 23.36915397644043,
+                            "localPos_Y": -10.0,
+                            "localPos_Z": 26.530742645263672,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_CameraSample",
+                            "active": true,
+                            "removed": true,
+                            "influenceRadius": 3.0999999046325684,
+                            "positionOffsetX": 4.0,
+                            "positionOffsetY": 4.0,
+                            "positionOffsetZ": 0.0,
+                            "positionFixedX": 13.33899974822998,
+                            "positionFixedY": 6.0,
+                            "positionFixedZ": 6.1519999504089355,
+                            "focusOffsetX": 0.0,
+                            "focusOffsetY": -10.0,
+                            "KpPosition": 1.0,
+                            "KpRotation": 0.0,
+                            "isSampleFixedEnabled": false,
+                            "isSampleFocusEnabled": false,
+                            "isCombatCameraEnabled": false,
+                            "isSampleKpPositionEnabled": false,
+                            "isSampleKpRotationEnabled": false,
+                            "positionX": 23.36915397644043,
+                            "positionY": -10.0,
+                            "positionZ": 26.530742645263672
                         }
                     }
                 ]
