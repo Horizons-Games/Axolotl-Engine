@@ -18,11 +18,8 @@ class SwitchPlayerManagerScript : public Script
 {
 public:
 	SwitchPlayerManagerScript();
-	~SwitchPlayerManagerScript() override = default;
 
-	void PreUpdate(float deltaTime) override {};
 	void Update(float deltaTime) override;
-	void PostUpdate(float deltaTime) override {};
 
 	const std::vector<GameObject*>& GetPlayerGameObject() const;
 	void SetPlayerGameObject(const std::vector<GameObject*>& vecGO);
