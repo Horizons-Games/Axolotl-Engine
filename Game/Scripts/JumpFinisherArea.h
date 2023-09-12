@@ -32,11 +32,6 @@ private:
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
 	GameObject* initVisuals;
-	ComponentParticleSystem* landingParticleSystem;
-
-	bool triggerParticleSystemTimer;
-	float particleSystemTimer;
-	float particleSystemCurrentTimer;
-
-	bool throwableForceArea;
+	GameObject* landingParticleSystemPrefab;
+	GameObject* actualLandingParticleSystem;
 };

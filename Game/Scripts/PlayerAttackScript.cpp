@@ -107,16 +107,16 @@ void PlayerAttackScript::Update(float deltaTime)
 	// Check if the special was activated
 	comboSystem->CheckSpecial(deltaTime);
 
-	
-
 	if (!IsAttackAvailable())
 	{
-		if (jumpFinisherScript->IsActive()) 
+		if (jumpFinisherScript->IsActive())
 		{
 			UpdateJumpAttack();
 		}
-
-		ResetAttackAnimations(deltaTime);
+		else 
+		{
+			ResetAttackAnimations(deltaTime);
+		}
 	}
 
 	PerformCombos();
@@ -173,8 +173,10 @@ void PlayerAttackScript::PerformCombos()
 				break;
 
 			case AttackType::HEAVYFINISHER:
-			case AttackType::JUMPFINISHER
+			case AttackType::JUMPFINISHER:
+				break;
 			case AttackType::JUMPNORMAL:
+				break;
 			case AttackType::LIGHTFINISHER:
 				triggerNextAttackTimer = triggerNextAttackDuration;
 				currentAttackAnimation = animation->GetController()->GetStateName();
@@ -337,7 +339,7 @@ void PlayerAttackScript::InitJumpAttack()
 {
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
-
+	playerManager->ParalyzePlayer(true);
 	if (isMelee)
 	{
 		jumpFinisherScript->PerformGroundSmash(); // Bix jumping attack
@@ -352,10 +354,20 @@ void PlayerAttackScript::UpdateJumpAttack()
 {
 	bool landed = false;
 	//if (isMelee) landing is player grounded if not then is the projectile detection for the moment I only put this
-	landed = playerManager->IsGrounded();
+	if(isMelee) 
+	{
+		landed = playerManager->IsGrounded();
+
+	}
+	else 
+	{
+		//TODO Add Alura Checks
+		landed = true;
+	}
 
 	if (landed)
 	{
+		animation->SetParameter("IsJumpAttacking", false);
 		if (currentAttack == AttackType::JUMPNORMAL)
 		{
 			EndJumpNormalAttack();
@@ -493,15 +505,21 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 			break;	
 
 		case AttackType::JUMPNORMAL:
-
 		case AttackType::JUMPFINISHER:
+		{
+			std::string actualName = currentAttackAnimation;
+			if (isMelee)
+			{
+				actualName = "JumpAttackRecovery";
+			}
 			if (animation->GetController()->GetStateName() != currentAttackAnimation)
 			{
+				playerManager->ParalyzePlayer(false);
 				animation->SetParameter("IsJumpAttacking", false);
 				isAttacking = false;
 				lastAttack = AttackType::NONE;
 			}
-			
+
 			// There are some times in which the animations happen so quick and the first if is not entered,
 			// so I added this as a safe mesure because, if not, the player would be prevented of attacking,
 			// jumping and moving if the first if is not entered
@@ -511,7 +529,7 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 				isAttacking = false;
 			}*/
 			break;
-
+		}
 		case AttackType::LIGHTFINISHER:	
 			if (animation->GetController()->GetStateName() != currentAttackAnimation)
 			{

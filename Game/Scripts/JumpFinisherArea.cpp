@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "Scene/Scene.h"
 #include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
@@ -18,12 +19,10 @@
 REGISTERCLASS(JumpFinisherArea);
 
 JumpFinisherArea::JumpFinisherArea() : Script(), parentTransform(nullptr), rigidBody(nullptr),
-	initVisuals(nullptr), landingParticleSystem(nullptr), particleSystemTimer(1.0f), 
-	triggerParticleSystemTimer(false), particleSystemCurrentTimer(0.0f), throwableForceArea(false)
+	initVisuals(nullptr), landingParticleSystemPrefab(nullptr)
 {
-	REGISTER_FIELD(particleSystemTimer, float);
-	REGISTER_FIELD(throwableForceArea, bool);
 	REGISTER_FIELD(initVisuals, GameObject*);
+	REGISTER_FIELD(landingParticleSystemPrefab, GameObject*);
 
 	enemiesInTheArea.reserve(10);
 }
@@ -34,18 +33,25 @@ void JumpFinisherArea::Start()
 	rigidBody->Enable();
 	rigidBody->SetIsTrigger(true);
 
-	if (initVisuals) 
+	if (initVisuals)
 	{
 		initVisuals->Disable();
-		landingParticleSystem = owner->GetChildren()[1]->GetComponent<ComponentParticleSystem>();
-		landingParticleSystem->Enable();
-		particleSystemCurrentTimer = particleSystemTimer;
+	}
+	if (landingParticleSystemPrefab) 
+	{
+		landingParticleSystemPrefab->Disable();
 	}
 }
 
 void JumpFinisherArea::Update(float deltaTime)
 {
 	rigidBody->UpdateRigidBody();
+
+	if (actualLandingParticleSystem && actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->IsFinished())
+	{
+ 		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualLandingParticleSystem);
+		actualLandingParticleSystem = nullptr;
+	}
 }
 
 void JumpFinisherArea::OnCollisionEnter(ComponentRigidBody* other)
@@ -76,9 +82,16 @@ void JumpFinisherArea::VisualStartEffect()
 void JumpFinisherArea::VisualLandingEffect() 
 {
 	initVisuals->Disable();
-	landingParticleSystem->Stop();
-	landingParticleSystem->Play();
-	triggerParticleSystemTimer = true;
+	Scene* loadScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	if (actualLandingParticleSystem) 
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualLandingParticleSystem);
+	}
+
+	actualLandingParticleSystem = loadScene->DuplicateGameObject(landingParticleSystemPrefab->GetName(), landingParticleSystemPrefab, loadScene->GetRoot());
+	actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->Enable();
+
+	actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->Play();
 }
 
 void JumpFinisherArea::PushEnemies(float pushForce, float stunTime, std::vector<ComponentRigidBody*>* enemies)
