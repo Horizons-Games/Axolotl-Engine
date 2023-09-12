@@ -21,22 +21,33 @@ PlayerRotationScript::PlayerRotationScript() : Script(), rotationSensitivityHori
 
 void PlayerRotationScript::Start()
 {
-	forceScript = owner->GetComponent<PlayerForceUseScript>();
+	if (owner->HasComponent<PlayerForceUseScript>())
+	{
+		forceScript = owner->GetComponent<PlayerForceUseScript>();
+	}
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	btRigidbody = rigidBody->GetRigidBody();
 }
 
 void PlayerRotationScript::PreUpdate(float deltaTime)
 {
-	if (forceScript->IsForceActive())
+	if (forceScript)
 	{
-		Rotation(deltaTime);
+		if (forceScript->IsForceActive())
+		{
+			Rotation(deltaTime);
+		}
+		else
+		{
+			btRigidbody->setAngularVelocity({ 0.0f,0.0f,0.0f });
+		}
 	}
 	else
 	{
-		btRigidbody->setAngularVelocity({0.0f,0.0f,0.0f});
+		btRigidbody->setAngularVelocity({ 0.0f,0.0f,0.0f });
 	}
 }
+	
 
 void PlayerRotationScript::Rotation(float deltaTime)
 {
