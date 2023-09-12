@@ -58,6 +58,9 @@ public:
 
 	std::list<GameObject*> GetAllGameObjects(GameObject* gameObject);
 
+	void AddRigidBodiesToSimulation() const;
+	void RemoveRigidBodiesFromSimulation() const;
+
 private:
 	std::set<GameObject*> gameObjects;
 	AABB boundingBox;

@@ -21,6 +21,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentLine.h"
 #include "Components/ComponentCamera.h"
+#include "Components/ComponentRigidBody.h"
 
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Batch/BatchManager.h"
@@ -731,9 +732,11 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 
 	if (camera->IsInside(quadtree->GetBoundingBox()))
 	{
+
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf())
 		{
+			//quadtree->AddRigidBodiesToSimulation();
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
 				ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
@@ -742,7 +745,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 				{
 					return;
 				}
-
+				
 				if (camera->IsInside(transform->GetEncapsuledAABB()))
 				{
 					if (gameObject->IsActive() && gameObject->IsEnabled())
@@ -753,11 +756,12 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 						objectsInFrustrumDistances[gameObject] = dist;
 					}
 				}
-				
+
 			}
 		}
 		else if (!gameObjectsToRender.empty()) //If the node is not a leaf but has GameObjects shared by all children
 		{
+			//quadtree->AddRigidBodiesToSimulation();
 			for (const GameObject* gameObject : gameObjectsToRender)
 			{
 				ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
@@ -777,6 +781,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 						objectsInFrustrumDistances[gameObject] = dist;
 					}
 				}
+
 			}
 
 			FillRenderList(quadtree->GetFrontRightNode(), camera); // And also call all the children to render
@@ -786,12 +791,18 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 		}
 		else
 		{
+			//quadtree->RemoveRigidBodiesFromSimulation();
 			FillRenderList(quadtree->GetFrontRightNode(), camera);
 			FillRenderList(quadtree->GetFrontLeftNode(), camera);
 			FillRenderList(quadtree->GetBackRightNode(), camera);
 			FillRenderList(quadtree->GetBackLeftNode(), camera);
 		}
 	}
+
+	/*else
+	{
+		quadtree->RemoveRigidBodiesFromSimulation();
+	}*/
 }
 
 void ModuleRender::AddToRenderList(const GameObject* gameObject, Camera* camera, bool recursive)
