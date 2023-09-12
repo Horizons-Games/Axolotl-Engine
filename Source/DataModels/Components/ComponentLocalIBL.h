@@ -8,8 +8,6 @@
 
 class Program;
 
-#define RESOLUTION 512
-
 struct LocalIBL
 {
 	uint64_t diffuse;						//0		//8
@@ -55,14 +53,20 @@ public:
 
 private:
 	void Initialize();
-	void RenderToCubeMap(unsigned int cubemapTex, Frustum& frustum, int resolution = RESOLUTION, int mipmapLevel = 0);
+	void CreateCubemap();
+	void RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel = 0);
 	void BindCameraToProgram(Program* program, Frustum& frustum, unsigned int uboCamera);
+	void CreateVAO();
 
 	GLuint frameBuffer;
 	GLuint depth;
 
+	GLuint cubemap;
 	GLuint diffuse;
 	GLuint preFiltered;
+	
+	GLuint cubeVAO;
+	GLuint cubeVBO;
 	
 	int numMipMaps;
 

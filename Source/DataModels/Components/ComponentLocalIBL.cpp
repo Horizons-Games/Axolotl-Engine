@@ -21,9 +21,13 @@
 #include "debugdraw.h"
 
 
+#define CUBEMAP_RESOLUTION 512
+#define DIFFUSE_RESOLUTION 512
+#define SPECULAR_RESOLUTION 512
+
 ComponentLocalIBL::ComponentLocalIBL(GameObject* parent) :
-	ComponentLight(LightType::LOCAL_IBL, parent, true), preFiltered(0), handleIrradiance(0), handlePreFiltered(0),
-	first(true)
+	ComponentLight(LightType::LOCAL_IBL, parent, true), cubemap(0), diffuse(0), preFiltered(0), cubeVAO(0), cubeVBO(0),
+	handleIrradiance(0), handlePreFiltered(0), first(true)
 {
 	if (GetOwner()->HasComponent<ComponentTransform>())
 	{
@@ -44,8 +48,12 @@ ComponentLocalIBL::~ComponentLocalIBL()
 	glDeleteFramebuffers(1, &frameBuffer);
 	glDeleteRenderbuffers(1, &depth);
 
+	glDeleteTextures(1, &cubemap);
 	glDeleteTextures(1, &diffuse);
 	glDeleteTextures(1, &preFiltered);
+
+	glDeleteVertexArrays(1, &cubeVAO);
+	glDeleteBuffers(1, &cubeVBO);
 
 	glMakeTextureHandleNonResidentARB(handleIrradiance);
 	glMakeTextureHandleNonResidentARB(handlePreFiltered);
@@ -67,28 +75,50 @@ void ComponentLocalIBL::GenerateMaps()
 
 	glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
-	Frustum frustum;
-	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
-	frustum.SetPerspective(math::pi / 2.0f, math::pi / 2.0f);
-	frustum.SetPos(GetPosition());
-	frustum.SetViewPlaneDistances(0.1f, 100.0f);
-
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Local IBL")), "Local IBL");
 
+	// Take screenshots of the scene
+	CreateCubemap();
+
+	glCullFace(GL_BACK); // Show back faces	 
+	glFrontFace(GL_CCW); // Front faces will be counter clockwise
+	glDisable(GL_DEPTH_TEST); // Disable depth testing
+
 	// Render in Irradiance
-	RenderToCubeMap(diffuse, frustum);
+	Program* irradianceProgram = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::IRRADIANCE_MAP);
+	irradianceProgram->Activate();
+
+	irradianceProgram->BindUniformInt("environment", 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
+	
+	RenderToCubeMap(diffuse, irradianceProgram, DIFFUSE_RESOLUTION);
+	irradianceProgram->Deactivate();
 
 	// Render in pre-filtered
+	Program* preFilteredProgram = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::PRE_FILTERED_MAP);
+	preFilteredProgram->Activate();
+
+	preFilteredProgram->BindUniformInt("environment", 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
+
+	preFilteredProgram->BindUniformFloat(5, static_cast<float>(CUBEMAP_RESOLUTION));
 	for (int mipMap = 0; mipMap <= numMipMaps; ++mipMap)
 	{
 		float roughness = static_cast<float>(mipMap) / static_cast<float>(numMipMaps);
+		preFilteredProgram->BindUniformFloat(4, roughness);
 
-		unsigned int mipResolution = static_cast<unsigned int>(RESOLUTION * std::pow(0.5, mipMap));
-		RenderToCubeMap(preFiltered, frustum, mipResolution, mipMap);
+		unsigned int mipResolution = static_cast<unsigned int>(SPECULAR_RESOLUTION * std::pow(0.5, mipMap));
+		RenderToCubeMap(preFiltered, preFilteredProgram, mipResolution, mipMap);
 	}
+	preFilteredProgram->Deactivate();
 
 	glPopDebugGroup();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glEnable(GL_DEPTH_TEST);
+	glCullFace(GL_FRONT); // Show front faces
+	glFrontFace(GL_CW); // Clockwise
 }
 
 void ComponentLocalIBL::Draw() const
@@ -223,14 +253,38 @@ void ComponentLocalIBL::InternalLoad(const Json& meta)
 
 void ComponentLocalIBL::Initialize()
 {
+	CreateVAO();
+
 	// Generate framebuffer & renderBuffer
 	glGenFramebuffers(1, &frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
 	glGenRenderbuffers(1, &depth);
 	glBindRenderbuffer(GL_RENDERBUFFER, depth);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, RESOLUTION, RESOLUTION);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 512, 512);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depth);
+
+	// cubemap
+	glGenTextures(1, &cubemap);
+
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
+	for (unsigned int i = 0; i < 6; ++i)
+	{
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+			0,
+			GL_RGB16F,
+			CUBEMAP_RESOLUTION,
+			CUBEMAP_RESOLUTION,
+			0,
+			GL_RGB,
+			GL_FLOAT,
+			nullptr);
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	// irradianceMap
 	glGenTextures(1, &diffuse);
@@ -241,8 +295,8 @@ void ComponentLocalIBL::Initialize()
 		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
 			0,
 			GL_RGB16F,
-			RESOLUTION,
-			RESOLUTION,
+			DIFFUSE_RESOLUTION,
+			DIFFUSE_RESOLUTION,
 			0,
 			GL_RGB,
 			GL_FLOAT,
@@ -263,15 +317,15 @@ void ComponentLocalIBL::Initialize()
 		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
 			0,
 			GL_RGB16F,
-			RESOLUTION, //TODO look resolution
-			RESOLUTION,
+			SPECULAR_RESOLUTION,
+			SPECULAR_RESOLUTION,
 			0,
 			GL_RGB,
 			GL_FLOAT,
 			nullptr);
 	}
 
-	numMipMaps = static_cast<int>(log(static_cast<float>(RESOLUTION)) / log(2));
+	numMipMaps = static_cast<int>(log(static_cast<float>(SPECULAR_RESOLUTION)) / log(2));
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
@@ -280,10 +334,11 @@ void ComponentLocalIBL::Initialize()
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_BASE_LEVEL, 0);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAX_LEVEL, numMipMaps);
 	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+	
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void ComponentLocalIBL::RenderToCubeMap(unsigned int cubemapTex, Frustum& frustum, int resolution, int mipmapLevel)
+void ComponentLocalIBL::CreateCubemap()
 {
 	const float3 front[6] = { float3::unitX,  -float3::unitX, float3::unitY,
 					  -float3::unitY, float3::unitZ,  -float3::unitZ };
@@ -298,13 +353,19 @@ void ComponentLocalIBL::RenderToCubeMap(unsigned int cubemapTex, Frustum& frustu
 	ComponentSkybox* skybox = scene->GetRoot()->GetComponentInternal<ComponentSkybox>();
 
 	GLuint uboCamera = modRender->GetUboCamera();
+	
+	Frustum frustum;
+	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
+	frustum.SetPerspective(math::pi / 2.0f, math::pi / 2.0f);
+	frustum.SetPos(GetPosition());
+	frustum.SetViewPlaneDistances(0.1f, 100.0f);
 
-	glViewport(0, 0, resolution, resolution);
+	glViewport(0, 0, CUBEMAP_RESOLUTION, CUBEMAP_RESOLUTION);
 
 	for (unsigned int i = 0; i < 6; ++i)
 	{
 		glFramebufferTexture2D(
-			GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, cubemapTex, mipmapLevel);
+			GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, cubemap, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		frustum.SetFront(GetRotation() * front[i]);
@@ -328,6 +389,38 @@ void ComponentLocalIBL::RenderToCubeMap(unsigned int cubemapTex, Frustum& frustu
 	}
 }
 
+void ComponentLocalIBL::RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel)
+{
+	const float3 front[6] = { float3::unitX,  -float3::unitX, float3::unitY,
+						  -float3::unitY, float3::unitZ,  -float3::unitZ };
+	const float3 up[6] = {
+		-float3::unitY, -float3::unitY, float3::unitZ, -float3::unitZ, -float3::unitY, -float3::unitY
+	};
+	
+	Frustum frustum;
+	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
+	frustum.SetPerspective(math::pi / 2.0f, math::pi / 2.0f);
+	frustum.SetPos(float3::zero);
+	frustum.SetViewPlaneDistances(0.1f, 100.0f);
+
+	usedProgram->BindUniformFloat4x4(1, frustum.ProjectionMatrix().ptr(), GL_TRUE);
+
+	glViewport(0, 0, resolution, resolution);
+	glBindVertexArray(cubeVAO);
+	for (unsigned int i = 0; i < 6; ++i)
+	{
+		glFramebufferTexture2D(
+			GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, cubemapTex, mipmapLevel);
+
+		frustum.SetFront(front[i]);
+		frustum.SetUp(up[i]);
+
+		usedProgram->BindUniformFloat4x4(0, frustum.ViewMatrix().ptr(), GL_TRUE);
+		// Draw cube
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+	}
+}
+
 void ComponentLocalIBL::BindCameraToProgram(Program* program, Frustum& frustum, unsigned int uboCamera)
 {
 	program->Activate();
@@ -342,4 +435,137 @@ void ComponentLocalIBL::BindCameraToProgram(Program* program, Frustum& frustum, 
 	program->BindUniformFloat3("viewPos", frustum.Pos());
 
 	program->Deactivate();
+}
+
+void ComponentLocalIBL::CreateVAO()
+{
+	float vertices[108] = { // Front (x, y, z)
+							-1.0f,
+							1.0f,
+							-1.0f,
+							-1.0f,
+							-1.0f,
+							-1.0f,
+							1.0f,
+							-1.0f,
+							-1.0f,
+							1.0f,
+							-1.0f,
+							-1.0f,
+							1.0f,
+							1.0f,
+							-1.0f,
+							-1.0f,
+							1.0f,
+							-1.0f,
+
+							// Left (x, y, z)
+							-1.0f,
+							-1.0f,
+							1.0f,
+							-1.0f,
+							-1.0f,
+							-1.0f,
+							-1.0f,
+							1.0f,
+							-1.0f,
+							-1.0f,
+							1.0f,
+							-1.0f,
+							-1.0f,
+							1.0f,
+							1.0f,
+							-1.0f,
+							-1.0f,
+							1.0f,
+
+							// Right (x, y, z)
+							1.0f,
+							-1.0f,
+							-1.0f,
+							1.0f,
+							-1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							-1.0f,
+							1.0f,
+							-1.0f,
+							-1.0f,
+
+							// Back (x, y, z)
+							-1.0f,
+							-1.0f,
+							1.0f,
+							-1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							-1.0f,
+							1.0f,
+							-1.0f,
+							-1.0f,
+							1.0f,
+
+							// Top (x, y, z)
+							-1.0f,
+							1.0f,
+							-1.0f,
+							1.0f,
+							1.0f,
+							-1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							1.0f,
+							-1.0f,
+							1.0f,
+							1.0f,
+							-1.0f,
+							1.0f,
+							-1.0f,
+
+							// Bottom (x, y, z)
+							-1.0f,
+							-1.0f,
+							-1.0f,
+							-1.0f,
+							-1.0f,
+							1.0f,
+							1.0f,
+							-1.0f,
+							-1.0f,
+							1.0f,
+							-1.0f,
+							-1.0f,
+							-1.0f,
+							-1.0f,
+							1.0f,
+							1.0f,
+							-1.0f,
+							1.0f
+	};
+	glGenVertexArrays(1, &cubeVAO);
+	glGenBuffers(1, &cubeVBO);
+
+	glBindVertexArray(cubeVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glBindVertexArray(0);
 }
