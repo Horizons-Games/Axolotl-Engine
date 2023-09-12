@@ -24,6 +24,7 @@ public:
 
 	void SwitchDebugMode();
 
+	void SpawnNewEnemy() const;
 	void FillComboBar() const;
 	void GodCamera() const;
 	void FillHealth() const;
@@ -57,4 +58,6 @@ private:
 	ComponentTransform* currentdDebugPointTransform;
 	ComponentTransform* playerTransform;
 	ComponentRigidBody* playerRigidBody;
+
+	GameObject* venomitePrefab;
 };

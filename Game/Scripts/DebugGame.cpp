@@ -27,14 +27,16 @@
 REGISTERCLASS(DebugGame);
 
 DebugGame::DebugGame() : Script(), isDebugModeActive(false), debugCurrentPosIndex(0), playerOnLocation(true), 
-	debugPowerUp(nullptr)
+	debugPowerUp(nullptr), venomitePrefab(nullptr)
 {
 	REGISTER_FIELD(debugPoints, std::vector<ComponentTransform*>);
 
 	REGISTER_FIELD(isDebugModeActive, bool);
 	REGISTER_FIELD(playerOnLocation, bool);
 
-	REGISTER_FIELD(debugPowerUp, GameObject*)
+	REGISTER_FIELD(debugPowerUp, GameObject*);
+
+	REGISTER_FIELD(venomitePrefab, GameObject*);
 }
 
 void DebugGame::Start()
@@ -90,7 +92,7 @@ void DebugGame::Update(float deltaTime)
 	}
 	else if (input->GetKey(SDL_SCANCODE_F4) == KeyState::DOWN)
 	{
-		
+		//SpawnNewEnemy();
 	}
 	else if (input->GetKey(SDL_SCANCODE_F5) == KeyState::DOWN)
 	{
@@ -151,6 +153,18 @@ void DebugGame::SwitchDebugMode()
 		isDebugModeActive = false;
 		LOG_INFO("DEBUG MODE DEACTIVATED");
 	}
+}
+
+void DebugGame::SpawnNewEnemy() const
+{
+	GameObject* newEnemy = App->GetModule<ModuleScene>()->GetLoadedScene()->
+		DuplicateGameObject("Debug Venomite", venomitePrefab, venomitePrefab->GetParent());
+
+	float3 newEnemyPosition = player->GetComponent<ComponentTransform>()->GetGlobalPosition() + 
+		player->GetComponent<ComponentTransform>()->GetGlobalForward().Normalized();
+
+	newEnemy->GetComponent<ComponentTransform>()->SetGlobalPosition(newEnemyPosition);
+	LOG_INFO("SPAWNING NEW ENEMY");
 }
 
 void DebugGame::FillComboBar() const
