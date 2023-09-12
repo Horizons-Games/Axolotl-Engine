@@ -6,8 +6,6 @@
 
 #define FRUSTUM_PARTITIONS 1
 
-constexpr float frustumIntervals[FRUSTUM_PARTITIONS] = { 0.15f };
-
 class Camera;
 class GBuffer;
 class Program;
@@ -36,8 +34,11 @@ public:
 	void ToggleVSM();
 	void ToggleCSMDebug();
 
+	void SetLambda(float lambda);
+	float GetLambda() const;
+
 private:
-	void PartitionIntoSubFrustums(Frustum* frustum);
+	void LogarithmicPartition(Frustum* frustum);
 	Frustum& ComputeLightFrustum(const GameObject* light, Frustum* cameraFrustum);
 
 private:
@@ -59,7 +60,6 @@ private:
 	GLuint parallelReductionInTexture;
 	GLuint parallelReductionOutFrameBuffer;
 	GLuint parallelReductionOutTexture;
-	GLuint minMaxBuffer;
 
 	// Variance Shadow Mapping buffers and textures
 	GLuint shadowVarianceFrameBuffer;
@@ -70,6 +70,9 @@ private:
 	GLuint uboFrustums;
 	GLuint uboCascadeDistances;
 
+	GLuint ssboMinMax;
+	GLuint ssboLogSplit;
+
 	float4x4 cameraView;
 
 	Frustum* frustums[FRUSTUM_PARTITIONS + 1];
@@ -79,6 +82,8 @@ private:
 	bool useShadows;
 	bool useVarianceShadowMapping;
 	bool useCSMDebug;
+
+	float lambda;
 
 	std::pair<unsigned, unsigned> screenSize;
 };
@@ -106,4 +111,14 @@ inline void Shadows::ToggleVSM()
 inline void Shadows::ToggleCSMDebug()
 {
 	useCSMDebug = !useCSMDebug;
+}
+
+inline void Shadows::SetLambda(float lambda)
+{
+	this->lambda = lambda;
+}
+
+inline float Shadows::GetLambda() const
+{
+	return lambda;
 }

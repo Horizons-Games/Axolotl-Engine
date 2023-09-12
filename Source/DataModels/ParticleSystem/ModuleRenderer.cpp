@@ -105,6 +105,16 @@ ModuleRenderer::ModuleRenderer(ParticleEmitter* emitter) : ParticleModule(Module
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+ModuleRenderer::ModuleRenderer(ParticleEmitter* emitter, ModuleRenderer* renderer) :
+	ModuleRenderer(emitter)
+{
+	alignment = renderer->GetAlignment();
+	blendingMode = renderer->GetBlending();
+	tiles[0] = renderer->GetTiles().first;
+	sheetSpeed = renderer->GetSheetSpeed();
+	frameBlending = renderer->GetFrameBlending();
+}
+
 ModuleRenderer::~ModuleRenderer()
 {
 	// Buffer cleanup

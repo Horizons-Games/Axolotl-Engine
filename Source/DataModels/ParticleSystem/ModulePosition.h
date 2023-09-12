@@ -9,6 +9,7 @@ public:
 
 public:
 	ModulePosition(ParticleEmitter* emitter);
+	ModulePosition(ParticleEmitter* emitter, ModulePosition* position);
 	~ModulePosition() override;
 
 	void Spawn(EmitterInstance* instance) override;

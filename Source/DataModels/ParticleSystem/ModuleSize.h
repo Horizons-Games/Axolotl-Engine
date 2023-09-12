@@ -11,6 +11,7 @@ class ModuleSize : public ParticleModule
 {
 public:
 	ModuleSize(ParticleEmitter* emitter);
+	ModuleSize(ParticleEmitter* emitter, ModuleSize* size);
 	~ModuleSize() override;
 
 	void Spawn(EmitterInstance* instance) override;

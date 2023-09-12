@@ -11,9 +11,15 @@
 
 #include "ImGui/imgui.h"
 
-ModuleSpawn::ModuleSpawn(ParticleEmitter* emitter) : ParticleModule(ModuleType::SPAWN, emitter),
-	spawnRate(DEFAULT_SPAWN_RATE)
+ModuleSpawn::ModuleSpawn(ParticleEmitter* emitter) :
+	ParticleModule(ModuleType::SPAWN, emitter), spawnRate(DEFAULT_SPAWN_RATE)
 {
+}
+
+ModuleSpawn::ModuleSpawn(ParticleEmitter* emitter, ModuleSpawn* spawn) :
+	ParticleModule(ModuleType::SPAWN, emitter)
+{
+	spawnRate = spawn->GetSpawnRate();
 }
 
 ModuleSpawn::~ModuleSpawn()

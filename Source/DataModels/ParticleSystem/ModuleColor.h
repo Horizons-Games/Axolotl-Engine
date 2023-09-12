@@ -8,6 +8,7 @@ class ModuleColor : public ParticleModule
 {
 public:
 	ModuleColor(ParticleEmitter* emitter);
+	ModuleColor(ParticleEmitter* emitter, ModuleColor* color);
 	~ModuleColor() override;
 
 	void Spawn(EmitterInstance* instance) override;
