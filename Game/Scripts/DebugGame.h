@@ -11,6 +11,7 @@ class PlayerMoveScript;
 class PlayerJumpScript;
 class PlayerRotationScript;
 class ModuleInput;
+class ComboManager;
 
 class DebugGame : public Script
 {
@@ -23,8 +24,8 @@ public:
 
 	void SwitchDebugMode();
 
+	void FillComboBar() const;
 	void GodCamera() const;
-
 	void FillHealth() const;
 	void BeImmortal() const;
 	void DeathTouch() const;
@@ -49,6 +50,7 @@ private:
 	PlayerJumpScript* playerJumpScript;
 	PlayerRotationScript* playerRotationScript;
 	GameObject* setGodCamera;
+	ComboManager* comboSystemScript;
 
 	std::vector<ComponentTransform*> debugPoints;
 

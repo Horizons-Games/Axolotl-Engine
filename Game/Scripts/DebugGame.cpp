@@ -17,6 +17,7 @@
 #include "../Scripts/PlayerRotationScript.h"
 #include "../Scripts/PowerUpLogicScript.h"
 #include "../Scripts/GameManager.h"
+#include "../Scripts/ComboManager.h"
 
 #include "debugdraw.h"
 #include "AxoLog.h"
@@ -30,6 +31,7 @@ DebugGame::DebugGame() : Script(), isDebugModeActive(false), debugCurrentPosInde
 
 	REGISTER_FIELD(isDebugModeActive, bool);
 	REGISTER_FIELD(playerOnLocation, bool);
+
 	REGISTER_FIELD(debugPowerUp, GameObject*)
 }
 
@@ -43,6 +45,7 @@ void DebugGame::Start()
 	playerMoveScript = player->GetComponent<PlayerMoveScript>();
 	playerJumpScript = player->GetComponent<PlayerJumpScript>();
 	playerRotationScript = player->GetComponent<PlayerRotationScript>();
+	comboSystemScript = player->GetComponent<ComboManager>();
 
 	playerRigidBody = player->GetComponent<ComponentRigidBody>();
 	playerTransform = player->GetComponent<ComponentTransform>();
@@ -62,38 +65,37 @@ void DebugGame::Update(float deltaTime)
 		return;
 	}
 
-	if (input->GetKey(SDL_SCANCODE_4) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_3) == KeyState::DOWN)
+	{
+		FillComboBar();
+	}
+	else if (input->GetKey(SDL_SCANCODE_4) == KeyState::DOWN)
 	{
 		GodCamera();
 	}
-
-	if (input->GetKey(SDL_SCANCODE_5) == KeyState::DOWN)
+	else if (input->GetKey(SDL_SCANCODE_5) == KeyState::DOWN)
 	{
 		PowerUpDrop();
 	}
-
-	if (input->GetKey(SDL_SCANCODE_7) == KeyState::DOWN)
+	else if (input->GetKey(SDL_SCANCODE_7) == KeyState::DOWN)
 	{
 		FillHealth();
 	}
-
-	if (input->GetKey(SDL_SCANCODE_8) == KeyState::DOWN)
+	else if (input->GetKey(SDL_SCANCODE_8) == KeyState::DOWN)
 	{
 		BeImmortal();
 	}
-
-	if (input->GetKey(SDL_SCANCODE_9) == KeyState::DOWN)
+	else if (input->GetKey(SDL_SCANCODE_9) == KeyState::DOWN)
 	{
 		DeathTouch();
 	}
-
-	if (input->GetKey(SDL_SCANCODE_0) == KeyState::DOWN)
+	else if (input->GetKey(SDL_SCANCODE_0) == KeyState::DOWN)
 	{
 		Teleport();
 		playerOnLocation = false;
 	}
 
-	//TELEPORT MOVEMENT
+	// TELEPORT MOVEMENT
 	if (!playerOnLocation)
 	{
 		for (const ComponentTransform* debugPointTransform : debugPoints)
@@ -124,7 +126,13 @@ void DebugGame::SwitchDebugMode()
 	}
 }
 
-void DebugGame::GodCamera() const 
+void DebugGame::FillComboBar() const
+{
+	comboSystemScript->FillComboBar();
+	LOG_INFO("COMBO BAR FILLED UP");
+}
+
+void DebugGame::GodCamera() const
 {
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 
