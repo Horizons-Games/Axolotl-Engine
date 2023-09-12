@@ -112,7 +112,7 @@
                             "removed": false,
                             "localPos_X": 0.0003662109375,
                             "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Z": -19.365211486816406,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
@@ -172,7 +172,7 @@
                             "height": 0.699999988079071,
                             "rbPos_X": 0.0,
                             "rbPos_Y": 0.6499999761581421,
-                            "rbPos_Z": 0.0,
+                            "rbPos_Z": -19.365211486816406,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -247,7 +247,7 @@
                                 },
                                 {
                                     "name": "LightWeapon",
-                                    "value": 14990658298664204024,
+                                    "value": 0,
                                     "type": 2
                                 },
                                 {
@@ -259,6 +259,11 @@
                                     "name": "PistolGameObject",
                                     "value": 1609173321346933712,
                                     "type": 2
+                                },
+                                {
+                                    "name": "TriggerNextAttackDuration",
+                                    "value": 0.5,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -472,7 +477,7 @@
                             "fields": [
                                 {
                                     "name": "UiComboManager",
-                                    "value": 0,
+                                    "value": 15987178197214944733,
                                     "type": 2
                                 },
                                 {
@@ -593,7 +598,7 @@
                             "height": 2.0,
                             "rbPos_X": 0.0003662109375,
                             "rbPos_Y": 0.0,
-                            "rbPos_Z": 0.0,
+                            "rbPos_Z": -19.365211486816406,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -692,7 +697,7 @@
                             "height": 2.0,
                             "rbPos_X": 0.0,
                             "rbPos_Y": 0.0,
-                            "rbPos_Z": 0.2594947814941406,
+                            "rbPos_Z": -19.105716705322266,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -791,7 +796,7 @@
                             "height": 2.0,
                             "rbPos_X": 0.024301884695887566,
                             "rbPos_Y": 0.45000001788139343,
-                            "rbPos_Z": 0.5999962091445923,
+                            "rbPos_Z": -18.765214920043945,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -908,7 +913,7 @@
                             "height": 0.10000000149011612,
                             "rbPos_X": 0.0003662109375,
                             "rbPos_Y": 0.45119357109069824,
-                            "rbPos_Z": 0.6045917868614197,
+                            "rbPos_Z": -18.7606201171875,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -1054,7 +1059,7 @@
                             "height": 2.0,
                             "rbPos_X": 0.0003662109375,
                             "rbPos_Y": 0.7203463315963745,
-                            "rbPos_Z": 0.7461742758750916,
+                            "rbPos_Z": -18.619037628173828,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -1192,7 +1197,7 @@
                             "isKinematic": false,
                             "isTrigger": true,
                             "drawCollider": true,
-                            "mass": 100.0,
+                            "mass": 1.0,
                             "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.0,
@@ -1210,7 +1215,7 @@
                             "height": 2.0,
                             "rbPos_X": 0.35583555698394775,
                             "rbPos_Y": 0.6750384569168091,
-                            "rbPos_Z": 0.9003738760948181,
+                            "rbPos_Z": -18.4648380279541,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -1314,7 +1319,7 @@
                             "height": 2.0,
                             "rbPos_X": 0.0003664173709694296,
                             "rbPos_Y": 0.8982923030853271,
-                            "rbPos_Z": 1.2843979597091675,
+                            "rbPos_Z": -18.080814361572266,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
