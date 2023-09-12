@@ -9,8 +9,6 @@
 
 #include "Camera/CameraGameObject.h"
 
-#include "../Scripts/CameraSample.h"
-
 REGISTERCLASS(CameraControllerScript);
 
 CameraControllerScript::CameraControllerScript() : Script(),
