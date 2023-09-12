@@ -89,6 +89,8 @@ void Shadows::CleanUp()
 	glDeleteTextures(1, &shadowVarianceTexture);
 
 	glDeleteBuffers(1, &ssboMinMax);
+	glDeleteBuffers(1, &ssboLogSplit);
+
 	glDeleteBuffers(1, &uboFrustums);
 	glDeleteBuffers(1, &uboCascadeDistances);
 }
