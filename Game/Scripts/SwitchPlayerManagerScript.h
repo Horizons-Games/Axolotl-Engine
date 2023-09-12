@@ -24,8 +24,8 @@ public:
 	const std::vector<GameObject*>& GetPlayerGameObject() const;
 	void SetPlayerGameObject(const std::vector<GameObject*>& vecGO);
 
-	void ChangeCurrentPlayer();
-	void IsChangingCurrentPlayer();
+	void CheckChangeCurrentPlayer();
+	void HandleChangeCurrentPlayer();
 
 private:
 	void Start() override;

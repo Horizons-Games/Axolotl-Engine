@@ -35,16 +35,16 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 	{
 		if (input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE && players.size() > 1)
 		{
-			ChangeCurrentPlayer();
+			CheckChangeCurrentPlayer();
 		}
 	}
 	else 
 	{
-		IsChangingCurrentPlayer();
+		HandleChangeCurrentPlayer();
 	}
 }
 
-void SwitchPlayerManagerScript::ChangeCurrentPlayer()
+void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 {
 	movementManager = players[currentPlayerID]->GetComponent<PlayerMoveScript>();
 	jumpManager = players[currentPlayerID]->GetComponent<PlayerJumpScript>();
@@ -56,7 +56,7 @@ void SwitchPlayerManagerScript::ChangeCurrentPlayer()
 	isChangingPlayer = true;
 }
 
-void SwitchPlayerManagerScript::IsChangingCurrentPlayer()
+void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 {
 	if (changePlayerTimer.Read() >= 2000)
 	{
