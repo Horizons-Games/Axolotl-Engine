@@ -1,0 +1,11 @@
+{
+    "UID": 4028005840547050353,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/venomity_hat.Sphere.001_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/venomity_hatBody.001_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

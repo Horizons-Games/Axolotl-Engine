@@ -781,6 +781,9 @@
     <ClCompile Include="..\Game\Scripts\UIHackingManager.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\MinMaxForce.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\PostProcess\SSAO.cpp">
       <Filter>DataModels\PostProcess</Filter>
     </ClCompile>
@@ -1613,6 +1616,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIHackingManager.h">
       <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\MinMaxForce.h">
+      <Filter>UserScripts\Level</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\PostProcess\SSAO.h">
       <Filter>DataModels\PostProcess</Filter>
