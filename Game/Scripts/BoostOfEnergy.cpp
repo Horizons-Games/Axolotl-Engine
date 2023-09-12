@@ -47,7 +47,7 @@ void BoostOfEnergy::Start()
 {
 	transform = owner->GetComponent<ComponentTransform>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
-	target = owner->GetParent();
+	target = owner->GetParent()->GetComponent<SeekBehaviourScript>()->GetTarget();
 
 	mesh->GetOwner()->Disable();
 	light->Disable();

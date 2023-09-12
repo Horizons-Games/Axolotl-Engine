@@ -3,5 +3,5 @@
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
     "MetalicAssetPath": "",
-    "EmissiveAssetPath": ""
+    "EmissiveAssetPath": "Assets/Textures/LaserBeam.png"
 }
