@@ -41,7 +41,7 @@ private:
 	ModuleInput* input;
 
 	GameObject* player;
-	GameObject* DebugPowerUp;
+	GameObject* debugPowerUp;
 	HealthSystem* playerHealthSystem;
 	PlayerAttackScript* playerAttackScript;
 	PlayerMoveScript* playerMoveScript;
@@ -49,13 +49,8 @@ private:
 	PlayerRotationScript* playerRotationScript;
 	GameObject* setGodCamera;
 
-	GameObject* debugPoint1;
-	GameObject* debugPoint2;
-	GameObject* debugPoint3;
-	GameObject* debugPoint4;
-	GameObject* debugPoint5;
-
 	std::vector<ComponentTransform*> debugPoints;
+
 	ComponentTransform* currentdDebugPointTransform;
 	ComponentTransform* playerTransform;
 	ComponentRigidBody* playerRigidBody;

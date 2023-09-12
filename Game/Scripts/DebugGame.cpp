@@ -23,24 +23,19 @@
 
 REGISTERCLASS(DebugGame);
 
-DebugGame::DebugGame() : Script(), isDebugModeActive(false), debugCurrentPosIndex(0), playerOnLocation(true), DebugPowerUp(nullptr)
+DebugGame::DebugGame() : Script(), isDebugModeActive(false), debugCurrentPosIndex(0), playerOnLocation(true), 
+	debugPowerUp(nullptr)
 {
-	REGISTER_FIELD(debugPoint1, GameObject*);
-	REGISTER_FIELD(debugPoint2, GameObject*);
-	REGISTER_FIELD(debugPoint3, GameObject*);
-	REGISTER_FIELD(debugPoint4, GameObject*);
-	REGISTER_FIELD(debugPoint5, GameObject*);
+	REGISTER_FIELD(debugPoints, std::vector<ComponentTransform*>);
 
 	REGISTER_FIELD(isDebugModeActive, bool);
 	REGISTER_FIELD(playerOnLocation, bool);
-	REGISTER_FIELD(DebugPowerUp, GameObject*)
+	REGISTER_FIELD(debugPowerUp, GameObject*)
 }
 
 void DebugGame::Start()
 {
 	input = App->GetModule<ModuleInput>();
-
-	//Immortality Start
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
 
 	playerHealthSystem = player->GetComponent<HealthSystem>();
@@ -48,32 +43,6 @@ void DebugGame::Start()
 	playerMoveScript = player->GetComponent<PlayerMoveScript>();
 	playerJumpScript = player->GetComponent<PlayerJumpScript>();
 	playerRotationScript = player->GetComponent<PlayerRotationScript>();
-
-	//Teleport Start
-	if (debugPoint1)
-	{
-		debugPoints.push_back(debugPoint1->GetComponent<ComponentTransform>());
-	}
-
-	if (debugPoint2)
-	{
-		debugPoints.push_back(debugPoint2->GetComponent<ComponentTransform>());
-	}
-
-	if (debugPoint3)
-	{
-		debugPoints.push_back(debugPoint3->GetComponent<ComponentTransform>());
-	}
-
-	if (debugPoint4)
-	{
-		debugPoints.push_back(debugPoint4->GetComponent<ComponentTransform>());
-	}
-
-	if (debugPoint5)
-	{
-		debugPoints.push_back(debugPoint5->GetComponent<ComponentTransform>());
-	}
 
 	playerRigidBody = player->GetComponent<ComponentRigidBody>();
 	playerTransform = player->GetComponent<ComponentTransform>();
@@ -125,9 +94,9 @@ void DebugGame::Update(float deltaTime)
 	}
 
 	//TELEPORT MOVEMENT
-	if (!playerOnLocation && isDebugModeActive)
+	if (!playerOnLocation)
 	{
-		for(const ComponentTransform* debugPointTransform : debugPoints)
+		for (const ComponentTransform* debugPointTransform : debugPoints)
 		{
 			if (playerTransform->GetGlobalPosition().Equals(debugPointTransform->GetGlobalPosition(), 2.0f))
 			{
@@ -182,9 +151,9 @@ void DebugGame::GodCamera() const
 
 void DebugGame::PowerUpDrop() const
 {
-	if (DebugPowerUp != nullptr)
+	if (debugPowerUp != nullptr)
 	{
-		PowerUpLogicScript* newPowerUpLogic = DebugPowerUp->GetComponent<PowerUpLogicScript>();
+		PowerUpLogicScript* newPowerUpLogic = debugPowerUp->GetComponent<PowerUpLogicScript>();
 		ComponentTransform* ownerTransform = player->GetComponent<ComponentTransform>();
 
 		newPowerUpLogic->ActivatePowerUp(ownerTransform->GetOwner());
