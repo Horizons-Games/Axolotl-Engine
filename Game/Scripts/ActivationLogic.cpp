@@ -7,13 +7,15 @@
 #include "ModuleScene.h"
 
 #include "Scene/Scene.h"
+#include "GameObject/GameObject.h"
 
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentScript.h"
 
-#include "GameObject/GameObject.h"
+#include "../Scripts/PlayerManagerScript.h"
 
 #include "DataStructures/Quadtree.h"
 #include "Auxiliar/Audio/AudioData.h"
@@ -62,9 +64,13 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		if (other->GetOwner()->CompareTag("Player"))
 		{
-			componentAnimation->SetParameter("IsActive", true);
-			componentRigidBody->Disable();
-			componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
+			PlayerManagerScript* playerManager = other->GetOwner()->GetComponent<PlayerManagerScript>();
+			if (!playerManager->IsTeleporting())
+			{
+				componentAnimation->SetParameter("IsActive", true);
+				componentRigidBody->Disable();
+				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
+			}
 		}
 	}
 }

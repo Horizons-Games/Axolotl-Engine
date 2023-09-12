@@ -201,5 +201,10 @@ void DebugGame::Teleport()
 	playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
 	debugCurrentPosIndex = (debugCurrentPosIndex + 1) % debugPoints.size();
 
-	LOG_INFO("TELEPORTING TO %d", debugCurrentPosIndex);
+	LOG_INFO("TELEPORTING TO {}", currentdDebugPointTransform->GetOwner()->GetName());
+}
+
+bool DebugGame::IsTeleporting() const
+{
+	return isDebugModeActive && !playerOnLocation;
 }

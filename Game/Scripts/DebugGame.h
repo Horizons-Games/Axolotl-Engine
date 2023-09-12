@@ -31,6 +31,7 @@ public:
 	void PowerUpDrop() const;
 
 	void Teleport();
+	bool IsTeleporting() const;
 
 private:
 	bool isDebugModeActive;
