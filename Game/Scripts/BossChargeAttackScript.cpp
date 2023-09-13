@@ -136,9 +136,9 @@ void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
 		EnemyClass* enemyScript = owner->GetComponent<EnemyClass>();
 		if (enemyScript->GetStunnedTime() <= 0.0f)
 		{
-			rigidBody->SetXRotationAxisBlocked(false);
+			/*rigidBody->SetXRotationAxisBlocked(false);
 			rigidBody->SetYRotationAxisBlocked(false);
-			rigidBody->SetZRotationAxisBlocked(false);
+			rigidBody->SetZRotationAxisBlocked(false);*/
 
 			rocksSpawned.clear();
 
@@ -170,9 +170,9 @@ void BossChargeAttackScript::PerformChargeAttack()
 	float3 forward = transform->GetGlobalForward();
 	forward.Normalize();
 
-	rigidBody->SetXRotationAxisBlocked(true);
+	/*rigidBody->SetXRotationAxisBlocked(true);
 	rigidBody->SetYRotationAxisBlocked(true);
-	rigidBody->SetZRotationAxisBlocked(true);
+	rigidBody->SetZRotationAxisBlocked(true);*/
 
 	rigidBody->SetKpForce(0.5f);
 	rigidBody->SetPositionTarget(float3(forward.x * 50.0f,
