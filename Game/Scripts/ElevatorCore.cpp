@@ -9,10 +9,11 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentScript.h"
 #include "PlayerManagerScript.h";
 #include "PlayerMoveScript.h"
 #include "PlayerJumpScript.h"
-//#include "PlayerAttackScript.h"
+#include "PlayerAttackScript.h"
 
 
 #include "Scene/Scene.h"
