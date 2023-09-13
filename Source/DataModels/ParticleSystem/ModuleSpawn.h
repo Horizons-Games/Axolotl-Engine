@@ -10,6 +10,7 @@ class ModuleSpawn : public ParticleModule
 {
 public:
 	ModuleSpawn(ParticleEmitter* emitter);
+	ModuleSpawn(ParticleEmitter* emitter, ModuleSpawn* spawn);
 	~ModuleSpawn() override;
 
 	void Spawn(EmitterInstance* instance) override;
