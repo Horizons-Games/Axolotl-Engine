@@ -173,6 +173,7 @@ void RangedFastAttackBehaviourScript::Reposition(float3 nextPosition)
 	movingToNewReposition = true;
 
 	aiMovement->SetTargetPosition(nextPosition);
+	aiMovement->SetRotationTargetPosition(nextPosition);
 }
 
 void RangedFastAttackBehaviourScript::InterruptAttack()

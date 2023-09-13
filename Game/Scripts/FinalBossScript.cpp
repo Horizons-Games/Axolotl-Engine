@@ -7,6 +7,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentAgent.h"
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
@@ -14,6 +15,7 @@
 #include "../Scripts/ShockWaveAttackScript.h"
 #include "../Scripts/BossShieldAttackScript.h"
 #include "../Scripts/BossMissilesAttackScript.h"
+#include "../Scripts/AIMovement.h"
 
 REGISTERCLASS(FinalBossScript);
 
@@ -40,6 +42,8 @@ void FinalBossScript::Start()
 	shockWaveAttackScript = owner->GetComponent<ShockWaveAttackScript>();
 	shieldAttackScript = owner->GetComponent<BossShieldAttackScript>();
 	missilesAttackScript = owner->GetComponent<BossMissilesAttackScript>();
+	agent = owner->GetComponent<ComponentAgent>();
+	aiMovement = owner->GetComponent<AIMovement>();
 
 	LOG_INFO("Final Boss is in the NEUTRAL PHASE");
 }
@@ -113,20 +117,22 @@ void FinalBossScript::TryAttacksIndividually()
 
 	if (!isPerformingAnAttack)
 	{
-		ReactivateMovement();
 		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
+		if (bossState != FinalBossStates::WALKING)
+		{
+			ReactivateMovement();
+			patrolScript->StartPatrol();
+		}
 		bossState = FinalBossStates::WALKING;
 	}
 
 	// Uncomment this to check the plasma hammer attack (NORMAL shockwave) -----------
-	/*
-	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
+	/*if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack() && !isPerformingAnAttack)
 	{
 		shockWaveAttackScript->TriggerNormalShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
-	}
-	*/
+	}*/
 
 	// Uncomment this to check the plasma hammer attack (SEEKING shockwave) ----------
 	/*
@@ -171,8 +177,22 @@ void FinalBossScript::TryAttacksIndividually()
 
 void FinalBossScript::ReactivateMovement() const
 {
-	rigidBody->SetKpForce(0.3f);
+	rigidBody->SetIsKinematic(true);
+	//rigidBody->SetMass(0.0f);
+	rigidBody->SetUpMobility();
+
+	agent->AddAgentToCrowd();
+	aiMovement->SetMovementStatuses(true, true);
+}
+
+void FinalBossScript::RemoveAgent() const
+{
+	agent->RemoveAgentFromCrowd();
+
+	aiMovement->SetMovementStatuses(false, false);
 	rigidBody->SetIsKinematic(false);
+	rigidBody->SetKpForce(0.5f);
+	rigidBody->SetMass(1000.0f);
 	rigidBody->SetUpMobility();
 }
 
@@ -191,20 +211,29 @@ void FinalBossScript::ManageNeutralPhase()
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack())
 	{
+		if (bossState == FinalBossStates::WALKING)
+		{
+			patrolScript->StopPatrol();
+		}
 		shockWaveAttackScript->TriggerNormalShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	// If the player is not near, the boss will have low chance to charge towards them
-	else if (chargeChance && chargeAttackScript->CanPerformChargeAttack())
+	else if (chargeChance && chargeAttackScript->CanPerformChargeAttack() && bossState == FinalBossStates::WALKING)
 	{
+		//patrolScript->StopPatrol();
 		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	// If neither of those, the final boss will patrol around
 	else if (!shockWaveAttackScript->IsAttacking() && !chargeAttackScript->IsAttacking())
 	{
-		ReactivateMovement();
 		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
+		if (bossState != FinalBossStates::WALKING)
+		{
+			ReactivateMovement();
+			patrolScript->StartPatrol();
+		}
 		bossState = FinalBossStates::WALKING;
 	}
 }
@@ -223,25 +252,35 @@ void FinalBossScript::ManageAggressivePhase()
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack())
 	{
+		if (bossState == FinalBossStates::WALKING)
+		{
+			patrolScript->StopPatrol();
+		}
 		shockWaveAttackScript->TriggerNormalShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	// In this phase, shockwaves will not only happen when the player gets near the boss,
 	// but also the boss would come and get the player too
-	else if (seekingShockWaveChance && shockWaveAttackScript->CanPerformShockWaveAttack())
+	else if (seekingShockWaveChance && shockWaveAttackScript->CanPerformShockWaveAttack() && bossState == FinalBossStates::WALKING)
 	{
+		//patrolScript->StopPatrol();
 		shockWaveAttackScript->TriggerSeekingShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
-	else if (chargeChance && chargeAttackScript->CanPerformChargeAttack())
+	else if (chargeChance && chargeAttackScript->CanPerformChargeAttack() && bossState == FinalBossStates::WALKING)
 	{
+		//patrolScript->StopPatrol();
 		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	else if (!shockWaveAttackScript->IsAttacking() && !chargeAttackScript->IsAttacking())
 	{
-		ReactivateMovement();
 		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
+		if (bossState != FinalBossStates::WALKING)
+		{
+			ReactivateMovement();
+			patrolScript->StartPatrol();
+		}
 		bossState = FinalBossStates::WALKING;
 	}
 }
@@ -260,26 +299,36 @@ void FinalBossScript::ManageDefensivePhase()
 	bool shieldChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(200.0f);
 
 	// The boss is on the defensive now, if the shield attack is available, they will most likely trigger it
-	if (shieldChance && shieldAttackScript->CanPerformShieldAttack())
+	if (shieldChance && shieldAttackScript->CanPerformShieldAttack() && bossState == FinalBossStates::WALKING)
 	{
+		patrolScript->StopPatrol();
 		shieldAttackScript->TriggerShieldAttack();
 		bossState = FinalBossStates::DEFENDING;
 	}
 	else if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack())
 	{
+		if (bossState == FinalBossStates::WALKING)
+		{
+			patrolScript->StopPatrol();
+		}
 		shockWaveAttackScript->TriggerNormalShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
-	else if (chargeChance && chargeAttackScript->CanPerformChargeAttack())
+	else if (chargeChance && chargeAttackScript->CanPerformChargeAttack() && bossState == FinalBossStates::WALKING)
 	{
+		//patrolScript->StopPatrol();
 		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	else if (!shockWaveAttackScript->IsAttacking() && !chargeAttackScript->IsAttacking())
 	{
-		ReactivateMovement();
-		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
+		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING); 
+		if (bossState != FinalBossStates::WALKING)
+		{
+			ReactivateMovement();
+			patrolScript->StartPatrol();
+		}
 		bossState = FinalBossStates::WALKING;
 	}
 }
@@ -307,23 +356,34 @@ void FinalBossScript::ManageLastResortPhase()
 	else if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack())
 	{
+		if (bossState == FinalBossStates::WALKING)
+		{
+			
+			patrolScript->StopPatrol();
+		}
 		shockWaveAttackScript->TriggerNormalShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
-	else if (seekingShockWaveChance && shockWaveAttackScript->CanPerformShockWaveAttack())
+	else if (seekingShockWaveChance && shockWaveAttackScript->CanPerformShockWaveAttack() && bossState == FinalBossStates::WALKING)
 	{
+		//patrolScript->StopPatrol();
 		shockWaveAttackScript->TriggerSeekingShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
-	else if (chargeChance && chargeAttackScript->CanPerformChargeAttack())
+	else if (chargeChance && chargeAttackScript->CanPerformChargeAttack() && bossState == FinalBossStates::WALKING)
 	{
+		//patrolScript->StopPatrol();
 		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	else if (!shockWaveAttackScript->IsAttacking() && !chargeAttackScript->IsAttacking())
 	{
-		ReactivateMovement();
-		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
+		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING); 
+		if (bossState != FinalBossStates::WALKING)
+		{
+			ReactivateMovement();
+			patrolScript->StartPatrol();
+		}
 		bossState = FinalBossStates::WALKING;
 	}
 }
