@@ -182,7 +182,7 @@ GameObject* BossShieldAttackScript::SelectEnemyToSpawn()
 		return nullptr;
 	}
 
-	int enemyRange = static_cast<int>(enemiesReadyToSpawn.size());
+	int enemyRange = static_cast<int>(enemiesReadyToSpawn.size() - 1);
 	int randomEnemyIndex = App->GetModule<ModuleRandom>()->RandomNumberInRange(enemyRange);
 	GameObject* selectedEnemy = enemiesReadyToSpawn.at(randomEnemyIndex);
 
