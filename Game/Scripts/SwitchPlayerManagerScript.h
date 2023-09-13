@@ -10,6 +10,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class CameraControllerScript;
 class ComponentTransform;
 class ComponentRigidBody;
+class PlayerManagerScript;
 class PlayerMoveScript;
 class PlayerJumpScript;
 class ModuleInput;
@@ -20,9 +21,6 @@ public:
 	SwitchPlayerManagerScript();
 
 	void Update(float deltaTime) override;
-
-	const std::vector<GameObject*>& GetPlayerGameObject() const;
-	void SetPlayerGameObject(const std::vector<GameObject*>& vecGO);
 
 	void CheckChangeCurrentPlayer();
 	void HandleChangeCurrentPlayer();
@@ -39,22 +37,14 @@ private:
 	CameraControllerScript* camera;
 	ComponentTransform* cameraTransform;
 
-	std::vector<GameObject*> players;
+	GameObject* currentPlayer;
+	GameObject* secondPlayer;
 	PlayerMoveScript* movementManager;
 	PlayerJumpScript* jumpManager;
+	PlayerManagerScript* playerManager;
 
 	btVector3 rigidBodyVec3;
 
 	bool isChangingPlayer;
 	bool isNewPlayerEnabled;
 };
-
-inline const std::vector<GameObject*>& SwitchPlayerManagerScript::GetPlayerGameObject() const
-{
-	return players;
-}
-
-inline void SwitchPlayerManagerScript::SetPlayerGameObject(const std::vector<GameObject*>& vecGO)
-{
-	this->players = vecGO;
-}

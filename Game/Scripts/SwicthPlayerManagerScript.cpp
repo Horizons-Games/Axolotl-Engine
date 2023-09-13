@@ -1,12 +1,17 @@
 #include "StdAfx.h"
 #include "SwitchPlayerManagerScript.h"
 
+#include "ModulePlayer.h"
+#include "ModuleInput.h"
+
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentPlayer.h"
+
+#include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/PlayerMoveScript.h"
 #include "../Scripts/PlayerJumpScript.h"
-#include "ModuleInput.h"
 
 #include "../Scripts/CameraControllerScript.h"
 #include "Application.h"
@@ -16,7 +21,6 @@ REGISTERCLASS(SwitchPlayerManagerScript);
 SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), mainCamera(nullptr), input(nullptr), currentPlayerID(0)
 {
 	REGISTER_FIELD(mainCamera, GameObject*);
-	REGISTER_FIELD_WITH_ACCESSORS(PlayerGameObject, std::vector<GameObject*>);
 }
 
 void SwitchPlayerManagerScript::Start()
@@ -26,14 +30,19 @@ void SwitchPlayerManagerScript::Start()
 	camera = mainCamera->GetComponent<CameraControllerScript>();
 	cameraTransform = mainCamera->GetComponent<ComponentTransform>();
 
-	camera->ChangeCurrentPlayer(players[currentPlayerID]->GetComponent<ComponentTransform>());
+	currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
+	secondPlayer = App->GetModule<ModulePlayer>()->GetSecondPlayer();
+	LOG_DEBUG("Player 1: {}", currentPlayer);
+	LOG_DEBUG("Player 2: {}", secondPlayer);
+
+	camera->ChangeCurrentPlayer(currentPlayer->GetComponent<ComponentTransform>());
 }
 
 void SwitchPlayerManagerScript::Update(float deltaTime)
 {
 	if (!isChangingPlayer)
 	{
-		if (input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE && players.size() > 1)
+		if (input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE && secondPlayer)
 		{
 			CheckChangeCurrentPlayer();
 		}
@@ -46,8 +55,8 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 
 void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 {
-	movementManager = players[currentPlayerID]->GetComponent<PlayerMoveScript>();
-	jumpManager = players[currentPlayerID]->GetComponent<PlayerJumpScript>();
+	movementManager = currentPlayer->GetComponent<PlayerMoveScript>();
+	jumpManager = currentPlayer->GetComponent<PlayerJumpScript>();
 	camera->ToggleCameraState();
 	movementManager->ChangingCurrentPlayer(true);
 	jumpManager->ChangingCurrentPlayer(true);
@@ -60,36 +69,42 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 {
 	if (changePlayerTimer.Read() >= 2000)
 	{
-		currentPlayerID = (currentPlayerID + 1) % players.size(); // Here we change current player ID
+		//currentPlayerID = (currentPlayerID + 1) % players.size(); // Here we change current player ID
 		
-		camera->ChangeCurrentPlayer(players[currentPlayerID]->GetComponent<ComponentTransform>());
+		camera->ChangeCurrentPlayer(secondPlayer->GetComponent<ComponentTransform>());
 		movementManager->ChangingNewCurrentPlayer(false);
 		jumpManager->ChangingCurrentPlayer(false);
 
 		changePlayerTimer.Stop();
 		isChangingPlayer = false;
 		isNewPlayerEnabled = !isNewPlayerEnabled;
+		currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
+		secondPlayer = App->GetModule<ModulePlayer>()->GetSecondPlayer();
 	}
 
 	else if (changePlayerTimer.Read() >= 1500 && !isNewPlayerEnabled)
 	{
 		movementManager->ChangingCurrentPlayer(false);
 		// The position where the newCurrentPlayer will appear
-		rigidBodyVec3 = btVector3(cameraTransform->GetGlobalPosition().x, players[currentPlayerID]->GetComponent<ComponentTransform>()->GetGlobalPosition().y,
+		rigidBodyVec3 = btVector3(cameraTransform->GetGlobalPosition().x, currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().y,
 				cameraTransform->GetGlobalPosition().z);
 
 		// Disabling the current player
-		players[currentPlayerID]->Disable();
+		currentPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(false);
 
-		movementManager = players[(currentPlayerID + 1) % players.size()]->GetComponent<PlayerMoveScript>();
-		jumpManager = players[(currentPlayerID + 1) % players.size()]->GetComponent<PlayerJumpScript>();
+		currentPlayer->Disable();
+		
+
+		movementManager = secondPlayer->GetComponent<PlayerMoveScript>();
+		jumpManager = secondPlayer->GetComponent<PlayerJumpScript>();
 		movementManager->ChangingNewCurrentPlayer(true);
 		jumpManager->ChangingCurrentPlayer(true);
 		
 		// Enabling the new current player
-		players[(currentPlayerID + 1) % players.size()]->Enable();
+		secondPlayer->Enable();
+		secondPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(true);
 
-		players[(currentPlayerID + 1) % players.size()]->GetComponent<ComponentRigidBody>()->SetRigidBodyOrigin(rigidBodyVec3);
+		secondPlayer->GetComponent<ComponentRigidBody>()->SetRigidBodyOrigin(rigidBodyVec3);
 		isNewPlayerEnabled = !isNewPlayerEnabled;
 	}
 

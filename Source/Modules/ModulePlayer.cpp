@@ -19,7 +19,7 @@
 
 #include "Components/ComponentTransform.h"
 
-ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player(nullptr), componentPlayer(nullptr)
+ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player0(nullptr), player1(nullptr), componentPlayer(nullptr)
 {
 };
 
@@ -36,17 +36,27 @@ bool ModulePlayer::Start()
 
 GameObject* ModulePlayer::GetPlayer()
 {
-	return player;
+	return player0;
+}
+
+GameObject* ModulePlayer::GetSecondPlayer()
+{
+	return player1;
 }
 
 void ModulePlayer::SetPlayer(GameObject* newPlayer)
 {
-	if (player)
+	if (player0)
 	{
 		componentPlayer->SetActualPlayer(false);
 	}
-	player = newPlayer;
-	if (player) componentPlayer = player->GetComponentInternal<ComponentPlayer>();
+	player0 = newPlayer;
+	if (player0) componentPlayer = player0->GetComponentInternal<ComponentPlayer>();
+}
+
+void ModulePlayer::SetSecondPlayer(GameObject* newPlayer)
+{
+	player1 = newPlayer;
 }
 
 Camera* ModulePlayer::GetCameraPlayer()
@@ -66,7 +76,7 @@ bool ModulePlayer::LoadNewPlayer()
 	ModuleEditor* editor = App->GetModule<ModuleEditor>();
 	std::vector<ComponentCamera*> cameras = loadedScene->GetSceneCameras();
 
-	if (player)
+	if (player0)
 	{
 		for (ComponentCamera* camera : cameras)
 		{

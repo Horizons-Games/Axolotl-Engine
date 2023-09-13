@@ -14,7 +14,9 @@ public:
 	bool Start() override;
 
 	GameObject* GetPlayer();
+	GameObject* GetSecondPlayer();
 	void SetPlayer(GameObject* player);
+	void SetSecondPlayer(GameObject* player);
 	Camera* GetCameraPlayer();
 	GameObject* GetCameraPlayerObject();
 
@@ -25,7 +27,8 @@ public:
 	void CheckIfActivateMouse();
 
 private:
-	GameObject* player;
+	GameObject* player0;
+	GameObject* player1;
 	Camera* cameraPlayer;
 	GameObject* cameraPlayerObject;
 	ComponentPlayer* componentPlayer;
