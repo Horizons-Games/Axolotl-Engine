@@ -9,6 +9,10 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentTransform.h"
+#include "PlayerManagerScript.h";
+#include "PlayerMoveScript.h"
+#include "PlayerJumpScript.h"
+//#include "PlayerAttackScript.h"
 
 
 #include "Scene/Scene.h"
@@ -68,6 +72,8 @@ void ElevatorCore::Update(float deltaTime)
 		elevator->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
 		bixPrefab->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
 
+		DisableAllInteractions();
+
 
 		LOG_DEBUG("POS.Y: {}, FINAL POS: {}", pos.y, finalPos);
 		
@@ -83,9 +89,9 @@ void ElevatorCore::Update(float deltaTime)
 
 	else
 	{
-
 		bixPrefab->SetParent(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
 		bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(false);
+		EnableAllInteractions();
 	}
 }
 
@@ -121,4 +127,28 @@ void ElevatorCore::OnCollisionExit(ComponentRigidBody* other)
 			//componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
 		}
 	}
+}
+
+void ElevatorCore::DisableAllInteractions()
+{
+	PlayerManagerScript* manager = bixPrefab->GetComponentInternal<PlayerManagerScript>();
+	PlayerJumpScript* jump = bixPrefab->GetComponentInternal<PlayerJumpScript>();
+	PlayerMoveScript* move = bixPrefab->GetComponentInternal<PlayerMoveScript>();
+	PlayerAttackScript* attack = bixPrefab->GetComponentInternal<PlayerAttackScript>();
+	manager->Disable();
+	jump->Disable();
+	move->Disable();
+	attack->Disable();
+}
+
+void ElevatorCore::EnableAllInteractions()
+{
+	PlayerManagerScript* manager = bixPrefab->GetComponentInternal<PlayerManagerScript>();
+	PlayerJumpScript* jump = bixPrefab->GetComponentInternal<PlayerJumpScript>();
+	PlayerMoveScript* move = bixPrefab->GetComponentInternal<PlayerMoveScript>();
+	PlayerAttackScript* attack = bixPrefab->GetComponentInternal<PlayerAttackScript>();
+	manager->Enable();
+	jump->Enable();
+	move->Enable();
+	attack->Enable();
 }

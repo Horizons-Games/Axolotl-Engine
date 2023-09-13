@@ -30,6 +30,8 @@ public:
 	void Update(float deltaTime) override;
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void OnCollisionExit(ComponentRigidBody* other) override;
+	void DisableAllInteractions();
+	void EnableAllInteractions();
 
 private:
 	ComponentAudioSource* componentAudio;
