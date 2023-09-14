@@ -182,7 +182,7 @@ GameObject* BossShieldAttackScript::SelectEnemyToSpawn()
 		return nullptr;
 	}
 
-	int enemyRange = static_cast<int>(enemiesReadyToSpawn.size()) - 1;
+	int enemyRange = static_cast<int>(enemiesReadyToSpawn.size() - 1);
 	int randomEnemyIndex = App->GetModule<ModuleRandom>()->RandomNumberInRange(enemyRange);
 	GameObject* selectedEnemy = enemiesReadyToSpawn.at(randomEnemyIndex);
 
@@ -221,6 +221,7 @@ float3 BossShieldAttackScript::SelectSpawnPosition() const
 		float3(randomXPos,
 			0.0f,			/* The height will not be modified, we'll only have one height in the arena */
 			randomZPos);
+	selectedSpawningPosition += battleArenaAreaSize->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
 	return selectedSpawningPosition;
 }

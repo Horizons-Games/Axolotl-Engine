@@ -10,6 +10,8 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 
+#include "../Scripts/FinalBossScript.h"
+
 REGISTERCLASS(BossMissilesAttackScript);
 
 BossMissilesAttackScript::BossMissilesAttackScript() : Script(), missilePrefab(nullptr), 
@@ -36,6 +38,7 @@ void BossMissilesAttackScript::Start()
 
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	transform = owner->GetComponent<ComponentTransform>();
+	finalBossScript = owner->GetComponent<FinalBossScript>();
 }
 
 void BossMissilesAttackScript::Update(float deltaTime)
@@ -48,6 +51,7 @@ void BossMissilesAttackScript::TriggerMissilesAttack()
 	LOG_INFO("The missiles attack was triggered");
 
 	missilesAttackState = AttackState::STARTING_SAFE_JUMP;
+	finalBossScript->RemoveAgent();
 
 	initialPosition = transform->GetGlobalPosition();
 	float3 safePosition = safePositionTransform->GetGlobalPosition();

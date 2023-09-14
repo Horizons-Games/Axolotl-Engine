@@ -9,8 +9,6 @@
 
 #include "Camera/CameraGameObject.h"
 
-#include "../Scripts/CameraSample.h"
-
 REGISTERCLASS(CameraControllerScript);
 
 CameraControllerScript::CameraControllerScript() : Script(),
@@ -31,7 +29,12 @@ void CameraControllerScript::Start()
 	{
 		for (GameObject* sample : samplePointsObject->GetChildren())
 		{
-			samples.push_back(sample->GetComponent<ComponentCameraSample>());
+			ComponentCameraSample* componentSample = sample->GetComponent<ComponentCameraSample>();
+			if (componentSample->IsEnabled())
+			{
+				samples.push_back(componentSample);
+			}
+			
 		}
 	}
 	transform = owner->GetComponent<ComponentTransform>();

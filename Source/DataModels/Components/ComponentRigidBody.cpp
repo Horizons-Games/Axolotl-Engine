@@ -32,7 +32,6 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 	btRigidBody::btRigidBodyConstructionInfo inforb(100.f, motionState.get(), shape.get());
 	inforb.m_friction = 0.0f;
 	rigidBody = std::make_unique<btRigidBody>(inforb);
-	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	SetUpMobility();
 
 	rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
@@ -73,7 +72,6 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
 	inforb.m_friction = 0.0f;
 	rigidBody = std::make_unique<btRigidBody>(inforb);
 
-	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	SetUpMobility();
 
 	rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
@@ -144,6 +142,11 @@ void ComponentRigidBody::OnTransformChanged()
 		UpdateRigidBody();
 	}
 #endif
+}
+
+void ComponentRigidBody::Draw() const
+{
+
 }
 
 void ComponentRigidBody::Update()
@@ -228,7 +231,7 @@ void ComponentRigidBody::UpdateRigidBodyTranslation()
 
 void ComponentRigidBody::SetUpMobility()
 {
-	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
+	RemoveRigidBodyFromSimulation();
 	if (isKinematic)
 	{
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DYNAMIC_OBJECT);
@@ -259,7 +262,7 @@ void ComponentRigidBody::SetUpMobility()
 		rigidBody->getCollisionShape()->calculateLocalInertia(mass, localInertia);
 		rigidBody->setMassProps(mass, localInertia);
 	}
-	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
+	AddRigidBodyToSimulation();
 }
 
 void ComponentRigidBody::SetCollisionShape(Shape newShape)
@@ -375,18 +378,23 @@ void ComponentRigidBody::InternalLoad(const Json& meta)
 
 void ComponentRigidBody::SignalEnable()
 {
-	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
-	rigidBody->setGravity(gravity);
+	AddRigidBodyToSimulation();
 }
 
 void ComponentRigidBody::SignalDisable()
 {
-	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
+	RemoveRigidBodyFromSimulation();
 }
 
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 {
 	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
+}
+
+void ComponentRigidBody::AddRigidBodyToSimulation()
+{
+	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
+	rigidBody->setGravity(gravity);
 }
 
 void ComponentRigidBody::ClearCollisionEnterDelegate()

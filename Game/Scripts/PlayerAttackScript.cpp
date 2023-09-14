@@ -13,6 +13,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
+#include "Animation/AnimationController.h"
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
@@ -43,7 +44,9 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	animation(nullptr), transform(nullptr), isMelee(true),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), jumpFinisherScript(nullptr),
 	lightFinisherScript(nullptr), normalAttackDistance(0), heavyFinisherAttack(nullptr), lightWeapon(nullptr),
-	comboCountHeavy(10.0f), comboCountLight(30.0f), comboCountJump(20.0f)
+	comboCountHeavy(10.0f), comboCountLight(30.0f), comboCountJump(20.0f), triggerNextAttackDuration(0.5f), 
+	triggerNextAttackTimer(0.0f), isNextAttackTriggered(false), currentAttackAnimation(""),
+	numAttackComboAnimation(0.0f), isHeavyFinisherReceivedAux(false)
 {
 	REGISTER_FIELD(comboCountHeavy, float);
 	REGISTER_FIELD(comboCountLight, float);
@@ -65,6 +68,7 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 
 	REGISTER_FIELD(pistolGameObject, GameObject*);
 
+	REGISTER_FIELD(triggerNextAttackDuration, float);
 }
 
 void PlayerAttackScript::Start()
@@ -91,6 +95,8 @@ void PlayerAttackScript::Start()
 	{
 		pistolGameObject->Disable();
 	}
+
+	triggerNextAttackTimer = triggerNextAttackDuration;
 }
 
 void PlayerAttackScript::Update(float deltaTime)
@@ -101,16 +107,19 @@ void PlayerAttackScript::Update(float deltaTime)
 	// Check if the special was activated
 	comboSystem->CheckSpecial(deltaTime);
 
-	if (IsAttackAvailable())
+	if (!IsAttackAvailable())
 	{
-		PerformCombos();
+		if (jumpFinisherScript->IsActive())
+		{
+			UpdateJumpAttack();
+		}
+		else 
+		{
+			ResetAttackAnimations(deltaTime);
+		}
 	}
 
-	else
-	{
-		ResetAttackAnimations();
-	}
-	lastAttack = currentAttack;
+	PerformCombos();
 }
 
 void PlayerAttackScript::UpdateEnemyDetection()
@@ -128,41 +137,119 @@ void PlayerAttackScript::UpdateEnemyDetection()
 
 void PlayerAttackScript::PerformCombos()
 {
-	currentAttack = comboSystem->CheckAttackInput(!playerManager->IsGrounded());
-	switch (currentAttack)
+	if ((lastAttack == AttackType::LIGHTNORMAL || lastAttack == AttackType::HEAVYNORMAL)
+		&& !isNextAttackTriggered) //Reset attack combo animation
 	{
-		case AttackType::LIGHTNORMAL:
-			LOG_VERBOSE("Normal Attack Soft");
-			LightNormalAttack();
-			break;
+		animation->SetParameter("IsLightAttacking", false);
+	}
 
-		case AttackType::HEAVYNORMAL:
-			LOG_VERBOSE("Normal Attack Heavy");
-			HeavyNormalAttack();
-			break;
+	//Check input
+	currentAttack = comboSystem->CheckAttackInput(!playerManager->IsGrounded());
 
-		case AttackType::JUMPNORMAL:
-			LOG_VERBOSE("Normal Attack Jump");
-			JumpNormalAttack();
-			break;
+	if (!IsAttackAvailable()) //Stack next attack if attack input called when it's currently in an attack animation
+	{
+		if (!isNextAttackTriggered)
+		{
+			switch (currentAttack)
+			{
+			case AttackType::LIGHTNORMAL:
+			case AttackType::HEAVYNORMAL:
+				if (lastAttack == AttackType::LIGHTNORMAL || lastAttack == AttackType::HEAVYNORMAL)
+				{
+					lastAttack = currentAttack;
+					isNextAttackTriggered = true;
+					triggerNextAttackTimer = triggerNextAttackDuration;
+					if (numAttackComboAnimation == 2.0f) //Move between three attack animations
+					{
+						numAttackComboAnimation = 0.0f;
+					}
+					else
+					{
+						numAttackComboAnimation += 1.0f;
+					}
+					animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
+					animation->SetParameter("IsLightAttacking", true);
+				}
+				break;
 
-		case AttackType::LIGHTFINISHER:
-			LOG_VERBOSE("Finisher Soft");
-			LightFinisher();
-			break;
+			case AttackType::HEAVYFINISHER:
+			case AttackType::JUMPFINISHER:
+				break;
+			case AttackType::JUMPNORMAL:
+				break;
+			case AttackType::LIGHTFINISHER:
+				triggerNextAttackTimer = triggerNextAttackDuration;
+				currentAttackAnimation = animation->GetController()->GetStateName();
+				numAttackComboAnimation = 0.0f;
+				animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
+				animation->SetParameter("IsLightAttacking", false);
+				isAttacking = false;
+				LOG_VERBOSE("ResettingLightAttackAnimation");
+				break;
+			}
+		}
+	}
+	
+	if (IsAttackAvailable())
+	{
+		switch (currentAttack)
+		{
+			case AttackType::LIGHTNORMAL:
+				if (!isNextAttackTriggered) //Calling only when is not currently attacking
+				{
+					LOG_VERBOSE("Normal Normal Attack Soft");
+					numAttackComboAnimation = 0.0f;
+					animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
+					LightNormalAttack();
+					isNextAttackTriggered = false;
+					lastAttack = currentAttack;
+					currentAttackAnimation = "LightAttack";
+				}
+				break;
+			case AttackType::HEAVYNORMAL:
+				if (!isNextAttackTriggered) //Calling only when is not currently attacking
+				{
+					LOG_VERBOSE("Normal Normal Attack Soft");
+					numAttackComboAnimation = 0.0f;
+					animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
+					HeavyNormalAttack();
+					isNextAttackTriggered = false;
+					lastAttack = currentAttack;
+					currentAttackAnimation = "LightAttack"; //Change if new heavy animations are implemented
+				}
+				break;
 
-		case AttackType::HEAVYFINISHER:
-			LOG_VERBOSE("Finisher Heavy");
-			HeavyFinisher();
-			break;
+			case AttackType::JUMPNORMAL:
+				LOG_VERBOSE("Normal Attack Jump");
+				InitJumpAttack();
+				lastAttack = currentAttack;
+				currentAttackAnimation = "JumpAttack";
+				break;
 
-		case AttackType::JUMPFINISHER:
-			LOG_VERBOSE("Finisher Jump");
-			JumpFinisher();
-			break;
+			case AttackType::LIGHTFINISHER:
+				LOG_VERBOSE("Finisher Soft");
+				LightFinisher();
+				lastAttack = currentAttack;
+				currentAttackAnimation = "LightAttackFinish";
+				break;
 
-		default:
-			break;
+			case AttackType::HEAVYFINISHER:
+				LOG_VERBOSE("Finisher Heavy");
+				HeavyFinisher();
+				lastAttack = currentAttack;
+				currentAttackAnimation = "HeavyAttackFinish";
+				break;
+
+			case AttackType::JUMPFINISHER:
+				LOG_VERBOSE("Finisher Jump");
+				InitJumpAttack();
+				lastAttack = currentAttack;
+				currentAttackAnimation = "JumpAttack";
+				break;
+
+			default:
+				break;
+		}
 	}
 }
 
@@ -204,7 +291,7 @@ void PlayerAttackScript::LightNormalAttack()
 void PlayerAttackScript::HeavyNormalAttack()
 {
 	//Activate visuals and audios
-	animation->SetParameter("IsHeavyAttacking", true);
+	animation->SetParameter("IsLightAttacking", true); //Change if new heavy animations are implemented
 
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
@@ -248,21 +335,68 @@ void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDama
 	ligthAttackBulletScript->SetDamage(nDamage);
 }
 
-void PlayerAttackScript::JumpNormalAttack()
+void PlayerAttackScript::InitJumpAttack()
 {
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
-
+	playerManager->ParalyzePlayer(true);
 	if (isMelee)
 	{
-		jumpFinisherScript->PerformGroundSmash(10.0f, 2.0f); // Bix jumping attack
+		jumpFinisherScript->PerformGroundSmash(); // Bix jumping attack
 	}
 	else
 	{
 		jumpFinisherScript->ShootForceBullet(10.0f, 2.0f); // Allura jumping attack, placed it here for now
 	}
+}
 
-	comboSystem->SuccessfulAttack(comboCountJump, AttackType::JUMPNORMAL);
+void PlayerAttackScript::UpdateJumpAttack()
+{
+	bool landed = false;
+	//if (isMelee) landing is player grounded if not then is the projectile detection for the moment I only put this
+	if(isMelee) 
+	{
+		landed = playerManager->IsGrounded();
+
+	}
+	else 
+	{
+		//TODO Add Alura Checks
+		landed = true;
+	}
+
+	if (landed)
+	{
+		animation->SetParameter("IsJumpAttacking", false);
+		if (currentAttack == AttackType::JUMPNORMAL)
+		{
+			EndJumpNormalAttack();
+		}
+		else
+		{
+			EndJumpFinisherAttack();
+		}
+	}
+}
+
+void PlayerAttackScript::EndJumpNormalAttack()
+{
+	jumpFinisherScript->VisualLandingEffect();
+	if (enemyDetection->AreAnyEnemiesInTheArea())
+	{
+		jumpFinisherScript->PushEnemies(10.0f, 2.0f, enemyDetection->GetEnemiesInTheArea());
+		comboSystem->SuccessfulAttack(comboCountJump, currentAttack);
+	}
+}
+
+void PlayerAttackScript::EndJumpFinisherAttack()
+{
+	jumpFinisherScript->VisualLandingEffect();
+	if (enemyDetection->AreAnyEnemiesInTheArea())
+	{
+		jumpFinisherScript->PushEnemies(15.0f, 4.0f, enemyDetection->GetEnemiesInTheArea());
+		comboSystem->SuccessfulAttack(-35.0f, currentAttack);
+	}
 }
 
 void PlayerAttackScript::LightFinisher()
@@ -287,9 +421,12 @@ void PlayerAttackScript::LightFinisher()
 
 void PlayerAttackScript::HeavyFinisher()
 {
-	lightWeapon->Disable();
+	if (lightWeapon)
+	{
+		lightWeapon->Disable();
+	}
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
-	animation->SetParameter("HeavyFinisherExit", false);
+	animation->SetParameter("HeavyFinisherEnd", false);
 	animation->SetParameter("HeavyFinisherInit", true);
 	isAttacking = true;
 	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CANNON_SHOT);
@@ -306,57 +443,83 @@ void PlayerAttackScript::HeavyFinisher()
 	}
 }
 
-void PlayerAttackScript::JumpFinisher()
-{
-	animation->SetParameter("IsJumpAttacking", true);
-	isAttacking = true;
+//void PlayerAttackScript::JumpFinisher()
+//{
+//	animation->SetParameter("IsJumpAttacking", true);
+//	isAttacking = true;
+//
+//	if(isMelee)
+//	{
+//		jumpFinisherScript->PerformGroundSmash(15.0f, 4.0f); // Bix jumping finisher
+//	}
+//	else
+//	{
+//		jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
+//	}
+//
+//	comboSystem->SuccessfulAttack(-comboCountJump * 2, AttackType::JUMPFINISHER);
+//}
 
-	if(isMelee)
-	{
-		jumpFinisherScript->PerformGroundSmash(15.0f, 4.0f); // Bix jumping finisher
-	}
-	else
-	{
-		jumpFinisherScript->ShootForceBullet(15.0f, 4.0f); // Allura jumping finisher, placed it here for now
-	}
-
-	comboSystem->SuccessfulAttack(-comboCountJump * 2, AttackType::JUMPFINISHER);
-}
-
-void PlayerAttackScript::ResetAttackAnimations()
+void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 {
 	switch (lastAttack)
 	{
-		case AttackType::LIGHTNORMAL:			
-			if (!animation->IsPlaying())
-			{
-				animation->SetParameter("IsLightAttacking", false);
-				isAttacking = false;
-				lastAttack = AttackType::NONE;
-				LOG_VERBOSE("ResettingLightAttackAnimation");
-			}
-			break;	
-
+		case AttackType::LIGHTNORMAL:
 		case AttackType::HEAVYNORMAL:
-			if (!animation->IsPlaying())
+			if (animation->GetController()->GetStateName() != currentAttackAnimation)
 			{
-				animation->SetParameter("IsHeavyAttacking", false);
-				isAttacking = false;
-				lastAttack = AttackType::NONE;
-				LOG_VERBOSE("ResettingHeavyAttackAnimation");
+				if (isNextAttackTriggered)
+				{
+					currentAttackAnimation = animation->GetController()->GetStateName();
+					LOG_VERBOSE("Normal Attack Soft");
+					if (lastAttack == AttackType::LIGHTNORMAL)
+					{
+						LightNormalAttack();
+						lastAttack = AttackType::LIGHTNORMAL;
+					}
+					else
+					{
+						HeavyNormalAttack();
+						lastAttack = AttackType::HEAVYNORMAL;
+					}
+					isAttacking = true;
+					isNextAttackTriggered = false;
+				}
+				else //Called when next attack input is not called
+				{
+					triggerNextAttackTimer -= deltaTime;
+					if (triggerNextAttackTimer <= 0.0f) //Wait to reset the offset time, to give the player the chance to
+						//trigger the next attack even if the animatinon has finished (due to some animations are very short)
+					{
+						triggerNextAttackTimer = triggerNextAttackDuration;
+						currentAttackAnimation = animation->GetController()->GetStateName();
+						numAttackComboAnimation = 0.0f;
+						animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
+						animation->SetParameter("IsLightAttacking", false);
+						isAttacking = false;
+						lastAttack = AttackType::NONE;
+						LOG_VERBOSE("ResettingLightAttackAnimation");
+					}
+				}
 			}
 			break;	
 
 		case AttackType::JUMPNORMAL:
-
 		case AttackType::JUMPFINISHER:
-			if (!animation->IsPlaying())
+		{
+			std::string actualName = currentAttackAnimation;
+			if (isMelee)
 			{
+				actualName = "JumpAttackRecovery";
+			}
+			if (animation->GetController()->GetStateName() != currentAttackAnimation)
+			{
+				playerManager->ParalyzePlayer(false);
 				animation->SetParameter("IsJumpAttacking", false);
 				isAttacking = false;
 				lastAttack = AttackType::NONE;
 			}
-			
+
 			// There are some times in which the animations happen so quick and the first if is not entered,
 			// so I added this as a safe mesure because, if not, the player would be prevented of attacking,
 			// jumping and moving if the first if is not entered
@@ -366,9 +529,9 @@ void PlayerAttackScript::ResetAttackAnimations()
 				isAttacking = false;
 			}*/
 			break;
-
+		}
 		case AttackType::LIGHTFINISHER:	
-			if (!animation->IsPlaying())
+			if (animation->GetController()->GetStateName() != currentAttackAnimation)
 			{
 				animation->SetParameter("LightFinisherAttacking", false);
 				isAttacking = false;
@@ -382,13 +545,27 @@ void PlayerAttackScript::ResetAttackAnimations()
 
 		case AttackType::HEAVYFINISHER:
 			animation->SetParameter("HeavyFinisherInit", false);
-			animation->SetParameter("HeavyFinisherExit", true);
-			lightWeapon->Enable();
-			if (animation->GetActualStateName() != "HeavyFinisherInit" 
-				&& animation->GetActualStateName() != "HeavyFinisherEnd")
+			if (!heavyFinisherAttack->IsAttacking()) 
 			{
-				isAttacking = false;
-				lastAttack = AttackType::NONE;
+				currentAttackAnimation = "HeavyAttackFinishEnd";
+				animation->SetParameter("HeavyFinisherEnd", true);
+				if (lightWeapon)
+				{
+					lightWeapon->Enable();
+				}
+				if (isHeavyFinisherReceivedAux)
+				{
+					animation->SetParameter("HeavyFinisherEnd", false);
+					if (animation->GetController()->GetStateName() != currentAttackAnimation)
+					{
+						currentAttackAnimation = "";
+						isAttacking = false;
+						lastAttack = AttackType::NONE;
+						isHeavyFinisherReceivedAux = false;
+						break;
+					}
+				}
+				isHeavyFinisherReceivedAux = true;
 			}
 			break;
 
@@ -435,7 +612,13 @@ void PlayerAttackScript::SetIsDeathTouched(bool isDeathTouched)
 
 AttackType PlayerAttackScript::GetCurrentAttackType() const
 {
-	return currentAttack;
+	return lastAttack;
+}
+
+bool PlayerAttackScript::IsInAttackAnimation() const
+{
+	std::string animString = animation->GetController()->GetStateName();
+	return animString == "LightAttack" || animString == "SecondAttack" || animString == "HeavyAttack";
 }
 
 GameObject* PlayerAttackScript::GetEnemyDetected() const

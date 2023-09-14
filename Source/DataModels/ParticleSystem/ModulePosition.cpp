@@ -20,6 +20,11 @@ ModulePosition::ModulePosition(ParticleEmitter* emitter) : ParticleModule(Module
 {
 }
 
+ModulePosition::ModulePosition(ParticleEmitter* emitter, ModulePosition* position) :
+	ParticleModule(ModuleType::POSITION, emitter)
+{
+}
+
 ModulePosition::~ModulePosition()
 {
 }

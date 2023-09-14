@@ -4,15 +4,17 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentAgent.h"
 
 #include "../Scripts/ShockWaveAttackAreaScript.h"
 #include "../Scripts/HealthSystem.h"
+#include "../Scripts/AIMovement.h"
 
 REGISTERCLASS(ShockWaveAttackScript);
 
 ShockWaveAttackScript::ShockWaveAttackScript() : Script(), outerArea(nullptr), innerArea(nullptr),
 	shockWaveCooldown(0.0f), shockWaveMaxCooldown(5.0f), shockWaveHitPlayer(false), shockWaveDamage(10.0f),
-	rigidBody(nullptr), transform(nullptr), targetPosition(nullptr), isSeeking(false)
+	/*rigidBody(nullptr),*/ transform(nullptr), targetPosition(nullptr), isSeeking(false)
 {
 	REGISTER_FIELD(shockWaveMaxCooldown, float);
 	REGISTER_FIELD(shockWaveDamage, float);
@@ -25,8 +27,10 @@ void ShockWaveAttackScript::Start()
 {
 	shockWaveCooldown = shockWaveMaxCooldown;
 
-	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	//rigidBody = owner->GetComponent<ComponentRigidBody>();
 	transform = owner->GetComponent<ComponentTransform>();
+	aiMovement = owner->GetComponent<AIMovement>();
+	agent = owner->GetComponent<ComponentAgent>();
 }
 
 void ShockWaveAttackScript::Update(float deltaTime)
@@ -95,8 +99,10 @@ void ShockWaveAttackScript::ManageAreaBehaviour(float deltaTime)
 void ShockWaveAttackScript::SeekTowardsTarget()
 {
 	RotateToTarget(targetPosition);
-	rigidBody->SetPositionTarget(targetPosition->GetGlobalPosition());
-	rigidBody->SetKpForce(2.0f);
+	aiMovement->SetTargetPosition(targetPosition->GetGlobalPosition());
+	agent->SetMaxAcceleration(agent->GetInitialMaxAcceleration() * 2.0f);
+	/*rigidBody->SetPositionTarget(targetPosition->GetGlobalPosition());
+	rigidBody->SetKpForce(2.0f);*/
 
 	if (transform->GetGlobalPosition().Equals(targetPosition->GetGlobalPosition(), 5.0f))
 	{
@@ -120,11 +126,12 @@ void ShockWaveAttackScript::CheckPlayerDetected()
 
 void ShockWaveAttackScript::RotateToTarget(ComponentTransform* target) const
 {
-	Quat errorRotation =
+	/*Quat errorRotation =
 		Quat::RotateFromTo(transform->GetGlobalForward().Normalized(),
-			(target->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized());
+			(target->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized());*/
 
-	rigidBody->SetRotationTarget(errorRotation);
+	aiMovement->SetRotationTargetPosition(target->GetGlobalPosition());
+	//rigidBody->SetRotationTarget(errorRotation);
 }
 
 void ShockWaveAttackScript::ResetAreas()
@@ -137,16 +144,18 @@ void ShockWaveAttackScript::ResetAreas()
 
 void ShockWaveAttackScript::DisableRotation() const
 {
-	rigidBody->SetXAxisBlocked(true);
+	aiMovement->SetMovementStatuses(true, false);
+	/*rigidBody->SetXAxisBlocked(true);
 	rigidBody->SetYAxisBlocked(true);
 	rigidBody->SetZAxisBlocked(true);
-	rigidBody->UpdateBlockedAxis();
+	rigidBody->UpdateBlockedAxis();*/
 }
 
 void ShockWaveAttackScript::EnableRotation() const
 {
-	rigidBody->SetXAxisBlocked(false);
+	aiMovement->SetMovementStatuses(true, true);
+	/*rigidBody->SetXAxisBlocked(false);
 	rigidBody->SetYAxisBlocked(false);
 	rigidBody->SetZAxisBlocked(false);
-	rigidBody->UpdateBlockedAxis();
+	rigidBody->UpdateBlockedAxis();*/
 }

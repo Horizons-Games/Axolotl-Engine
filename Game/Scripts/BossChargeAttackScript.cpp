@@ -14,6 +14,7 @@
 #include "../Scripts/EnemyClass.h"
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/BossChargeRockScript.h"
+#include "../Scripts/FinalBossScript.h"
 
 REGISTERCLASS(BossChargeAttackScript);
 
@@ -43,6 +44,7 @@ void BossChargeAttackScript::Start()
 
 	transform = owner->GetComponent<ComponentTransform>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	finalBossScript = owner->GetComponent<FinalBossScript>();
 }
 
 void BossChargeAttackScript::Update(float deltaTime)
@@ -71,14 +73,15 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 	}
 	else if (other->GetOwner()->CompareTag("Floor") && chargeState == ChargeState::BOUNCING_WALL)
 	{
-		rigidBody->SetIsKinematic(true);
-		rigidBody->SetUpMobility();
+		/*rigidBody->SetIsKinematic(true);
+		rigidBody->SetUpMobility();*/
 	}
 }
 
 void BossChargeAttackScript::TriggerChargeAttack(ComponentTransform* targetPosition)
 {
 	LOG_INFO("The charge attack was triggered");
+	finalBossScript->RemoveAgent();
 
 	chargeState = ChargeState::PREPARING_CHARGE;
 	chargeCooldown = chargeMaxCooldown;
@@ -133,6 +136,10 @@ void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
 		EnemyClass* enemyScript = owner->GetComponent<EnemyClass>();
 		if (enemyScript->GetStunnedTime() <= 0.0f)
 		{
+			/*rigidBody->SetXRotationAxisBlocked(false);
+			rigidBody->SetYRotationAxisBlocked(false);
+			rigidBody->SetZRotationAxisBlocked(false);*/
+
 			rocksSpawned.clear();
 
 			chargeState = ChargeState::NONE;
@@ -162,6 +169,10 @@ void BossChargeAttackScript::PerformChargeAttack()
 {
 	float3 forward = transform->GetGlobalForward();
 	forward.Normalize();
+
+	/*rigidBody->SetXRotationAxisBlocked(true);
+	rigidBody->SetYRotationAxisBlocked(true);
+	rigidBody->SetZRotationAxisBlocked(true);*/
 
 	rigidBody->SetKpForce(0.5f);
 	rigidBody->SetPositionTarget(float3(forward.x * 50.0f,

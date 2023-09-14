@@ -161,6 +161,8 @@ void EnemyVenomiteScript::CheckState()
 
 void EnemyVenomiteScript::UpdateBehaviour(float deltaTime)
 {
+	float3 target = seekTargetTransform->GetGlobalPosition();
+
 	switch (venomiteState)
 	{
 	case VenomiteBehaviours::PATROL:
@@ -171,7 +173,8 @@ void EnemyVenomiteScript::UpdateBehaviour(float deltaTime)
 
 		enemyDetectionTime += deltaTime;
 
-		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+		aiMovement->SetTargetPosition(target);
+		aiMovement->SetRotationTargetPosition(target);
 
 		if (enemyDetectionTime >= enemyDetectionDuration)
 		{
@@ -194,7 +197,8 @@ void EnemyVenomiteScript::UpdateBehaviour(float deltaTime)
 
 	case VenomiteBehaviours::RANGED_ATTACK:
 
-		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+		aiMovement->SetTargetPosition(target);
+		aiMovement->SetRotationTargetPosition(target);
 
 		if (componentAnimation->GetActualStateName() != "VenomiteTakeDamage" && 
 			componentAnimation->GetActualStateName() != "VenomiteMeleeAttack")
@@ -216,7 +220,8 @@ void EnemyVenomiteScript::UpdateBehaviour(float deltaTime)
 
 	case VenomiteBehaviours::MELEE_ATTACK:
 
-		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+		aiMovement->SetTargetPosition(target);
+		aiMovement->SetRotationTargetPosition(target);
 
 		if (componentAnimation->GetActualStateName() != "VenomiteTakeDamage")
 		{

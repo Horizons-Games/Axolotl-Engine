@@ -1,0 +1,11 @@
+{
+    "UID": 13493555757428945394,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/armory_bank.Cube_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/armory_bankDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
