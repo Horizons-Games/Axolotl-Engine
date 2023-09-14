@@ -50,10 +50,6 @@ void ComponentPlayer::SetActualPlayer(bool actualPlayer, bool propagate)
 	{
 		App->GetModule<ModulePlayer>()->SetPlayer(GetOwner());
 	}
-	else if (!actualPlayer)
-	{
-		App->GetModule<ModulePlayer>()->SetSecondPlayer(GetOwner());
-	}
 	else if (propagate)
 	{
 		App->GetModule<ModulePlayer>()->SetPlayer(nullptr);

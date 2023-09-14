@@ -28,8 +28,6 @@ public:
 private:
 	void Start() override;
 
-	int currentPlayerID;
-
 	ModuleInput* input;
 	Timer changePlayerTimer;
 

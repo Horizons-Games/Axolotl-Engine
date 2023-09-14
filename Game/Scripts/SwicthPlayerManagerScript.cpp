@@ -18,20 +18,21 @@
 
 REGISTERCLASS(SwitchPlayerManagerScript);
 
-SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), mainCamera(nullptr), input(nullptr), currentPlayerID(0)
+SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr)
 {
-	REGISTER_FIELD(mainCamera, GameObject*);
+	REGISTER_FIELD(secondPlayer, GameObject*);
 }
 
 void SwitchPlayerManagerScript::Start()
 {
 	input = App->GetModule<ModuleInput>();
 	
+	mainCamera = App->GetModule<ModulePlayer>()->GetCameraPlayerObject();
+
 	camera = mainCamera->GetComponent<CameraControllerScript>();
 	cameraTransform = mainCamera->GetComponent<ComponentTransform>();
 
 	currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
-	secondPlayer = App->GetModule<ModulePlayer>()->GetSecondPlayer();
 	LOG_DEBUG("Player 1: {}", currentPlayer);
 	LOG_DEBUG("Player 2: {}", secondPlayer);
 
@@ -68,9 +69,7 @@ void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 {
 	if (changePlayerTimer.Read() >= 2000)
-	{
-		//currentPlayerID = (currentPlayerID + 1) % players.size(); // Here we change current player ID
-		
+	{	
 		camera->ChangeCurrentPlayer(secondPlayer->GetComponent<ComponentTransform>());
 		movementManager->ChangingNewCurrentPlayer(false);
 		jumpManager->ChangingCurrentPlayer(false);
@@ -78,8 +77,9 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		changePlayerTimer.Stop();
 		isChangingPlayer = false;
 		isNewPlayerEnabled = !isNewPlayerEnabled;
+		GameObject* changePlayerGameObject = currentPlayer;
 		currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
-		secondPlayer = App->GetModule<ModulePlayer>()->GetSecondPlayer();
+		secondPlayer = changePlayerGameObject;
 	}
 
 	else if (changePlayerTimer.Read() >= 1500 && !isNewPlayerEnabled)
