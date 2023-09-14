@@ -58,9 +58,10 @@ void ComponentVideo::Init()
 	}
 	OpenVideo(video->GetAssetsPath().c_str());
 #else
-	std::filesystem::path fs_path(video->GetAssetsPath());
-	std::string extension = fs_path.extension().string();
-	if (extension != ".avi")
+	/*std::filesystem::path fs_path(video->GetLibraryPath());
+	std::string extension = fs_path.extension().string();*/
+	std::string extension = video->GetExtension();
+	if (extension != AVI_VIDEO_EXTENSION)
 	{
 		canRotate = true;
 	}
@@ -162,6 +163,7 @@ void ComponentVideo::InternalLoad(const Json& meta)
 	if (resourceVideo)
 	{
 		video = resourceVideo;
+		Init();
 	}
 #endif
 }

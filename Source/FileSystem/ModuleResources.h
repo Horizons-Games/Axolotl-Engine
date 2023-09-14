@@ -156,18 +156,17 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		std::string libraryPath = CreateLibraryPath(uid, type);
 
 		long long assetTime = fileSystem->GetModificationDate(assetPath.c_str());
-		long long libTime;
+		std::string libExtension = GENERAL_BINARY_EXTENSION;
 		if (type == ResourceType::Video)
 		{
-			libTime = fileSystem->GetModificationDate((libraryPath + extension).c_str());
+			libExtension = extension;
 		}
-		else
-			libTime = fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
+		long long libTime = fileSystem->GetModificationDate((libraryPath + extension).c_str());
 		if (assetTime <= libTime)
 		{
-			std::string fileName = fileSystem->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
+			std::string fileName = fileSystem->GetFileName(libraryPath + extension);
 			UID uid = std::stoull(fileName.c_str(), NULL, 0);
-			ResourceType type = FindTypeByFolder(libraryPath + GENERAL_BINARY_EXTENSION);
+			ResourceType type = FindTypeByFolder(libraryPath + extension);
 			std::shared_ptr<Resource> resource =
 				CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
 			resource->LoadImporterOptions(meta);
@@ -202,12 +201,18 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		std::string libraryPath = CreateLibraryPath(uid, type);
 
 		long long assetTime = fileSystem->GetModificationDate(assetPath.c_str());
-		long long libTime = fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
+		std::string libExtension = GENERAL_BINARY_EXTENSION;
+		if (type == ResourceType::Video)
+		{
+			libExtension = extension;
+		}
+		
+		long long libTime = fileSystem->GetModificationDate((libraryPath + libExtension).c_str());
 		if (assetTime <= libTime)
 		{
-			std::string fileName = fileSystem->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
+			std::string fileName = fileSystem->GetFileName(libraryPath + libExtension);
 			UID uid = std::stoull(fileName.c_str(), NULL, 0);
-			ResourceType type = FindTypeByFolder(libraryPath + GENERAL_BINARY_EXTENSION);
+			ResourceType type = FindTypeByFolder(libraryPath + libExtension);
 			std::shared_ptr<Resource> resource =
 				CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
 			resource->LoadImporterOptions(meta);

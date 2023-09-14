@@ -213,6 +213,11 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 				new EditorResource<ResourceParticleSystem>(uid, fileName, assetsPath, libraryPath), 
 				CollectionAwareDeleter<Resource>());
 			break;
+		case ResourceType::Video:
+			res = std::shared_ptr<EditorResource<ResourceVideo>>(
+				new EditorResource<ResourceVideo>(uid, fileName, assetsPath, libraryPath),
+				CollectionAwareDeleter<Resource>());
+			break;
 		default:
 			return nullptr;
 	}
@@ -275,6 +280,10 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 		case ResourceType::ParticleSystem:
 			return std::shared_ptr<ResourceParticleSystem>(
 				new ResourceParticleSystem(uid, fileName, assetsPath, libraryPath), customDeleter);
+			break;
+		case ResourceType::Video:
+			return std::shared_ptr<ResourceVideo>(
+				new ResourceVideo(uid, fileName, assetsPath, libraryPath), customDeleter);
 			break;
 		default:
 			return nullptr;
@@ -359,17 +368,33 @@ std::shared_ptr<Resource> ModuleResources::LoadResourceStored(const char* filePa
 void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resource)
 {
 	std::string libPath;
+	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	if (!(resource->GetType() == ResourceType::Video))
 	{
 		libPath = resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
 	}
 	else
 	{
-		// HERE YOU HAVE TO TAKE THE EXTENSION
-		//libPath = resource->GetLibraryPath() + 
+		
+		 std::shared_ptr<ResourceVideo> resourceVideo = std::dynamic_pointer_cast<ResourceVideo>(resource);
+		if (fileSystem->Exists((resource->GetLibraryPath() + MP4_VIDEO_EXTENSION).c_str()))
+		{
+			libPath = resource->GetLibraryPath() + MP4_VIDEO_EXTENSION;
+			resourceVideo->SetExtension(MP4_VIDEO_EXTENSION);
+			
+		}
+		else if (fileSystem->Exists((resource->GetLibraryPath() + MOV_VIDEO_EXTENSION).c_str())) {
+			libPath = resource->GetLibraryPath() + MOV_VIDEO_EXTENSION;
+			resourceVideo->SetExtension(MOV_VIDEO_EXTENSION);
+		}
+		else
+		{
+			libPath = resource->GetLibraryPath() + AVI_VIDEO_EXTENSION;
+			resourceVideo->SetExtension(AVI_VIDEO_EXTENSION);
+		}
 	}
 	
-	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	
 
 	if (resource->GetType() != ResourceType::Unknown && fileSystem->Exists(libPath.c_str()))
 	{
@@ -387,7 +412,7 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 				textureImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceTexture>(resource));
 				break;
 			case ResourceType::Video:
-				videoImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceVideo>(resource));
+				//videoImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceVideo>(resource));
 				break;
 			case ResourceType::Mesh:
 				meshImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMesh>(resource));
