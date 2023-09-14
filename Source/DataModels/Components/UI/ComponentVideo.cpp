@@ -49,6 +49,7 @@ void ComponentVideo::Init()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+#ifdef ENGINE	
 	std::filesystem::path fs_path(video->GetAssetsPath());
 	std::string extension = fs_path.extension().string();
 	if (extension != ".avi")
@@ -56,6 +57,15 @@ void ComponentVideo::Init()
 		canRotate = true;
 	}
 	OpenVideo(video->GetAssetsPath().c_str());
+#else
+	std::filesystem::path fs_path(video->GetAssetsPath());
+	std::string extension = fs_path.extension().string();
+	if (extension != ".avi")
+	{
+		canRotate = true;
+	}
+	OpenVideo((video->GetLibraryPath() + extension).c_str());
+#endif
 }
 
 void ComponentVideo::Draw() const
@@ -114,10 +124,17 @@ void ComponentVideo::Draw() const
 
 void ComponentVideo::InternalSave(Json& meta)
 {
+	UID uidVideo = 0;
+	std::string assetPath = "";
+	if (video)
+	{
+		meta["videoUID"] = video->GetUID();
+		meta["assetPathVideo"] = video->GetAssetsPath().c_str();
+	}
 	meta["loop"] = loop;
 	meta["rotateVertical"] = rotateVertical;
 	meta["canBeRotate"] = canRotate;
-	meta["assetPathVideo"] = video->GetAssetsPath().c_str();
+	
 }
 
 void ComponentVideo::InternalLoad(const Json& meta)
@@ -126,17 +143,27 @@ void ComponentVideo::InternalLoad(const Json& meta)
 	std::string path = meta["assetPathVideo"];
 	rotateVertical = meta["rotateVertical"];
 	canRotate = meta["canBeRotate"];
+#ifdef ENGINE	
 	bool resourceExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 	if (resourceExists)
 	{
-		std::shared_ptr<ResourceVideo> resourceImage =
+		std::shared_ptr<ResourceVideo> resourceVideo =
 			App->GetModule<ModuleResources>()->RequestResource<ResourceVideo>(path);
-		if (resourceImage)
+		if (resourceVideo)
 		{
-			video = resourceImage;
+			video = resourceVideo;
 			Init();
 		}
 	}
+#else
+	UID uidVideo = meta["videoUID"];
+	std::shared_ptr<ResourceVideo> resourceVideo =
+		App->GetModule<ModuleResources>()->SearchResource<ResourceVideo>(uidVideo);
+	if (resourceVideo)
+	{
+		video = resourceVideo;
+	}
+#endif
 }
 
 void ComponentVideo::OpenVideo(const char* filePath)

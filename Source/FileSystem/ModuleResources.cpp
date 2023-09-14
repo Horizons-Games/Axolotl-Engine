@@ -358,7 +358,17 @@ std::shared_ptr<Resource> ModuleResources::LoadResourceStored(const char* filePa
 
 void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resource)
 {
-	std::string libPath = resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
+	std::string libPath;
+	if (!(resource->GetType() == ResourceType::Video))
+	{
+		libPath = resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
+	}
+	else
+	{
+		// HERE YOU HAVE TO TAKE THE EXTENSION
+		//libPath = resource->GetLibraryPath() + 
+	}
+	
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
 	if (resource->GetType() != ResourceType::Unknown && fileSystem->Exists(libPath.c_str()))

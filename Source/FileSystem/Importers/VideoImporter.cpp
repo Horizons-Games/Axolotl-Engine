@@ -18,6 +18,9 @@ extern "C"
 #include <libswresample/swresample.h>
 }
 
+#include <iostream>
+#include <filesystem>
+
 
 VideoImporter::VideoImporter()
 {
@@ -29,12 +32,9 @@ VideoImporter::~VideoImporter()
 
 void VideoImporter::Import(const char* filePath, std::shared_ptr<ResourceVideo> resource)
 {
-	char* buffer{};
-	unsigned int size = 0;
-	Save(resource, buffer, size);
-	App->GetModule<ModuleFileSystem>()->Save(
-		(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, 0);
-	delete buffer;
+	std::filesystem::path fs_path(resource->GetAssetsPath());
+	std::string extension = fs_path.extension().string();
+	App->GetModule<ModuleFileSystem>()->Copy(resource->GetAssetsPath(), resource->GetLibraryPath() + extension);
 }
 
 void VideoImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceVideo> resource)
