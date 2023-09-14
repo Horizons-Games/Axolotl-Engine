@@ -91,7 +91,7 @@ void ElevatorCore::Update(float deltaTime)
 	else
 	{
 		bixPrefab->SetParent(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
-		bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(false);
+		bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetIsStatic(false);
 		EnableAllInteractions();
 	}
 }
@@ -110,7 +110,7 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 			activeState = ActiveActions::ACTIVE;
 
 			bixPrefab->SetParent(elevator);
-			bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(true);
+			bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetIsStatic(true);
 		}
 	}
 }
