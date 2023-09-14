@@ -388,7 +388,10 @@
     <ClCompile Include="DataModels\Components\UI\ComponentSlider.cpp" />
     <ClCompile Include="DataModels\Components\UI\ComponentVideo.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceVideo.cpp" />
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowVideoInput.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowVideoInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAreaLight.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -439,7 +442,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentVideo.cpp" />
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentVideo.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="FileSystem\Importers\CubemapImporter.cpp" />
     <ClCompile Include="DataModels\Cubemap\Cubemap.cpp" />
     <ClCompile Include="DataModels\Animation\AnimationController.cpp" />
@@ -820,7 +825,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Components\UI\ComponentSlider.h" />
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowVideoInput.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowVideoInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAreaLight.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -853,7 +861,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentVideo.h" />
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentVideo.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Defines\ApplicationDefines.h" />
     <ClInclude Include="Defines\FrustumDefines.h" />
     <ClInclude Include="Defines\ExtensionDefines.h" />
@@ -924,10 +934,8 @@
     <ClInclude Include="DataModels\Skybox\Skybox.h" />
     <ClInclude Include="DataModels\Timer\Timer.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\EditorWindow.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
-      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowImportScene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
