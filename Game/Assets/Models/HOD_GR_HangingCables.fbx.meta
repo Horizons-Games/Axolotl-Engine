@@ -1,0 +1,25 @@
+{
+    "UID": 17067259104669871582,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/HOD_GR_HangingCables.Catenary.004_0.mesh",
+        "Assets/Meshes/HOD_GR_HangingCables.Catenary.001_0.mesh",
+        "Assets/Meshes/HOD_GR_HangingCables.Catenary.008_0.mesh",
+        "Assets/Meshes/HOD_GR_HangingCables.Catenary.003_0.mesh",
+        "Assets/Meshes/HOD_GR_HangingCables.Catenary.005_0.mesh",
+        "Assets/Meshes/HOD_GR_HangingCables.Catenary.002_0.mesh",
+        "Assets/Meshes/HOD_GR_HangingCables.Catenary.009_0.mesh",
+        "Assets/Meshes/HOD_GR_HangingCables.Catenary.006_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/HOD_GR_HangingCablesDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_HangingCablesDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_HangingCablesDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_HangingCablesDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_HangingCablesDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_HangingCablesDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_HangingCablesDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_HangingCablesDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

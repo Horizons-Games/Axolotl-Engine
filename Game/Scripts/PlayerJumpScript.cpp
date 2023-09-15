@@ -10,7 +10,7 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentScript.h"
 
-#include "../Scripts/BixAttackScript.h"
+#include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/PlayerMoveScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
@@ -45,7 +45,7 @@ void PlayerJumpScript::Start()
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 
-	attackScript = owner->GetComponent<BixAttackScript>();
+	attackScript = owner->GetComponent<PlayerAttackScript>();
 	playerMoveScript = owner->GetComponent<PlayerMoveScript>();
 }
 

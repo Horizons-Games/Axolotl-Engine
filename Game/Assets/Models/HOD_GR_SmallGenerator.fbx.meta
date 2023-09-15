@@ -1,0 +1,11 @@
+{
+    "UID": 16733159545860211935,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/HOD_GR_SmallGenerator.Cylinder.015_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/HOD_GR_SmallGeneratorDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

@@ -69,10 +69,10 @@ void ComponentTransform::InternalSave(Json& meta)
 	meta["localSca_Z"] = static_cast<float>(localSca.z);
 
 	//Use this when you want to save ANY old scene with new boundingBox Value
-	//if (bbSca.x == 0.0f && bbSca.y == 0.0f && bbSca.z == 0.0f)
-	//{
-	//	bbSca = { 1.0f,1.0f,1.0f };
-	//}
+	/*if (bbSca.x == 0.0f && bbSca.y == 0.0f && bbSca.z == 0.0f)
+	{
+		bbSca = { 1.0f,1.0f,1.0f };
+	}*/
 
 	meta["boudingBoxSca_X"] = static_cast<float>(bbSca.x);
 	meta["boudingBoxSca_Y"] = static_cast<float>(bbSca.y);

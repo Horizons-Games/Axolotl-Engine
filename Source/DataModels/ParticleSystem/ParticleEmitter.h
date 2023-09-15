@@ -12,7 +12,7 @@
 #define MAX_PARTICLES 500
 #define MAX_DURATION 25.0f
 #define MAX_SPEED 75.0f
-#define MAX_SIZE 10.0f
+#define MAX_SIZE 30.0f
 #define MAX_ROTATION 359.9f
 #define MAX_GRAVITY 100.0f
 #define MAX_RADIUS 1000000000.0f
