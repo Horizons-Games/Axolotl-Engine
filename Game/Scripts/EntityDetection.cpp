@@ -4,6 +4,7 @@
 #include "Application.h"
 
 #include "ModuleInput.h"
+#include "ModulePhysics.h"
 
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
@@ -54,7 +55,9 @@ void EntityDetection::UpdateEnemyDetection(float distanceFilter)
 #ifdef ENGINE
 	DrawDetectionLines(distanceFilter);
 #endif // ENGINE
-
+	enemiesInTheArea.clear();
+	App->GetModule<ModulePhysics>()->GetCollisions(rigidBody, enemiesInTheArea, "Enemy");
+	App->GetModule<ModulePhysics>()->GetCollisions(rigidBody, enemiesInTheArea, "PriorityTarget");
 	SelectEnemy(distanceFilter);
 }
 
@@ -63,6 +66,7 @@ void EntityDetection::DrawDetectionLines(float distanceFilter)
 	float magnitude = rigidBody->GetRadius() * rigidBody->GetFactor();
 
 	dd::circle(originPosition, float3(0, 1, 0), dd::colors::DarkRed, distanceFilter,20);
+	dd::circle(originPosition, float3(0, 1, 0), dd::colors::DarkRed, magnitude, 20);
 
 	//Forward line
 	float3 vecRotated = Quat::RotateAxisAngle(float3::unitY, math::DegToRad(interactionAngle)) * vecForward;
@@ -81,8 +85,9 @@ void EntityDetection::SelectEnemy(float distanceFilter)
 	float angleActualSelected = 0;
 	bool actualIsSpecialTarget = false;
 
-	for (ComponentTransform* enemy : enemiesInTheArea)
+	for (ComponentRigidBody* enemyRigid : enemiesInTheArea)
 	{
+		ComponentTransform* enemy = enemyRigid->GetOwnerTransform();
 		bool insideDistanceFilter = true;
 		if (distanceFilter != 0)
 		{
@@ -171,29 +176,33 @@ void EntityDetection::VisualParticle(bool activate, GameObject* enemy)
 
 void EntityDetection::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->CompareTag("Enemy") ||
+	/*if (other->GetOwner()->CompareTag("Enemy") ||
 		other->GetOwner()->CompareTag("PriorityTarget") && other->GetOwner()->IsEnabled())
 	{
-		enemiesInTheArea.push_back(other->GetOwner()->GetComponent<ComponentTransform>());
-	}
+		enemiesInTheArea.push_back(other);
+	}*/
 }
 
 void EntityDetection::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (enemySelected == other->GetOwner()->GetComponent<ComponentTransform>())
+	/*if (other->GetOwner()->CompareTag("Enemy") ||
+		other->GetOwner()->CompareTag("PriorityTarget") && other->GetOwner()->IsEnabled())
 	{
-		VisualParticle(false, enemySelected->GetOwner());
-		enemySelected = nullptr;
-	}
+		if (enemySelected == other->GetOwner()->GetComponent<ComponentTransform>())
+		{
+			VisualParticle(false, enemySelected->GetOwner());
+			enemySelected = nullptr;
+		}
 
-	enemiesInTheArea.erase(
-		std::remove_if(
-			std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const ComponentTransform* transform)
-			{
-				return transform == other->GetOwner()->GetComponent<ComponentTransform>();
-			}
-		),
-		std::end(enemiesInTheArea));
+		enemiesInTheArea.erase(
+			std::remove_if(
+				std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const ComponentRigidBody* rigid)
+				{
+					return rigid == other;
+				}
+			),
+			std::end(enemiesInTheArea));
+	}*/
 }
 
 
@@ -207,4 +216,14 @@ GameObject* EntityDetection::GetEnemySelected() const
 	{
 		return nullptr;
 	}
+}
+
+bool EntityDetection::AreAnyEnemiesInTheArea() const
+{
+	return !enemiesInTheArea.empty();
+}
+
+std::vector<ComponentRigidBody*>& EntityDetection::GetEnemiesInTheArea()
+{
+	return enemiesInTheArea;
 }

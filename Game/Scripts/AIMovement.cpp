@@ -148,13 +148,18 @@ void AIMovement::AgentMoveToTarget()
 	}
 	if (rotationActivated)
 	{
-		agent->SetTargetPositionRotate(targetPosition);
+		agent->SetTargetPositionRotate(rotationTargetPosition);
 	}
 }
 
 void AIMovement::SetTargetPosition(float3 targetPos)
 {
 	targetPosition = targetPos;
+}
+
+void AIMovement::SetRotationTargetPosition(float3 rotationTargetPos)
+{
+	rotationTargetPosition = rotationTargetPos;
 }
 
 void AIMovement::SetMovementStatuses(bool activateMovement, bool activateRotation)

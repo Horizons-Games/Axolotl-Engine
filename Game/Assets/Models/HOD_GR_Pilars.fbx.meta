@@ -1,0 +1,21 @@
+{
+    "UID": 17324302691442087172,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/HOD_GR_Pilars.Cube.038_0.mesh",
+        "Assets/Meshes/HOD_GR_Pilars.Cube.020_0.mesh",
+        "Assets/Meshes/HOD_GR_Pilars.Cube.021_0.mesh",
+        "Assets/Meshes/HOD_GR_Pilars.Cube.022_0.mesh",
+        "Assets/Meshes/HOD_GR_Pilars.Cube.027_0.mesh",
+        "Assets/Meshes/HOD_GR_Pilars.Cube.030_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/HOD_GR_PilarsDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_PilarsDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_PilarsDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_PilarsDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_PilarsDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_PilarsDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
