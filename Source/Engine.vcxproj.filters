@@ -750,7 +750,6 @@
     <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\CameraSample.cpp" />
     <ClCompile Include="..\Game\Scripts\AnimatedLine.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
