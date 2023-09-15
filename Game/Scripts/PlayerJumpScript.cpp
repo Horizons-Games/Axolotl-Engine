@@ -40,7 +40,7 @@ coyoteTime(0.4f), groundedCount(0), isGrounded(false), attackScript(nullptr), pl
 void PlayerJumpScript::Start()
 {
 	rigidbody = owner->GetComponent<ComponentRigidBody>();
-	//Avoid Y rotation on player this should go on movement not here but
+	// Avoid Y rotation on player, this should go on movement not here but
 	rigidbody->GetRigidBody()->setAngularFactor(btVector3(1.0f, 0.0f, 1.0f));
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
@@ -121,7 +121,7 @@ void PlayerJumpScript::Jump(float deltatime)
 		btVector3 movement(0, 1, 0);
 		float3 direction = float3::zero;
 
-		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && 
+		if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN &&
 			(isGrounded || coyoteTimerCount > 0.0f || (doubleJumpAvailable && canDoubleJump)))
 		{
 			btVector3 velocity = btRb->getLinearVelocity();
