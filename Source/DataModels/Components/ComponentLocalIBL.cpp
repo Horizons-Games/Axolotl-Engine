@@ -340,11 +340,10 @@ void ComponentLocalIBL::Initialize()
 
 void ComponentLocalIBL::CreateCubemap()
 {
-	const float3 front[6] = { float3::unitX,  -float3::unitX, float3::unitY,
-					  -float3::unitY, float3::unitZ,  -float3::unitZ };
-	const float3 up[6] = {
-		-float3::unitY, -float3::unitY, float3::unitZ, -float3::unitZ, -float3::unitY, -float3::unitY
-	};
+	const float3 front[6] = { float3::unitX, -float3::unitX, float3::unitY,
+							-float3::unitY, float3::unitZ, -float3::unitZ };
+	const float3 up[6] = { -float3::unitY, -float3::unitY, float3::unitZ, 
+							-float3::unitZ, -float3::unitY, -float3::unitY };
 
 	ModuleRender* modRender = App->GetModule<ModuleRender>();
 	ModuleProgram* modProgram = App->GetModule<ModuleProgram>();
@@ -393,11 +392,10 @@ void ComponentLocalIBL::CreateCubemap()
 
 void ComponentLocalIBL::RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel)
 {
-	const float3 front[6] = { float3::unitX,  -float3::unitX, float3::unitY,
-						  -float3::unitY, float3::unitZ,  -float3::unitZ };
-	const float3 up[6] = {
-		-float3::unitY, -float3::unitY, float3::unitZ, -float3::unitZ, -float3::unitY, -float3::unitY
-	};
+	const float3 front[6] = { float3::unitX, -float3::unitX, float3::unitY,
+							-float3::unitY, float3::unitZ, -float3::unitZ };
+	const float3 up[6] = { -float3::unitY, -float3::unitY, float3::unitZ,
+							-float3::unitZ, -float3::unitY, -float3::unitY };
 	
 	Frustum frustum;
 	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
