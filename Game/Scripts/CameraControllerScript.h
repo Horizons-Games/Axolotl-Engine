@@ -4,8 +4,6 @@
 #include "Components/ComponentTransform.h"
 class ComponentCameraSample;
 
-class CameraSample;
-
 class CameraControllerScript :
     public Script
 {
@@ -15,22 +13,31 @@ public:
 	void Start() override;
     void PreUpdate(float deltaTime) override;
 
+	void SetVerticalSensitivity(float newVerticalSensibility);
+	void SetInCombat(bool newCombat);
+	bool IsInCombat();
+
 private:
 	void CalculateOffsetVector();
 	void CalculateOffsetVector(float3 offset);
+
+	void CalculateFocusOffsetVector();
+	void CalculateFocusOffsetVector(float2 offset);
 	ComponentCameraSample* FindClosestSample(float3 position);
 
 private: 
 
 	float3 finalTargetPosition;
 	Quat finalTargetOrientation;
+
 	float3 defaultOffsetVector;
-	float defaultOffset;
+	float3 defaultFocusOffsetVector;
 
 	GameObject* samplePointsObject;
 	std::vector<ComponentCameraSample*> samples;
 
 	ComponentTransform* transform;
+	ComponentCamera* camera;
 
 	GameObject* player;
 	ComponentTransform* playerTransform;
@@ -39,6 +46,18 @@ private:
 	float yOffset;
 	float zOffset;
 
-	float focusPointOffset;
+	float xFocusOffset;
+	float yFocusOffset;
+
+	bool inCombat;
 };
 
+inline void CameraControllerScript::SetInCombat(bool newmode)
+{
+	inCombat = newmode;
+}
+
+inline bool CameraControllerScript::IsInCombat()
+{
+	return inCombat;
+}

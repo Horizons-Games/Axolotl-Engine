@@ -7,14 +7,15 @@
 class ResourceTexture;
 class WindowParticleTexture;
 
+enum class BlendingMode;
+
 class ModuleRenderer : public ParticleModule
 {
 public:
 	enum class Alignment { SCREEN, WORLD, AXIAL_Y, AXIAL_X, AXIAL_Z, LOCAL};
-	enum class BlendingMode { ALPHA, ADDITIVE };
-
 public:
 	ModuleRenderer(ParticleEmitter* emitter);
+	ModuleRenderer(ParticleEmitter* emitter, ModuleRenderer* renderer);
 	~ModuleRenderer();
 
 	void Spawn(EmitterInstance* instance) override;
@@ -103,7 +104,7 @@ inline ModuleRenderer::Alignment ModuleRenderer::GetAlignment() const
 	return alignment;
 }
 
-inline ModuleRenderer::BlendingMode ModuleRenderer::GetBlending() const
+inline BlendingMode ModuleRenderer::GetBlending() const
 {
 	return blendingMode;
 }

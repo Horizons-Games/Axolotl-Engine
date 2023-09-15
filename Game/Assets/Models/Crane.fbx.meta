@@ -1,0 +1,31 @@
+{
+    "UID": 13157131852721822871,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Crane.Cube.002_0.mesh",
+        "Assets/Meshes/Crane.Cube.003_0.mesh",
+        "Assets/Meshes/Crane.Cylinder.008_0.mesh",
+        "Assets/Meshes/Crane.Cylinder.009_0.mesh",
+        "Assets/Meshes/Crane.BezierCurve.003_0.mesh",
+        "Assets/Meshes/Crane.BezierCurve.004_0.mesh",
+        "Assets/Meshes/Crane.BezierCurve.005_0.mesh",
+        "Assets/Meshes/Crane.Cylinder.013_0.mesh",
+        "Assets/Meshes/Crane.Cylinder.014_0.mesh",
+        "Assets/Meshes/Crane.Cylinder.010_0.mesh",
+        "Assets/Meshes/Crane.Cylinder.006_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/CraneMaterial_0.mat",
+        "Assets/Materials/CraneMaterial_0.mat",
+        "Assets/Materials/CraneDefaultMaterial_0.mat",
+        "Assets/Materials/CraneDefaultMaterial_0.mat",
+        "Assets/Materials/CraneDefaultMaterial_0.mat",
+        "Assets/Materials/CraneDefaultMaterial_0.mat",
+        "Assets/Materials/CraneDefaultMaterial_0.mat",
+        "Assets/Materials/CraneDefaultMaterial_0.mat",
+        "Assets/Materials/CraneDefaultMaterial_0.mat",
+        "Assets/Materials/CraneDefaultMaterial_0.mat",
+        "Assets/Materials/CraneDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

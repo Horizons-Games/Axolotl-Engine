@@ -1,0 +1,15 @@
+{
+    "UID": 1835124735753037173,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/HOD_GR_StructureAccesories.Cylinder_0.mesh",
+        "Assets/Meshes/HOD_GR_StructureAccesories.Cylinder.002_0.mesh",
+        "Assets/Meshes/HOD_GR_StructureAccesories.Cylinder.007_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/HOD_GR_StructureAccesoriesDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_StructureAccesoriesDefaultMaterial_0.mat",
+        "Assets/Materials/HOD_GR_StructureAccesoriesDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

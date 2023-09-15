@@ -13,6 +13,15 @@ ModuleColor::ModuleColor(ParticleEmitter* emitter) : ParticleModule(ModuleType::
 	gradient = new ImGradient();
 }
 
+ModuleColor::ModuleColor(ParticleEmitter* emitter, ModuleColor* color) : 
+	ParticleModule(ModuleType::COLOR, emitter)
+{
+	initAlpha = color->GetInitAlpha();
+	endAlpha = color->GetEndAlpha();
+	gradient = color->GetGradient();
+	enabled = color->IsEnabled();
+}
+
 ModuleColor::~ModuleColor()
 {
 	delete gradient;
@@ -38,7 +47,7 @@ void ModuleColor::Update(EmitterInstance* instance)
 		{
 			EmitterInstance::Particle& particle = particles[i];
 
-			if (particle.lifespan >= 0.0f)
+			if (!particle.dead)
 			{
 				float lifeRatio = 1.0f - particle.lifespan / particle.initLife;
 
@@ -68,12 +77,12 @@ void ModuleColor::DrawImGui()
 			ImGui::Text("Init value");
 			ImGui::TableNextColumn();
 			ImGui::SetNextItemWidth(80.0f);
-			ImGui::DragFloat("##initAlpha", &initAlpha, 0.01, 0.0f, 1.0f, "%.2f");
+			ImGui::DragFloat("##initAlpha", &initAlpha, 0.01f, 0.0f, 1.0f, "%.2f");
 			ImGui::TableNextColumn();
 			ImGui::Text("End value");
 			ImGui::TableNextColumn();
 			ImGui::SetNextItemWidth(80.0f);
-			ImGui::DragFloat("##endAlpha", &endAlpha, 0.01, 0.0f, 1.0f, "%.2f");
+			ImGui::DragFloat("##endAlpha", &endAlpha, 0.01f, 0.0f, 1.0f, "%.2f");
 			
 			ImGui::EndTable();
 		}

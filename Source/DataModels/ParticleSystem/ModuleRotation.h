@@ -8,6 +8,7 @@ class ModuleRotation : public ParticleModule
 {
 public:
 	ModuleRotation(ParticleEmitter* emitter);
+	ModuleRotation(ParticleEmitter* emitter, ModuleRotation* rotation);
 	~ModuleRotation() override;
 
 	void Spawn(EmitterInstance* instance) override;

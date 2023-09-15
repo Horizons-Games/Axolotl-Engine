@@ -3,10 +3,11 @@
 #include "ModuleInput.h"
 
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentCamera.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentCameraSample.h"
 
-#include "../Scripts/CameraSample.h"
+#include "Camera/CameraGameObject.h"
 
 REGISTERCLASS(CameraControllerScript);
 
@@ -18,7 +19,9 @@ CameraControllerScript::CameraControllerScript() : Script(),
 	REGISTER_FIELD(xOffset, float);
 	REGISTER_FIELD(yOffset, float);
 	REGISTER_FIELD(zOffset, float);
-	REGISTER_FIELD(focusPointOffset, float);
+	REGISTER_FIELD(xFocusOffset, float);
+	REGISTER_FIELD(yFocusOffset, float);
+	REGISTER_FIELD(inCombat, bool);
 }
 
 void CameraControllerScript::Start()
@@ -27,47 +30,91 @@ void CameraControllerScript::Start()
 	{
 		for (GameObject* sample : samplePointsObject->GetChildren())
 		{
-			samples.push_back(sample->GetComponent<ComponentCameraSample>());
+			ComponentCameraSample* componentSample = sample->GetComponent<ComponentCameraSample>();
+			if (componentSample->IsEnabled())
+			{
+				samples.push_back(componentSample);
+			}
+			
 		}
 	}
 	transform = owner->GetComponent<ComponentTransform>();
+	camera = GetOwner()->GetComponentInternal<ComponentCamera>();
 	playerTransform = player->GetComponent<ComponentTransform>();
 
 	finalTargetPosition = transform->GetGlobalPosition();
 	finalTargetOrientation = transform->GetGlobalRotation();
 	CalculateOffsetVector();
+	CalculateFocusOffsetVector();
 }
 
 void CameraControllerScript::PreUpdate(float deltaTime)
 {
-	float3 sourceDirection = transform->GetGlobalForward().Normalized();
-	float3 targetDirection = (playerTransform->GetGlobalPosition() 
-		+ float3(0.0f,focusPointOffset,0.0f) 
-		- transform->GetGlobalPosition()).Normalized();
-	Quat orientationOffset = Quat::identity;
-
-	if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.01))
-	{
-		Quat rot = Quat::RotateFromTo(sourceDirection, targetDirection);
-		orientationOffset = rot * transform->GetGlobalRotation();
-	}
-	else
-	{
-		orientationOffset = transform->GetGlobalRotation();
-	}
 
 	ComponentCameraSample* closestSample = FindClosestSample(playerTransform->GetGlobalPosition());
+
 	if (closestSample)
 	{
-		CalculateOffsetVector(closestSample->GetOffset());
+		if (closestSample->GetFixedOffsetEnabled())
+		{
+			CalculateOffsetVector(closestSample->GetFixedOffset() - playerTransform->GetGlobalPosition());
+		}
+		else
+		{
+			CalculateOffsetVector(closestSample->GetOffset());
+		}
+		
+		if (closestSample->GetFocusOffsetEnabled())
+		{
+			CalculateFocusOffsetVector(closestSample->GetFocusOffset());
+		}
+		else
+		{
+			CalculateFocusOffsetVector();
+		}
 
-		/*float3 eulerAngles = closestSample->orientationOffset;
-		orientationOffset = Quat::FromEulerXYZ(DegToRad(eulerAngles.x), DegToRad(eulerAngles.y), DegToRad(eulerAngles.z));*/
-
+		if (closestSample->GetKpPositionEnabled())
+		{
+			camera->SetSampleKpPosition(closestSample->GetKpPosition());
+			
+		}
+		else
+		{
+			camera->RestoreKpPosition();
+		}
+		
+		if (closestSample->GetKpRotationEnabled())
+		{
+			camera->SetSampleKpRotation(closestSample->GetKpRotation());
+		}
+		else
+		{
+			camera->RestoreKpRotation();
+		}
 	}
 	else
 	{
 		CalculateOffsetVector();
+		CalculateFocusOffsetVector();
+		camera->RestoreKpPosition();
+		camera->RestoreKpRotation();
+	}
+
+	float3 sourceDirection = camera->GetCamera()->GetFrustum()->Front().Normalized();
+	float3 targetDirection = (playerTransform->GetGlobalPosition()
+		+ defaultFocusOffsetVector
+		- camera->GetCamera()->GetPosition()).Normalized();
+
+	Quat orientationOffset = Quat::identity;
+
+	if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.001f))
+	{
+		Quat rot = Quat::RotateFromTo(sourceDirection, targetDirection);
+		orientationOffset = rot * camera->GetCamera()->GetRotation();
+	}
+	else
+	{
+		orientationOffset = camera->GetCamera()->GetRotation();
 	}
 
 	finalTargetPosition = playerTransform->GetGlobalPosition() + defaultOffsetVector;
@@ -85,32 +132,68 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 
 void CameraControllerScript::CalculateOffsetVector()
 {
-	//defaultOffsetVector = -float3::unitZ * zOffset + playerTransform->GetGlobalUp().Normalized() * yOffset;
-	defaultOffsetVector = float3::unitX * xOffset + float3::unitY * yOffset + float3::unitZ * zOffset;
-	defaultOffset = defaultOffsetVector.Length();
+	defaultOffsetVector = float3::unitX * xOffset 
+		+ float3::unitY * yOffset 
+		+ float3::unitZ * zOffset;
 }
 
 void CameraControllerScript::CalculateOffsetVector(float3 offset)
 {
-
 	defaultOffsetVector = offset;
-	defaultOffset = defaultOffsetVector.Length();
+}
+
+void CameraControllerScript::CalculateFocusOffsetVector()
+{
+	float3 currentFocus = (playerTransform->GetGlobalPosition() - camera->GetCamera()->GetPosition()).Normalized();
+	float3 rightVector = currentFocus.Cross(float3::unitY);
+	defaultFocusOffsetVector = rightVector * xFocusOffset
+		+ float3::unitY * yFocusOffset;
+}
+
+void CameraControllerScript::CalculateFocusOffsetVector(float2 offset)
+{
+	float3 currentFocus = (playerTransform->GetGlobalPosition() - camera->GetCamera()->GetPosition()).Normalized();
+	float3 rightVector = currentFocus.Cross(float3::unitY);
+	defaultFocusOffsetVector = rightVector * offset.x
+		+ float3::unitY * offset.y;
 }
 
 
 ComponentCameraSample* CameraControllerScript::FindClosestSample(float3 position)
 {
 	ComponentCameraSample* closestSample = nullptr;
-	float minDistance = std::numeric_limits<float>::max();
+	ComponentCameraSample* closestCombatSample = nullptr;
 
-	for (auto sample : samples)
+	float minDistance = std::numeric_limits<float>::max();
+	float minCombatDistance = std::numeric_limits<float>::max();
+
+	for (ComponentCameraSample* sample : samples)
 	{
 		float distance = (sample->GetPosition() - position).Length();
-		if (distance < minDistance && distance <= sample->GetRadius())
+
+		if (distance <= sample->GetRadius())
 		{
-			closestSample = sample;
-			minDistance = distance;
+			if (sample->GetCombatCameraEnabled() && distance < minCombatDistance)
+			{
+				closestCombatSample = sample;
+				minCombatDistance = distance;
+			}
+			else if (distance < minDistance)
+			{
+				closestSample = sample;
+				minDistance = distance;
+			}
 		}
 	}
-	return closestSample;
+
+	if (inCombat && closestCombatSample)
+	{
+		return closestCombatSample;
+	}
+	else
+	{
+		return closestSample;
+	}
+
 }
+

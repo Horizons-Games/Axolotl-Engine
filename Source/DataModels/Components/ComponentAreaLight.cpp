@@ -67,6 +67,7 @@ ComponentAreaLight::ComponentAreaLight(const float3& color, float intensity, Gam
 
 ComponentAreaLight::~ComponentAreaLight()
 {
+	deleting = true;
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	
 	if (currentScene)
@@ -130,7 +131,7 @@ void ComponentAreaLight::Draw() const
 		return;
 	}
 
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 	float3 position = transform->GetGlobalPosition();
 
 	switch (areaType)

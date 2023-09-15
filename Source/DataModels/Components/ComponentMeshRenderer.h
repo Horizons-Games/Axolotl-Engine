@@ -6,8 +6,6 @@
 
 #include "Auxiliar/Generics/Drawable.h"
 
-#include "Math/float4x4.h"
-
 class ResourceMesh;
 class ResourceMaterial;
 class ResourceTexture;
@@ -52,7 +50,13 @@ public:
 	void SetNormalStrength(float normalStrength);
 	void SetTiling(const float2& tiling);
 	void SetOffset(const float2& offset);
-
+	
+	const float3& GetEffectColor() const;
+	void SetEffectColor(float3 effectColor);
+	
+	bool IsDiscarded();
+	void SetDiscard(bool discard);
+	
 	// Default shader attributes (setters)
 	void SetMetalness(float metalness);
 
@@ -85,15 +89,15 @@ public:
 
 	const bool IsTransparent() const;
 
-	const std::shared_ptr<ResourceTexture>& GetDiffuse() const;
+	std::shared_ptr<ResourceTexture> GetDiffuse() const;
 
-	const std::shared_ptr<ResourceTexture>& GetNormal() const;
+	std::shared_ptr<ResourceTexture> GetNormal() const;
 
-	const std::shared_ptr<ResourceTexture>& GetOcclusion() const;
+	std::shared_ptr<ResourceTexture> GetOcclusion() const;
 
-	const std::shared_ptr<ResourceTexture>& GetMetallic() const;
+	std::shared_ptr<ResourceTexture> GetMetallic() const;
 
-	const std::shared_ptr<ResourceTexture>& GetSpecular() const;
+	std::shared_ptr<ResourceTexture> GetSpecular() const;
 
 	const std::vector<float4x4>& GetPalette() const;
 
@@ -115,6 +119,9 @@ private:
 
 	WindowMeshInput* inputMesh;
 	WindowMaterialInput* inputMaterial;
+
+	float3 effectColor;
+	bool discard;
 
 	GeometryBatch* batch;
 };

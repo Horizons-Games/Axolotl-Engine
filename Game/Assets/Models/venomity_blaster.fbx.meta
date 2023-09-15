@@ -1,0 +1,11 @@
+{
+    "UID": 12969419704866107343,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/venomity_blaster.blaster1_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/venomity_blasterNone_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

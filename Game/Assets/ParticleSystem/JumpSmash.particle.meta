@@ -1,0 +1,17 @@
+{
+    "UID": 2887998611095919771,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": [
+        "Assets/Textures/GroundCrack1.png",
+        "Assets/Textures/Impact2.png",
+        "Assets/Textures/Smoke15Alpha.png",
+        "Assets/Textures/Line6.png"
+    ],
+    "ConfigEmitters": [
+        true,
+        true,
+        true,
+        true,
+        true
+    ]
+}

@@ -6,6 +6,8 @@
 
 #include "Modules/ModuleScene.h"
 
+#include "Scene/Scene.h"
+
 #ifndef ENGINE
 	#include "Modules/ModuleDebugDraw.h"
 	#include "Modules/ModuleEditor.h"
@@ -21,20 +23,24 @@
 
 ComponentDirLight::ComponentDirLight() : ComponentLight(LightType::DIRECTIONAL, false)
 {
+	shadowBias = float2(0.0999f, 0.005f);
 }
 
 ComponentDirLight::ComponentDirLight(GameObject* parent) : ComponentLight(LightType::DIRECTIONAL, parent, false)
 {
+	shadowBias = float2(0.0999f, 0.005f);
 }
 
 ComponentDirLight::ComponentDirLight(const float3& color, float intensity) :
 	ComponentLight(LightType::DIRECTIONAL, color, intensity, false)
 {
+	shadowBias = float2(0.0999f, 0.005f);
 }
 
 ComponentDirLight::ComponentDirLight(const float3& color, float intensity, GameObject* parent) :
 	ComponentLight(LightType::DIRECTIONAL, color, intensity, parent, false)
 {
+	shadowBias = float2(0.0999f, 0.005f);
 }
 
 ComponentDirLight::~ComponentDirLight()
@@ -50,7 +56,7 @@ void ComponentDirLight::Draw() const
 	}
 	if (IsEnabled())
 	{
-		const ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+		const ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 
 		float3 position = transform->GetGlobalPosition();
 		float3 forward = transform->GetGlobalForward();
@@ -77,7 +83,7 @@ void ComponentDirLight::Draw() const
 #else
 	if (IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
-		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+		ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 
 		float3 position = transform->GetGlobalPosition();
 		float3 forward = transform->GetGlobalForward();
@@ -102,6 +108,13 @@ void ComponentDirLight::Draw() const
 		}
 	}
 #endif // ENGINE
+}
+
+void ComponentDirLight::OnTransformChanged()
+{
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	currentScene->RenderDirectionalLight();
 }
 
 void ComponentDirLight::InternalSave(Json& meta)

@@ -13,6 +13,7 @@
 class ModelImporter;
 class TextureImporter;
 class MeshImporter;
+class NavMeshImporter;
 class MaterialImporter;
 class SkyBoxImporter;
 class CubemapImporter;
@@ -80,7 +81,6 @@ private:
 	// folder and file management
 	void CreateAssetAndLibFolders();
 	void MonitorResources();
-	void ReImportMaterialAsset(const std::shared_ptr<ResourceMaterial>& materialResource);
 	bool ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID);
 
 	ResourceType FindTypeByFolder(const std::string& path);
@@ -100,6 +100,7 @@ private:
 	std::unique_ptr<ModelImporter> modelImporter;
 	std::unique_ptr<TextureImporter> textureImporter;
 	std::unique_ptr<MeshImporter> meshImporter;
+	std::unique_ptr<NavMeshImporter> navMeshImporter;
 	std::unique_ptr<MaterialImporter> materialImporter;
 	std::unique_ptr<SkyBoxImporter> skyboxImporter;
 	std::unique_ptr<CubemapImporter> cubemapImporter;
@@ -164,6 +165,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 			std::shared_ptr<Resource> resource =
 				CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
 			resource->LoadImporterOptions(meta);
+			resource->LoadLoadOptions(meta);
 			ImportResourceFromLibrary(resource);
 
 			if (resource)
@@ -203,6 +205,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 			std::shared_ptr<Resource> resource =
 				CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
 			resource->LoadImporterOptions(meta);
+			resource->LoadLoadOptions(meta);
 			ImportResourceFromLibrary(resource);
 			if (resource)
 			{
