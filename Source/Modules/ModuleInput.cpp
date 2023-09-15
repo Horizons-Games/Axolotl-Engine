@@ -17,6 +17,33 @@
 	#include "optick.h"
 #endif // DEBUG
 
+namespace
+{
+const std::map<SDL_GameControllerButton, std::variant<SDL_Scancode, Uint8>> gamepadMapping = {
+	{ SDL_CONTROLLER_BUTTON_A, SDL_SCANCODE_SPACE },
+	{ SDL_CONTROLLER_BUTTON_B, SDL_SCANCODE_E },
+	{ SDL_CONTROLLER_BUTTON_X, static_cast<Uint8>(SDL_BUTTON_LEFT) },
+	{ SDL_CONTROLLER_BUTTON_Y, static_cast<Uint8>(SDL_BUTTON_RIGHT) },
+	{ SDL_CONTROLLER_BUTTON_BACK, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_GUIDE, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_START, SDL_SCANCODE_ESCAPE },
+	{ SDL_CONTROLLER_BUTTON_LEFTSTICK, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_RIGHTSTICK, SDL_SCANCODE_X },
+	{ SDL_CONTROLLER_BUTTON_LEFTSHOULDER, SDL_SCANCODE_LSHIFT },
+	{ SDL_CONTROLLER_BUTTON_RIGHTSHOULDER, SDL_SCANCODE_Z },
+	{ SDL_CONTROLLER_BUTTON_DPAD_UP, SDL_SCANCODE_TAB },
+	{ SDL_CONTROLLER_BUTTON_DPAD_DOWN, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_DPAD_LEFT, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_DPAD_RIGHT, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_MISC1, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_PADDLE1, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_PADDLE2, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_PADDLE3, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_PADDLE4, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_TOUCHPAD, SDL_SCANCODE_UNKNOWN },
+};
+} // namespace
+
 ModuleInput::ModuleInput() :
 	mouseWheel(float2::zero),
 	mouseMotion(float2::zero),
@@ -62,12 +89,8 @@ bool ModuleInput::Init()
 	return true;
 }
 
-UpdateStatus ModuleInput::Update()
+UpdateStatus ModuleInput::PreUpdate()
 {
-#ifdef DEBUG
-	OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
-#endif // DEBUG
-
 	mouseMotion = float2::zero;
 	mouseWheelScrolled = false;
 
@@ -242,15 +265,15 @@ UpdateStatus ModuleInput::Update()
 						}
 						else if (axisValue < -3200)
 						{
-							direction.horizontalMovement = JoystickHorizontalDirection::LEFT;	
-					inputMethod = InputMethod::GAMEPAD;
+							direction.horizontalMovement = JoystickHorizontalDirection::LEFT;
+							inputMethod = InputMethod::GAMEPAD;
 						}
 						else
 						{
 							direction.horizontalMovement = JoystickHorizontalDirection::NONE;
 						}
 					}
-					
+
 					if (axis == SDL_CONTROLLER_AXIS_LEFTY)
 					{
 						if (axisValue < -3200)
@@ -262,7 +285,7 @@ UpdateStatus ModuleInput::Update()
 						{
 							direction.verticalMovement = JoystickVerticalDirection::BACK;
 							inputMethod = InputMethod::GAMEPAD;
-						}					
+						}
 						else
 						{
 							direction.verticalMovement = JoystickVerticalDirection::NONE;
@@ -281,6 +304,38 @@ UpdateStatus ModuleInput::Update()
 				break;
 		}
 	}
+
+	if (App->IsOnPlayMode())
+	{
+		for (const auto& [gamepadButton, keyboardButton] : gamepadMapping)
+		{
+			KeyState gamepadButtonState = GetGamepadButton(gamepadButton);
+
+			if (gamepadButtonState == KeyState::IDLE)
+			{
+				continue;
+			}
+
+			if (std::holds_alternative<SDL_Scancode>(keyboardButton))
+			{
+				keysState[std::get<SDL_Scancode>(keyboardButton)] = gamepadButtonState;
+			}
+			else if (std::holds_alternative<Uint8>(keyboardButton))
+			{
+				Uint8 mouseButton = std::get<Uint8>(keyboardButton);
+				mouseButtonState[mouseButton] = gamepadButtonState;
+			}
+		}
+	}
+
+	return UpdateStatus::UPDATE_CONTINUE;
+}
+
+UpdateStatus ModuleInput::Update()
+{
+#ifdef DEBUG
+	OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
+#endif // DEBUG
 
 	if (keysState[SDL_SCANCODE_LALT] == KeyState::REPEAT && keysState[SDL_SCANCODE_J] == KeyState::DOWN)
 	{

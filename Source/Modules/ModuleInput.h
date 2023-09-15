@@ -51,6 +51,7 @@ public:
 
 	bool Init() override;
 	UpdateStatus Update() override;
+	UpdateStatus PreUpdate() override;
 	bool CleanUp() override;
 
 	SDL_GameControllerAxis GetJoystickAxis() const;
@@ -62,11 +63,6 @@ public:
 
 	InputMethod GetCurrentInputMethod() const;
 	
-	// This setter methods will override user input
-	// Use them with care
-	void SetKey(SDL_Scancode scanCode, KeyState newState);
-	void SetMouseButton(Uint8 mouseButtonCode, KeyState newState);
-
 	SDL_GameController* FindController();
 	SDL_JoystickID GetControllerInstanceID(SDL_GameController* controller) const;
 
@@ -171,16 +167,6 @@ inline KeyState ModuleInput::GetMouseButton(int mouseButton) const
 inline KeyState ModuleInput::GetGamepadButton(int gamepadButton) const
 {
 	return gamepadState[gamepadButton];
-}
-
-inline void ModuleInput::SetKey(SDL_Scancode scanCode, KeyState newState)
-{
-	keysState[scanCode] = newState;
-}
-
-inline void ModuleInput::SetMouseButton(Uint8 mouseButtonCode, KeyState newState)
-{
-	mouseButtonState[mouseButtonCode] = newState;
 }
 
 inline float2 ModuleInput::GetMouseMotion() const
