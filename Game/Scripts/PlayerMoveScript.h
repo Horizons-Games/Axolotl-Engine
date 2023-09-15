@@ -87,6 +87,8 @@ private:
 	int currentMovements;
 
 	float3 desiredRotation;
+	float rotationAttackVelocity;
 	
 	void Dash();
+	bool IsMovementAttacking() const;
 };
