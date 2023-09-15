@@ -24,12 +24,11 @@
 REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
-	componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
-	dashForce(2000.0f), nextDash(0.0f), isDashing(false), canDash(true), playerManager(nullptr), isParalyzed(false),
-	desiredRotation(0.0f, 0.0f, 0.0f), lightAttacksMoveFactor(2.0f), heavyAttacksMoveFactor(3.0f)
+componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
+dashForce(3000.0f), dashCooldown(0.0f), playerManager(nullptr), isParalyzed(false),
+desiredRotation(0.0f, 0.0f, 0.0f), positionBeforeDash(0.0f, 0.0f, 0.0f), lightAttacksMoveFactor(2.0f), heavyAttacksMoveFactor(3.0f)
 {
 	REGISTER_FIELD(dashForce, float);
-	REGISTER_FIELD(canDash, bool);
 	REGISTER_FIELD(isParalyzed, bool);
 	REGISTER_FIELD(lightAttacksMoveFactor, float);
 	REGISTER_FIELD(heavyAttacksMoveFactor, float);
@@ -72,18 +71,12 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 		}
 		Move(deltaTime);
 		MoveRotate(deltaTime);
+		DashRoll(deltaTime);
 	}
 }
 
 void PlayerMoveScript::Move(float deltaTime)
 {
-	if (componentAnimation->GetActualStateName() == "Running" && playerState != PlayerActions::WALKING)
-	{
-		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
-		playerState = PlayerActions::WALKING;
-		componentAnimation->SetParameter("IsRunning", true);
-	}
-
 	btRigidbody->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
 
 	btVector3 movement(0, 0, 0);
@@ -111,7 +104,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE ||
 		input->GetDirection().verticalMovement == JoystickVerticalDirection::BACK)
 	{
-		totalDirection += -cameraFrustum.Front().Normalized();
+		totalDirection -= cameraFrustum.Front().Normalized();
 		currentMovements |= MovementFlag::S_DOWN;
 	}
 
@@ -127,13 +120,8 @@ void PlayerMoveScript::Move(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE ||
 		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::LEFT)
 	{
-		totalDirection += -cameraFrustum.WorldRight().Normalized();
+		totalDirection -= cameraFrustum.WorldRight().Normalized();
 		currentMovements |= MovementFlag::A_DOWN;
-	}
-
-	if (playerState == PlayerActions::DASHING)
-	{
-		totalDirection = float3::zero;
 	}
 
 	if (previousMovements ^ currentMovements)
@@ -141,123 +129,54 @@ void PlayerMoveScript::Move(float deltaTime)
 		cameraFrustum = *camera->GetFrustum();
 	}
 
-	if (totalDirection.IsZero())
+	if (playerState == PlayerActions::WALKING || playerState == PlayerActions::JUMPING)
 	{
-		if (playerState != PlayerActions::IDLE)
+		if (totalDirection.IsZero())
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			componentAnimation->SetParameter("IsRunning", false);
 			playerState = PlayerActions::IDLE;
 		}
-	}
-	else 
-	{
-		bool playerIsRunning = playerState != PlayerActions::WALKING && playerState != PlayerActions::DASHING
-			&& jumpScript->IsGrounded();
-		
-		if (playerIsRunning)
-		{
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
-			componentAnimation->SetParameter("IsRunning", true);
-			playerState = PlayerActions::WALKING;
-		}
-
-		//Low velocity while attacking
-		if (playerAttackScript->IsInAttackAnimation())
-		{
-			newSpeed = newSpeed / lightAttacksMoveFactor;
-		}
-
-		totalDirection.y = 0;
-		totalDirection = totalDirection.Normalized();
-		desiredRotation = totalDirection;
-
-		
-		movement = btVector3(desiredRotation.x, desiredRotation.y, desiredRotation.z) * deltaTime * newSpeed;
-	}
-
-	if (input->GetKey(SDL_SCANCODE_W) == KeyState::IDLE &&
-		input->GetKey(SDL_SCANCODE_A) == KeyState::IDLE &&
-		input->GetKey(SDL_SCANCODE_S) == KeyState::IDLE &&
-		input->GetKey(SDL_SCANCODE_D) == KeyState::IDLE &&
-		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::NONE &&
-		input->GetDirection().verticalMovement == JoystickVerticalDirection::NONE)
-	{
-		if (playerState == PlayerActions::WALKING)
-		{
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-			componentAnimation->SetParameter("IsRunning", false);
-			playerState = PlayerActions::IDLE;
-		}
-	}
-
-	// Dash
-	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN && canDash)
-	{
-		if (!isDashing && componentAnimation->GetActualStateName() != "DashingInit")
-		{
-			componentAnimation->SetParameter("IsDashing", true);
-			componentAnimation->SetParameter("IsRunning", false);
-			playerState = PlayerActions::DASHING;
-		}
-
-		nextDash = 3.0f; // From SDL miliseconds (1000.0f) to actual deltaTime seconds (3.0f)
-	}
-	else
-	{
-		nextDash -= deltaTime;
-		btVector3 currentVelocity = btRigidbody->getLinearVelocity();
-		btVector3 newVelocity(movement.getX(), currentVelocity.getY(), movement.getZ());
-
-		if (!isDashing)
-		{
-			btRigidbody->setLinearVelocity(newVelocity);
-		}
-		else
-		{
-			if (math::Abs(currentVelocity.getX()) < dashForce / 100.f &&
-				
-				math::Abs(currentVelocity.getZ()) < dashForce / 100.f)
+		else {
+			// Low velocity while attacking
+			if (playerAttackScript->IsInAttackAnimation())
 			{
-				btRigidbody->setLinearVelocity(newVelocity);
-				isDashing = false;
-				playerState = PlayerActions::IDLE;
+				newSpeed = newSpeed / lightAttacksMoveFactor;
 			}
+
+			componentAnimation->SetParameter("IsRunning", true);
+
+			totalDirection.y = 0;
+			totalDirection = totalDirection.Normalized();
+			desiredRotation = totalDirection;
+
+			movement = btVector3(desiredRotation.x, desiredRotation.y, desiredRotation.z) * deltaTime * newSpeed;
 		}
 	}
-
-	if (componentAnimation->GetActualStateName() == "DashingKeep" && canDash)
+	else if (playerState == PlayerActions::IDLE && !totalDirection.IsZero())
 	{
-		Dash();
-		canDash = false;
+		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
+		componentAnimation->SetParameter("IsRunning", true);
+		playerState = PlayerActions::WALKING;
 	}
 
-	// Turn off dash animation correctly
-	if (componentAnimation->GetActualStateName() == "DashingInit" ||
-		componentAnimation->GetActualStateName() == "DashingKeep" ||
-		componentAnimation->GetActualStateName() == "DashingEnd")
+	if (playerState == PlayerActions::DASHING)
 	{
-		componentAnimation->SetParameter("IsDashing", false);
-		componentAnimation->SetParameter("IsRunning", false);
-		playerState = PlayerActions::DASHING;
-		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+		totalDirection = float3::zero;
 	}
 
-	// Cooldown Dash
-	if (!canDash && nextDash <= 0.0f)
-	{
-		canDash = true;
-	}
+	btVector3 newVelocity(movement.getX(), btRigidbody->getLinearVelocity().getY(), movement.getZ());
+	btRigidbody->setLinearVelocity(newVelocity);
 }
 
 void PlayerMoveScript::MoveRotate(float deltaTime)
 {
-	if (isDashing)
+	if (playerState == PlayerActions::DASHING)
 	{
 		return;
 	}
 
-	//Look at enemy selected while attacking
+	// Look at enemy selected while attacking
 	AttackType currentAttack = playerAttackScript->GetCurrentAttackType();
 	GameObject* enemyGO = playerAttackScript->GetEnemyDetected();
 	if (enemyGO != nullptr && currentAttack != AttackType::NONE)
@@ -330,51 +249,73 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 	btRigidbody->getMotionState()->setWorldTransform(worldTransform);
 }
 
-void PlayerMoveScript::Dash()
+void PlayerMoveScript::DashRoll(float deltaTime)
 {
-	Quat rotation = componentTransform->GetGlobalRotation();
-	float3 dashDirection = componentTransform->GetGlobalForward();
-	
-	btVector3 btDashDirection(dashDirection.x, dashDirection.y, dashDirection.z);
-	
-	dashDirection.Normalize();
-
-	float3 dashImpulse = dashDirection * dashForce;
-
-	if (dashDirection.x > 0.5f)
+	// Turn off dash animation correctly
+	if (componentAnimation->GetActualStateName() == "DashingInit" ||
+		componentAnimation->GetActualStateName() == "DashingKeep" ||
+		componentAnimation->GetActualStateName() == "DashingEnd")
 	{
-		dashImpulse.x = dashForce;
-	}
-	else if (dashDirection.x < -0.5f)
-	{
-		dashImpulse.x = -dashForce;
+		componentAnimation->SetParameter("IsDashing", false);
+		componentAnimation->SetParameter("IsRunning", false);
 	}
 
-	if (dashDirection.z > 0.5f)
+	if (dashCooldown <= 0.0f)
 	{
-		dashImpulse.z = dashForce;
-	}
-	else if (dashDirection.z < -0.5f)
-	{
-		dashImpulse.z = -dashForce;
-	}
+		if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN)
+		{
+			// Start a dash
+			positionBeforeDash = componentTransform->GetGlobalPosition();
+			componentAnimation->SetParameter("IsDashing", true);
+			componentAnimation->SetParameter("IsRunning", false);
+			playerState = PlayerActions::DASHING;
+			dashCooldown = 3.0f; // From SDL miliseconds (1000.0f) to actual deltaTime seconds (3.0f)
 
-	// Cast impulse and direction from float3 to btVector3
-	btVector3 btDashImpulse(dashImpulse.x, dashImpulse.y, dashImpulse.z);
-
-	btRigidbody->setLinearVelocity(btDashDirection);
-	btRigidbody->applyCentralImpulse(btDashImpulse);
-
-	isDashing = true;
-	componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-
-	if (playerAttackScript->IsMeleeAvailable())
-	{
-		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+			if (playerAttackScript->IsMeleeAvailable())
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
+			}
+			else
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::ROLL);
+			}
+		}
 	}
 	else
 	{
-		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::ROLL);
+		dashCooldown -= deltaTime;
+	}
+
+	if (playerState == PlayerActions::DASHING)
+	{
+		// Stop the dash
+		float3 positionAfterDash = componentTransform->GetGlobalPosition();
+		float deltaX = positionAfterDash.x - positionBeforeDash.x;
+		float deltaZ = positionAfterDash.z - positionBeforeDash.z;
+		float distanceTraveled = deltaX * deltaX + deltaZ * deltaZ;
+		float dashDistance = 4.0f;
+		// Avoiding use of sqrt
+		if (distanceTraveled >= dashDistance * dashDistance)
+		{
+			playerState = PlayerActions::IDLE;
+		}
+		else
+		{
+			Quat rotation = componentTransform->GetGlobalRotation();
+			float3 dashDirection = componentTransform->GetGlobalForward();
+
+			btVector3 btDashDirection(dashDirection.x, dashDirection.y, dashDirection.z);
+
+			dashDirection.Normalize();
+
+			float3 dashImpulse = dashDirection * dashForce;
+
+			// Cast impulse and direction from float3 to btVector3
+			btVector3 btDashImpulse(dashImpulse.x, dashImpulse.y, dashImpulse.z);
+
+			btRigidbody->applyCentralImpulse(btDashImpulse);
+		}
 	}
 }
 
