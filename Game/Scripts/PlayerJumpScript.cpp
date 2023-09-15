@@ -52,7 +52,6 @@ void PlayerJumpScript::Start()
 void PlayerJumpScript::PreUpdate(float deltaTime)
 {
 	CheckGround(deltaTime);
-	LOG_DEBUG("{}", static_cast<int>(playerManager->GetPlayerState()));
 	if (playerManager->GetPlayerState() != PlayerActions::DASHING)
 	{
 		Jump(deltaTime);
