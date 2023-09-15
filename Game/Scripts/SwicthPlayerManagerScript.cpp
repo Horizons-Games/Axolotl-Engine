@@ -69,12 +69,6 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualSwitchPlayersParticles);
 		actualSwitchPlayersParticles = nullptr;
 	}
-	if (actualSwitchPlayersParticles) 
-	{
-		LOG_DEBUG("Global position is: {}", actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->GetGlobalPosition().x);
-		LOG_DEBUG("Global position is: {}", actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->GetGlobalPosition().y);
-		LOG_DEBUG("Global position is: {}", actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->GetGlobalPosition().z);
-	}
 }
 
 void SwitchPlayerManagerScript::VisualSwicthEffect()
@@ -117,8 +111,9 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		secondPlayer = changePlayerGameObject;
 	}
 
-	else if (changePlayerTimer.Read() >= 1500 && !isNewPlayerEnabled)
+	else if (changePlayerTimer.Read() >= 1000 && !isNewPlayerEnabled)
 	{
+		jumpManager->ChangingCurrentPlayer(false);
 		// The position where the newCurrentPlayer will appear
 		rigidBodyVec3 = btVector3(currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().x,
 			currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().y, currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().z);
@@ -134,10 +129,5 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 
 		secondPlayer->GetComponent<ComponentRigidBody>()->SetRigidBodyOrigin(rigidBodyVec3);
 		isNewPlayerEnabled = !isNewPlayerEnabled;
-	}
-
-	else if (changePlayerTimer.Read() >= 1000 && !isNewPlayerEnabled)
-	{
-		jumpManager->ChangingCurrentPlayer(false);
 	}
 }
