@@ -28,6 +28,7 @@ public:
 
 	bool IsEmittersEmpty() const;
 	bool IsPlaying() const;
+	bool IsFinished() const;
 	std::vector<EmitterInstance*> GetEmitters() const;
 	bool GetPlayAtStart() const;
 

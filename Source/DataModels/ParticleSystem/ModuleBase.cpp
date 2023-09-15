@@ -20,7 +20,11 @@ ModuleBase::ModuleBase(ParticleEmitter* emitter) : ParticleModule(ModuleType::BA
 	originLocation = DEFAULT_ORIGIN;
 	originRotation = Quat::identity;
 
+	positionOffset = float3::zero;
+	lastPosition = float3::zero;
+
 	allPartsDead = false;
+	followTransform = false;
 }
 
 ModuleBase::ModuleBase(ParticleEmitter* emitter, ModuleBase* base) : ParticleModule(ModuleType::BASE, emitter)
@@ -57,6 +61,9 @@ void ModuleBase::Update(EmitterInstance* instance)
 		}
 
 		float4x4 globalTransform = objectTransform->GetGlobalMatrix().Mul(originTransform);
+
+		positionOffset = globalTransform.TranslatePart() - lastPosition;
+		lastPosition = globalTransform.TranslatePart();
 
 		for (int i = 0; i < particles.size(); ++i)
 		{
@@ -280,6 +287,9 @@ void ModuleBase::DrawImGui()
 			}
 
 			ImGui::EndTable();
+
+			ImGui::Text("Follow transform: "); ImGui::SameLine();
+			ImGui::Checkbox("##FollowTransform", &followTransform);
 		}
 		ImGui::TreePop();
 	}

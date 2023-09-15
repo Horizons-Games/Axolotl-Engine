@@ -1,0 +1,11 @@
+{
+    "UID": 9198545224547040661,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/blaster.blaster1.001_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/blasterNone.001_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

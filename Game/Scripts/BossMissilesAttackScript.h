@@ -7,6 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform;
 class ComponentRigidBody;
+class FinalBossScript;
 
 enum class AttackState
 {
@@ -46,6 +47,7 @@ private:
 
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* transform;
+	FinalBossScript* finalBossScript;
 
 	float3 initialPosition;
 	float3 midJumpPosition;

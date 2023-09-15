@@ -5,7 +5,7 @@
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
     "MetalicAssetPath": "",
-    "EmissiveAssetPath": "",
+    "EmissiveAssetPath": "Assets/Textures/LaserBeam.png",
     "shaderType": 0,
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 0.11372549086809158,
@@ -21,5 +21,7 @@
     "tilingx": 1.0,
     "tilingy": 1.0,
     "offsetx": 0.0,
-    "offsety": 0.0
+    "offsety": 0.0,
+    "percentagex": 100.0,
+    "percentagey": 100.0
 }
