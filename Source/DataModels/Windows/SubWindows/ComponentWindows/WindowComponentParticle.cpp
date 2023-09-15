@@ -14,6 +14,8 @@
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
 
+#include <vector>
+
 WindowComponentParticle::WindowComponentParticle(ComponentParticleSystem* component) :
 	ComponentWindow("PARTICLE SYSTEM", component), 
 	inputParticleSystem(std::make_unique<WindowParticleSystemInput>(component))
@@ -99,6 +101,30 @@ void WindowComponentParticle::DrawWindowContents()
 		{
 			ImGui::PushID(id);
 
+			if (ImGui::Button("^"))
+			{
+				if (id > 0)
+				{
+					std::swap(emitters[id], emitters[id - 1]);
+					component->SetEmitters(emitters);
+					component->GetResource()->SwapEmitter(id, id - 1);
+					ImGui::PopID();
+					return;
+				} 
+			}
+			ImGui::SameLine();
+			if (ImGui ::Button("v"))
+			{
+				if (id < emitters.size() - 1)
+				{
+					std::swap(emitters[id], emitters[id + 1]);
+					component->SetEmitters(emitters);
+					component->GetResource()->SwapEmitter(id, id + 1);
+					ImGui::PopID();
+					return;
+				}
+			}
+
 			DrawEmitter(emitters[id]);
 
 			ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -144,8 +170,13 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 
 	if (emitter)
 	{
+		ImGui::SameLine();
 		ImGui::Dummy(ImVec2(0.0f, 2.5f));
-		ImGui::Text(emitter->GetName().c_str());
+		std::string name = emitter->GetName().c_str();
+		if (ImGui::InputText(("##" + name).c_str(), name.data(), 64, ImGuiInputTextFlags_EnterReturnsTrue))
+		{
+			emitter->SetName(name.c_str());
+		}
 
 		bool open = emitter->IsVisibleConfig();
 
@@ -240,15 +271,15 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::TableNextColumn();
 			ImGui::Text("Radius:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(60.0f);
-			if (ImGui::DragFloat("##radius", &radius, 0.1f, MIN_RADIUS, MAX_RADIUS, "%.2f"))
+			if (ImGui::DragFloat("##radius", &radius, 0.1f, MIN_RADIUS, MAX_RADIUS, "%.3f"))
 			{
 				if (radius > MAX_RADIUS)
 				{
 					radius = MAX_RADIUS;
 				}
-				else if (radius < 0.01f)
+				else if (radius < MIN_RADIUS)
 				{
-					radius = 0.01f;
+					radius = MIN_RADIUS;
 				}
 				emitter->SetRadius(radius);
 			}
@@ -257,7 +288,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 				ImGui::SameLine();
 				ImGui::Text("Angle:"); ImGui::SameLine();
 				ImGui::SetNextItemWidth(60.0f);
-				if (ImGui::DragFloat("##angle", &angle, 0.1f, 0.0f, 89.99f, "%.2f"))
+				if (ImGui::DragFloat("##angle", &angle, 0.01f, MIN_ANGLE, MAX_ANGLE, "%.2f"))
 				{
 					emitter->SetAngle(angle);
 				}
@@ -321,7 +352,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::SetNextItemWidth(165.0f);
 			if (randomLife)
 			{
-				if (ImGui::DragFloat2("##sliderlife", &lifespanRange[0], 0.1f, 0.0f, MAX_DURATION, "%.2f"))
+				if (ImGui::DragFloat2("##sliderlife", &lifespanRange[0], 0.1f, 0.00f, MAX_DURATION, "%.2f"))
 				{
 					if (lifespanRange.x > lifespanRange.y)
 					{
@@ -611,7 +642,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::EndTable();
 		}
 
-		//TODO: Draw Emitter Modules
+		AXO_TODO("Draw Emitter Modules")
 		for (ParticleModule* module : emitter->GetModules())
 		{
 			module->DrawImGui();
@@ -619,6 +650,6 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 	}
 	else
 	{
-		//TODO: Select a ParticleEmitter to assign to the EmitterInstance (it acts as a Resource for the instance)
+		AXO_TODO("Select a ParticleEmitter to assign to the EmitterInstance (it acts as a Resource for the instance)")
 	}
 }

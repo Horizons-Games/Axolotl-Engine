@@ -1,0 +1,11 @@
+{
+    "UID": 14472331582821998500,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Lv2_HandOfDominion_ColumnVariant.Cube_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Lv2_HandOfDominion_ColumnVariantMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

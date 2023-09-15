@@ -2,16 +2,13 @@
 
 #include "ParticleModule.h"
 
-#include "Math/float4x4.h"
-#include "Math/float3.h"
-#include "Math/Quat.h"
-
 #define DEFAULT_ORIGIN { 0.0f, 0.0f, 0.0f }
 
 class ModuleBase : public ParticleModule
 {
 public:
 	ModuleBase(ParticleEmitter* emitter);
+	ModuleBase(ParticleEmitter* emitter, ModuleBase* base);
 	~ModuleBase() override;
 
 	void Spawn(EmitterInstance* instance) override;
@@ -31,6 +28,8 @@ private:
 	float4x4 originTransform;
 	float3 originLocation;
 	Quat originRotation;
+
+	bool allPartsDead;
 };
 
 inline void ModuleBase::SetOrigin(const float3& origin)

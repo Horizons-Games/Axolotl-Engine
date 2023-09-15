@@ -9,6 +9,7 @@
 #include <memory>
 #include <optional>
 #include <queue>
+#include <random>
 #include <ranges>
 #include <set>
 #include <stack>
@@ -27,4 +28,8 @@
 #include "Math/float4.h"
 #include "Math/float4x4.h"
 
+#include "SDL.h"
+
 #include "AxoLog.h"
+#include "Defines/AxoTodo.h"
+#include "Formatter.h"

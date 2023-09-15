@@ -11,9 +11,15 @@
 
 #include "ImGui/imgui.h"
 
-ModuleSpawn::ModuleSpawn(ParticleEmitter* emitter) : ParticleModule(ModuleType::SPAWN, emitter),
-	spawnRate(DEFAULT_SPAWN_RATE)
+ModuleSpawn::ModuleSpawn(ParticleEmitter* emitter) :
+	ParticleModule(ModuleType::SPAWN, emitter), spawnRate(DEFAULT_SPAWN_RATE)
 {
+}
+
+ModuleSpawn::ModuleSpawn(ParticleEmitter* emitter, ModuleSpawn* spawn) :
+	ParticleModule(ModuleType::SPAWN, emitter)
+{
+	spawnRate = spawn->GetSpawnRate();
 }
 
 ModuleSpawn::~ModuleSpawn()
@@ -29,7 +35,7 @@ void ModuleSpawn::Spawn(EmitterInstance* instance)
 	// Higher probability for the new particle to be spawned, to be after the last particle used
 	for (unsigned i = lastParticleUsed; !found && i < particles.size(); ++i)
 	{
-		found = particles[i].lifespan <= 0.0f;
+		found = particles[i].dead;
 		if (found)
 		{
 			lastParticleUsed = i;
@@ -38,7 +44,7 @@ void ModuleSpawn::Spawn(EmitterInstance* instance)
 
 	for (unsigned i = 0; !found && i < lastParticleUsed; ++i)
 	{
-		found = particles[i].lifespan <= 0.0f;
+		found = particles[i].dead;
 		if (found)
 		{
 			lastParticleUsed = i;
@@ -66,6 +72,7 @@ void ModuleSpawn::Spawn(EmitterInstance* instance)
 		particle.gravity = emitter->IsRandomGravity() ? 
 			instance->CalculateRandomValueInRange(gravity.x, gravity.y) : gravity.x;
 		particle.frame = -1.0f;
+		particle.dead = false;
 
 		instance->SetAliveParticles(instance->GetAliveParticles() + 1);
 

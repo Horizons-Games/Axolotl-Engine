@@ -34,7 +34,6 @@ void WindowAssetFolder::DrawWindowContents()
 		type = ResourceType::StateMachine;
 		name = "NewStateMachine";
 	}
-
 	ImGui::SameLine(0.0f, -1.0f);
 
 	if (ImGui::Button("Create ParticleSystem"))

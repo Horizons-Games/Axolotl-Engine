@@ -5,6 +5,9 @@
 #include "Application.h"
 #include "GameObject/GameObject.h"
 
+#include "FileSystem/ModuleResources.h"
+#include "Animation/StateMachine.h"
+
 #include "Scripting/Script.h"
 #include "Scripting/ScriptFactory.h"
 
@@ -14,6 +17,9 @@
 #include "Scene/Scene.h"
 
 #include "ComponentRigidBody.h"
+
+#include "Exceptions/ComponentNotFoundException.h"
+#include "Exceptions/ScriptAssertFailedException.h"
 
 namespace
 {
@@ -33,6 +39,14 @@ void RunScriptMethodAndHandleException(bool& scriptFailedState, ComponentScript*
 	catch (const ComponentNotFoundException& exception)
 	{
 		LOG_ERROR("Error during execution of script {}, owned by {}. Error message: {}",
+				  script->GetConstructName(),
+				  script->GetOwner(),
+				  exception.what());
+		scriptFailedState = true;
+	}
+	catch (const ScriptAssertFailedException& exception)
+	{
+		LOG_ERROR("Assertion failed during execution of script {}, owned by {}. Error message: {}",
 				  script->GetConstructName(),
 				  script->GetOwner(),
 				  exception.what());
@@ -89,6 +103,12 @@ ComponentScript::ComponentScript(const ComponentScript& other) :
 	started(other.started),
 	script(App->GetScriptFactory()->ConstructScript(other.constructName.c_str()))
 {
+	if (script == nullptr)
+	{
+		return;
+	}
+
+	script->SetContainer(this);
 	for (const TypeFieldPair& typeFieldPair : script->GetFields())
 	{
 		switch (typeFieldPair.first)
@@ -286,6 +306,15 @@ void ComponentScript::SetOwner(GameObject* owner)
 	}
 }
 
+void ComponentScript::SetScript(IScript* script)
+{
+	this->script = script;
+	if (script)
+	{
+		script->SetContainer(this);
+	}
+}
+
 bool ComponentScript::ScriptCanBeCalled() const
 {
 	return script && App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling();
@@ -415,6 +444,27 @@ void ComponentScript::InternalSave(Json& meta)
 				break;
 			}
 
+			case FieldType::STATEMACHINE:
+			{
+				field["name"] = std::get<Field<StateMachine*>>(enumAndValue.second).name.c_str();
+
+				std::shared_ptr<ResourceStateMachine> resource =
+					std::get<Field<StateMachine*>>(enumAndValue.second).getter()->GetStateMachine();
+				if (resource)
+				{
+					field["valueUID"] = resource->GetUID();
+					field["valuePath"] = resource->GetAssetsPath().c_str();
+				}
+				else
+				{
+					field["valueUID"] = 0;
+					field["valuePath"] = "";
+				}
+
+				field["type"] = static_cast<int>(enumAndValue.first);
+				break;
+			}
+
 			default:
 				break;
 		}
@@ -486,7 +536,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 					if (fieldUID != 0)
 					{
 						UID newFieldUID;
-						if (App->GetModule<ModuleScene>()->hasNewUID(fieldUID, newFieldUID))
+						if (App->GetModule<ModuleScene>()->HasNewUID(fieldUID, newFieldUID))
 						{
 							optField.value().setter(
 								App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(newFieldUID));
@@ -514,6 +564,33 @@ void ComponentScript::InternalLoad(const Json& meta)
 				{
 					float3 vec3(field["value x"], field["value y"], field["value z"]);
 					optField.value().setter(vec3);
+				}
+				break;
+			}
+
+			case FieldType::STATEMACHINE:
+			{
+				std::string valueName = field["name"];
+				std::optional<Field<StateMachine*>> optField = GetField<StateMachine*>(script, valueName);
+				if (optField)
+				{
+					std::shared_ptr<ResourceStateMachine> resourceState;
+#ifdef ENGINE
+					std::string path = field["valuePath"];
+					bool resourceExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
+					if (resourceExists)
+					{
+						resourceState = App->GetModule<ModuleResources>()->RequestResource<ResourceStateMachine>(path);
+					}
+#else
+					UID uidState = field["valueUID"];
+					resourceState = App->GetModule<ModuleResources>()->SearchResource<ResourceStateMachine>(uidState);
+
+#endif
+					if (resourceState)
+					{
+						optField.value().getter()->SetStateMachine(resourceState);
+					}
 				}
 				break;
 			}
@@ -560,7 +637,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 							if (fieldUID != 0)
 							{
 								UID newFieldUID;
-								if (App->GetModule<ModuleScene>()->hasNewUID(fieldUID, newFieldUID))
+								if (App->GetModule<ModuleScene>()->HasNewUID(fieldUID, newFieldUID))
 								{
 									vectorCase.push_back((GameObject*) App->GetModule<ModuleScene>()
 															 ->GetLoadedScene()
@@ -580,6 +657,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 
 							break;
 						}
+						
 						case FieldType::FLOAT3:
 							vectorCase.push_back(float3(vectorElements[j]["value x"],
 														vectorElements[j]["value y"],
@@ -618,4 +696,5 @@ void ComponentScript::InstantiateScript(const Json& jsonComponent)
 	}
 
 	script->SetOwner(GetOwner());
+	script->SetContainer(this);
 }

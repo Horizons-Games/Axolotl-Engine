@@ -1,5 +1,6 @@
 #pragma once
-#include "Script.h"
+
+#include "Scripting\Script.h"
 #include "RuntimeInclude.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
@@ -14,9 +15,12 @@ enum class ExplosionState
 
 class ComponentRigidBody;
 class ComponentTransform;
+class ComponentAgent;
 class ComponentAudioSource;
-class HealthSystem;
-class EnemyDroneScript;
+class ComponentAnimation;
+class ComponentParticleSystem;
+class EnemyDeathScript;
+class AIMovement;
 
 class MeleeHeavyAttackBehaviourScript : public Script
 {
@@ -27,10 +31,10 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void SetExplosionPosition(float3 explosionPos);
+	void TriggerExplosion();
 	void UpdateDroneColor();
 
-	ExplosionState IsExploted() const;
+	ExplosionState HasExploded() const;
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
@@ -41,11 +45,15 @@ private:
 	GameObject* targetPlayer;
 
 	ComponentRigidBody* rigidBody;
-	ComponentTransform* parentTransform;
-	HealthSystem* parentHealthSystem;
-	EnemyDroneScript* parentEnemyDroneScript;
+	ComponentTransform* transform;
+	EnemyDeathScript* parentDeathScript;
 	ComponentAudioSource* componentAudioSource;
+	ComponentAgent* ownerAgent;
+	ComponentAnimation* componentAnimation;
+	ComponentParticleSystem* particleSystem;
+	AIMovement* aiMovement;
 
 	float explosionDamage;
 	float explosionTime;
+	float explosionDistance;
 };

@@ -63,6 +63,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="ImGui\imgui_bezier.h" />
     <ClInclude Include="ImGui\imgui_color_gradient.h" />
     <ClInclude Include="ImGui\imgui_impl_opengl3.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
@@ -175,6 +176,35 @@
     <ClInclude Include="MathGeoLib\Include\Math\TransformOps.h" />
     <ClInclude Include="MathGeoLib\Include\Math\vec2d.h" />
     <ClInclude Include="MathGeoLib\Include\Time\Clock.h" />
+    <ClInclude Include="recastnavigation\DebugUtils\DebugDraw.h" />
+    <ClInclude Include="recastnavigation\DebugUtils\DetourDebugDraw.h" />
+    <ClInclude Include="recastnavigation\DebugUtils\RecastDebugDraw.h" />
+    <ClInclude Include="recastnavigation\DebugUtils\RecastDump.h" />
+    <ClInclude Include="recastnavigation\DetourCrowd\DetourCrowd.h" />
+    <ClInclude Include="recastnavigation\DetourCrowd\DetourLocalBoundary.h" />
+    <ClInclude Include="recastnavigation\DetourCrowd\DetourObstacleAvoidance.h" />
+    <ClInclude Include="recastnavigation\DetourCrowd\DetourPathCorridor.h" />
+    <ClInclude Include="recastnavigation\DetourCrowd\DetourPathQueue.h" />
+    <ClInclude Include="recastnavigation\DetourCrowd\DetourProximityGrid.h" />
+    <ClInclude Include="recastnavigation\DetourTileCache\DetourTileCache.h" />
+    <ClInclude Include="recastnavigation\DetourTileCache\DetourTileCacheBuilder.h" />
+    <ClInclude Include="recastnavigation\Detour\ChunkyTriMesh.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourAlloc.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourAssert.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourCommon.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourMath.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourNavMesh.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourNavMeshBuilder.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourNavMeshQuery.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourNode.h" />
+    <ClInclude Include="recastnavigation\Detour\DetourStatus.h" />
+    <ClInclude Include="recastnavigation\Detour\InputGeom.h" />
+    <ClInclude Include="recastnavigation\Detour\MeshLoaderObj.h" />
+    <ClInclude Include="recastnavigation\fastlz\fastlz.h" />
+    <ClInclude Include="recastnavigation\Recast\Recast.h" />
+    <ClInclude Include="recastnavigation\Recast\RecastAlloc.h" />
+    <ClInclude Include="recastnavigation\Recast\RecastAssert.h" />
+    <ClInclude Include="recastnavigation\Recast\SampleInterfaces.h" />
     <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkDefaultLowLevelIODispatcher.h" />
     <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileHelpersBase.h" />
     <ClInclude Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileLocationBase.h" />
@@ -239,6 +269,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="ImGui\imgui_bezier.cpp" />
     <ClCompile Include="ImGui\imgui_color_gradient.cpp" />
     <ClCompile Include="ImGui\imgui_demo.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
@@ -318,6 +349,39 @@
     <ClCompile Include="MathGeoLib\Include\Math\SSEMath.cpp" />
     <ClCompile Include="MathGeoLib\Include\Math\TransformOps.cpp" />
     <ClCompile Include="MathGeoLib\Include\Time\Clock.cpp" />
+    <ClCompile Include="recastnavigation\DebugUtils\DebugDraw.cpp" />
+    <ClCompile Include="recastnavigation\DebugUtils\DetourDebugDraw.cpp" />
+    <ClCompile Include="recastnavigation\DebugUtils\RecastDebugDraw.cpp" />
+    <ClCompile Include="recastnavigation\DebugUtils\RecastDump.cpp" />
+    <ClCompile Include="recastnavigation\DetourCrowd\DetourCrowd.cpp" />
+    <ClCompile Include="recastnavigation\DetourCrowd\DetourLocalBoundary.cpp" />
+    <ClCompile Include="recastnavigation\DetourCrowd\DetourObstacleAvoidance.cpp" />
+    <ClCompile Include="recastnavigation\DetourCrowd\DetourPathCorridor.cpp" />
+    <ClCompile Include="recastnavigation\DetourCrowd\DetourPathQueue.cpp" />
+    <ClCompile Include="recastnavigation\DetourCrowd\DetourProximityGrid.cpp" />
+    <ClCompile Include="recastnavigation\DetourTileCache\DetourTileCache.cpp" />
+    <ClCompile Include="recastnavigation\DetourTileCache\DetourTileCacheBuilder.cpp" />
+    <ClCompile Include="recastnavigation\Detour\ChunkyTriMesh.cpp" />
+    <ClCompile Include="recastnavigation\Detour\DetourAlloc.cpp" />
+    <ClCompile Include="recastnavigation\Detour\DetourCommon.cpp" />
+    <ClCompile Include="recastnavigation\Detour\DetourNavMesh.cpp" />
+    <ClCompile Include="recastnavigation\Detour\DetourNavMeshBuilder.cpp" />
+    <ClCompile Include="recastnavigation\Detour\DetourNavMeshQuery.cpp" />
+    <ClCompile Include="recastnavigation\Detour\DetourNode.cpp" />
+    <ClCompile Include="recastnavigation\Detour\InputGeom.cpp" />
+    <ClCompile Include="recastnavigation\Detour\MeshLoaderObj.cpp" />
+    <ClCompile Include="recastnavigation\fastlz\fastlz.c" />
+    <ClCompile Include="recastnavigation\Recast\Recast.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastAlloc.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastArea.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastContour.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastFilter.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastLayers.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastMesh.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastMeshDetail.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastRasterization.cpp" />
+    <ClCompile Include="recastnavigation\Recast\RecastRegion.cpp" />
+    <ClCompile Include="recastnavigation\Recast\SampleInterfaces.cpp" />
     <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkDefaultLowLevelIODispatcher.cpp" />
     <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFileLocationBase.cpp" />
     <ClCompile Include="wwise\include\AK\SoundEngine\SampleLowLevelIO\Common\AkFilePackage.cpp" />
@@ -421,7 +485,7 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick;..\External\Bullet\include;..\External\libav\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick;..\External\Bullet\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -431,13 +495,13 @@
       <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkMusicEngine.lib;AkSpatialAudio.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;postproc.lib;swresample.lib;swscale.lib;CommunicationCentral.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;OptickCore.lib;BulletDynamics_Debug.lib;BulletCollision_Debug.lib;LinearMath_Debug.lib;DebugUtils-d.lib;DetourCrowd-d.lib;Detour-d.lib;DetourTileCache-d.lib;Recast.lib;Recast-d.lib;avcodec.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\wwise\x64_vc160\Debug\lib;..\External\DirectXTex\libs\Debug_lib;..\External\Bullet\lib\Debug;..\External\recast\lib\x64\Debug;..\External\libav\lib;..\External\libav\lib;..\External\libav\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkMusicEngine.lib;AkSpatialAudio.lib;CommunicationCentral.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;OptickCore.lib;BulletDynamics_Debug.lib;BulletCollision_Debug.lib;LinearMath_Debug.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\wwise\x64_vc160\Debug\lib;..\External\DirectXTex\libs\Debug_lib;..\External\Bullet\lib\Debug</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick;..\External\Bullet\include;..\External\libav\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick;..\External\Bullet\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -447,13 +511,13 @@
       <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkMusicEngine.lib;AkSpatialAudio.lib;avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;postproc.lib;swresample.lib;swscale.lib;CommunicationCentral.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;OptickCore.lib;BulletDynamics_Debug.lib;BulletCollision_Debug.lib;LinearMath_Debug.lib;DebugUtils-d.lib;DetourCrowd-d.lib;Detour-d.lib;DetourTileCache-d.lib;Recast.lib;Recast-d.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\wwise\x64_vc160\Debug\lib;..\External\DirectXTex\libs\Debug_lib;..\External\Bullet\lib\Debug;..\External\recast\lib\x64\Debug;..\External\libav\lib;..\External\libav\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkMusicEngine.lib;AkSpatialAudio.lib;CommunicationCentral.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;OptickCore.lib;BulletDynamics_Debug.lib;BulletCollision_Debug.lib;LinearMath_Debug.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\wwise\x64_vc160\Debug\lib;..\External\DirectXTex\libs\Debug_lib;..\External\Bullet\lib\Debug</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32;..\External\Bullet\include;..\External\libav\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32;..\External\Bullet\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>AK_OPTIMIZED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -463,13 +527,13 @@
       <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkMusicEngine.lib;AkSpatialAudio.lib;avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;postproc.lib;swresample.lib;swscale.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;DebugUtils.lib;DetourCrowd.lib;Detour.lib;DetourTileCache.lib;Recast.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\wwise\x64_vc160\Release\lib;..\External\DirectXTex\libs\Release_lib;..\External\Bullet\lib\Release;..\External\recast\lib\x64\Release;..\External\libav\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkMusicEngine.lib;AkSpatialAudio.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\wwise\x64_vc160\Release\lib;..\External\DirectXTex\libs\Release_lib;..\External\Bullet\lib\Release</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32;..\External\Bullet\include;..\External\libav\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32;..\External\Bullet\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>AK_OPTIMIZED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -479,8 +543,8 @@
       <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkMusicEngine.lib;AkSpatialAudio.lib;avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;postproc.lib;swresample.lib;swscale.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;DebugUtils.lib;DetourCrowd.lib;Detour.lib;DetourTileCache.lib;Recast.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\wwise\x64_vc160\Release\lib;..\External\DirectXTex\libs\Release_lib;..\External\Bullet\lib\Release;..\External\recast\lib\x64\Release;..\External\libav\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkMusicEngine.lib;AkSpatialAudio.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\wwise\x64_vc160\Release\lib;..\External\DirectXTex\libs\Release_lib;..\External\Bullet\lib\Release</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

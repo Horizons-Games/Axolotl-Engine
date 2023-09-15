@@ -8,9 +8,12 @@
 
 #include "Modules/ModuleCamera.h"
 
-#include <algorithm>
-
 ModulePosition::ModulePosition(ParticleEmitter* emitter) : ParticleModule(ModuleType::POSITION, emitter)
+{
+}
+
+ModulePosition::ModulePosition(ParticleEmitter* emitter, ModulePosition* position) :
+	ParticleModule(ModuleType::POSITION, emitter)
 {
 }
 
@@ -43,7 +46,7 @@ void ModulePosition::Update(EmitterInstance* instance)
 			particle.lifespan = 0.0f;
 		}
 
-		if (particle.lifespan > 0.0f)
+		if (!particle.dead)
 		{
 			float lifeRatio = 1.0f - particle.lifespan / particle.initLife;
 
@@ -67,12 +70,6 @@ void ModulePosition::Update(EmitterInstance* instance)
 			++aliveParticles;
 		}
 	}
-
-	/*std::sort(sortedPositions.begin(), sortedPositions.end(),
-		[particles](const unsigned int& a, const unsigned int& b)
-		{
-			return particles[a].distanceToCamera > particles[b].distanceToCamera;
-		});*/
 
 	instance->SetSortedPositions(sortedPositions);
 	instance->SetAliveParticles(aliveParticles);

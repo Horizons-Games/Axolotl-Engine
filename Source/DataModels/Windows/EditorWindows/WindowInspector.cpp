@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
+#include "ModuleRender.h"
 
 #include "DataModels/Resources/Resource.h"
 #include "DataModels/Resources/ResourceTexture.h"
@@ -16,14 +17,27 @@
 #include "Components/ComponentLight.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentPlayerInput.h"
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentCameraSample.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentSkybox.h"
+#include "Components/ComponentTrail.h"
+#include "Components/ComponentLine.h"
+#include "Components/ComponentAgent.h"
+#include "Components/ComponentObstacle.h"
 
+
+#include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
 #include "Auxiliar/AddComponentAction.h"
+
+namespace
+{
+	const std::string names[] = { "Right", "Left", "Top", "Bottom", "Back", "Front" };
+}
 
 WindowInspector::WindowInspector() :
 	EditorWindow("Inspector"),
@@ -76,12 +90,29 @@ WindowInspector::WindowInspector() :
 		},
 		ComponentFunctionality::GRAPHICS));
 
+	actions.push_back(AddComponentAction("Create Trail Component",
+		std::bind(&WindowInspector::AddComponentTrail, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentTrail>(gameObject);
+		},
+		ComponentFunctionality::GRAPHICS));
+
 	actions.push_back(AddComponentAction(
 		"Create Player Component",
 		std::bind(&WindowInspector::AddComponentPlayer, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
 			return gameObjectDoesNotHaveComponent.template operator()<ComponentPlayer>(gameObject);
+		},
+		ComponentFunctionality::GAMEPLAY));
+
+	actions.push_back(AddComponentAction(
+		"Create Player Input Component",
+		std::bind(&WindowInspector::AddComponentPlayerInput, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentPlayerInput>(gameObject);
 		},
 		ComponentFunctionality::GAMEPLAY));
 
@@ -145,6 +176,33 @@ WindowInspector::WindowInspector() :
 			return gameObjectDoesNotHaveComponent.template operator()<ComponentBreakable>(gameObject);
 		},
 		ComponentFunctionality::PHYSICS));
+	
+	actions.push_back(AddComponentAction(
+		"Create Line Component",
+		std::bind(&WindowInspector::AddComponentLine, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentLine>(gameObject);
+		},
+		ComponentFunctionality::GRAPHICS));
+
+	actions.push_back(AddComponentAction(
+		"Create Agent Component",
+		std::bind(&WindowInspector::AddComponentAgent, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentAgent>(gameObject);
+		},
+		ComponentFunctionality::NAVIGATION));
+
+	actions.push_back(AddComponentAction(
+		"Create Obstacle Component",
+		std::bind(&WindowInspector::AddComponentObstacle, this),
+		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
+		{
+			return gameObjectDoesNotHaveComponent.template operator()<ComponentObstacle>(gameObject);
+		},
+		ComponentFunctionality::NAVIGATION));
 
 	std::sort(std::begin(actions), std::end(actions));
 }
@@ -155,6 +213,11 @@ WindowInspector::~WindowInspector()
 
 void WindowInspector::DrawWindowContents()
 {
+	if (App->GetModule<ModuleScene>()->IsLoading())
+	{
+		return;
+	}
+
 	if (!resource.expired() && lastSelectedGameObject != App->GetModule<ModuleScene>()->GetSelectedGameObject())
 	{
 		resource = std::weak_ptr<Resource>();
@@ -187,7 +250,7 @@ void WindowInspector::InspectSelectedGameObject()
 
 	if (lastSelectedGameObject)
 	{
-		bool enable = lastSelectedGameObject->IsEnabled();
+		bool enable = lastSelectedGameObject->IsEnabled(); 
 		bool enableStateChanged = ImGui::Checkbox("Enable", &enable);
 		ImGui::SameLine();
 
@@ -223,7 +286,13 @@ void WindowInspector::InspectSelectedGameObject()
 			ImGui::SameLine();
 			if (ImGui::InputText("##Tag", tag.data(), 32))
 			{
+				std::string previousTag = lastSelectedGameObject->GetTag();
 				lastSelectedGameObject->SetTag(tag.c_str());
+				if (previousTag == "Player" || previousTag == "Enemy" || 
+					lastSelectedGameObject->GetTag() == "Player" || lastSelectedGameObject->GetTag() == "Enemy")
+				{
+					App->GetModule<ModuleRender>()->RelocateGOInBatches(lastSelectedGameObject);
+				}
 			}
 		}
 
@@ -236,8 +305,8 @@ void WindowInspector::InspectSelectedGameObject()
 
 	ImGui::Separator();
 
-	if (WindowRightClick() && lastSelectedGameObject != loadedScene->GetRoot() &&
-		lastSelectedGameObject != loadedScene->GetDirectionalLight())
+	if ((WindowRightClick() && lastSelectedGameObject != loadedScene->GetDirectionalLight()) && !loadedScene->GetRoot() ||
+		(WindowRightClick() && loadedScene->GetRoot() && !lastSelectedGameObject->HasComponent<ComponentSkybox>()))
 	{
 		ImGui::OpenPopup("AddComponent");
 	}
@@ -246,11 +315,22 @@ void WindowInspector::InspectSelectedGameObject()
 	{
 		if (lastSelectedGameObject)
 		{
-			for (const AddComponentAction& action : actions)
+			if (lastSelectedGameObject == loadedScene->GetRoot())
 			{
-				if (action.condition(lastSelectedGameObject) && ImGui::MenuItem(action.actionName.c_str()))
+				if (!lastSelectedGameObject->HasComponent<ComponentSkybox>())
+					if (ImGui::MenuItem("Create Skybox Component"))
+					{
+						AddComponentSkybox();
+					}
+			}
+			else
+			{
+				for (const AddComponentAction& action : actions)
 				{
-					action.callback();
+					if (action.condition(lastSelectedGameObject) && ImGui::MenuItem(action.actionName.c_str()))
+					{
+						action.callback();
+					}
 				}
 			}
 		}
@@ -304,6 +384,9 @@ void WindowInspector::InspectSelectedResource()
 			case ResourceType::Texture:
 				DrawTextureOptions();
 				break;
+			case ResourceType::SkyBox:
+				DrawSkyboxOptions();
+				break;
 			default:
 				break;
 		}
@@ -325,6 +408,33 @@ void WindowInspector::SetResource(const std::weak_ptr<Resource>& resource)
 				break;
 			default:
 				break;
+		}
+	}
+}
+
+
+void WindowInspector::DrawSkyboxOptions()
+{
+	std::shared_ptr<ResourceSkyBox> resourceSkybox = std::dynamic_pointer_cast<ResourceSkyBox>(resource.lock());
+	if (resourceSkybox->GetTextures().size() > 0)
+	{
+		ImGui::Text("Current skybox:");
+		ImGui::SameLine();
+		ImGui::Text(resourceSkybox->GetAssetsPath().c_str());
+		ImGui::SameLine();
+		std::vector<std::shared_ptr<ResourceTexture>> textures = resourceSkybox->GetTextures();
+
+		for (size_t i = 0; i < textures.size(); i++)
+		{
+			ImGui::Text(names[i].c_str());
+			ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(textures[i]->GetGlTexture())),
+							ImVec2(100, 100));
+			ImGui::SameLine();
+			std::string buttonName = "See Resource of " + names[i];
+			if (ImGui::Button(buttonName.c_str()))
+			{
+				resource = textures[i];
+			}
 		}
 	}
 }
@@ -427,6 +537,11 @@ void WindowInspector::AddComponentPlayer()
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
 }
 
+void WindowInspector::AddComponentPlayerInput()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYERINPUT);
+}
+
 void WindowInspector::AddComponentCameraSample()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::CAMERASAMPLE);
@@ -476,4 +591,29 @@ void WindowInspector::AddComponentParticle()
 void WindowInspector::AddComponentBreakable()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::BREAKABLE);
+}
+
+void WindowInspector::AddComponentSkybox()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::SKYBOX);
+}
+
+void WindowInspector::AddComponentTrail()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::TRAIL);
+}
+
+void WindowInspector::AddComponentLine()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::LINE);
+}
+
+void WindowInspector::AddComponentAgent()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::AGENT);
+}
+
+void WindowInspector::AddComponentObstacle()
+{
+	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::OBSTACLE);
 }

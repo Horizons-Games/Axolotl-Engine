@@ -3,6 +3,7 @@
 #include "Quadtree.h"
 #include "Application.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentRigidBody.h"
 #include "GameObject/GameObject.h"
 
 #include "ModuleScene.h"
@@ -432,6 +433,30 @@ std::list<GameObject*> Quadtree::GetAllGameObjects(GameObject* gameObject)
 		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
 	}
 	return familyObjects;
+}
+
+void Quadtree::AddRigidBodiesToSimulation() const
+{
+	for (GameObject* child: gameObjects)
+	{
+		ComponentRigidBody* rb = child->GetComponentInternal<ComponentRigidBody>();
+		if (rb)
+		{
+			rb->AddRigidBodyToSimulation();
+		}
+	}
+}
+
+void Quadtree::RemoveRigidBodiesFromSimulation() const
+{
+	for (GameObject* child : gameObjects)
+	{
+		ComponentRigidBody* rb = child->GetComponentInternal<ComponentRigidBody>();
+		if (rb)
+		{
+			rb->RemoveRigidBodyFromSimulation();
+		}
+	}
 }
 
 void Quadtree::SaveOptions(Json& meta)

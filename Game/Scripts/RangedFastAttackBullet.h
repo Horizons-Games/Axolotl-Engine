@@ -2,9 +2,11 @@
 
 #include "Scripting\Script.h"
 
+class ComponentRigidBody;
 class ComponentTransform;
 class ComponentAudioSource;
-class Scene;
+class ComponentParticleSystem;
+class ComponentMeshRenderer;
 
 class RangedFastAttackBullet : public Script
 {
@@ -15,9 +17,13 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void OnCollisionEnter(ComponentRigidBody* other) override;
+
+	void SetBulletVelocity(float nVelocity);
+	void SetBulletDamage(float damage);
+
 private:
-	void ShootBullet(float deltaTime);
-	void CheckCollision();
+	void InitializeBullet();
 	void DestroyBullet();
 
 	float velocity;
@@ -25,7 +31,12 @@ private:
 	float damageAttack;
 	float rayAttackSize;
 	float originTime;
+	bool waitParticlesToDestroy;
+	float particlesDuration;
 
-	ComponentTransform* transform;
+	ComponentRigidBody* rigidBody;
+	ComponentTransform* parentTransform;
 	ComponentAudioSource* audioSource;
+	ComponentParticleSystem* particleSystem;
+	ComponentMeshRenderer* mesh;
 };

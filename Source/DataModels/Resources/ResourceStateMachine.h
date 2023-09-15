@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Resource.h"
+#include <variant>
 
 enum class FieldTypeParameter
 {
