@@ -63,9 +63,8 @@ private:
 	bool isParalyzed;
 
     float dashForce;
-    float nextDash;
-    bool isDashing;
-    bool canDash;
+    float dashCooldown;
+	float3 positionBeforeDash;
 
     float lightAttacksMoveFactor;
     float heavyAttacksMoveFactor;
@@ -88,5 +87,5 @@ private:
 
 	float3 desiredRotation;
 	
-	void Dash();
+	void DashRoll(float deltaTime);
 };
