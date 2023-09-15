@@ -21,7 +21,6 @@ WindowComponentVideo::~WindowComponentVideo()
 void WindowComponentVideo::DrawWindowContents()
 {
 	ComponentVideo* videoComponent = static_cast<ComponentVideo*>(component);
-	//DrawEnableAndDeleteComponent();
 	if (videoComponent->GetVideo() != nullptr)
 	{
 		ImGui::Text("Path Asset:");

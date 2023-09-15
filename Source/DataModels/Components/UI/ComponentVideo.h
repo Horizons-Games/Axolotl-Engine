@@ -56,6 +56,7 @@ private:
 	bool rotateVertical;
 	bool finished;
 	bool canRotate;
+	bool played;
 
 };
 

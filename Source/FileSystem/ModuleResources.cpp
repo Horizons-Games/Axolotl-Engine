@@ -29,7 +29,6 @@
 
 #include "Auxiliar/CollectionAwareDeleter.h"
 
-#include "AxoLog.h"
 
 const std::string ModuleResources::assetsFolder = "Assets/";
 const std::string ModuleResources::libraryFolder = "Lib/";
@@ -211,11 +210,6 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 		case ResourceType::ParticleSystem:
 			res = std::shared_ptr<EditorResource<ResourceParticleSystem>>(
 				new EditorResource<ResourceParticleSystem>(uid, fileName, assetsPath, libraryPath), 
-				CollectionAwareDeleter<Resource>());
-			break;
-		case ResourceType::Video:
-			res = std::shared_ptr<EditorResource<ResourceVideo>>(
-				new EditorResource<ResourceVideo>(uid, fileName, assetsPath, libraryPath),
 				CollectionAwareDeleter<Resource>());
 			break;
 		default:

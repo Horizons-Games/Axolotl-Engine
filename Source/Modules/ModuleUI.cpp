@@ -220,13 +220,11 @@ void ModuleUI::Draw2DGameObject(const GameObject* gameObject)
 
 		for (ComponentVideo* video : gameObject->GetComponents<ComponentVideo>())
 		{
-		
-			video->ReadVideoFrame();
-			video->Draw();
-			/*if (video->IsEnabled())
+			if (video->IsEnabled())
 			{
+				video->ReadVideoFrame();
 				video->Draw();
-			}*/
+			}
 		}
 
 		for (const GameObject* child : gameObject->GetChildren())

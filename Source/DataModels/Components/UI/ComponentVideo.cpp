@@ -31,7 +31,8 @@ ComponentVideo::ComponentVideo(bool active, GameObject* owner) :
 	loop(false),
 	finished(false),
 	rotateVertical(false),
-	canRotate(false)
+	canRotate(false),
+	played(false)
 {
 
 }
@@ -52,7 +53,7 @@ void ComponentVideo::Init()
 #ifdef ENGINE	
 	std::filesystem::path fs_path(video->GetAssetsPath());
 	std::string extension = fs_path.extension().string();
-	if (extension != ".avi")
+	if (extension != AVI_VIDEO_EXTENSION)
 	{
 		canRotate = true;
 	}
@@ -72,55 +73,63 @@ void ComponentVideo::Init()
 void ComponentVideo::Draw() const
 {
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPRITE);
-	if (program)
+	
+	if (!program)
 	{
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-		program->Activate();
-
-		ComponentTransform2D* transform = GetOwner()->GetComponentInternal<ComponentTransform2D>();
-
-		const float4x4& proj = App->GetModule<ModuleCamera>()->GetOrthoProjectionMatrix();
-		const float4x4& model = transform->GetGlobalScaledMatrix();
-		float4x4 view = float4x4::identity;
-
-		ComponentCanvas* canvas = transform->WhichCanvasContainsMe();
-		if (canvas)
-		{
-			canvas->RecalculateSizeAndScreenFactor();
-			float factor = canvas->GetScreenFactor();
-			view = view * float4x4::Scale(factor, factor, factor);
-		}
-
-		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*) &view);
-		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*) &model);
-		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*) &proj);
-
-		glBindVertexArray(App->GetModule<ModuleUI>()->GetQuadVAO());
-
-		glActiveTexture(GL_TEXTURE0);
-		program->BindUniformFloat4("spriteColor", float4(1.0f, 1.0f, 1.0f, 1.0f));
-		program->BindUniformFloat("renderPercentage", 1.0f);
-		program->BindUniformInt("direction", 1);
-		
-		if (initialized)
-		{
-			program->BindUniformInt("hasDiffuse", 1);
-			glBindTexture(GL_TEXTURE_2D, frameTexture);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, frameWidth, frameHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, frameData);
-		}
-		else program->BindUniformInt("hasDiffuse", 0);
-
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glBindVertexArray(0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-		glDisable(GL_BLEND);
-		program->Deactivate();
+		LOG_ERROR("Sprite shader not found");
+		return;
 	}
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	program->Activate();
+
+	if (!GetOwner()->HasComponent<ComponentTransform2D>())
+	{
+		throw ComponentNotFoundException("Owner does not have ComponentTrasnform2D");
+	}
+	ComponentTransform2D* transform = GetOwner()->GetComponentInternal<ComponentTransform2D>();
+
+	const float4x4& proj = App->GetModule<ModuleCamera>()->GetOrthoProjectionMatrix();
+	const float4x4& model = transform->GetGlobalScaledMatrix();
+	float4x4 view = float4x4::identity;
+
+	ComponentCanvas* canvas = transform->WhichCanvasContainsMe();
+	if (canvas)
+	{
+		canvas->RecalculateSizeAndScreenFactor();
+		float factor = canvas->GetScreenFactor();
+		view = view * float4x4::Scale(factor, factor, factor);
+	}
+
+	glUniformMatrix4fv(2, 1, GL_TRUE, (const float*) &view);
+	glUniformMatrix4fv(1, 1, GL_TRUE, (const float*) &model);
+	glUniformMatrix4fv(0, 1, GL_TRUE, (const float*) &proj);
+
+	glBindVertexArray(App->GetModule<ModuleUI>()->GetQuadVAO());
+
+	glActiveTexture(GL_TEXTURE0);
+	program->BindUniformFloat4("spriteColor", float4(1.0f, 1.0f, 1.0f, 1.0f));
+	program->BindUniformFloat("renderPercentage", 1.0f);
+	program->BindUniformInt("direction", 1);
+		
+	if (initialized)
+	{
+		program->BindUniformInt("hasDiffuse", 1);
+		glBindTexture(GL_TEXTURE_2D, frameTexture);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, frameWidth, frameHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, frameData);
+	}
+	else program->BindUniformInt("hasDiffuse", 0);
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindVertexArray(0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	glDisable(GL_BLEND);
+	program->Deactivate();
+	
 }
 
 void ComponentVideo::InternalSave(Json& meta)
@@ -152,7 +161,7 @@ void ComponentVideo::InternalLoad(const Json& meta)
 			App->GetModule<ModuleResources>()->RequestResource<ResourceVideo>(path);
 		if (resourceVideo)
 		{
-			video = resourceVideo;
+			video = std::move(resourceVideo);
 			Init();
 		}
 	}
@@ -162,7 +171,7 @@ void ComponentVideo::InternalLoad(const Json& meta)
 		App->GetModule<ModuleResources>()->SearchResource<ResourceVideo>(uidVideo);
 	if (resourceVideo)
 	{
-		video = resourceVideo;
+		video = std::move(resourceVideo);
 		Init();
 	}
 #endif
