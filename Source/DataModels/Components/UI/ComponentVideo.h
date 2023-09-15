@@ -25,6 +25,8 @@ public:
 	std::shared_ptr<ResourceVideo> GetVideo() const;
 	void ReadVideoFrame();
 	void Draw() const override;
+	void Play();
+	void Pause();
 
 
 private:
@@ -57,6 +59,7 @@ private:
 	bool finished;
 	bool canRotate;
 	bool played;
+	bool firstFrame;
 
 };
 
@@ -100,4 +103,14 @@ inline void ComponentVideo::SetVideo(const std::shared_ptr<ResourceVideo>& video
 inline std::shared_ptr<ResourceVideo> ComponentVideo::GetVideo() const
 {
 	return this->video;
+}
+
+inline void ComponentVideo::Play()
+{
+	this->played = true;
+}
+
+inline void ComponentVideo::Pause()
+{
+	this->played = false;
 }

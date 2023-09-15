@@ -23,6 +23,15 @@ void WindowComponentVideo::DrawWindowContents()
 	ComponentVideo* videoComponent = static_cast<ComponentVideo*>(component);
 	if (videoComponent->GetVideo() != nullptr)
 	{
+		if (ImGui::ArrowButton("##Play", ImGuiDir_Right))
+		{
+			videoComponent->Play();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("||"))
+		{
+			videoComponent->Pause();
+		}
 		ImGui::Text("Path Asset:");
 		ImGui::SameLine();
 		ImGui::Text(videoComponent->GetVideo()->GetAssetsPath().c_str());

@@ -32,7 +32,8 @@ ComponentVideo::ComponentVideo(bool active, GameObject* owner) :
 	finished(false),
 	rotateVertical(false),
 	canRotate(false),
-	played(false)
+	played(false),
+	firstFrame(true)
 {
 
 }
@@ -257,8 +258,9 @@ void ComponentVideo::OpenVideo(const char* filePath)
 
 void ComponentVideo::ReadVideoFrame()
 {
-	if (initialized)
+	if (initialized && (played || !played && firstFrame))
 	{
+		firstFrame = false;
 		int response = -1;
 		int error = 0;
 		while (error >= 0)
