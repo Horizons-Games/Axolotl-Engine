@@ -342,7 +342,7 @@ vec3 calculateLocalIBLs(vec3 N, vec3 R, float NdotV, vec3 Cd, vec3 f0, float rou
     }
     else 
     {
-        color /= totalWeight;
+        color = color * cubemap_intensity / totalWeight;
     }
     return color;
 }
