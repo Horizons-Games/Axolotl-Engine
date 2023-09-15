@@ -3,8 +3,11 @@
 #include "WindowComponentDirLight.h"
 
 #include "Application.h"
+
 #include "DataModels/Components/ComponentDirLight.h"
 #include "DataModels/Scene/Scene.h"
+
+#include "ModuleRender.h"
 #include "ModuleScene.h"
 
 WindowComponentDirLight::WindowComponentDirLight(ComponentDirLight* component) :
@@ -67,6 +70,22 @@ void WindowComponentDirLight::DrawWindowContents()
 			ImGui::Text("Bias");
 			ImGui::SameLine();
 			ImGui::DragFloat2("##bias", &asDirLight->shadowBias[0], 0.00001f, 0.0f, 0.0f, "%.5f");
+
+			if (modified)
+			{
+				App->GetModule<ModuleScene>()->GetLoadedScene()->RenderDirectionalLight();
+			}
+
+			Shadows* shadows = App->GetModule<ModuleRender>()->GetShadows();
+			float lambda = shadows->GetLambda();
+
+			ImGui::Text("Shadow frustum lambda:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(math::Max(50.0f, ImGui::GetContentRegionAvail().x - 20.0f));
+			if (ImGui::DragFloat("##lambda", &lambda, 0.001, 0.001f, 0.999f, "%.3f", ImGuiSliderFlags_NoInput))
+			{
+				shadows->SetLambda(lambda);
+			};
 
 			if (modified)
 			{

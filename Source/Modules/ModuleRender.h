@@ -63,6 +63,7 @@ public:
 	GLuint GetRenderedTexture() const;
 	GLuint GetUboCamera() const;
 	float GetObjectDistance(const GameObject* gameObject);
+	Shadows* GetShadows() const;
 
 	void SetBloomIntensity(float color);
 	float GetBloomIntensity() const;
@@ -231,6 +232,11 @@ inline bool ModuleRender::IsObjectInsideFrustrum(const GameObject* gameObject)
 inline float ModuleRender::GetObjectDistance(const GameObject* gameObject)
 {
 	return objectsInFrustrumDistances[gameObject];
+}
+
+inline Shadows* ModuleRender::GetShadows() const
+{
+	return shadows;
 }
 
 inline void ModuleRender::SetBloomIntensity(float intensity)

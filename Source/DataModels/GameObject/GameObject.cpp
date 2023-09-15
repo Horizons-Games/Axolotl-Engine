@@ -424,7 +424,8 @@ void GameObject::CopyComponent(Component* component)
 
 		case ComponentType::PARTICLE:
 		{
-			newComponent = std::make_unique<ComponentParticleSystem>(*static_cast<ComponentParticleSystem*>(component));
+			newComponent = std::make_unique<ComponentParticleSystem>(*static_cast<ComponentParticleSystem*>(component), 
+																     this);
 			App->GetModule<ModuleScene>()->GetLoadedScene()->AddParticleSystem(
 				static_cast<ComponentParticleSystem*>(newComponent.get()));
 			break;
@@ -460,7 +461,7 @@ void GameObject::CopyComponent(Component* component)
 		{
 			App->GetModule<ModuleScene>()->GetLoadedScene()->AddUpdatableObject(updatable);
 		}
-		else
+		/*else
 		{
 			switch (referenceBeforeMove->GetType())
 			{
@@ -477,7 +478,7 @@ void GameObject::CopyComponent(Component* component)
 			default:
 				break;
 			}
-		}
+		}*/
 
 		newComponent->SetOwner(this);
 		components.push_back(std::move(newComponent));

@@ -12,6 +12,14 @@ ModuleRotation::ModuleRotation(ParticleEmitter* emitter) :
 {
 }
 
+ModuleRotation::ModuleRotation(ParticleEmitter* emitter, ModuleRotation* rotation) :
+	ParticleModule(ModuleType::ROTATION, emitter)
+{
+	random = rotation->IsRandom();
+	rotationOverTime = rotation->GetRotation();
+	enabled = rotation->IsEnabled();
+}
+
 ModuleRotation::~ModuleRotation()
 {
 }

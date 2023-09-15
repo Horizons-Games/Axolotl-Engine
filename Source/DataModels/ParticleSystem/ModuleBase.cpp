@@ -23,6 +23,15 @@ ModuleBase::ModuleBase(ParticleEmitter* emitter) : ParticleModule(ModuleType::BA
 	allPartsDead = false;
 }
 
+ModuleBase::ModuleBase(ParticleEmitter* emitter, ModuleBase* base) : ParticleModule(ModuleType::BASE, emitter)
+{
+	originTransform = base->GetOriginTranform();
+	originLocation = base->GetOrigin();
+	originRotation = base->GetRotation();
+
+	allPartsDead = false;
+}
+
 ModuleBase::~ModuleBase()
 {
 }
