@@ -42,7 +42,6 @@ private:
 
 	GameObject* currentPlayer;
 	GameObject* secondPlayer;
-	PlayerMoveScript* movementManager;
 	PlayerJumpScript* jumpManager;
 	PlayerManagerScript* playerManager;
 

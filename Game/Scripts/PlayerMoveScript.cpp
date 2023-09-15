@@ -101,8 +101,7 @@ void PlayerMoveScript::Move(float deltaTime)
 
 	// Forward
 	if ((input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE ||
-		input->GetDirection().verticalMovement == JoystickVerticalDirection::FORWARD || 
-		isChangingNewPlayer) && !isChangingPlayer)
+		input->GetDirection().verticalMovement == JoystickVerticalDirection::FORWARD))
 	{
 		totalDirection += cameraFrustum.Front().Normalized();
 		currentMovements |= MovementFlag::W_DOWN;
@@ -110,8 +109,7 @@ void PlayerMoveScript::Move(float deltaTime)
 
 	// Back
 	if ((input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE ||
-		input->GetDirection().verticalMovement == JoystickVerticalDirection::BACK ||
-		isChangingPlayer) && !isChangingNewPlayer)
+		input->GetDirection().verticalMovement == JoystickVerticalDirection::BACK))
 	{
 		totalDirection += -cameraFrustum.Front().Normalized();
 		currentMovements |= MovementFlag::S_DOWN;
@@ -119,8 +117,7 @@ void PlayerMoveScript::Move(float deltaTime)
 
 	// Right
 	if ((input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE ||
-		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::RIGHT) &&
-		(!isChangingPlayer && !isChangingNewPlayer))
+		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::RIGHT))
 	{
 		totalDirection += cameraFrustum.WorldRight().Normalized();
 		currentMovements |= MovementFlag::D_DOWN;
@@ -128,8 +125,7 @@ void PlayerMoveScript::Move(float deltaTime)
 
 	// Left
 	if ((input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE ||
-		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::LEFT) &&
-		(!isChangingPlayer && !isChangingNewPlayer))
+		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::LEFT))
 	{
 		totalDirection += -cameraFrustum.WorldRight().Normalized();
 		currentMovements |= MovementFlag::A_DOWN;
@@ -252,16 +248,6 @@ void PlayerMoveScript::Move(float deltaTime)
 	{
 		canDash = true;
 	}
-}
-
-void PlayerMoveScript::ChangingCurrentPlayer(bool changePlayer) 
-{
-	isChangingPlayer = changePlayer;
-}
-
-void PlayerMoveScript::ChangingNewCurrentPlayer(bool changeNewPlayer) 
-{
-	isChangingNewPlayer = changeNewPlayer;
 }
 
 void PlayerMoveScript::MoveRotate(float deltaTime)

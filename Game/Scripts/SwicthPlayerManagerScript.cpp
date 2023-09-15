@@ -95,10 +95,8 @@ void SwitchPlayerManagerScript::VisualSwicthEffect()
 
 void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 {
-	movementManager = currentPlayer->GetComponent<PlayerMoveScript>();
 	jumpManager = currentPlayer->GetComponent<PlayerJumpScript>();
 	camera->ToggleCameraState();
-	movementManager->ChangingCurrentPlayer(true);
 	jumpManager->ChangingCurrentPlayer(true);
 
 	changePlayerTimer.Start();
@@ -110,8 +108,6 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 	if (changePlayerTimer.Read() >= 2000)
 	{	
 		camera->ChangeCurrentPlayer(secondPlayer->GetComponent<ComponentTransform>());
-		movementManager->ChangingNewCurrentPlayer(false);
-		jumpManager->ChangingCurrentPlayer(false);
 
 		changePlayerTimer.Stop();
 		isChangingPlayer = false;
@@ -123,21 +119,14 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 
 	else if (changePlayerTimer.Read() >= 1500 && !isNewPlayerEnabled)
 	{
-		movementManager->ChangingCurrentPlayer(false);
 		// The position where the newCurrentPlayer will appear
-		rigidBodyVec3 = btVector3(cameraTransform->GetGlobalPosition().x, currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().y,
-				cameraTransform->GetGlobalPosition().z);
+		rigidBodyVec3 = btVector3(currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().x,
+			currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().y, currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().z);
 
 		// Disabling the current player
 		currentPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(false);
 
 		currentPlayer->Disable();
-		
-
-		movementManager = secondPlayer->GetComponent<PlayerMoveScript>();
-		jumpManager = secondPlayer->GetComponent<PlayerJumpScript>();
-		movementManager->ChangingNewCurrentPlayer(true);
-		jumpManager->ChangingCurrentPlayer(true);
 		
 		// Enabling the new current player
 		secondPlayer->Enable();
