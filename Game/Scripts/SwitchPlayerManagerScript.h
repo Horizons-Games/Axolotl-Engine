@@ -25,6 +25,8 @@ public:
 	void CheckChangeCurrentPlayer();
 	void HandleChangeCurrentPlayer();
 
+	void VisualSwicthEffect();
+
 private:
 	void Start() override;
 
@@ -34,6 +36,9 @@ private:
 	GameObject* mainCamera;
 	CameraControllerScript* camera;
 	ComponentTransform* cameraTransform;
+
+	GameObject* switchPlayersParticlesPrefab;
+	GameObject* actualSwitchPlayersParticles;
 
 	GameObject* currentPlayer;
 	GameObject* secondPlayer;

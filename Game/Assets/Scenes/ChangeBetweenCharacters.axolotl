@@ -509,6 +509,11 @@
                                     "name": "SecondPlayer",
                                     "value": 11391195736182322813,
                                     "type": 2
+                                },
+                                {
+                                    "name": "SwitchPlayersParticlesPrefab",
+                                    "value": 10323686302269354968,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -858,6 +863,11 @@
                                     "name": "PistolGameObject",
                                     "value": 0,
                                     "type": 2
+                                },
+                                {
+                                    "name": "TriggerNextAttackDuration",
+                                    "value": 0.5,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -1008,6 +1018,11 @@
                                     "name": "PlayerRotationSpeed",
                                     "value": 10.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "DebugManager",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -1052,6 +1067,11 @@
                                 {
                                     "name": "MaxDistanceForce",
                                     "value": 20.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MinDistanceForce",
+                                    "value": 1.0,
                                     "type": 0
                                 },
                                 {
@@ -7931,14 +7951,14 @@
                             "constructName": "JumpFinisherArea",
                             "fields": [
                                 {
-                                    "name": "ParticleSystemTimer",
-                                    "value": 0.5,
-                                    "type": 0
+                                    "name": "InitVisuals",
+                                    "value": 0,
+                                    "type": 2
                                 },
                                 {
-                                    "name": "ThrowableForceArea",
-                                    "value": false,
-                                    "type": 5
+                                    "name": "LandingParticleSystemPrefab",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -11953,14 +11973,14 @@
                             "constructName": "JumpFinisherArea",
                             "fields": [
                                 {
-                                    "name": "ParticleSystemTimer",
-                                    "value": 0.5,
-                                    "type": 0
+                                    "name": "InitVisuals",
+                                    "value": 0,
+                                    "type": 2
                                 },
                                 {
-                                    "name": "ThrowableForceArea",
-                                    "value": true,
-                                    "type": 5
+                                    "name": "LandingParticleSystemPrefab",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -12828,6 +12848,11 @@
                                     "name": "PistolGameObject",
                                     "value": 0,
                                     "type": 2
+                                },
+                                {
+                                    "name": "TriggerNextAttackDuration",
+                                    "value": 0.5,
+                                    "type": 0
                                 }
                             ]
                         }
@@ -12978,6 +13003,11 @@
                                     "name": "PlayerRotationSpeed",
                                     "value": 10.0,
                                     "type": 0
+                                },
+                                {
+                                    "name": "DebugManager",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -13022,6 +13052,11 @@
                                 {
                                     "name": "MaxDistanceForce",
                                     "value": 20.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MinDistanceForce",
+                                    "value": 1.0,
                                     "type": 0
                                 },
                                 {
@@ -20034,14 +20069,14 @@
                             "constructName": "JumpFinisherArea",
                             "fields": [
                                 {
-                                    "name": "ParticleSystemTimer",
-                                    "value": 0.5,
-                                    "type": 0
+                                    "name": "InitVisuals",
+                                    "value": 0,
+                                    "type": 2
                                 },
                                 {
-                                    "name": "ThrowableForceArea",
-                                    "value": false,
-                                    "type": 5
+                                    "name": "LandingParticleSystemPrefab",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -20133,14 +20168,14 @@
                             "constructName": "JumpFinisherArea",
                             "fields": [
                                 {
-                                    "name": "ParticleSystemTimer",
-                                    "value": 0.5,
-                                    "type": 0
+                                    "name": "InitVisuals",
+                                    "value": 0,
+                                    "type": 2
                                 },
                                 {
-                                    "name": "ThrowableForceArea",
-                                    "value": true,
-                                    "type": 5
+                                    "name": "LandingParticleSystemPrefab",
+                                    "value": 0,
+                                    "type": 2
                                 }
                             ]
                         }
@@ -20760,6 +20795,85 @@
                             "removed": true,
                             "constructName": "MeshEffect",
                             "fields": null
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "SwitchCharacters Particles",
+                "tag": "",
+                "uid": 10323686302269354968,
+                "parentUID": 9418173620591223368,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.02146594598889351,
+                            "localPos_Z": -14.178333282470703,
+                            "localRot_X": -90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 16891213163686256144,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/SwitchCharactersParticles.particle",
+                            "playAtStart": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": true,
+                            "isTrigger": true,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 0.5,
+                            "boxSize_Y": 0.5,
+                            "boxSize_Z": 0.5,
+                            "radius": 1.7320507764816284,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 0.0,
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     }
                 ]

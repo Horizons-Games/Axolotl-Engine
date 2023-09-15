@@ -1,0 +1,10 @@
+{
+    "UID": 16891213163686256144,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": [
+        "Assets/Textures/Smoke15Alpha.png"
+    ],
+    "ConfigEmitters": [
+        true
+    ]
+}

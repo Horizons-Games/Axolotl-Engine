@@ -3,24 +3,29 @@
 
 #include "ModulePlayer.h"
 #include "ModuleInput.h"
+#include "ModuleScene.h"
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/PlayerMoveScript.h"
 #include "../Scripts/PlayerJumpScript.h"
 
 #include "../Scripts/CameraControllerScript.h"
+
 #include "Application.h"
+#include "Scene/Scene.h"
 
 REGISTERCLASS(SwitchPlayerManagerScript);
 
 SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr)
 {
 	REGISTER_FIELD(secondPlayer, GameObject*);
+	REGISTER_FIELD(switchPlayersParticlesPrefab, GameObject*);
 }
 
 void SwitchPlayerManagerScript::Start()
@@ -37,6 +42,11 @@ void SwitchPlayerManagerScript::Start()
 	LOG_DEBUG("Player 2: {}", secondPlayer);
 
 	camera->ChangeCurrentPlayer(currentPlayer->GetComponent<ComponentTransform>());
+
+	if (switchPlayersParticlesPrefab)
+	{
+		switchPlayersParticlesPrefab->Disable();
+	}
 }
 
 void SwitchPlayerManagerScript::Update(float deltaTime)
@@ -46,12 +56,41 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 		if (input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE && secondPlayer)
 		{
 			CheckChangeCurrentPlayer();
+			VisualSwicthEffect();
 		}
 	}
 	else 
 	{
 		HandleChangeCurrentPlayer();
 	}
+
+	if (actualSwitchPlayersParticles && actualSwitchPlayersParticles->GetComponent<ComponentParticleSystem>()->IsFinished())
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualSwitchPlayersParticles);
+		actualSwitchPlayersParticles = nullptr;
+	}
+	if (actualSwitchPlayersParticles) 
+	{
+		LOG_DEBUG("Global position is: {}", actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->GetGlobalPosition().x);
+		LOG_DEBUG("Global position is: {}", actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->GetGlobalPosition().y);
+		LOG_DEBUG("Global position is: {}", actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->GetGlobalPosition().z);
+	}
+}
+
+void SwitchPlayerManagerScript::VisualSwicthEffect()
+{
+	Scene* loadScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	if (actualSwitchPlayersParticles)
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualSwitchPlayersParticles);
+	}
+
+	actualSwitchPlayersParticles = loadScene->DuplicateGameObject(switchPlayersParticlesPrefab->GetName(), switchPlayersParticlesPrefab, loadScene->GetRoot());
+	actualSwitchPlayersParticles->GetComponent<ComponentParticleSystem>()->Enable();
+	actualSwitchPlayersParticles->GetComponent<ComponentRigidBody>()->SetRigidBodyOrigin(btVector3 (currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().x, 
+		currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().y, currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().z));
+
+	actualSwitchPlayersParticles->GetComponent<ComponentParticleSystem>()->Play();
 }
 
 void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
