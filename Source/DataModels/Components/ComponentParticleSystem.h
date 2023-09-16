@@ -15,7 +15,7 @@ class ComponentParticleSystem : public Component, public Drawable
 {
 public:
 	ComponentParticleSystem(const bool active, GameObject* owner);
-	ComponentParticleSystem(const ComponentParticleSystem& toCopy);
+	ComponentParticleSystem(const ComponentParticleSystem& toCopy, GameObject* parent);
 	~ComponentParticleSystem() override;
 
 	void Play();
@@ -28,6 +28,7 @@ public:
 
 	bool IsEmittersEmpty() const;
 	bool IsPlaying() const;
+	bool IsFinished() const;
 	std::vector<EmitterInstance*> GetEmitters() const;
 	bool GetPlayAtStart() const;
 

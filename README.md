@@ -68,12 +68,16 @@ This engine has been created by [Horizons Games](https://github.com/Horizons-Gam
 **Shadows**
 - Directional light shadows implemented with Sample Distribution shadow maps (SDSM)
 - Variance Shadow Mapping (VSM) for smoother shadows around the edges.
+- Cascade Shadow Maps implemented in order to improve shadow resolution in big scenes
 
 **Component Line**
 
 **Trails**
 
 **Bloom & Tone mapping**
+
+**SSAO**
+- Gaussian blurred Screen space ambient occlusion with smooth radius cutoff, and configurable range check and bias.
 
 **Audio**
 - Create and configure audio sources
@@ -163,6 +167,8 @@ You can drag and drop different models and edit it's meshes and textures (loadin
 - F3 to toggle shadows on/off
 - F4 to toggle VSM on/off
 - F5 to change the rendered buffer texture
+- F6 to toggle SSAO on/off
+- F7 to toggle CSM debugging on/off
 
 # Note
 

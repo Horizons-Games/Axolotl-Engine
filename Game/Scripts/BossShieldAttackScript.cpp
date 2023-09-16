@@ -221,6 +221,7 @@ float3 BossShieldAttackScript::SelectSpawnPosition() const
 		float3(randomXPos,
 			0.0f,			/* The height will not be modified, we'll only have one height in the arena */
 			randomZPos);
+	selectedSpawningPosition += battleArenaAreaSize->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
 	return selectedSpawningPosition;
 }

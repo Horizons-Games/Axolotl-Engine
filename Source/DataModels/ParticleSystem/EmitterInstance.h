@@ -8,6 +8,7 @@
 
 class ComponentParticleSystem;
 class ParticleEmitter;
+class ParticleModule;
 class Program;
 
 class EmitterInstance
@@ -73,6 +74,7 @@ private:
 	ComponentParticleSystem* owner;
 
 	std::vector<unsigned int> sortedPositions;
+	std::vector<ParticleModule*> modules;
 	std::vector<Particle> particles;
 	ParticleEmitter* emitter;
 

@@ -10,6 +10,7 @@
 #include "DataModels/Components/ComponentCamera.h"
 #include "DataModels/Components/ComponentRender.h"
 #include "DataModels/Components/ComponentCubemap.h"
+#include "DataModels/Components/ComponentSkybox.h"
 #include "DataModels/Components/ComponentDirLight.h"
 #include "DataModels/Components/ComponentLight.h"
 #include "DataModels/Components/ComponentMeshCollider.h"
@@ -422,7 +423,8 @@ void GameObject::CopyComponent(Component* component)
 
 		case ComponentType::PARTICLE:
 		{
-			newComponent = std::make_unique<ComponentParticleSystem>(*static_cast<ComponentParticleSystem*>(component));
+			newComponent = std::make_unique<ComponentParticleSystem>(*static_cast<ComponentParticleSystem*>(component), 
+																     this);
 			App->GetModule<ModuleScene>()->GetLoadedScene()->AddParticleSystem(
 				static_cast<ComponentParticleSystem*>(newComponent.get()));
 			break;
@@ -458,14 +460,14 @@ void GameObject::CopyComponent(Component* component)
 		{
 			App->GetModule<ModuleScene>()->GetLoadedScene()->AddUpdatableObject(updatable);
 		}
-		else
+		/*else
 		{
 			if (referenceBeforeMove->GetType() == ComponentType::PARTICLE)
 			{
 				App->GetModule<ModuleScene>()->GetLoadedScene()->AddParticleSystem(
 					static_cast<ComponentParticleSystem*>(referenceBeforeMove));
 			}
-		}
+		}*/
 
 		newComponent->SetOwner(this);
 		components.push_back(std::move(newComponent));
@@ -696,6 +698,13 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::LINE:
 		{
 			newComponent = std::make_unique<ComponentLine>(true, this);
+			break;
+		}
+
+
+		case ComponentType::SKYBOX:
+		{
+			newComponent = std::make_unique<ComponentSkybox>(true, this);
 			break;
 		}
 

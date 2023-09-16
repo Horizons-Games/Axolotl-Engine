@@ -144,6 +144,7 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 	script->GetScript()->SetOwner(bullet);
 
 	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletVelocity(bulletVelocity);
+	bullet->GetComponent<RangedFastAttackBullet>()->SetTargetTag("Player");
 	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletDamage(attackDamage);
 
 	// Once the engine automatically runs the Start() for newly created objects, delete this line

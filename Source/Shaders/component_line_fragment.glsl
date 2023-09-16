@@ -3,7 +3,7 @@
 layout(binding=0) uniform sampler2D textureColor;
 
 in vec2 TexCoord;
-in vec3 incolor;
+in vec4 incolor;
 
 uniform int hasTexture;
 
@@ -14,10 +14,10 @@ void main()
     if(hasTexture == 1)
     {
     outColor = texture(textureColor, TexCoord);
-    outColor.rgb *= incolor;
+    outColor *= incolor;
     }
     else
     {
-        outColor = vec4(incolor,1.0f);
+        outColor = incolor;
     }
 }
