@@ -12,7 +12,6 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 #include "Components/ComponentParticleSystem.h"
-#include "Components/ComponentLocalIBL.h"
 #include "Components/ComponentSkybox.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"

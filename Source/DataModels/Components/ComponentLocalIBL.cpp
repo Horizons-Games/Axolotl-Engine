@@ -32,8 +32,8 @@ ComponentLocalIBL::ComponentLocalIBL(GameObject* parent) :
 	if (GetOwner()->HasComponent<ComponentTransform>())
 	{
 		float3 pos = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
-		parallaxAABB = { pos + float3(-10, -10, -10), pos + float3(10, 10, 10) };
-		influenceAABB = { pos + float3(-10, -10, -10), pos + float3(10, 10, 10) };
+		parallaxAABB = { pos + float3(-5, -5, -5), pos + float3(5, 5, 5) };
+		influenceAABB = { pos + float3(-5, -5, -5), pos + float3(5, 5, 5) };
 		originCenterParallax = parallaxAABB.CenterPoint();
 		originCenterInfluence = influenceAABB.CenterPoint();
 	}

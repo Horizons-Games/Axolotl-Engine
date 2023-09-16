@@ -40,7 +40,7 @@ void WindowComponentLocalIBL::DrawWindowContents()
 			ImGui::TableNextColumn();
 			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
 			ImGui::SetNextItemWidth(150.0f);
-			if (ImGui::DragFloat3("##ParallaxMin", (float*)&parallax.minPoint, 0.001f))
+			if (ImGui::DragFloat3("##ParallaxMin", (float*)&parallax.minPoint, 0.01f))
 			{
 				local->SetParallaxAABB(parallax);
 			}
@@ -50,7 +50,7 @@ void WindowComponentLocalIBL::DrawWindowContents()
 			ImGui::TableNextColumn();
 			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
 			ImGui::SetNextItemWidth(150.0f);
-			if (ImGui::DragFloat3("##ParallaxMax", (float*)&parallax.maxPoint, 0.001f))
+			if (ImGui::DragFloat3("##ParallaxMax", (float*)&parallax.maxPoint, 0.01f))
 			{
 				local->SetParallaxAABB(parallax);
 			}
@@ -61,7 +61,7 @@ void WindowComponentLocalIBL::DrawWindowContents()
 			ImGui::TableNextColumn();
 			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
 			ImGui::SetNextItemWidth(150.0f);
-			if (ImGui::DragFloat3("##InfluenceMin", (float*)&influence.minPoint, 0.001f))
+			if (ImGui::DragFloat3("##InfluenceMin", (float*)&influence.minPoint, 0.01f))
 			{
 				local->SetInfluenceAABB(influence);
 			}
@@ -71,7 +71,7 @@ void WindowComponentLocalIBL::DrawWindowContents()
 			ImGui::TableNextColumn();
 			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
 			ImGui::SetNextItemWidth(150.0f);
-			if (ImGui::DragFloat3("##InfluenceMax", (float*)&influence.maxPoint, 0.001f))
+			if (ImGui::DragFloat3("##InfluenceMax", (float*)&influence.maxPoint, 0.01f))
 			{
 				local->SetInfluenceAABB(influence);
 			}
