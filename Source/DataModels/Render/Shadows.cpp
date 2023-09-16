@@ -386,8 +386,12 @@ void Shadows::RenderShadowMap(const GameObject* light, const float2& minMax, Cam
 	glBindBuffer(GL_UNIFORM_BUFFER, uboFrustums);
 	glBufferData(GL_UNIFORM_BUFFER, sizeof(LightSpaceMatrices), &frustumMatrices, GL_STATIC_DRAW);
 
+	glCullFace(GL_BACK);
+
 	ModuleRender* render = App->GetModule<ModuleRender>();
 	render->GetBatchManager()->DrawMeshes(objectsInFrustum, float3(frustum.Pos()));
+
+	glCullFace(GL_FRONT);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
