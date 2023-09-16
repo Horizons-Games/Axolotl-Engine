@@ -64,7 +64,7 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 
 	componentAnimation->SetParameter("IsFalling", verticalVelocity);
 
-	if (verticalVelocity < 0.0f)
+	if (verticalVelocity < -5.0f)
 	{
 		if (verticalVelocity < lastVerticalVelocity)
 		{
@@ -77,7 +77,7 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 			{
 				coyoteTimerCount -= deltaTime;
 			}
-			else 
+			else
 			{
 				playerManager->SetPlayerState(PlayerActions::FALLING);
 			}
@@ -106,7 +106,6 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 			componentAnimation->SetParameter("IsGrounded", false);
 			componentAnimation->SetParameter("IsJumping", false);
 			componentAnimation->SetParameter("IsDoubleJumping", false);
-
 		}
 	}
 }
@@ -138,7 +137,7 @@ void PlayerJumpScript::Jump(float deltaTime)
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::JUMP);
 				componentAnimation->SetParameter("IsJumping", true);
 			}
-			else if (playerManager->GetPlayerState() == PlayerActions::JUMPING)
+			else
 			{
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DOUBLE_JUMP);
 				componentAnimation->SetParameter("IsJumping", false);
