@@ -62,13 +62,12 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 {
 	float verticalVelocity = rigidbody->GetRigidBody()->getLinearVelocity().getY();
 
-	componentAnimation->SetParameter("IsFalling", verticalVelocity);
-
 	if (verticalVelocity < -5.0f)
 	{
 		if (verticalVelocity < lastVerticalVelocity)
 		{
 			isGrounded = false;
+			componentAnimation->SetParameter("IsFalling", true);
 			componentAnimation->SetParameter("IsGrounded", false);
 			componentAnimation->SetParameter("IsJumping", false);
 			componentAnimation->SetParameter("IsDoubleJumping", false);
@@ -85,7 +84,9 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 	}
 	else
 	{
+		componentAnimation->SetParameter("IsFalling", false);
 		coyoteTimerCount = 0.0f;
+
 		if (playerManager->GetPlayerState() != PlayerActions::JUMPING &&
 			playerManager->GetPlayerState() != PlayerActions::DOUBLEJUMPING)
 		{
