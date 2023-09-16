@@ -109,7 +109,7 @@ void JumpFinisherArea::PushEnemies(float pushForce, float stunTime, std::vector<
 		GameObject* ownerEnemy = (*it)->GetOwner();
 		// If you think about a better way to identify the bosses lmk, tags are already in use
 		// and as there will only be three bosses, this is a "not so bad" approach I guess
-		AXO_TODO("Add here miniboss 1 script if finally developed, so no boss gets pushed back by this attack");
+		AXO_TODO("Add here miniboss 1's script if finally developed, so no boss gets pushed back by this attack");
 		if (ownerEnemy->HasComponent<EnemyMiniBossTwo>() || ownerEnemy->HasComponent<FinalBossScript>())
 		{
 			continue;
