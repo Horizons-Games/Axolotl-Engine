@@ -4,6 +4,8 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Application.h"
+#include "ModuleInput.h"
 
 #include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/EnemyClass.h"
@@ -108,6 +110,17 @@ void HealthSystem::TakeDamage(float damage)
 			float actualDamage = std::max(damage - playerDefense, 0.f);
 
 			currentHealth -= actualDamage;
+			Uint16 strength = 16384;
+
+			ModuleInput* input = App->GetModule<ModuleInput>();
+			SDL_GameController* controller = input->FindController();
+
+			if (controller != nullptr)
+			{
+				if (SDL_GameControllerRumble(controller, strength, strength, 1000) != 0) {
+					LOG_ERROR("Error on controller rumble");
+				}
+			}
 
 			if (currentHealth - damage <= 0)
 			{
