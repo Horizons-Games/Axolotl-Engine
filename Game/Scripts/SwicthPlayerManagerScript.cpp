@@ -53,7 +53,7 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 {
 	if (!isChangingPlayer)
 	{
-		if (input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE && secondPlayer)
+		if (input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE && secondPlayer && currentPlayer->GetComponent<PlayerManagerScript>()->IsGrounded())
 		{
 			CheckChangeCurrentPlayer();
 			VisualSwicthEffect();
