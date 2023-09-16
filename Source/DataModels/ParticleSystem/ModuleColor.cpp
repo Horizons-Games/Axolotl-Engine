@@ -24,7 +24,6 @@ ModuleColor::ModuleColor(ParticleEmitter* emitter, ModuleColor* color) :
 
 ModuleColor::~ModuleColor()
 {
-	delete gradient;
 }
 
 void ModuleColor::Spawn(EmitterInstance* instance)
@@ -55,6 +54,16 @@ void ModuleColor::Update(EmitterInstance* instance)
 			}
 		}
 	}
+}
+
+void ModuleColor::CopyConfig(ParticleModule* module)
+{
+	ModuleColor* color = static_cast<ModuleColor*>(module);
+
+	enabled   = color->IsEnabled();
+	initAlpha = color->GetInitAlpha();
+	endAlpha  = color->GetEndAlpha();
+	gradient  = color->GetGradient();
 }
 
 void ModuleColor::DrawImGui()
