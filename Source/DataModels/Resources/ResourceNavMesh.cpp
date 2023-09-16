@@ -296,7 +296,7 @@ static int RasterizeTileLayers(float* verts,
 	tbmin[1] = tcfg.bmin[2];
 	tbmax[0] = tcfg.bmax[0];
 	tbmax[1] = tcfg.bmax[2];
-	int cid[512]; // TODO: Make grow when returning too many items.
+	int cid[512]; AXO_TODO("Make grow when returning too many items");
 	const int ncid = rcGetChunksOverlappingRect(chunkyMesh, tbmin, tbmax, cid, 512);
 	if (!ncid)
 	{
@@ -521,8 +521,8 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 			// bmax[0] = worldAABB.maxPoint[0];
 			// bmax[1] = worldAABB.maxPoint[1];
 			// bmax[2] = worldAABB.maxPoint[2];
-			// TODO: PROPERLY SHOW THE DEBUG OBB. In function getObstacleBounds there are magic numbers multiplying the
-			// ABB and not applying a rotation. That's source code from the library.
+			AXO_TODO("PROPERLY SHOW THE DEBUG OBB. In function getObstacleBounds there are magic numbers multiplying the"
+				"ABB and not applying a rotation. That's source code from the library.")
 
 			const unsigned int* colConst = &col;
 			duDebugDrawBox(dd, bmin[0], bmin[1], bmin[2], bmax[0], bmax[1], bmax[2], colConst);
