@@ -7,6 +7,8 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentRigidBody;
 class ComponentTransform;
+class AIMovement;
+class ComponentAgent;
 
 class ShockWaveAttackAreaScript;
 
@@ -40,8 +42,10 @@ private:
 	float shockWaveCooldown;
 	bool shockWaveHitPlayer;
 
-	ComponentRigidBody* rigidBody;
+	//ComponentRigidBody* rigidBody;
 	ComponentTransform* transform;
+	AIMovement* aiMovement;
+	ComponentAgent* agent;
 
 	ComponentTransform* targetPosition;
 

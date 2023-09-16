@@ -3,8 +3,8 @@
 #include "Scripting\Script.h"
 
 #include "HackingCommand.h"
+#include "ModuleInput.h"
 
-class ModuleInput;
 class ComponentTransform;
 class ComponentRigidBody;
 
@@ -41,6 +41,8 @@ private:
 	std::string hackingTag;
 	HackZoneScript* hackZone;
 	UIHackingManager* hackingManager;
+
+	KeyState keyState;
 
 	float currentTime;
 	float maxHackTime;

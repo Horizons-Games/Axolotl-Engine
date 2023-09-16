@@ -41,7 +41,11 @@ void PlayerHackingUseScript::Update(float deltaTime)
 
 	currentTime += deltaTime;
 
-	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingActive)
+	// THIS IS A PROVISIONAL WAY TO SOLVE AN ISSUE WITH THE CONTROLLER COMPONENT
+	// THE STATE GOES FROM IDLE TO REPEAT, SO WE CONVERTED REPEAT TO DOWN FOR THIS
+	// ACTION USING LOGIC COMBINATIONS AND AN AUXILIAR VARIABLE 
+	if (input->GetKey(SDL_SCANCODE_E) != keyState &&
+		input->GetKey(SDL_SCANCODE_E) == KeyState::REPEAT && !isHackingActive)
 	{
 		FindHackZone(hackingTag);
 		if (hackZone && !hackZone->IsCompleted())
@@ -54,12 +58,17 @@ void PlayerHackingUseScript::Update(float deltaTime)
 	if (isHackingActive)
 	{
 		
+
 		if (input->GetKey(SDL_SCANCODE_E) == KeyState::UP)
 		{
 			isHackingButtonPressed = false;
 		}
 
-		if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingButtonPressed)
+		// THIS IS A PROVISIONAL WAY TO SOLVE AN ISSUE WITH THE CONTROLLER COMPONENT
+		// THE STATE GOES FROM IDLE TO REPEAT, SO WE CONVERTED REPEAT TO DOWN FOR THIS
+		// ACTION USING LOGIC COMBINATIONS AND AN AUXILIAR VARIABLE 
+		if (input->GetKey(SDL_SCANCODE_E) != keyState &&
+			input->GetKey(SDL_SCANCODE_E) == KeyState::REPEAT && !isHackingButtonPressed)
 		{
 			FinishHack();
 		}

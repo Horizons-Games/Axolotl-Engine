@@ -92,7 +92,10 @@ void DebugGame::Update(float deltaTime)
 	}
 	else if (input->GetKey(SDL_SCANCODE_F4) == KeyState::DOWN)
 	{
-		//SpawnNewEnemy();
+#ifndef ENGINE
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_LEVEL02_ALFA_BIX.axolotl");
+		LOG_INFO("LOADING LEVEL 2");
+#endif // ENGINE
 	}
 	else if (input->GetKey(SDL_SCANCODE_F5) == KeyState::DOWN)
 	{
