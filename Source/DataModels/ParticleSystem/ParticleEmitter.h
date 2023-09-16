@@ -17,7 +17,7 @@
 #define MAX_GRAVITY 100.0f
 #define MAX_RADIUS 1000000000.0f
 #define MAX_ANGLE 89.99f
-#define MIN_RADIUS 0.00f
+#define MIN_RADIUS 0.001f
 #define MIN_ANGLE 0.00f
 
 #define DEFAULT_DURATION 10.0f
