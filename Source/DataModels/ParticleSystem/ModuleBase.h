@@ -8,6 +8,7 @@ class ModuleBase : public ParticleModule
 {
 public:
 	ModuleBase(ParticleEmitter* emitter);
+	ModuleBase(ParticleEmitter* emitter, ModuleBase* base);
 	~ModuleBase() override;
 
 	void Spawn(EmitterInstance* instance) override;

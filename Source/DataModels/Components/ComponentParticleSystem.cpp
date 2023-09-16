@@ -34,8 +34,8 @@ ComponentParticleSystem::ComponentParticleSystem(const bool active, GameObject* 
 {
 }
 
-ComponentParticleSystem::ComponentParticleSystem(const ComponentParticleSystem& toCopy):
-	Component(ComponentType::PARTICLE, toCopy.IsEnabled(), toCopy.GetOwner(), true),
+ComponentParticleSystem::ComponentParticleSystem(const ComponentParticleSystem& toCopy, GameObject* parent):
+	Component(ComponentType::PARTICLE, toCopy.IsEnabled(), parent, true),
 	isPlaying(false),
 	pause(false),
 	playAtStart(toCopy.playAtStart)

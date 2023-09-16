@@ -12,6 +12,14 @@ ModuleSize::ModuleSize(ParticleEmitter* emitter) :
 {
 }
 
+ModuleSize::ModuleSize(ParticleEmitter* emitter, ModuleSize* size) :
+	ParticleModule(ModuleType::SIZE, emitter)
+{
+	random = size->IsRandom();
+	sizeOverTime = size->GetSize();
+	enabled = size->IsEnabled();
+}
+
 ModuleSize::~ModuleSize()
 {
 }
