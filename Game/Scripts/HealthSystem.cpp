@@ -18,7 +18,7 @@ REGISTERCLASS(HealthSystem);
 #define MAX_TIME_EFFECT_DURATION 0.1f
 
 HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), 
-	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr),	damageTaken(false)
+	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr),	damageTaken(false), playerManager(nullptr)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
@@ -30,6 +30,7 @@ HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), com
 
 void HealthSystem::Start()
 {
+	playerManager = owner->GetComponent<PlayerManagerScript>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	//componentParticleSystem = enemyParticleSystem->GetComponent<ComponentParticleSystem>();
 
@@ -101,7 +102,7 @@ void HealthSystem::TakeDamage(float damage)
 			}
 			damageTaken = true;
 		}
-		else if (owner->CompareTag("Player") && !attackScript->IsPerfomingJumpAttack())
+		else if (owner->CompareTag("Player") && !attackScript->IsPerfomingJumpAttack() && playerManager->GetPlayerState() != PlayerActions::DASHING)
 		{
 			float playerDefense = owner->GetComponent<PlayerManagerScript>()->GetPlayerDefense();
 			float actualDamage = std::max(damage - playerDefense, 0.f);
