@@ -29,7 +29,7 @@ public:
 	bool IsGrounded() const;
 	bool IsJumping() const;
 
-	void ChangingCurrentPlayer(bool changePlayer);
+	void ChangingCurrentPlayer();
 
 private:
 	void CheckGround();

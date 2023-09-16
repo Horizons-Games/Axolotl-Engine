@@ -42,6 +42,8 @@ public:
 	bool IsMeleeAvailable() const;
 	bool IsPerfomingJumpAttack() const;
 
+	void SetCanAttack(bool canAttack);
+
 	AttackType GetCurrentAttackType() const;
 	bool IsInAttackAnimation() const;
 	GameObject* GetEnemyDetected() const;
@@ -117,4 +119,6 @@ private:
 	GameObject* pistolGameObject;
 
 	Scene* loadedScene;
+
+	bool canAttack;
 };

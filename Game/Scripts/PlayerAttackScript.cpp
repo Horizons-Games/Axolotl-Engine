@@ -107,7 +107,7 @@ void PlayerAttackScript::Update(float deltaTime)
 	// Check if the special was activated
 	comboSystem->CheckSpecial(deltaTime);
 
-	if (!IsAttackAvailable())
+	if (!IsAttackAvailable() && !canAttack)
 	{
 		if (jumpFinisherScript->IsActive())
 		{
@@ -588,6 +588,11 @@ void PlayerAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAtta
 bool PlayerAttackScript::IsAttackAvailable() const
 {
 	return !isAttacking;
+}
+
+void PlayerAttackScript::SetCanAttack(bool canAttack)
+{
+	this->canAttack = canAttack;
 }
 
 bool PlayerAttackScript::IsMeleeAvailable() const

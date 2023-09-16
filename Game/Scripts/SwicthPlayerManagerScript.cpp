@@ -12,8 +12,6 @@
 #include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/PlayerManagerScript.h"
-#include "../Scripts/PlayerMoveScript.h"
-#include "../Scripts/PlayerJumpScript.h"
 
 #include "../Scripts/CameraControllerScript.h"
 
@@ -38,6 +36,7 @@ void SwitchPlayerManagerScript::Start()
 	cameraTransform = mainCamera->GetComponent<ComponentTransform>();
 
 	currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
+	playerManager = currentPlayer->GetComponent<PlayerManagerScript>();
 	LOG_DEBUG("Player 1: {}", currentPlayer);
 	LOG_DEBUG("Player 2: {}", secondPlayer);
 
@@ -89,11 +88,12 @@ void SwitchPlayerManagerScript::VisualSwicthEffect()
 
 void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 {
-	jumpManager = currentPlayer->GetComponent<PlayerJumpScript>();
 	camera->ToggleCameraState();
-	jumpManager->ChangingCurrentPlayer(true);
+	currentPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(true);
+	playerManager->ForcingJump(true);
 
-	currentPlayer->GetComponent<PlayerManagerScript>()->ParalyzePlayer(true);
+	// The position where the newCurrentPlayer will appear
+	playerTransform = currentPlayer->GetComponent<ComponentTransform>();
 
 	changePlayerTimer.Start();
 	isChangingPlayer = true;
@@ -112,31 +112,29 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
 		secondPlayer = changePlayerGameObject;
 
-		currentPlayer->GetComponent<PlayerManagerScript>()->ParalyzePlayer(false);
-		secondPlayer->GetComponent<PlayerManagerScript>()->ParalyzePlayer(false);
+		currentPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(false);
+		secondPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(false);
 	}
 
 	else if (changePlayerTimer.Read() >= 1000 && !isNewPlayerEnabled)
 	{
-		jumpManager->ChangingCurrentPlayer(false);
-		// The position where the newCurrentPlayer will appear
-		rigidBodyVec3 = btVector3(currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().x,
-			currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().y, currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().z);
-		
-		ComponentTransform* compTrans = currentPlayer->GetComponent<ComponentTransform>();
 		// Disabling the current player
 		currentPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(false);
+		playerManager->ForcingJump(false);
 
 		currentPlayer->Disable();
+
+		// Change UI of the player here
+		AXO_TODO("Change UI of the player here")
 		
 		// Enabling the new current player
 		secondPlayer->Enable();
 		secondPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(true);
 
-		secondPlayer->GetComponent<PlayerManagerScript>()->ParalyzePlayer(true);
+		secondPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(true);
 
-		secondPlayer->GetComponent<ComponentTransform>()->SetGlobalPosition(compTrans->GetGlobalPosition());
-		secondPlayer->GetComponent<ComponentTransform>()->SetGlobalRotation(compTrans->GetGlobalRotation());
+		secondPlayer->GetComponent<ComponentTransform>()->SetGlobalPosition(float3 (playerTransform->GetGlobalPosition().x, -0.5f, playerTransform->GetGlobalPosition().z));
+		secondPlayer->GetComponent<ComponentTransform>()->SetGlobalRotation(playerTransform->GetGlobalRotation());
 		secondPlayer->GetComponent<ComponentRigidBody>()->UpdateRigidBody();
 		isNewPlayerEnabled = !isNewPlayerEnabled;
 	}

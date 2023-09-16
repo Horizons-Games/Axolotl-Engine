@@ -4,10 +4,13 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
 
-#include "../Scripts/PlayerJumpScript.h"
-#include "../Scripts/PlayerRotationScript.h"
-#include "../Scripts/PlayerMoveScript.h"
-#include "../Scripts/DebugGame.h"
+#include "PlayerJumpScript.h"
+#include "PlayerRotationScript.h"
+#include "PlayerMoveScript.h"
+#include "PlayerAttackScript.h"
+#include "HealthSystem.h"
+
+#include "DebugGame.h"
 #include "Application.h"
 
 REGISTERCLASS(PlayerManagerScript);
@@ -29,9 +32,10 @@ void PlayerManagerScript::Start()
 	input = App->GetModule<ModuleInput>();
 	
 	jumpManager = owner->GetComponent<PlayerJumpScript>();
+	healthManager = owner->GetComponent<HealthSystem>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
 	rotationManager = owner->GetComponent<PlayerRotationScript>();
-
+	attackManager = owner->GetComponent<PlayerAttackScript>();
 }
 
 bool PlayerManagerScript::IsGrounded() const
@@ -92,6 +96,19 @@ PlayerJumpScript* PlayerManagerScript::GetJumpManager() const
 PlayerMoveScript* PlayerManagerScript::GetMovementManager() const
 {
 	return movementManager;
+}
+
+void PlayerManagerScript::ForcingJump(bool forcedJump)
+{
+	jumpManager->ChangingCurrentPlayer();
+	jumpManager->SetCanJump(forcedJump);
+}
+
+void PlayerManagerScript::PausePlayer(bool paused)
+{
+	ParalyzePlayer(paused);
+	healthManager->SetIsImmortal(paused);
+	attackManager->SetCanAttack(paused);
 }
 
 void PlayerManagerScript::ParalyzePlayer(bool paralyzed)

@@ -11,8 +11,6 @@ class CameraControllerScript;
 class ComponentTransform;
 class ComponentRigidBody;
 class PlayerManagerScript;
-class PlayerMoveScript;
-class PlayerJumpScript;
 class ModuleInput;
 
 class SwitchPlayerManagerScript : public Script
@@ -42,8 +40,8 @@ private:
 
 	GameObject* currentPlayer;
 	GameObject* secondPlayer;
-	PlayerJumpScript* jumpManager;
 	PlayerManagerScript* playerManager;
+	ComponentTransform* playerTransform;
 
 	btVector3 rigidBodyVec3;
 
