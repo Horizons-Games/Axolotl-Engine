@@ -118,8 +118,10 @@ void PlayerAttackScript::Update(float deltaTime)
 			ResetAttackAnimations(deltaTime);
 		}
 	}
-
-	PerformCombos();
+	if (!canAttack) 
+	{
+		PerformCombos();
+	}
 }
 
 void PlayerAttackScript::UpdateEnemyDetection()
