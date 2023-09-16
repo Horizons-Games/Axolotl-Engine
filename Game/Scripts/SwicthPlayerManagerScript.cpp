@@ -93,6 +93,8 @@ void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 	camera->ToggleCameraState();
 	jumpManager->ChangingCurrentPlayer(true);
 
+	currentPlayer->GetComponent<PlayerManagerScript>()->ParalyzePlayer(true);
+
 	changePlayerTimer.Start();
 	isChangingPlayer = true;
 }
@@ -109,6 +111,9 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		GameObject* changePlayerGameObject = currentPlayer;
 		currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
 		secondPlayer = changePlayerGameObject;
+
+		currentPlayer->GetComponent<PlayerManagerScript>()->ParalyzePlayer(false);
+		secondPlayer->GetComponent<PlayerManagerScript>()->ParalyzePlayer(false);
 	}
 
 	else if (changePlayerTimer.Read() >= 1000 && !isNewPlayerEnabled)
@@ -117,7 +122,8 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		// The position where the newCurrentPlayer will appear
 		rigidBodyVec3 = btVector3(currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().x,
 			currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().y, currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().z);
-
+		
+		ComponentTransform* compTrans = currentPlayer->GetComponent<ComponentTransform>();
 		// Disabling the current player
 		currentPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(false);
 
@@ -127,7 +133,11 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		secondPlayer->Enable();
 		secondPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(true);
 
-		secondPlayer->GetComponent<ComponentRigidBody>()->SetRigidBodyOrigin(rigidBodyVec3);
+		secondPlayer->GetComponent<PlayerManagerScript>()->ParalyzePlayer(true);
+
+		secondPlayer->GetComponent<ComponentTransform>()->SetGlobalPosition(compTrans->GetGlobalPosition());
+		secondPlayer->GetComponent<ComponentTransform>()->SetGlobalRotation(compTrans->GetGlobalRotation());
+		secondPlayer->GetComponent<ComponentRigidBody>()->UpdateRigidBody();
 		isNewPlayerEnabled = !isNewPlayerEnabled;
 	}
 }

@@ -77,6 +77,8 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 
 void PlayerMoveScript::Move(float deltaTime)
 {
+	desiredRotation = owner->GetComponent<ComponentTransform>()->GetGlobalForward();
+
 	if (componentAnimation->GetActualStateName() == "Running" && playerState != PlayerActions::WALKING)
 	{
 		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
