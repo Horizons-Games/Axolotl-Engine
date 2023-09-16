@@ -53,10 +53,13 @@ private:
 	bool isParalyzed;
 
 	float dashForce;
-	float3 positionBeforeDash;
+	float dashTime;
+	float dashDuration;
 
 	float lightAttacksMoveFactor;
 	float heavyAttacksMoveFactor;
+	float dashRollCooldown;
+	float timeSinceLastDash;
 
 	PlayerManagerScript* playerManager;
 	PlayerForceUseScript* forceScript;

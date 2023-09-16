@@ -26,12 +26,16 @@ REGISTERCLASS(PlayerMoveScript);
 PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 componentAudio(nullptr), componentAnimation(nullptr),
 dashForce(3000.0f), playerManager(nullptr), isParalyzed(false),
-desiredRotation(0.0f, 0.0f, 0.0f), positionBeforeDash(0.0f, 0.0f, 0.0f), lightAttacksMoveFactor(2.0f), heavyAttacksMoveFactor(3.0f)
+desiredRotation(0.0f, 0.0f, 0.0f), lightAttacksMoveFactor(2.0f), 
+heavyAttacksMoveFactor(3.0f), dashTime(0.0f), dashRollCooldown(0.1f),
+timeSinceLastDash(0.0f), dashDuration(0.5f)
 {
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(isParalyzed, bool);
 	REGISTER_FIELD(lightAttacksMoveFactor, float);
 	REGISTER_FIELD(heavyAttacksMoveFactor, float);
+	REGISTER_FIELD(dashRollCooldown, float);
+	REGISTER_FIELD(dashDuration, float);
 }
 
 void PlayerMoveScript::Start()
@@ -69,6 +73,7 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 		{
 			return;
 		}
+
 		Move(deltaTime);
 		MoveRotate(deltaTime);
 		DashRoll(deltaTime);
@@ -266,10 +271,12 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 
 	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN
 		&& (playerManager->GetPlayerState() == PlayerActions::IDLE
-			|| playerManager->GetPlayerState() == PlayerActions::WALKING))
+			|| playerManager->GetPlayerState() == PlayerActions::WALKING) &&
+		timeSinceLastDash > dashRollCooldown)
 	{
 		// Start a dash
-		positionBeforeDash = componentTransform->GetGlobalPosition();
+		dashTime = 0.0f;
+		timeSinceLastDash = 0.0f;
 		componentAnimation->SetParameter("IsDashing", true);
 		componentAnimation->SetParameter("IsRunning", false);
 		playerManager->SetPlayerState(PlayerActions::DASHING);
@@ -284,22 +291,22 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::ROLL);
 		}
 	}
+	else
+	{
+		timeSinceLastDash += deltaTime;
+	}
 
 	if (playerManager->GetPlayerState() == PlayerActions::DASHING)
 	{
 		// Stop the dash
-		float3 positionAfterDash = componentTransform->GetGlobalPosition();
-		float deltaX = positionAfterDash.x - positionBeforeDash.x;
-		float deltaZ = positionAfterDash.z - positionBeforeDash.z;
-		float distanceTraveled = deltaX * deltaX + deltaZ * deltaZ;
-		float dashDistance = 4.0f;
-		// Avoiding use of sqrt
-		if (distanceTraveled >= dashDistance * dashDistance)
+		if (dashTime > dashDuration)
 		{
 			playerManager->SetPlayerState(PlayerActions::IDLE);
+			timeSinceLastDash = 0.0f;
 		}
 		else
 		{
+			dashTime += deltaTime;
 			Quat rotation = componentTransform->GetGlobalRotation();
 			float3 dashDirection = componentTransform->GetGlobalForward();
 
