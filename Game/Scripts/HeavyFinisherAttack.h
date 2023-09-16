@@ -8,6 +8,7 @@ class ComponentAudioSource;
 class ComponentTransform;
 class ComponentRigidBody;
 class ComponentParticleSystem;
+class PlayerAttackScript;
 class ModulePhysics;
 class GameObject;
 class Scene;
@@ -41,6 +42,8 @@ private:
 	GameObject* mesh;
 	ComponentRigidBody* rigidBody;
 	ComponentParticleSystem* vfx;
+
+	PlayerAttackScript* playerAttackScript;
 
 	ComponentTransform* target;
 	ComponentTransform* attackOwner;

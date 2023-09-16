@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/EE-4_Low4_DefaultMaterial_AlbedoTransparency.png",
+    "NormalAssetPath": "Assets/Textures/EE-4_Low4_DefaultMaterial_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/EE-4_Low4_DefaultMaterial_MetallicSmoothness.png",
+    "EmissiveAssetPath": "Assets/Textures/EE-4_Low4_DefaultMaterial_Emission.png"
+}

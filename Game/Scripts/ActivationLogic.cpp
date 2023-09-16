@@ -5,15 +5,19 @@
 #include "ModuleInput.h"
 #include "ModuleCamera.h"
 #include "ModuleScene.h"
+#include "ModulePlayer.h"
 
 #include "Scene/Scene.h"
+#include "GameObject/GameObject.h"
 
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentScript.h"
 
-#include "GameObject/GameObject.h"
+#include "../Scripts/CameraControllerScript.h"
+#include "../Scripts/PlayerManagerScript.h"
 
 #include "DataStructures/Quadtree.h"
 #include "Auxiliar/Audio/AudioData.h"
@@ -40,46 +44,44 @@ void ActivationLogic::Start()
 									   {
 										   return child->HasComponent<ComponentRigidBody>();
 									   });
-	// not just assert, since it would crash on the next line
-	if (childWithRigid == std::end(children))
-	{
-		LOG_ERROR("Expected one of {}'s children to have a ComponentRigidBody, but none was found", GetOwner());
-		throw ComponentNotFoundException("ComponentRigidBody not found in children");
-	}
 	componentRigidBody = (*childWithRigid)->GetComponent<ComponentRigidBody>();
-	componentRigidBody->Disable();
+	//componentRigidBody->Disable();
 }
 
 void ActivationLogic::Update(float deltaTime)
 {
-
+	if (!componentRigidBody->IsEnabled() && App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat())
+	{
+		componentAnimation->SetParameter("IsActive", false);
+		componentRigidBody->Enable();
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
+	}
 }
 
 void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 {
-	LOG_DEBUG("{} enters in CollisionEnter", other->GetOwner());
-	if (!App->GetModule<ModuleScene>()->GetLoadedScene()->GetCombatMode())
+	if (!App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat())
 	{
 		if (other->GetOwner()->CompareTag("Player"))
 		{
-			componentAnimation->SetParameter("IsActive", true);
-			componentRigidBody->Disable();
-			componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
+			PlayerManagerScript* playerManager = other->GetOwner()->GetComponent<PlayerManagerScript>();
+			if (!playerManager->IsTeleporting())
+			{
+				componentAnimation->SetParameter("IsActive", true);
+				componentRigidBody->Disable();
+				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
+			}
 		}
 	}
 }
 
 void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 {
-	LOG_DEBUG("{} enters in CollisionExit", other->GetOwner());
-	if (!App->GetModule<ModuleScene>()->GetLoadedScene()->GetCombatMode())
+	if (other->GetOwner()->CompareTag("Player"))
 	{
-		if (other->GetOwner()->CompareTag("Player"))
-		{
-			componentAnimation->SetParameter("IsActive", false);
-			// Until the trigger works 100% of the time better cross a closed door than be closed forever
-			componentRigidBody->Enable();
-			componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
-		}
+		componentAnimation->SetParameter("IsActive", false);
+		// Until the trigger works 100% of the time better cross a closed door than be closed forever
+		componentRigidBody->Enable();
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
 	}
 }
