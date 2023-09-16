@@ -18,7 +18,7 @@ void main()
 	float near = nearFar[0];
 	float far = nearFar[1];
 
-	float logarithmicSplit = near * pow(far/near, (gl_WorkGroupID.x + 1.0)/(splits + 1.0));
+	float logarithmicSplit = near * pow(far/near, float(gl_WorkGroupID.x + 1)/ float(splits + 1));
 	float uniformSplit = near + (far - near) * (float(gl_WorkGroupID.x + 1) / float(splits + 1));
 	float splitPosition = lambda * logarithmicSplit + (1.0 - lambda) * uniformSplit;
 

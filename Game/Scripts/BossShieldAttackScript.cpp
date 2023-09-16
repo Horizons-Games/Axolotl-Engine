@@ -1,7 +1,8 @@
 #include "StdAfx.h"
 #include "BossShieldAttackScript.h"
 
-//#include "Application.h"
+#include "Application.h"
+#include "Modules/ModuleRandom.h"
 //#include "Modules/ModuleScene.h"
 //#include "Scene/Scene.h"
 
@@ -34,14 +35,15 @@ BossShieldAttackScript::BossShieldAttackScript() : Script(), bossShieldObject(nu
 	REGISTER_FIELD(battleArenaAreaSize, ComponentRigidBody*);
 }
 
+void BossShieldAttackScript::Init()
+{
+	Assert(enemiesToSpawnParent != nullptr,
+		axo::Format("No spawner of enemies set for the Boss Shield Attack!! Owner: {}", GetOwner()));
+}
+
 void BossShieldAttackScript::Start()
 {
 	shieldingTime = shieldingMaxTime;
-
-	if (enemiesToSpawnParent == nullptr)
-	{
-		return;
-	}
 
 	enemiesReadyToSpawn.reserve(enemiesToSpawnParent->GetChildren().size());
 	enemiesNotReadyToSpawn.reserve(enemiesToSpawnParent->GetChildren().size());
@@ -83,7 +85,7 @@ void BossShieldAttackScript::TriggerShieldAttack()
 
 bool BossShieldAttackScript::CanPerformShieldAttack() const
 {
-	return shieldAttackCooldown <= 0.0f && !isShielding;
+	return shieldAttackCooldown <= 0.0f && !IsAttacking();
 }
 
 bool BossShieldAttackScript::IsAttacking() const
@@ -180,8 +182,8 @@ GameObject* BossShieldAttackScript::SelectEnemyToSpawn()
 		return nullptr;
 	}
 
-	int enemyRange = static_cast<int>(enemiesReadyToSpawn.size());
-	int randomEnemyIndex = rand() % enemyRange;
+	int enemyRange = static_cast<int>(enemiesReadyToSpawn.size() - 1);
+	int randomEnemyIndex = App->GetModule<ModuleRandom>()->RandomNumberInRange(enemyRange);
 	GameObject* selectedEnemy = enemiesReadyToSpawn.at(randomEnemyIndex);
 
 	EnemyClass* enemyClass = selectedEnemy->GetComponent<EnemyClass>();
@@ -209,14 +211,17 @@ GameObject* BossShieldAttackScript::SelectEnemyToSpawn()
 float3 BossShieldAttackScript::SelectSpawnPosition() const
 {
 	float areaRadius = battleArenaAreaSize->GetRadius();
-	int areaDiameter = static_cast<int>(areaRadius * 2.0f);
+	float areaDiameter = areaRadius * 2.0f;
 
-	float randomXPos = (rand() % areaDiameter - areaRadius) + (rand() % 100 * 0.01f);
-	float randomZPos = (rand() % areaDiameter - areaRadius) + (rand() % 100 * 0.01f);
+	float randomXPos = (App->GetModule<ModuleRandom>()->RandomNumberInRange(areaDiameter) - areaRadius)
+		+ (App->GetModule<ModuleRandom>()->RandomNumberInRange(100.0f) * 0.01f);
+	float randomZPos = (App->GetModule<ModuleRandom>()->RandomNumberInRange(areaDiameter) - areaRadius)
+		+ (App->GetModule<ModuleRandom>()->RandomNumberInRange(100.0f) * 0.01f);
 	float3 selectedSpawningPosition =
 		float3(randomXPos,
 			0.0f,			/* The height will not be modified, we'll only have one height in the arena */
 			randomZPos);
+	selectedSpawningPosition += battleArenaAreaSize->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
 	return selectedSpawningPosition;
 }

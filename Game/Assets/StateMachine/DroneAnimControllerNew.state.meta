@@ -1,0 +1,11 @@
+{
+    "UID": 16576454241641861805,
+    "Type": "StateMachine",
+    "ResourcesAssetPaths": [
+        "Assets/Animation/Dronev2_1.Armature_Idle_Drone.anim",
+        "Assets/Animation/Dronev2_1.Armature_Attack_SingleShot_Drone.anim",
+        "Assets/Animation/Dronev2_1.Armature_Flinch_Drone.anim",
+        "Assets/Animation/Dronev2_1.Armature_Death_Drone.anim",
+        "Assets/Animation/Dronev2Seek.Armature_Seeking_Drone_Loop.anim"
+    ]
+}
