@@ -203,6 +203,16 @@ void PlayerHackingUseScript::RestartHack()
 
 	PrintCombination();
 
+	Uint16 strength = 16384;
+	SDL_GameController* controller = input->FindController();
+
+	if (controller != nullptr)
+	{
+		if (SDL_GameControllerRumble(controller, strength, strength, 250) != 0) {
+			LOG_ERROR("Error on controller rumble");
+		}
+	}
+
 	LOG_DEBUG("hacking is restarted");
 }
 
