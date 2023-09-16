@@ -94,7 +94,7 @@ UpdateStatus ModuleInput::PreUpdate()
 	mouseMotion = float2::zero;
 	mouseWheelScrolled = false;
 
-	for (int i = 0; i < SDL_NUM_SCANCODES; ++i)
+for (int i = 0; i < SDL_NUM_SCANCODES; ++i)
 	{
 		if (keysState[i] == KeyState::DOWN)
 		{
@@ -132,7 +132,6 @@ UpdateStatus ModuleInput::PreUpdate()
 			gamepadState[i] = KeyState::IDLE;
 		}
 	}
-
 	SDL_PumpEvents();
 
 	SDL_GameController* controller = FindController();
@@ -305,28 +304,7 @@ UpdateStatus ModuleInput::PreUpdate()
 		}
 	}
 
-	if (App->IsOnPlayMode())
-	{
-		for (const auto& [gamepadButton, keyboardButton] : gamepadMapping)
-		{
-			KeyState gamepadButtonState = GetGamepadButton(gamepadButton);
-
-			if (gamepadButtonState == KeyState::IDLE)
-			{
-				continue;
-			}
-
-			if (std::holds_alternative<SDL_Scancode>(keyboardButton))
-			{
-				keysState[std::get<SDL_Scancode>(keyboardButton)] = gamepadButtonState;
-			}
-			else if (std::holds_alternative<Uint8>(keyboardButton))
-			{
-				Uint8 mouseButton = std::get<Uint8>(keyboardButton);
-				mouseButtonState[mouseButton] = gamepadButtonState;
-			}
-		}
-	}
+	MapInput();
 
 	return UpdateStatus::UPDATE_CONTINUE;
 }
@@ -420,4 +398,30 @@ bool ModuleInput::CleanUp()
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 
 	return true;
+}
+
+void ModuleInput::MapInput()
+{
+	if (App->IsOnPlayMode())
+	{
+		for (const auto& [gamepadButton, keyboardButton] : gamepadMapping)
+		{
+			KeyState gamepadButtonState = GetGamepadButton(gamepadButton);
+
+			if (gamepadButtonState == KeyState::IDLE)
+			{
+				continue;
+			}
+
+			if (std::holds_alternative<SDL_Scancode>(keyboardButton))
+			{
+				keysState[std::get<SDL_Scancode>(keyboardButton)] = gamepadButtonState;
+			}
+			else if (std::holds_alternative<Uint8>(keyboardButton))
+			{
+				Uint8 mouseButton = std::get<Uint8>(keyboardButton);
+				mouseButtonState[mouseButton] = gamepadButtonState;
+			}
+		}
+	}
 }

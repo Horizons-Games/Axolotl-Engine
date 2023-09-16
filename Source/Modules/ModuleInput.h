@@ -134,6 +134,9 @@ private:
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> moveCursor;
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> zoomCursor;
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> defaultCursor;
+
+	void MapInput();
+
 };
 
 inline SDL_JoystickID ModuleInput::GetControllerInstanceID(SDL_GameController* controller) const
