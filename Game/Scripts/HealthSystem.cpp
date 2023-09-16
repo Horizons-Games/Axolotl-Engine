@@ -117,7 +117,7 @@ void HealthSystem::TakeDamage(float damage)
 
 			if (controller != nullptr)
 			{
-				if (SDL_GameControllerRumble(controller, strength, strength, 1000) != 0) {
+				if (SDL_GameControllerRumble(controller, strength, strength, 250) != 0) {
 					LOG_ERROR("Error on controller rumble");
 				}
 			}
