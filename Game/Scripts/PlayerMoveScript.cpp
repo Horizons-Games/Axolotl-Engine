@@ -98,6 +98,7 @@ void PlayerMoveScript::Move(float deltaTime)
 
 	if (isParalyzed)
 	{
+		componentAnimation->SetParameter("IsRunning", false);
 		return;
 	}
 
