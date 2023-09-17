@@ -72,7 +72,7 @@ public:
 
 	JoystickMovement GetDirection() const;
 
-	void Rumble(Uint16 strengthLeft, Uint16 strengthRight, int duration) const;
+	void Rumble(Uint16 intensityLeft, Uint16 intensityRight, Uint32 durationMs) const;
 
 	float2 GetMouseMotion() const;
 	float2 GetMouseWheel() const;
