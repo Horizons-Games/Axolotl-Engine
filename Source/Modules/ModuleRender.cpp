@@ -366,7 +366,8 @@ UpdateStatus ModuleRender::Update()
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT), engineCamera);
 
 	// -------- DEFERRED LIGHTING ---------------
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("DEFERRED LIGHTING"), "DEFERRED LIGHTING");
+	glPushDebugGroup
+		(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("DEFERRED LIGHTING")), "DEFERRED LIGHTING");
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

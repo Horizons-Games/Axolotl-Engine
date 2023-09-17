@@ -22,7 +22,7 @@
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
 
-#include "Program/Program.h";
+#include "Program/Program.h"
 
 #include "Scene/Scene.h"
 
@@ -397,7 +397,7 @@ void Shadows::RenderShadowMap(const GameObject* light, const float2& minMax, Cam
 
 void Shadows::ShadowDepthVariance()
 {
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Shadow Depth Variance"), "Shadow Depth Variance");
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Shadow Depth Variance")), "Shadow Depth Variance");
 
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SHADOW_DEPTH_VARIANCE);
 	program->Activate();
@@ -425,7 +425,7 @@ void Shadows::ShadowDepthVariance()
 
 void Shadows::GaussianBlur()
 {
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Gaussian Blur"), "Gaussian Blur");
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Gaussian Blur")), "Gaussian Blur");
 
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::GAUSSIAN_BLUR_3D);
 	program->Activate();
