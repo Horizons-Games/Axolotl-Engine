@@ -23,6 +23,8 @@ public:
 	void CheckChangeCurrentPlayer();
 	void HandleChangeCurrentPlayer();
 
+	void SetIsSwitchAvailable(bool available);
+
 	void VisualSwicthEffect();
 
 private:
@@ -49,4 +51,5 @@ private:
 
 	bool isChangingPlayer;
 	bool isNewPlayerEnabled;
+	bool isSwitchAvailable;
 };

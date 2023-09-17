@@ -20,8 +20,9 @@
 
 REGISTERCLASS(SwitchPlayerManagerScript);
 
-SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr)
+SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr), isSwitchAvailable(true)
 {
+	REGISTER_FIELD(isSwitchAvailable, bool);
 	REGISTER_FIELD(secondPlayer, GameObject*);
 	REGISTER_FIELD(switchPlayersParticlesPrefab, GameObject*);
 }
@@ -52,7 +53,9 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 {
 	if (!isChangingPlayer)
 	{
-		if (input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE && secondPlayer && currentPlayer->GetComponent<PlayerManagerScript>()->IsGrounded())
+		if (input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE && secondPlayer 
+			&& currentPlayer->GetComponent<PlayerManagerScript>()->IsGrounded()
+			&& isSwitchAvailable)
 		{
 			CheckChangeCurrentPlayer();
 			VisualSwicthEffect();
@@ -68,6 +71,11 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualSwitchPlayersParticles);
 		actualSwitchPlayersParticles = nullptr;
 	}
+}
+
+void SwitchPlayerManagerScript::SetIsSwitchAvailable(bool available)
+{
+	isSwitchAvailable = available;
 }
 
 void SwitchPlayerManagerScript::VisualSwicthEffect()
