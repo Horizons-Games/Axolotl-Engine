@@ -2,6 +2,7 @@
 #include "Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
 class ComponentCubemap;
+class WindowCubemapInput;
 
 class WindowComponentCubemap : public ComponentWindow
 {
@@ -14,4 +15,6 @@ protected:
 
 private:
 	constexpr static float max_intensity = 5000.0f;
+	std::unique_ptr<WindowCubemapInput> cubemapInput;
+	
 };

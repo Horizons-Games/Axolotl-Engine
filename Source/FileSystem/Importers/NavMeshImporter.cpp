@@ -158,7 +158,7 @@ void NavMeshImporter::Save(const std::shared_ptr<ResourceNavMesh>& resource, cha
 		unsigned int tileHeader[2] = 
 		{ 
 			tileCache->getTileRef(tile), 
-			tile->dataSize
+			static_cast<unsigned int>(tile->dataSize)
 		};
 
 		bytes = sizeof(tileHeader);
