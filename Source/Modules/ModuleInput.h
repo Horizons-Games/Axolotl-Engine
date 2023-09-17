@@ -67,10 +67,12 @@ public:
 	void SetKey(SDL_Scancode scanCode, KeyState newState);
 	void SetMouseButton(Uint8 mouseButtonCode, KeyState newState);
 
-	SDL_GameController* FindController();
+	SDL_GameController* FindController() const;
 	SDL_JoystickID GetControllerInstanceID(SDL_GameController* controller) const;
 
 	JoystickMovement GetDirection() const;
+
+	void Rumble(Uint16 strengthLeft, Uint16 strengthRight, int duration) const;
 
 	float2 GetMouseMotion() const;
 	float2 GetMouseWheel() const;
@@ -145,7 +147,7 @@ inline SDL_JoystickID ModuleInput::GetControllerInstanceID(SDL_GameController* c
 	return SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(controller));
 }
 
-inline SDL_GameController* ModuleInput::FindController()
+inline SDL_GameController* ModuleInput::FindController() const
 {
 	for (int i = 0; i < SDL_NumJoysticks(); i++)
 	{

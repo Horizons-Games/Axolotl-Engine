@@ -4,6 +4,8 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Application.h"
+#include "ModuleInput.h"
 
 #include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/EnemyClass.h"
@@ -107,6 +109,9 @@ void HealthSystem::TakeDamage(float damage)
 			float actualDamage = std::max(damage - playerDefense, 0.f);
 
 			currentHealth -= actualDamage;
+
+			ModuleInput* input = App->GetModule<ModuleInput>();
+			input->Rumble(16384, 16384, 250);
 
 			if (currentHealth - damage <= 0)
 			{

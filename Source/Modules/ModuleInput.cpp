@@ -366,3 +366,16 @@ bool ModuleInput::CleanUp()
 
 	return true;
 }
+
+void ModuleInput::Rumble(Uint16 strengthLeft, Uint16 strengthRight, int duration) const
+{
+	SDL_GameController* controller = FindController();
+
+	if (controller != nullptr)
+	{
+		if (SDL_GameControllerRumble(controller, strengthLeft, strengthRight, duration) != 0)
+		{
+			LOG_ERROR("Error on controller rumble");
+		}
+	}
+}
