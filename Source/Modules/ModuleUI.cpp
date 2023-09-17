@@ -71,7 +71,7 @@ UpdateStatus ModuleUI::Update()
 
 	if (!sortedButtonsIds.empty() && lastButtonChange > cooldownTime)
 	{
-		JoystickMovement joystickMovement = input->GetDirection();
+		JoystickMovement joystickMovement = input->GetLeftJoystickDirection();
 
 		int newIndex = currentButtonIndex;
 		do
