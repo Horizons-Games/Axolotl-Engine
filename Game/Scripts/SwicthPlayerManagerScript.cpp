@@ -80,8 +80,8 @@ void SwitchPlayerManagerScript::VisualSwicthEffect()
 
 	actualSwitchPlayersParticles = loadScene->DuplicateGameObject(switchPlayersParticlesPrefab->GetName(), switchPlayersParticlesPrefab, loadScene->GetRoot());
 	actualSwitchPlayersParticles->GetComponent<ComponentParticleSystem>()->Enable();
-	actualSwitchPlayersParticles->GetComponent<ComponentRigidBody>()->SetRigidBodyOrigin(btVector3 (currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().x, 
-		currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().y, currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().z));
+	actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->SetGlobalPosition(currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition());
+	actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->RecalculateLocalMatrix();
 
 	actualSwitchPlayersParticles->GetComponent<ComponentParticleSystem>()->Play();
 }
