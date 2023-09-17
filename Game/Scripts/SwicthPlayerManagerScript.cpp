@@ -112,6 +112,8 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
 		secondPlayer = changePlayerGameObject;
 
+		playerManager = currentPlayer->GetComponent<PlayerManagerScript>();
+
 		currentPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(false);
 		secondPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(false);
 	}
