@@ -12,6 +12,14 @@ ModuleRotation::ModuleRotation(ParticleEmitter* emitter) :
 {
 }
 
+ModuleRotation::ModuleRotation(ParticleEmitter* emitter, ModuleRotation* rotation) :
+	ParticleModule(ModuleType::ROTATION, emitter)
+{
+	random = rotation->IsRandom();
+	rotationOverTime = rotation->GetRotation();
+	enabled = rotation->IsEnabled();
+}
+
 ModuleRotation::~ModuleRotation()
 {
 }
@@ -30,7 +38,7 @@ void ModuleRotation::Update(EmitterInstance* instance)
 		{
 			EmitterInstance::Particle& particle = particles[i];
 
-			if (particle.lifespan >= 0.0f)
+			if (!particle.dead)
 			{
 				if (particle.rotationOverTime == UNINITIALIZED_ROTATION)
 				{

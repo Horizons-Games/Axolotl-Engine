@@ -61,7 +61,7 @@ void ComponentSkybox::Draw() const
 void ComponentSkybox::InternalSave(Json& meta)
 {
 	Json jsonSkybox = meta["Skybox"];
-
+	jsonSkybox["enable"] = this->enable;
 	jsonSkybox["skyboxUID"] = skyboxRes->GetUID();
 	jsonSkybox["skyboxAssetPath"] = skyboxRes->GetAssetsPath().c_str();
 }
@@ -69,7 +69,7 @@ void ComponentSkybox::InternalSave(Json& meta)
 void ComponentSkybox::InternalLoad(const Json& meta)
 {
 	Json jsonSkybox = meta["Skybox"];
-
+	this->enable = jsonSkybox["enable"];
 	UID resUID = jsonSkybox["skyboxUID"];
 	std::string resPath = jsonSkybox["skyboxAssetPath"];
 
@@ -95,7 +95,7 @@ std::shared_ptr<ResourceSkyBox> ComponentSkybox::GetSkyboxResource() const
 	return skyboxRes;
 }
 
-void ComponentSkybox::SetSkyboxResource(const std::shared_ptr<ResourceSkyBox> resource)
+void ComponentSkybox::SetSkyboxResource(std::shared_ptr<ResourceSkyBox> resource)
 {
 	this->skyboxRes = resource;
 }

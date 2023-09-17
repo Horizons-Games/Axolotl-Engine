@@ -1,14 +1,13 @@
 #include "StdAfx.h"
 
-#include "ComponentRigidBody.h"
 #include "Application.h"
+#include "ComponentRigidBody.h"
 #include "ComponentTransform.h"
 #include "FileSystem/Json.h"
 #include "GameObject/GameObject.h"
 #include "Geometry/Sphere.h"
 #include "ModulePhysics.h"
 #include "debugdraw.h"
-#include <ImGui/imgui.h>
 
 #include "ComponentScript.h"
 
@@ -33,7 +32,6 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 	btRigidBody::btRigidBodyConstructionInfo inforb(100.f, motionState.get(), shape.get());
 	inforb.m_friction = 0.0f;
 	rigidBody = std::make_unique<btRigidBody>(inforb);
-	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	SetUpMobility();
 
 	rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
@@ -48,7 +46,7 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 }
 
 ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
-	Component(ComponentType::RIGIDBODY, toCopy.IsEnabled(), toCopy.GetOwner(), true),
+	Component(toCopy),
 	isKinematic(toCopy.isKinematic),
 	isTrigger(toCopy.isTrigger),
 	currentShape(toCopy.currentShape),
@@ -62,6 +60,9 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
 	KpTorque(toCopy.KpTorque),
 	mass(toCopy.mass)
 {
+	// we need an owner to perform the calculations here, so use this hack to avoid having to change the existing code
+	SetOwner(toCopy.GetOwner());
+
 	id = GenerateId();
 
 	transform = toCopy.transform;
@@ -71,7 +72,6 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
 	inforb.m_friction = 0.0f;
 	rigidBody = std::make_unique<btRigidBody>(inforb);
 
-	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	SetUpMobility();
 
 	rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
@@ -86,6 +86,9 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
 	SetCollisionShape(currentShape);
 
 	SetGravity(toCopy.gravity);
+
+	// return the component to the expected state
+	SetOwner(nullptr);
 }
 
 ComponentRigidBody::~ComponentRigidBody()
@@ -95,7 +98,11 @@ ComponentRigidBody::~ComponentRigidBody()
 
 void ComponentRigidBody::OnCollisionEnter(ComponentRigidBody* other)
 {
-	assert(other);
+	if (other == nullptr)
+	{
+		LOG_ERROR("Rigidbody owned by {} collided with a null game object; this should never happen.", GetOwner());
+		return;
+	}
 
 	for (ComponentScript* script : GetOwner()->GetComponents<ComponentScript>())
 	{
@@ -105,13 +112,21 @@ void ComponentRigidBody::OnCollisionEnter(ComponentRigidBody* other)
 
 void ComponentRigidBody::OnCollisionStay(ComponentRigidBody* other)
 {
-	// TODO: Implement delegate for this
-	assert(other);
+	AXO_TODO("Implement delegate for this")
+	if (other == nullptr)
+	{
+		LOG_ERROR("Rigidbody owned by {} collided with a null game object; this should never happen.", GetOwner());
+		return;
+	}
 }
 
 void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 {
-	assert(other);
+	if (other == nullptr)
+	{
+		LOG_ERROR("Rigidbody owned by {} collided with a null game object; this should never happen.", GetOwner());
+		return;
+	}
 
 	for (ComponentScript* script : GetOwner()->GetComponents<ComponentScript>())
 	{
@@ -127,6 +142,11 @@ void ComponentRigidBody::OnTransformChanged()
 		UpdateRigidBody();
 	}
 #endif
+}
+
+void ComponentRigidBody::Draw() const
+{
+
 }
 
 void ComponentRigidBody::Update()
@@ -146,7 +166,7 @@ void ComponentRigidBody::Update()
 		btVector3 pos = rigidBody->getCenterOfMassTransform().getOrigin();
 		float3 centerPoint = transform->GetLocalAABB().CenterPoint();
 		btVector3 offset = trans.getBasis() * btVector3(centerPoint.x, centerPoint.y, centerPoint.z);
-		float3 newPos = { pos.x() - offset.x(), pos.y() - offset.y(), pos.z() - offset.z() };
+		float3 newPos = { pos.x(), pos.y(), pos.z()};
 		newPos -= float3(translation.x(), translation.y(), translation.z());
 		transform->SetGlobalPosition(newPos);
 		transform->RecalculateLocalMatrix();
@@ -167,7 +187,10 @@ void ComponentRigidBody::Update()
 void ComponentRigidBody::SetOwner(GameObject* owner)
 {
 	Component::SetOwner(owner);
-	transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	if (owner != nullptr)
+	{
+		transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	}
 }
 
 void ComponentRigidBody::UpdateRigidBody()
@@ -208,7 +231,7 @@ void ComponentRigidBody::UpdateRigidBodyTranslation()
 
 void ComponentRigidBody::SetUpMobility()
 {
-	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
+	RemoveRigidBodyFromSimulation();
 	if (isKinematic)
 	{
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DYNAMIC_OBJECT);
@@ -218,7 +241,7 @@ void ComponentRigidBody::SetUpMobility()
 		rigidBody->setMassProps(0, { 0, 0, 0 }); // Toreview: is this necessary here?
 	}
 	else if (IsStatic())
-	{	
+	{
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_KINEMATIC_OBJECT);
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DYNAMIC_OBJECT);
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
@@ -236,7 +259,7 @@ void ComponentRigidBody::SetUpMobility()
 		rigidBody->getCollisionShape()->calculateLocalInertia(mass, localInertia);
 		rigidBody->setMassProps(mass, localInertia);
 	}
-	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
+	AddRigidBodyToSimulation();
 }
 
 void ComponentRigidBody::SetCollisionShape(Shape newShape)
@@ -352,13 +375,12 @@ void ComponentRigidBody::InternalLoad(const Json& meta)
 
 void ComponentRigidBody::SignalEnable()
 {
-	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
-	rigidBody->setGravity(gravity);
+	AddRigidBodyToSimulation();
 }
 
 void ComponentRigidBody::SignalDisable()
 {
-	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
+	RemoveRigidBodyFromSimulation();
 }
 
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
@@ -366,10 +388,17 @@ void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
 }
 
+void ComponentRigidBody::AddRigidBodyToSimulation()
+{
+	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
+	rigidBody->setGravity(gravity);
+}
+
 void ComponentRigidBody::ClearCollisionEnterDelegate()
 {
 	delegateCollisionEnter.clear();
 }
+
 void ComponentRigidBody::SetDrawCollider(bool newDrawCollider, bool substract)
 {
 	drawCollider = newDrawCollider;
@@ -440,7 +469,6 @@ void ComponentRigidBody::SetDefaultPosition()
 	UpdateRigidBody();
 }
 
-
 bool ComponentRigidBody::IsStatic() const
 {
 	return GetOwner()->IsStatic();
@@ -449,9 +477,7 @@ bool ComponentRigidBody::IsStatic() const
 void ComponentRigidBody::SetStatic(bool newStatic)
 {
 	GetOwner()->SetStatic(newStatic);
-
 }
-
 
 void ComponentRigidBody::UpdateBlockedAxis()
 {
@@ -467,7 +493,7 @@ void ComponentRigidBody::UpdateBlockedRotationAxis()
 void ComponentRigidBody::SetAngularFactor(btVector3 rotation)
 {
 	rigidBody->setAngularFactor(btVector3(rotation.getX() * !IsXRotationAxisBlocked(),
-										  rotation.getY() *!IsYRotationAxisBlocked(),
+										  rotation.getY() * !IsYRotationAxisBlocked(),
 										  rotation.getZ() * !IsZRotationAxisBlocked()));
 }
 

@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "Scene/Scene.h"
 #include "Modules/ModuleScene.h"
+#include "Scene/Scene.h"
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
@@ -12,14 +13,16 @@
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/EnemyClass.h"
+#include "../Scripts/EnemyMiniBossTwo.h"
+#include "../Scripts/FinalBossScript.h"
 
 REGISTERCLASS(JumpFinisherArea);
 
-JumpFinisherArea::JumpFinisherArea() : Script(), parentTransform(nullptr), rigidBody(nullptr), particleSystem(nullptr),
-	particleSystemTimer(1.0f), triggerParticleSystemTimer(false), particleSystemCurrentTimer(0.0f), throwableForceArea(false)
+JumpFinisherArea::JumpFinisherArea() : Script(), parentTransform(nullptr), rigidBody(nullptr),
+	initVisuals(nullptr), landingParticleSystemPrefab(nullptr)
 {
-	REGISTER_FIELD(particleSystemTimer, float);
-	REGISTER_FIELD(throwableForceArea, bool);
+	REGISTER_FIELD(initVisuals, GameObject*);
+	REGISTER_FIELD(landingParticleSystemPrefab, GameObject*);
 
 	enemiesInTheArea.reserve(10);
 }
@@ -30,35 +33,24 @@ void JumpFinisherArea::Start()
 	rigidBody->Enable();
 	rigidBody->SetIsTrigger(true);
 
-	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
-
-	particleSystem = owner->GetComponent<ComponentParticleSystem>();
-	particleSystem->Enable();
-	particleSystemCurrentTimer = particleSystemTimer;
+	if (initVisuals)
+	{
+		initVisuals->Disable();
+	}
+	if (landingParticleSystemPrefab) 
+	{
+		landingParticleSystemPrefab->Disable();
+	}
 }
 
 void JumpFinisherArea::Update(float deltaTime)
 {
-	rigidBody->SetPositionTarget(parentTransform->GetGlobalPosition());
+	rigidBody->UpdateRigidBody();
 
-	if (!triggerParticleSystemTimer)
+	if (actualLandingParticleSystem && actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->IsFinished())
 	{
-		return;
-	}
-
-	particleSystemCurrentTimer -= deltaTime;
-	if (particleSystemCurrentTimer <= 0.0f)
-	{
-		particleSystemCurrentTimer = particleSystemTimer;
-		triggerParticleSystemTimer = false;
-		particleSystem->Stop();
-
-		if (throwableForceArea)
-		{
-			// If the force area is from a bullet, destroy the area after playing the particle effects
-			App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(particleSystem);
-			App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
-		}
+ 		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualLandingParticleSystem);
+		actualLandingParticleSystem = nullptr;
 	}
 }
 
@@ -66,7 +58,7 @@ void JumpFinisherArea::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->GetTag() == "Enemy" && other->GetOwner()->IsEnabled())
 	{
-		enemiesInTheArea.push_back(other->GetOwner());
+		enemiesInTheArea.push_back(other);
 	}
 }
 
@@ -74,31 +66,60 @@ void JumpFinisherArea::OnCollisionExit(ComponentRigidBody* other)
 {
 	enemiesInTheArea.erase(
 		std::remove_if(
-			std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const GameObject* gameObject)
+			std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const ComponentRigidBody* componentRigidBody)
 			{
-				return gameObject == other->GetOwner();
+				return componentRigidBody == other;
 			}
 		),
 		std::end(enemiesInTheArea));
 }
 
-void JumpFinisherArea::PushEnemies(float pushForce, float stunTime)
+void JumpFinisherArea::VisualStartEffect() 
+{
+	initVisuals->Enable();
+}
+
+void JumpFinisherArea::VisualLandingEffect() 
+{
+	initVisuals->Disable();
+	Scene* loadScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	if (actualLandingParticleSystem) 
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualLandingParticleSystem);
+	}
+
+	actualLandingParticleSystem = loadScene->DuplicateGameObject(landingParticleSystemPrefab->GetName(), landingParticleSystemPrefab, loadScene->GetRoot());
+	actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->Enable();
+
+	actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->Play();
+}
+
+void JumpFinisherArea::PushEnemies(float pushForce, float stunTime, std::vector<ComponentRigidBody*>* enemies)
 {
 	const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
-	particleSystem->Play();
-	triggerParticleSystemTimer = true;
 
-	for (std::vector<GameObject*>::iterator it = enemiesInTheArea.begin(); it < enemiesInTheArea.end();
+	if (enemies == nullptr) 
+	{
+		enemies = &enemiesInTheArea;
+	}
+
+	for (std::vector<ComponentRigidBody*>::iterator it = (*enemies).begin(); it < (*enemies).end();
 		it++)
 	{
-		const ComponentTransform* enemyTransform =
-			(*it)->GetComponent<ComponentTransform>();
-		ComponentRigidBody* enemyRigidBody =
-			(*it)->GetComponent<ComponentRigidBody>();
+		GameObject* ownerEnemy = (*it)->GetOwner();
+		// If you think about a better way to identify the bosses lmk, tags are already in use
+		// and as there will only be three bosses, this is a "not so bad" approach I guess
+		AXO_TODO("Add here miniboss 1 script if finally developed, so no boss gets pushed back by this attack");
+		if (ownerEnemy->HasComponent<EnemyMiniBossTwo>() || ownerEnemy->HasComponent<FinalBossScript>())
+		{
+			continue;
+		}
 
-		btRigidBody* enemybtRigidbody = enemyRigidBody->GetRigidBody();
-		enemyRigidBody->DisablePositionController();
-		enemyRigidBody->DisableRotationController();
+		ComponentTransform* enemyTransform = (*it)->GetOwnerTransform();
+
+		btRigidBody* enemybtRigidbody = (*it)->GetRigidBody();
+		(*it)->DisablePositionController();
+		(*it)->DisableRotationController();
 		enemybtRigidbody->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
 		enemybtRigidbody->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
 
@@ -112,10 +133,10 @@ void JumpFinisherArea::PushEnemies(float pushForce, float stunTime)
 		btVector3 newVelocity(nextPosition.x, nextPosition.y, nextPosition.z);
 		enemybtRigidbody->setLinearVelocity(newVelocity);
 
-		EnemyClass* enemyScript = (*it)->GetComponent<EnemyClass>();
+		EnemyClass* enemyScript = ownerEnemy->GetComponent<EnemyClass>();
 		enemyScript->SetStunnedTime(stunTime);
 
-		HealthSystem* enemyHealthScript = (*it)->GetComponent<HealthSystem>();
+		HealthSystem* enemyHealthScript = ownerEnemy->GetComponent<HealthSystem>();
 ;
 		// We apply the same damage to the enemies as the push force used to push them
 		enemyHealthScript->TakeDamage(pushForce);

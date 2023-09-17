@@ -31,9 +31,9 @@ void WindowWindow::DrawWindowContents()
 	bool widthChanged =
 		ImGui::SliderInt("##width", &windowDimensions.first, 640, 1920, "%d", ImGuiSliderFlags_AlwaysClamp);
 	ImGui::TextUnformatted("Window Height");
-	bool heighChanged =
+	bool heightChanged =
 		ImGui::SliderInt("##height", &windowDimensions.second, 360, 1080, "%d", ImGuiSliderFlags_AlwaysClamp);
-	if (widthChanged || heighChanged)
+	if (widthChanged || heightChanged)
 	{
 		window->SetWindowSize(windowDimensions.first, windowDimensions.second);
 	}

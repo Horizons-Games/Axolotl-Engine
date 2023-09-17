@@ -24,15 +24,17 @@ ComboManager::ComboManager() : Script(),
 	REGISTER_FIELD(maxComboCount, float);
 }
 
+void ComboManager::Init()
+{
+	Assert(uiComboManager != nullptr, axo::Format("UIComboManager combo manager not set!! Owner: {}", GetOwner()));
+}
+
 void ComboManager::Start()
 {
 	input = App->GetModule<ModuleInput>();
 
-	if (uiComboManager)
-	{
-		maxSpecialCount = uiComboManager->GetMaxComboBarValue();
-		uiComboManager->SetComboBarValue(specialCount);
-	}
+	maxSpecialCount = uiComboManager->GetMaxComboBarValue();
+	uiComboManager->SetComboBarValue(specialCount);
 }
 
 int ComboManager::GetComboCount() const
@@ -55,10 +57,7 @@ void ComboManager::CheckSpecial(float deltaTime)
 	{
 		specialActivated = true;
 
-		if (uiComboManager)
-		{
-			uiComboManager->SetActivateSpecial(true);
-		}
+		uiComboManager->SetActivateSpecial(true);
 
 		ClearCombo(false);
 	}
@@ -75,10 +74,7 @@ void ComboManager::CheckSpecial(float deltaTime)
 		{
 			specialCount = std::max(0.0f, specialCount - 5.0f * deltaTime);
 
-			if (uiComboManager)
-			{
-				uiComboManager->SetComboBarValue(specialCount);
-			}
+			uiComboManager->SetComboBarValue(specialCount);
 		}
 	}
 
@@ -90,17 +86,22 @@ void ComboManager::CheckSpecial(float deltaTime)
 
 void ComboManager::ClearCombo(bool finisher) 
 {
-	if (uiComboManager)
-	{
-		uiComboManager->ClearCombo(finisher);
-	}
+	uiComboManager->ClearCombo(finisher);
 	comboCount = 0;
 }
 
 AttackType ComboManager::CheckAttackInput(bool jumping)
 {
-	bool leftClick = input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE;
-	bool rightClick = input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE;
+	// THIS IS A PROVISIONAL WAY TO SOLVE AN ISSUE WITH THE CONTROLLER COMPONENT
+	// THE STATE GOES FROM IDLE TO REPEAT, SO WE CONVERTED REPEAT TO DOWN FOR THIS
+	// ACTION USING LOGIC COMBINATIONS AND AN AUXILIAR VARIABLE 
+	bool leftClick = input->GetMouseButton(SDL_BUTTON_LEFT) != mouseLeftButtonState &&
+		input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::REPEAT;
+	mouseLeftButtonState = input->GetMouseButton(SDL_BUTTON_LEFT);
+
+	bool rightClick = input->GetMouseButton(SDL_BUTTON_RIGHT) != mouseRightButtonState &&
+		input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::REPEAT;
+	mouseRightButtonState = input->GetMouseButton(SDL_BUTTON_RIGHT);
 
 	if (jumping && (leftClick || rightClick))
 	{
@@ -147,26 +148,20 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 			specialActivated = false;
 		}
 
-		if (uiComboManager)
-		{
-			uiComboManager->SetComboBarValue(this->specialCount);
-		}
+		uiComboManager->SetComboBarValue(this->specialCount);
 
 		actualComboTimer = comboTime;
 	}
 
 	comboCount++;
-	if (uiComboManager) 
+	if (type == AttackType::HEAVYNORMAL || type == AttackType::HEAVYFINISHER)
 	{
-		if (type == AttackType::HEAVYNORMAL || type == AttackType::HEAVYFINISHER)
-		{
-			uiComboManager->AddInputVisuals(InputVisualType::HEAVY);
-		}
+		uiComboManager->AddInputVisuals(InputVisualType::HEAVY);
+	}
 
-		else if (type == AttackType::LIGHTNORMAL || type == AttackType::LIGHTFINISHER)
-		{
-			uiComboManager->AddInputVisuals(InputVisualType::LIGHT);
-		}
+	else if (type == AttackType::LIGHTNORMAL || type == AttackType::LIGHTFINISHER)
+	{
+		uiComboManager->AddInputVisuals(InputVisualType::LIGHT);
 	}
 
 	if (comboCount == 3 || type == AttackType::JUMPNORMAL) 
@@ -178,4 +173,10 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 bool ComboManager::IsSpecialActivated() const
 {
 	return specialActivated;
+}
+
+void ComboManager::FillComboBar()
+{
+	specialCount = maxSpecialCount;
+	uiComboManager->SetComboBarValue(specialCount);
 }

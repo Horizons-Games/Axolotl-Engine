@@ -245,7 +245,7 @@ GameObject* ComponentSlider::LoadGameObject(const Json& meta, const char* name)
 	if (uid != 0)
 	{
 		UID newUID;
-		if (App->GetModule<ModuleScene>()->hasNewUID(uid, newUID))
+		if (App->GetModule<ModuleScene>()->HasNewUID(uid, newUID))
 		{
 			return App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(newUID);
 		}

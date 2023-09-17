@@ -1,0 +1,11 @@
+{
+    "UID": 8409237266945355627,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/venomity_mask.Cylinder_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/venomity_maskMask_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

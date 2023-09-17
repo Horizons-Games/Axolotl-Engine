@@ -1,9 +1,5 @@
 #pragma once
 
-#include "Math/float3.h"
-#include "Math/float4x4.h"
-#include "Math/Quat.h"
-
 #include "debugdraw.h"
 
 #include <vector>
@@ -12,6 +8,7 @@
 
 class ComponentParticleSystem;
 class ParticleEmitter;
+class ParticleModule;
 class Program;
 
 class EmitterInstance
@@ -39,6 +36,8 @@ public:
 		float gravity = 0.0f;
 		float distanceToCamera;
 		float frame = -1.0f;
+
+		bool dead = true;
 	};
 
 public:
@@ -75,6 +74,7 @@ private:
 	ComponentParticleSystem* owner;
 
 	std::vector<unsigned int> sortedPositions;
+	std::vector<ParticleModule*> modules;
 	std::vector<Particle> particles;
 	ParticleEmitter* emitter;
 

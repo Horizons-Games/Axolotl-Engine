@@ -2,7 +2,7 @@
 
 #include "ParticleModule.h"
 
-#define MAX_SPAWN_RATE 50
+#define MAX_SPAWN_RATE 1000
 
 #define DEFAULT_SPAWN_RATE 5.0f
 
@@ -10,6 +10,7 @@ class ModuleSpawn : public ParticleModule
 {
 public:
 	ModuleSpawn(ParticleEmitter* emitter);
+	ModuleSpawn(ParticleEmitter* emitter, ModuleSpawn* spawn);
 	~ModuleSpawn() override;
 
 	void Spawn(EmitterInstance* instance) override;

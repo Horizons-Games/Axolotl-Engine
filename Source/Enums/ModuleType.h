@@ -16,6 +16,7 @@ class ModuleEditor;
 class ModuleCommand;
 class ModulePhysics;
 class ModuleNavigation;
+class ModuleRandom;
 
 // Order matters: they will Init/start/update in this order
 enum class ModuleType
@@ -36,6 +37,7 @@ enum class ModuleType
 	UI,
 	RESOURCES,
 	DEBUGDRAW,
+	RANDOM,
 	LAST,
 };
 
@@ -138,4 +140,10 @@ template<>
 struct ModuleToEnum<ModuleCommand>
 {
 	const static ModuleType value = ModuleType::COMMAND;
+};
+
+template<>
+struct ModuleToEnum<ModuleRandom>
+{
+	const static ModuleType value = ModuleType::RANDOM;
 };

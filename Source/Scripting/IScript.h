@@ -9,12 +9,14 @@
 
 #include <variant>
 
+class StateMachine;
 class GameObject;
 class Application;
 class ComponentRigidBody;
+class ComponentScript;
 
 using ValidFieldType =
-	std::variant<Field<float>, Field<float3>, VectorField, Field<std::string>, Field<GameObject*>, Field<bool>>;
+	std::variant<Field<float>, Field<float3>, VectorField, Field<std::string>, Field<GameObject*>, Field<bool>, Field<StateMachine*>>;
 using TypeFieldPair = std::pair<FieldType, ValidFieldType>;
 
 class IScript : public IObject
@@ -33,6 +35,11 @@ public:
 
 	virtual GameObject* GetOwner() const = 0;
 	virtual void SetOwner(GameObject* owner) = 0;
+
+	virtual ComponentScript* GetContainer() const = 0;
+	virtual void SetContainer(ComponentScript* container) = 0;
+	virtual void Enable() = 0;
+	virtual void Disable() = 0;
 
 	virtual const std::vector<TypeFieldPair>& GetFields() const = 0;
 };

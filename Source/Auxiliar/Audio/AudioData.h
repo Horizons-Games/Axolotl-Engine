@@ -17,6 +17,14 @@ static const wchar_t* PATROL = L"sfx_dron_patrol";
 static const wchar_t* ALERT = L"sfx_dron_alert";
 static const wchar_t* STOP_BEHAVIOURS = L"sfx_dron_behaviours_stop";
 } // namespace DRON
+namespace MINIBOSS2
+{
+static const wchar_t* AIM = L"sfx_boostOfEnergy_aiming";
+static const wchar_t* AIM_STOP = L"sfx_boostOfEnergy_aiming_stop";
+static const wchar_t* PRESHOT = L"sfx_boostOfEnergy_preShot";
+static const wchar_t* SHOT = L"sfx_boostOfEnergy_shot";
+static const wchar_t* SHOT_STOP = L"sfx_boostOfEnergy_shot_stop";
+} // namespace MINIBOSS2
 namespace CANTINA
 {
 static const wchar_t* DRUNKNPC_RANDOM_SOUND = L"sfx_drunkNPC_sound_random";
@@ -51,6 +59,7 @@ static const wchar_t* FOOTSTEPS_CROUCH_STOP = L"sfx_footsteps_crouch_stop";
 static const wchar_t* JUMP = L"sfx_jump_01";
 static const wchar_t* DOUBLE_JUMP = L"sfx_doubleJump_01";
 static const wchar_t* DASH = L"sfx_dash_01";
+static const wchar_t* ROLL = L"sfx_roll_01";
 } // namespace LOCOMOTION
 namespace WEAPON
 {
@@ -60,6 +69,11 @@ static const wchar_t* LIGHTSABER_SWING = L"sfx_lightsaber_swing";
 static const wchar_t* LIGHTSABER_CLOSE = L"sfx_lightsaber_close_01";
 static const wchar_t* LIGHTSABER_HUM = L"sfx_lightsaber_hum_01";
 static const wchar_t* LIGHTSABER_HUM_STOP = L"sfx_lightsaber_hum_stop";
+static const wchar_t* CANNON_SHOT = L"sfx_cannonShot_01";
+static const wchar_t* CHARGED_SHOT = L"sfx_chargedShot_01";
+static const wchar_t* ELECTRIC_SHOT = L"sfx_electricShot_shot_01";
+static const wchar_t* CANNON_SHOT_IMPACT = L"sfx_electricShot_impact_01";
+static const wchar_t* SHOT_IMPACT = L"sfx_shot_impact_01";
 } // namespace WEAPON
 namespace ABILITIES
 {
