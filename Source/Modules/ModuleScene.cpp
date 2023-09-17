@@ -21,24 +21,29 @@
 
 
 #include "DataModels/Resources/ResourceSkyBox.h"
-#include "DataModels/Skybox/Skybox.h"
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
+#include "ModuleNavigation.h"
 
-#include "ModulePlayer.h"
 #include "Components/Component.h"
 #include "Components/ComponentCamera.h"
-#include "Components/UI/ComponentCanvas.h"
 #include "Components/ComponentLight.h"
-#include "Components/ComponentScript.h"
 #include "Components/ComponentParticleSystem.h"
-#include "DataModels/Skybox/Skybox.h"
+
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Resources/ResourceCubemap.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
-#include "DataModels/Skybox/Skybox.h"
 #include "DataModels/Batch/BatchManager.h"
+
+#include "Components/ComponentScript.h"
+#include "Components/UI/ComponentCanvas.h"
+#include "DataModels/Batch/BatchManager.h"
+#include "DataModels/Cubemap/Cubemap.h"
+#include "DataModels/Resources/ResourceCubemap.h"
+#include "DataModels/Resources/ResourceSkyBox.h"
+
+
 #include "DataStructures/Quadtree.h"
 #include "ModulePlayer.h"
 
@@ -47,11 +52,13 @@
 #include "IScript.h"
 #include "ScriptFactory.h"
 
+#include "Auxiliar/SceneLoader.h"
+
 #ifdef DEBUG
 	#include "optick.h"
 #endif // DEBUG
 
-ModuleScene::ModuleScene() : loadedScene(nullptr), selectedGameObject(nullptr), loading(false)
+ModuleScene::ModuleScene() : loadedScene(nullptr), selectedGameObject(nullptr)
 {
 }
 
@@ -70,7 +77,6 @@ bool ModuleScene::Start()
 	{
 #ifdef ENGINE
 		loadedScene = CreateEmptyScene();
-		loadedScene->GetRoot()->GetComponent<ComponentSkybox>()->SetSkybox(loadedScene->GetSkybox());
 #else // GAME MODE
 		char* buffer;
 		const ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
@@ -93,6 +99,11 @@ bool ModuleScene::Start()
 
 UpdateStatus ModuleScene::PreUpdate()
 {
+	if (IsLoading())
+	{
+		return UpdateStatus::UPDATE_CONTINUE;
+	}
+
 	if (App->GetScriptFactory()->IsCompiled())
 	{
 		App->GetScriptFactory()->LoadCompiledModules();
@@ -112,8 +123,6 @@ UpdateStatus ModuleScene::PreUpdate()
 		App->GetScriptFactory()->UpdateNotifier();
 	}
 
-
-
 	if (App->IsOnPlayMode())
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
@@ -129,10 +138,15 @@ UpdateStatus ModuleScene::PreUpdate()
 
 UpdateStatus ModuleScene::Update()
 {
+	if (IsLoading())
+	{
+		return UpdateStatus::UPDATE_CONTINUE;
+	}
+
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
 #endif // DEBUG
-	
+
 	if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
@@ -144,7 +158,7 @@ UpdateStatus ModuleScene::Update()
 		}
 	}
 
-	// Particles need to be updated 
+	// Particles need to be updated
 	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
 	{
 		particle->Update();
@@ -155,24 +169,25 @@ UpdateStatus ModuleScene::Update()
 
 UpdateStatus ModuleScene::PostUpdate()
 {
-	if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
+	if (IsLoading())
 	{
-		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
+		if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
 		{
-			if (dynamic_cast<Component*>(updatable)->IsEnabled())
+			for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 			{
-				updatable->PostUpdate();
+				if (dynamic_cast<Component*>(updatable)->IsEnabled())
+				{
+					updatable->PostUpdate();
+				}
 			}
 		}
-	}
 
+	}
 	if (!sceneToLoad.empty())
 	{
 		LoadScene(sceneToLoad);
 		sceneToLoad = std::string();
 	}
-
-	loadedScene->ExecutePendingActions();
 
 	return UpdateStatus::UPDATE_CONTINUE;
 }
@@ -186,14 +201,18 @@ bool ModuleScene::CleanUp()
 
 void ModuleScene::SetLoadedScene(std::unique_ptr<Scene> newScene)
 {
+	std::scoped_lock(loadedSceneMutex);
 	loadedScene = std::move(newScene);
 	selectedGameObject = loadedScene->GetRoot();
 }
 
 void ModuleScene::SetSelectedGameObject(GameObject* gameObject)
 {
-	AddGameObjectAndChildren(selectedGameObject);
-	selectedGameObject->SetStateOfSelection(StateOfSelection::NO_SELECTED);
+	if (selectedGameObject)
+	{
+		AddGameObjectAndChildren(selectedGameObject);
+		selectedGameObject->SetStateOfSelection(StateOfSelection::NOT_SELECTED);
+	}
 	selectedGameObject = gameObject;
 	selectedGameObject->SetStateOfSelection(StateOfSelection::SELECTED);
 	RemoveGameObjectAndChildren(selectedGameObject);
@@ -223,9 +242,14 @@ void ModuleScene::OnStop()
 		}
 	}
 
-	Json Json(tmpDoc, tmpDoc);
-
-	LoadSceneFromJson(Json, false);
+	loader::LoadScene(
+		tmpDoc,
+		[]
+		{
+			// empty callback
+		},
+		false,
+		loader::LoadMode::BLOCKING);
 
 	// clear the document
 	rapidjson::Document().Swap(tmpDoc).SetObject();
@@ -308,169 +332,28 @@ void ModuleScene::SaveSceneToJson(Json& jsonScene)
 	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
 	rootQuadtree->SaveOptions(jsonScene);
 
-	const Skybox* skybox = loadedScene->GetSkybox();
-	skybox->SaveOptions(jsonScene);
-
 	const Cubemap* cubemap = loadedScene->GetCubemap();
 	cubemap->SaveOptions(jsonScene);
+
+	App->GetModule<ModuleNavigation>()->SaveOptions(jsonScene);
+
 }
 
 void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene)
 {
-	if (!mantainActualScene)
-	{
-		App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
-	}
-	else
-	{
-		App->GetModule<ModuleRender>()->GetBatchManager()->SetDirtybatches();
-	}
-
-	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
-
-	std::string fileName = App->GetModule<ModuleFileSystem>()->GetFileName(filePath).c_str();
-	char* buffer{};
-#ifdef ENGINE
-	std::string assetPath = SCENE_PATH + fileName + SCENE_EXTENSION;
-
-	bool resourceExists = App->GetModule<ModuleFileSystem>()->Exists(assetPath.c_str());
-	if (!resourceExists)
-	{
-		fileSystem->CopyFileInAssets(filePath, assetPath);
-	}
-	fileSystem->Load(assetPath.c_str(), buffer);
-#else
-	fileSystem->Load(filePath.c_str(), buffer);
-#endif
-	rapidjson::Document doc;
-	Json sceneJson(doc, doc);
-
-	sceneJson.fromBuffer(buffer);
-	delete buffer;
-
-	loading = true;
-	LoadSceneFromJson(sceneJson, mantainActualScene);
-	loading = false;
-
-#ifndef ENGINE
-	ModulePlayer* player = App->GetModule<ModulePlayer>();
-	if (player->GetPlayer())
-	{
-		player->LoadNewPlayer();
-	}
-
-	InitAndStartScriptingComponents();
-	InitParticlesComponents();
-#endif // !ENGINE
+	loader::LoadScene(
+		filePath,
+		[]
+		{
+			// empty callback
+		},
+		mantainActualScene,
+		loader::LoadMode::BLOCKING);
 }
 
-void ModuleScene::LoadSceneFromJson(Json& json, bool mantainActualScene)
+void ModuleScene::LoadSceneAsync(const std::string& name, std::function<void(void)>&& callback, bool mantainCurrentScene)
 {
-	Quadtree* rootQuadtree;
-
-	if (!mantainActualScene)
-	{
-		App->GetModule<ModuleEditor>()->RefreshInspector();
-		loadedScene.reset();
-		loadedScene = std::make_unique<Scene>();
-
-		loadedScene->SetRootQuadtree(std::make_unique<Quadtree>(AABB(float3::zero, float3::zero)));
-		rootQuadtree = loadedScene->GetRootQuadtree();
-		rootQuadtree->LoadOptions(json);
-
-		loadedScene->SetSkybox(std::make_unique<Skybox>());
-		Skybox* skybox = loadedScene->GetSkybox();
-		skybox->LoadOptions(json);
-
-		loadedScene->SetCubemap(std::make_unique<Cubemap>());
-		Cubemap* cubemap = loadedScene->GetCubemap();
-		cubemap->LoadOptions(json);
-	}
-	else
-	{
-		rootQuadtree = loadedScene->GetRootQuadtree();
-	}
-
-	Json gameObjects = json["GameObjects"];
-	std::vector<GameObject*> loadedObjects = CreateHierarchyFromJson(gameObjects, mantainActualScene);
-
-	std::vector<ComponentCamera*> loadedCameras{};
-	std::vector<ComponentCanvas*> loadedCanvas{};
-	std::vector<Component*> loadedInteractable{};
-	std::vector<ComponentParticleSystem*> loadedParticle{};
-	GameObject* directionalLight = nullptr;
-
-	for (GameObject* obj : loadedObjects)
-	{
-		std::vector<ComponentCamera*> camerasOfObj = obj->GetComponents<ComponentCamera>();
-		loadedCameras.insert(std::end(loadedCameras), std::begin(camerasOfObj), std::end(camerasOfObj));
-
-		ComponentCanvas* canvas = obj->GetComponentInternal<ComponentCanvas>();
-		if (canvas != nullptr)
-		{
-			loadedCanvas.push_back(canvas);
-		}
-		Component* button = obj->GetComponentInternal<ComponentButton>();
-		if (button != nullptr)
-		{
-			loadedInteractable.push_back(button);
-		}
-		Component* particle = obj->GetComponentInternal<ComponentParticleSystem>();
-		if (particle != nullptr)
-		{
-			loadedParticle.push_back(static_cast<ComponentParticleSystem*>(particle));
-		}
-
-		std::vector<ComponentLight*> lightsOfObj = obj->GetComponents<ComponentLight>();
-		for (const ComponentLight* light : lightsOfObj)
-		{
-			if (light->GetLightType() == LightType::DIRECTIONAL)
-			{
-				directionalLight = obj;
-			}
-		}
-		if (obj->GetComponentInternal<ComponentTransform>() != nullptr)
-		{
-			// Quadtree treatment
-			AddGameObject(obj);
-		}
-
-		ComponentTransform* transform = obj->GetComponentInternal<ComponentTransform>();
-		ComponentRigidBody* rigidBody = obj->GetComponentInternal<ComponentRigidBody>();
-
-		if (rigidBody)
-		{
-			transform->UpdateTransformMatrices(false);
-			rigidBody->UpdateRigidBodyTranslation();
-			rigidBody->UpdateRigidBody();
-		}
-	}
-
-	ComponentTransform* mainTransform = loadedScene->GetRoot()->GetComponentInternal<ComponentTransform>();
-	mainTransform->UpdateTransformMatrices();
-
-	SetSceneRootAnimObjects(loadedObjects);
-	selectedGameObject = loadedScene->GetRoot();
-
-	if (!mantainActualScene)
-	{
-		loadedScene->SetSceneCameras(loadedCameras);
-		loadedScene->SetSceneCanvas(loadedCanvas);
-		loadedScene->SetSceneInteractable(loadedInteractable);
-		loadedScene->SetDirectionalLight(directionalLight);
-	}
-	else
-	{
-		loadedScene->AddSceneCameras(loadedCameras);
-		loadedScene->AddSceneCanvas(loadedCanvas);
-		loadedScene->AddSceneInteractable(loadedInteractable);
-		loadedScene->AddSceneParticleSystem(loadedParticle);
-		RemoveGameObject(directionalLight);
-		loadedScene->DestroyGameObject(directionalLight);
-	}
-
-	loadedScene->InitLights();
-	loadedScene->InitCubemap();
+	loader::LoadScene(name, std::move(callback), mantainCurrentScene, loader::LoadMode::ASYNCHRONOUS);
 }
 
 void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)
@@ -489,116 +372,6 @@ void ModuleScene::SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects)
 			}
 		}
 	}
-}
-
-std::vector<GameObject*> ModuleScene::CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainCurrentHierarchy)
-{
-	struct GameObjectDeserializationInfo
-	{
-		GameObject* gameObject;
-		UID parentUID;
-		bool enabled;
-	};
-	std::vector<GameObject*> gameObjects{};
-	std::map<UID, GameObjectDeserializationInfo> gameObjectMap{};
-
-	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
-	{
-		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
-		std::string name = jsonGameObject["name"];
-		UID uid = jsonGameObject["uid"];
-		UID parentUID = jsonGameObject["parentUID"];
-		bool enabled = jsonGameObject["enabled"];
-		GameObject* gameObject;
-
-		if (!mantainCurrentHierarchy)
-		{
-			gameObject = new GameObject(name, uid);
-		}
-		else
-		{
-			gameObject = new GameObject(name);
-			UID newUID = gameObject->GetUID();
-			uidMap[uid] = newUID;
-			uid = newUID;
-		}
-
-		gameObjectMap[uid] = { gameObject, parentUID, enabled };
-		gameObjects.push_back(gameObject);
-	}
-
-	mantainCurrentHierarchy ? loadedScene->AddSceneGameObjects(gameObjects)
-							: loadedScene->SetSceneGameObjects(gameObjects);
-
-	// Load will, amongst other things, instantiate the components
-	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
-	{
-		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
-
-		gameObjects[i]->Load(jsonGameObject);
-	}
-
-	// Once all components are instantiated, load them
-	// we do this in two steps because some scripts expect a game object to have a given component
-	for (unsigned int i = 0; i < jsonGameObjects.Size(); ++i)
-	{
-		Json jsonComponents = jsonGameObjects[i]["GameObject"]["Components"];
-
-		gameObjects[i]->LoadComponents(jsonComponents);
-	}
-
-	for (GameObject* gameObject : gameObjects)
-	{
-		UID uid = gameObject->GetUID();
-		UID parent = gameObjectMap[uid].parentUID;
-
-		if (parent == 0)
-		{
-			if (!mantainCurrentHierarchy)
-			{
-				loadedScene->SetRoot(gameObject);
-			}
-			else
-			{
-				loadedScene->GetRoot()->LinkChild(gameObject);
-				gameObject->SetStatic(true);
-			}
-			continue;
-		}
-
-		if (mantainCurrentHierarchy)
-		{
-			parent = uidMap[parent];
-		}
-
-		GameObject* parentGameObject = gameObjectMap[parent].gameObject;
-		parentGameObject->LinkChild(gameObject);
-	}
-
-	std::vector<GameObject*> loadedObjects{};
-	for (const auto& [key, value] : gameObjectMap)
-	{
-		GameObject* gameObject = value.gameObject;
-		loadedObjects.push_back(gameObject);
-
-		if (gameObject == loadedScene->GetRoot())
-		{
-			continue;
-		}
-
-		if (value.enabled)
-		{
-			gameObject->Enable();
-		}
-		else
-		{
-			gameObject->Disable();
-		}
-	}
-
-	uidMap.clear();
-
-	return loadedObjects;
 }
 
 void ModuleScene::AddGameObjectAndChildren(GameObject* object)
@@ -631,12 +404,16 @@ void ModuleScene::RemoveGameObjectAndChildren(const GameObject* object)
 
 void ModuleScene::ParticlesSystemUpdate(bool forceRecalculate)
 {
-	for(ComponentParticleSystem* particleComponent : loadedScene->GetSceneParticleSystems())
+	for (ComponentParticleSystem* particleComponent : loadedScene->GetSceneParticleSystems())
 	{
 		particleComponent->CheckEmitterInstances(forceRecalculate);
 	}
 }
 
+bool ModuleScene::IsLoading() const
+{
+	return loader::IsLoading();
+}
 
 void ModuleScene::AddGameObject(GameObject* object)
 {
@@ -665,16 +442,7 @@ void ModuleScene::RemoveGameObject(const GameObject* object)
 	}
 }
 
-bool ModuleScene::hasNewUID(UID oldUID, UID& newUID)
+bool ModuleScene::HasNewUID(UID oldUID, UID& newUID)
 {
-	const auto& uid = uidMap.find(oldUID);
-	if (uid == uidMap.end())
-	{
-		return false;
-	}
-	else
-	{
-		newUID = uid->second;
-		return true;
-	}
+	return loader::HasNewUID(oldUID, newUID);
 }

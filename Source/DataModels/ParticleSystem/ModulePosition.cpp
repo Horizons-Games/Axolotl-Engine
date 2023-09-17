@@ -6,11 +6,22 @@
 
 #include "Camera/Camera.h"
 
+#include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentTransform.h"
+
+#include "GameObject/GameObject.h"
+
 #include "Modules/ModuleCamera.h"
 
-#include <algorithm>
+#include "ParticleSystem/ParticleEmitter.h"
+#include "ParticleSystem/ModuleBase.h"
 
 ModulePosition::ModulePosition(ParticleEmitter* emitter) : ParticleModule(ModuleType::POSITION, emitter)
+{
+}
+
+ModulePosition::ModulePosition(ParticleEmitter* emitter, ModulePosition* position) :
+	ParticleModule(ModuleType::POSITION, emitter)
 {
 }
 
@@ -32,6 +43,15 @@ void ModulePosition::Update(EmitterInstance* instance)
 	std::vector<unsigned int> sortedPositions;
 	std::vector<EmitterInstance::Particle>& particles = instance->GetParticles();
 
+	ModuleBase* base = dynamic_cast<ModuleBase*>(instance->GetEmitter()->GetModule(ModuleType::BASE));
+	
+	float3 offset = float3(0.0, 0.0, 0.0);
+
+	if (base->IsFollowingTransform())
+	{
+		offset = base->GetPositionOffset();
+	}
+	 
 	for (unsigned i = 0; i < particles.size(); ++i)
 	{
 		EmitterInstance::Particle& particle = particles[i];
@@ -43,7 +63,7 @@ void ModulePosition::Update(EmitterInstance* instance)
 			particle.lifespan = 0.0f;
 		}
 
-		if (particle.lifespan > 0.0f)
+		if (!particle.dead)
 		{
 			float lifeRatio = 1.0f - particle.lifespan / particle.initLife;
 
@@ -51,7 +71,8 @@ void ModulePosition::Update(EmitterInstance* instance)
 				instance->lerp(particle.initVelocity, particle.velocity, lifeRatio) +
 				float3(0.0f, -particle.gravity * (particle.initLife - particle.lifespan), 0.0f);
 
-			particle.tranform.SetTranslatePart(particle.tranform.TranslatePart() + speed * dt);
+
+			particle.tranform.SetTranslatePart(particle.tranform.TranslatePart() + offset + speed * dt);
 
 			particle.distanceToCamera = particle.tranform.TranslatePart().DistanceSq(cameraPos);
 
@@ -67,12 +88,6 @@ void ModulePosition::Update(EmitterInstance* instance)
 			++aliveParticles;
 		}
 	}
-
-	/*std::sort(sortedPositions.begin(), sortedPositions.end(),
-		[particles](const unsigned int& a, const unsigned int& b)
-		{
-			return particles[a].distanceToCamera > particles[b].distanceToCamera;
-		});*/
 
 	instance->SetSortedPositions(sortedPositions);
 	instance->SetAliveParticles(aliveParticles);

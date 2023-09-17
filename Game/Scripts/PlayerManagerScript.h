@@ -5,6 +5,11 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class PlayerJumpScript;
+class PlayerMoveScript;
+class DebugGame;
+class PlayerRotationScript;
+
 class PlayerManagerScript : public Script
 {
 public:
@@ -20,11 +25,25 @@ public:
 	void IncreasePlayerDefense(float defenseIncrease);
 	void IncreasePlayerSpeed(float speedIncrease);
 
+	bool IsGrounded() const;
+	bool IsTeleporting() const;
+	PlayerJumpScript* GetJumpManager() const;
+	PlayerMoveScript* GetMovementManager() const;
+	void ParalyzePlayer(bool paralyzed);
 	void SetPlayerSpeed(float playerSpeed);
 
 private:
+	void Start() override;
+
+
 	float playerAttack;
 	float playerDefense;
 	float playerSpeed;
 	float playerRotationSpeed;
+
+	// All Principal PlayerManagers
+	PlayerMoveScript* movementManager;
+	PlayerJumpScript* jumpManager;
+	DebugGame* debugManager;
+	PlayerRotationScript* rotationManager;
 };

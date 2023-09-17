@@ -1,17 +1,18 @@
 #include "StdAfx.h"
 
-#include "ComponentAnimation.h"
 #include "Application.h"
+#include "ComponentAnimation.h"
 #include "ComponentTransform.h"
 
 #include "Animation/AnimationController.h"
+#include "Animation/StateMachine.h"
 
 #include "FileSystem/Json.h"
 #include "FileSystem/ModuleResources.h"
 #include "Resources/ResourceAnimation.h"
 #include "Resources/ResourceStateMachine.h"
 
-#include "ModuleInput.h"
+#include "ModuleEditor.h"
 
 #include "GameObject/GameObject.h"
 
@@ -19,61 +20,67 @@
 
 ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner) :
 	Component(ComponentType::ANIMATION, active, owner, true),
-	drawBones(false)
+	drawBones(false),
+	firstEntry(true),
+	controller(std::make_unique<AnimationController>()),
+	stateMachineInstance(std::make_unique<StateMachine>())
 {
-	controller = new AnimationController();
-	lastState = NON_STATE;
+}
+
+ComponentAnimation::ComponentAnimation(const ComponentAnimation& toCopy) :
+	Component(toCopy),
+	controller(std::make_unique<AnimationController>()),
+	stateMachineInstance(std::unique_ptr<StateMachine>(new StateMachine(*toCopy.GetStateMachineInstance()))),
+	defaultPosition(toCopy.defaultPosition),
+	firstEntry(toCopy.firstEntry),
+	drawBones(toCopy.drawBones)
+{
 }
 
 ComponentAnimation::~ComponentAnimation()
 {
-	delete controller;
+	App->GetModule<ModuleEditor>()->SetStateMachineWindowEditor(nullptr, "");
 }
 
-AnimationController* ComponentAnimation::GetController()
+AnimationController* ComponentAnimation::GetController() const
 {
-	return controller;
+	return controller.get();
 }
 
-const std::shared_ptr<ResourceStateMachine>& ComponentAnimation::GetStateMachine() const
+StateMachine* ComponentAnimation::GetStateMachineInstance() const
 {
-	return stateMachine;
+	return stateMachineInstance.get();
 }
 
-void ComponentAnimation::SetStateMachine(const std::shared_ptr<ResourceStateMachine>& stateMachine)
+std::shared_ptr<ResourceStateMachine> ComponentAnimation::GetStateMachine() const
 {
-	this->stateMachine = stateMachine;
-	if (stateMachine)
-	{
-		this->parameters = stateMachine->GetParameters();
-	}
-	actualState = 0;
+	return stateMachineInstance->GetStateMachine();
+}
+
+void ComponentAnimation::SetStateMachine(std::shared_ptr<ResourceStateMachine> stateMachine)
+{
+	stateMachineInstance->SetStateMachine(std::move(stateMachine));
 }
 
 void ComponentAnimation::Update()
 {
-	if (stateMachine)
+	if (stateMachineInstance->GetStateMachine())
 	{
 		GameObject* owner = GetOwner();
 
-		if ((actualState == 0) && (lastState == NON_STATE)) // Entry State
+		if (firstEntry) // Entry State
 		{
 			SaveModelTransform(owner);
+			firstEntry = false;
 		}
 
 		controller->Update();
-
-		if (actualState == nextState)
+		stateMachineInstance->Update(!controller->GetPlay());
+		if (!stateMachineInstance->IsTransitioning())
 		{
-			State* state = stateMachine->GetState(actualState);
+			State* state = stateMachineInstance->GetActualState();
 			if (state)
 			{
-				Transition foundTransition;
-				if (CheckTransitions(state, foundTransition))
-				{
-					nextState = foundTransition.destinationState;
-				}
-
 				if (controller->GetPlay())
 				{
 					std::list<GameObject*> children = owner->GetAllDescendants();
@@ -86,8 +93,8 @@ void ComponentAnimation::Update()
 						if (controller->GetTransform(&child->GetName()[0], pos, rot))
 						{
 							ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
-							transform->SetPosition(pos);
-							transform->SetRotation(rot);
+							transform->SetLocalPosition(pos);
+							transform->SetLocalRotation(rot);
 						}
 					}
 					owner->GetComponentInternal<ComponentTransform>()->UpdateTransformMatrices();
@@ -100,8 +107,7 @@ void ComponentAnimation::Update()
 		}
 		else
 		{
-			actualState = nextState;
-			State* state = stateMachine->GetState(actualState);
+			State* state = stateMachineInstance->GetNextState();
 			if (state->resource)
 			{
 				controller->Play(state, false);
@@ -113,11 +119,6 @@ void ComponentAnimation::Update()
 				owner->GetComponentInternal<ComponentTransform>()->UpdateTransformMatrices();
 			}
 		}
-		lastState = actualState;
-	}
-	else
-	{
-		lastState = NON_STATE;
 	}
 }
 
@@ -144,11 +145,17 @@ void ComponentAnimation::DrawBones(GameObject* parent) const
 	}
 }
 
+void ComponentAnimation::SetParameter(const std::string& parameterName, ValidFieldTypeParameter value)
+{
+	stateMachineInstance->SetParameter(parameterName, value);
+}
+
 void ComponentAnimation::InternalSave(Json& meta)
 {
 	UID uidState = 0;
 	std::string assetPath = "";
 
+	std::shared_ptr<ResourceStateMachine> stateMachine = stateMachineInstance->GetStateMachine();
 	if (stateMachine)
 	{
 		uidState = stateMachine->GetUID();
@@ -178,70 +185,6 @@ void ComponentAnimation::InternalLoad(const Json& meta)
 	{
 		SetStateMachine(resourceState);
 	}
-
-	actualState = 0;
-	nextState = 0;
-}
-
-bool ComponentAnimation::CheckTransitions(const State* state, Transition& transition)
-{
-	if (!state)
-	{
-		return false;
-	}
-
-	for (UID idTransition : state->transitionsOriginedHere)
-	{
-		Transition& actualTransition = stateMachine->GetTransitions()[idTransition];
-		bool conditionCheck = true;
-		for (Condition& condition : actualTransition.conditions)
-		{
-			const auto& itParameter = parameters.find(condition.parameter);
-			if (itParameter != parameters.end())
-			{
-				ValidFieldTypeParameter& value = itParameter->second.second;
-				switch (condition.conditionType)
-				{
-					case ConditionType::GREATER:
-						conditionCheck = value > condition.value;
-						break;
-					case ConditionType::LESS:
-						conditionCheck = value < condition.value;
-						break;
-					case ConditionType::EQUAL:
-						conditionCheck = value == condition.value;
-						break;
-					case ConditionType::NOTEQUAL:
-						conditionCheck = value != condition.value;
-						break;
-					case ConditionType::TRUECONDITION:
-						conditionCheck = (std::get<bool>(value) == true);
-						break;
-					case ConditionType::FALSECONDITION:
-						conditionCheck = (std::get<bool>(value) == false);
-						break;
-					default:
-						break;
-				}
-			}
-
-			if (!conditionCheck)
-				break;
-		}
-
-		if (conditionCheck)
-		{
-			if (actualTransition.waitUntilFinish && controller->GetPlay())
-			{
-				return false;
-			}
-
-			transition = actualTransition;
-			return true;
-		}
-	}
-
-	return false;
 }
 
 void ComponentAnimation::SaveModelTransform(GameObject* gameObject)
@@ -265,9 +208,9 @@ void ComponentAnimation::LoadModelTransform(GameObject* gameObject)
 	Quat rot;
 
 	defaultPosition[gameObject].Decompose(position, rot, scale);
-	transform->SetPosition(position);
-	transform->SetRotation(rot);
-	transform->SetScale(scale);
+	transform->SetLocalPosition(position);
+	transform->SetLocalRotation(rot);
+	transform->SetLocalScale(scale);
 
 	for (GameObject* children : gameObject->GetChildren())
 	{
@@ -275,7 +218,17 @@ void ComponentAnimation::LoadModelTransform(GameObject* gameObject)
 	}
 }
 
-bool ComponentAnimation::isPlaying() const
+bool ComponentAnimation::isTransitioning()
+{
+	return stateMachineInstance->IsTransitioning();
+}
+
+bool ComponentAnimation::IsPlaying() const
 {
 	return controller->GetPlay();
+}
+
+std::string& ComponentAnimation::GetActualStateName() const
+{
+	return stateMachineInstance->GetActualStateName();
 }

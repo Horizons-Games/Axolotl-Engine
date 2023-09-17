@@ -21,20 +21,24 @@
 
 #include "../Scripts/PlayerRotationScript.h"
 #include "../Scripts/PlayerManagerScript.h"
-#include "../Scripts/PlayerRotationScript.h"
 #include "../Scripts/CameraControllerScript.h"
 #include "../Scripts/PlayerMoveScript.h"
+
+
+#include "AxoLog.h"
 
 REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
-	gameObjectAttachedParent(nullptr), tag("Forceable"), distancePointGameObjectAttached(0.0f),
-	maxDistanceForce(20.0f), minDistanceForce(6.0f), maxTimeForce(15.0f), isForceActive(false),
+	gameObjectAttachedParent(nullptr), tag("Forceable"), tag2("ForceableDoors"), distancePointGameObjectAttached(0.0f),
+	maxDistanceForce(20.0f), minDistanceForce(1.f), maxTimeForce(20.0f), isForceActive(false),
 	currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componentAudioSource(nullptr),
 	playerManagerScript(nullptr)
 {
 	REGISTER_FIELD(maxDistanceForce, float);
+	REGISTER_FIELD(minDistanceForce, float);
 	REGISTER_FIELD(maxTimeForce, float);
+
 }
 
 void PlayerForceUseScript::Start()
@@ -61,43 +65,62 @@ void PlayerForceUseScript::Update(float deltaTime)
 		RaycastHit hit;
 		btVector3 rigidBodyOrigin = rigidBody->GetRigidBodyOrigin();
 		float3 origin = float3(rigidBodyOrigin.getX(), rigidBodyOrigin.getY(), rigidBodyOrigin.getZ());
-		Ray ray(origin, transform->GetGlobalForward());
-		LineSegment line(ray, 300);
-
-		if (Physics::RaycastToTag(line, hit, owner, tag))
+		int raytries = 0;
+		
+		while (gameObjectAttached == nullptr && raytries < 4)
 		{
-			gameObjectAttached = hit.gameObject;
-			ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
-			distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hittedTransform->GetGlobalPosition());
+			Ray ray(origin + float3(0.f, 1.f * static_cast<float>(raytries), 0.f), transform->GetGlobalForward());
+			LineSegment line(ray, 300);
+			raytries++;
 
-			if (distancePointGameObjectAttached > maxDistanceForce)
+			if (Physics::RaycastToTag(line, hit, owner, tag) || Physics::RaycastToTag(line, hit, owner, tag2))
 			{
-				gameObjectAttached = nullptr;
-				return;
-			}
+				gameObjectAttached = hit.gameObject;
+				ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
+				distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hit.hitPoint);
+				ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
+				objectStaticness = rigidBody->IsStatic();
+				rigidBody->SetStatic(false);
+				offsetFromPickedPoint = hittedTransform->GetGlobalPosition() - hit.hitPoint;
+				pickedRotation = hittedTransform->GetGlobalRotation();
+				pickedPlayerPosition = owner->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
-			else if (distancePointGameObjectAttached < minDistanceForce)
-			{
-				distancePointGameObjectAttached = minDistanceForce;
-			}
+				if (gameObjectAttached->GetTag() == "ForceableDoors" && !rigidBody->IsTrigger())
+				{
+					rigidBody->SetIsTrigger(true);
+				}
 
-			if (rotationHorizontalScript)
-			{
-				lastHorizontalSensitivity = rotationHorizontalScript->GetHorizontalSensitivity();
-				rotationHorizontalScript->SetHorizontalSensitivity(lastHorizontalSensitivity / 2.0f);
-				lastVerticalSensitivity = rotationHorizontalScript->GetVerticalSensitivity();
-				rotationHorizontalScript->SetVerticalSensitivity(lastVerticalSensitivity / 2.0f);
-			}
+				if (distancePointGameObjectAttached > maxDistanceForce)
+				{
+					gameObjectAttached = nullptr;
+					return;
+				}
 
-			if (playerManagerScript)
-			{
-				lastMoveSpeed = playerManagerScript->GetPlayerSpeed();
-				playerManagerScript->SetPlayerSpeed(lastMoveSpeed / 2.0f);
-			}
+				else if (distancePointGameObjectAttached < minDistanceForce)
+				{
+					distancePointGameObjectAttached = minDistanceForce;
+				}
 
-			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
-			rigidBody->SetKpForce(50.0f);
-			rigidBody->SetKpTorque(50.0f);
+				if (rotationHorizontalScript)
+				{
+					lastHorizontalSensitivity = rotationHorizontalScript->GetHorizontalSensitivity();
+					rotationHorizontalScript->SetHorizontalSensitivity(lastHorizontalSensitivity / 2.0f);
+					lastVerticalSensitivity = rotationHorizontalScript->GetVerticalSensitivity();
+					rotationHorizontalScript->SetVerticalSensitivity(lastVerticalSensitivity / 2.0f);
+				}
+
+				if (playerManagerScript)
+				{
+					lastMoveSpeed = playerManagerScript->GetPlayerSpeed();
+					playerManagerScript->SetPlayerSpeed(lastMoveSpeed / 2.0f);
+				}
+
+
+				rigidBody->SetKpForce(50.0f);
+				rigidBody->SetKpTorque(50.0f);
+
+
+			}
 		}
 	}
 
@@ -107,9 +130,26 @@ void PlayerForceUseScript::Update(float deltaTime)
 		|| breakForce)
 	{
 		ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
+		if (gameObjectAttached->GetTag() == "ForceableDoors" && rigidBody->IsTrigger())
+		{
+			rigidBody->SetIsTrigger(false);
+		}
 		gameObjectAttached = nullptr;
 		rigidBody->DisablePositionController();
 		rigidBody->DisableRotationController();
+		rigidBody->SetStatic(objectStaticness);
+
+		/*
+		if (rotationHorizontalScript)
+		{
+			rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity);
+		}
+
+		if (rotationVerticalScript)
+		{
+			rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity);
+		}
+		*/
 
 		if (playerManagerScript)
 		{
@@ -129,6 +169,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE)
 	{
+		
 		componentAnimation->SetParameter("IsStoppingForce", true);
 		componentAnimation->SetParameter("IsStartingForce", false);
 	}
@@ -150,50 +191,64 @@ void PlayerForceUseScript::Update(float deltaTime)
 			distancePointGameObjectAttached = std::min(distancePointGameObjectAttached, maxDistanceForce);
 			distancePointGameObjectAttached = std::max(distancePointGameObjectAttached, minDistanceForce);
 		}
+		// Get next rotation of game object
+		Quat targetRotation =
+			Quat::RotateFromTo(hittedTransform->GetGlobalForward(),
+				(transform->GetGlobalPosition() - hittedTransform->GetGlobalPosition()).Normalized());
+
+		// Set rotation
+		hittedRigidBody->SetRotationTarget(targetRotation);
+
+		/*
+		targetRotation= hittedTransform->GetGlobalRotation();
+		float anglechanged = pickedRotation.AngleBetween(targetRotation);
+		
+		LOG_DEBUG("CurrentRot: x:{} y:{} z:{}", targetRotation.x, targetRotation.y, targetRotation.z);
+		LOG_DEBUG("PickedRot: x:{} y:{} z:{}", pickedRotation.x, pickedRotation.y, pickedRotation.z);
+		LOG_DEBUG("Angle: {}", anglechanged);
+
+		float anglechanged = pickedRotation.ToEulerXYZ().AngleBetween(targetRotationXYZ);
+		float3 OffsetAfterRotation = float3(  offsetFromPickedPoint.x * math::Cos(anglechanged) - offsetFromPickedPoint.z * math::Sin(anglechanged)
+											, offsetFromPickedPoint.y
+											, offsetFromPickedPoint.z* math::Cos(anglechanged) + offsetFromPickedPoint.x * math::Sin(anglechanged)
+											);
+		*/
 		// Get next position of the gameObject
-		float verticalOffset = 1.0f;
 		float3 nextPosition = transform->GetGlobalForward();
 		nextPosition.Normalize();
 		nextPosition *= distancePointGameObjectAttached;
 		nextPosition += transform->GetGlobalPosition();
-		nextPosition.y += verticalOffset;
+		nextPosition += offsetFromPickedPoint;
 
-		float currentDistance = hittedTransform->GetGlobalPosition().Distance(nextPosition);
+		nextPosition.y = hittedTransform->GetGlobalPosition().y;
 
-		if (std::abs(currentDistance) > 1.5f && currentTimeForce < 14.5f)
+		float3 currentDistance = hittedTransform->GetGlobalPosition() - nextPosition;
+		
+		if ( std::abs(currentDistance.x) > 2 && std::abs(currentDistance.z) > 2 && currentTimeForce < 14.5f )
+		{
+			breakForce = true;
+			currentTimeForce = 10;
+			return;
+		} 
+		float difX = pickedPlayerPosition.x - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().x;
+		float difY = pickedPlayerPosition.y - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().y;
+		float difZ = pickedPlayerPosition.z - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().z;
+		if ( abs(difX) + abs(difY) + abs(difZ) > 0.2f)
 		{
 			breakForce = true;
 			currentTimeForce = 10;
 			return;
 		}
 
-		// Get next rotation of game object
-		Quat targetRotation =
-			Quat::RotateFromTo(hittedTransform->GetGlobalForward(),
-				(transform->GetGlobalPosition() - hittedTransform->GetGlobalPosition()).Normalized());
+		float2 mouseMotion = input->GetMouseMotion();
+		nextPosition.y = nextPosition.y -= mouseMotion.y * 0.2f * deltaTime;
 
-		
-		btRigidBody* rigidBody = hittedRigidBody->GetRigidBody();
+
+
 
 		// Set position
-		float3 x = hittedTransform->GetGlobalPosition();
-		float3 positionError = nextPosition - x;
-		float3 velocityPosition = positionError * hittedRigidBody->GetKpForce();
+		hittedRigidBody->SetPositionTarget(nextPosition);
 
-		btVector3 velocity(velocityPosition.x, velocityPosition.y, velocityPosition.z);
-		rigidBody->setLinearVelocity(velocity);
-
-
-		// Set rotation
-		float3 axis;
-		float angle;
-		targetRotation.ToAxisAngle(axis, angle);
-		axis.Normalize();
-
-		float3 angularVelocity = axis * angle * hittedRigidBody->GetKpTorque();
-		btVector3 bulletAngularVelocity(0.0f, angularVelocity.y, 0.0f);
-		rigidBody->setAngularFactor(btVector3(0.0f, 1.0f, 0.0f));
-		rigidBody->setAngularVelocity(bulletAngularVelocity);
 
 
 		currentTimeForce -= deltaTime;

@@ -6,6 +6,7 @@
 #include "FileSystem/UID.h"
 
 #include <map>
+#include <mutex>
 
 class GameObject;
 class Quadtree;
@@ -29,11 +30,14 @@ public:
 	GameObject* GetSelectedGameObject() const;
 	void SetSelectedGameObject(GameObject* gameObject);
 	void SetSceneToLoad(const std::string& name);
-	bool hasNewUID(UID oldUID, UID& newUID);
+	bool HasNewUID(UID oldUID, UID& newUID);
 	void SetSceneRootAnimObjects(std::vector<GameObject*> gameObjects);
 
 	void SaveScene(const std::string& name);
-	void LoadScene(const std::string& name, bool mantainActualScene = false);
+	void LoadScene(const std::string& name, bool mantainScene = false);
+	// !!! UNDER NO CIRCUMSTANCE SHOULD YOU BLOCK THE MAIN THREAD WAITING FOR THE CALLBACK TO BE INVOKED !!!
+	// I'll try to add a timeout so we can handle such cases, but in the meantime, please avoid it
+	void LoadSceneAsync(const std::string& name, std::function<void(void)>&& callback, bool mantainCurrentScene = false);
 
 	void OnPlay();
 	void OnStop();
@@ -48,15 +52,13 @@ public:
 
 	bool IsLoading() const;
 
+	void AddGameObject(GameObject* object);
+	void RemoveGameObject(const GameObject* object);
+
 private:
 	std::unique_ptr<Scene> CreateEmptyScene() const;
 
 	void SaveSceneToJson(Json& jsonScene);
-	void LoadSceneFromJson(Json& json, bool mantainActualScene);
-	std::vector<GameObject*> CreateHierarchyFromJson(const Json& jsonGameObjects, bool mantainCurrentHierarchy);
-
-	void AddGameObject(GameObject* object);
-	void RemoveGameObject(const GameObject* object);
 
 private:
 	std::unique_ptr<Scene> loadedScene;
@@ -65,13 +67,13 @@ private:
 
 	// to store the tmp serialization of the Scene
 	rapidjson::Document tmpDoc;
-	std::map<UID, UID> uidMap;
 
-	bool loading;
+	std::mutex loadedSceneMutex;
 };
 
 inline Scene* ModuleScene::GetLoadedScene() const
 {
+	std::scoped_lock(loadedSceneMutex);
 	return loadedScene.get();
 }
 
@@ -83,9 +85,4 @@ inline GameObject* ModuleScene::GetSelectedGameObject() const
 inline void ModuleScene::SetSceneToLoad(const std::string& name)
 {
 	sceneToLoad = name;
-}
-
-inline bool ModuleScene::IsLoading() const
-{
-	return loading;
 }

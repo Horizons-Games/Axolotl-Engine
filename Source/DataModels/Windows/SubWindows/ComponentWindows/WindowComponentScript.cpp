@@ -4,6 +4,10 @@
 
 #include "Application.h"
 #include "Scene/Scene.h"
+#include "ModuleEditor.h"
+
+#include "Windows/EditorWindows/ImporterWindows/WindowStateMachineInput.h"
+#include "Animation/StateMachine.h"
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/UIDGenerator.h"
@@ -22,13 +26,16 @@ const float doubleClickTimeFrameInS = .5f;
 }
 
 WindowComponentScript::WindowComponentScript(ComponentScript* component) :
-	ComponentWindow("SCRIPT", component),
+	// This could be converted to uppercase using a lambda expression, std::transform and std::upper, 
+	// but the script name is more readable inside the engine in camelCase
+	ComponentWindow("SCRIPT " + component->GetConstructName(), component),
 	windowUID(UniqueID::GenerateUID())
 {
 }
 
 WindowComponentScript::~WindowComponentScript()
 {
+	inputStates.clear();
 }
 
 std::string WindowComponentScript::DrawStringField(std::string& value, const std::string& name)
@@ -185,6 +192,8 @@ void WindowComponentScript::DrawWindowContents()
 		return;
 	}
 
+	UpdateStateMachinesInputVector(scriptObject);
+	stateMachineCount = 0;
 	for (TypeFieldPair enumAndMember : scriptObject->GetFields())
 	{
 		ValidFieldType member = enumAndMember.second;
@@ -340,6 +349,15 @@ void WindowComponentScript::DrawWindowContents()
 				break;
 			}
 
+			case FieldType::STATEMACHINE:
+			{
+				Field<StateMachine*> stateField = std::get<Field<StateMachine*>>(member);
+				StateMachine* value = stateField.getter();
+
+				StateMachineField(value, stateField.name, script->GetOwner()->GetName() + "->" + scriptName);
+				stateMachineCount++;
+			}
+
 			default:
 				break;
 		}
@@ -456,7 +474,53 @@ void WindowComponentScript::ReplaceSubstringsInString(std::string& stringToRepla
 	}
 }
 
+void WindowComponentScript::UpdateStateMachinesInputVector(const IScript* scriptObject)
+{
+	if (inputStates.size() != stateMachineCount)
+	{
+		inputStates.clear();
+		for (TypeFieldPair enumAndMember : scriptObject->GetFields())
+		{
+			if (enumAndMember.first == FieldType::STATEMACHINE)
+			{
+				Field<StateMachine*> stateField = std::get<Field<StateMachine*>>(enumAndMember.second);
+				StateMachine* value = stateField.getter();
+				inputStates.push_back(std::make_unique<WindowStateMachineInput>(value));
+			}
+		}
+	}
+}
 bool WindowComponentScript::IsDoubleClicked()
 {
 	return secondsSinceLastClick <= doubleClickTimeFrameInS;
+}
+
+void WindowComponentScript::StateMachineField(StateMachine* value,
+											  const std::string& nameState,
+											  const std::string& nameInstance)
+{
+	if (value)
+	{
+		if (value->GetStateMachine())
+		{
+			ImGui::Text(value->GetStateMachine()->GetFileName().c_str());
+			ImGui::SameLine();
+			if (ImGui::Button("Edit StateMachine"))
+			{
+				App->GetModule<ModuleEditor>()->SetStateMachineWindowEditor(value, nameInstance);
+			}
+			ImGui::SameLine();
+			if (ImGui::Button(("X##" + nameState).c_str()))
+			{
+				value->SetStateMachine(nullptr);
+			}
+		}
+		else
+		{
+			inputStates[stateMachineCount]->SetStateMachine(value);
+			inputStates[stateMachineCount]->DrawWindowContents();
+		}
+	}
+	ImGui::SameLine();
+	ImGui::Text(nameState.c_str());
 }
