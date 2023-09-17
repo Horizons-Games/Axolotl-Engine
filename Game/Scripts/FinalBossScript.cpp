@@ -3,6 +3,7 @@
 
 #include "Application.h"
 #include "Modules/ModuleRandom.h"
+#include "Modules/ModulePlayer.h"
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
@@ -17,14 +18,16 @@
 #include "../Scripts/BossMissilesAttackScript.h"
 #include "../Scripts/AIMovement.h"
 
+#include "Application.h"
+
 REGISTERCLASS(FinalBossScript);
 
 FinalBossScript::FinalBossScript() : bossPhase(FinalBossPhases::NEUTRAL), patrolScript(nullptr), 
-	bossHealthSystem(nullptr), rigidBody(nullptr), target(nullptr), chargeAttackScript(nullptr),
+	bossHealthSystem(nullptr), rigidBody(nullptr), chargeAttackScript(nullptr),
 	transform(nullptr), targetTransform(nullptr), shockWaveAttackScript(nullptr), bossState(FinalBossStates::IDLE),
 	shieldAttackScript(nullptr), missilesAttackScript(nullptr)
 {
-	REGISTER_FIELD(target, GameObject*);
+
 }
 
 void FinalBossScript::Start()
@@ -34,7 +37,6 @@ void FinalBossScript::Start()
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	rigidBody->SetKpForce(0.25f);
 	transform = owner->GetComponent<ComponentTransform>();
-	targetTransform = target->GetComponent<ComponentTransform>();
 
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 	bossHealthSystem = owner->GetComponent<HealthSystem>();
@@ -50,6 +52,9 @@ void FinalBossScript::Start()
 
 void FinalBossScript::Update(float deltaTime)
 {
+	target = App->GetModule<ModulePlayer>()->GetPlayer();
+	targetTransform = target->GetComponent<ComponentTransform>();
+
 	if (!target)
 	{
 		return;
