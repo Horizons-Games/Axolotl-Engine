@@ -24,7 +24,7 @@ ComponentSkybox::~ComponentSkybox()
 {
 }
 
-void ComponentSkybox::Draw() const
+void ComponentSkybox::Draw()
 {
 	if (IsEnabled())
 	{
@@ -79,8 +79,6 @@ void ComponentSkybox::InternalLoad(const Json& meta)
 #else
 	skyboxRes = App->GetModule<ModuleResources>()->SearchResource<ResourceSkyBox>(resUID);
 #endif // ENGINE
-	skyboxRes->Load();
-	cubemap = std::make_unique<Cubemap>(skyboxRes->GetGlTexture());
 }
 
 std::shared_ptr<ResourceSkyBox> ComponentSkybox::GetSkyboxResource() const
@@ -91,11 +89,14 @@ std::shared_ptr<ResourceSkyBox> ComponentSkybox::GetSkyboxResource() const
 void ComponentSkybox::SetSkyboxResource(std::shared_ptr<ResourceSkyBox> resource)
 {
 	skyboxRes = resource;
-	skyboxRes->Load();
-	cubemap = std::make_unique<Cubemap>(skyboxRes->GetGlTexture());
+	cubemap.release();
 }
 
 Cubemap* ComponentSkybox::GetCubemap()
 {
+	if (cubemap == nullptr)
+	{
+		cubemap = std::make_unique<Cubemap>(skyboxRes->GetGlTexture());
+	}
 	return cubemap.get();
 }

@@ -1,20 +1,17 @@
 #pragma once
 #include "Components/Component.h"
-#include "Auxiliar/Generics/Drawable.h"
-#include "Auxiliar/Generics/Updatable.h"
 #include "FileSystem/UID.h"
 
 class ResourceSkyBox;
 class Cubemap;
 
-class ComponentSkybox : public Component, public Drawable
+class ComponentSkybox : public Component
 {
 public:
 	ComponentSkybox(bool active, GameObject* owner);
 	~ComponentSkybox() override;
 	
-	
-	void Draw() const override;
+	void Draw();
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
