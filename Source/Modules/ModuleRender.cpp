@@ -26,6 +26,7 @@
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Batch/BatchManager.h"
 #include "DataModels/GBuffer/GBuffer.h"
+#include "Render/PlanarReflection.h"
 
 #include "DataStructures/Quadtree.h"
 
@@ -141,6 +142,7 @@ ModuleRender::~ModuleRender()
 	delete gBuffer;
 	delete shadows;
 	delete ssao;
+	delete planarReflection;
 
 	objectsInFrustrumDistances.clear();
 	gameObjectsInFrustrum.clear();
@@ -167,6 +169,7 @@ bool ModuleRender::Init()
 	gBuffer = new GBuffer();
 	shadows = new Shadows();
 	ssao = new SSAO();
+	planarReflection = new PlanarReflection();
 
 	GLenum err = glewInit();
 	// check for errors
@@ -604,6 +607,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 {
 	gBuffer->InitGBuffer(width, height);
 	shadows->UpdateBuffers(width, height);
+	planarReflection->InitBuffer(width, height);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
 

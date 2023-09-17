@@ -797,6 +797,9 @@
       <Filter>DataModels\Render</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp" />
+    <ClCompile Include="DataModels\Render\PlanarReflection.cpp">
+      <Filter>DataModels\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1640,6 +1643,9 @@
       <Filter>DataModels\Render</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\ElevatorCore.h" />
+    <ClInclude Include="DataModels\Render\PlanarReflection.h">
+      <Filter>DataModels\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
