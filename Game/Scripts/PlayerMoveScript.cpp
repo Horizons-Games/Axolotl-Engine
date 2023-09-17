@@ -181,11 +181,6 @@ void PlayerMoveScript::Move(float deltaTime)
 
 void PlayerMoveScript::MoveRotate(float deltaTime)
 {
-	if (playerManager->GetPlayerState() == PlayerActions::DASHING)
-	{
-		return;
-	}
-
 	// Look at enemy selected while attacking
 	AttackType currentAttack = playerAttackScript->GetCurrentAttackType();
 	GameObject* enemyGO = playerAttackScript->GetEnemyDetected();
@@ -275,8 +270,8 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 		componentAnimation->SetParameter("IsRunning", false);
 		playerManager->SetPlayerState(PlayerActions::DASHING);
 
-		JoystickHorizontalDirection horizontalDirection = input->GetRightJoystickDirection().horizontalMovement;
-		JoystickVerticalDirection verticalDirection = input->GetRightJoystickDirection().verticalMovement;
+		JoystickHorizontalDirection horizontalDirection = input->GetLeftJoystickDirection().horizontalMovement;
+		JoystickVerticalDirection verticalDirection = input->GetLeftJoystickDirection().verticalMovement;
 
 		if (horizontalDirection == JoystickHorizontalDirection::RIGHT) {
 			dashDirection += cameraFrustum.WorldRight().Normalized();
