@@ -45,6 +45,8 @@ private:
 
 	btVector3 rigidBodyVec3;
 
+	float3 positionPlayer;
+
 	bool isChangingPlayer;
 	bool isNewPlayerEnabled;
 };
