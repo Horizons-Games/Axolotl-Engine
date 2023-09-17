@@ -375,7 +375,7 @@ void ModuleInput::Rumble(Uint16 intensityLeft, Uint16 intensityRight, Uint32 dur
 	{
 		if (SDL_GameControllerRumble(controller, intensityLeft, intensityRight, durationMs) != 0)
 		{
-			LOG_ERROR("Error on controller rumble");
+			LOG_ERROR("Error on controller rumble: {}", SDL_GetError());
 		}
 	}
 }
