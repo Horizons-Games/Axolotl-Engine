@@ -96,6 +96,10 @@ Cubemap* ComponentSkybox::GetCubemap()
 {
 	if (cubemap == nullptr)
 	{
+		if (!skyboxRes->IsLoaded())
+		{
+			skyboxRes->Load();
+		}
 		cubemap = std::make_unique<Cubemap>(skyboxRes->GetGlTexture());
 	}
 	return cubemap.get();
