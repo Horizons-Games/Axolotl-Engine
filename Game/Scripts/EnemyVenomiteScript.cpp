@@ -53,13 +53,14 @@ void EnemyVenomiteScript::Start()
 	aiMovement = owner->GetComponent<AIMovement>();
 	deathScript = owner->GetComponent<EnemyDeathScript>();
 
-	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
 
 	enemyDetectionTime = 0.0f;
 }
 
 void EnemyVenomiteScript::Update(float deltaTime)
 {
+	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
+
 	if (stunned)
 	{
 		if (timeStunned < 0)

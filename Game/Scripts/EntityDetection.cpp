@@ -12,6 +12,8 @@
 #include "GameObject/GameObject.h"
 #include "../Scripts/EnemyClass.h"
 
+#include "ModulePlayer.h"
+
 #include "../Scripts/HealthSystem.h"
 
 #include "debugdraw.h"
@@ -26,7 +28,6 @@ EntityDetection::EntityDetection() : Script(), input(nullptr), rigidBody(nullptr
 interactionAngle(50.0f), playerTransform(nullptr), enemySelected(nullptr), interactionOffset(1.0f),
 angleThresholdEnemyIntersection(1.0f)
 {
-	REGISTER_FIELD(player, GameObject*);
 	REGISTER_FIELD(interactionAngle, float);
 	REGISTER_FIELD(interactionOffset, float);
 	REGISTER_FIELD(angleThresholdEnemyIntersection, float);
@@ -34,6 +35,7 @@ angleThresholdEnemyIntersection(1.0f)
 
 void EntityDetection::Start()
 {
+	player = App->GetModule<ModulePlayer>()->GetPlayer();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	playerTransform = player->GetComponent<ComponentTransform>();
 
@@ -42,6 +44,7 @@ void EntityDetection::Start()
 
 void EntityDetection::UpdateEnemyDetection(float distanceFilter)
 {
+	player = App->GetModule<ModulePlayer>()->GetPlayer();
 	rigidBody->UpdateRigidBody();
 
 	vecForward = playerTransform->GetGlobalForward();
