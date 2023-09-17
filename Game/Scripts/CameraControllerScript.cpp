@@ -43,7 +43,7 @@ void CameraControllerScript::Start()
 	transform = owner->GetComponent<ComponentTransform>();
 	camera = GetOwner()->GetComponentInternal<ComponentCamera>();
 
-	playerTransform = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentTransform>(); // Temporaly assign this instead of a player, SwitchPlayerManagerScript will sent the current player to ChangeCurrentPlayer()
+	playerTransform = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentTransform>(); 
 
 	finalTargetPosition = transform->GetGlobalPosition();
 	finalTargetOrientation = transform->GetGlobalRotation();
