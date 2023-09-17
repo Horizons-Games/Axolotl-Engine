@@ -36,6 +36,7 @@
 #include <set>
 
 #include "AxoLog.h"
+#include "Defines/AxoTodo.h"
 
 REGISTERCLASS(PlayerAttackScript);
 
@@ -363,7 +364,7 @@ void PlayerAttackScript::UpdateJumpAttack()
 	}
 	else 
 	{
-		//TODO Add Alura Checks
+		AXO_TODO("Add Allura Checks")
 		landed = true;
 	}
 
