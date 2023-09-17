@@ -105,8 +105,9 @@
                             "lightType": "LightType_Directional",
                             "shadow_bias_X": 0.09989999979734421,
                             "shadow_bias_Y": 0.004999999888241291,
-                            "z_near_offset": -47.5,
-                            "bleeding_amount": 0.5249999761581421
+                            "z_near_offset": -50.0,
+                            "bleeding_amount": 0.41499999165534973,
+                            "lambda": 0.8500000238418579
                         }
                     }
                 ]
@@ -397,7 +398,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 17.76262092590332,
-                            "localPos_Y": 6.530893325805664,
+                            "localPos_Y": 6.2302446365356445,
                             "localPos_Z": 35.467529296875,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,

@@ -21,19 +21,22 @@
 
 #include "debugdraw.h"
 
+#define DEFAULT_SHADOW_BIAS_X 0.0999f
+#define DEFAULT_SHADOW_BIAS_Y 0.005f
 #define DEFAULT_ZNEAR_OFFSET -50.0f
 #define DEFAULT_BLEEDING_AMOUNT 0.415f
+#define DEFAULT_LAMBDA 0.85f
 
 ComponentDirLight::ComponentDirLight() : ComponentLight(LightType::DIRECTIONAL, false)
 {
-	shadowBias = float2(0.0999f, 0.005f);
+	shadowBias = float2(DEFAULT_SHADOW_BIAS_X, DEFAULT_SHADOW_BIAS_Y);
 	zNearFrustumOffset = DEFAULT_ZNEAR_OFFSET;
 	bleedingAmount = DEFAULT_BLEEDING_AMOUNT;
 }
 
 ComponentDirLight::ComponentDirLight(GameObject* parent) : ComponentLight(LightType::DIRECTIONAL, parent, false)
 {
-	shadowBias = float2(0.0999f, 0.005f);
+	shadowBias = float2(DEFAULT_SHADOW_BIAS_X, DEFAULT_SHADOW_BIAS_Y);
 	zNearFrustumOffset = DEFAULT_ZNEAR_OFFSET;
 	bleedingAmount = DEFAULT_BLEEDING_AMOUNT;
 }
@@ -41,7 +44,7 @@ ComponentDirLight::ComponentDirLight(GameObject* parent) : ComponentLight(LightT
 ComponentDirLight::ComponentDirLight(const float3& color, float intensity) :
 	ComponentLight(LightType::DIRECTIONAL, color, intensity, false)
 {
-	shadowBias = float2(0.0999f, 0.005f);
+	shadowBias = float2(DEFAULT_SHADOW_BIAS_X, DEFAULT_SHADOW_BIAS_Y);
 	zNearFrustumOffset = DEFAULT_ZNEAR_OFFSET;
 	bleedingAmount = DEFAULT_BLEEDING_AMOUNT;
 }
@@ -49,7 +52,7 @@ ComponentDirLight::ComponentDirLight(const float3& color, float intensity) :
 ComponentDirLight::ComponentDirLight(const float3& color, float intensity, GameObject* parent) :
 	ComponentLight(LightType::DIRECTIONAL, color, intensity, parent, false)
 {
-	shadowBias = float2(0.0999f, 0.005f);
+	shadowBias = float2(DEFAULT_SHADOW_BIAS_X, DEFAULT_SHADOW_BIAS_Y);
 	zNearFrustumOffset = DEFAULT_ZNEAR_OFFSET;
 	bleedingAmount = DEFAULT_BLEEDING_AMOUNT;
 }
@@ -142,6 +145,7 @@ void ComponentDirLight::InternalSave(Json& meta)
 	meta["shadow_bias_Y"] = static_cast<float>(shadowBias.y);
 	meta["z_near_offset"] = zNearFrustumOffset;
 	meta["bleeding_amount"] = bleedingAmount;
+	meta["lambda"] = lambda;
 }
 
 void ComponentDirLight::InternalLoad(const Json& meta)
@@ -158,4 +162,23 @@ void ComponentDirLight::InternalLoad(const Json& meta)
 	shadowBias.y = static_cast<float>(meta["shadow_bias_Y"]);
 	zNearFrustumOffset = static_cast<float>(meta["z_near_offset"]);
 	bleedingAmount = static_cast<float>(meta["bleeding_amount"]);
+	lambda = static_cast<float>(meta["lambda"]);
+
+	if (shadowBias.x == NULL)
+	{
+		shadowBias.x = DEFAULT_SHADOW_BIAS_X;
+		shadowBias.y = DEFAULT_SHADOW_BIAS_Y;
+	}
+	if (zNearFrustumOffset == NULL)
+	{
+		zNearFrustumOffset = DEFAULT_ZNEAR_OFFSET;
+	}
+	if (bleedingAmount == NULL)
+	{
+		bleedingAmount = DEFAULT_BLEEDING_AMOUNT;
+	}
+	if (lambda == NULL)
+	{
+		lambda = DEFAULT_LAMBDA;
+	}
 }

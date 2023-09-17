@@ -29,8 +29,6 @@
 
 #include "debugdraw.h"
 
-#define LAMBDA 0.85f
-
 Shadows::Shadows()
 {
 	shadowMapBuffer = 0;
@@ -60,8 +58,6 @@ Shadows::Shadows()
 	useShadows = true;
 	useVarianceShadowMapping = true;
 	useCSMDebug = false;
-
-	lambda = LAMBDA;
 }
 
 Shadows::~Shadows()
@@ -362,7 +358,8 @@ void Shadows::RenderShadowMap(const GameObject* light, const float2& minMax, Cam
 		App->GetModule<ModuleScene>()->GetLoadedScene()->ObtainObjectsInFrustum(&frustum);
 
 	// Calculate sub frustum
-	LogarithmicPartition(cameraFrustum);
+	float lambda = static_cast<ComponentDirLight*>(light->GetComponentInternal<ComponentLight>())->GetLambda();
+	PracticalPartition(cameraFrustum, lambda);
 
 	for (int i = 0; i <= FRUSTUM_PARTITIONS; ++i)
 	{
@@ -461,7 +458,7 @@ void Shadows::GaussianBlur()
 	glPopDebugGroup();
 }
 
-void Shadows::LogarithmicPartition(Frustum* frustum)
+void Shadows::PracticalPartition(Frustum* frustum, float lambda)
 {
 	float nearPlane = frustum->NearPlaneDistance();
 	float farPlane = frustum->FarPlaneDistance();

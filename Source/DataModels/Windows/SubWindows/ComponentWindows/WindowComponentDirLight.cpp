@@ -81,8 +81,7 @@ void WindowComponentDirLight::DrawWindowContents()
 				App->GetModule<ModuleScene>()->GetLoadedScene()->RenderDirectionalLight();
 			}
 
-			Shadows* shadows = App->GetModule<ModuleRender>()->GetShadows();
-			float lambda = shadows->GetLambda();
+			float lambda = asDirLight->GetLambda();
 
 			ImGui::Text("Shadow frustum lambda:");
 			ImGui::SameLine();
@@ -98,7 +97,7 @@ void WindowComponentDirLight::DrawWindowContents()
 					lambda = 0.001f;
 				}
 
-				shadows->SetLambda(lambda);
+				asDirLight->SetLambda(lambda);
 			};
 
 			float offset = asDirLight->GetZNearOffset();
