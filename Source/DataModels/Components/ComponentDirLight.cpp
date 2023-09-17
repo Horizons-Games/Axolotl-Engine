@@ -32,6 +32,7 @@ ComponentDirLight::ComponentDirLight() : ComponentLight(LightType::DIRECTIONAL, 
 	shadowBias = float2(DEFAULT_SHADOW_BIAS_X, DEFAULT_SHADOW_BIAS_Y);
 	zNearFrustumOffset = DEFAULT_ZNEAR_OFFSET;
 	bleedingAmount = DEFAULT_BLEEDING_AMOUNT;
+	lambda = DEFAULT_LAMBDA;
 }
 
 ComponentDirLight::ComponentDirLight(GameObject* parent) : ComponentLight(LightType::DIRECTIONAL, parent, false)
@@ -39,6 +40,7 @@ ComponentDirLight::ComponentDirLight(GameObject* parent) : ComponentLight(LightT
 	shadowBias = float2(DEFAULT_SHADOW_BIAS_X, DEFAULT_SHADOW_BIAS_Y);
 	zNearFrustumOffset = DEFAULT_ZNEAR_OFFSET;
 	bleedingAmount = DEFAULT_BLEEDING_AMOUNT;
+	lambda = DEFAULT_LAMBDA;
 }
 
 ComponentDirLight::ComponentDirLight(const float3& color, float intensity) :
@@ -47,6 +49,7 @@ ComponentDirLight::ComponentDirLight(const float3& color, float intensity) :
 	shadowBias = float2(DEFAULT_SHADOW_BIAS_X, DEFAULT_SHADOW_BIAS_Y);
 	zNearFrustumOffset = DEFAULT_ZNEAR_OFFSET;
 	bleedingAmount = DEFAULT_BLEEDING_AMOUNT;
+	lambda = DEFAULT_LAMBDA;
 }
 
 ComponentDirLight::ComponentDirLight(const float3& color, float intensity, GameObject* parent) :
@@ -55,6 +58,7 @@ ComponentDirLight::ComponentDirLight(const float3& color, float intensity, GameO
 	shadowBias = float2(DEFAULT_SHADOW_BIAS_X, DEFAULT_SHADOW_BIAS_Y);
 	zNearFrustumOffset = DEFAULT_ZNEAR_OFFSET;
 	bleedingAmount = DEFAULT_BLEEDING_AMOUNT;
+	lambda = DEFAULT_LAMBDA;
 }
 
 ComponentDirLight::~ComponentDirLight()
