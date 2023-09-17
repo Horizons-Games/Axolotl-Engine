@@ -1,6 +1,7 @@
 #include "CameraControllerScript.h"
 
 #include "ModuleInput.h"
+#include "ModulePlayer.h"
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentCamera.h"
@@ -8,6 +9,8 @@
 #include "Components/ComponentCameraSample.h"
 
 #include "Camera/CameraGameObject.h"
+
+#include "Application.h"
 
 REGISTERCLASS(CameraControllerScript);
 
@@ -40,7 +43,7 @@ void CameraControllerScript::Start()
 	transform = owner->GetComponent<ComponentTransform>();
 	camera = GetOwner()->GetComponentInternal<ComponentCamera>();
 
-	playerTransform = samplePointsObject->GetComponent<ComponentTransform>(); // Temporaly assign this instead of a player, SwitchPlayerManagerScript will sent the current player to ChangeCurrentPlayer()
+	playerTransform = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentTransform>(); // Temporaly assign this instead of a player, SwitchPlayerManagerScript will sent the current player to ChangeCurrentPlayer()
 
 	finalTargetPosition = transform->GetGlobalPosition();
 	finalTargetOrientation = transform->GetGlobalRotation();
