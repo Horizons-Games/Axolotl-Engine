@@ -30,8 +30,6 @@ void WindowComponentSkybox::DrawWindowContents()
 						->GetAssetsPath()
 						.c_str());
 	}
-	skyboxInput->DrawWindowContents();
-
 	bool useCubemap = sky->GetUseCubeMap();
 	ImGui::Text("Use this as Cubemap: ");
 	ImGui::SameLine();

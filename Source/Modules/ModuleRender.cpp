@@ -937,7 +937,6 @@ void ModuleRender::BindCubemapToProgram(Program* program)
 	ComponentSkybox* sky = App->GetModule<ModuleScene>()->GetLoadedScene()
 		->GetRoot()->GetComponentInternal<ComponentSkybox>();
 
-	Cubemap* cubemap = App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap();
 	if (sky->GetUseCubeMap())
 	{
 		Cubemap* skyCubemap = sky->GetCubemap();

@@ -4,11 +4,8 @@
 #include "Auxiliar/Generics/Updatable.h"
 #include "FileSystem/UID.h"
 
-
 class ResourceSkyBox;
-class Skybox;
 class Cubemap;
-
 
 class ComponentSkybox : public Component, public Drawable
 {
@@ -21,9 +18,6 @@ public:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
-	void SignalEnable() override;
-	void SignalDisable() override;
-
 	std::shared_ptr<ResourceSkyBox> GetSkyboxResource() const;
 	void SetSkyboxResource(std::shared_ptr<ResourceSkyBox> resource);
 	Cubemap* GetCubemap();
@@ -33,9 +27,8 @@ public:
 
 private:
 	std::shared_ptr<ResourceSkyBox> skyboxRes;
-	bool enable;
 
-	Cubemap* cubemap;
+	std::unique_ptr<Cubemap> cubemap;
 
 	bool useCubemap;
 };

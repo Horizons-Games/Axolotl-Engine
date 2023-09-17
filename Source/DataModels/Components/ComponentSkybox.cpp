@@ -17,7 +17,6 @@
 
 ComponentSkybox::ComponentSkybox(bool active, GameObject* owner) : 
 	Component(ComponentType::SKYBOX, active, owner, true), useCubemap(false)
-	enable(true)
 {
 }
 
@@ -27,7 +26,7 @@ ComponentSkybox::~ComponentSkybox()
 
 void ComponentSkybox::Draw() const
 {
-	if (enable)
+	if (IsEnabled())
 	{
 		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SKYBOX);
 		if (program && skyboxRes)
@@ -64,7 +63,6 @@ void ComponentSkybox::InternalSave(Json& meta)
 {
 	Json jsonSkybox = meta["Skybox"];
 	jsonSkybox["useCubemap"] = useCubemap;
-	jsonSkybox["enable"] = this->enable;
 	jsonSkybox["skyboxUID"] = skyboxRes->GetUID();
 	jsonSkybox["skyboxAssetPath"] = skyboxRes->GetAssetsPath().c_str();
 }
@@ -73,7 +71,6 @@ void ComponentSkybox::InternalLoad(const Json& meta)
 {
 	Json jsonSkybox = meta["Skybox"];
 	useCubemap = jsonSkybox["useCubemap"];
-	this->enable = jsonSkybox["enable"];
 	UID resUID = jsonSkybox["skyboxUID"];
 	std::string resPath = jsonSkybox["skyboxAssetPath"];
 
@@ -82,30 +79,23 @@ void ComponentSkybox::InternalLoad(const Json& meta)
 #else
 	skyboxRes = App->GetModule<ModuleResources>()->SearchResource<ResourceSkyBox>(resUID);
 #endif // ENGINE
-}
-
-void ComponentSkybox::SignalEnable()
-{
-	enable = true;
-}
-
-void ComponentSkybox::SignalDisable()
-{
-	enable = false;
+	skyboxRes->Load();
+	cubemap = std::make_unique<Cubemap>(skyboxRes->GetGlTexture());
 }
 
 std::shared_ptr<ResourceSkyBox> ComponentSkybox::GetSkyboxResource() const
 {
-	cubemap = new Cubemap(skybox->GetSkyboxResource()->GetGlTexture());
 	return skyboxRes;
 }
 
 void ComponentSkybox::SetSkyboxResource(std::shared_ptr<ResourceSkyBox> resource)
 {
-	this->skyboxRes = resource;
+	skyboxRes = resource;
+	skyboxRes->Load();
+	cubemap = std::make_unique<Cubemap>(skyboxRes->GetGlTexture());
 }
 
 Cubemap* ComponentSkybox::GetCubemap()
 {
-	return cubemap;
+	return cubemap.get();
 }
