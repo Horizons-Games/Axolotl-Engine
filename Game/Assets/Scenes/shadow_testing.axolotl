@@ -79,9 +79,9 @@
                             "localPos_X": 0.0,
                             "localPos_Y": 7.625,
                             "localPos_Z": 0.0,
-                            "localRot_X": 126.94322204589844,
-                            "localRot_Y": -16.57082176208496,
-                            "localRot_Z": -20.769535064697266,
+                            "localRot_X": 132.1837158203125,
+                            "localRot_Y": -15.10535717010498,
+                            "localRot_Z": -12.155052185058594,
                             "localSca_X": 1.0,
                             "localSca_Y": 1.0,
                             "localSca_Z": 1.0,
@@ -102,7 +102,11 @@
                             "color_light_Y": 1.0,
                             "color_light_Z": 1.0,
                             "intensity": 1.0,
-                            "lightType": "LightType_Directional"
+                            "lightType": "LightType_Directional",
+                            "shadow_bias_X": 0.09989999979734421,
+                            "shadow_bias_Y": 0.004999999888241291,
+                            "z_near_offset": -47.5,
+                            "bleeding_amount": 0.5249999761581421
                         }
                     }
                 ]
@@ -531,5 +535,9 @@
     "Cubemap": {
         "cubemapUID": 992078593789236745,
         "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
+    },
+    "NavMesh": {
+        "navMeshUID": 0,
+        "assetPathNavMesh": ""
     }
 }

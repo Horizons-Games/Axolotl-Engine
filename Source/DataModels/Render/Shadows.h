@@ -4,7 +4,7 @@
 
 #define GAUSSIAN_BLUR_SHADOW_MAP 2
 
-#define FRUSTUM_PARTITIONS 1
+#define FRUSTUM_PARTITIONS 2
 
 class Camera;
 class GBuffer;

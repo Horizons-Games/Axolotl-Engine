@@ -67,9 +67,14 @@ void WindowComponentDirLight::DrawWindowContents()
 				modified = true;
 			}
 
+			float2 shadowBias = asDirLight->GetShadowBias();
+
 			ImGui::Text("Bias");
 			ImGui::SameLine();
-			ImGui::DragFloat2("##bias", &asDirLight->shadowBias[0], 0.00001f, 0.0f, 0.0f, "%.5f");
+			if (ImGui::DragFloat2("##bias", &shadowBias[0], 0.00001f, 0.0f, 0.0f, "%.5f"))
+			{
+				asDirLight->SetShadowBias(shadowBias);
+			}
 
 			if (modified)
 			{
@@ -82,9 +87,56 @@ void WindowComponentDirLight::DrawWindowContents()
 			ImGui::Text("Shadow frustum lambda:");
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(math::Max(50.0f, ImGui::GetContentRegionAvail().x - 20.0f));
-			if (ImGui::DragFloat("##lambda", &lambda, 0.001, 0.001f, 0.999f, "%.3f", ImGuiSliderFlags_NoInput))
+			if (ImGui::DragFloat("##lambda", &lambda, 0.001f, 0.001f, 0.999f, "%.3f"))
 			{
+				if (lambda >= 1.0f)
+				{
+					lambda = 0.999f;
+				}
+				else if (lambda <= 0.0f)
+				{
+					lambda = 0.001f;
+				}
+
 				shadows->SetLambda(lambda);
+			};
+
+			float offset = asDirLight->GetZNearOffset();
+
+			ImGui::Text("Z near frustum offset:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(math::Max(50.0f, ImGui::GetContentRegionAvail().x - 20.0f));
+			if (ImGui::DragFloat("##zOffset", &offset, 0.1f, -100.0f, 0.0f, "%.3f"))
+			{
+				if (offset < -100.0f)
+				{
+					offset = -100.0f;
+				}
+				else if (offset > 0.0f)
+				{
+					offset = 0.0f;
+				}
+
+				asDirLight->SetZNearOffset(offset);
+			};
+
+			float amount = asDirLight->GetBleedingAmount();
+
+			ImGui::Text("Reduced bleeding amount:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(math::Max(50.0f, ImGui::GetContentRegionAvail().x - 20.0f));
+			if (ImGui::DragFloat("##amount", &amount, 0.001f, 0.0f, 1.0f, "%.3f"))
+			{
+				if (amount > 1.0f)
+				{
+					amount = 1.0f;
+				}
+				else if (amount < 0.0f)
+				{
+					amount = 0.0f;
+				}
+
+				asDirLight->SetBleedingAmount(amount);
 			};
 
 			if (modified)

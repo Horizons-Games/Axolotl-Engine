@@ -6,7 +6,7 @@
 
 #include "/Common/Structs/lights.glsl"
 
-#define CASCADES 2
+#define CASCADES 3
 
 layout(binding = 0) uniform sampler2D gPosition;
 layout(binding = 1) uniform sampler2D gNormal;
@@ -78,6 +78,7 @@ uniform mat4 cameraViewMatrix;
 // Shadow Mapping
 uniform float minBias;
 uniform float maxBias;
+uniform float amount;
 uniform int useShadows;
 uniform int useVSM;
 uniform int useSSAO;
@@ -355,7 +356,7 @@ float ChebyshevUpperBound(vec4 posFromLight, int layer)
 	float p_max = variance / (variance + d*d);
 	
     // Reduce light bleeding
-    p_max = ReduceLightBleeding(p_max, 0.595);
+    p_max = ReduceLightBleeding(p_max, amount);
 
 	return p_max;
 }

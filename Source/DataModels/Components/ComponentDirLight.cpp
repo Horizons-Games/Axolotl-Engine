@@ -21,26 +21,37 @@
 
 #include "debugdraw.h"
 
+#define DEFAULT_ZNEAR_OFFSET -50.0f
+#define DEFAULT_BLEEDING_AMOUNT 0.415f
+
 ComponentDirLight::ComponentDirLight() : ComponentLight(LightType::DIRECTIONAL, false)
 {
 	shadowBias = float2(0.0999f, 0.005f);
+	zNearFrustumOffset = DEFAULT_ZNEAR_OFFSET;
+	bleedingAmount = DEFAULT_BLEEDING_AMOUNT;
 }
 
 ComponentDirLight::ComponentDirLight(GameObject* parent) : ComponentLight(LightType::DIRECTIONAL, parent, false)
 {
 	shadowBias = float2(0.0999f, 0.005f);
+	zNearFrustumOffset = DEFAULT_ZNEAR_OFFSET;
+	bleedingAmount = DEFAULT_BLEEDING_AMOUNT;
 }
 
 ComponentDirLight::ComponentDirLight(const float3& color, float intensity) :
 	ComponentLight(LightType::DIRECTIONAL, color, intensity, false)
 {
 	shadowBias = float2(0.0999f, 0.005f);
+	zNearFrustumOffset = DEFAULT_ZNEAR_OFFSET;
+	bleedingAmount = DEFAULT_BLEEDING_AMOUNT;
 }
 
 ComponentDirLight::ComponentDirLight(const float3& color, float intensity, GameObject* parent) :
 	ComponentLight(LightType::DIRECTIONAL, color, intensity, parent, false)
 {
 	shadowBias = float2(0.0999f, 0.005f);
+	zNearFrustumOffset = DEFAULT_ZNEAR_OFFSET;
+	bleedingAmount = DEFAULT_BLEEDING_AMOUNT;
 }
 
 ComponentDirLight::~ComponentDirLight()
@@ -119,22 +130,32 @@ void ComponentDirLight::OnTransformChanged()
 
 void ComponentDirLight::InternalSave(Json& meta)
 {
-	meta["color_light_X"] = (float) color.x;
-	meta["color_light_Y"] = (float) color.y;
-	meta["color_light_Z"] = (float) color.z;
+	meta["color_light_X"] = static_cast<float>(color.x);
+	meta["color_light_Y"] = static_cast<float>(color.y);
+	meta["color_light_Z"] = static_cast<float>(color.z);
 
-	meta["intensity"] = (float) intensity;
+	meta["intensity"] = intensity;
 
 	meta["lightType"] = GetNameByLightType(lightType).c_str();
+
+	meta["shadow_bias_X"] = static_cast<float>(shadowBias.x);
+	meta["shadow_bias_Y"] = static_cast<float>(shadowBias.y);
+	meta["z_near_offset"] = zNearFrustumOffset;
+	meta["bleeding_amount"] = bleedingAmount;
 }
 
 void ComponentDirLight::InternalLoad(const Json& meta)
 {
-	color.x = (float) meta["color_light_X"];
-	color.y = (float) meta["color_light_Y"];
-	color.z = (float) meta["color_light_Z"];
+	color.x = static_cast<float>(meta["color_light_X"]);
+	color.y = static_cast<float>(meta["color_light_Y"]);
+	color.z = static_cast<float>(meta["color_light_Z"]);
 
-	intensity = (float) meta["intensity"];
+	intensity = static_cast<float>(meta["intensity"]);
 
 	lightType = GetLightTypeByName(meta["lightType"]);
+
+	shadowBias.x = static_cast<float>(meta["shadow_bias_X"]);
+	shadowBias.y = static_cast<float>(meta["shadow_bias_Y"]);
+	zNearFrustumOffset = static_cast<float>(meta["z_near_offset"]);
+	bleedingAmount = static_cast<float>(meta["bleeding_amount"]);
 }
