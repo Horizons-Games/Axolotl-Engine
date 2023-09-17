@@ -936,6 +936,10 @@ void GeometryBatch::BindBatch(std::vector<GameObject*>& objects)
 		component->UpdatePalette();
 
 		ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh());
+		if (resourceInfo == nullptr)
+		{
+			continue;
+		}
 		std::shared_ptr<ResourceMesh> resource = resourceInfo->resourceMesh;
 
 		// find position in components vector
