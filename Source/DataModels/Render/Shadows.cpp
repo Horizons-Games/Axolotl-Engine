@@ -10,6 +10,7 @@
 
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentDirLight.h"
 
 #include "GameObject/GameObject.h"
 
@@ -27,8 +28,6 @@
 #include "Scene/Scene.h"
 
 #include "debugdraw.h"
-
-#define LAMBDA 0.85f
 
 Shadows::Shadows()
 {
@@ -59,8 +58,6 @@ Shadows::Shadows()
 	useShadows = true;
 	useVarianceShadowMapping = true;
 	useCSMDebug = false;
-
-	lambda = LAMBDA;
 }
 
 Shadows::~Shadows()
@@ -361,7 +358,8 @@ void Shadows::RenderShadowMap(const GameObject* light, const float2& minMax, Cam
 		App->GetModule<ModuleScene>()->GetLoadedScene()->ObtainObjectsInFrustum(&frustum);
 
 	// Calculate sub frustum
-	LogarithmicPartition(cameraFrustum);
+	float lambda = static_cast<ComponentDirLight*>(light->GetComponentInternal<ComponentLight>())->GetLambda();
+	PracticalPartition(cameraFrustum, lambda);
 
 	for (int i = 0; i <= FRUSTUM_PARTITIONS; ++i)
 	{
@@ -386,8 +384,12 @@ void Shadows::RenderShadowMap(const GameObject* light, const float2& minMax, Cam
 	glBindBuffer(GL_UNIFORM_BUFFER, uboFrustums);
 	glBufferData(GL_UNIFORM_BUFFER, sizeof(LightSpaceMatrices), &frustumMatrices, GL_STATIC_DRAW);
 
+	//glCullFace(GL_BACK);
+
 	ModuleRender* render = App->GetModule<ModuleRender>();
 	render->GetBatchManager()->DrawMeshes(objectsInFrustum, float3(frustum.Pos()));
+
+	//glCullFace(GL_FRONT);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
@@ -456,7 +458,7 @@ void Shadows::GaussianBlur()
 	glPopDebugGroup();
 }
 
-void Shadows::LogarithmicPartition(Frustum* frustum)
+void Shadows::PracticalPartition(Frustum* frustum, float lambda)
 {
 	float nearPlane = frustum->NearPlaneDistance();
 	float farPlane = frustum->FarPlaneDistance();
@@ -525,6 +527,8 @@ Frustum& Shadows::ComputeLightFrustum(const GameObject* light, Frustum* cameraFr
 
 	const ComponentTransform* lightTransform = light->GetComponent<ComponentTransform>();
 	const float3& lightPos = lightTransform->GetGlobalPosition();
+	float zNearOffset = static_cast<ComponentDirLight*>(
+		light->GetComponentInternal<ComponentLight>())->GetZNearOffset();
 
 	float3 lightFront = lightTransform->GetGlobalForward();
 	float3 lightRight = Cross(lightFront, float3(0.0f, 1.0f, 0.0f)).Normalized();
@@ -533,7 +537,7 @@ Frustum& Shadows::ComputeLightFrustum(const GameObject* light, Frustum* cameraFr
 	frustum.SetPos(sphereCenter - lightFront * sphereRadius);
 	frustum.SetFront(lightFront);
 	frustum.SetUp(lifghtUp);
-	frustum.SetViewPlaneDistances(0.0f, sphereRadius * 2.0f);
+	frustum.SetViewPlaneDistances(zNearOffset, sphereRadius * 2.0f);
 	frustum.SetOrthographic(sphereRadius * 2.0f, sphereRadius * 2.0f);
 
 	//dd::frustum(cameraFrustum->ViewProjMatrix().Inverted(), dd::colors::Yellow);
