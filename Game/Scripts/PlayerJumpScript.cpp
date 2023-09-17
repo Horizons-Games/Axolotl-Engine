@@ -124,26 +124,26 @@ void PlayerJumpScript::Jump(float deltaTime)
 		float3 direction = float3::zero;
 
 		if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN &&
-			(isGrounded || (canDoubleJump && playerManager->GetPlayerState() == PlayerActions::JUMPING)))
+			((isGrounded && componentAnimation->GetActualStateName() != "Landing") ||
+				(canDoubleJump && playerManager->GetPlayerState() == PlayerActions::JUMPING)))
 		{
 			btVector3 velocity = btRigidbody->getLinearVelocity();
 			velocity.setY(0.0f);
 			btRigidbody->setLinearVelocity(velocity);
 			btRigidbody->applyCentralImpulse(movement.normalized() * jumpParameter);
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-			playerManager->SetPlayerState(PlayerActions::JUMPING);
-			
-			if (isGrounded)
+			if (playerManager->GetPlayerState() == PlayerActions::JUMPING)
 			{
-				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::JUMP);
-				componentAnimation->SetParameter("IsJumping", true);
-			}
-			else
-			{
+				playerManager->SetPlayerState(PlayerActions::DOUBLEJUMPING);
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DOUBLE_JUMP);
 				componentAnimation->SetParameter("IsJumping", false);
 				componentAnimation->SetParameter("IsDoubleJumping", true);
-				playerManager->SetPlayerState(PlayerActions::DOUBLEJUMPING);
+			}
+			else
+			{
+				playerManager->SetPlayerState(PlayerActions::JUMPING);
+				componentAnimation->SetParameter("IsJumping", true);
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::JUMP);
 			}
 
 			componentAnimation->SetParameter("IsGrounded", false);
