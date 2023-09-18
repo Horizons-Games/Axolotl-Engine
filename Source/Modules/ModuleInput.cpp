@@ -371,7 +371,7 @@ void ModuleInput::Rumble(RumbleIntensity intensityLeft, RumbleIntensity intensit
 {
 	SDL_GameController* controller = FindController();
 	
-	const std::unordered_map<RumbleIntensity, Uint16> rumbleIntensityMap({
+	static const std::unordered_map<RumbleIntensity, Uint16> rumbleIntensityMap({
 		{ RumbleIntensity::LOW, 8192 },
 		{ RumbleIntensity::NORMAL, 16384 },
 		{ RumbleIntensity::HIGH, 24576 },
@@ -379,7 +379,7 @@ void ModuleInput::Rumble(RumbleIntensity intensityLeft, RumbleIntensity intensit
 
 	});
 
-	const std::unordered_map<RumbleDuration, Uint16> rumbleDurationMap({
+	static const std::unordered_map<RumbleDuration, Uint16> rumbleDurationMap({
 		{ RumbleDuration::SHORT, 125 },
 		{ RumbleDuration::NORMAL, 250 },
 		{ RumbleDuration::LONG, 500 },
