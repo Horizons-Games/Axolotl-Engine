@@ -117,6 +117,48 @@ void LightAttackBullet::StartMoving()
 			forward.z) * velocity);
 }
 
+//Function to reposition the bullet to the front of the player before shooting
+void LightAttackBullet::RepositionBullet(GameObject* shooterObject, GameObject* enemyAttacked)
+{
+	ComponentTransform* shooterTransform = shooterObject->GetComponent<ComponentTransform>();
+	ComponentTransform* bulletTransform = owner->GetComponent<ComponentTransform>();
+	float3 currentForward = bulletTransform->GetGlobalForward().Normalized();
+	float3 desiredForward;
+	float3 height = float3(0.0f, 1.0f, 0.0f);
+	// Create a new bullet
+	if (enemyAttacked)
+	{
+		desiredForward = (enemyAttacked->GetComponent<ComponentTransform>()->
+			GetGlobalPosition() - shooterTransform->GetGlobalPosition()).Normalized();
+
+		bulletTransform->SetGlobalPosition(shooterTransform->GetGlobalPosition() + height
+			+ (desiredForward).Normalized());
+
+		float angle = Quat::FromEulerXYZ(currentForward.x, currentForward.y, currentForward.z).
+			AngleBetween(Quat::FromEulerXYZ(desiredForward.x, desiredForward.y, desiredForward.z));
+		angle = math::Abs(math::RadToDeg(angle));
+
+		bulletTransform->SetGlobalRotation(bulletTransform->GetGlobalRotation().LookAt(currentForward, desiredForward,
+			float3::unitZ, float3::unitY));
+	}
+	else
+	{
+		desiredForward = shooterTransform->GetGlobalForward();
+		bulletTransform->SetGlobalPosition(shooterTransform->GetGlobalPosition() + height
+			+ (desiredForward).Normalized());
+
+		float angle = Quat::FromEulerXYZ(currentForward.x, currentForward.y, currentForward.z).
+			AngleBetween(Quat::FromEulerXYZ(desiredForward.x, desiredForward.y, desiredForward.z));
+		angle = math::Abs(math::RadToDeg(angle));
+
+		bulletTransform->SetGlobalRotation(bulletTransform->GetGlobalRotation().LookAt(currentForward, desiredForward,
+			float3::unitZ, float3::unitY));
+	}
+
+	bulletTransform->RecalculateLocalMatrix();
+	bulletTransform->UpdateTransformMatrices();
+}
+
 
 void LightAttackBullet::SetStunTime(float nStunTime)
 {

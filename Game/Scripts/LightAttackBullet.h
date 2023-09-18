@@ -20,6 +20,7 @@ public:
 	void SetEnemy(GameObject* nEnemy);
 	void SetDamage(float nDamageAttack);
 	void StartMoving();
+	void RepositionBullet(GameObject* shooterObject, GameObject* enemyAttacked);
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;

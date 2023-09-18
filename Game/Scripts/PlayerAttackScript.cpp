@@ -317,42 +317,7 @@ void PlayerAttackScript::HeavyNormalAttack()
 
 void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDamage)
 {
-	ComponentTransform* bulletTransform = bulletPrefab->GetComponent<ComponentTransform>();
-	float3 currentForward = bulletTransform->GetGlobalForward().Normalized();
-	float3 desiredForward;
-	float3 height = float3(0.0f, 1.0f, 0.0f);
-	// Create a new bullet
-	if (enemyDetection->GetEnemySelected())
-	{
-		desiredForward = (enemyDetection->GetEnemySelected()->GetComponent<ComponentTransform>()->
-			GetGlobalPosition() - transform->GetGlobalPosition()).Normalized();
-
-		bulletTransform->SetGlobalPosition(transform->GetGlobalPosition() + height
-			+ (desiredForward).Normalized());
-		
-		float angle = Quat::FromEulerXYZ(currentForward.x, currentForward.y, currentForward.z).
-			AngleBetween(Quat::FromEulerXYZ(desiredForward.x, desiredForward.y, desiredForward.z));
-		angle = math::Abs(math::RadToDeg(angle));
-
-		bulletTransform->SetGlobalRotation(bulletTransform->GetGlobalRotation().LookAt(currentForward, desiredForward,
-			float3::unitZ, float3::unitY));
-	}
-	else
-	{
-		desiredForward = transform->GetGlobalForward();
-		bulletTransform->SetGlobalPosition(transform->GetGlobalPosition() + height
-			+ (desiredForward).Normalized());
-
-		float angle = Quat::FromEulerXYZ(currentForward.x, currentForward.y, currentForward.z).
-			AngleBetween(Quat::FromEulerXYZ(desiredForward.x, desiredForward.y, desiredForward.z));
-		angle = math::Abs(math::RadToDeg(angle));
-
-		bulletTransform->SetGlobalRotation(bulletTransform->GetGlobalRotation().LookAt(currentForward, desiredForward,
-			float3::unitZ, float3::unitY));
-	}
-
-	bulletTransform->RecalculateLocalMatrix();
-	bulletTransform->UpdateTransformMatrices();
+	bulletPrefab->GetComponent<LightAttackBullet>()->RepositionBullet(owner, enemyAttacked);
 
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
 	

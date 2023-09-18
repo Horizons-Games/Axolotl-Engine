@@ -36,9 +36,12 @@ void LightFinisherAttackScript::Start()
 
 void LightFinisherAttackScript::ThrowStunItem()
 {
+	bulletPrefab->GetComponent<LightAttackBullet>()->RepositionBullet(owner, enemyDetection->GetEnemySelected());
 	// Create a new bullet
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
 
-	bullet->GetComponent<LightAttackBullet>()->SetEnemy(enemyDetection->GetEnemySelected());
-	bullet->GetComponent<LightAttackBullet>()->SetStunTime(stunTime);
+	LightAttackBullet* ligthAttackBulletScript = bullet->GetComponent<LightAttackBullet>();
+	ligthAttackBulletScript->SetEnemy(enemyDetection->GetEnemySelected());
+	ligthAttackBulletScript->SetStunTime(stunTime);
+	ligthAttackBulletScript->StartMoving();
 }
