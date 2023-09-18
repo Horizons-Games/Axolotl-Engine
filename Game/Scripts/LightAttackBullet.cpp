@@ -12,6 +12,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentLine.h"
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/EnemyClass.h"
@@ -198,6 +199,10 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 		//rigidBody->SetIsTrigger(true);
 		owner->GetComponent<ComponentMeshRenderer>()->Disable();
 		particleSystem->Play();
+		if (owner->HasComponent<ComponentLine>())
+		{
+			owner->GetComponent<ComponentLine>()->Disable();
+		}
 		triggerParticleSystemTimer = true;
 	}
 
@@ -217,6 +222,7 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 
 void LightAttackBullet::DestroyBullet()
 {
+	
 	App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(particleSystem);
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }

@@ -28243,7 +28243,7 @@
                             "fields": [
                                 {
                                     "name": "ParticleSystemTimer",
-                                    "value": 5.0,
+                                    "value": 0.4000000059604645,
                                     "type": 0
                                 },
                                 {
@@ -32792,7 +32792,7 @@
         },
         {
             "GameObject": {
-                "name": "Empty GameObject",
+                "name": "LineEndPoint",
                 "tag": "",
                 "uid": 13022250074597301446,
                 "parentUID": 4693107166099443850,
