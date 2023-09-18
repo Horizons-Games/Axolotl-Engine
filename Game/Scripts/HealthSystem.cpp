@@ -111,7 +111,7 @@ void HealthSystem::TakeDamage(float damage)
 			currentHealth -= actualDamage;
 
 			ModuleInput* input = App->GetModule<ModuleInput>();
-			input->Rumble(16384, 16384, 250);
+			input->Rumble();
 
 			if (currentHealth - damage <= 0)
 			{

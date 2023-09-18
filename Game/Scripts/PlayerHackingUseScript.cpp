@@ -202,7 +202,7 @@ void PlayerHackingUseScript::RestartHack()
 	}
 
 	PrintCombination();
-	input->Rumble(16384, 16384, 250);
+	input->Rumble();
 	LOG_DEBUG("hacking is restarted");
 }
 

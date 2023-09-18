@@ -22,7 +22,9 @@ ModuleInput::ModuleInput() :
 	mouseMotion(float2::zero),
 	mousePosX(0),
 	mousePosY(0),
-	direction{ JoystickHorizontalDirection::NONE, JoystickVerticalDirection::NONE }
+	direction{ JoystickHorizontalDirection::NONE, JoystickVerticalDirection::NONE },
+	rumbleIntensityMap(defaultRumbleIntensityMap),
+	rumbleDurationMap(defaultRumbleDurationMap)
 {
 }
 
@@ -367,15 +369,33 @@ bool ModuleInput::CleanUp()
 	return true;
 }
 
-void ModuleInput::Rumble(Uint16 intensityLeft, Uint16 intensityRight, Uint32 durationMs) const
+void ModuleInput::Rumble(RumbleIntensity intensityLeft, RumbleIntensity intensityRight, RumbleDuration durationMs) const
 {
 	SDL_GameController* controller = FindController();
 
 	if (controller != nullptr)
 	{
-		if (SDL_GameControllerRumble(controller, intensityLeft, intensityRight, durationMs) != 0)
+		auto leftIt = rumbleIntensityMap.find(intensityLeft);
+		auto rightIt = rumbleIntensityMap.find(intensityRight);
+		auto durationIt = rumbleDurationMap.find(durationMs);
+
+		if (leftIt != rumbleIntensityMap.end() && rightIt != rumbleIntensityMap.end() &&
+			durationIt != rumbleDurationMap.end())
 		{
-			LOG_ERROR("Error on controller rumble: {}", SDL_GetError());
+			if (SDL_GameControllerRumble(controller, leftIt->second, rightIt->second, durationIt->second) != 0)
+			{
+				LOG_ERROR("Error on controller rumble: {}", SDL_GetError());
+			}
 		}
 	}
+}
+
+void ModuleInput::Rumble(RumbleIntensity intensity, RumbleDuration durationMs) const
+{
+	Rumble(intensity, intensity, durationMs);
+}
+
+void ModuleInput::Rumble() const
+{
+	Rumble(RumbleIntensity::NORMAL, RumbleIntensity::NORMAL, RumbleDuration::NORMAL);
 }

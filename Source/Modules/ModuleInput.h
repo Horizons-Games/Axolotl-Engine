@@ -2,12 +2,49 @@
 #include "Math/float2.h"
 #include "Module.h"
 #include "SDL.h"
+#include <map>
 
 #define NUM_MOUSEBUTTONS 5
 #define BMP_FREELOOKSURFACE "Assets/MouseCursors/freeLook.bmp"
 #define BMP_ORBITSURFACE "Assets/MouseCursors/orbit.bmp"
 #define BMP_MOVESURFACE "Assets/MouseCursors/move.bmp"
 #define BMP_ZOOMSURFACE "Assets/MouseCursors/zoom.bmp"
+
+
+namespace
+{
+
+enum class RumbleIntensity
+{
+	LOW,
+	NORMAL,
+	HIGH,
+	HIGHEST
+};
+
+enum class RumbleDuration
+{
+	SHORT,
+	NORMAL,
+	LONG,
+	LONGER,
+};
+
+const std::map<RumbleIntensity, Uint16> defaultRumbleIntensityMap({
+	{ RumbleIntensity::LOW, 8192 },
+	{ RumbleIntensity::NORMAL, 16384 },
+	{ RumbleIntensity::HIGH, 24576 },
+	{ RumbleIntensity::HIGHEST, 32767 },
+});
+
+const std::map<RumbleDuration, Uint16> defaultRumbleDurationMap({
+	{ RumbleDuration::SHORT, 125 },
+	{ RumbleDuration::NORMAL, 250 },
+	{ RumbleDuration::LONG, 500 },
+	{ RumbleDuration::LONGER, 1000 },
+});
+
+} // namespace
 
 enum class KeyState
 {
@@ -72,7 +109,11 @@ public:
 
 	JoystickMovement GetDirection() const;
 
-	void Rumble(Uint16 intensityLeft, Uint16 intensityRight, Uint32 durationMs) const;
+	void Rumble(RumbleIntensity intensityLeft, RumbleIntensity intensityRight, RumbleDuration durationMs) const;
+	// Overload with same intensity on both sides
+	void Rumble(RumbleIntensity intensity, RumbleDuration durationMs) const;
+	// Overload for default Rumble
+	void Rumble() const;
 
 	float2 GetMouseMotion() const;
 	float2 GetMouseWheel() const;
@@ -99,7 +140,10 @@ private:
 	KeyState keysState[SDL_NUM_SCANCODES] = { KeyState::IDLE };
 	KeyState mouseButtonState[NUM_MOUSEBUTTONS] = { KeyState::IDLE };
 	KeyState gamepadState[SDL_CONTROLLER_BUTTON_MAX] = { KeyState::IDLE };
-
+	
+	const std::map<RumbleIntensity, Uint16> rumbleIntensityMap;
+	const std::map<RumbleDuration, Uint16> rumbleDurationMap;
+	
 	float2 mouseWheel;
 	float2 mouseMotion;
 
