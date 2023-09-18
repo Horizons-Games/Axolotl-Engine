@@ -53,6 +53,8 @@ private:
 	GameObject* hudCanvasObject;
 	GameObject* sliderHudHealthBixFront;
 	GameObject* sliderHudHealthBixBack;
+	GameObject* sliderHudHealthAlluraFront;
+	GameObject* sliderHudHealthAlluraBack;
 
 	GameObject* healPwrUpObject;
 	GameObject* attackPwrUpObject;
@@ -61,8 +63,8 @@ private:
 
 	ComponentPlayer* player;
 	ModuleInput* input;
-	ComponentSlider* componentSliderBixFront;
-	ComponentSlider* componentSliderBixBack;
+	ComponentSlider* componentSliderPlayerFront;
+	ComponentSlider* componentSliderPlayerBack;
 	ComponentSlider* componentSliderAlluraFront;
 	ComponentSlider* componentSliderAlluraBack;
 	ComponentSlider* componentSliderHealPwrUp;

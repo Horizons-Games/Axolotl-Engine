@@ -15,12 +15,14 @@ REGISTERCLASS(UIGameManager);
 UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), player(nullptr), menuIsOpen(false),
 hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr),
 speedPwrUpObject(nullptr), pwrUpActive(false), savePwrUp(PowerUpType::NONE), sliderHudHealthBixFront(nullptr), 
-sliderHudHealthBixBack(nullptr), keyState(KeyState::IDLE)
+sliderHudHealthBixBack(nullptr), sliderHudHealthAlluraFront(nullptr), sliderHudHealthAlluraBack(nullptr), keyState(KeyState::IDLE)
 {
 	REGISTER_FIELD(mainMenuObject, GameObject*);
 	REGISTER_FIELD(hudCanvasObject, GameObject*);
 	REGISTER_FIELD(sliderHudHealthBixFront, GameObject*);
 	REGISTER_FIELD(sliderHudHealthBixBack, GameObject*);
+	REGISTER_FIELD(sliderHudHealthAlluraFront, GameObject*);
+	REGISTER_FIELD(sliderHudHealthAlluraBack, GameObject*);
 
 	REGISTER_FIELD(healPwrUpObject, GameObject*);
 	REGISTER_FIELD(attackPwrUpObject, GameObject*);
@@ -30,14 +32,17 @@ sliderHudHealthBixBack(nullptr), keyState(KeyState::IDLE)
 
 void UIGameManager::Start()
 {
-	player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();
+	if (App->GetModule<ModulePlayer>()->GetPlayer()->GetName() == "PrefabAllura")
+	{
+		player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();
 	
-	healthSystemClass = player->GetOwner()->GetComponent<HealthSystem>();
+		healthSystemClass = player->GetOwner()->GetComponent<HealthSystem>();
 
-	componentSliderBixFront = sliderHudHealthBixFront->GetComponent<ComponentSlider>();
-	componentSliderBixBack = sliderHudHealthBixBack->GetComponent<ComponentSlider>();
-	componentSliderBixFront->SetMaxValue(healthSystemClass->GetMaxHealth());
-	componentSliderBixBack->SetMaxValue(healthSystemClass->GetMaxHealth());
+		componentSliderPlayerFront = sliderHudHealthBixFront->GetComponent<ComponentSlider>();
+		componentSliderPlayerBack = sliderHudHealthBixBack->GetComponent<ComponentSlider>();
+		componentSliderPlayerFront->SetMaxValue(healthSystemClass->GetMaxHealth());
+		componentSliderPlayerBack->SetMaxValue(healthSystemClass->GetMaxHealth());
+	}
 
 
 }
@@ -58,8 +63,8 @@ void UIGameManager::Update(float deltaTime)
 
 	keyState = input->GetKey(SDL_SCANCODE_ESCAPE);
 
-	if (healthSystemClass->GetCurrentHealth()!= componentSliderBixBack->GetCurrentValue() 
-		|| healthSystemClass->GetCurrentHealth() != componentSliderBixFront->GetCurrentValue())
+	if (healthSystemClass->GetCurrentHealth()!= componentSliderPlayerBack->GetCurrentValue()
+		|| healthSystemClass->GetCurrentHealth() != componentSliderPlayerFront->GetCurrentValue())
 	{
 		ModifySliderHealthValue();
 	}
@@ -187,18 +192,18 @@ void UIGameManager::DisableUIPwrUP()
 void UIGameManager::ModifySliderHealthValue()
 {
 	// We use 2 slider to do a effect in the health bar
-	damage = healthSystemClass->GetCurrentHealth() - componentSliderBixFront->GetCurrentValue();
-	damageBack = healthSystemClass->GetCurrentHealth() - componentSliderBixBack->GetCurrentValue();
+	damage = healthSystemClass->GetCurrentHealth() - componentSliderPlayerFront->GetCurrentValue();
+	damageBack = healthSystemClass->GetCurrentHealth() - componentSliderPlayerBack->GetCurrentValue();
 
 	if (damageBack <= 0.0f && damage <= 0.0f)
 	{
-		componentSliderBixBack->ModifyCurrentValue(componentSliderBixBack->GetCurrentValue() + std::max(damageBack, -0.1f));
-		componentSliderBixFront->ModifyCurrentValue(componentSliderBixFront->GetCurrentValue() + std::max(damage, -0.4f));
+		componentSliderPlayerBack->ModifyCurrentValue(componentSliderPlayerBack->GetCurrentValue() + std::max(damageBack, -0.1f));
+		componentSliderPlayerFront->ModifyCurrentValue(componentSliderPlayerFront->GetCurrentValue() + std::max(damage, -0.4f));
 	}
 	else
 	{
-		componentSliderBixBack->ModifyCurrentValue(componentSliderBixBack->GetCurrentValue() + std::min(damageBack, 0.4f));
-		componentSliderBixFront->ModifyCurrentValue(componentSliderBixFront->GetCurrentValue() + std::min(damage, 0.2f));
+		componentSliderPlayerBack->ModifyCurrentValue(componentSliderPlayerBack->GetCurrentValue() + std::min(damageBack, 0.4f));
+		componentSliderPlayerFront->ModifyCurrentValue(componentSliderPlayerFront->GetCurrentValue() + std::min(damage, 0.2f));
 	}
 }
 
