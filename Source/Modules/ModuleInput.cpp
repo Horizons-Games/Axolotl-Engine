@@ -19,7 +19,7 @@
 
 namespace
 {
-const std::map<SDL_GameControllerButton, std::variant<SDL_Scancode, Uint8>> gamepadMapping = {
+const std::unordered_map<SDL_GameControllerButton, std::variant<SDL_Scancode, Uint8>> gamepadMapping = {
 	{ SDL_CONTROLLER_BUTTON_A, SDL_SCANCODE_SPACE },
 	{ SDL_CONTROLLER_BUTTON_B, SDL_SCANCODE_E },
 	{ SDL_CONTROLLER_BUTTON_X, static_cast<Uint8>(SDL_BUTTON_LEFT) },
