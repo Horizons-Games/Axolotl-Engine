@@ -193,6 +193,11 @@ void HeavyFinisherAttack::PerformHeavyFinisher(ComponentTransform* target, Compo
 	mesh->Enable();
 	rigidBody->Disable();
 
+	if (mesh->HasComponent<ComponentParticleSystem>())
+	{
+		mesh->GetComponent<ComponentParticleSystem>()->Play();
+	}
+
 	owner->SetParent(loadedScene->GetRoot());
 
 	isReturningToOwner = false;
