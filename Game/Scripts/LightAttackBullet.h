@@ -19,6 +19,7 @@ public:
 	void SetStunTime(float nStunTime);
 	void SetEnemy(GameObject* nEnemy);
 	void SetDamage(float nDamageAttack);
+	void StartMoving();
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;

@@ -49,19 +49,7 @@ void LightAttackBullet::Start()
 
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 
-	rigidBody->Enable();
-	rigidBody->SetDefaultPosition();
-	rigidBody->SetUseRotationController(true);
-
-	float3 forward = parentTransform->GetGlobalForward();
-	forward.Normalize();
-
-	btRigidBody* btRb = rigidBody->GetRigidBody();
-	btRb->setLinearVelocity(
-		btVector3(
-			forward.x,
-			0,
-			forward.z) * velocity);
+	
 
 
 	particleSystem = owner->GetComponent<ComponentParticleSystem>();
@@ -111,6 +99,25 @@ void LightAttackBullet::Update(float deltaTime)
 	}
 }
 
+
+void LightAttackBullet::StartMoving()
+{
+	rigidBody->Enable();
+	rigidBody->SetDefaultPosition();
+	rigidBody->SetUseRotationController(true);
+
+	float3 forward = parentTransform->GetGlobalForward();
+	forward.Normalize();
+
+	btRigidBody* btRb = rigidBody->GetRigidBody();
+	btRb->setLinearVelocity(
+		btVector3(
+			forward.x,
+			0,
+			forward.z) * velocity);
+}
+
+
 void LightAttackBullet::SetStunTime(float nStunTime)
 {
 	stunTime = nStunTime;
@@ -146,7 +153,7 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 		other->GetOwner()->GetComponent<EnemyClass>()->SetStunnedTime(stunTime);
 
 		// Disable the visuals and the rigidbody while the particles are being played
-		rigidBody->SetIsTrigger(true);
+		//rigidBody->SetIsTrigger(true);
 		owner->GetComponent<ComponentMeshRenderer>()->Disable();
 		particleSystem->Play();
 		triggerParticleSystemTimer = true;
