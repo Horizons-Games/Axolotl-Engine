@@ -10,9 +10,6 @@
 #define BMP_MOVESURFACE "Assets/MouseCursors/move.bmp"
 #define BMP_ZOOMSURFACE "Assets/MouseCursors/zoom.bmp"
 
-
-namespace
-{
 enum class RumbleIntensity
 {
 	LOW,
@@ -20,6 +17,7 @@ enum class RumbleIntensity
 	HIGH,
 	HIGHEST
 };
+
 enum class RumbleDuration
 {
 	SHORT,
@@ -27,20 +25,6 @@ enum class RumbleDuration
 	LONG,
 	LONGER,
 };
-
-const std::map<RumbleIntensity, Uint16> defaultRumbleIntensityMap({
-	{ RumbleIntensity::LOW, 8192 },
-	{ RumbleIntensity::NORMAL, 16384 },
-	{ RumbleIntensity::HIGH, 24576 },
-	{ RumbleIntensity::HIGHEST, 32767 },
-});
-const std::map<RumbleDuration, Uint16> defaultRumbleDurationMap({
-	{ RumbleDuration::SHORT, 125 },
-	{ RumbleDuration::NORMAL, 250 },
-	{ RumbleDuration::LONG, 500 },
-	{ RumbleDuration::LONGER, 1000 },
-});
-} // namespace
 
 enum class KeyState
 {
@@ -136,9 +120,6 @@ private:
 	KeyState keysState[SDL_NUM_SCANCODES] = { KeyState::IDLE };
 	KeyState mouseButtonState[NUM_MOUSEBUTTONS] = { KeyState::IDLE };
 	KeyState gamepadState[SDL_CONTROLLER_BUTTON_MAX] = { KeyState::IDLE };
-	
-	const std::map<RumbleIntensity, Uint16> rumbleIntensityMap;
-	const std::map<RumbleDuration, Uint16> rumbleDurationMap;
 	
 	float2 mouseWheel;
 	float2 mouseMotion;

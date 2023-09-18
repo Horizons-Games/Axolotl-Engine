@@ -22,9 +22,7 @@ ModuleInput::ModuleInput() :
 	mouseMotion(float2::zero),
 	mousePosX(0),
 	mousePosY(0),
-	direction{ JoystickHorizontalDirection::NONE, JoystickVerticalDirection::NONE },
-	rumbleIntensityMap(defaultRumbleIntensityMap),
-	rumbleDurationMap(defaultRumbleDurationMap)
+	direction{ JoystickHorizontalDirection::NONE, JoystickVerticalDirection::NONE }
 {
 }
 
@@ -372,6 +370,21 @@ bool ModuleInput::CleanUp()
 void ModuleInput::Rumble(RumbleIntensity intensityLeft, RumbleIntensity intensityRight, RumbleDuration durationMs) const
 {
 	SDL_GameController* controller = FindController();
+	
+	const std::unordered_map<RumbleIntensity, Uint16> rumbleIntensityMap({
+		{ RumbleIntensity::LOW, 8192 },
+		{ RumbleIntensity::NORMAL, 16384 },
+		{ RumbleIntensity::HIGH, 24576 },
+		{ RumbleIntensity::HIGHEST, 32767 },
+
+	});
+
+	const std::unordered_map<RumbleDuration, Uint16> rumbleDurationMap({
+		{ RumbleDuration::SHORT, 125 },
+		{ RumbleDuration::NORMAL, 250 },
+		{ RumbleDuration::LONG, 500 },
+		{ RumbleDuration::LONGER, 1000 },
+	});
 
 	if (controller != nullptr)
 	{
