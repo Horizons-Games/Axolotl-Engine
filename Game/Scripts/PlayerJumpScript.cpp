@@ -105,8 +105,6 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 		{
 			isGrounded = false;
 			componentAnimation->SetParameter("IsGrounded", false);
-			componentAnimation->SetParameter("IsJumping", false);
-			componentAnimation->SetParameter("IsDoubleJumping", false);
 		}
 	}
 }
