@@ -1787,18 +1787,14 @@ void Scene::InitCubemap()
 
 void Scene::InitLocalsIBL()
 {
-	App->ScheduleTask(
-		[this]()
+	for (GameObject* child : sceneGameObjects)
+	{
+		ComponentLight* component = child->GetComponentInternal<ComponentLight>();
+		if (component && component->GetLightType() == LightType::LOCAL_IBL)
 		{
-			for (GameObject* child : sceneGameObjects)
-			{
-				ComponentLight* component = child->GetComponentInternal<ComponentLight>();
-				if (component && component->GetLightType() == LightType::LOCAL_IBL)
-				{
-					static_cast<ComponentLocalIBL*>(component)->GenerateMaps();
-				}
-			}
-		});
+			static_cast<ComponentLocalIBL*>(component)->GenerateMaps();
+		}
+	}
 }
 
 std::vector<float> Scene::GetVertices()
