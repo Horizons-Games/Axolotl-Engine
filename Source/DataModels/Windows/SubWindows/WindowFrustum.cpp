@@ -63,7 +63,7 @@ void WindowFrustum::DrawWindowContents()
 	if (ImGui::SliderInt("Quadrant capacity", &quadrantCapacity, 1, 100, "%d", ImGuiSliderFlags_AlwaysClamp))
 	{
 		rootQuadtree->SetQuadrantCapacity(quadrantCapacity);
-		AXO_TODO("save values for future executions")
+		AXO_TODO("Save values for future executions")
 	}
 
 	float minQuadrantSideSize = rootQuadtree->GetMinQuadrantSideSize();
@@ -71,6 +71,6 @@ void WindowFrustum::DrawWindowContents()
 			"Minimum quadrant side size", &minQuadrantSideSize, 50.0, 500.0, "%.0f", ImGuiSliderFlags_AlwaysClamp))
 	{
 		rootQuadtree->SetMinQuadrantSideSize(minQuadrantSideSize);
-		AXO_TODO("save values for future executions")
+		AXO_TODO("Save values for future executions")
 	}
 }

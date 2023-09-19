@@ -10,7 +10,7 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
-#include "PlayerManagerScript.h";
+#include "PlayerManagerScript.h"
 #include "PlayerMoveScript.h"
 #include "PlayerJumpScript.h"
 #include "PlayerAttackScript.h"
@@ -65,7 +65,7 @@ void ElevatorCore::Update(float deltaTime)
 	{
 		ComponentTransform* transform = elevator->GetComponentInternal<ComponentTransform>();
 		float3 pos = transform->GetGlobalPosition();
-		pos.y -= 0.1;
+		pos.y -= 0.1f;
 		transform->SetGlobalPosition(pos);
 
 		transform->RecalculateLocalMatrix();
