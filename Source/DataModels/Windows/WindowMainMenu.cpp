@@ -112,9 +112,13 @@ void WindowMainMenu::DrawPopup()
 		if (ImGui::Button("Save scene", ImVec2(120, 0)))
 		{
 			if (filePathName != "New Scene")
+			{
 				scene->SaveScene(filePathName + SCENE_EXTENSION);
+			}
 			else
+			{
 				isSaving = true;
+			}
 			ImGui::CloseCurrentPopup();
 			openPopup = false;
 		}
