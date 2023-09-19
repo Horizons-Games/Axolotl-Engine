@@ -49,6 +49,7 @@ ModuleInput::ModuleInput() :
 	mouseMotion(float2::zero),
 	mousePosX(0),
 	mousePosY(0),
+	controllerDir(float3::zero),
 	direction{ JoystickHorizontalDirection::NONE, JoystickVerticalDirection::NONE }
 {
 }
@@ -261,6 +262,7 @@ UpdateStatus ModuleInput::PreUpdate()
 					axisValue = sdlEvent.caxis.value;
 					if (axis == SDL_CONTROLLER_AXIS_LEFTX)
 					{
+						controllerDir.x = axisValue;
 						if (axisValue > 3200)
 						{
 							direction.horizontalMovement = JoystickHorizontalDirection::RIGHT;
@@ -268,6 +270,7 @@ UpdateStatus ModuleInput::PreUpdate()
 						}
 						else if (axisValue < -3200)
 						{
+
 							direction.horizontalMovement = JoystickHorizontalDirection::LEFT;
 							inputMethod = InputMethod::GAMEPAD;
 						}
@@ -279,6 +282,7 @@ UpdateStatus ModuleInput::PreUpdate()
 
 					if (axis == SDL_CONTROLLER_AXIS_LEFTY)
 					{
+						controllerDir.z = axisValue;
 						if (axisValue < -3200)
 						{
 							direction.verticalMovement = JoystickVerticalDirection::FORWARD;

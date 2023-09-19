@@ -92,33 +92,51 @@ void PlayerMoveScript::Move(float deltaTime)
 		return;
 	}
 
+	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD && 
+		(input->GetDirection().verticalMovement != JoystickVerticalDirection::NONE
+			|| input->GetDirection().horizontalMovement != JoystickHorizontalDirection::NONE))
+	{
+		cameraFrustum = *camera->GetFrustum();
+		float3 front = 
+			float3(cameraFrustum.Front().Normalized().x, 0, cameraFrustum.Front().Normalized().z);
+
+		float angle = math::Acos(input->GetControllerDir().Dot(float3(0, 0, -1)));
+
+		if (input->GetControllerDir().x < 0) //x decided horizontal axis
+		{
+			angle = -angle;
+		}
+
+		float x, z ;
+		x = (front.x * math::Cos(angle)) - (front.z * math::Sin(angle));
+		z = (front.x * math::Sin(angle)) + (front.z * math::Cos(angle));
+
+		totalDirection += float3(x, 0, z);
+	}
+
 	// Forward
-	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE ||
-		input->GetDirection().verticalMovement == JoystickVerticalDirection::FORWARD)
+	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
 	{
 		totalDirection += cameraFrustum.Front().Normalized();
 		currentMovements |= MovementFlag::W_DOWN;
 	}
 
 	// Back
-	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE ||
-		input->GetDirection().verticalMovement == JoystickVerticalDirection::BACK)
+	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
 	{
 		totalDirection -= cameraFrustum.Front().Normalized();
 		currentMovements |= MovementFlag::S_DOWN;
 	}
 
 	// Right
-	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE ||
-		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::RIGHT)
+	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
 	{
 		totalDirection += cameraFrustum.WorldRight().Normalized();
 		currentMovements |= MovementFlag::D_DOWN;
 	}
 
 	// Left
-	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE ||
-		input->GetDirection().horizontalMovement == JoystickHorizontalDirection::LEFT)
+	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
 	{
 		totalDirection -= cameraFrustum.WorldRight().Normalized();
 		currentMovements |= MovementFlag::A_DOWN;

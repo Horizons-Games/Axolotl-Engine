@@ -71,6 +71,7 @@ public:
 	float2 GetMouseMotion() const;
 	float2 GetMouseWheel() const;
 	float2 GetMousePosition() const;
+	float3 GetControllerDir() const;
 	bool GetInFocus() const;
 
 	void SetMousePositionX(int mouseX);
@@ -96,6 +97,7 @@ private:
 
 	float2 mouseWheel;
 	float2 mouseMotion;
+	float3 controllerDir;
 
 	int mousePosX;
 	int mousePosY;
@@ -270,4 +272,9 @@ inline Sint16 ModuleInput::GetJoystickAxisValue() const
 inline InputMethod ModuleInput::GetCurrentInputMethod() const
 {
 	return inputMethod;
+}
+
+inline float3 ModuleInput::GetControllerDir() const
+{
+	return controllerDir.Normalized();
 }
