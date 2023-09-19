@@ -49,8 +49,8 @@ ModuleInput::ModuleInput() :
 	mouseMotion(float2::zero),
 	mousePosX(0),
 	mousePosY(0),
-	controllerDir(float3::zero),
-	direction{ JoystickHorizontalDirection::NONE, JoystickVerticalDirection::NONE }
+	joystickMovement({ 0, 0 }),
+	joystickDirection { JoystickHorizontalDirection::NONE, JoystickVerticalDirection::NONE }
 {
 }
 
@@ -259,43 +259,46 @@ UpdateStatus ModuleInput::PreUpdate()
 				if (controller)
 				{
 					axis = static_cast<SDL_GameControllerAxis>(sdlEvent.caxis.axis);
-					axisValue = sdlEvent.caxis.value;
+					Sint16 axisValue = sdlEvent.caxis.value;
 					if (axis == SDL_CONTROLLER_AXIS_LEFTX)
 					{
-						controllerDir.x = axisValue;
 						if (axisValue > 3200)
 						{
-							direction.horizontalMovement = JoystickHorizontalDirection::RIGHT;
+							joystickMovement.horizontalMovement = axisValue;
+							joystickDirection.horizontalDirection = JoystickHorizontalDirection::RIGHT;
 							inputMethod = InputMethod::GAMEPAD;
 						}
 						else if (axisValue < -3200)
 						{
-
-							direction.horizontalMovement = JoystickHorizontalDirection::LEFT;
+							joystickMovement.horizontalMovement = axisValue;
+							joystickDirection.horizontalDirection = JoystickHorizontalDirection::LEFT;
 							inputMethod = InputMethod::GAMEPAD;
 						}
 						else
 						{
-							direction.horizontalMovement = JoystickHorizontalDirection::NONE;
+							joystickMovement.horizontalMovement = 0;
+							joystickDirection.horizontalDirection = JoystickHorizontalDirection::NONE;
 						}
 					}
 
 					if (axis == SDL_CONTROLLER_AXIS_LEFTY)
 					{
-						controllerDir.z = axisValue;
 						if (axisValue < -3200)
 						{
-							direction.verticalMovement = JoystickVerticalDirection::FORWARD;
+							joystickMovement.verticalMovement = axisValue;
+							joystickDirection.verticalDirection = JoystickVerticalDirection::FORWARD;
 							inputMethod = InputMethod::GAMEPAD;
 						}
 						else if (axisValue > 3200)
 						{
-							direction.verticalMovement = JoystickVerticalDirection::BACK;
+							joystickMovement.verticalMovement = axisValue;
+							joystickDirection.verticalDirection = JoystickVerticalDirection::BACK;
 							inputMethod = InputMethod::GAMEPAD;
 						}
 						else
 						{
-							direction.verticalMovement = JoystickVerticalDirection::NONE;
+							joystickMovement.verticalMovement = 0;
+							joystickDirection.verticalDirection = JoystickVerticalDirection::NONE;
 						}
 					}
 				}

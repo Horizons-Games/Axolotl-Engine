@@ -37,10 +37,16 @@ enum class InputMethod
 	GAMEPAD
 };
 
+struct JoystickDirection
+{
+	JoystickHorizontalDirection horizontalDirection;
+	JoystickVerticalDirection verticalDirection;
+};
+
 struct JoystickMovement
 {
-	JoystickHorizontalDirection horizontalMovement;
-	JoystickVerticalDirection verticalMovement;
+	Sint16 horizontalMovement;
+	Sint16 verticalMovement;
 };
 
 class ModuleInput : public Module
@@ -55,7 +61,6 @@ public:
 	bool CleanUp() override;
 
 	SDL_GameControllerAxis GetJoystickAxis() const;
-	Sint16 GetJoystickAxisValue() const;
 
 	KeyState GetKey(int scanCode) const;
 	KeyState GetMouseButton(int mouseButton) const;
@@ -65,13 +70,12 @@ public:
 	
 	SDL_GameController* FindController();
 	SDL_JoystickID GetControllerInstanceID(SDL_GameController* controller) const;
-
-	JoystickMovement GetDirection() const;
+	JoystickDirection GetJoystickDirection() const;
+	JoystickMovement GetJoystickMovement() const;
 
 	float2 GetMouseMotion() const;
 	float2 GetMouseWheel() const;
 	float2 GetMousePosition() const;
-	float3 GetControllerDir() const;
 	bool GetInFocus() const;
 
 	void SetMousePositionX(int mouseX);
@@ -97,19 +101,18 @@ private:
 
 	float2 mouseWheel;
 	float2 mouseMotion;
-	float3 controllerDir;
-
 	int mousePosX;
 	int mousePosY;
 
-	JoystickMovement direction;
+	JoystickDirection joystickDirection;
+	JoystickMovement joystickMovement;
+
 	InputMethod inputMethod;
 
 	bool mouseWheelScrolled;
 	bool inFocus;
 
 	SDL_GameControllerAxis axis;
-	Sint16 axisValue;
 
 	struct SDLSurfaceDestroyer
 	{
@@ -254,9 +257,14 @@ inline KeyState ModuleInput::operator[](SDL_Scancode index)
 	return keysState[index];
 }
 
-inline JoystickMovement ModuleInput::GetDirection() const
+inline JoystickDirection ModuleInput::GetJoystickDirection() const
 {
-	return direction;
+	return joystickDirection;
+}
+
+inline JoystickMovement ModuleInput::GetJoystickMovement() const
+{
+	return joystickMovement;
 }
 
 inline SDL_GameControllerAxis ModuleInput::GetJoystickAxis() const
@@ -264,17 +272,8 @@ inline SDL_GameControllerAxis ModuleInput::GetJoystickAxis() const
 	return axis;
 }
 
-inline Sint16 ModuleInput::GetJoystickAxisValue() const
-{
-	return axisValue;
-}
-
 inline InputMethod ModuleInput::GetCurrentInputMethod() const
 {
 	return inputMethod;
 }
 
-inline float3 ModuleInput::GetControllerDir() const
-{
-	return controllerDir.Normalized();
-}

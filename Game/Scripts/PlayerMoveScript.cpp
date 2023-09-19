@@ -92,22 +92,24 @@ void PlayerMoveScript::Move(float deltaTime)
 		return;
 	}
 
-	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD && 
-		(input->GetDirection().verticalMovement != JoystickVerticalDirection::NONE
-			|| input->GetDirection().horizontalMovement != JoystickHorizontalDirection::NONE))
+	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD &&
+		(input->GetJoystickDirection().verticalDirection != JoystickVerticalDirection::NONE
+			|| input->GetJoystickDirection().horizontalDirection != JoystickHorizontalDirection::NONE))
 	{
 		cameraFrustum = *camera->GetFrustum();
-		float3 front = 
+		float3 front =
 			float3(cameraFrustum.Front().Normalized().x, 0, cameraFrustum.Front().Normalized().z);
+		
+		float3 joystickDirection = float3(input->GetJoystickMovement().horizontalMovement, 0.0f, input->GetJoystickMovement().verticalMovement).Normalized();
 
-		float angle = math::Acos(input->GetControllerDir().Dot(float3(0, 0, -1)));
+		float angle = math::Acos(joystickDirection.Dot(float3(0, 0, -1)));
 
-		if (input->GetControllerDir().x < 0) //x decided horizontal axis
+		if (joystickDirection.x < 0)
 		{
 			angle = -angle;
 		}
 
-		float x, z ;
+		float x, z;
 		x = (front.x * math::Cos(angle)) - (front.z * math::Sin(angle));
 		z = (front.x * math::Sin(angle)) + (front.z * math::Cos(angle));
 
