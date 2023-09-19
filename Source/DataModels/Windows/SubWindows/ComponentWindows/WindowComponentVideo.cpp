@@ -20,6 +20,7 @@ WindowComponentVideo::~WindowComponentVideo()
 
 void WindowComponentVideo::DrawWindowContents()
 {
+	DrawEnableAndDeleteComponent();
 	ComponentVideo* videoComponent = static_cast<ComponentVideo*>(component);
 	if (videoComponent->GetVideo() != nullptr)
 	{
