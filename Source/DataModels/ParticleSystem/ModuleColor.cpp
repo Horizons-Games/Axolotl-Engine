@@ -18,12 +18,14 @@ ModuleColor::ModuleColor(ParticleEmitter* emitter, ModuleColor* color) :
 {
 	initAlpha = color->GetInitAlpha();
 	endAlpha = color->GetEndAlpha();
-	gradient = color->GetGradient();
 	enabled = color->IsEnabled();
+
+	gradient = new ImGradient(color->GetGradient());
 }
 
 ModuleColor::~ModuleColor()
 {
+	delete gradient;
 }
 
 void ModuleColor::Spawn(EmitterInstance* instance)

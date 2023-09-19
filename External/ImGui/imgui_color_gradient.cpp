@@ -24,6 +24,14 @@ ImGradient::ImGradient(bool noMarks)
 {
 }
 
+ImGradient::ImGradient(ImGradient* copyGradient)
+{
+	for (ImGradientMark* mark : copyGradient->getMarks())
+	{
+		addMark(mark->position, ImColor(mark->color[0], mark->color[1], mark->color[2], mark->color[3]));
+	}
+}
+
 ImGradient::~ImGradient()
 {
 	for (ImGradientMark* mark : m_marks)

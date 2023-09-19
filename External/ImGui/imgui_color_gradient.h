@@ -61,7 +61,7 @@ class ImGradient
 {
 public:
     ImGradient();
-	ImGradient(bool noMarks);
+	ImGradient(ImGradient* CopyGradient);
     ~ImGradient();
     
     void getColorAt(float position, float* color) const;
