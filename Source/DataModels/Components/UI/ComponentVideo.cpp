@@ -372,3 +372,8 @@ void ComponentVideo::RestartVideo()
 	{
 	}
 }
+
+bool ComponentVideo::isPlayed()
+{
+	return played;
+}

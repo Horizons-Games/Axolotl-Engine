@@ -27,13 +27,13 @@ public:
 	void Draw() const override;
 	void Play();
 	void Pause();
-
+	void RestartVideo();
+	bool isPlayed();
 
 private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 	void OpenVideo(const char* filePath);
-	void RestartVideo();
 	std::shared_ptr<ResourceVideo> video;
 
 	AVFormatContext* formatCtx = nullptr;

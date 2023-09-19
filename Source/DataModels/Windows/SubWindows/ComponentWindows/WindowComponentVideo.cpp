@@ -25,7 +25,14 @@ void WindowComponentVideo::DrawWindowContents()
 	{
 		if (ImGui::ArrowButton("##Play", ImGuiDir_Right))
 		{
-			videoComponent->Play();
+			if (videoComponent->isPlayed())
+			{
+				videoComponent->RestartVideo();
+			}
+			else
+			{
+				videoComponent->Play();
+			}
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("||"))
