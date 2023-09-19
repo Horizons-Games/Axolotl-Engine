@@ -52,6 +52,15 @@ void ModuleRotation::Update(EmitterInstance* instance)
 	}
 }
 
+void ModuleRotation::CopyConfig(ParticleModule* module)
+{
+	ModuleRotation* rotation = static_cast<ModuleRotation*>(module);
+
+	enabled = rotation->IsEnabled();
+	random = rotation->IsRandom();
+	rotationOverTime = rotation->GetRotation();
+}
+
 void ModuleRotation::DrawImGui()
 {
 	if (ImGui::TreeNodeEx("Rotation Module", ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_FramePadding))

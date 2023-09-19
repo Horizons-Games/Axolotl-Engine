@@ -93,7 +93,7 @@ public:
 	template<typename C>
 	bool HasComponent() const;
 
-	Component* CreateComponentLight(LightType lightType, AreaType areaType);
+	Component* CreateComponentLight(LightType lightType, AreaType areaType, bool updateLights = true);
 
 	// This method returns true if and only if the GameObject is currently enabled
 	bool IsEnabled() const;

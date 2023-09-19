@@ -11,7 +11,7 @@
 
 #include "/Common/Structs/local_IBL.glsl"
 
-#define CASCADES 2
+#define CASCADES 3
 
 layout(binding = 0) uniform sampler2D gPosition;
 layout(binding = 1) uniform sampler2D gNormal;
@@ -89,6 +89,7 @@ uniform mat4 cameraViewMatrix;
 // Shadow Mapping
 uniform float minBias;
 uniform float maxBias;
+uniform float amount;
 uniform int useShadows;
 uniform int useVSM;
 uniform int useSSAO;
@@ -328,7 +329,7 @@ vec3 calculateLocalIBLs(vec3 N, vec3 R, float NdotV, vec3 Cd, vec3 f0, float rou
             float weight = min(closer.x, min(closer.y, closer.z));
             weight = weight * weight; // smoother than linear
             // evaluates diffuse and specular ibl and returns an ambient colour
-            vec3 newR = ParallaxCorrection(localPos, R, toLocal, maxParallax, minParallax);
+            vec3 newR = ParallaxCorrection(localPos, mat3(toLocal) * R, maxParallax, minParallax);
             color += GetAmbientLight(N, newR, NdotV, roughness, Cd, f0, diffuse, prefiltered, environmentBRDF, 
                 numLevels_IBL) * weight;
             totalWeight += weight;
@@ -374,6 +375,17 @@ float ShadowCalculation(vec4 posFromLight, vec3 normal, int layer)
     return shadow;
 }
 
+float linstep(float min, float max, float v) 
+{   
+    float value = (v - min) / (max - min);
+    return clamp(value, 0.0, 1.0); 
+} 
+    
+float ReduceLightBleeding(float p_max, float Amount) 
+{   // Remove the [0, Amount] tail and linearly rescale (Amount, 1].    
+    return linstep(Amount, 1, p_max); 
+}
+
 float ChebyshevUpperBound(vec4 posFromLight, int layer)
 {
     // perform perspective divide
@@ -390,11 +402,14 @@ float ChebyshevUpperBound(vec4 posFromLight, int layer)
 	// The fragment is either in shadow or penumbra. We now use chebyshev's upperBound to check
 	// How likely this pixel is to be lit (p_max)
 	float variance = moments.y - (moments.x*moments.x);
-	variance = max(variance,0.00002);
+	variance = max(variance, 0.00002);
 	
 	float d = projCoords.z - moments.x;
 	float p_max = variance / (variance + d*d);
 	
+    // Reduce light bleeding
+    p_max = ReduceLightBleeding(p_max, amount);
+
 	return p_max;
 }
 

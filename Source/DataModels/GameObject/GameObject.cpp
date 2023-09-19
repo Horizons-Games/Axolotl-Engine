@@ -163,7 +163,7 @@ void GameObject::Load(const Json& meta)
 		{
 			LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
 			AXO_TODO("look at this when implement metas")
-			CreateComponentLight(lightType, AreaType::NONE);
+			CreateComponentLight(lightType, AreaType::NONE, false);
 		}
 		else if (type == ComponentType::SCRIPT)
 		{
@@ -780,7 +780,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 	return nullptr;
 }
 
-Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaType)
+Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaType, bool updateLights)
 {
 	std::unique_ptr<Component> newComponent;
 
@@ -809,6 +809,12 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 	{
 		Component* referenceBeforeMove = newComponent.get();
 		components.push_back(std::move(newComponent));
+
+		if (!updateLights)
+		{
+			return referenceBeforeMove;
+		}
+
 		Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 		switch (lightType)
