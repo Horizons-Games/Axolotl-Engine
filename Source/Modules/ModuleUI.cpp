@@ -74,14 +74,14 @@ UpdateStatus ModuleUI::Update()
 	{
 		JoystickMovement joystickMovement = input->GetDirection();
 
-		int newIndex = currentButtonIndex;
+		int newIndex = static_cast<int>(currentButtonIndex);
 		do
 		{
 			if (joystickMovement.verticalMovement == JoystickVerticalDirection::FORWARD)
 			{
 				// We sum the size to avoid negative values, if this is not used we can not jump
 				// from the first button to the last
-				newIndex = (newIndex - 1 + sortedButtonsIds.size()) % sortedButtonsIds.size();
+				newIndex = (newIndex - 1 + sortedButtonsIds.size()) % static_cast<int>(sortedButtonsIds.size());
 			}
 			// When the current button is not enabled we keep looping until we find one enabled,
 			// this avoids getting stuck in a disabled button when we change from a scene to another

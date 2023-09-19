@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/elevator_Material_BaseColor.png",
+    "NormalAssetPath": "Assets/Textures/elevator_Material_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/elevator_Material_Metallic.png",
+    "EmissiveAssetPath": "Assets/Textures/elevator_Material_Emissive.png"
+}

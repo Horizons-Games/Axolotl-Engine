@@ -65,12 +65,12 @@ void JumpFinisherAttackBullet::InitializeBullet()
 	forward.Normalize();
 
 	// Launch the bullet parabolically in front of Allura
-	btRigidBody* btRb = rigidBody->GetRigidBody();
+	/*btRigidBody* btRb = rigidBody->GetRigidBody();
 	btRb->setLinearVelocity(
 		btVector3(
 			forward.x,
 			bulletHeightForce,
-			forward.z) * bulletVelocity);
+			forward.z) * bulletVelocity);*/
 
 	originTime = SDL_GetTicks() / 1000.0f;
 }

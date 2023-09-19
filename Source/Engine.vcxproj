@@ -188,6 +188,7 @@
     <ClCompile Include="..\Game\Scripts\BossShieldScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ComboManager.cpp" />
+    <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyClass.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -197,6 +198,8 @@
     <ClCompile Include="..\Game\Scripts\EnemyMiniBossTwo.cpp" />
     <ClCompile Include="..\Game\Scripts\EntityDetection.cpp" />
     <ClCompile Include="..\Game\Scripts\FinalBossScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\HackingCommand.cpp" />
+    <ClCompile Include="..\Game\Scripts\HackZoneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp" />
     <ClCompile Include="..\Game\Scripts\LightAttackBullet.cpp" />
     <ClCompile Include="..\Game\Scripts\LightFinisherAttackScript.cpp" />
@@ -231,7 +234,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\BixAttackScript.cpp">
+    <ClCompile Include="..\Game\Scripts\MinMaxForce.cpp" />
+    <ClCompile Include="..\Game\Scripts\PlayerAttackScript.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
@@ -287,6 +291,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerHackingUseScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -395,6 +400,7 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIComboManager.cpp" />
     <ClCompile Include="..\Game\Scripts\UIGameManager.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIHackingManager.cpp" />
     <ClCompile Include="..\Game\Scripts\UIImageDisplacementControl.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -444,6 +450,10 @@
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowCubemapInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowNavMeshInput.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -511,8 +521,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSkybox.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRender.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -878,10 +888,13 @@
     <ClInclude Include="..\Game\Scripts\BossShieldScript.h" />
     <ClInclude Include="..\Game\Scripts\CombatZoneScript.h" />
     <ClInclude Include="..\Game\Scripts\ComboManager.h" />
+    <ClInclude Include="..\Game\Scripts\ElevatorCore.h" />
     <ClInclude Include="..\Game\Scripts\EnemyClass.h" />
     <ClInclude Include="..\Game\Scripts\EnemyMiniBossTwo.h" />
     <ClInclude Include="..\Game\Scripts\EntityDetection.h" />
     <ClInclude Include="..\Game\Scripts\FinalBossScript.h" />
+    <ClInclude Include="..\Game\Scripts\HackingCommand.h" />
+    <ClInclude Include="..\Game\Scripts\HackZoneScript.h" />
     <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h" />
     <ClInclude Include="..\Game\Scripts\LightAttackBullet.h" />
     <ClInclude Include="..\Game\Scripts\LightFinisherAttackScript.h" />
@@ -891,7 +904,8 @@
     <ClInclude Include="..\Game\Scripts\EnemyDeathScript.h" />
     <ClInclude Include="..\Game\Scripts\EnemyVenomiteScript.h" />
     <ClInclude Include="..\Game\Scripts\CameraControllerScript.h" />
-    <ClInclude Include="..\Game\Scripts\BixAttackScript.h" />
+    <ClInclude Include="..\Game\Scripts\MinMaxForce.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaNPCAnimationManager.h" />
@@ -904,6 +918,7 @@
     <ClInclude Include="..\Game\Scripts\JumpFinisherArea.h" />
     <ClInclude Include="..\Game\Scripts\MeshEffect.h" />
     <ClInclude Include="..\Game\Scripts\PlayerDeathScript.h" />
+    <ClInclude Include="..\Game\Scripts\PlayerHackingUseScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h" />
     <ClInclude Include="..\Game\Scripts\PowerUpLogicScript.h" />
     <ClInclude Include="..\Game\Scripts\PowerUpsManagerScript.h" />
@@ -926,6 +941,7 @@
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\UIComboManager.h" />
     <ClInclude Include="..\Game\Scripts\UIGameManager.h" />
+    <ClInclude Include="..\Game\Scripts\UIHackingManager.h" />
     <ClInclude Include="..\Game\Scripts\UIImageDisplacementControl.h" />
     <ClInclude Include="..\Game\Scripts\UIMissionTrigger.h" />
     <ClInclude Include="..\Game\Scripts\UIOptionsMenu.h" />
@@ -976,6 +992,10 @@
     </ClInclude>
     <ClInclude Include="DataModels\Resources\ResourceNavMesh.h" />
     <ClInclude Include="DataModels\Components\ComponentPlayerInput.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowCubemapInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowNavMeshInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -990,8 +1010,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSkyboxInput.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAreaLight.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -1026,8 +1046,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSkybox.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentRender.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>

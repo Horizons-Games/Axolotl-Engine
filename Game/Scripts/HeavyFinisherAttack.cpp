@@ -16,6 +16,7 @@
 #include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/HealthSystem.h"
+#include "../Scripts/PlayerAttackScript.h"
 
 #include "GameObject/GameObject.h"
 
@@ -49,6 +50,7 @@ void HeavyFinisherAttack::Start()
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	vfx = owner->GetComponent<ComponentParticleSystem>();
+	playerAttackScript = owner->GetParent()->GetComponent<PlayerAttackScript>();
 
 	mesh->Disable();
 	rigidBody->Disable();
@@ -168,7 +170,14 @@ void HeavyFinisherAttack::MoveForward(float deltaTime)
 void HeavyFinisherAttack::HitEnemy()
 {
 	target->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(damage);
-	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
+	if (playerAttackScript->IsMeleeAvailable())
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
+	}
+	else
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CANNON_SHOT_IMPACT); // Provisional sfx
+	}
 	vfx->SetPlayAtStart(true);
 	vfx->Play();
 	enemiesAlreadyHit.push_back(target);

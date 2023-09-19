@@ -82,7 +82,7 @@ void WindowComponentDirLight::DrawWindowContents()
 			ImGui::Text("Shadow frustum lambda:");
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(math::Max(50.0f, ImGui::GetContentRegionAvail().x - 20.0f));
-			if (ImGui::DragFloat("##lambda", &lambda, 0.001, 0.001f, 0.999f, "%.3f", ImGuiSliderFlags_NoInput))
+			if (ImGui::DragFloat("##lambda", &lambda, 0.001f, 0.001f, 0.999f, "%.3f", ImGuiSliderFlags_NoInput))
 			{
 				shadows->SetLambda(lambda);
 			};
