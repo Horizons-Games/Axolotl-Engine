@@ -50,8 +50,8 @@ public:
 	~ModuleInput() override;
 
 	bool Init() override;
-	UpdateStatus Update() override;
 	UpdateStatus PreUpdate() override;
+	UpdateStatus Update() override;
 	bool CleanUp() override;
 
 	SDL_GameControllerAxis GetJoystickAxis() const;
@@ -135,7 +135,7 @@ private:
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> zoomCursor;
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> defaultCursor;
 
-	void MapInput();
+	void MapControllerInput();
 
 };
 

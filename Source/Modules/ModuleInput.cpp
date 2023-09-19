@@ -91,10 +91,14 @@ bool ModuleInput::Init()
 
 UpdateStatus ModuleInput::PreUpdate()
 {
+#ifdef DEBUG
+	OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
+#endif // DEBUG
+
 	mouseMotion = float2::zero;
 	mouseWheelScrolled = false;
 
-for (int i = 0; i < SDL_NUM_SCANCODES; ++i)
+	for (int i = 0; i < SDL_NUM_SCANCODES; ++i)
 	{
 		if (keysState[i] == KeyState::DOWN)
 		{
@@ -304,7 +308,7 @@ for (int i = 0; i < SDL_NUM_SCANCODES; ++i)
 		}
 	}
 
-	MapInput();
+	MapControllerInput();
 
 	return UpdateStatus::UPDATE_CONTINUE;
 }
@@ -400,28 +404,30 @@ bool ModuleInput::CleanUp()
 	return true;
 }
 
-void ModuleInput::MapInput()
+void ModuleInput::MapControllerInput()
 {
-	if (App->IsOnPlayMode())
+	if (!App->IsOnPlayMode())
 	{
-		for (const auto& [gamepadButton, keyboardButton] : gamepadMapping)
+		return;
+	}
+
+	for (const auto& [gamepadButton, keyboardButton] : gamepadMapping)
+	{
+		KeyState gamepadButtonState = GetGamepadButton(gamepadButton);
+
+		if (gamepadButtonState == KeyState::IDLE)
 		{
-			KeyState gamepadButtonState = GetGamepadButton(gamepadButton);
+			continue;
+		}
 
-			if (gamepadButtonState == KeyState::IDLE)
-			{
-				continue;
-			}
-
-			if (std::holds_alternative<SDL_Scancode>(keyboardButton))
-			{
-				keysState[std::get<SDL_Scancode>(keyboardButton)] = gamepadButtonState;
-			}
-			else if (std::holds_alternative<Uint8>(keyboardButton))
-			{
-				Uint8 mouseButton = std::get<Uint8>(keyboardButton);
-				mouseButtonState[mouseButton] = gamepadButtonState;
-			}
+		if (std::holds_alternative<SDL_Scancode>(keyboardButton))
+		{
+			keysState[std::get<SDL_Scancode>(keyboardButton)] = gamepadButtonState;
+		}
+		else if (std::holds_alternative<Uint8>(keyboardButton))
+		{
+			Uint8 mouseButton = std::get<Uint8>(keyboardButton);
+			mouseButtonState[mouseButton] = gamepadButtonState;
 		}
 	}
 }
