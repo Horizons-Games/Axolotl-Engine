@@ -63,10 +63,14 @@ void WindowMainMenu::Draw(bool& enabled)
 			action = Actions::NONE;
 		}
 		else if (action == Actions::EXIT)
+		{
 			Exit();
+		}
 	}
 	if (isSaving)
+	{
 		saveScene->SaveAsWindow(isSaving);
+	}
 	if (ImGui::BeginMainMenuBar())
 	{
 		DrawFileMenu();
