@@ -18,7 +18,11 @@
 static ImVec4 grey = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
 static ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-WindowHierarchy::WindowHierarchy() : EditorWindow("Hierarchy"), objectHasBeenCut(false), lastSelectedGameObject()
+WindowHierarchy::WindowHierarchy() :
+	EditorWindow("Hierarchy"),
+	objectHasBeenCut(false),
+	lastSelectedGameObject(),
+	isGameObjectMoving(false)
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 }
@@ -108,6 +112,8 @@ WindowHierarchy::DrawHierarchyResultCode WindowHierarchy::DrawRecursiveHierarchy
 	{
 		moduleScene->SetSelectedGameObject(gameObject);
 	}
+
+	MoveObjectShortcut(gameObject);
 
 	if (ImGui::BeginPopupContextItem("RightClickGameObject", ImGuiPopupFlags_MouseButtonRight))
 	{
@@ -376,17 +382,49 @@ void WindowHierarchy::Create2DObjectMenu(GameObject* gameObject)
 	}
 }
 
+void WindowHierarchy::MoveObjectShortcut(GameObject* gameObject)
+{
+	// The root can't be neither deleted nor moved up/down
+	ModuleInput* input = App->GetModule<ModuleInput>();
+	if (gameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot())
+	{
+		if (SDL_ShowCursor(SDL_QUERY) && input->GetKey(SDL_SCANCODE_LALT) == KeyState::REPEAT &&
+			input->GetKey(SDL_SCANCODE_UP) == KeyState::DOWN)
+		{
+			if (!isGameObjectMoving && gameObject->GetStateOfSelection() == StateOfSelection::SELECTED)
+			{
+				gameObject->GetParent()->MoveUpChild(gameObject);
+				isGameObjectMoving = true;
+			}
+		}
+		else if (SDL_ShowCursor(SDL_QUERY) && input->GetKey(SDL_SCANCODE_LALT) == KeyState::REPEAT &&
+			input->GetKey(SDL_SCANCODE_DOWN) == KeyState::DOWN)
+		{
+			if (!isGameObjectMoving && gameObject->GetStateOfSelection() == StateOfSelection::SELECTED)
+			{
+				gameObject->GetParent()->MoveDownChild(gameObject);
+				isGameObjectMoving = true;
+			}
+		}
+
+		if (input->GetKey(SDL_SCANCODE_UP) == KeyState::UP || input->GetKey(SDL_SCANCODE_DOWN) == KeyState::UP)
+		{
+			isGameObjectMoving = false;
+		}
+	}
+}
+
 void WindowHierarchy::MoveObjectMenu(GameObject* gameObject)
 {
 	// The root can't be neither deleted nor moved up/down
 	if (gameObject != App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot())
 	{
-		if (ImGui::MenuItem("Move Up"))
+		if (ImGui::MenuItem("Move Up (Alt + Up)"))
 		{
 			gameObject->GetParent()->MoveUpChild(gameObject);
 		}
 
-		if (ImGui::MenuItem("Move Down"))
+		if (ImGui::MenuItem("Move Down (Alt + Down)"))
 		{
 			gameObject->GetParent()->MoveDownChild(gameObject);
 		}
