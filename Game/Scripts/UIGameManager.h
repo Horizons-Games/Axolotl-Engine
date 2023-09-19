@@ -62,6 +62,7 @@ private:
 	GameObject* speedPwrUpObject;
 
 	ComponentPlayer* player;
+	ComponentPlayer* secondPlayer;
 	ModuleInput* input;
 	ComponentSlider* componentSliderPlayerFront;
 	ComponentSlider* componentSliderPlayerBack;

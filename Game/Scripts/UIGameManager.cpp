@@ -7,12 +7,13 @@
 #include "Components/ComponentScript.h"
 #include "Components/UI/ComponentSlider.h"
 #include "ModulePlayer.h"
+#include "SwitchPlayerManagerScript.h"
 #include "UIImageDisplacementControl.h"
 #include "HealthSystem.h"
 
 REGISTERCLASS(UIGameManager);
 
-UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), player(nullptr), menuIsOpen(false),
+UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), menuIsOpen(false),
 hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr),
 speedPwrUpObject(nullptr), pwrUpActive(false), savePwrUp(PowerUpType::NONE), sliderHudHealthBixFront(nullptr), 
 sliderHudHealthBixBack(nullptr), sliderHudHealthAlluraFront(nullptr), sliderHudHealthAlluraBack(nullptr), keyState(KeyState::IDLE)
@@ -40,6 +41,9 @@ void UIGameManager::Start()
 	componentSliderPlayerBack = sliderHudHealthBixBack->GetComponent<ComponentSlider>();
 	componentSliderPlayerFront->SetMaxValue(healthSystemClass->GetMaxHealth());
 	componentSliderPlayerBack->SetMaxValue(healthSystemClass->GetMaxHealth());
+
+	SwitchPlayerManagerScript* SwitchPlayer;
+	secondPlayer = SwitchPlayer->GetSecondPlayer()->GetComponent<ComponentPlayer>();
 }
 
 void UIGameManager::Update(float deltaTime)
