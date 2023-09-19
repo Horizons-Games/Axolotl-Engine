@@ -38,8 +38,6 @@ void SwitchPlayerManagerScript::Start()
 
 	currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
 	playerManager = currentPlayer->GetComponent<PlayerManagerScript>();
-	LOG_DEBUG("Player 1: {}", currentPlayer);
-	LOG_DEBUG("Player 2: {}", secondPlayer);
 
 	camera->ChangeCurrentPlayer(currentPlayer->GetComponent<ComponentTransform>());
 
@@ -148,4 +146,9 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		secondPlayer->GetComponent<ComponentRigidBody>()->UpdateRigidBody();
 		isNewPlayerEnabled = !isNewPlayerEnabled;
 	}
+}
+
+GameObject* SwitchPlayerManagerScript::GetSecondPlayer()
+{
+	return secondPlayer;
 }

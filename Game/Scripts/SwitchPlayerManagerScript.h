@@ -26,6 +26,7 @@ public:
 	void SetIsSwitchAvailable(bool available);
 
 	void VisualSwicthEffect();
+	GameObject* GetSecondPlayer();
 
 private:
 	void Start() override;
