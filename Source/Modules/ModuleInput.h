@@ -287,5 +287,5 @@ inline InputMethod ModuleInput::GetCurrentInputMethod() const
 
 inline float3 ModuleInput::GetControllerDir() const
 {
-	return controllerDir;
+	return controllerDir.Normalized();
 }

@@ -99,6 +99,20 @@ void PlayerMoveScript::Move(float deltaTime)
 		return;
 	}
 
+	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD)
+	{
+		float3 front = 
+			float3(cameraFrustum.Front().Normalized().x, 0, cameraFrustum.Front().Normalized().z);
+		front.Normalize();
+		float angle = front.Dot(input->GetControllerDir());
+
+		float x, z ;
+		x = (front.x * math::Cos(angle)) - (front.z * math::Sin(angle));
+		z = (front.x * math::Sin(angle)) + (front.z * math::Cos(angle));
+		
+		totalDirection += float3(x, 0, z);
+	}
+
 	// Forward
 	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE ||
 		input->GetDirection().verticalMovement == JoystickVerticalDirection::FORWARD)
