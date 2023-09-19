@@ -54,7 +54,9 @@ WindowMainMenu::~WindowMainMenu()
 void WindowMainMenu::Draw(bool& enabled)
 {
 	if (openPopup)
+	{
 		DrawPopup();
+	}
 	else if (!isSaving && action != Actions::NONE)
 	{
 		if (action == Actions::NEW_SCENE)
