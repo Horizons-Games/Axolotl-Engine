@@ -22,6 +22,8 @@ public:
 	void SetRotateVertical(bool rotateVertical);
 	bool GetRotateVertical();
 	void SetVideo(const std::shared_ptr<ResourceVideo>& video);
+	void SetPlayAtStart(bool playAtStart);
+	bool GetPlayAtStart();
 	std::shared_ptr<ResourceVideo> GetVideo() const;
 	void ReadVideoFrame();
 	void Draw() const override;
@@ -29,6 +31,7 @@ public:
 	void Pause();
 	void RestartVideo();
 	bool isPlayed();
+	bool isPlayAtStart();
 
 private:
 	void InternalSave(Json& meta) override;
@@ -60,6 +63,7 @@ private:
 	bool canRotate;
 	bool played;
 	bool firstFrame;
+	bool playAtStart;
 
 };
 
@@ -98,6 +102,16 @@ inline void ComponentVideo::SetVideo(const std::shared_ptr<ResourceVideo>& video
 {
 	this->video = video;
 	Init();
+}
+
+inline void ComponentVideo::SetPlayAtStart(bool playAtStart)
+{
+	this->playAtStart = playAtStart;
+}
+
+inline bool ComponentVideo::GetPlayAtStart()
+{
+	return playAtStart;
 }
 
 inline std::shared_ptr<ResourceVideo> ComponentVideo::GetVideo() const

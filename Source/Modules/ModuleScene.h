@@ -44,6 +44,7 @@ public:
 
 	void InitAndStartScriptingComponents();
 	void InitParticlesComponents();
+	void InitVideoComponents();
 
 	void AddGameObjectAndChildren(GameObject* object);
 	void RemoveGameObjectAndChildren(const GameObject* object);

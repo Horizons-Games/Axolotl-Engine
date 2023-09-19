@@ -145,6 +145,7 @@ void ComponentVideo::InternalSave(Json& meta)
 	meta["loop"] = loop;
 	meta["rotateVertical"] = rotateVertical;
 	meta["canBeRotate"] = canRotate;
+	meta["playAtStart"] = playAtStart;
 	
 }
 
@@ -154,6 +155,7 @@ void ComponentVideo::InternalLoad(const Json& meta)
 	std::string path = meta["assetPathVideo"];
 	rotateVertical = meta["rotateVertical"];
 	canRotate = meta["canBeRotate"];
+	playAtStart = meta["playAtStart"];
 #ifdef ENGINE	
 	bool resourceExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 	if (resourceExists)
@@ -376,4 +378,9 @@ void ComponentVideo::RestartVideo()
 bool ComponentVideo::isPlayed()
 {
 	return played;
+}
+
+bool ComponentVideo::isPlayAtStart()
+{
+	return playAtStart;
 }

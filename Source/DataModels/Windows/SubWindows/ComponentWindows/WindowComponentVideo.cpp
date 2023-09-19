@@ -10,7 +10,8 @@ WindowComponentVideo::WindowComponentVideo(ComponentVideo* component) :
 	inputVideo(std::make_unique<WindowVideoInput>(component)),
 	loop(component->GetLoop()),
 	verticalRotate(component->GetRotateVertical()),
-	component(component)
+	component(component),
+	playAtStart(false)
 {
 }
 
@@ -21,9 +22,16 @@ WindowComponentVideo::~WindowComponentVideo()
 void WindowComponentVideo::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
+	
+
 	ComponentVideo* videoComponent = static_cast<ComponentVideo*>(component);
+	bool playAtStart = videoComponent->GetPlayAtStart();
 	if (videoComponent->GetVideo() != nullptr)
 	{
+		if (ImGui::Checkbox("Play at start", &playAtStart))
+		{
+			component->SetPlayAtStart(playAtStart);
+		}
 		if (ImGui::ArrowButton("##Play", ImGuiDir_Right))
 		{
 			if (videoComponent->isPlayed())
