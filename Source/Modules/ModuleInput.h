@@ -37,10 +37,16 @@ enum class InputMethod
 	GAMEPAD
 };
 
+struct JoystickDirection
+{
+	JoystickHorizontalDirection horizontalDirection;
+	JoystickVerticalDirection verticalDirection;
+};
+
 struct JoystickMovement
 {
-	JoystickHorizontalDirection horizontalMovement;
-	JoystickVerticalDirection verticalMovement;
+	Sint16 horizontalMovement;
+	Sint16 verticalMovement;
 };
 
 class ModuleInput : public Module
@@ -50,11 +56,11 @@ public:
 	~ModuleInput() override;
 
 	bool Init() override;
+	UpdateStatus PreUpdate() override;
 	UpdateStatus Update() override;
 	bool CleanUp() override;
 
 	SDL_GameControllerAxis GetJoystickAxis() const;
-	Sint16 GetJoystickAxisValue() const;
 
 	KeyState GetKey(int scanCode) const;
 	KeyState GetMouseButton(int mouseButton) const;
@@ -62,15 +68,10 @@ public:
 
 	InputMethod GetCurrentInputMethod() const;
 	
-	// This setter methods will override user input
-	// Use them with care
-	void SetKey(SDL_Scancode scanCode, KeyState newState);
-	void SetMouseButton(Uint8 mouseButtonCode, KeyState newState);
-
 	SDL_GameController* FindController();
 	SDL_JoystickID GetControllerInstanceID(SDL_GameController* controller) const;
-
-	JoystickMovement GetDirection() const;
+	JoystickDirection GetJoystickDirection() const;
+	JoystickMovement GetJoystickMovement() const;
 
 	float2 GetMouseMotion() const;
 	float2 GetMouseWheel() const;
@@ -100,18 +101,18 @@ private:
 
 	float2 mouseWheel;
 	float2 mouseMotion;
-
 	int mousePosX;
 	int mousePosY;
 
-	JoystickMovement direction;
+	JoystickDirection joystickDirection;
+	JoystickMovement joystickMovement;
+
 	InputMethod inputMethod;
 
 	bool mouseWheelScrolled;
 	bool inFocus;
 
 	SDL_GameControllerAxis axis;
-	Sint16 axisValue;
 
 	struct SDLSurfaceDestroyer
 	{
@@ -138,6 +139,9 @@ private:
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> moveCursor;
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> zoomCursor;
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> defaultCursor;
+
+	void MapControllerInput();
+
 };
 
 inline SDL_JoystickID ModuleInput::GetControllerInstanceID(SDL_GameController* controller) const
@@ -171,16 +175,6 @@ inline KeyState ModuleInput::GetMouseButton(int mouseButton) const
 inline KeyState ModuleInput::GetGamepadButton(int gamepadButton) const
 {
 	return gamepadState[gamepadButton];
-}
-
-inline void ModuleInput::SetKey(SDL_Scancode scanCode, KeyState newState)
-{
-	keysState[scanCode] = newState;
-}
-
-inline void ModuleInput::SetMouseButton(Uint8 mouseButtonCode, KeyState newState)
-{
-	mouseButtonState[mouseButtonCode] = newState;
 }
 
 inline float2 ModuleInput::GetMouseMotion() const
@@ -263,9 +257,14 @@ inline KeyState ModuleInput::operator[](SDL_Scancode index)
 	return keysState[index];
 }
 
-inline JoystickMovement ModuleInput::GetDirection() const
+inline JoystickDirection ModuleInput::GetJoystickDirection() const
 {
-	return direction;
+	return joystickDirection;
+}
+
+inline JoystickMovement ModuleInput::GetJoystickMovement() const
+{
+	return joystickMovement;
 }
 
 inline SDL_GameControllerAxis ModuleInput::GetJoystickAxis() const
@@ -273,12 +272,8 @@ inline SDL_GameControllerAxis ModuleInput::GetJoystickAxis() const
 	return axis;
 }
 
-inline Sint16 ModuleInput::GetJoystickAxisValue() const
-{
-	return axisValue;
-}
-
 inline InputMethod ModuleInput::GetCurrentInputMethod() const
 {
 	return inputMethod;
 }
+

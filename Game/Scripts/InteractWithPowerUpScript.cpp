@@ -23,20 +23,14 @@ void InteractWithPowerUpScript::Start()
 
 void InteractWithPowerUpScript::Update(float deltaTime)
 {
-	// THIS IS A PROVISIONAL WAY TO SOLVE AN ISSUE WITH THE CONTROLLER COMPONENT
-	// THE STATE GOES FROM IDLE TO REPEAT, SO WE CONVERTED REPEAT TO DOWN FOR THIS
-	// ACTION USING LOGIC COMBINATIONS AND AN AUXILIAR VARIABLE 
-	
 	// Press Z to activate a saved powerup
-	if (input->GetKey(SDL_SCANCODE_Z) != keyStateZ &&
-		input->GetKey(SDL_SCANCODE_Z) == KeyState::REPEAT)
+	if (input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN)
 	{
 		powerUpsManagerScript->UseSavedPowerUp();
 	}
 
 	// Press X to drop a saved powerup
-	else if (input->GetKey(SDL_SCANCODE_X) != keyStateX &&
-		input->GetKey(SDL_SCANCODE_X) == KeyState::REPEAT)
+	else if (input->GetKey(SDL_SCANCODE_X) == KeyState::DOWN)
 	{
 		if (powerUpsManagerScript->GetSavedPowerUpType() != PowerUpType::NONE)
 		{
