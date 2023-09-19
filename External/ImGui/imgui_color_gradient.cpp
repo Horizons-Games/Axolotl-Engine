@@ -17,12 +17,6 @@ ImGradient::ImGradient()
     addMark(0.0f, ImColor(0.0f,0.0f,0.0f));
     addMark(1.0f, ImColor(1.0f,1.0f,1.0f));
 }
-/**This constructor is use to avoid to create the 2 defaults marks for cpy constructor because else there
-was copied marks + 2 defaults and it create confusion
-*/
-ImGradient::ImGradient(bool noMarks)
-{
-}
 
 ImGradient::ImGradient(ImGradient* copyGradient)
 {

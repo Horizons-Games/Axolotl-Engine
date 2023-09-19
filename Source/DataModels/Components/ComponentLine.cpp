@@ -35,28 +35,9 @@ ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(C
 ComponentLine::ComponentLine(const ComponentLine& other, GameObject* owner) :
 	Component(ComponentType::LINE, other.IsEnabled(), owner, true),
 	numTiles(other.numTiles),speed(other.speed),time(other.time),dirtyBuffers(other.dirtyBuffers), 
-	gradient(new ImGradient(false)),offset(other.offset),tiling(other.tiling),sizeFading(other.sizeFading),
+	gradient(new ImGradient(other.gradient)),offset(other.offset),tiling(other.tiling),sizeFading(other.sizeFading),
 	sizeFadingPoints(other.sizeFadingPoints), lineTexture(other.GetLineTexture())
 {
-	for (auto mark : other.gradient->getMarks()) 
-	{
-		float markColor[4];
-		for (int i = 0; i < 4; i++) 
-		{
-			markColor[i] = mark->color[i];
-		}
-		float markPosition = mark->position;
-
-		ImGradientMark newMark;
-		for (int i = 0; i < 4; i++) 
-		{
-			newMark.color[i] = markColor[i];
-		}
-		newMark.position = markPosition;
-		ImColor markColors(mark->color[0], mark->color[1], mark->color[2], mark->color[3]);
-
-		gradient->addMark(newMark.position, markColors);
-	}
 	LoadBuffers();
 	UpdateBuffers();
 }
