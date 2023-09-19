@@ -23,6 +23,8 @@ public:
 	void CheckChangeCurrentPlayer();
 	void HandleChangeCurrentPlayer();
 
+	void SwitchHealthBars();
+
 	void SetIsSwitchAvailable(bool available);
 
 	void VisualSwicthEffect();
@@ -34,6 +36,8 @@ private:
 	ModuleInput* input;
 	Timer changePlayerTimer;
 
+	GameObject* playerHealthBar;
+	GameObject* secondPlayerHealthBar;
 	GameObject* mainCamera;
 	CameraControllerScript* camera;
 	ComponentTransform* cameraTransform;

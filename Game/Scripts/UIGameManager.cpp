@@ -13,11 +13,12 @@
 
 REGISTERCLASS(UIGameManager);
 
-UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), menuIsOpen(false),
+UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), manager(nullptr), menuIsOpen(false),
 hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr),
 speedPwrUpObject(nullptr), pwrUpActive(false), savePwrUp(PowerUpType::NONE), sliderHudHealthBixFront(nullptr), 
 sliderHudHealthBixBack(nullptr), sliderHudHealthAlluraFront(nullptr), sliderHudHealthAlluraBack(nullptr), keyState(KeyState::IDLE)
 {
+	REGISTER_FIELD(manager, GameObject*);
 	REGISTER_FIELD(mainMenuObject, GameObject*);
 	REGISTER_FIELD(hudCanvasObject, GameObject*);
 	REGISTER_FIELD(sliderHudHealthBixFront, GameObject*);
@@ -35,15 +36,25 @@ void UIGameManager::Start()
 {
 	player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();
 	
-	healthSystemClass = player->GetOwner()->GetComponent<HealthSystem>();
+	healthSystemClassBix = player->GetOwner()->GetComponent<HealthSystem>();
 
 	componentSliderPlayerFront = sliderHudHealthBixFront->GetComponent<ComponentSlider>();
 	componentSliderPlayerBack = sliderHudHealthBixBack->GetComponent<ComponentSlider>();
-	componentSliderPlayerFront->SetMaxValue(healthSystemClass->GetMaxHealth());
-	componentSliderPlayerBack->SetMaxValue(healthSystemClass->GetMaxHealth());
+	componentSliderPlayerFront->SetMaxValue(healthSystemClassBix->GetMaxHealth());
+	componentSliderPlayerBack->SetMaxValue(healthSystemClassBix->GetMaxHealth());
 
-	/*SwitchPlayerManagerScript* SwitchPlayer;
-	secondPlayer = SwitchPlayer->GetSecondPlayer()->GetComponent<ComponentPlayer>();*/
+	if (manager) 
+	{
+		SwitchPlayerManagerScript* SwitchPlayer = manager->GetComponent<SwitchPlayerManagerScript>();
+		secondPlayer = SwitchPlayer->GetSecondPlayer()->GetComponent<ComponentPlayer>();
+
+		healthSystemClassAllura = player->GetOwner()->GetComponent<HealthSystem>();
+
+		componentSliderSecondPlayerFront = sliderHudHealthAlluraFront->GetComponent<ComponentSlider>();
+		componentSliderSecondPlayerBack = sliderHudHealthAlluraBack->GetComponent<ComponentSlider>();
+		componentSliderSecondPlayerFront->SetMaxValue(healthSystemClassAllura->GetMaxHealth());
+		componentSliderSecondPlayerBack->SetMaxValue(healthSystemClassAllura->GetMaxHealth());
+	}
 }
 
 void UIGameManager::Update(float deltaTime)
@@ -62,8 +73,8 @@ void UIGameManager::Update(float deltaTime)
 
 	keyState = input->GetKey(SDL_SCANCODE_ESCAPE);
 
-	if (healthSystemClass->GetCurrentHealth()!= componentSliderPlayerBack->GetCurrentValue()
-		|| healthSystemClass->GetCurrentHealth() != componentSliderPlayerFront->GetCurrentValue())
+	if (healthSystemClassBix->GetCurrentHealth()!= componentSliderPlayerBack->GetCurrentValue()
+		|| healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerFront->GetCurrentValue())
 	{
 		ModifySliderHealthValue();
 	}
@@ -191,8 +202,8 @@ void UIGameManager::DisableUIPwrUP()
 void UIGameManager::ModifySliderHealthValue()
 {
 	// We use 2 slider to do a effect in the health bar
-	damage = healthSystemClass->GetCurrentHealth() - componentSliderPlayerFront->GetCurrentValue();
-	damageBack = healthSystemClass->GetCurrentHealth() - componentSliderPlayerBack->GetCurrentValue();
+	damage = healthSystemClassBix->GetCurrentHealth() - componentSliderPlayerFront->GetCurrentValue();
+	damageBack = healthSystemClassBix->GetCurrentHealth() - componentSliderPlayerBack->GetCurrentValue();
 
 	if (damageBack <= 0.0f && damage <= 0.0f)
 	{

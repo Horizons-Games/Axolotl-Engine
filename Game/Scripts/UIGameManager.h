@@ -55,6 +55,7 @@ private:
 	GameObject* sliderHudHealthBixBack;
 	GameObject* sliderHudHealthAlluraFront;
 	GameObject* sliderHudHealthAlluraBack;
+	GameObject* manager;
 
 	GameObject* healPwrUpObject;
 	GameObject* attackPwrUpObject;
@@ -66,13 +67,14 @@ private:
 	ModuleInput* input;
 	ComponentSlider* componentSliderPlayerFront;
 	ComponentSlider* componentSliderPlayerBack;
-	ComponentSlider* componentSliderAlluraFront;
-	ComponentSlider* componentSliderAlluraBack;
+	ComponentSlider* componentSliderSecondPlayerFront;
+	ComponentSlider* componentSliderSecondPlayerBack;
 	ComponentSlider* componentSliderHealPwrUp;
 	ComponentSlider* componentSliderAttackPwrUp;
 	ComponentSlider* componentSliderDefensePwrUp;
 	ComponentSlider* componentSliderSpeedPwrUp;
-	HealthSystem* healthSystemClass;
+	HealthSystem* healthSystemClassBix;
+	HealthSystem* healthSystemClassAllura;
 
 };
 
