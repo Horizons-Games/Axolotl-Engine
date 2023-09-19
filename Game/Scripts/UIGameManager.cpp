@@ -42,8 +42,8 @@ void UIGameManager::Start()
 	componentSliderPlayerFront->SetMaxValue(healthSystemClass->GetMaxHealth());
 	componentSliderPlayerBack->SetMaxValue(healthSystemClass->GetMaxHealth());
 
-	SwitchPlayerManagerScript* SwitchPlayer;
-	secondPlayer = SwitchPlayer->GetSecondPlayer()->GetComponent<ComponentPlayer>();
+	/*SwitchPlayerManagerScript* SwitchPlayer;
+	secondPlayer = SwitchPlayer->GetSecondPlayer()->GetComponent<ComponentPlayer>();*/
 }
 
 void UIGameManager::Update(float deltaTime)
