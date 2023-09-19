@@ -32,19 +32,14 @@ sliderHudHealthBixBack(nullptr), sliderHudHealthAlluraFront(nullptr), sliderHudH
 
 void UIGameManager::Start()
 {
-	if (App->GetModule<ModulePlayer>()->GetPlayer()->GetName() == "PrefabAllura")
-	{
-		player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();
+	player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();
 	
-		healthSystemClass = player->GetOwner()->GetComponent<HealthSystem>();
+	healthSystemClass = player->GetOwner()->GetComponent<HealthSystem>();
 
-		componentSliderPlayerFront = sliderHudHealthBixFront->GetComponent<ComponentSlider>();
-		componentSliderPlayerBack = sliderHudHealthBixBack->GetComponent<ComponentSlider>();
-		componentSliderPlayerFront->SetMaxValue(healthSystemClass->GetMaxHealth());
-		componentSliderPlayerBack->SetMaxValue(healthSystemClass->GetMaxHealth());
-	}
-
-
+	componentSliderPlayerFront = sliderHudHealthBixFront->GetComponent<ComponentSlider>();
+	componentSliderPlayerBack = sliderHudHealthBixBack->GetComponent<ComponentSlider>();
+	componentSliderPlayerFront->SetMaxValue(healthSystemClass->GetMaxHealth());
+	componentSliderPlayerBack->SetMaxValue(healthSystemClass->GetMaxHealth());
 }
 
 void UIGameManager::Update(float deltaTime)
