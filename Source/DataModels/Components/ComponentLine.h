@@ -14,6 +14,7 @@ class ComponentLine : public Component
 {
 public:
 	ComponentLine(bool active, GameObject* owner);
+	ComponentLine(const ComponentLine& toCopy, GameObject* owner);
 	~ComponentLine() override;
 
 	void Render();
