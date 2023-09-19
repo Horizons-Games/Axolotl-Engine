@@ -32,6 +32,7 @@ private:
 	void Create2DObjectMenu(GameObject* gameObject);
 
 	void MoveObjectMenu(GameObject* gameObject);
+	void MoveObjectShortcut(GameObject* gameObject);
 
 	void Create3DObjectMenu(GameObject* gameObject);
 
@@ -50,4 +51,5 @@ private:
 	GameObject* lastSelectedGameObject;
 
 	std::unordered_set<UID> filteredObjects;
+	bool isGameObjectMoving;
 };
