@@ -90,10 +90,9 @@ vec3 BisectionIntersection(vec3 pos, vec3 a, vec3 b)
 
 // reflection
 
-vec3 ParallaxCorrection(vec3 localPos, vec3 R, mat4 inverseProxyTransform, vec3 maxBox, vec3 minBox)
+vec3 ParallaxCorrection(vec3 localPos, vec3 localR, vec3 maxBox, vec3 minBox)
 {
     // Convert to Local OBB space
-    vec3 localR = mat3(inverseProxyTransform) * R;
     vec3 first = (maxBox - localPos) / localR;
     vec3 second = (minBox - localPos) / localR;
     

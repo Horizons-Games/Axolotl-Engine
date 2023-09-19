@@ -328,7 +328,7 @@ vec3 calculateLocalIBLs(vec3 N, vec3 R, float NdotV, vec3 Cd, vec3 f0, float rou
             float weight = min(closer.x, min(closer.y, closer.z));
             weight = weight * weight; // smoother than linear
             // evaluates diffuse and specular ibl and returns an ambient colour
-            vec3 newR = ParallaxCorrection(localPos, R, toLocal, maxParallax, minParallax);
+            vec3 newR = ParallaxCorrection(localPos, mat3(toLocal) * R, maxParallax, minParallax);
             color += GetAmbientLight(N, newR, NdotV, roughness, Cd, f0, diffuse, prefiltered, environmentBRDF, 
                 numLevels_IBL) * weight;
             totalWeight += weight;
