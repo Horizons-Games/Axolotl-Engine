@@ -42,9 +42,19 @@ onPlay(false), catmunPoints(10)
 	
 }
 
+ComponentTrail::ComponentTrail(const ComponentTrail& trail) : Component(trail), maxSamplers(trail.maxSamplers), 
+duration(trail.duration), minDistance(trail.minDistance), width(trail.width), ratioWidth(trail.ratioWidth), 
+blendingMode(trail.blendingMode), onPlay(trail.onPlay), catmunPoints(trail.catmunPoints)
+{
+	points.reserve(maxSamplers);
+	gradient = new ImGradient();
+	CreateBuffers();
+}
+
 ComponentTrail::~ComponentTrail()
 {
 	points.clear();
+	delete gradient;
 
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);

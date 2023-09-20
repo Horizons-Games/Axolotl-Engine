@@ -37,6 +37,7 @@ class ComponentTrail : public Component, public Updatable, public Drawable
 {
 public:
 	ComponentTrail(bool active, GameObject* owner);
+	ComponentTrail(const ComponentTrail& trail);
 	~ComponentTrail();
 
 	void Update() override;

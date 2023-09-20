@@ -433,6 +433,7 @@ void GameObject::CopyComponent(Component* component)
 		case ComponentType::TRAIL:
 		{
 			newComponent = std::make_unique<ComponentTrail>(*static_cast<ComponentTrail*>(component));
+			break;
 		}
 		
 		case ComponentType::AGENT:
