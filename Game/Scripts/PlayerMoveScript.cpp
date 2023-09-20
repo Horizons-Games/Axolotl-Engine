@@ -25,9 +25,9 @@ REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 componentAudio(nullptr), componentAnimation(nullptr), dashForce(30.0f), 
-playerManager(nullptr), isParalyzed(false), desiredRotation(0.0f, 0.0f, 0.0f), 
+playerManager(nullptr), isParalyzed(false), desiredRotation(float3::zero), 
 lightAttacksMoveFactor(2.0f), heavyAttacksMoveFactor(3.0f), dashRollTime(0.0f), 
-dashRollCooldown(0.1f), timeSinceLastDash(0.0f), dashRollDuration(0.2f)
+dashRollCooldown(0.1f), timeSinceLastDash(0.0f), dashRollDuration(0.2f), totalDirection(float3::zero)
 {
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(isParalyzed, bool);
@@ -84,9 +84,11 @@ void PlayerMoveScript::Move(float deltaTime)
 	btRigidbody->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
 
 	btVector3 movement(0, 0, 0);
-	float3 totalDirection = float3::zero;
 
 	float newSpeed = playerManager->GetPlayerSpeed();
+
+	JoystickHorizontalDirection horizontalDirection = input->GetLeftJoystickDirection().horizontalDirection;
+	JoystickVerticalDirection verticalDirection = input->GetLeftJoystickDirection().verticalDirection;
 
 	previousMovements = currentMovements;
 	currentMovements = 0;
@@ -97,8 +99,8 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 
 	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD &&
-		(input->GetLeftJoystickDirection().verticalDirection != JoystickVerticalDirection::NONE
-			|| input->GetLeftJoystickDirection().horizontalDirection != JoystickHorizontalDirection::NONE))
+		(horizontalDirection != JoystickHorizontalDirection::NONE ||
+		verticalDirection != JoystickVerticalDirection::NONE))
 	{
 		cameraFrustum = *camera->GetFrustum();
 		float3 front =
@@ -118,6 +120,12 @@ void PlayerMoveScript::Move(float deltaTime)
 		z = (front.x * math::Sin(angle)) + (front.z * math::Cos(angle));
 
 		totalDirection += float3(x, 0, z);
+	}
+
+	if (horizontalDirection == JoystickHorizontalDirection::NONE &&
+		verticalDirection == JoystickVerticalDirection::NONE)
+	{
+		totalDirection = float3::zero;
 	}
 
 	// Forward
@@ -189,11 +197,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		playerManager->SetPlayerState(PlayerActions::WALKING);
 	}
 
-	if (playerManager->GetPlayerState() == PlayerActions::DASHING)
-	{
-		totalDirection = float3::zero;
-	}
-	else 
+	if (playerManager->GetPlayerState() != PlayerActions::DASHING)
 	{
 		btVector3 newVelocity(movement.getX(), btRigidbody->getLinearVelocity().getY(), movement.getZ());
 		btRigidbody->setLinearVelocity(newVelocity);
@@ -255,7 +259,6 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 				targetRotation.z,
 				targetRotation.w });
 		}
-
 		else
 		{
 			Quat nextRotation(rotation.x + deltaRotation.x,
@@ -277,8 +280,6 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 
 void PlayerMoveScript::DashRoll(float deltaTime)
 {
-	float3 dashDirection = float3::zero;
-
 	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN
 		&& (playerManager->GetPlayerState() == PlayerActions::IDLE
 			|| playerManager->GetPlayerState() == PlayerActions::WALKING) &&
@@ -294,33 +295,15 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 		JoystickHorizontalDirection horizontalDirection = input->GetLeftJoystickDirection().horizontalDirection;
 		JoystickVerticalDirection verticalDirection = input->GetLeftJoystickDirection().verticalDirection;
 
-		if (horizontalDirection == JoystickHorizontalDirection::RIGHT)
-		{
-			dashDirection += cameraFrustum.WorldRight().Normalized();
-		}
-		else if (horizontalDirection == JoystickHorizontalDirection::LEFT)
-		{
-			dashDirection -= cameraFrustum.WorldRight().Normalized();
-		}
-
-		if (verticalDirection == JoystickVerticalDirection::FORWARD)
-		{
-			dashDirection += cameraFrustum.Front().Normalized();
-		}
-		else if (verticalDirection == JoystickVerticalDirection::BACK)
-		{
-			dashDirection -= cameraFrustum.Front().Normalized();
-		}
-
 		if (horizontalDirection == JoystickHorizontalDirection::NONE &&
 			verticalDirection == JoystickVerticalDirection::NONE) 
 		{
-			dashDirection += componentTransform->GetGlobalForward();
+			totalDirection += componentTransform->GetGlobalForward();
 		}
 
-		dashDirection.Normalize();
+		totalDirection.Normalize();
 
-		btVector3 btDashDirection = btVector3(dashDirection.x, 0.0f, dashDirection.z);
+		btVector3 btDashDirection = btVector3(totalDirection.x, 0.0f, totalDirection.z);
 		btRigidbody->setLinearVelocity(btDashDirection * dashForce);
 
 		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);

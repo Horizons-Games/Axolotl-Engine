@@ -54,6 +54,7 @@ private:
 	float dashForce;
 	float dashRollTime;
 	float dashRollDuration;
+	float3 totalDirection;
 
 	float lightAttacksMoveFactor;
 	float heavyAttacksMoveFactor;
