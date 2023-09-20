@@ -95,11 +95,6 @@ inline const GLuint ComponentLocalIBL::GetPreFiltered()
 	return preFiltered;
 }
 
-inline const float3 ComponentLocalIBL::GetPosition()
-{
-	return parallaxAABB.CenterPoint();
-}
-
 inline const float4x4 ComponentLocalIBL::GetTransform()
 {
 	return float4x4(GetRotation(), GetPosition());

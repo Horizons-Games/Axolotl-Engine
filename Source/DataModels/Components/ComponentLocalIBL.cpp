@@ -186,6 +186,11 @@ const uint64_t& ComponentLocalIBL::GetHandlePreFiltered()
 	return handlePreFiltered;
 }
 
+const float3 ComponentLocalIBL::GetPosition()
+{
+	return GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
+}
+
 const Quat& ComponentLocalIBL::GetRotation()
 {
 	return GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalRotation();
