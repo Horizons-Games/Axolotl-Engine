@@ -20,7 +20,7 @@ REGISTERCLASS(HealthSystem);
 #define MAX_TIME_EFFECT_DURATION 0.1f
 
 HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), 
-	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr),	damageTaken(false)
+	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr),	damageTaken(false), playerManager(nullptr)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
@@ -60,6 +60,7 @@ void HealthSystem::Start()
 	if (owner->CompareTag("Player"))
 	{
 		attackScript = owner->GetComponent<PlayerAttackScript>();
+		playerManager = owner->GetComponent<PlayerManagerScript>();
 	}
 }
 
