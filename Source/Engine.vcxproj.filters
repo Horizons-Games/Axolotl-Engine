@@ -794,6 +794,9 @@
       <Filter>DataModels\Render</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp" />
+    <ClCompile Include="..\Game\Scripts\CameraBossControllerScript.cpp">
+      <Filter>UserScripts\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1634,6 +1637,9 @@
       <Filter>DataModels\Render</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\ElevatorCore.h" />
+    <ClInclude Include="..\Game\Scripts\CameraBossControllerScript.h">
+      <Filter>UserScripts\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">

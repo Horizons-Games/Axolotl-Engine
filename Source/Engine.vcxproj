@@ -186,6 +186,7 @@
     <ClCompile Include="..\Game\Scripts\BossMissilesMissileScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossShieldAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossShieldScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\CameraBossControllerScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ComboManager.cpp" />
     <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp" />
@@ -873,6 +874,7 @@
     <ClInclude Include="..\Game\Scripts\BossMissilesMissileScript.h" />
     <ClInclude Include="..\Game\Scripts\BossShieldAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\BossShieldScript.h" />
+    <ClInclude Include="..\Game\Scripts\CameraBossControllerScript.h" />
     <ClInclude Include="..\Game\Scripts\CombatZoneScript.h" />
     <ClInclude Include="..\Game\Scripts\ComboManager.h" />
     <ClInclude Include="..\Game\Scripts\ElevatorCore.h" />
@@ -980,7 +982,7 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowCubemapInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-     </ClInclude>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowNavMeshInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
