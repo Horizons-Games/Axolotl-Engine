@@ -77,8 +77,7 @@ public:
 	UpdateStatus Update() override;
 	bool CleanUp() override;
 
-	SDL_GameControllerAxis GetLeftJoystickAxis() const;
-	SDL_GameControllerAxis GetRightJoystickAxis() const;
+	SDL_GameControllerAxis GetAxis() const;
 
 	KeyState GetKey(int scanCode) const;
 	KeyState GetMouseButton(int mouseButton) const;
@@ -86,17 +85,14 @@ public:
 
 	InputMethod GetCurrentInputMethod() const;
 	
-	// This setter methods will override user input
-	// Use them with care
-	void SetKey(SDL_Scancode scanCode, KeyState newState);
-	void SetMouseButton(Uint8 mouseButtonCode, KeyState newState);
-
 	SDL_GameController* FindController() const;
 	SDL_JoystickID GetControllerInstanceID(SDL_GameController* controller) const;
-	JoystickDirection GetJoystickDirection() const;
 
 	JoystickMovement GetLeftJoystickMovement() const;
+	JoystickDirection GetLeftJoystickDirection() const;
+
 	JoystickMovement GetRightJoystickMovement() const;
+	JoystickDirection GetRightJoystickDirection() const;
 
 	void Rumble(RumbleIntensity intensityLeft, RumbleIntensity intensityRight, RumbleDuration durationMs) const;
 	// Overload with same intensity on both sides
@@ -147,12 +143,7 @@ private:
 	bool mouseWheelScrolled;
 	bool inFocus;
 
-	InputMethod inputMethod;
-
-	SDL_GameControllerAxis leftJoystickAxis;
-	SDL_GameControllerAxis rightJoystickAxis;
-
-	Sint16 joystickAxisValue;
+	SDL_GameControllerAxis axis;
 
 	struct SDLSurfaceDestroyer
 	{
@@ -317,14 +308,9 @@ inline JoystickDirection ModuleInput::GetRightJoystickDirection() const
 	return rightJoystickDirection;
 }
 
-inline SDL_GameControllerAxis ModuleInput::GetLeftJoystickAxis() const
+inline SDL_GameControllerAxis ModuleInput::GetAxis() const
 {
-	return leftJoystickAxis;
-}
-
-inline SDL_GameControllerAxis ModuleInput::GetRightJoystickAxis() const
-{
-	return rightJoystickAxis;
+	return axis;
 }
 
 inline InputMethod ModuleInput::GetCurrentInputMethod() const
