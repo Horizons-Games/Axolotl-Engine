@@ -192,7 +192,7 @@ void PlayerHackingUseScript::RestartHack()
 
 	PrintCombination();
 	input->Rumble();
-	LOG_DEBUG("hacking is restarted");
+	LOG_DEBUG("Hacking is restarted");
 }
 
 void PlayerHackingUseScript::DisableAllInteractions()
