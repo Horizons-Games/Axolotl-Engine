@@ -54,26 +54,6 @@ void JumpFinisherArea::Update(float deltaTime)
 	}
 }
 
-void JumpFinisherArea::OnCollisionEnter(ComponentRigidBody* other)
-{
-	if (other->GetOwner()->GetTag() == "Enemy" && other->GetOwner()->IsEnabled())
-	{
-		enemiesInTheArea.push_back(other);
-	}
-}
-
-void JumpFinisherArea::OnCollisionExit(ComponentRigidBody* other)
-{
-	enemiesInTheArea.erase(
-		std::remove_if(
-			std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const ComponentRigidBody* componentRigidBody)
-			{
-				return componentRigidBody == other;
-			}
-		),
-		std::end(enemiesInTheArea));
-}
-
 void JumpFinisherArea::VisualStartEffect() 
 {
 	initVisuals->Enable();
@@ -97,11 +77,6 @@ void JumpFinisherArea::VisualLandingEffect()
 void JumpFinisherArea::PushEnemies(float pushForce, float stunTime, std::vector<ComponentRigidBody*>* enemies)
 {
 	const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
-
-	if (enemies == nullptr) 
-	{
-		enemies = &enemiesInTheArea;
-	}
 
 	for (std::vector<ComponentRigidBody*>::iterator it = (*enemies).begin(); it < (*enemies).end();
 		it++)

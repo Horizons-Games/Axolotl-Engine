@@ -18,9 +18,6 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	virtual void OnCollisionEnter(ComponentRigidBody* other) override;
-	virtual void OnCollisionExit(ComponentRigidBody* other) override;
-
 	void VisualStartEffect();
 	void VisualLandingEffect();
 
