@@ -27,7 +27,6 @@ class GeometryBatch;
 class BatchManager;
 class ComponentMeshRenderer;
 class GBuffer;
-class PlanarReflection;
 
 enum class ProgramType;
 
@@ -129,7 +128,6 @@ private:
 	GBuffer* gBuffer;
 	Shadows* shadows;
 	SSAO* ssao;
-	PlanarReflection* planarReflection;
 
 	unsigned uboCamera;
 

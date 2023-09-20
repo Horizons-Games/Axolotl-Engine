@@ -86,6 +86,10 @@ WindowInspector::WindowInspector() :
 		std::bind(&WindowInspector::AddComponentLight, this, LightType::LOCAL_IBL, AreaType::NONE), isNotALight,
 		ComponentFunctionality::GRAPHICS));
 
+	actions.push_back(AddComponentAction("Create Planar Reflection Component",
+		std::bind(&WindowInspector::AddComponentLight, this, LightType::PLANAR_REFLECTION, AreaType::NONE), isNotALight,
+		ComponentFunctionality::GRAPHICS));
+
 	actions.push_back(AddComponentAction("Create Particle System Component",
 		std::bind(&WindowInspector::AddComponentParticle, this),
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)

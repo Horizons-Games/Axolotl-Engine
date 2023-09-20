@@ -156,6 +156,9 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 						return std::make_unique<WindowComponentAreaLight>(static_cast<ComponentAreaLight*>(component));
 					case LightType::LOCAL_IBL:
 						return std::make_unique<WindowComponentLocalIBL>(static_cast<ComponentLocalIBL*>(component));
+					case LightType::PLANAR_REFLECTION:
+						AXO_TODO("Create Window");
+						return nullptr;
 					case LightType::UNKNOWN:
 					default:
 						return std::make_unique<WindowComponentLight>(asLight);

@@ -25,6 +25,7 @@
 #include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/Components/ComponentTrail.h"
 #include "DataModels/Components/ComponentLocalIBL.h"
+#include "DataModels/Components/ComponentPlanarReflection.h"
 #include "DataModels/Components/ComponentLine.h"
 #include "DataModels/Components/ComponentCameraSample.h"
 #include "DataModels/Components/ComponentAgent.h"
@@ -504,6 +505,9 @@ void GameObject::CopyComponentLight(LightType type, Component* component)
 		case LightType::LOCAL_IBL:
 			newComponent = std::make_unique<ComponentLocalIBL>(static_cast<ComponentLocalIBL&>(*component));
 			break;
+		case LightType::PLANAR_REFLECTION:
+			newComponent = std::make_unique<ComponentPlanarReflection>(static_cast<ComponentPlanarReflection&>(*component));
+			break;
 	}
 
 	if (newComponent)
@@ -803,6 +807,9 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 		case LightType::LOCAL_IBL:
 			newComponent = std::make_unique<ComponentLocalIBL>(this);
 			break;
+		case LightType::PLANAR_REFLECTION:
+			newComponent = std::make_unique<ComponentPlanarReflection>(this);
+			break;
 	}
 
 	if (newComponent)
@@ -847,6 +854,10 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 			case LightType::LOCAL_IBL:
 				scene->UpdateSceneLocalIBLs();
 				scene->RenderLocalIBLs();
+				break;
+
+			case LightType::PLANAR_REFLECTION:
+				AXO_TODO("UPDATE_SCENE_PLANAR_REFLECTION");
 				break;
 		}
 
