@@ -59830,8 +59830,8 @@
                                     "type": 0
                                 },
                                 {
-                                    "name": "BulletHeightForce",
-                                    "value": 1.25,
+                                    "name": "BulletFallForce",
+                                    "value": -1.5,
                                     "type": 0
                                 }
                             ]

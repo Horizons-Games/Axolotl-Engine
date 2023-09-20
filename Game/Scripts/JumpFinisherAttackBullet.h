@@ -31,6 +31,7 @@ public:
 
 private:
 	void InitializeBullet();
+	void ThrowBulletToTheFloor() const;
 	void DestroyBullet() const;
 
 	ComponentTransform* parentTransform;
@@ -39,7 +40,7 @@ private:
 	JumpFinisherArea* forceArea;
 
 	float bulletVelocity;
-	float bulletHeightForce;
+	float bulletFallForce;
 	float originTime;
 	float bulletLifeTime;
 
