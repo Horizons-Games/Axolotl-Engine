@@ -812,6 +812,8 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 
 bool GameObject::RemoveComponent(const Component* component)
 {
+	Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
 	auto removeIfResult = std::remove_if(std::begin(components),
 										 std::end(components),
 										 [&component](const std::unique_ptr<Component>& comp)
@@ -825,12 +827,12 @@ bool GameObject::RemoveComponent(const Component* component)
 
 	if (component->GetType() == ComponentType::PARTICLE)
 	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(
+		loadedScene->RemoveParticleSystem(
 			static_cast<const ComponentParticleSystem*>(component));
 	}
 	else if (component->GetType() == ComponentType::LINE)
 	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveComponentLine(
+		loadedScene->RemoveComponentLine(
 			static_cast<const ComponentLine*>(component));
 	}
 

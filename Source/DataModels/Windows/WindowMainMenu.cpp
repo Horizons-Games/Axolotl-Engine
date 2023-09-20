@@ -54,7 +54,9 @@ WindowMainMenu::~WindowMainMenu()
 void WindowMainMenu::Draw(bool& enabled)
 {
 	if (openPopup)
+	{
 		DrawPopup();
+	}
 	else if (!isSaving && action != Actions::NONE)
 	{
 		if (action == Actions::NEW_SCENE)
@@ -63,10 +65,14 @@ void WindowMainMenu::Draw(bool& enabled)
 			action = Actions::NONE;
 		}
 		else if (action == Actions::EXIT)
+		{
 			Exit();
+		}
 	}
 	if (isSaving)
+	{
 		saveScene->SaveAsWindow(isSaving);
+	}
 	if (ImGui::BeginMainMenuBar())
 	{
 		DrawFileMenu();
@@ -108,9 +114,13 @@ void WindowMainMenu::DrawPopup()
 		if (ImGui::Button("Save scene", ImVec2(120, 0)))
 		{
 			if (filePathName != "New Scene")
+			{
 				scene->SaveScene(filePathName + SCENE_EXTENSION);
+			}
 			else
+			{
 				isSaving = true;
+			}
 			ImGui::CloseCurrentPopup();
 			openPopup = false;
 		}
