@@ -301,7 +301,7 @@ UpdateStatus ModuleInput::PreUpdate()
 
 						if (joystickDirection.verticalDirection != JoystickVerticalDirection::NONE)
 						{
-							joystickMovement.horizontalMovement = axisValue;
+							joystickMovement.verticalMovement = axisValue;
 							inputMethod = InputMethod::GAMEPAD;
 						}
 					}
