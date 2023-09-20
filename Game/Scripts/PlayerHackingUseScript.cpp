@@ -160,7 +160,7 @@ void PlayerHackingUseScript::InitHack()
 	maxHackTime = hackZone->GetMaxTime();
 	hackZone->GenerateCombination();
 
-	userCommandInputs.reserve(hackZone->GetSequenceSize());
+	userCommandInputs.reserve(static_cast<size_t>(hackZone->GetSequenceSize()));
 
 	commandCombination = hackZone->GetCommandCombination();
 	for (auto command : commandCombination)
@@ -193,7 +193,7 @@ void PlayerHackingUseScript::RestartHack()
 	maxHackTime = hackZone->GetMaxTime();
 	hackZone->GenerateCombination();
 
-	userCommandInputs.reserve(hackZone->GetSequenceSize());
+	userCommandInputs.reserve(static_cast<size_t>(hackZone->GetSequenceSize()));
 
 	commandCombination = hackZone->GetCommandCombination();
 	for (auto command : commandCombination)
@@ -202,7 +202,7 @@ void PlayerHackingUseScript::RestartHack()
 	}
 
 	PrintCombination();
-
+	input->Rumble();
 	LOG_DEBUG("hacking is restarted");
 }
 
@@ -241,7 +241,7 @@ void PlayerHackingUseScript::FindHackZone(const std::string& tag)
 
 	while (!hackZone && raytries < 4)
 	{
-		Ray ray(origin + float3(0.f, 1 * raytries, 0.f), transform->GetGlobalForward());
+		Ray ray(origin + float3(0.f, static_cast<float>(1 * raytries), 0.f), transform->GetGlobalForward());
 		LineSegment line(ray, 300);
 		raytries++;
 

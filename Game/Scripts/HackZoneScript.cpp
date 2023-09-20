@@ -24,7 +24,7 @@ HackZoneScript::HackZoneScript()
 
 void HackZoneScript::Start()
 {
-	commandCombination.reserve(sequenceSize);
+	commandCombination.reserve(static_cast<size_t>(sequenceSize));
 	position = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
 }
 
