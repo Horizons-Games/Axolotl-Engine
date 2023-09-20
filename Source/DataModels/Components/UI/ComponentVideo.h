@@ -8,6 +8,7 @@ struct AVCodecContext;
 struct AVPacket;
 struct AVFrame;
 struct SwsContext;
+class ResourceMesh;
 
 class ComponentVideo : public Component, public Drawable
 {
@@ -21,9 +22,11 @@ public:
 	bool GetCanBeRotate();
 	void SetRotateVertical(bool rotateVertical);
 	bool GetRotateVertical();
+	void SetUI(bool ui);
 	void SetVideo(const std::shared_ptr<ResourceVideo>& video);
 	void SetPlayAtStart(bool playAtStart);
 	bool GetPlayAtStart();
+	bool IsInitialized();
 	std::shared_ptr<ResourceVideo> GetVideo() const;
 	void ReadVideoFrame();
 	void Draw() const override;
@@ -64,6 +67,8 @@ private:
 	bool played;
 	bool firstFrame;
 	bool playAtStart;
+	bool ui;
+	std::shared_ptr<ResourceMesh> plane;
 
 };
 
@@ -85,6 +90,11 @@ inline void ComponentVideo::SetRotateVertical(bool rotateVertical)
 inline bool ComponentVideo::GetRotateVertical()
 {
 	return rotateVertical;
+}
+
+inline void ComponentVideo::SetUI(bool ui)
+{
+	this->ui = ui;
 }
 
 inline bool ComponentVideo::GetLoop()
@@ -112,6 +122,11 @@ inline void ComponentVideo::SetPlayAtStart(bool playAtStart)
 inline bool ComponentVideo::GetPlayAtStart()
 {
 	return playAtStart;
+}
+
+inline bool ComponentVideo::IsInitialized()
+{
+	return initialized;
 }
 
 inline std::shared_ptr<ResourceVideo> ComponentVideo::GetVideo() const

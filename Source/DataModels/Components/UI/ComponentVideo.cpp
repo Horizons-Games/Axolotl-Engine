@@ -11,11 +11,14 @@
 #include "DataModels/Program/Program.h"
 #include "ComponentVideo.h"
 #include "ComponentCanvas.h"
+#include "Components/ComponentTransform.h"
 #include "ComponentTransform2D.h"
 #include "GameObject/GameObject.h"
 #include "AxoLog.h"
 #include "FileSystem/Json.h"
 #include "Application.h"
+#include "Camera/Camera.h"
+#include "Resources/ResourceMesh.h"
 
 extern "C"
 {
@@ -33,8 +36,12 @@ ComponentVideo::ComponentVideo(bool active, GameObject* owner) :
 	rotateVertical(false),
 	canRotate(false),
 	played(false),
-	firstFrame(true)
+	firstFrame(true),
+	ui(true),
+	plane(nullptr)
 {
+	plane = App->GetModule<ModuleResources>()->RequestResource<ResourceMesh>("Source/PreMades/Cube.mesh");
+	plane->Load();
 
 }
 
@@ -73,64 +80,124 @@ void ComponentVideo::Init()
 
 void ComponentVideo::Draw() const
 {
-	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPRITE);
-	
-	if (!program)
+	if (ui)
 	{
-		LOG_ERROR("Sprite shader not found");
-		return;
+		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPRITE);
+
+		if (!program)
+		{
+			LOG_ERROR("Sprite shader not found");
+			return;
+		}
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		program->Activate();
+
+		if (!GetOwner()->HasComponent<ComponentTransform2D>())
+		{
+			throw ComponentNotFoundException("Owner does not have ComponentTrasnform2D");
+		}
+		ComponentTransform2D* transform = GetOwner()->GetComponentInternal<ComponentTransform2D>();
+
+		const float4x4& proj = App->GetModule<ModuleCamera>()->GetOrthoProjectionMatrix();
+		const float4x4& model = transform->GetGlobalScaledMatrix();
+		float4x4 view = float4x4::identity;
+
+		ComponentCanvas* canvas = transform->WhichCanvasContainsMe();
+		if (canvas)
+		{
+			canvas->RecalculateSizeAndScreenFactor();
+			float factor = canvas->GetScreenFactor();
+			view = view * float4x4::Scale(factor, factor, factor);
+		}
+
+		glUniformMatrix4fv(2, 1, GL_TRUE, (const float*) &view);
+		glUniformMatrix4fv(1, 1, GL_TRUE, (const float*) &model);
+		glUniformMatrix4fv(0, 1, GL_TRUE, (const float*) &proj);
+
+		glBindVertexArray(App->GetModule<ModuleUI>()->GetQuadVAO());
+
+		glActiveTexture(GL_TEXTURE0);
+		program->BindUniformFloat4("spriteColor", float4(1.0f, 1.0f, 1.0f, 1.0f));
+		program->BindUniformFloat("renderPercentage", 1.0f);
+		program->BindUniformInt("direction", 1);
+
+		if (initialized)
+		{
+			program->BindUniformInt("hasDiffuse", 1);
+			glBindTexture(GL_TEXTURE_2D, frameTexture);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, frameWidth, frameHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, frameData);
+		}
+		else
+			program->BindUniformInt("hasDiffuse", 0);
+
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindVertexArray(0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		glDisable(GL_BLEND);
+		program->Deactivate();
 	}
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	program->Activate();
-
-	if (!GetOwner()->HasComponent<ComponentTransform2D>())
+	else
 	{
-		throw ComponentNotFoundException("Owner does not have ComponentTrasnform2D");
-	}
-	ComponentTransform2D* transform = GetOwner()->GetComponentInternal<ComponentTransform2D>();
+		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::VIDEO);
 
-	const float4x4& proj = App->GetModule<ModuleCamera>()->GetOrthoProjectionMatrix();
-	const float4x4& model = transform->GetGlobalScaledMatrix();
-	float4x4 view = float4x4::identity;
+		if (!program)
+		{
+			LOG_ERROR("Plane video shader not found");
+			return;
+		}
 
-	ComponentCanvas* canvas = transform->WhichCanvasContainsMe();
-	if (canvas)
-	{
-		canvas->RecalculateSizeAndScreenFactor();
-		float factor = canvas->GetScreenFactor();
-		view = view * float4x4::Scale(factor, factor, factor);
-	}
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_DEPTH_TEST);
 
-	glUniformMatrix4fv(2, 1, GL_TRUE, (const float*) &view);
-	glUniformMatrix4fv(1, 1, GL_TRUE, (const float*) &model);
-	glUniformMatrix4fv(0, 1, GL_TRUE, (const float*) &proj);
+		program->Activate();
 
-	glBindVertexArray(App->GetModule<ModuleUI>()->GetQuadVAO());
+		if (!GetOwner()->HasComponent<ComponentTransform>()) // Ensure it's a 3D GameObject
+		{
+			throw ComponentNotFoundException("Owner does not have ComponentTransform");
+		}
+		ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 
-	glActiveTexture(GL_TEXTURE0);
-	program->BindUniformFloat4("spriteColor", float4(1.0f, 1.0f, 1.0f, 1.0f));
-	program->BindUniformFloat("renderPercentage", 1.0f);
-	program->BindUniformInt("direction", 1);
+		const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
+		const float4x4& model = transform->GetGlobalMatrix();
+		const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
+
+		// Binding the matrices to your shader's uniforms
+		program->BindUniformFloat4x4("model",
+									 (const float*) &model,
+									 GL_TRUE); // Assuming the matrix data can be accessed by casting to (const float*)
+		program->BindUniformFloat4x4("view", (const float*) &view, GL_TRUE);
+		program->BindUniformFloat4x4("projection", (const float*) &proj, GL_TRUE);
+
 		
-	if (initialized)
-	{
-		program->BindUniformInt("hasDiffuse", 1);
-		glBindTexture(GL_TEXTURE_2D, frameTexture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, frameWidth, frameHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, frameData);
+
+		glBindVertexArray(plane->GetVAO());
+
+		glActiveTexture(GL_TEXTURE0);
+
+		if (initialized)
+		{
+			glBindTexture(GL_TEXTURE_2D, frameTexture);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, frameWidth, frameHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, frameData);
+		}
+
+		// Since you don't have indices, we use glDrawArrays
+		//glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindVertexArray(0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		glDisable(GL_BLEND);
+		glDisable(GL_DEPTH_TEST);
+		program->Deactivate();
 	}
-	else program->BindUniformInt("hasDiffuse", 0);
-
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glBindVertexArray(0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	glDisable(GL_BLEND);
-	program->Deactivate();
-	
 }
 
 void ComponentVideo::InternalSave(Json& meta)
@@ -146,7 +213,7 @@ void ComponentVideo::InternalSave(Json& meta)
 	meta["rotateVertical"] = rotateVertical;
 	meta["canBeRotate"] = canRotate;
 	meta["playAtStart"] = playAtStart;
-	
+	meta["ui"] = ui;
 }
 
 void ComponentVideo::InternalLoad(const Json& meta)
@@ -156,6 +223,7 @@ void ComponentVideo::InternalLoad(const Json& meta)
 	rotateVertical = meta["rotateVertical"];
 	canRotate = meta["canBeRotate"];
 	playAtStart = meta["playAtStart"];
+	ui = meta["ui"];
 #ifdef ENGINE	
 	bool resourceExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 	if (resourceExists)
@@ -362,10 +430,35 @@ void ComponentVideo::ReadVideoFrame()
 
 void ComponentVideo::SetVideoFrameSize(int width, int height)
 {
-	
-	ComponentTransform2D* transform = GetOwner()->GetComponentInternal<ComponentTransform2D>();
-	transform->SetSize(float2((float) width, (float) height));
+	if (ui)
+	{
+		ComponentTransform2D* transform = GetOwner()->GetComponentInternal<ComponentTransform2D>();
+		transform->SetSize(float2((float) width, (float) height));
+	}
+	else
+	{
+		ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+
+		float videoAspectRatio = static_cast<float>(width) / static_cast<float>(height);
+		float3 currentScale = transform->GetLocalScale();
+
+		if (videoAspectRatio > 1.0f)
+		{
+			// Video is wider than the plane.
+			currentScale.x = videoAspectRatio;
+			currentScale.y = 1.0f;
+		}
+		else
+		{
+			// Video is taller than the plane.
+			currentScale.x = 1.0f;
+			currentScale.y = 1.0f / videoAspectRatio;
+		}
+
+		transform->SetLocalScale(currentScale);
+	}
 }
+
 
 void ComponentVideo::RestartVideo()
 {

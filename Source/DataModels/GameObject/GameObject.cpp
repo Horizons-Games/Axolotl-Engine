@@ -202,6 +202,12 @@ void GameObject::Draw() const
 	{
 		if (component->IsEnabled())
 		{
+			if (component->GetType() == ComponentType::VIDEO)
+			{
+				ComponentVideo* videoPtr = dynamic_cast<ComponentVideo*>(component.get());
+				if (videoPtr->IsInitialized())
+					videoPtr->ReadVideoFrame();
+			}
 			Drawable* drawable = dynamic_cast<Drawable*>(component.get());
 			if (drawable)
 			{

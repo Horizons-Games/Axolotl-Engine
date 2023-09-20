@@ -55,6 +55,7 @@ public:
 	GameObject* DuplicateGameObject(const std::string& name, GameObject*, GameObject* parent);
 	GameObject* CreateCameraGameObject(const std::string& name, GameObject* parent);
 	GameObject* CreateCanvasGameObject(const std::string& name, GameObject* parent);
+	GameObject* CreateVideoGameObject(const std::string& name, GameObject* parent);
 	GameObject* CreateUIGameObject(const std::string& name, GameObject* parent, ComponentType type);
 	GameObject* Create3DGameObject(const std::string& name, GameObject* parent, Premade3D type);
 	GameObject* CreateLightGameObject(const std::string& name,

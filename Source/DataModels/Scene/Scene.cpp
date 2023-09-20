@@ -358,6 +358,16 @@ GameObject* Scene::CreateCanvasGameObject(const std::string& name, GameObject* p
 	return gameObject;
 }
 
+GameObject* Scene::CreateVideoGameObject(const std::string& name, GameObject* parent)
+{
+	GameObject* gameObject = CreateGameObject(name, parent);
+	ComponentVideo* component = gameObject->CreateComponent<ComponentVideo>();
+	component->SetUI(false);
+	sceneVideos.push_back(component);
+
+	return gameObject;
+}
+
 GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* parent, ComponentType type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent, false);
