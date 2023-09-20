@@ -51,6 +51,9 @@ void CameraBossControllerScript::PreUpdate(float deltaTime)
 	if (boss)
 	{
 		CalculateCameraPositionByBoss();
+		CalculateFocusOffsetVector();
+		camera->RestoreKpPosition();
+		camera->RestoreKpRotation();
 	}
 	else
 	{
@@ -120,8 +123,14 @@ void CameraBossControllerScript::CalculateFocusOffsetVector(float2 offset)
 
 void CameraBossControllerScript::CalculateCameraPositionByBoss()
 {
-	float3 vector = (playerTransform->GetGlobalPosition() - bossTransform->GetGlobalPosition()).Normalized();
-	float3 offset = float3(vector.x * 5, yOffset, vector.z * 5);
+	float3 playerPos = playerTransform->GetGlobalPosition();
+	float3 bossPos = bossTransform->GetGlobalPosition();
+	float3 vector = (playerPos - bossPos).Normalized();
+
+	float distance = playerPos.Distance(bossPos);
+	float multiplier = Min(Max(distance / 50, 0.5f),1.f);
+
+	float3 offset = float3(vector.x * multiplier *10, yOffset, vector.z * multiplier * 10);
 	LOG_DEBUG("offset: {}, {}, {}", offset.x, offset.y, offset.z);
 	CalculateOffsetVector(offset);
 }
