@@ -202,11 +202,6 @@ void PlayerMoveScript::Move(float deltaTime)
 
 void PlayerMoveScript::MoveRotate(float deltaTime)
 {
-	if (playerManager->GetPlayerState() == PlayerActions::DASHING)
-	{
-		return;
-	}
-
 	// Look at enemy selected while attacking
 	AttackType currentAttack = playerAttackScript->GetCurrentAttackType();
 	GameObject* enemyGO = playerAttackScript->GetEnemyDetected();
