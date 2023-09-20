@@ -32,7 +32,6 @@ HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), com
 
 void HealthSystem::Start()
 {
-	playerManager = owner->GetComponent<PlayerManagerScript>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	//componentParticleSystem = enemyParticleSystem->GetComponent<ComponentParticleSystem>();
 
@@ -61,6 +60,7 @@ void HealthSystem::Start()
 	if (owner->CompareTag("Player"))
 	{
 		attackScript = owner->GetComponent<PlayerAttackScript>();
+		playerManager = owner->GetComponent<PlayerManagerScript>();
 	}
 }
 
@@ -104,7 +104,7 @@ void HealthSystem::TakeDamage(float damage)
 			}
 			damageTaken = true;
 		}
-		else if (owner->CompareTag("Player") && !attackScript->IsPerfomingJumpAttack() && playerManager->GetPlayerState() != PlayerActions::DASHING)
+		else if (owner->CompareTag("Player") && !attackScript->IsPerfomingJumpAttack())
 		{
 			float playerDefense = owner->GetComponent<PlayerManagerScript>()->GetPlayerDefense();
 			float actualDamage = std::max(damage - playerDefense, 0.f);
