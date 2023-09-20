@@ -53,7 +53,12 @@ private:
 	btVector3 rigidBodyVec3;
 
 	float3 positionPlayer;
+	float3 currentHealthBarPosition;
+	float3 currentHealthBarScale;
+	float3 secondHealthBarPosition;
+	float3 secondHealthBarScale;
 
+	bool isSwitchingHealthBars;
 	bool isChangingPlayer;
 	bool isNewPlayerEnabled;
 	bool isSwitchAvailable;
