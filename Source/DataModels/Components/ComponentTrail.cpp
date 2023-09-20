@@ -31,7 +31,7 @@
 
 ComponentTrail::ComponentTrail(bool active, GameObject* owner) : Component(ComponentType::TRAIL, active, owner, true),
 maxSamplers(64), duration(5.f), minDistance(0.1f), width(1.f), ratioWidth(0.5f), blendingMode(BlendingMode::ADDITIVE),
-onPlay(false), catmunPoints(10)
+onPlay(false), catmullPoints(10)
 { 
 	points.reserve(maxSamplers);
 	gradient = new ImGradient();
@@ -83,7 +83,7 @@ void ComponentTrail::Render()
 	}
 
 	RedoBuffers();
-	int totalCatmunPoints = catmunPoints * (static_cast<int>(points.size()) - 1);
+	int totalCatmullPoints = catmullPoints * (static_cast<int>(points.size()) - 1);
 
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRAIL);
 	program->Activate();
@@ -119,7 +119,7 @@ void ComponentTrail::Render()
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	int size = (static_cast<int>(points.size()) - 1 + totalCatmunPoints) * 2 * 3;
+	int size = (static_cast<int>(points.size()) - 1 + totalCatmullPoints) * 2 * 3;
 	glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, nullptr);
 	program->Deactivate();
 
@@ -159,7 +159,7 @@ void ComponentTrail::InternalSave(Json& meta)
 	meta["duration"] = static_cast<float>(duration);
 	meta["minDistance"] = static_cast<float>(minDistance);
 	meta["width"] = static_cast<float>(width);
-	meta["catmunPoints"] = static_cast<int>(catmunPoints);
+	meta["catmullPoints"] = static_cast<int>(catmullPoints);
 	meta["ratioWidth"] = static_cast<float>(ratioWidth);
 	meta["numberOfMarks"] = static_cast<int>(gradient->getMarks().size());
 	
@@ -194,7 +194,7 @@ void ComponentTrail::InternalLoad(const Json& meta)
 	minDistance = static_cast<float>(meta["minDistance"]);
 	width = static_cast<float>(meta["width"]);
 	ratioWidth = static_cast<float>(meta["ratioWidth"]);
-	catmunPoints = static_cast<int>(meta["catmunPoints"]);
+	catmullPoints = static_cast<int>(meta["catmullPoints"]);
 	
 	int numberOfMarks = static_cast<int>(meta["numberOfMarks"]);	
 	gradient->getMarks().clear();
@@ -230,14 +230,14 @@ void ComponentTrail::InternalLoad(const Json& meta)
 
 void ComponentTrail::CreateBuffers()
 {
-	int totalCatmunPoints = catmunPoints * (maxSamplers - 1);
+	int totalCatmullPoints = catmullPoints * (maxSamplers - 1);
 
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
 	glGenBuffers(1, &ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	unsigned maxTriangles = (maxSamplers - 1 + totalCatmunPoints) * 2;
+	unsigned maxTriangles = (maxSamplers - 1 + totalCatmullPoints) * 2;
 	GLuint maxIndices = maxTriangles * 3;
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * maxIndices, nullptr, GL_STATIC_DRAW);
 
@@ -245,7 +245,7 @@ void ComponentTrail::CreateBuffers()
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	int numVertices = (maxSamplers + totalCatmunPoints) * 2;
+	int numVertices = (maxSamplers + totalCatmullPoints) * 2;
 	glBufferData(GL_ARRAY_BUFFER, vertexsSize * numVertices, nullptr, GL_STATIC_DRAW);
 	
 	glEnableVertexAttribArray(0); // pos
@@ -263,7 +263,7 @@ void ComponentTrail::CreateBuffers()
 void ComponentTrail::RedoBuffers()
 {
 	bool sizeChanged = false;
-	int totalCatmunPoints = catmunPoints * (static_cast<int>(points.size()) - 1);
+	int totalCatmullPoints = catmullPoints * (static_cast<int>(points.size()) - 1);
 
 	if (maxSamplers < static_cast<int>(points.size()))
 	{
@@ -274,14 +274,14 @@ void ComponentTrail::RedoBuffers()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	if (sizeChanged)
 	{
-		unsigned maxTriangles = (maxSamplers - 1 + totalCatmunPoints) * 2;
+		unsigned maxTriangles = (maxSamplers - 1 + totalCatmullPoints) * 2;
 		GLuint maxIndices = maxTriangles * 3;
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * maxIndices, nullptr, GL_STATIC_DRAW);
 	}
 
 	GLuint* indices = (GLuint*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 	unsigned int index_idx = 0;
-	for (int i = 0; i < (points.size() - 1) + totalCatmunPoints; i++)
+	for (int i = 0; i < (points.size() - 1) + totalCatmullPoints; i++)
 	{
 		indices[index_idx++] = 0 + 2 * i;
 		indices[index_idx++] = 2 + 2 * i;
@@ -296,22 +296,22 @@ void ComponentTrail::RedoBuffers()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	if (sizeChanged)
 	{
-		int numVertices = (maxSamplers + totalCatmunPoints) * 2;
+		int numVertices = (maxSamplers + totalCatmullPoints) * 2;
 		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numVertices, nullptr, GL_STATIC_DRAW);
 	}
 
 	Vertex* vertexData = reinterpret_cast<Vertex*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
 
-	float steps = 1.0f / static_cast<float>(points.size() - 1 + totalCatmunPoints);
-	float stepsCatmun = 1.0f / static_cast<float>(catmunPoints + 1);
+	float steps = 1.0f / static_cast<float>(points.size() - 1 + totalCatmullPoints);
+	float stepsCatmull = 1.0f / static_cast<float>(catmullPoints + 1);
 	float3 color;
 	std::list<ImGradientMark*> marks = gradient->getMarks();
 	float3 initColor = float3(marks.front()->color);
 	float3 endColor = float3(marks.back()->color);
 	for (unsigned int i = 0; i < points.size(); ++i)
 	{
-		int posInMemory = 2 * i * (1 + catmunPoints);
-		float actualStep = static_cast<float>(i) * (1 + catmunPoints);
+		int posInMemory = 2 * i * (1 + catmullPoints);
+		float actualStep = static_cast<float>(i) * (1 + catmullPoints);
 
 		Point p = points[i];
 
@@ -344,19 +344,19 @@ void ComponentTrail::RedoBuffers()
 			Point p2 = points[i + 1];
 			CalculateExtraPoints(p0, p, p2, p3);
 			const Curve curve = CatmullRomCentripetal(p0, p.centerPosition, p2.centerPosition, p3);
-			for (int j = 1; j <= catmunPoints; j++)
+			for (int j = 1; j <= catmullPoints; j++)
 			{
-				float lambda = stepsCatmun * j;
-				float3 pointCatmun = curve.a * lambda * lambda * lambda + curve.b * lambda * lambda + curve.c * lambda
+				float lambda = stepsCatmull * j;
+				float3 pointCatmull = curve.a * lambda * lambda * lambda + curve.b * lambda * lambda + curve.c * lambda
 					+ curve.d;
 				Quat rotationPoint = p.rotation.Lerp(p2.rotation, lambda);
 
 				// pos
 				lerpWidht = Lerp(ratioWidth * width, width, ratioLife);
 				dirPerpendicular = (rotationPoint * float3::unitY) * lerpWidht;
-				vertex = pointCatmun + dirPerpendicular;
+				vertex = pointCatmull + dirPerpendicular;
 				vertexData[posInMemory + j * 2].position = vertex;
-				vertex = pointCatmun - dirPerpendicular;
+				vertex = pointCatmull - dirPerpendicular;
 				vertexData[posInMemory + j * 2 + 1].position = vertex;
 
 				actualStep++;
