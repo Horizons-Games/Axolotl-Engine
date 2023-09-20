@@ -44,7 +44,7 @@ onPlay(false), catmullPoints(10)
 
 ComponentTrail::ComponentTrail(const ComponentTrail& trail) : Component(trail), maxSamplers(trail.maxSamplers), 
 duration(trail.duration), minDistance(trail.minDistance), width(trail.width), ratioWidth(trail.ratioWidth), 
-blendingMode(trail.blendingMode), onPlay(trail.onPlay), catmunPoints(trail.catmunPoints)
+blendingMode(trail.blendingMode), onPlay(trail.onPlay), catmullPoints(trail.catmullPoints)
 {
 	points.reserve(maxSamplers);
 	gradient = new ImGradient();
