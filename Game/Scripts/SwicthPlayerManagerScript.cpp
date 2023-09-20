@@ -84,9 +84,9 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 			);
 
 			float3 newSecondPlayerPosition = float3(
-				Lerp(secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().x, currentHealthBarScale.x, t),
-				Lerp(secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().y, currentHealthBarScale.y, t),
-				secondHealthBarPosition.z
+				Lerp(secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().x, currentHealthBarPosition.x, t),
+				Lerp(secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().y, currentHealthBarPosition.y, t),
+				currentHealthBarPosition.z
 			);
 
 			float3 newSecondPlayerScale = float3(
