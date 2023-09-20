@@ -21,7 +21,8 @@
 
 REGISTERCLASS(SwitchPlayerManagerScript);
 
-SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr), isSwitchAvailable(true), playerHealthBar(nullptr), secondPlayerHealthBar(nullptr)
+SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr), isSwitchAvailable(true), changingPlayerTime{ 1000.f, 2000.f},
+	playerHealthBar(nullptr), secondPlayerHealthBar(nullptr)
 {
 	REGISTER_FIELD(isSwitchAvailable, bool);
 	REGISTER_FIELD(playerHealthBar, GameObject*);
@@ -68,7 +69,7 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 
 		if(isSwitchingHealthBars)
 		{
-			float t = (changePlayerTimer.Read() - 1000) / 1000;
+			float t = (changePlayerTimer.Read() - changingPlayerTime[0]) / 1000;
 			
 			// Interpolate position and scale
 			float3 newCurrentPlayerPosition = float3(
@@ -150,7 +151,7 @@ void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 
 void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 {
-	if (changePlayerTimer.Read() >= 2000)
+	if (changePlayerTimer.Read() >= changingPlayerTime[1])
 	{	
 		camera->ChangeCurrentPlayer(secondPlayer->GetComponent<ComponentTransform>());
 
@@ -177,7 +178,7 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->CalculateMatrices();
 	}
 
-	else if (changePlayerTimer.Read() >= 1000 && !isNewPlayerEnabled)
+	else if (changePlayerTimer.Read() >= changingPlayerTime[0] && !isNewPlayerEnabled)
 	{
 		// Disabling the current player
 		currentPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(false);

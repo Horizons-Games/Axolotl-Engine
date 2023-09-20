@@ -35,6 +35,7 @@ private:
 
 	ModuleInput* input;
 	Timer changePlayerTimer;
+	std::vector<float> changingPlayerTime;
 
 	GameObject* playerHealthBar;
 	GameObject* secondPlayerHealthBar;
