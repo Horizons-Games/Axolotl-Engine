@@ -2,12 +2,29 @@
 #include "Math/float2.h"
 #include "Module.h"
 #include "SDL.h"
+#include <map>
 
 #define NUM_MOUSEBUTTONS 5
 #define BMP_FREELOOKSURFACE "Assets/MouseCursors/freeLook.bmp"
 #define BMP_ORBITSURFACE "Assets/MouseCursors/orbit.bmp"
 #define BMP_MOVESURFACE "Assets/MouseCursors/move.bmp"
 #define BMP_ZOOMSURFACE "Assets/MouseCursors/zoom.bmp"
+
+enum class RumbleIntensity
+{
+	LOW,
+	NORMAL,
+	HIGH,
+	HIGHEST
+};
+
+enum class RumbleDuration
+{
+	SHORT,
+	NORMAL,
+	LONG,
+	LONGER,
+};
 
 enum class KeyState
 {
@@ -68,10 +85,21 @@ public:
 
 	InputMethod GetCurrentInputMethod() const;
 	
-	SDL_GameController* FindController();
+	// This setter methods will override user input
+	// Use them with care
+	void SetKey(SDL_Scancode scanCode, KeyState newState);
+	void SetMouseButton(Uint8 mouseButtonCode, KeyState newState);
+
+	SDL_GameController* FindController() const;
 	SDL_JoystickID GetControllerInstanceID(SDL_GameController* controller) const;
 	JoystickDirection GetJoystickDirection() const;
 	JoystickMovement GetJoystickMovement() const;
+
+	void Rumble(RumbleIntensity intensityLeft, RumbleIntensity intensityRight, RumbleDuration durationMs) const;
+	// Overload with same intensity on both sides
+	void Rumble(RumbleIntensity intensity, RumbleDuration durationMs) const;
+	// Overload for default Rumble
+	void Rumble() const;
 
 	float2 GetMouseMotion() const;
 	float2 GetMouseWheel() const;
@@ -98,7 +126,7 @@ private:
 	KeyState keysState[SDL_NUM_SCANCODES] = { KeyState::IDLE };
 	KeyState mouseButtonState[NUM_MOUSEBUTTONS] = { KeyState::IDLE };
 	KeyState gamepadState[SDL_CONTROLLER_BUTTON_MAX] = { KeyState::IDLE };
-
+	
 	float2 mouseWheel;
 	float2 mouseMotion;
 	int mousePosX;
@@ -149,7 +177,7 @@ inline SDL_JoystickID ModuleInput::GetControllerInstanceID(SDL_GameController* c
 	return SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(controller));
 }
 
-inline SDL_GameController* ModuleInput::FindController()
+inline SDL_GameController* ModuleInput::FindController() const
 {
 	for (int i = 0; i < SDL_NumJoysticks(); i++)
 	{
