@@ -35,7 +35,6 @@ public:
 private:
 	void Start() override;
 
-
 	float playerAttack;
 	float playerDefense;
 	float playerSpeed;

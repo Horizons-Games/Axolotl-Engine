@@ -56,22 +56,29 @@ void JumpFinisherArea::Update(float deltaTime)
 
 void JumpFinisherArea::VisualStartEffect() 
 {
-	initVisuals->Enable();
+	if (initVisuals)
+	{
+		initVisuals->Enable();
+	}
 }
 
 void JumpFinisherArea::VisualLandingEffect() 
 {
-	initVisuals->Disable();
-	Scene* loadScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-	if (actualLandingParticleSystem) 
+	if (initVisuals)
 	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualLandingParticleSystem);
+		initVisuals->Disable();
 	}
 
-	actualLandingParticleSystem = loadScene->DuplicateGameObject(landingParticleSystemPrefab->GetName(), landingParticleSystemPrefab, loadScene->GetRoot());
-	actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->Enable();
+	if (actualLandingParticleSystem) 
+	{
+		Scene* loadScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualLandingParticleSystem);
 
-	actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->Play();
+		actualLandingParticleSystem = loadScene->DuplicateGameObject(landingParticleSystemPrefab->GetName(), landingParticleSystemPrefab, loadScene->GetRoot());
+		actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->Enable();
+
+		actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->Play();
+	}
 }
 
 void JumpFinisherArea::PushEnemies(float pushForce, float stunTime, std::vector<ComponentRigidBody*>* enemies)

@@ -34,6 +34,7 @@ private:
 	void InitializeBullet();
 	void ThrowBulletToTheFloor() const;
 	void DestroyBullet() const;
+	void DestroyArea() const;
 
 	ComponentTransform* parentTransform;
 	ComponentRigidBody* rigidBody;

@@ -26,7 +26,6 @@ void PlayerManagerScript::Start()
 	jumpManager = owner->GetComponent<PlayerJumpScript>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
 	rotationManager = owner->GetComponent<PlayerRotationScript>();
-
 }
 
 bool PlayerManagerScript::IsGrounded() const

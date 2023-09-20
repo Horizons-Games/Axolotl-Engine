@@ -69,6 +69,9 @@ void JumpFinisherAttack::ShootForceBullet(float pushForce, float stunTime)
 	// Set up values for the bullet effect
 	newForceBulletScript->SetAreaPushForce(pushForce);
 	newForceBulletScript->SetAreaStunTime(stunTime);
+
+	forceArea->VisualStartEffect();
+	activated = true;
 }
 
 bool JumpFinisherAttack::IsActive() const

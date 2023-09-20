@@ -18,7 +18,7 @@
 
 REGISTERCLASS(JumpFinisherAttackBullet);
 
-JumpFinisherAttackBullet::JumpFinisherAttackBullet() : Script(), forceArea(nullptr), bulletLifeTime(10.0f), 
+JumpFinisherAttackBullet::JumpFinisherAttackBullet() : Script(), forceArea(nullptr), bulletLifeTime(5.0f), 
 	originTime(0.0f), rigidBody(nullptr), parentTransform(nullptr), bulletVelocity(5.0f), bulletFallForce(-1.5f),
 	areaPushForce(0.0f), areaStunTime(0.0f), enemyDetection(nullptr)
 {
@@ -55,7 +55,8 @@ void JumpFinisherAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 		forceAreaRigidBody->SetIsKinematic(true);
 		forceAreaRigidBody->SetUpMobility();
 
-		forceArea->PushEnemies(areaPushForce, areaStunTime, &enemyDetection->GetEnemiesInTheArea());
+		// Set bullet hit floor to true
+
 		DestroyBullet();
 	}
 }
@@ -88,6 +89,11 @@ void JumpFinisherAttackBullet::DestroyBullet() const
 	// Erase the bullet but leave the force area so the particles can keep playing
 	forceArea->GetOwner()->SetParent(owner->GetParent());
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+}
+
+void JumpFinisherAttackBullet::DestroyArea() const
+{
+	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(forceArea->GetOwner());
 }
 
 void JumpFinisherAttackBullet::SetBulletVelocity(float nVelocity)
