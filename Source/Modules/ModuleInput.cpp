@@ -438,3 +438,49 @@ void ModuleInput::MapControllerInput()
 		}
 	}
 }
+
+void ModuleInput::Rumble(RumbleIntensity intensityLeft, RumbleIntensity intensityRight, RumbleDuration durationMs) const
+{
+	SDL_GameController* controller = FindController();
+	
+	static const std::unordered_map<RumbleIntensity, Uint16> rumbleIntensityMap({
+		{ RumbleIntensity::LOW, 8192 },
+		{ RumbleIntensity::NORMAL, 16384 },
+		{ RumbleIntensity::HIGH, 24576 },
+		{ RumbleIntensity::HIGHEST, 32767 },
+
+	});
+
+	static const std::unordered_map<RumbleDuration, Uint16> rumbleDurationMap({
+		{ RumbleDuration::SHORT, 125 },
+		{ RumbleDuration::NORMAL, 250 },
+		{ RumbleDuration::LONG, 500 },
+		{ RumbleDuration::LONGER, 1000 },
+	});
+
+	if (controller != nullptr)
+	{
+		auto leftIt = rumbleIntensityMap.find(intensityLeft);
+		auto rightIt = rumbleIntensityMap.find(intensityRight);
+		auto durationIt = rumbleDurationMap.find(durationMs);
+
+		if (leftIt != rumbleIntensityMap.end() && rightIt != rumbleIntensityMap.end() &&
+			durationIt != rumbleDurationMap.end())
+		{
+			if (SDL_GameControllerRumble(controller, leftIt->second, rightIt->second, durationIt->second) != 0)
+			{
+				LOG_ERROR("Error on controller rumble: {}", SDL_GetError());
+			}
+		}
+	}
+}
+
+void ModuleInput::Rumble(RumbleIntensity intensity, RumbleDuration durationMs) const
+{
+	Rumble(intensity, intensity, durationMs);
+}
+
+void ModuleInput::Rumble() const
+{
+	Rumble(RumbleIntensity::NORMAL, RumbleIntensity::NORMAL, RumbleDuration::NORMAL);
+}
