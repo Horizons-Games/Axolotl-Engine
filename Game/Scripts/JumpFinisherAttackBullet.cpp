@@ -3,7 +3,7 @@
 
 #include "Application.h"
 
-#include "ModuleScene.h"
+#include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
 #include "Physics/Physics.h"
 
@@ -12,6 +12,7 @@
 #include "Components/ComponentRigidBody.h"
 
 #include "../Scripts/JumpFinisherArea.h"
+#include "../Scripts/EntityDetection.h"
 
 #include "SDL/include/SDL.h"
 
@@ -19,11 +20,13 @@ REGISTERCLASS(JumpFinisherAttackBullet);
 
 JumpFinisherAttackBullet::JumpFinisherAttackBullet() : Script(), forceArea(nullptr), bulletLifeTime(10.0f), 
 	originTime(0.0f), rigidBody(nullptr), parentTransform(nullptr), bulletVelocity(5.0f), bulletFallForce(-1.5f),
-	areaPushForce(0.0f), areaStunTime(0.0f)
+	areaPushForce(0.0f), areaStunTime(0.0f), enemyDetection(nullptr)
 {
 	REGISTER_FIELD(forceArea, JumpFinisherArea*);
 	REGISTER_FIELD(bulletVelocity, float);
 	REGISTER_FIELD(bulletFallForce, float); // Note that this will be multiplied by the bulletVelocity when launched
+
+	REGISTER_FIELD(enemyDetection, EntityDetection*);
 }
 
 void JumpFinisherAttackBullet::Start()
@@ -48,7 +51,11 @@ void JumpFinisherAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 
 	if (!other->GetOwner()->CompareTag("Player"))
 	{
-		forceArea->PushEnemies(areaPushForce, areaStunTime);
+		ComponentRigidBody* forceAreaRigidBody = forceArea->GetOwner()->GetComponent<ComponentRigidBody>();
+		forceAreaRigidBody->SetIsKinematic(true);
+		forceAreaRigidBody->SetUpMobility();
+
+		forceArea->PushEnemies(areaPushForce, areaStunTime, &enemyDetection->GetEnemiesInTheArea());
 		DestroyBullet();
 	}
 }

@@ -9,6 +9,7 @@ class ComponentRigidBody;
 class ComponentTransform;
 
 class JumpFinisherArea;
+class EntityDetection;
 
 class JumpFinisherAttackBullet : public Script
 {
@@ -46,4 +47,6 @@ private:
 
 	float areaPushForce;
 	float areaStunTime;
+
+	EntityDetection* enemyDetection;
 };
