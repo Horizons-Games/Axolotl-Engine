@@ -81,6 +81,11 @@ void JumpFinisherArea::VisualLandingEffect()
 	}
 }
 
+GameObject* JumpFinisherArea::GetVisualStartEffect()
+{
+	return initVisuals;
+}
+
 void JumpFinisherArea::PushEnemies(float pushForce, float stunTime, std::vector<ComponentRigidBody*>* enemies)
 {
 	const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();

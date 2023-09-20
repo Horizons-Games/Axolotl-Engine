@@ -12,13 +12,14 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentLine.h"
 
 #include "../Scripts/JumpFinisherArea.h"
 #include "../Scripts/JumpFinisherAttackBullet.h"
 
 REGISTERCLASS(JumpFinisherAttack);
 
-JumpFinisherAttack::JumpFinisherAttack() : Script(), input(nullptr)
+JumpFinisherAttack::JumpFinisherAttack() : Script(), input(nullptr), bulletHitTheFloor(false)
 {
 	REGISTER_FIELD(forceArea, JumpFinisherArea*);
 	REGISTER_FIELD(forceAttackBullet, GameObject*);
@@ -70,6 +71,9 @@ void JumpFinisherAttack::ShootForceBullet(float pushForce, float stunTime)
 	newForceBulletScript->SetAreaPushForce(pushForce);
 	newForceBulletScript->SetAreaStunTime(stunTime);
 
+	ComponentLine* bulletLine = forceArea->GetVisualStartEffect()->GetComponent<ComponentLine>();
+	bulletLine->SetEnd(newForceBullet->GetChildren().front());
+
 	forceArea->VisualStartEffect();
 	activated = true;
 }
@@ -77,4 +81,14 @@ void JumpFinisherAttack::ShootForceBullet(float pushForce, float stunTime)
 bool JumpFinisherAttack::IsActive() const
 {
 	return activated;
+}
+
+void JumpFinisherAttack::SetBulletHitTheFloor(bool bulletHitTheFloor)
+{
+	this->bulletHitTheFloor = bulletHitTheFloor;
+}
+
+bool JumpFinisherAttack::GetBulletHitTheFloor() const
+{
+	return bulletHitTheFloor;
 }

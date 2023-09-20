@@ -27,6 +27,9 @@ public:
 
 	bool IsActive() const;
 
+	void SetBulletHitTheFloor(bool bulletHitTheFloor);
+	bool GetBulletHitTheFloor() const;
+
 private:
 	ModuleInput* input;
 
@@ -34,4 +37,5 @@ private:
 	GameObject* forceAttackBullet;
 
 	bool activated;
+	bool bulletHitTheFloor;
 };

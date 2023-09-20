@@ -13,6 +13,7 @@
 
 #include "../Scripts/JumpFinisherArea.h"
 #include "../Scripts/EntityDetection.h"
+#include "../Scripts/JumpFinisherAttack.h"
 
 #include "SDL/include/SDL.h"
 
@@ -55,7 +56,8 @@ void JumpFinisherAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 		forceAreaRigidBody->SetIsKinematic(true);
 		forceAreaRigidBody->SetUpMobility();
 
-		// Set bullet hit floor to true
+		GameObject* AlluraGameObject = enemyDetection->GetOwner()->GetParent();
+		AlluraGameObject->GetComponent<JumpFinisherAttack>()->SetBulletHitTheFloor(true);
 
 		DestroyBullet();
 	}

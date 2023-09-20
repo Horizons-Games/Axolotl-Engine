@@ -59704,7 +59704,7 @@
                             "fields": [
                                 {
                                     "name": "InitVisuals",
-                                    "value": 0,
+                                    "value": 2076026703240146732,
                                     "type": 2
                                 },
                                 {
@@ -59743,7 +59743,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 1.5039784908294678,
+                            "localPos_Y": 5.0,
                             "localPos_Z": 2.0153121948242188,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
@@ -59802,7 +59802,7 @@
                             "factor": 0.5,
                             "height": 0.10000000149011612,
                             "rbPos_X": 0.0003662109375,
-                            "rbPos_Y": 0.45119357109069824,
+                            "rbPos_Y": 1.5,
                             "rbPos_Z": -18.7606201171875,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
@@ -63335,9 +63335,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_X": 5.960464477539063e-7,
+                            "localPos_Y": 0.0000019073486328125,
+                            "localPos_Z": -0.000003814697265625,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -64965,6 +64965,120 @@
                             "removed": true,
                             "constructName": "MeshEffect",
                             "fields": null
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "GrenadeLineStart",
+                "tag": "",
+                "uid": 2076026703240146732,
+                "parentUID": 8554823590075080436,
+                "enabled": false,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.4400651454925537e-7,
+                            "localPos_Y": 5.0,
+                            "localPos_Z": 2.1500015258789063,
+                            "localRot_X": 1.7304434551945747e-9,
+                            "localRot_Y": 0.03958779200911522,
+                            "localRot_Z": -0.000010017916793003678,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0000001192092896,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Line",
+                            "active": true,
+                            "removed": true,
+                            "numTiles": 2,
+                            "speed": 5.0,
+                            "offset_x": 0.0,
+                            "offset_y": 0.0,
+                            "tiling_x": 1.0,
+                            "tiling_y": 1.0,
+                            "sizeFading_x": 0.10000000149011612,
+                            "sizeFading_y": 0.10000000149011612,
+                            "sizeFadingPoints_x": 0.0,
+                            "sizeFadingPoints_y": 0.0,
+                            "sizeFadingPoints_z": 0.0,
+                            "sizeFadingPoints_w": 0.0,
+                            "numberOfMarks": 3,
+                            "ColorsGradient": [
+                                {
+                                    "color_x": 1.0,
+                                    "color_y": 1.0,
+                                    "color_z": 1.0,
+                                    "color_w": 0.0,
+                                    "pos": 0.0
+                                },
+                                {
+                                    "color_x": 1.0,
+                                    "color_y": 1.0,
+                                    "color_z": 1.0,
+                                    "color_w": 1.0,
+                                    "pos": 0.4696570038795471
+                                },
+                                {
+                                    "color_x": 1.0,
+                                    "color_y": 1.0,
+                                    "color_z": 1.0,
+                                    "color_w": 0.0,
+                                    "pos": 1.0
+                                }
+                            ],
+                            "textureUID": 0,
+                            "assetPathTexture": "",
+                            "EndPoint": 4257341622101312355
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "GrenadeLineEnd",
+                "tag": "",
+                "uid": 4257341622101312355,
+                "parentUID": 4442095372049564911,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 120.79434204101563,
+                            "localPos_Z": 44.943359375,
+                            "localRot_X": 1.730440679637013e-9,
+                            "localRot_Y": 0.039587777107954025,
+                            "localRot_Z": -0.000010017913155024871,
+                            "localSca_X": 333.3334045410156,
+                            "localSca_Y": 333.3333435058594,
+                            "localSca_Z": 333.3334045410156,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
                         }
                     }
                 ]

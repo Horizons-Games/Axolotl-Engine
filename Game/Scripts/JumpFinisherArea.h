@@ -21,6 +21,8 @@ public:
 	void VisualStartEffect();
 	void VisualLandingEffect();
 
+	GameObject* GetVisualStartEffect();
+
 	void PushEnemies(float pushForce, float stunTime, std::vector<ComponentRigidBody*>* enemies = nullptr);
 
 private:

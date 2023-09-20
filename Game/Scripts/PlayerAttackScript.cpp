@@ -353,17 +353,17 @@ void PlayerAttackScript::InitJumpAttack()
 
 void PlayerAttackScript::UpdateJumpAttack()
 {
-	bool landed = false;
+	bool successfulAttack = false;
 	if (isMelee) 
 	{
-		landed = playerManager->IsGrounded();
+		successfulAttack = playerManager->IsGrounded();
 	}
 	else 
 	{
-		landed = true;
+		successfulAttack = jumpFinisherScript->GetBulletHitTheFloor();
 	}
 
-	if (landed)
+	if (successfulAttack)
 	{
 		animation->SetParameter("IsJumpAttacking", false);
 		if (currentAttack == AttackType::JUMPNORMAL)
@@ -374,6 +374,8 @@ void PlayerAttackScript::UpdateJumpAttack()
 		{
 			EndJumpFinisherAttack();
 		}
+
+		jumpFinisherScript->SetBulletHitTheFloor(false);
 	}
 }
 
