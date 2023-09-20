@@ -16,6 +16,10 @@ ComponentPlanarReflection::ComponentPlanarReflection(GameObject* parent) :
 	ComponentLight(LightType::PLANAR_REFLECTION, parent, true),	frameBuffer(0), depth(0), reflectionTex(0), 
 	planeNormal(0, 1, 0), originScaling({ 0.5f, 0.5f, 0.5f })
 {
+	if (GetOwner()->HasComponent<ComponentTransform>())
+	{
+		influenceAABB = { GetPosition() + float3(-5, -0.5f, -5), GetPosition() + float3(5, 0.5f, 5) };
+	}
 }
 
 ComponentPlanarReflection::~ComponentPlanarReflection()
@@ -45,6 +49,16 @@ void ComponentPlanarReflection::Draw() const
 
 void ComponentPlanarReflection::OnTransformChanged()
 {
+	// Normal rotation
+	planeNormal = GetRotation() * float3(0, 1, 0);
+
+	// Pos translation
+	float3 halfsize = influenceAABB.HalfSize();
+
+	influenceAABB.minPoint = (GetPosition() - halfsize);
+	influenceAABB.maxPoint = (GetPosition() + halfsize);
+
+	AXO_TODO("Recalculate all the meshes that are inside the aabb");
 }
 
 void ComponentPlanarReflection::InitBuffer(unsigned width, unsigned height)
@@ -101,11 +115,35 @@ void ComponentPlanarReflection::ScaleInfluenceAABB(float3& scaling)
 void ComponentPlanarReflection::InternalSave(Json& meta)
 {
 	meta["lightType"] = GetNameByLightType(lightType).c_str();
+
+	meta["influence_min_x"] = static_cast<float>(influenceAABB.minPoint.x);
+	meta["influence_min_y"] = static_cast<float>(influenceAABB.minPoint.y);
+	meta["influence_min_z"] = static_cast<float>(influenceAABB.minPoint.z);
+
+	meta["influence_max_x"] = static_cast<float>(influenceAABB.maxPoint.x);
+	meta["influence_max_y"] = static_cast<float>(influenceAABB.maxPoint.y);
+	meta["influence_max_z"] = static_cast<float>(influenceAABB.maxPoint.z);
+
+	meta["planeNormal_x"] = static_cast<float>(planeNormal.x);
+	meta["planeNormal_y"] = static_cast<float>(planeNormal.y);
+	meta["planeNormal_z"] = static_cast<float>(planeNormal.z);
 }
 
 void ComponentPlanarReflection::InternalLoad(const Json& meta)
 {
 	lightType = GetLightTypeByName(meta["lightType"]);
+
+	influenceAABB.minPoint.x = static_cast<float>(meta["influence_min_x"]);
+	influenceAABB.minPoint.y = static_cast<float>(meta["influence_min_y"]);
+	influenceAABB.minPoint.z = static_cast<float>(meta["influence_min_z"]);
+
+	influenceAABB.maxPoint.x = static_cast<float>(meta["influence_max_x"]);
+	influenceAABB.maxPoint.y = static_cast<float>(meta["influence_max_y"]);
+	influenceAABB.maxPoint.z = static_cast<float>(meta["influence_max_z"]);
+
+	planeNormal.x = static_cast<float>(meta["planeNormal_x"]);
+	planeNormal.y = static_cast<float>(meta["planeNormal_y"]);
+	planeNormal.z = static_cast<float>(meta["planeNormal_z"]);
 }
 
 const float3 ComponentPlanarReflection::GetPosition()
