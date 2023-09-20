@@ -59151,13 +59151,8 @@
                             "fields": [
                                 {
                                     "name": "DashForce",
-                                    "value": 1000.0,
+                                    "value": 15.0,
                                     "type": 0
-                                },
-                                {
-                                    "name": "CanDash",
-                                    "value": true,
-                                    "type": 5
                                 },
                                 {
                                     "name": "IsParalyzed",
@@ -59173,6 +59168,16 @@
                                     "name": "HeavyAttacksMoveFactor",
                                     "value": 3.0,
                                     "type": 0
+                                },
+                                {
+                                    "name":"DashRollCooldown",
+                                    "value":0.10000000149011612,
+                                    "type":0
+                                },
+                                {
+                                    "name":"DashDuration",
+                                    "value":0.30000000298023224,
+                                    "type":0
                                 }
                             ]
                         }

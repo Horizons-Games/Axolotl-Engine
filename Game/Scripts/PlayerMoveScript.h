@@ -51,8 +51,6 @@ public:
 	bool IsParalyzed() const;
 	void SetIsParalyzed(bool isParalyzed);
 
-	PlayerActions GetPlayerState() const;
-	void SetPlayerState(PlayerActions playerState);
 	PlayerJumpScript* GetJumpScript() const;
 
 private:
@@ -62,12 +60,15 @@ private:
 	PlayerActions playerState;
 	bool isParalyzed;
 
-	float dashForce;
-	float dashCooldown;
 	float3 positionBeforeDash;
+	float dashForce;
+	float dashTime;
+	float dashDuration;
 
 	float lightAttacksMoveFactor;
 	float heavyAttacksMoveFactor;
+	float dashRollCooldown;
+	float timeSinceLastDash;
 
 	PlayerManagerScript* playerManager;
 	PlayerForceUseScript* forceScript;

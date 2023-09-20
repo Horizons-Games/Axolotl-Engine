@@ -24,14 +24,19 @@
 REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
-componentAudio(nullptr), playerState(PlayerActions::IDLE), componentAnimation(nullptr),
-dashForce(3000.0f), dashCooldown(0.0f), playerManager(nullptr), isParalyzed(false),
-desiredRotation(0.0f, 0.0f, 0.0f), positionBeforeDash(0.0f, 0.0f, 0.0f), lightAttacksMoveFactor(2.0f), heavyAttacksMoveFactor(3.0f)
+componentAudio(nullptr), componentAnimation(nullptr),
+playerState(PlayerActions::IDLE), dashCooldown(0.0f), positionBeforeDash(0.0f, 0.0f, 0.0f),
+dashForce(30.0f), playerManager(nullptr), isParalyzed(false),
+desiredRotation(0.0f, 0.0f, 0.0f), lightAttacksMoveFactor(2.0f), 
+heavyAttacksMoveFactor(3.0f), dashTime(0.0f), dashRollCooldown(0.1f),
+timeSinceLastDash(0.0f), dashDuration(0.2f)
 {
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(isParalyzed, bool);
 	REGISTER_FIELD(lightAttacksMoveFactor, float);
 	REGISTER_FIELD(heavyAttacksMoveFactor, float);
+	REGISTER_FIELD(dashRollCooldown, float);
+	REGISTER_FIELD(dashDuration, float);
 }
 
 void PlayerMoveScript::Start()
@@ -69,6 +74,7 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 		{
 			return;
 		}
+
 		Move(deltaTime);
 		MoveRotate(deltaTime);
 		DashRoll(deltaTime);
@@ -149,13 +155,33 @@ void PlayerMoveScript::Move(float deltaTime)
 		cameraFrustum = *camera->GetFrustum();
 	}
 
-	if (playerState == PlayerActions::WALKING || playerState == PlayerActions::JUMPING)
+	if (playerManager->GetPlayerState() != PlayerActions::IDLE &&
+		playerManager->GetPlayerState() != PlayerActions::DASHING)
 	{
 		if (totalDirection.IsZero())
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			componentAnimation->SetParameter("IsRunning", false);
-			playerState = PlayerActions::IDLE;
+			
+			if (playerManager->GetPlayerState() == PlayerActions::WALKING)
+			{
+				playerManager->SetPlayerState(PlayerActions::IDLE);
+			}
+		}
+		else {
+			// Low velocity while attacking
+			if (playerAttackScript->IsInAttackAnimation())
+			{
+				newSpeed = newSpeed / lightAttacksMoveFactor;
+			}
+
+			componentAnimation->SetParameter("IsRunning", true);
+
+			totalDirection.y = 0;
+			totalDirection = totalDirection.Normalized();
+			desiredRotation = totalDirection;
+
+			movement = btVector3(desiredRotation.x, desiredRotation.y, desiredRotation.z) * deltaTime * newSpeed;
 		}
 		else {
 			// Low velocity while attacking
@@ -173,20 +199,22 @@ void PlayerMoveScript::Move(float deltaTime)
 			movement = btVector3(desiredRotation.x, desiredRotation.y, desiredRotation.z) * deltaTime * newSpeed;
 		}
 	}
-	else if (playerState == PlayerActions::IDLE && !totalDirection.IsZero())
+	else if (playerManager->GetPlayerState() == PlayerActions::IDLE && !totalDirection.IsZero())
 	{
 		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
 		componentAnimation->SetParameter("IsRunning", true);
-		playerState = PlayerActions::WALKING;
+		playerManager->SetPlayerState(PlayerActions::WALKING);
 	}
 
-	if (playerState == PlayerActions::DASHING)
+	if (playerManager->GetPlayerState() == PlayerActions::DASHING)
 	{
 		totalDirection = float3::zero;
 	}
-
-	btVector3 newVelocity(movement.getX(), btRigidbody->getLinearVelocity().getY(), movement.getZ());
-	btRigidbody->setLinearVelocity(newVelocity);
+	else 
+	{
+		btVector3 newVelocity(movement.getX(), btRigidbody->getLinearVelocity().getY(), movement.getZ());
+		btRigidbody->setLinearVelocity(newVelocity);
+	}
 }
 
 void PlayerMoveScript::MoveRotate(float deltaTime)
@@ -271,70 +299,78 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 
 void PlayerMoveScript::DashRoll(float deltaTime)
 {
-	// Turn off dash animation correctly
-	if (componentAnimation->GetActualStateName() == "DashingInit" ||
-		componentAnimation->GetActualStateName() == "DashingKeep" ||
-		componentAnimation->GetActualStateName() == "DashingEnd")
+	float3 dashDirection = float3::zero;
+
+	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN
+		&& (playerManager->GetPlayerState() == PlayerActions::IDLE
+			|| playerManager->GetPlayerState() == PlayerActions::WALKING) &&
+		timeSinceLastDash > dashRollCooldown && playerAttackScript->IsAttackAvailable())
 	{
-		componentAnimation->SetParameter("IsDashing", false);
+		// Start a dash
+		dashTime = 0.0f;
+		timeSinceLastDash = 0.0f;
+		componentAnimation->SetParameter("IsDashing", true);
 		componentAnimation->SetParameter("IsRunning", false);
-	}
+		playerManager->SetPlayerState(PlayerActions::DASHING);
 
-	if (dashCooldown <= 0.0f)
-	{
-		if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN)
+		JoystickHorizontalDirection horizontalDirection = input->GetLeftJoystickDirection().horizontalMovement;
+		JoystickVerticalDirection verticalDirection = input->GetLeftJoystickDirection().verticalMovement;
+
+		if (horizontalDirection == JoystickHorizontalDirection::RIGHT) {
+			dashDirection += cameraFrustum.WorldRight().Normalized();
+		}
+		else if (horizontalDirection == JoystickHorizontalDirection::LEFT) {
+			dashDirection -= cameraFrustum.WorldRight().Normalized();
+		}
+
+		if (verticalDirection == JoystickVerticalDirection::FORWARD) {
+			dashDirection += cameraFrustum.Front().Normalized();
+
+		}
+		else if (verticalDirection == JoystickVerticalDirection::BACK) {
+			dashDirection -= cameraFrustum.Front().Normalized();
+
+		}
+
+		if (horizontalDirection == JoystickHorizontalDirection::NONE &&
+			verticalDirection == JoystickVerticalDirection::NONE) {
+			dashDirection += componentTransform->GetGlobalForward();
+		}
+
+		dashDirection.Normalize();
+
+		btVector3 btDashDirection = btVector3(dashDirection.x, 0.0f, dashDirection.z);
+		btRigidbody->setLinearVelocity(btDashDirection * dashForce);
+
+		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+
+		if (playerAttackScript->IsMeleeAvailable())
 		{
-			// Start a dash
-			positionBeforeDash = componentTransform->GetGlobalPosition();
-			componentAnimation->SetParameter("IsDashing", true);
-			componentAnimation->SetParameter("IsRunning", false);
-			playerState = PlayerActions::DASHING;
-			dashCooldown = 3.0f; // From SDL miliseconds (1000.0f) to actual deltaTime seconds (3.0f)
-
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-			if (playerAttackScript->IsMeleeAvailable())
-			{
-				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
-			}
-			else
-			{
-				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::ROLL);
-			}
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
+		}
+		else
+		{
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::ROLL);
 		}
 	}
 	else
 	{
-		dashCooldown -= deltaTime;
+		timeSinceLastDash += deltaTime;
 	}
 
-	if (playerState == PlayerActions::DASHING)
+	if (playerManager->GetPlayerState() == PlayerActions::DASHING)
 	{
 		// Stop the dash
-		float3 positionAfterDash = componentTransform->GetGlobalPosition();
-		float deltaX = positionAfterDash.x - positionBeforeDash.x;
-		float deltaZ = positionAfterDash.z - positionBeforeDash.z;
-		float distanceTraveled = deltaX * deltaX + deltaZ * deltaZ;
-		float dashDistance = 4.0f;
-		// Avoiding use of sqrt
-		if (distanceTraveled >= dashDistance * dashDistance)
+		if (dashTime > dashDuration)
 		{
-			playerState = PlayerActions::IDLE;
+			playerManager->SetPlayerState(PlayerActions::IDLE);
+			timeSinceLastDash = 0.0f;
+			componentAnimation->SetParameter("IsDashing", false);
+			btRigidbody->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
 		}
 		else
 		{
-			Quat rotation = componentTransform->GetGlobalRotation();
-			float3 dashDirection = componentTransform->GetGlobalForward();
-
-			btVector3 btDashDirection(dashDirection.x, dashDirection.y, dashDirection.z);
-
-			dashDirection.Normalize();
-
-			float3 dashImpulse = dashDirection * dashForce;
-
-			// Cast impulse and direction from float3 to btVector3
-			btVector3 btDashImpulse(dashImpulse.x, dashImpulse.y, dashImpulse.z);
-
-			btRigidbody->applyCentralImpulse(btDashImpulse);
+			dashTime += deltaTime;
 		}
 	}
 }
@@ -347,16 +383,6 @@ bool PlayerMoveScript::IsParalyzed() const
 void PlayerMoveScript::SetIsParalyzed(bool isParalyzed)
 {
 	this->isParalyzed = isParalyzed;
-}
-
-PlayerActions PlayerMoveScript::GetPlayerState() const
-{
-	return playerState;
-}
-
-void PlayerMoveScript::SetPlayerState(PlayerActions playerState)
-{
-	this->playerState = playerState;
 }
 
 PlayerJumpScript* PlayerMoveScript::GetJumpScript() const

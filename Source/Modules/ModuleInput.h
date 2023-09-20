@@ -77,7 +77,8 @@ public:
 	UpdateStatus Update() override;
 	bool CleanUp() override;
 
-	SDL_GameControllerAxis GetJoystickAxis() const;
+	SDL_GameControllerAxis GetLeftJoystickAxis() const;
+	SDL_GameControllerAxis GetRightJoystickAxis() const;
 
 	KeyState GetKey(int scanCode) const;
 	KeyState GetMouseButton(int mouseButton) const;
@@ -93,7 +94,9 @@ public:
 	SDL_GameController* FindController() const;
 	SDL_JoystickID GetControllerInstanceID(SDL_GameController* controller) const;
 	JoystickDirection GetJoystickDirection() const;
-	JoystickMovement GetJoystickMovement() const;
+
+	JoystickMovement GetLeftJoystickMovement() const;
+	JoystickMovement GetRightJoystickMovement() const;
 
 	void Rumble(RumbleIntensity intensityLeft, RumbleIntensity intensityRight, RumbleDuration durationMs) const;
 	// Overload with same intensity on both sides
@@ -104,6 +107,7 @@ public:
 	float2 GetMouseMotion() const;
 	float2 GetMouseWheel() const;
 	float2 GetMousePosition() const;
+
 	bool GetInFocus() const;
 
 	void SetMousePositionX(int mouseX);
@@ -132,15 +136,23 @@ private:
 	int mousePosX;
 	int mousePosY;
 
-	JoystickDirection joystickDirection;
-	JoystickMovement joystickMovement;
+	JoystickMovement leftJoystickMovement;
+	JoystickDirection leftJoystickDirection;
+	
+	JoystickMovement rightJoystickMovement;
+	JoystickDirection rightJoystickDirection;
 
 	InputMethod inputMethod;
 
 	bool mouseWheelScrolled;
 	bool inFocus;
 
-	SDL_GameControllerAxis axis;
+	InputMethod inputMethod;
+
+	SDL_GameControllerAxis leftJoystickAxis;
+	SDL_GameControllerAxis rightJoystickAxis;
+
+	Sint16 joystickAxisValue;
 
 	struct SDLSurfaceDestroyer
 	{
@@ -285,19 +297,34 @@ inline KeyState ModuleInput::operator[](SDL_Scancode index)
 	return keysState[index];
 }
 
-inline JoystickDirection ModuleInput::GetJoystickDirection() const
+inline JoystickMovement ModuleInput::GetLeftJoystickMovement() const
 {
-	return joystickDirection;
+	return leftJoystickMovement;
 }
 
-inline JoystickMovement ModuleInput::GetJoystickMovement() const
+inline JoystickDirection ModuleInput::GetLeftJoystickDirection() const
 {
-	return joystickMovement;
+	return leftJoystickDirection;
 }
 
-inline SDL_GameControllerAxis ModuleInput::GetJoystickAxis() const
+inline JoystickMovement ModuleInput::GetRightJoystickMovement() const
 {
-	return axis;
+	return rightJoystickMovement;
+}
+
+inline JoystickDirection ModuleInput::GetRightJoystickDirection() const
+{
+	return rightJoystickDirection;
+}
+
+inline SDL_GameControllerAxis ModuleInput::GetLeftJoystickAxis() const
+{
+	return leftJoystickAxis;
+}
+
+inline SDL_GameControllerAxis ModuleInput::GetRightJoystickAxis() const
+{
+	return rightJoystickAxis;
 }
 
 inline InputMethod ModuleInput::GetCurrentInputMethod() const
