@@ -317,16 +317,19 @@ void ModuleScene::SaveScene(const std::string& name)
 
 	std::string path = SCENE_PATH + name;
 
-	App->GetModule<ModuleFileSystem>()->Save(path.c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
+	fileSystem->Save(path.c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
 }
 
 void ModuleScene::SaveSceneToJson(Json& jsonScene)
 {
 	Json jsonGameObjects = jsonScene["GameObjects"];
-	for (int i = 0; i < loadedScene->GetSceneGameObjects().size(); ++i)
+	
+	std::vector<GameObject*> sceneGameObjects = loadedScene->GetSceneGameObjects();
+
+	for (int i = 0; i < sceneGameObjects.size(); ++i)
 	{
 		Json jsonGameObject = jsonGameObjects[i]["GameObject"];
-		loadedScene->GetSceneGameObjects()[i]->Save(jsonGameObject);
+		sceneGameObjects[i]->Save(jsonGameObject);
 	}
 
 	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
@@ -336,7 +339,6 @@ void ModuleScene::SaveSceneToJson(Json& jsonScene)
 	cubemap->SaveOptions(jsonScene);
 
 	App->GetModule<ModuleNavigation>()->SaveOptions(jsonScene);
-
 }
 
 void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene)
