@@ -309,8 +309,9 @@ UpdateStatus ModuleRender::Update()
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_METALLIC), engineCamera);
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_SPECULAR), engineCamera);
+	Frustum frustum = *engineCamera->GetFrustum();
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_METALLIC), frustum);
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_SPECULAR), frustum);
 
 	// -------- DEFERRED GEOMETRY -----------
 	gBuffer->BindFrameBuffer();
@@ -358,7 +359,7 @@ UpdateStatus ModuleRender::Update()
 	if (ssao->IsEnabled())
 	{
 		program = modProgram->GetProgram(ProgramType::SSAO);
-		BindCameraToProgram(program, engineCamera);
+		BindCameraToProgram(program, frustum);
 		ssao->CalculateSSAO(program, w, h);
 
 		program = modProgram->GetProgram(ProgramType::GAUSSIAN_BLUR);
@@ -366,9 +367,9 @@ UpdateStatus ModuleRender::Update()
 	}
 
 	// -------- DEFERRED LIGHTING ---------------
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT), engineCamera);
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR), engineCamera);
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT), engineCamera);
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT), frustum);
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR), frustum);
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT), frustum);
 
 	// -------- DEFERRED LIGHTING ---------------
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("DEFERRED LIGHTING"), "DEFERRED LIGHTING");
@@ -986,13 +987,13 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 	}
 }
 
-void ModuleRender::BindCameraToProgram(Program* program, Camera* camera)
+void ModuleRender::BindCameraToProgram(Program* program, Frustum& frustum)
 {
 	program->Activate();
 
-	const float4x4& view = camera->GetFrustum()->ViewMatrix();
-	const float4x4& proj = camera->GetFrustum()->ProjectionMatrix();
-	float3 viewPos = camera->GetPosition();
+	const float4x4& view = frustum.ViewMatrix();
+	const float4x4& proj = frustum.ProjectionMatrix();
+	float3 viewPos = frustum.Pos();
 
 	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);

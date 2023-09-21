@@ -84,6 +84,8 @@ public:
 
 	void SortOpaques(const float3& pos);
 	void SortTransparents(const float3& pos);
+	
+	void BindCameraToProgram(Program* program, Frustum& frustum);
 
 private:
 
@@ -109,7 +111,6 @@ private:
 	void DrawHighlight(GameObject* gameObject);
 
 	void BindCubemapToProgram(Program* program);
-	void BindCameraToProgram(Program* program, Camera* camera);
 
 	void KawaseDualFiltering();
 

@@ -14,7 +14,7 @@
 
 #include "FileSystem/Json.h"
 
-#include "DataModels/Program/Program.h"
+#include "Program/Program.h"
 
 #include "Geometry/Frustum.h"
 
@@ -356,8 +356,6 @@ void ComponentLocalIBL::CreateCubemap()
 
 	ComponentSkybox* skybox = scene->GetRoot()->GetComponentInternal<ComponentSkybox>();
 
-	GLuint uboCamera = modRender->GetUboCamera();
-	
 	Frustum frustum;
 	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
 	frustum.SetPerspective(math::pi / 2.0f, math::pi / 2.0f);
@@ -374,8 +372,8 @@ void ComponentLocalIBL::CreateCubemap()
 
 		frustum.SetFront(GetRotation() * front[i]);
 		frustum.SetUp(GetRotation() * up[i]);
-		BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT), frustum, uboCamera);
-		BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR), frustum, uboCamera);
+		modRender->BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT), frustum);
+		modRender->BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR), frustum);
 
 		if (skybox)
 		{
@@ -424,22 +422,6 @@ void ComponentLocalIBL::RenderToCubeMap(unsigned int cubemapTex, Program* usedPr
 		// Draw cube
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
-}
-
-void ComponentLocalIBL::BindCameraToProgram(Program* program, Frustum& frustum, unsigned int uboCamera)
-{
-	program->Activate();
-	
-	float4x4 proj = frustum.ProjectionMatrix();
-	float4x4 view = frustum.ViewMatrix();
-	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj[0]);
-	glBufferSubData(GL_UNIFORM_BUFFER, 64, sizeof(float4) * 4, &view[0]);
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
-	program->BindUniformFloat3("viewPos", frustum.Pos());
-
-	program->Deactivate();
 }
 
 void ComponentLocalIBL::CreateVAO()
