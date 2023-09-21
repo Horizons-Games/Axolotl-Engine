@@ -133,23 +133,11 @@ void ElevatorCore::OnCollisionExit(ComponentRigidBody* other)
 void ElevatorCore::DisableAllInteractions()
 {
 	PlayerManagerScript* manager = bixPrefab->GetComponentInternal<PlayerManagerScript>();
-	PlayerJumpScript* jump = bixPrefab->GetComponentInternal<PlayerJumpScript>();
-	PlayerMoveScript* move = bixPrefab->GetComponentInternal<PlayerMoveScript>();
-	PlayerAttackScript* attack = bixPrefab->GetComponentInternal<PlayerAttackScript>();
-	manager->Disable();
-	jump->Disable();
-	move->Disable();
-	attack->Disable();
+	manager->ParalyzePlayer(true);
 }
 
 void ElevatorCore::EnableAllInteractions()
 {
 	PlayerManagerScript* manager = bixPrefab->GetComponentInternal<PlayerManagerScript>();
-	PlayerJumpScript* jump = bixPrefab->GetComponentInternal<PlayerJumpScript>();
-	PlayerMoveScript* move = bixPrefab->GetComponentInternal<PlayerMoveScript>();
-	PlayerAttackScript* attack = bixPrefab->GetComponentInternal<PlayerAttackScript>();
-	manager->Enable();
-	jump->Enable();
-	move->Enable();
-	attack->Enable();
+	manager->ParalyzePlayer(false);
 }
