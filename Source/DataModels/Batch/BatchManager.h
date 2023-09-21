@@ -40,9 +40,6 @@ public:
 	void DrawBatch(GeometryBatch* batch, bool selected);
 	void DrawBatch(GeometryBatch* batch, std::vector<GameObject*>& meshes);
 
-	void SortOpaques(const float3 & pos);
-	void SortTransparents(const float3 & pos);
-
 	void SetDirtybatches();
 
 	void CleanBatches();

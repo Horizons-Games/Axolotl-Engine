@@ -272,38 +272,6 @@ void BatchManager::DrawBatch(GeometryBatch* batch, std::vector<GameObject*>& obj
 	batch->BindBatch(objects);
 }
 
-void BatchManager::SortOpaques(const float3 & pos)
-{
-	for (GeometryBatch* geometryBatch : geometryBatchesOpaques)
-	{
-		if (!geometryBatch->IsEmpty())
-		{
-			geometryBatch->SortByDistanceCloseToFar(pos);
-		}
-		else
-		{
-			erase_if(geometryBatchesOpaques, [](auto const& gb) { return gb->IsEmpty(); });
-			delete geometryBatch;
-		}
-	}
-}
-
-void BatchManager::SortTransparents(const float3 & pos)
-{
-	for (GeometryBatch* geometryBatch : geometryBatchesTransparent)
-	{
-		if (!geometryBatch->IsEmpty())
-		{
-			geometryBatch->SortByDistanceFarToClose(pos);
-		}
-		else
-		{
-			erase_if(geometryBatchesTransparent, [](auto const& gb) { return gb->IsEmpty(); });
-			delete geometryBatch;
-		}
-	}
-}
-
 void BatchManager::SetDirtybatches()
 {
 	for (GeometryBatch* batch : geometryBatchesOpaques)
