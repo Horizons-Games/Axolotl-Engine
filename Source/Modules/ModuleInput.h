@@ -70,8 +70,8 @@ public:
 	UpdateStatus Update() override;
 	bool CleanUp() override;
 
-	SDL_GameControllerAxis GetJoystickAxis() const;
-	Sint16 GetJoystickAxisValue() const;
+	SDL_GameControllerAxis GetAxis() const;
+	Sint16 GetAxisValue() const;
 
 	KeyState GetKey(int scanCode) const;
 	KeyState GetMouseButton(int mouseButton) const;
@@ -87,7 +87,8 @@ public:
 	SDL_GameController* FindController() const;
 	SDL_JoystickID GetControllerInstanceID(SDL_GameController* controller) const;
 
-	JoystickMovement GetDirection() const;
+	JoystickMovement GetLeftJoystickDirection() const;
+	JoystickMovement GetRightJoystickDirection() const;
 
 	void Rumble(RumbleIntensity intensityLeft, RumbleIntensity intensityRight, RumbleDuration durationMs) const;
 	// Overload with same intensity on both sides
@@ -98,6 +99,7 @@ public:
 	float2 GetMouseMotion() const;
 	float2 GetMouseWheel() const;
 	float2 GetMousePosition() const;
+
 	bool GetInFocus() const;
 
 	void SetMousePositionX(int mouseX);
@@ -126,15 +128,15 @@ private:
 
 	int mousePosX;
 	int mousePosY;
-
-	JoystickMovement direction;
-	InputMethod inputMethod;
-
 	bool mouseWheelScrolled;
 	bool inFocus;
 
+	InputMethod inputMethod;
+
+	JoystickMovement leftJoystickDirection;
+	JoystickMovement rightJoystickDirection;
 	SDL_GameControllerAxis axis;
-	Sint16 axisValue;
+	Sint16 joystickAxisValue;
 
 	struct SDLSurfaceDestroyer
 	{
@@ -286,19 +288,24 @@ inline KeyState ModuleInput::operator[](SDL_Scancode index)
 	return keysState[index];
 }
 
-inline JoystickMovement ModuleInput::GetDirection() const
+inline JoystickMovement ModuleInput::GetLeftJoystickDirection() const
 {
-	return direction;
+	return leftJoystickDirection;
 }
 
-inline SDL_GameControllerAxis ModuleInput::GetJoystickAxis() const
+inline JoystickMovement ModuleInput::GetRightJoystickDirection() const
+{
+	return rightJoystickDirection;
+}
+
+inline SDL_GameControllerAxis ModuleInput::GetAxis() const
 {
 	return axis;
 }
 
-inline Sint16 ModuleInput::GetJoystickAxisValue() const
+inline Sint16 ModuleInput::GetAxisValue() const
 {
-	return axisValue;
+	return joystickAxisValue;
 }
 
 inline InputMethod ModuleInput::GetCurrentInputMethod() const
