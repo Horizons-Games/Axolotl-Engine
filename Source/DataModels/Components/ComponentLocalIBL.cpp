@@ -390,10 +390,10 @@ void ComponentLocalIBL::CreateCubemap()
 
 		std::vector<GameObject*> objectsInFrustum = scene->ObtainStaticObjectsInFrustum(&frustum);
 
-		modRender->SortOpaques(frustum.Pos());
+		modRender->SortOpaques(objectsInFrustum, frustum.Pos());
 		modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::DEFAULT, false);
 		modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::SPECULAR, false);
-		modRender->SortTransparents(frustum.Pos());
+		modRender->SortTransparents(objectsInFrustum, frustum.Pos());
 		modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::DEFAULT);
 		modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::SPECULAR);
 	}

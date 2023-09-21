@@ -82,8 +82,8 @@ public:
 
 	void DrawMeshesByFilter(std::vector<GameObject*>& objects, ProgramType type, bool normalBehaviour = true);
 
-	void SortOpaques(const float3& pos);
-	void SortTransparents(const float3& pos);
+	void SortOpaques(std::vector<GameObject*>& sceneGameObjects, const float3& pos);
+	void SortTransparents(std::vector<GameObject*>& sceneGameObjects, const float3& pos);
 	
 	void BindCameraToProgram(Program* program, Frustum& frustum);
 

@@ -946,14 +946,28 @@ void ModuleRender::DrawMeshesByFilter(std::vector<GameObject*>& objects, Program
 	}
 }
 
-void ModuleRender::SortOpaques(const float3& pos)
+void ModuleRender::SortOpaques(std::vector<GameObject*>& sceneGameObjects, const float3& pos)
 {
-	batchManager->SortOpaques(pos);
+	std::sort(sceneGameObjects.begin(), sceneGameObjects.end(),
+		[pos](GameObject*& a, GameObject*& b) -> bool
+		{
+			float aDist = a->GetComponentInternal<ComponentTransform>()->GetGlobalPosition().DistanceSq(pos);
+			float bDist = b->GetComponentInternal<ComponentTransform>()->GetGlobalPosition().DistanceSq(pos);
+
+			return aDist < bDist;
+		});
 }
 
-void ModuleRender::SortTransparents(const float3& pos)
+void ModuleRender::SortTransparents(std::vector<GameObject*>& sceneGameObjects, const float3& pos)
 {
-	batchManager->SortTransparents(pos);
+	std::sort(sceneGameObjects.begin(), sceneGameObjects.end(),
+		[pos](GameObject*& a, GameObject*& b) -> bool
+		{
+			float aDist = a->GetComponentInternal<ComponentTransform>()->GetGlobalPosition().DistanceSq(pos);
+			float bDist = b->GetComponentInternal<ComponentTransform>()->GetGlobalPosition().DistanceSq(pos);
+
+			return aDist > bDist;
+		});
 }
 
 void ModuleRender::DrawHighlight(GameObject* gameObject)
