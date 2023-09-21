@@ -208,28 +208,17 @@ void PlayerHackingUseScript::RestartHack()
 
 void PlayerHackingUseScript::DisableAllInteractions()
 {
-	rigidBody->Disable();
+	
 	PlayerManagerScript* manager = GetOwner()->GetComponentInternal<PlayerManagerScript>();
-	PlayerJumpScript* jump = GetOwner()->GetComponentInternal<PlayerJumpScript>();
-	PlayerMoveScript* move = GetOwner()->GetComponentInternal<PlayerMoveScript>();
-	PlayerAttackScript* attack = GetOwner()->GetComponentInternal<PlayerAttackScript>();
-	manager->Disable();
-	jump->Disable();
-	move->Disable();
-	attack->Disable();
+	manager->ParalyzePlayer(true);
 }
 
 void PlayerHackingUseScript::EnableAllInteractions()
 {
-	rigidBody->Enable();
+	
 	PlayerManagerScript* manager = GetOwner()->GetComponentInternal<PlayerManagerScript>();
-	PlayerJumpScript* jump = GetOwner()->GetComponentInternal<PlayerJumpScript>();
-	PlayerMoveScript* move = GetOwner()->GetComponentInternal<PlayerMoveScript>();
-	PlayerAttackScript* attack = GetOwner()->GetComponentInternal<PlayerAttackScript>();
-	manager->Enable();
-	jump->Enable();
-	move->Enable();
-	attack->Enable();
+	manager->ParalyzePlayer(false);
+
 }
 
 void PlayerHackingUseScript::FindHackZone(const std::string& tag)
