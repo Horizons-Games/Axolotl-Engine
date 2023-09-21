@@ -10,6 +10,16 @@ class PlayerMoveScript;
 class DebugGame;
 class PlayerRotationScript;
 
+enum class PlayerActions
+{
+	IDLE,
+	WALKING,
+	DASHING,
+	JUMPING,
+	DOUBLEJUMPING,
+	FALLING
+};
+
 class PlayerManagerScript : public Script
 {
 public:
@@ -31,17 +41,19 @@ public:
 	PlayerMoveScript* GetMovementManager() const;
 	void ParalyzePlayer(bool paralyzed);
 	void SetPlayerSpeed(float playerSpeed);
+	PlayerActions GetPlayerState() const;
+	void SetPlayerState(PlayerActions playerState);
 
 private:
 	void Start() override;
 
-
+	PlayerActions playerState;
 	float playerAttack;
 	float playerDefense;
 	float playerSpeed;
 	float playerRotationSpeed;
 
-	// All Principal PlayerManagers
+	// All Main PlayerManagers
 	PlayerMoveScript* movementManager;
 	PlayerJumpScript* jumpManager;
 	DebugGame* debugManager;

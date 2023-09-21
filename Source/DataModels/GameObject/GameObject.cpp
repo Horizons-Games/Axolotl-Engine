@@ -17,7 +17,6 @@
 #include "DataModels/Components/ComponentMeshRenderer.h"
 #include "DataModels/Components/ComponentParticleSystem.h"
 #include "DataModels/Components/ComponentPlayer.h"
-#include "DataModels/Components/ComponentPlayerInput.h"
 #include "DataModels/Components/ComponentPointLight.h"
 #include "DataModels/Components/ComponentRigidBody.h"
 #include "DataModels/Components/ComponentScript.h"
@@ -161,7 +160,7 @@ void GameObject::Load(const Json& meta)
 		if (type == ComponentType::LIGHT)
 		{
 			LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-			AXO_TODO("look at this when implement metas")
+			AXO_TODO("Look at this when implement metas")
 			CreateComponentLight(lightType, AreaType::NONE);
 		}
 		else if (type == ComponentType::SCRIPT)
@@ -345,12 +344,6 @@ void GameObject::CopyComponent(Component* component)
 		case ComponentType::PLAYER:
 		{
 			newComponent = std::make_unique<ComponentPlayer>(static_cast<ComponentPlayer&>(*component));
-			break;
-		}
-
-		case ComponentType::PLAYERINPUT:
-		{
-			newComponent = std::make_unique<ComponentPlayerInput>(static_cast<ComponentPlayerInput&>(*component));
 			break;
 		}
 
@@ -599,12 +592,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::PLAYER:
 		{
 			newComponent = std::make_unique<ComponentPlayer>(true, this);
-			break;
-		}
-
-		case ComponentType::PLAYERINPUT:
-		{
-			newComponent = std::make_unique<ComponentPlayerInput>(true, this);
 			break;
 		}
 
