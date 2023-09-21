@@ -22,7 +22,8 @@ ModuleInput::ModuleInput() :
 	mouseMotion(float2::zero),
 	mousePosX(0),
 	mousePosY(0),
-	direction{ JoystickHorizontalDirection::NONE, JoystickVerticalDirection::NONE }
+	leftJoystickDirection{ JoystickHorizontalDirection::NONE, JoystickVerticalDirection::NONE },
+	rightJoystickDirection{ JoystickHorizontalDirection::NONE, JoystickVerticalDirection::NONE }
 {
 }
 
@@ -232,40 +233,73 @@ UpdateStatus ModuleInput::Update()
 				if (controller)
 				{
 					axis = static_cast<SDL_GameControllerAxis>(sdlEvent.caxis.axis);
-					axisValue = sdlEvent.caxis.value;
+					joystickAxisValue = sdlEvent.caxis.value;
 					if (axis == SDL_CONTROLLER_AXIS_LEFTX)
 					{
-						if (axisValue > 3200)
+						if (joystickAxisValue > 3200)
 						{
-							direction.horizontalMovement = JoystickHorizontalDirection::RIGHT;
+							leftJoystickDirection.horizontalMovement = JoystickHorizontalDirection::RIGHT;
 							inputMethod = InputMethod::GAMEPAD;
 						}
-						else if (axisValue < -3200)
+						else if (joystickAxisValue < -3200)
 						{
-							direction.horizontalMovement = JoystickHorizontalDirection::LEFT;	
+							leftJoystickDirection.horizontalMovement = JoystickHorizontalDirection::LEFT;	
 					inputMethod = InputMethod::GAMEPAD;
 						}
 						else
 						{
-							direction.horizontalMovement = JoystickHorizontalDirection::NONE;
+							leftJoystickDirection.horizontalMovement = JoystickHorizontalDirection::NONE;
 						}
 					}
-					
-					if (axis == SDL_CONTROLLER_AXIS_LEFTY)
+					else if (axis == SDL_CONTROLLER_AXIS_LEFTY)
 					{
-						if (axisValue < -3200)
+						if (joystickAxisValue < -3200)
 						{
-							direction.verticalMovement = JoystickVerticalDirection::FORWARD;
+							leftJoystickDirection.verticalMovement = JoystickVerticalDirection::FORWARD;
 							inputMethod = InputMethod::GAMEPAD;
 						}
-						else if (axisValue > 3200)
+						else if (joystickAxisValue > 3200)
 						{
-							direction.verticalMovement = JoystickVerticalDirection::BACK;
+							leftJoystickDirection.verticalMovement = JoystickVerticalDirection::BACK;
 							inputMethod = InputMethod::GAMEPAD;
 						}					
 						else
 						{
-							direction.verticalMovement = JoystickVerticalDirection::NONE;
+							leftJoystickDirection.verticalMovement = JoystickVerticalDirection::NONE;
+						}
+					}
+					else if (axis == SDL_CONTROLLER_AXIS_RIGHTX)
+					{
+						if (joystickAxisValue > 3200)
+						{
+							rightJoystickDirection.horizontalMovement = JoystickHorizontalDirection::RIGHT;
+							inputMethod = InputMethod::GAMEPAD;
+						}
+						else if (joystickAxisValue < -3200)
+						{
+							rightJoystickDirection.horizontalMovement = JoystickHorizontalDirection::LEFT;
+							inputMethod = InputMethod::GAMEPAD;
+						}
+						else
+						{
+							rightJoystickDirection.horizontalMovement = JoystickHorizontalDirection::NONE;
+						}
+					}
+					else if (axis == SDL_CONTROLLER_AXIS_RIGHTY)
+					{
+						if (joystickAxisValue < -3200)
+						{
+							rightJoystickDirection.verticalMovement = JoystickVerticalDirection::FORWARD;
+							inputMethod = InputMethod::GAMEPAD;
+						}
+						else if (joystickAxisValue > 3200)
+						{
+							rightJoystickDirection.verticalMovement = JoystickVerticalDirection::BACK;
+							inputMethod = InputMethod::GAMEPAD;
+						}
+						else
+						{
+							rightJoystickDirection.verticalMovement = JoystickVerticalDirection::NONE;
 						}
 					}
 				}
@@ -365,4 +399,50 @@ bool ModuleInput::CleanUp()
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 
 	return true;
+}
+
+void ModuleInput::Rumble(RumbleIntensity intensityLeft, RumbleIntensity intensityRight, RumbleDuration durationMs) const
+{
+	SDL_GameController* controller = FindController();
+	
+	static const std::unordered_map<RumbleIntensity, Uint16> rumbleIntensityMap({
+		{ RumbleIntensity::LOW, 8192 },
+		{ RumbleIntensity::NORMAL, 16384 },
+		{ RumbleIntensity::HIGH, 24576 },
+		{ RumbleIntensity::HIGHEST, 32767 },
+
+	});
+
+	static const std::unordered_map<RumbleDuration, Uint16> rumbleDurationMap({
+		{ RumbleDuration::SHORT, 125 },
+		{ RumbleDuration::NORMAL, 250 },
+		{ RumbleDuration::LONG, 500 },
+		{ RumbleDuration::LONGER, 1000 },
+	});
+
+	if (controller != nullptr)
+	{
+		auto leftIt = rumbleIntensityMap.find(intensityLeft);
+		auto rightIt = rumbleIntensityMap.find(intensityRight);
+		auto durationIt = rumbleDurationMap.find(durationMs);
+
+		if (leftIt != rumbleIntensityMap.end() && rightIt != rumbleIntensityMap.end() &&
+			durationIt != rumbleDurationMap.end())
+		{
+			if (SDL_GameControllerRumble(controller, leftIt->second, rightIt->second, durationIt->second) != 0)
+			{
+				LOG_ERROR("Error on controller rumble: {}", SDL_GetError());
+			}
+		}
+	}
+}
+
+void ModuleInput::Rumble(RumbleIntensity intensity, RumbleDuration durationMs) const
+{
+	Rumble(intensity, intensity, durationMs);
+}
+
+void ModuleInput::Rumble() const
+{
+	Rumble(RumbleIntensity::NORMAL, RumbleIntensity::NORMAL, RumbleDuration::NORMAL);
 }
