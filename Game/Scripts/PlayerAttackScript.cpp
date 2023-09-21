@@ -633,3 +633,12 @@ GameObject* PlayerAttackScript::GetEnemyDetected() const
 {
 	return enemyDetection->GetEnemySelected();
 }
+
+void PlayerAttackScript::PlayWeaponSounds()
+{
+	if (isMelee)
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_OPEN);
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);
+	}
+}

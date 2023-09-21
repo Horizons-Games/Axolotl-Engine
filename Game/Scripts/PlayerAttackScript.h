@@ -48,6 +48,8 @@ public:
 	bool IsInAttackAnimation() const;
 	GameObject* GetEnemyDetected() const;
 
+	void PlayWeaponSounds();
+
 private:
 	void Start() override;
 	void Update(float deltaTime) override;
@@ -69,6 +71,7 @@ private:
 
 	void DamageEnemy(GameObject* enemyAttacked, float damageAttack);
 	void ThrowBasicAttack(GameObject* enemyAttacked, float nDamage);
+
 
 	bool isAttacking;
 	bool isMelee;

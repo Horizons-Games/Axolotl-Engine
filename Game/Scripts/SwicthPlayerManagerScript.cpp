@@ -13,6 +13,7 @@
 #include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/PlayerManagerScript.h"
+#include "PlayerAttackScript.h"
 
 #include "../Scripts/CameraControllerScript.h"
 
@@ -192,6 +193,7 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		
 		// Enabling the new current player
 		secondPlayer->Enable();
+		secondPlayer->GetComponent<PlayerAttackScript>()->PlayWeaponSounds();;
 		secondPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(true);
 
 		secondPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(true);
