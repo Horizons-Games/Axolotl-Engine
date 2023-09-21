@@ -18,10 +18,10 @@ ComponentRender::~ComponentRender()
 
 void ComponentRender::InternalSave(Json& meta)
 {
-	meta["bloom_intensity"] = (float) moduleRender->GetBloomIntensity();
+	meta["bloom_intensity"] = moduleRender->GetBloomIntensity();
 }
 
 void ComponentRender::InternalLoad(const Json& meta)
 {
-	moduleRender->SetBloomIntensity((float)meta["bloom_intensity"]);
+	moduleRender->SetBloomIntensity(static_cast<float>(meta["bloom_intensity"]));
 }
