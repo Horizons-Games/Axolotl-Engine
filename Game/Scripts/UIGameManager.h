@@ -28,7 +28,8 @@ public:
 	void ActiveSliderUIPwrUP(float time);
 	void DisableUIPwrUP();
 
-	void ModifySliderHealthValue();
+	void ModifyBixSliderHealthValue();
+	void ModifyAlluraSliderHealthValue();
 
 	void SetMaxPowerUpTime(float maxPowerUpTime);
 
