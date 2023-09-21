@@ -92,8 +92,6 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_CameraSample";
 		case ComponentType::PLAYER:
 			return "Component_Player";
-		case ComponentType::PLAYERINPUT:
-			return "Component_PlayerInput";
 		case ComponentType::ANIMATION:
 			return "Component_Animation";
 		case ComponentType::CANVAS:
@@ -172,11 +170,6 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Player")
 	{
 		return ComponentType::PLAYER;
-	}
-
-	if (typeName == "Component_PlayerInput")
-	{
-		return ComponentType::PLAYERINPUT;
 	}
 
 	if (typeName == "Component_Canvas")
