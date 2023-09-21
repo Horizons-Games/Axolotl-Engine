@@ -94,8 +94,9 @@ void PlayerMoveScript::Move(float deltaTime)
 	previousMovements = currentMovements;
 	currentMovements = 0;
 
-	if (isParalyzed)
+	if (isParalyzed || playerManager->IsJumpAttacking())
 	{
+		btRigidbody->setLinearVelocity(btVector3(0.0f, btRigidbody->getLinearVelocity().getY(), 0.0f));
 		return;
 	}
 

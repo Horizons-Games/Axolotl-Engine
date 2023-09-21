@@ -9,6 +9,7 @@ class PlayerJumpScript;
 class PlayerMoveScript;
 class DebugGame;
 class PlayerRotationScript;
+class PlayerAttackScript;
 
 class PlayerManagerScript : public Script
 {
@@ -32,6 +33,8 @@ public:
 	void ParalyzePlayer(bool paralyzed);
 	void SetPlayerSpeed(float playerSpeed);
 
+	bool IsJumpAttacking() const;
+
 private:
 	void Start() override;
 
@@ -45,4 +48,5 @@ private:
 	PlayerJumpScript* jumpManager;
 	DebugGame* debugManager;
 	PlayerRotationScript* rotationManager;
+	PlayerAttackScript* attackManager;
 };

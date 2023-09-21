@@ -6,12 +6,13 @@
 #include "../Scripts/PlayerJumpScript.h"
 #include "../Scripts/PlayerRotationScript.h"
 #include "../Scripts/PlayerMoveScript.h"
+#include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/DebugGame.h"
 
 REGISTERCLASS(PlayerManagerScript);
 
 PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), playerDefense(0.f), playerSpeed(6.0f),
-	movementManager(nullptr), jumpManager(nullptr), debugManager(nullptr)
+	movementManager(nullptr), jumpManager(nullptr), debugManager(nullptr), attackManager(nullptr)
 {
 	REGISTER_FIELD(playerAttack, float);
 	REGISTER_FIELD(playerDefense, float);
@@ -26,6 +27,7 @@ void PlayerManagerScript::Start()
 	jumpManager = owner->GetComponent<PlayerJumpScript>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
 	rotationManager = owner->GetComponent<PlayerRotationScript>();
+	attackManager = owner->GetComponent<PlayerAttackScript>();
 }
 
 bool PlayerManagerScript::IsGrounded() const
@@ -98,4 +100,11 @@ void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)
 {
 	this->playerSpeed = playerSpeed;
+}
+
+bool PlayerManagerScript::IsJumpAttacking() const
+{
+	return !attackManager->IsAttackAvailable() && 
+		(attackManager->GetCurrentAttackType() == AttackType::JUMPNORMAL ||
+		attackManager->GetCurrentAttackType() == AttackType::JUMPFINISHER);
 }
