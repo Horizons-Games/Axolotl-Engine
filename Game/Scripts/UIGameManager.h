@@ -35,7 +35,6 @@ public:
 private:
 	enum class PowerUpType savePwrUp;
 	enum class PowerUpType activePwrUp;
-	KeyState keyState;
 
 	bool menuIsOpen;
 	bool pwrUpActive;

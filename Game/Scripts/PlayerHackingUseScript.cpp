@@ -41,11 +41,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 
 	currentTime += deltaTime;
 
-	// THIS IS A PROVISIONAL WAY TO SOLVE AN ISSUE WITH THE CONTROLLER COMPONENT
-	// THE STATE GOES FROM IDLE TO REPEAT, SO WE CONVERTED REPEAT TO DOWN FOR THIS
-	// ACTION USING LOGIC COMBINATIONS AND AN AUXILIAR VARIABLE 
-	if (input->GetKey(SDL_SCANCODE_E) != keyState &&
-		input->GetKey(SDL_SCANCODE_E) == KeyState::REPEAT && !isHackingActive)
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingActive)
 	{
 		FindHackZone(hackingTag);
 		if (hackZone && !hackZone->IsCompleted())
@@ -57,18 +53,12 @@ void PlayerHackingUseScript::Update(float deltaTime)
 
 	if (isHackingActive)
 	{
-		
-
 		if (input->GetKey(SDL_SCANCODE_E) == KeyState::UP)
 		{
 			isHackingButtonPressed = false;
 		}
 
-		// THIS IS A PROVISIONAL WAY TO SOLVE AN ISSUE WITH THE CONTROLLER COMPONENT
-		// THE STATE GOES FROM IDLE TO REPEAT, SO WE CONVERTED REPEAT TO DOWN FOR THIS
-		// ACTION USING LOGIC COMBINATIONS AND AN AUXILIAR VARIABLE 
-		if (input->GetKey(SDL_SCANCODE_E) != keyState &&
-			input->GetKey(SDL_SCANCODE_E) == KeyState::REPEAT && !isHackingButtonPressed)
+		if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingButtonPressed)
 		{
 			FinishHack();
 		}
@@ -77,7 +67,6 @@ void PlayerHackingUseScript::Update(float deltaTime)
 		{
 			RestartHack();
 		}
-
 		else
 		{
 			SDL_Scancode key;
@@ -91,7 +80,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 				if (input->GetKey(key) == KeyState::UP || input->GetGamepadButton(button) == KeyState::UP)
 				{
 					userCommandInputs.push_back(command);
-					LOG_DEBUG("user add key/button to combination");
+					LOG_DEBUG("User add key/button to combination");
 
 					hackingManager->RemoveInputVisuals();
 					break;
@@ -116,7 +105,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 
 			if (userCommandInputs == commandCombination)
 			{
-				LOG_DEBUG("hacking completed");
+				LOG_DEBUG("Hacking completed");
 				FinishHack();
 				hackZone->SetCompleted();
 			}
@@ -160,7 +149,7 @@ void PlayerHackingUseScript::InitHack()
 	maxHackTime = hackZone->GetMaxTime();
 	hackZone->GenerateCombination();
 
-	userCommandInputs.reserve(hackZone->GetSequenceSize());
+	userCommandInputs.reserve(static_cast<size_t>(hackZone->GetSequenceSize()));
 
 	commandCombination = hackZone->GetCommandCombination();
 	for (auto command : commandCombination)
@@ -169,7 +158,7 @@ void PlayerHackingUseScript::InitHack()
 	}
 
 	PrintCombination();
-	LOG_DEBUG("hacking is active");
+	LOG_DEBUG("Hacking is active");
 }
 
 void PlayerHackingUseScript::FinishHack()
@@ -181,7 +170,7 @@ void PlayerHackingUseScript::FinishHack()
 
 	hackingManager->CleanInputVisuals();
 
-	LOG_DEBUG("hacking is finished");
+	LOG_DEBUG("Hacking is finished");
 }
 
 void PlayerHackingUseScript::RestartHack()
@@ -193,7 +182,7 @@ void PlayerHackingUseScript::RestartHack()
 	maxHackTime = hackZone->GetMaxTime();
 	hackZone->GenerateCombination();
 
-	userCommandInputs.reserve(hackZone->GetSequenceSize());
+	userCommandInputs.reserve(static_cast<size_t>(hackZone->GetSequenceSize()));
 
 	commandCombination = hackZone->GetCommandCombination();
 	for (auto command : commandCombination)
@@ -202,8 +191,8 @@ void PlayerHackingUseScript::RestartHack()
 	}
 
 	PrintCombination();
-
-	LOG_DEBUG("hacking is restarted");
+	input->Rumble();
+	LOG_DEBUG("Hacking is restarted");
 }
 
 void PlayerHackingUseScript::DisableAllInteractions()
@@ -241,7 +230,7 @@ void PlayerHackingUseScript::FindHackZone(const std::string& tag)
 
 	while (!hackZone && raytries < 4)
 	{
-		Ray ray(origin + float3(0.f, 1 * raytries, 0.f), transform->GetGlobalForward());
+		Ray ray(origin + float3(0.f, static_cast<float>(1 * raytries), 0.f), transform->GetGlobalForward());
 		LineSegment line(ray, 300);
 		raytries++;
 

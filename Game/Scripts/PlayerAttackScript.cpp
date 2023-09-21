@@ -36,6 +36,7 @@
 #include <set>
 
 #include "AxoLog.h"
+#include "Defines/AxoTodo.h"
 
 REGISTERCLASS(PlayerAttackScript);
 
@@ -361,7 +362,7 @@ void PlayerAttackScript::UpdateJumpAttack()
 	}
 	else 
 	{
-		//TODO Add Alura Checks
+		AXO_TODO("Add Allura Checks")
 		landed = true;
 	}
 
@@ -587,7 +588,7 @@ void PlayerAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAtta
 
 bool PlayerAttackScript::IsAttackAvailable() const
 {
-	return !isAttacking;
+	return !isAttacking && playerManager->GetPlayerState() != PlayerActions::DASHING;
 }
 
 bool PlayerAttackScript::IsMeleeAvailable() const

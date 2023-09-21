@@ -626,9 +626,6 @@
     <ClCompile Include="DataModels\Animation\StateMachine.cpp">
       <Filter>DataModels\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentPlayerInput.cpp">
-      <Filter>DataModels\Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\EnemyClass.cpp">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClCompile>
@@ -648,6 +645,9 @@
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSkyboxInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowCubemapInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerJumpScript.cpp">
@@ -1453,9 +1453,6 @@
     <ClInclude Include="DataModels\Animation\StateMachine.h">
       <Filter>DataModels\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentPlayerInput.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\EnemyClass.h">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClInclude>
@@ -1484,6 +1481,9 @@
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSkyboxInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowCubemapInput.h">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h">
@@ -2072,9 +2072,6 @@
     <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
-    <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayerInput.cpp">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp">
       <Filter>DataModels\Windows\EditorWindows</Filter>
     </ClCompile>
@@ -2393,9 +2390,6 @@
       <Filter>DataModels\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayerInput.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h">

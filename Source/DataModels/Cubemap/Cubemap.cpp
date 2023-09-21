@@ -74,6 +74,11 @@ void Cubemap::LoadOptions(Json& json)
 	GenerateMaps();
 }
 
+std::shared_ptr<ResourceCubemap> Cubemap::GetCubemapResource() const
+{
+	return cubemapRes;
+}
+
 void Cubemap::DebugNSight()
 {
 #ifdef ENGINE
