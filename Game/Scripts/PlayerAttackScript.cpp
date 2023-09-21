@@ -512,7 +512,7 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 			{
 				actualName = "JumpAttackRecovery";
 			}
-			if (animation->GetController()->GetStateName() != currentAttackAnimation)
+			if (animation->GetController()->GetStateName() != actualName)
 			{
 				playerManager->ParalyzePlayer(false);
 				animation->SetParameter("IsJumpAttacking", false);
