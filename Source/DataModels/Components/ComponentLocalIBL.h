@@ -56,7 +56,6 @@ private:
 	void Initialize();
 	void CreateCubemap();
 	void RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel = 0);
-	void BindCameraToProgram(Program* program, Frustum& frustum, unsigned int uboCamera);
 	void CreateVAO();
 
 	GLuint frameBuffer;
