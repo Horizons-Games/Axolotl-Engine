@@ -43,9 +43,6 @@ private:
 	void ClearCombo(bool finisher);
 
 	UIComboManager* uiComboManager;
-	KeyState keyState;
-	KeyState mouseLeftButtonState;
-	KeyState mouseRightButtonState;
 
 	ModuleInput* input;
 	bool specialActivated;
