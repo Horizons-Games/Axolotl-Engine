@@ -354,10 +354,11 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 			transform2D->CalculateMatrices();
 		}
 	}
+	int filter = 0;
 
-	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject, is3D);
+	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject, is3D, filter);
 
-	UpdateLightsFromCopiedGameObjects(gameObject);
+	UpdateLightsFromCopiedGameObjects(filter);
 	
 	if (gameObject->HasComponent<ComponentLine>())
 	{
@@ -1685,7 +1686,7 @@ void Scene::SetRoot(GameObject* newRoot)
 	root = std::unique_ptr<GameObject>(newRoot);
 }
 
-void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D)
+void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D, int& filter)
 {
 	sceneGameObjects.push_back(gameObject);
 	if (gameObject->IsRendereable() && is3D)
@@ -1699,16 +1700,16 @@ void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObje
 			App->GetModule<ModuleScene>()->GetLoadedScene()->AddNonStaticObject(gameObject);
 		}
 	}
+	filter |= SearchForLights(gameObject);
+
 	for (GameObject* children : gameObject->GetChildren())
 	{
-		InsertGameObjectAndChildrenIntoSceneGameObjects(children, is3D);
+		InsertGameObjectAndChildrenIntoSceneGameObjects(children, is3D, filter);
 	}
 }
 
-void Scene::UpdateLightsFromCopiedGameObjects(GameObject* gameObject)
+void Scene::UpdateLightsFromCopiedGameObjects(const int& filter)
 {
-	int filter = SearchForLights(gameObject);
-
 	if (filter & HAS_SPOT)
 	{
 		UpdateSceneSpotLights();
@@ -1777,12 +1778,6 @@ int& Scene::SearchForLights(GameObject* gameObject)
 			filter = HAS_LOCAL_IBL;
 			break;
 		}
-	}
-	
-
-	for (GameObject* children : gameObject->GetChildren())
-	{
-		filter |= SearchForLights(children);
 	}
 	return filter;
 }

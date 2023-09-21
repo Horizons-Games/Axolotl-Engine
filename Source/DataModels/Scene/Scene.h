@@ -160,10 +160,10 @@ public:
 	void InitCubemap();
 	void InitLocalsIBL();
 
-	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D);
-	void UpdateLightsFromCopiedGameObjects(GameObject* gameObject);
-
 private:
+	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D, int& filter);
+	void UpdateLightsFromCopiedGameObjects(const int& filter);
+
 	enum LightsFilter
 	{
 		HAS_SPOT = 0x00000001,
