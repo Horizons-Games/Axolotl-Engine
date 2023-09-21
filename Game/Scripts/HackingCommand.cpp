@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "HackingCommand.h"
 
-//MAP FROM COMMAND TO KEY AND CONTROLLER BUTTON
+// MAP FROM COMMAND TO KEY AND CONTROLLER BUTTON
 const std::map<HackingCommandType, std::pair<SDL_Scancode, SDL_GameControllerButton>> HackingCommand::commandHackingMap =
 {
 	{ COMMAND_A , {SDL_SCANCODE_SPACE, SDL_CONTROLLER_BUTTON_A}},

@@ -71,12 +71,12 @@ UpdateStatus ModuleUI::Update()
 
 	if (!sortedButtonsIds.empty() && lastButtonChange > cooldownTime)
 	{
-		JoystickMovement joystickMovement = input->GetLeftJoystickDirection();
+		JoystickDirection leftJoystickDirection = input->GetLeftJoystickDirection();
 
 		int newIndex = static_cast<int>(currentButtonIndex);
 		do
 		{
-			if (joystickMovement.verticalMovement == JoystickVerticalDirection::FORWARD)
+			if (leftJoystickDirection.verticalDirection == JoystickVerticalDirection::FORWARD)
 			{
 				// We sum the size to avoid negative values, if this is not used we can not jump
 				// from the first button to the last
@@ -84,7 +84,7 @@ UpdateStatus ModuleUI::Update()
 			}
 			// When the current button is not enabled we keep looping until we find one enabled,
 			// this avoids getting stuck in a disabled button when we change from a scene to another
-			else if (joystickMovement.verticalMovement == JoystickVerticalDirection::BACK ||
+			else if (leftJoystickDirection.verticalDirection == JoystickVerticalDirection::BACK ||
 					 !scene->GetLoadedScene()
 						  ->SearchGameObjectByID(sortedButtonsIds[newIndex])
 						  ->GetComponent<ComponentButton>()
