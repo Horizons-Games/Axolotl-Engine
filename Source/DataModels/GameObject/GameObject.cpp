@@ -403,7 +403,7 @@ void GameObject::CopyComponent(Component* component)
 		}
 		case ComponentType::LINE:
 		{
-			newComponent = std::make_unique<ComponentLine>(*static_cast<ComponentLine*>(component),this);
+			newComponent = std::make_unique<ComponentLine>(*static_cast<ComponentLine*>(component));
 			break;
 		}
 

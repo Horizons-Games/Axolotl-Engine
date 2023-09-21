@@ -32,9 +32,8 @@ ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(C
 		});
 }
 
-ComponentLine::ComponentLine(const ComponentLine& other, GameObject* owner) :
-	Component(ComponentType::LINE, other.IsEnabled(), owner, true),
-	numTiles(other.numTiles),speed(other.speed),time(other.time),dirtyBuffers(other.dirtyBuffers), 
+ComponentLine::ComponentLine(const ComponentLine& other) :
+	Component(other),numTiles(other.numTiles),speed(other.speed),time(other.time),dirtyBuffers(other.dirtyBuffers), 
 	gradient(new ImGradient(other.gradient)),offset(other.offset),tiling(other.tiling),sizeFading(other.sizeFading),
 	sizeFadingPoints(other.sizeFadingPoints), lineTexture(other.GetLineTexture())
 {
