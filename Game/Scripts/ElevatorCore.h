@@ -50,6 +50,8 @@ private:
 	PositionState positionState;
 
 	GameObject* bixPrefab;
+	ComponentTransform* playerTransform;
+
 	GameObject* elevator;
 	float finalPos;
 	float finalUpPos;

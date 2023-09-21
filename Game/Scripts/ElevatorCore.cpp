@@ -59,6 +59,7 @@ void ElevatorCore::Start()
 	transform = elevator->GetComponentInternal<ComponentTransform>();
 	triggerEntrance = owner->GetComponent<ComponentRigidBody>();
 	finalUpPos = 0;
+	playerTransform = bixPrefab->GetComponent<ComponentTransform>();
 }
 
 void ElevatorCore::Update(float deltaTime)
@@ -66,25 +67,32 @@ void ElevatorCore::Update(float deltaTime)
 	if (activeState == ActiveActions::ACTIVE) 
 	{
 		float3 pos = transform->GetGlobalPosition();
+		float3 playerPos = playerTransform->GetGlobalPosition();
 		btVector3 triggerOrigin = triggerEntrance->GetRigidBodyOrigin();
 
 		if (positionState == PositionState::UP)
 		{
 			pos.y -= 0.1f;
+			playerPos.y -= 0.1f;
 			float newYTrigger = triggerOrigin.getY() - 0.1f;
 			triggerOrigin.setY(newYTrigger);
 		}
 		else 
 		{
 			pos.y += 0.1f;
+			playerPos.y += 0.1f;
 			float newYTrigger = triggerOrigin.getY() + 0.1f;
 			triggerOrigin.setY(newYTrigger);
 		}
 		
 		transform->SetGlobalPosition(pos);
+		playerTransform->SetGlobalPosition(playerPos);
 
 		transform->RecalculateLocalMatrix();
 		transform->UpdateTransformMatrices();
+
+		playerTransform->RecalculateLocalMatrix();
+		playerTransform->UpdateTransformMatrices();
 
 		
 		triggerEntrance->SetRigidBodyOrigin(triggerOrigin);
@@ -96,8 +104,6 @@ void ElevatorCore::Update(float deltaTime)
 			positionState = PositionState::DOWN;
 			activeState = ActiveActions::INACTIVE;
 
-			bixPrefab->SetParent(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
-			bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(false);
 			EnableAllInteractions();
 		}
 		
@@ -106,8 +112,6 @@ void ElevatorCore::Update(float deltaTime)
 			positionState = PositionState::UP;
 			activeState = ActiveActions::INACTIVE;
 
-			bixPrefab->SetParent(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
-			bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(false);
 			EnableAllInteractions();
 		}
 	}
@@ -125,8 +129,6 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 			componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 			activeState = ActiveActions::ACTIVE;
 
-			bixPrefab->SetParent(elevator);
-			bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(true);
 			DisableAllInteractions();
 			
 		}
@@ -148,12 +150,18 @@ void ElevatorCore::OnCollisionExit(ComponentRigidBody* other)
 
 void ElevatorCore::DisableAllInteractions()
 {
+	//bixPrefab->SetParent(elevator);
+	bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(true);
+
 	PlayerManagerScript* manager = bixPrefab->GetComponentInternal<PlayerManagerScript>();
 	manager->ParalyzePlayer(true);
 }
 
 void ElevatorCore::EnableAllInteractions()
 {
+	//bixPrefab->SetParent(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
+	bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(false);
+
 	PlayerManagerScript* manager = bixPrefab->GetComponentInternal<PlayerManagerScript>();
 	manager->ParalyzePlayer(false);
 }
