@@ -31,7 +31,7 @@ void PlayerHackingUseScript::Start()
 	transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 	rigidBody = GetOwner()->GetComponentInternal<ComponentRigidBody>();
 	hackZone = nullptr;
-
+	playerManager = GetOwner()->GetComponentInternal<PlayerManagerScript>();
 	isHackingButtonPressed = false;
 }
 
@@ -41,11 +41,17 @@ void PlayerHackingUseScript::Update(float deltaTime)
 
 	currentTime += deltaTime;
 
+	PlayerActions currentAction = playerManager->GetPlayerState();
+	bool isJumping = currentAction == PlayerActions::JUMPING || 
+		currentAction == PlayerActions::DOUBLEJUMPING || 
+		currentAction == PlayerActions::FALLING;
+
 	// THIS IS A PROVISIONAL WAY TO SOLVE AN ISSUE WITH THE CONTROLLER COMPONENT
 	// THE STATE GOES FROM IDLE TO REPEAT, SO WE CONVERTED REPEAT TO DOWN FOR THIS
 	// ACTION USING LOGIC COMBINATIONS AND AN AUXILIAR VARIABLE 
 	if (input->GetKey(SDL_SCANCODE_E) != keyState &&
-		input->GetKey(SDL_SCANCODE_E) == KeyState::REPEAT && !isHackingActive)
+		input->GetKey(SDL_SCANCODE_E) == KeyState::REPEAT && !isHackingActive && 
+		!isJumping)
 	{
 		FindHackZone(hackingTag);
 		if (hackZone && !hackZone->IsCompleted())
@@ -208,16 +214,12 @@ void PlayerHackingUseScript::RestartHack()
 
 void PlayerHackingUseScript::DisableAllInteractions()
 {
-	
-	PlayerManagerScript* manager = GetOwner()->GetComponentInternal<PlayerManagerScript>();
-	manager->ParalyzePlayer(true);
+	playerManager->ParalyzePlayer(true);
 }
 
 void PlayerHackingUseScript::EnableAllInteractions()
 {
-	
-	PlayerManagerScript* manager = GetOwner()->GetComponentInternal<PlayerManagerScript>();
-	manager->ParalyzePlayer(false);
+	playerManager->ParalyzePlayer(false);
 
 }
 
