@@ -19,14 +19,6 @@ class PlayerForceUseScript;
 class PlayerAttackScript;
 class btRigidBody;
 
-enum class PlayerActions
-{
-	IDLE,
-	WALKING,
-	DASHING,
-	JUMPING
-};
-
 enum MovementFlag
 {
 	W_DOWN = 0x00000001,
@@ -51,23 +43,23 @@ public:
 	bool IsParalyzed() const;
 	void SetIsParalyzed(bool isParalyzed);
 
-	PlayerActions GetPlayerState() const;
-	void SetPlayerState(PlayerActions playerState);
 	PlayerJumpScript* GetJumpScript() const;
 
 private:
 	ComponentTransform* componentTransform;
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;
-	PlayerActions playerState;
 	bool isParalyzed;
 
 	float dashForce;
-	float dashCooldown;
-	float3 positionBeforeDash;
+	float dashRollTime;
+	float dashRollDuration;
+	float3 totalDirection;
 
 	float lightAttacksMoveFactor;
 	float heavyAttacksMoveFactor;
+	float dashRollCooldown;
+	float timeSinceLastDash;
 
 	PlayerManagerScript* playerManager;
 	PlayerForceUseScript* forceScript;

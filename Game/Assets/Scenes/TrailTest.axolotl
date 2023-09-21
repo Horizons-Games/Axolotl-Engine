@@ -917,7 +917,7 @@
                             "fields": [
                                 {
                                     "name": "DashForce",
-                                    "value": 2000.0,
+                                    "value": 30.0,
                                     "type": 0
                                 },
                                 {
@@ -933,6 +933,16 @@
                                 {
                                     "name": "HeavyAttacksMoveFactor",
                                     "value": 3.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "DashRollCooldown",
+                                    "value": 0.10000000149011612,
+                                    "type" :0
+                                },
+                                {
+                                    "name": "DashDuration",
+                                    "value": 0.20000000298023224,
                                     "type": 0
                                 }
                             ]
