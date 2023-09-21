@@ -26,6 +26,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentParticle.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTrail.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLocalIBL.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlanarReflection.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayerInput.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPointLight.h"
@@ -55,6 +56,7 @@
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentTrail.h"
 #include "Components/ComponentLocalIBL.h"
+#include "Components/ComponentPlanarReflection.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentPlayerInput.h"
 #include "Components/ComponentPointLight.h"
@@ -157,8 +159,7 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 					case LightType::LOCAL_IBL:
 						return std::make_unique<WindowComponentLocalIBL>(static_cast<ComponentLocalIBL*>(component));
 					case LightType::PLANAR_REFLECTION:
-						AXO_TODO("Create Window");
-						return nullptr;
+						return std::make_unique<WindowComponentPlanarReflection>(static_cast<ComponentPlanarReflection*>(component));
 					case LightType::UNKNOWN:
 					default:
 						return std::make_unique<WindowComponentLight>(asLight);

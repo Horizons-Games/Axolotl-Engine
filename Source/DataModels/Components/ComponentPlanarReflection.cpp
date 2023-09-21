@@ -14,11 +14,11 @@
 
 ComponentPlanarReflection::ComponentPlanarReflection(GameObject* parent) : 
 	ComponentLight(LightType::PLANAR_REFLECTION, parent, true),	frameBuffer(0), depth(0), reflectionTex(0), 
-	planeNormal(0, 1, 0), originScaling({ 0.5f, 0.5f, 0.5f })
+	planeNormal(0, 1, 0), originScaling({ 0.5f, 0.5f, 0.5f }), scale(float3::one)
 {
 	if (GetOwner()->HasComponent<ComponentTransform>())
 	{
-		influenceAABB = { GetPosition() + float3(-5, -0.5f, -5), GetPosition() + float3(5, 0.5f, 5) };
+		influenceAABB = { GetPosition() + float3(-5, 0.f, -5), GetPosition() + float3(5, 0.f, 5) };
 	}
 }
 
@@ -106,6 +106,7 @@ void ComponentPlanarReflection::UpdateReflection(Frustum* cameraFrustum)
 
 void ComponentPlanarReflection::ScaleInfluenceAABB(float3& scaling)
 {
+	scale = scaling;
 	float3 center = influenceAABB.CenterPoint();
 
 	influenceAABB.minPoint = center - scaling.Mul(originScaling);
