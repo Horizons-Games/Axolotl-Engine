@@ -213,8 +213,8 @@ void WindowComponentTrail::DrawWindowContents()
 		ImGui::Text("Color Gradient");
 
 		ImGradient* gradient = componentTrail->GetGradient();
-		static ImGradientMark* draggingMark = nullptr;
-		static ImGradientMark* selectedMark = nullptr;
+		ImGradientMark* draggingMark = nullptr;
+		ImGradientMark* selectedMark = nullptr;
 
 		if (ImGui::GradientEditor(gradient, draggingMark, selectedMark))
 		{
