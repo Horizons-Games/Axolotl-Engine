@@ -351,43 +351,44 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 	{
 		if (resource != nullptr)
 		{
+			char* binaryBuffer = {};
+			fileSystem->Load(libPath.c_str(), binaryBuffer);
 
 			switch (resource->GetType())
 			{
-				case ResourceType::Model:
-					modelImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceModel>(resource));
-					break;
-				case ResourceType::Texture:
-					textureImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceTexture>(resource));
-					break;
-				case ResourceType::Mesh:
-					meshImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMesh>(resource));
-					break;
-				case ResourceType::NavMesh:
-					navMeshImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceNavMesh>(resource));
-					break;
-				case ResourceType::Scene:
-					break;
-				case ResourceType::Material:
-					materialImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMaterial>(resource));
-					break;
-				case ResourceType::SkyBox:
-					skyboxImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceSkyBox>(resource));
-					break;
-				case ResourceType::Cubemap:
-					cubemapImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceCubemap>(resource));
-					break;
-				case ResourceType::Animation:
-					animationImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceAnimation>(resource));
-					break;
-				case ResourceType::StateMachine:
-					stateMachineImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceStateMachine>(resource));
-					break;
-                case ResourceType::ParticleSystem:
-				    particleSystemImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceParticleSystem>(resource));
-                    break;
-				default:
-					break;
+			case ResourceType::Model:
+				modelImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceModel>(resource));
+				break;
+			case ResourceType::Texture:
+				libPath = resource->GetLibraryPath() + DDS_TEXTURE_EXTENSION;
+				textureImporter->Load(libPath.c_str(), std::dynamic_pointer_cast<ResourceTexture>(resource));
+				break;
+			case ResourceType::Mesh:
+				meshImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMesh>(resource));
+				break;
+			case ResourceType::Scene:
+				break;
+			case ResourceType::Material:
+				materialImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceMaterial>(resource));
+				break;
+			case ResourceType::SkyBox:
+				skyboxImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceSkyBox>(resource));
+				break;
+			case ResourceType::Cubemap:
+				cubemapImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceCubemap>(resource));
+				break;
+			case ResourceType::Animation:
+				animationImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceAnimation>(resource));
+				break;
+			case ResourceType::StateMachine:
+				stateMachineImporter->Load(binaryBuffer,
+					std::dynamic_pointer_cast<ResourceStateMachine>(resource));
+				break;
+			case ResourceType::ParticleSystem:
+				particleSystemImporter->Load(binaryBuffer,
+					std::dynamic_pointer_cast<ResourceParticleSystem>(resource));
+			default:
+				break;
 			}
 			delete binaryBuffer;
 			return;
