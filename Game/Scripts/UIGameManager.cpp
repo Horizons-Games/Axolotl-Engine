@@ -78,10 +78,13 @@ void UIGameManager::Update(float deltaTime)
 	{
 		ModifyBixSliderHealthValue();
 	}
-	if (healthSystemClassAllura->GetCurrentHealth()!= componentSliderSecondPlayerBack->GetCurrentValue()
-		|| healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerFront->GetCurrentValue())
+	else if (manager)
 	{
-		ModifyAlluraSliderHealthValue();
+		if (healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerBack->GetCurrentValue()
+			|| healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerFront->GetCurrentValue())
+		{
+			ModifyAlluraSliderHealthValue();
+		}
 	}
 
 	if (pwrUpActive)
