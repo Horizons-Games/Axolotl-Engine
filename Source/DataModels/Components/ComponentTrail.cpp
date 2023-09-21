@@ -31,7 +31,7 @@
 
 ComponentTrail::ComponentTrail(bool active, GameObject* owner) : Component(ComponentType::TRAIL, active, owner, true),
 maxSamplers(64), duration(5.f), minDistance(0.1f), width(1.f), ratioWidth(0.5f), blendingMode(BlendingMode::ADDITIVE),
-onPlay(false), catmullPoints(10)
+onPlay(true), catmullPoints(10)
 { 
 	points.reserve(maxSamplers);
 	gradient = new ImGradient();
@@ -44,10 +44,10 @@ onPlay(false), catmullPoints(10)
 
 ComponentTrail::ComponentTrail(const ComponentTrail& trail) : Component(trail), maxSamplers(trail.maxSamplers), 
 duration(trail.duration), minDistance(trail.minDistance), width(trail.width), ratioWidth(trail.ratioWidth), 
-blendingMode(trail.blendingMode), onPlay(trail.onPlay), catmullPoints(trail.catmullPoints)
+blendingMode(trail.blendingMode), onPlay(trail.onPlay), catmullPoints(trail.catmullPoints), texture(trail.texture)
 {
 	points.reserve(maxSamplers);
-	gradient = new ImGradient();
+	gradient = new ImGradient(trail.gradient);
 	CreateBuffers();
 }
 
@@ -156,25 +156,29 @@ void ComponentTrail::Draw() const
 
 void ComponentTrail::InternalSave(Json& meta)
 {
-	meta["duration"] = static_cast<float>(duration);
-	meta["minDistance"] = static_cast<float>(minDistance);
-	meta["width"] = static_cast<float>(width);
-	meta["catmullPoints"] = static_cast<int>(catmullPoints);
-	meta["ratioWidth"] = static_cast<float>(ratioWidth);
-	meta["numberOfMarks"] = static_cast<int>(gradient->getMarks().size());
+	meta["duration"] = duration;
+	meta["minDistance"] = minDistance;
+	meta["width"] = width;
+	meta["catmullPoints"] = catmullPoints;
+	meta["ratioWidth"] = ratioWidth;
+	meta["onPlay"] = onPlay;
 	
 	std::list<ImGradientMark*> marks = gradient->getMarks();
-	int i = 0;
 	Json jsonColors = meta["ColorsGradient"];
-	for (ImGradientMark* const& mark : marks)
-	{
-		jsonColors[i]["color_x"] = static_cast<float>(mark->color[0]);
-		jsonColors[i]["color_y"] = static_cast<float>(mark->color[1]);
-		jsonColors[i]["color_z"] = static_cast<float>(mark->color[2]);
-		jsonColors[i]["color_w"] = static_cast<float>(mark->color[3]);
-		jsonColors[i]["pos"] = static_cast<float>(mark->position);
-		i++;
-	}
+	
+	ImGradientMark* mark = marks.front();
+	jsonColors[0]["color_x"] = mark->color[0];
+	jsonColors[0]["color_y"] = mark->color[1];
+	jsonColors[0]["color_z"] = mark->color[2];
+	jsonColors[0]["color_w"] = mark->color[3];
+	jsonColors[0]["pos"] = mark->position;
+
+	mark = marks.back();
+	jsonColors[1]["color_x"] = mark->color[0];
+	jsonColors[1]["color_y"] = mark->color[1];
+	jsonColors[1]["color_z"] = mark->color[2];
+	jsonColors[1]["color_w"] = mark->color[3];
+	jsonColors[1]["pos"] = mark->position;
 
 	UID uid = 0;
 	std::string assetPath = "";
@@ -184,7 +188,7 @@ void ComponentTrail::InternalSave(Json& meta)
 		assetPath = texture->GetAssetsPath();
 	}
 
-	meta["textureUID"] = static_cast<UID>(uid);
+	meta["textureUID"] = uid;
 	meta["assetPathTexture"] = assetPath.c_str();
 }
 
@@ -195,18 +199,22 @@ void ComponentTrail::InternalLoad(const Json& meta)
 	width = static_cast<float>(meta["width"]);
 	ratioWidth = static_cast<float>(meta["ratioWidth"]);
 	catmullPoints = static_cast<int>(meta["catmullPoints"]);
+	onPlay = static_cast<bool>(meta["onPlay"]);
 	
-	int numberOfMarks = static_cast<int>(meta["numberOfMarks"]);	
 	gradient->getMarks().clear();
 	Json jsonColors = meta["ColorsGradient"];
-	for (int i = 0; i < numberOfMarks; i++)
-	{
-		gradient->addMark(static_cast<float>(jsonColors[i]["pos"]),
-						  ImColor(static_cast<float>(jsonColors[i]["color_x"]),
-								  static_cast<float>(jsonColors[i]["color_y"]),
-								  static_cast<float>(jsonColors[i]["color_z"]),
-								  static_cast<float>(jsonColors[i]["color_w"])));
-	}
+	gradient->addMark(static_cast<float>(jsonColors[0]["pos"]),
+		ImColor(static_cast<float>(jsonColors[0]["color_x"]),
+			  static_cast<float>(jsonColors[0]["color_y"]),
+			  static_cast<float>(jsonColors[0]["color_z"]),
+			  static_cast<float>(jsonColors[0]["color_w"])));
+
+	gradient->addMark(static_cast<float>(jsonColors[1]["pos"]),
+		ImColor(static_cast<float>(jsonColors[1]["color_x"]),
+			static_cast<float>(jsonColors[1]["color_y"]),
+			static_cast<float>(jsonColors[1]["color_z"]),
+			static_cast<float>(jsonColors[1]["color_w"])));
+
 	gradient->refreshCache();
 #ifdef ENGINE
 	std::string path = meta["assetPathTexture"];
