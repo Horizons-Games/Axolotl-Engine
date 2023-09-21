@@ -161,8 +161,20 @@ public:
 	void InitLocalsIBL();
 
 	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D);
+	void UpdateLightsFromCopiedGameObjects(GameObject* gameObject);
 
 private:
+	enum LightsFilter
+	{
+		HAS_SPOT = 0x00000001,
+		HAS_POINT = 0x00000002,
+		HAS_AREA_TUBE = 0x00000004,
+		HAS_AREA_SPHERE = 0X00000008,
+		HAS_LOCAL_IBL = 0X00000010
+	};
+
+	int& SearchForLights(GameObject* gameObject);
+
 	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);
 	const std::vector<GameObject*> CacheBoneHierarchy(GameObject* gameObjectNode, const std::vector<Bone>& bones);
 	void RemoveFatherAndChildren(const GameObject* father);

@@ -357,6 +357,8 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 
 	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject, is3D);
 
+	UpdateLightsFromCopiedGameObjects(gameObject);
+
 	return gameObject;
 }
 
@@ -1692,6 +1694,88 @@ void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObje
 	{
 		InsertGameObjectAndChildrenIntoSceneGameObjects(children, is3D);
 	}
+}
+
+void Scene::UpdateLightsFromCopiedGameObjects(GameObject* gameObject)
+{
+	int filter = SearchForLights(gameObject);
+
+	if (filter & HAS_SPOT)
+	{
+		UpdateSceneSpotLights();
+		RenderSpotLights();
+	}
+
+	if (filter & HAS_POINT)
+	{
+		UpdateScenePointLights();
+		RenderPointLights();
+	}
+
+	if (filter & HAS_AREA_TUBE)
+	{
+		UpdateSceneAreaTubes();
+		RenderAreaTubes();
+	}
+	
+	if (filter & HAS_AREA_SPHERE)
+	{
+		UpdateSceneAreaSpheres();
+		RenderAreaSpheres();
+	}
+
+	if (filter & HAS_LOCAL_IBL)
+	{
+		UpdateSceneLocalIBLs();
+		RenderLocalIBLs();
+	}
+}
+
+int& Scene::SearchForLights(GameObject* gameObject)
+{
+	int filter = 0;
+	
+	ComponentLight* light = gameObject->GetComponentInternal<ComponentLight>();
+
+	if (light)
+	{
+		switch (light->GetLightType())
+		{
+		case LightType::SPOT:
+			filter = HAS_SPOT;
+			break;
+
+		case LightType::POINT:
+			filter = HAS_POINT;
+			break;
+
+		case LightType::AREA:
+		{
+			ComponentAreaLight* areaLight = static_cast<ComponentAreaLight*>(light);
+			switch (areaLight->GetAreaType())
+			{
+			case AreaType::TUBE:
+				filter = HAS_AREA_TUBE;
+				break;
+			
+			case AreaType::SPHERE:
+				filter = HAS_AREA_SPHERE;
+				break;
+			}
+			break;
+		}
+		case LightType::LOCAL_IBL:
+			filter = HAS_LOCAL_IBL;
+			break;
+		}
+	}
+	
+
+	for (GameObject* children : gameObject->GetChildren())
+	{
+		filter |= SearchForLights(children);
+	}
+	return filter;
 }
 
 void Scene::AddStaticObject(GameObject* gameObject)

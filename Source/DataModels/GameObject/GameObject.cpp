@@ -498,9 +498,11 @@ void GameObject::CopyComponentLight(LightType type, Component* component)
 		case LightType::SPOT:
 			newComponent = std::make_unique<ComponentSpotLight>(static_cast<ComponentSpotLight&>(*component));
 			break;
+
 		case LightType::AREA:
 			newComponent = std::make_unique<ComponentAreaLight>(static_cast<ComponentAreaLight&>(*component));
 			break;
+
 		case LightType::LOCAL_IBL:
 			newComponent = std::make_unique<ComponentLocalIBL>(static_cast<ComponentLocalIBL&>(*component));
 			break;
