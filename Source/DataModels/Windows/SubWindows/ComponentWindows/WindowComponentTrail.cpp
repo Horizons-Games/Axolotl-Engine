@@ -21,8 +21,9 @@
 #define CAT_SAMP_MAX_VALUE 20
 
 WindowComponentTrail::WindowComponentTrail(ComponentTrail* component) : 
-			ComponentWindow("TRAIL", component),
-			inputTexture(std::make_unique<WindowTrailTexture>(this, TextureType::DIFFUSE))
+	ComponentWindow("TRAIL", component),
+	inputTexture(std::make_unique<WindowTrailTexture>(this, TextureType::DIFFUSE)), draggingMark(nullptr),
+	selectedMark(nullptr)
 {
 	Init();
 }
@@ -213,8 +214,6 @@ void WindowComponentTrail::DrawWindowContents()
 		ImGui::Text("Color Gradient");
 
 		ImGradient* gradient = componentTrail->GetGradient();
-		ImGradientMark* draggingMark = nullptr;
-		ImGradientMark* selectedMark = nullptr;
 
 		if (ImGui::GradientEditor(gradient, draggingMark, selectedMark))
 		{

@@ -18,7 +18,8 @@
 
 WindowComponentLine::WindowComponentLine(ComponentLine* component) :
 	ComponentWindow("LINE", component),
-	inputTexture(std::make_unique<WindowLineTexture>(this, TextureType::DIFFUSE))
+	inputTexture(std::make_unique<WindowLineTexture>(this, TextureType::DIFFUSE)), draggingMark(nullptr), 
+	selectedMark(nullptr)
 {
 	InitValues();
 }
@@ -120,8 +121,6 @@ void WindowComponentLine::DrawWindowContents()
 		ImGui::Text("Color Gradient");
 		
 		ImGradient* gradient = componentLine->GetGradient();
-		ImGradientMark* draggingMark = nullptr;
-		ImGradientMark* selectedMark = nullptr;
 
 		if (ImGui::GradientEditor(gradient, draggingMark, selectedMark))
 		{
