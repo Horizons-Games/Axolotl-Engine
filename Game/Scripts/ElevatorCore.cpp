@@ -27,7 +27,7 @@
 REGISTERCLASS(ElevatorCore);
 
 ElevatorCore::ElevatorCore() : Script(),
-componentAudio(nullptr), activeState(ActiveActions::INACTIVE)
+componentAudio(nullptr), activeState(ActiveActions::INACTIVE), positionState(PositionState::UP)
 {
 	REGISTER_FIELD(elevator, GameObject*);
 	REGISTER_FIELD(bixPrefab, GameObject*)
@@ -56,43 +56,60 @@ void ElevatorCore::Start()
 		throw ComponentNotFoundException("ComponentRigidBody not found in children");
 	}
 	componentRigidBody = (*childWithRigid)->GetComponent<ComponentRigidBody>();
-	//componentRigidBody->Disable();
+	transform = elevator->GetComponentInternal<ComponentTransform>();
+	triggerEntrance = owner->GetComponent<ComponentRigidBody>();
+	finalUpPos = 0;
 }
 
 void ElevatorCore::Update(float deltaTime)
 {
 	if (activeState == ActiveActions::ACTIVE) 
 	{
-		ComponentTransform* transform = elevator->GetComponentInternal<ComponentTransform>();
 		float3 pos = transform->GetGlobalPosition();
-		pos.y -= 0.1f;
+		btVector3 triggerOrigin = triggerEntrance->GetRigidBodyOrigin();
+
+		if (positionState == PositionState::UP)
+		{
+			pos.y -= 0.1f;
+			float newYTrigger = triggerOrigin.getY() - 0.1f;
+			triggerOrigin.setY(newYTrigger);
+		}
+		else 
+		{
+			pos.y += 0.1f;
+			float newYTrigger = triggerOrigin.getY() + 0.1f;
+			triggerOrigin.setY(newYTrigger);
+		}
+		
 		transform->SetGlobalPosition(pos);
 
 		transform->RecalculateLocalMatrix();
 		transform->UpdateTransformMatrices();
+
+		
+		triggerEntrance->SetRigidBodyOrigin(triggerOrigin);
 		elevator->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
 		bixPrefab->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
-
-		DisableAllInteractions();
-
-
-		LOG_DEBUG("POS.Y: {}, FINAL POS: {}", pos.y, finalPos);
 		
-		if (pos.y < finalPos)
+		if (pos.y <= finalPos)
 		{
+			positionState = PositionState::DOWN;
 			activeState = ActiveActions::INACTIVE;
+
+			bixPrefab->SetParent(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
+			bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(false);
+			EnableAllInteractions();
 		}
-
-
-		componentRigidBody->Disable();
 		
-	}
+		else if (pos.y >= finalUpPos)
+		{
+			positionState = PositionState::UP;
+			activeState = ActiveActions::INACTIVE;
 
-	else
-	{
-		bixPrefab->SetParent(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
-		bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(false);
-		EnableAllInteractions();
+			bixPrefab->SetParent(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
+			bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(false);
+			EnableAllInteractions();
+		}
 	}
 }
 
@@ -105,12 +122,13 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 		if (other->GetOwner()->CompareTag("Player"))
 		{
 	//		componentAnimation->SetParameter("IsActive", true);
-			//componentRigidBody->Disable();
 			componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 			activeState = ActiveActions::ACTIVE;
 
 			bixPrefab->SetParent(elevator);
 			bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(true);
+			DisableAllInteractions();
+			
 		}
 	}
 }
@@ -123,8 +141,6 @@ void ElevatorCore::OnCollisionExit(ComponentRigidBody* other)
 		if (other->GetOwner()->CompareTag("Player"))
 		{
 			//componentAnimation->SetParameter("IsActive", false);
-			//// Until the trigger works 100% of the time better cross a closed door than be closed forever
-			//componentRigidBody->Enable();
 			//componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
 		}
 	}

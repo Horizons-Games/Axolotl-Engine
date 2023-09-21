@@ -793,7 +793,9 @@
     <ClCompile Include="DataModels\Render\Shadows.cpp">
       <Filter>DataModels\Render</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp" />
+    <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1633,7 +1635,9 @@
     <ClInclude Include="DataModels\Render\Shadows.h">
       <Filter>DataModels\Render</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\ElevatorCore.h" />
+    <ClInclude Include="..\Game\Scripts\ElevatorCore.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">

@@ -19,6 +19,12 @@ enum class ActiveActions
 	INACTIVE
 };
 
+enum class PositionState
+{
+	UP,
+	DOWN
+};
+
 class ElevatorCore : public Script
 {
 
@@ -35,9 +41,16 @@ public:
 
 private:
 	ComponentAudioSource* componentAudio;
-	ActiveActions activeState;
 	ComponentRigidBody* componentRigidBody;
+
+	ComponentRigidBody* triggerEntrance;
+	ComponentTransform* transform;
+
+	ActiveActions activeState;
+	PositionState positionState;
+
 	GameObject* bixPrefab;
 	GameObject* elevator;
 	float finalPos;
+	float finalUpPos;
 };
