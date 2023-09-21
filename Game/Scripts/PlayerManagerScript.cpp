@@ -16,7 +16,7 @@
 REGISTERCLASS(PlayerManagerScript);
 
 PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), playerDefense(0.f), playerSpeed(6.0f),
-	movementManager(nullptr), jumpManager(nullptr), debugManager(nullptr)
+	movementManager(nullptr), jumpManager(nullptr), debugManager(nullptr), playerState(PlayerActions::IDLE)
 {
 	REGISTER_FIELD(isActivePlayer, bool);
 	REGISTER_FIELD(playerAttack, float);
@@ -122,4 +122,14 @@ void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)
 {
 	this->playerSpeed = playerSpeed;
+}
+
+PlayerActions PlayerManagerScript::GetPlayerState() const
+{
+	return playerState;
+}
+
+void PlayerManagerScript::SetPlayerState(PlayerActions playerState)
+{
+	this->playerState = playerState;
 }

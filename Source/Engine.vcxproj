@@ -442,7 +442,6 @@
     <ClCompile Include="DataModels\Components\Component.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentSkybox.cpp" />
-    <ClCompile Include="DataModels\Components\ComponentPlayerInput.cpp" />
     <ClCompile Include="DataModels\Components\UI\ComponentSlider.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowCubemapInput.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -698,10 +697,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayerInput.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -978,7 +973,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Resources\ResourceNavMesh.h" />
-    <ClInclude Include="DataModels\Components\ComponentPlayerInput.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowCubemapInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -1239,10 +1233,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayerInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>

@@ -590,7 +590,7 @@ void PlayerAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAtta
 
 bool PlayerAttackScript::IsAttackAvailable() const
 {
-	return !isAttacking;
+	return !isAttacking && playerManager->GetPlayerState() != PlayerActions::DASHING;
 }
 
 void PlayerAttackScript::SetCanAttack(bool canAttack)

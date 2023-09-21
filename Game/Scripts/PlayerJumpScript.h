@@ -12,7 +12,7 @@ class ComponentAudioSource;
 class ComponentRigidBody;
 
 class PlayerAttackScript;
-class PlayerMoveScript;
+class PlayerManagerScript;
 
 class PlayerJumpScript : public Script
 {
@@ -32,8 +32,8 @@ public:
 	void ChangingCurrentPlayer();
 
 private:
-	void CheckGround();
-	void Jump(float deltatime);
+	void CheckGround(float deltaTime);
+	void Jump(float deltaTime);
 
 	bool isGrounded;
 	bool doubleJumpAvailable;
@@ -41,6 +41,7 @@ private:
 	int groundedCount;
 	float coyoteTime;
 	float coyoteTimerCount;
+	float lastVerticalVelocity;
 
 	float jumpParameter;
 	bool canDoubleJump;
@@ -52,5 +53,5 @@ private:
 	ComponentAudioSource* componentAudio;
 
 	PlayerAttackScript* attackScript;
-	PlayerMoveScript* playerMoveScript;
+	PlayerManagerScript* playerManager;
 };

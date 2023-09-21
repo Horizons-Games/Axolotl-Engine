@@ -29298,47 +29298,6 @@
         },
         {
             "GameObject": {
-                "name": "Input",
-                "tag": "",
-                "uid": 3082922230256561224,
-                "parentUID": 9011007661183311806,
-                "enabled": true,
-                "static": true,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 1.0,
-                            "boudingBoxSca_Y": 1.0,
-                            "boudingBoxSca_Z": 1.0,
-                            "boudingBoxPos_X": 0.0,
-                            "boudingBoxPos_Y": 0.0,
-                            "boudingBoxPos_Z": 0.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_PlayerInput",
-                            "active": true,
-                            "removed": true
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Dronev2_1",
                 "tag": "Enemy",
                 "uid": 3872260479647250763,
@@ -59192,13 +59151,8 @@
                             "fields": [
                                 {
                                     "name": "DashForce",
-                                    "value": 1000.0,
+                                    "value": 15.0,
                                     "type": 0
-                                },
-                                {
-                                    "name": "CanDash",
-                                    "value": true,
-                                    "type": 5
                                 },
                                 {
                                     "name": "IsParalyzed",
@@ -59214,6 +59168,16 @@
                                     "name": "HeavyAttacksMoveFactor",
                                     "value": 3.0,
                                     "type": 0
+                                },
+                                {
+                                    "name":"DashRollCooldown",
+                                    "value":0.10000000149011612,
+                                    "type":0
+                                },
+                                {
+                                    "name":"DashDuration",
+                                    "value":0.30000000298023224,
+                                    "type":0
                                 }
                             ]
                         }

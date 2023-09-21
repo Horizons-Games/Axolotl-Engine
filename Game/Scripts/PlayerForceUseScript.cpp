@@ -169,7 +169,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE)
 	{
-		
 		componentAnimation->SetParameter("IsStoppingForce", true);
 		componentAnimation->SetParameter("IsStartingForce", false);
 	}

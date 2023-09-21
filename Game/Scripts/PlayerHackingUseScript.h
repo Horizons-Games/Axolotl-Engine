@@ -23,7 +23,7 @@ public:
 
 	bool IsHackingActive() const;
 
-	void PrintCombination(); //DEBUG METHOD
+	void PrintCombination(); // DEBUG METHOD
 
 private:
 

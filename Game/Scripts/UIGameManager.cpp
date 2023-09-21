@@ -16,7 +16,7 @@ REGISTERCLASS(UIGameManager);
 UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), manager(nullptr), menuIsOpen(false),
 hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr),
 speedPwrUpObject(nullptr), pwrUpActive(false), savePwrUp(PowerUpType::NONE), sliderHudHealthBixFront(nullptr), 
-sliderHudHealthBixBack(nullptr), sliderHudHealthAlluraFront(nullptr), sliderHudHealthAlluraBack(nullptr), keyState(KeyState::IDLE)
+sliderHudHealthBixBack(nullptr), sliderHudHealthAlluraFront(nullptr), sliderHudHealthAlluraBack(nullptr)
 {
 	REGISTER_FIELD(manager, GameObject*);
 	REGISTER_FIELD(mainMenuObject, GameObject*);
@@ -61,17 +61,12 @@ void UIGameManager::Update(float deltaTime)
 {
 	ModuleInput* input = App->GetModule<ModuleInput>();
 
-	// THIS IS A PROVISIONAL WAY TO SOLVE AN ISSUE WITH THE CONTROLLER COMPONENT
-	// THE STATE GOES FROM IDLE TO REPEAT, SO WE CONVERTED REPEAT TO DOWN FOR THIS
-	// ACTION USING LOGIC COMBINATIONS AND AN AUXILIAR VARIABLE 
-	if (input->GetKey(SDL_SCANCODE_ESCAPE) != keyState && 
-		input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::REPEAT)
+	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::DOWN)
 	{
 		menuIsOpen = !menuIsOpen;
 		MenuIsOpen();
 	}
 
-	keyState = input->GetKey(SDL_SCANCODE_ESCAPE);
 
 	if (healthSystemClassBix->GetCurrentHealth()!= componentSliderPlayerBack->GetCurrentValue()
 		|| healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerFront->GetCurrentValue())
