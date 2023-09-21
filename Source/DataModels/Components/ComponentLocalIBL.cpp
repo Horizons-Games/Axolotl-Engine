@@ -152,7 +152,7 @@ void ComponentLocalIBL::OnTransformChanged()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
-	float3 positionParent = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
+	float3 positionParent = GetPosition();
 
 	if (first)
 	{
@@ -194,7 +194,7 @@ const uint64_t& ComponentLocalIBL::GetHandlePreFiltered()
 	return handlePreFiltered;
 }
 
-const float3 ComponentLocalIBL::GetPosition()
+const float3& ComponentLocalIBL::GetPosition()
 {
 	return GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
 }

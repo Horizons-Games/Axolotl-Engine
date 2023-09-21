@@ -46,7 +46,7 @@ public:
 	const AABB& GetInfluenceAABB();
 	void SetInfluenceAABB(AABB& aabb);
 
-	const float3 GetPosition();
+	const float3& GetPosition();
 	const Quat& GetRotation();
 
 	void InternalSave(Json& meta) override;
