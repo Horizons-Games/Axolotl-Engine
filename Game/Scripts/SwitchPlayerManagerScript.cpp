@@ -11,6 +11,7 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentAnimation.h"
 
 #include "../Scripts/PlayerManagerScript.h"
 #include "PlayerAttackScript.h"
@@ -61,7 +62,7 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 			&& isSwitchAvailable)
 		{
 			CheckChangeCurrentPlayer();
-			VisualSwicthEffect();
+			VisualSwitchEffect();
 		}
 	}
 	else 
@@ -121,7 +122,7 @@ void SwitchPlayerManagerScript::SetIsSwitchAvailable(bool available)
 	isSwitchAvailable = available;
 }
 
-void SwitchPlayerManagerScript::VisualSwicthEffect()
+void SwitchPlayerManagerScript::VisualSwitchEffect()
 {
 	Scene* loadScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	if (actualSwitchPlayersParticles)
@@ -142,6 +143,7 @@ void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 	camera->ToggleCameraState();
 	currentPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(true);
 	playerManager->ForcingJump(true);
+	componentAnimation = currentPlayer->GetComponent<ComponentAnimation>();
 
 	// The position where the newCurrentPlayer will appear
 	positionPlayer = currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition();
@@ -185,6 +187,7 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		currentPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(false);
 		playerManager->ForcingJump(false);
 
+		componentAnimation->SetParameter("IsFalling", true);
 		currentPlayer->Disable();
 
 		// Change UI of the player here

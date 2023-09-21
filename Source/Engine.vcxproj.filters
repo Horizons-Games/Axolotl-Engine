@@ -775,7 +775,7 @@
     <ClCompile Include="..\Game\Scripts\Rotator.cpp">
       <Filter>UserScripts\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\SwicthPlayerManagerScript.cpp">
+    <ClCompile Include="..\Game\Scripts\SwitchPlayerManagerScript.cpp">
       <Filter>UserScripts\Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\HackingCommand.cpp">

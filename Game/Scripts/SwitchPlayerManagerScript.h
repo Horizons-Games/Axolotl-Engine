@@ -8,6 +8,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class CameraControllerScript;
+class ComponentAnimation;
 class ComponentTransform;
 class ComponentRigidBody;
 class PlayerManagerScript;
@@ -27,7 +28,7 @@ public:
 
 	void SetIsSwitchAvailable(bool available);
 
-	void VisualSwicthEffect();
+	void VisualSwitchEffect();
 	GameObject* GetSecondPlayer();
 
 private:
@@ -50,6 +51,7 @@ private:
 	GameObject* secondPlayer;
 	PlayerManagerScript* playerManager;
 	ComponentTransform* playerTransform;
+	ComponentAnimation* componentAnimation;
 
 	btVector3 rigidBodyVec3;
 

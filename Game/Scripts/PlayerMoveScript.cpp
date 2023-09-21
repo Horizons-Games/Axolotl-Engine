@@ -98,7 +98,9 @@ void PlayerMoveScript::Move(float deltaTime)
 	if (isParalyzed)
 	{
 		componentAnimation->SetParameter("IsRunning", false);
-		playerState = PlayerActions::IDLE;
+		componentAnimation->SetParameter("IsDashing", false);
+		btRigidbody->setLinearVelocity(btVector3(0.f, 0.f, 0.f));
+		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 		return;
 	}
 
