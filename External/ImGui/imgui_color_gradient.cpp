@@ -18,6 +18,14 @@ ImGradient::ImGradient()
     addMark(1.0f, ImColor(1.0f,1.0f,1.0f));
 }
 
+ImGradient::ImGradient(ImGradient* copyGradient)
+{
+	for (ImGradientMark* mark : copyGradient->getMarks())
+	{
+		addMark(mark->position, ImColor(mark->color[0], mark->color[1], mark->color[2], mark->color[3]));
+	}
+}
+
 ImGradient::~ImGradient()
 {
 	for (ImGradientMark* mark : m_marks)
@@ -34,6 +42,7 @@ void ImGradient::addMark(float position, ImColor const color)
     newMark->color[0] = color.Value.x;
     newMark->color[1] = color.Value.y;
     newMark->color[2] = color.Value.z;
+	newMark->color[3] = color.Value.w;
     
     m_marks.push_back(newMark);
     
@@ -50,10 +59,11 @@ void ImGradient::getColorAt(float position, float* color) const
 {
     position = ImClamp(position, 0.0f, 1.0f);    
     int cachePos = (position * 255);
-    cachePos *= 3;
+    cachePos *= 4;
     color[0] = m_cachedValues[cachePos+0];
     color[1] = m_cachedValues[cachePos+1];
-    color[2] = m_cachedValues[cachePos+2];
+	color[2] = m_cachedValues[cachePos + 2];
+	color[3] = m_cachedValues[cachePos + 3];
 }
 
 void ImGradient::computeColorAt(float position, float* color) const
@@ -92,7 +102,7 @@ void ImGradient::computeColorAt(float position, float* color) const
     }
     else if(!lower && !upper)
     {
-        color[0] = color[1] = color[2] = 0;
+        color[0] = color[1] = color[2] = color[3] = 0;
         return;
     }
     
@@ -101,6 +111,7 @@ void ImGradient::computeColorAt(float position, float* color) const
         color[0] = upper->color[0];
         color[1] = upper->color[1];
         color[2] = upper->color[2];
+		color[3] = upper->color[3];
     }
     else
     {
@@ -111,6 +122,7 @@ void ImGradient::computeColorAt(float position, float* color) const
         color[0] = ((1.0f - delta) * lower->color[0]) + ((delta) * upper->color[0]);
         color[1] = ((1.0f - delta) * lower->color[1]) + ((delta) * upper->color[1]);
         color[2] = ((1.0f - delta) * lower->color[2]) + ((delta) * upper->color[2]);
+		color[3] = ((1.0f - delta) * lower->color[3]) + ((delta) * upper->color[3]);
     }
 }
 
@@ -120,7 +132,7 @@ void ImGradient::refreshCache()
     
     for(int i = 0; i < 256; ++i)
     {
-        computeColorAt(i/255.0f, &m_cachedValues[i*3]);
+        computeColorAt(i/255.0f, &m_cachedValues[i*4]);
     }
 }
 
@@ -377,7 +389,7 @@ namespace ImGui
         
         if(selectedMark)
         {
-            bool colorModified = ImGui::ColorPicker3("##colorPicker",selectedMark->color);
+            bool colorModified = ImGui::ColorPicker4("##colorPicker",selectedMark->color);
             
             if(selectedMark && colorModified)
             {

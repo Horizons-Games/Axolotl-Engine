@@ -63,6 +63,7 @@ ComponentSpotLight::ComponentSpotLight(
 
 ComponentSpotLight::~ComponentSpotLight()
 {
+	deleting = true;
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	if (currentScene)
@@ -85,7 +86,7 @@ void ComponentSpotLight::Draw() const
 	{
 		return;
 	}
-	const ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	const ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 
 	float3 position = transform->GetGlobalPosition();
 	float3 forward = transform->GetGlobalForward().Normalized();

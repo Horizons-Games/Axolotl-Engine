@@ -8,8 +8,16 @@
 
 ModuleSize::ModuleSize(ParticleEmitter* emitter) :
 	ParticleModule(ModuleType::SIZE, emitter),
-	random(true), sizeOverTime(float2(0.001, 0.01))
+	random(true), sizeOverTime(float2(0.001f, 0.01f))
 {
+}
+
+ModuleSize::ModuleSize(ParticleEmitter* emitter, ModuleSize* size) :
+	ParticleModule(ModuleType::SIZE, emitter)
+{
+	random = size->IsRandom();
+	sizeOverTime = size->GetSize();
+	enabled = size->IsEnabled();
 }
 
 ModuleSize::~ModuleSize()
@@ -30,7 +38,7 @@ void ModuleSize::Update(EmitterInstance* instance)
 		{
 			EmitterInstance::Particle& particle = particles[i];
 
-			if (particle.lifespan >= 0.0f)
+			if (!particle.dead)
 			{
 				if (particle.sizeOverTime == -1.0f)
 				{
@@ -39,9 +47,22 @@ void ModuleSize::Update(EmitterInstance* instance)
 				}
 
 				particle.size += particle.sizeOverTime;
+				if (particle.size < 0.0f)
+				{
+					particle.size = 0.0f;
+				}
 			}
 		}
 	}
+}
+
+void ModuleSize::CopyConfig(ParticleModule* module)
+{
+	ModuleSize* size = static_cast<ModuleSize*>(module);
+
+	enabled = size->IsEnabled();
+	random = size->IsRandom();
+	sizeOverTime = size->GetSize();
 }
 
 void ModuleSize::DrawImGui()
@@ -56,24 +77,25 @@ void ModuleSize::DrawImGui()
 		ImGui::SetNextItemWidth(165.0f);
 		if (random)
 		{
-			if (ImGui::DragFloat2("##sliderSizeOverTime", &sizeOverTime[0], 1.0f, 0.0f, MAX_SIZE, "%.3f"))
+			if (ImGui::DragFloat2("##sliderSizeOverTime", &sizeOverTime[0], 1.0f, 
+				MIN_SIZE_OVER_TIME, MAX_SIZE_OVER_TIME, "%.3f"))
 			{
 				if (sizeOverTime.x > sizeOverTime.y)
 				{
 					sizeOverTime.x = sizeOverTime.y;
 				}
-				else if (sizeOverTime.x < 0.0f)
+				else if (sizeOverTime.x < MIN_SIZE_OVER_TIME)
 				{
-					sizeOverTime.x = 0.0f;
+					sizeOverTime.x = MIN_SIZE_OVER_TIME;
 				}
 
 				if (sizeOverTime.y < sizeOverTime.x)
 				{
 					sizeOverTime.y = sizeOverTime.x;
 				}
-				else if (sizeOverTime.y > MAX_SIZE)
+				else if (sizeOverTime.y > MAX_SIZE_OVER_TIME)
 				{
-					sizeOverTime.y = MAX_SIZE;
+					sizeOverTime.y = MAX_SIZE_OVER_TIME;
 				}
 			}
 		}
@@ -81,13 +103,13 @@ void ModuleSize::DrawImGui()
 		{
 			if (ImGui::InputFloat("##inputSizeOverTime", &sizeOverTime.x, 0.001f, 0.01f, "%.3f"))
 			{
-				if (sizeOverTime.x > MAX_SIZE)
+				if (sizeOverTime.x > MAX_SIZE_OVER_TIME)
 				{
-					sizeOverTime.x = MAX_SIZE;
+					sizeOverTime.x = MAX_SIZE_OVER_TIME;
 				}
-				else if (sizeOverTime.x < 0.0f)
+				else if (sizeOverTime.x < MIN_SIZE_OVER_TIME)
 				{
-					sizeOverTime.x = 0.0f;
+					sizeOverTime.x = MIN_SIZE_OVER_TIME;
 				}
 			}
 		}

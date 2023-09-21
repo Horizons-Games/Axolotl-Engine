@@ -9,6 +9,7 @@
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
 #include "Modules/ModuleUI.h"
+#include "Modules/ModuleEditor.h"
 
 #include "Components/ComponentTransform.h"
 #include "Components/UI/ComponentTransform2D.h"
@@ -45,52 +46,71 @@ void WindowScene::DrawWindowContents()
 				 ImVec2(0, 1),
 				 ImVec2(1, 0));
 
-	if (!App->IsOnPlayMode())
+	DrawSceneMenu();
+	if (!App->IsOnPlayMode() && !App->GetModule<ModuleScene>()->IsLoading())
 	{
 		DrawGuizmo();
 	}
 }
 
+void WindowScene::DrawSceneMenu()
+{
+	ImGuiIO& io = ImGui::GetIO();
+	ModuleEditor* editor = App->GetModule<ModuleEditor>();
+
+	bool fullscreenScene = editor->IsSceneFullscreen();
+	bool editorControl = editor->IsEditorControlEnabled();
+
+	ImGui::BeginMenuBar();
+	if (ImGui::RadioButton("Fullscreen", fullscreenScene))
+	{
+		editor->ToggleFullscreenScene();
+	}
+	if (fullscreenScene && ImGui::RadioButton("Editor control", editorControl))
+	{
+		editor->ToggleEditorControl();
+	}
+	ImGui::EndMenuBar();
+}
+
 void WindowScene::DrawGuizmo()
 {
 	ImGuiIO& io = ImGui::GetIO();
-
 	ImGui::BeginMenuBar();
 
-	ImGui::Text("Operation type:");
-	if (ImGui::RadioButton("Translate", gizmoCurrentOperation == ImGuizmo::OPERATION::TRANSLATE))
+	if (ImGui::BeginMenu("Operation type"))
 	{
-		gizmoCurrentOperation = ImGuizmo::OPERATION::TRANSLATE;
-	}
-	if (ImGui::RadioButton("Rotate", gizmoCurrentOperation == ImGuizmo::OPERATION::ROTATE))
-	{
-		gizmoCurrentOperation = ImGuizmo::OPERATION::ROTATE;
-	}
-	if (ImGui::RadioButton("Scale", gizmoCurrentOperation == ImGuizmo::OPERATION::SCALE))
-	{
-		gizmoCurrentOperation = ImGuizmo::OPERATION::SCALE;
+		if (ImGui::RadioButton("Translate", gizmoCurrentOperation == ImGuizmo::OPERATION::TRANSLATE))
+		{
+			gizmoCurrentOperation = ImGuizmo::OPERATION::TRANSLATE;
+		}
+		if (ImGui::RadioButton("Rotate", gizmoCurrentOperation == ImGuizmo::OPERATION::ROTATE))
+		{
+			gizmoCurrentOperation = ImGuizmo::OPERATION::ROTATE;
+		}
+		if (ImGui::RadioButton("Scale", gizmoCurrentOperation == ImGuizmo::OPERATION::SCALE))
+		{
+			gizmoCurrentOperation = ImGuizmo::OPERATION::SCALE;
+		}
+
+		ImGui::EndMenu();
 	}
 
-	ImGui::Dummy(ImVec2(5.0f, 0.0f));
-	ImGui::Separator();
-	ImGui::Dummy(ImVec2(5.0f, 0.0f));
-
-	ImGui::Text("Mode:");
-	if (ImGui::RadioButton("Local", gizmoCurrentMode == ImGuizmo::LOCAL))
+	if (ImGui::BeginMenu("Mode"))
 	{
-		gizmoCurrentMode = ImGuizmo::MODE::LOCAL;
-	}
-	if (ImGui::RadioButton("World", gizmoCurrentMode == ImGuizmo::WORLD))
-	{
-		gizmoCurrentMode = ImGuizmo::MODE::WORLD;
+		if (ImGui::RadioButton("Local", gizmoCurrentMode == ImGuizmo::LOCAL))
+		{
+			gizmoCurrentMode = ImGuizmo::MODE::LOCAL;
+		}
+		if (ImGui::RadioButton("World", gizmoCurrentMode == ImGuizmo::WORLD))
+		{
+			gizmoCurrentMode = ImGuizmo::MODE::WORLD;
+		}
+
+		ImGui::EndMenu();
 	}
 
-	ImGui::Dummy(ImVec2(5.0f, 0.0f));
-	ImGui::Separator();
-	ImGui::Dummy(ImVec2(5.0f, 0.0f));
-
-	ImGui::Text("Snap:");
-	if (ImGui::RadioButton("", useSnap))
+	if (ImGui::RadioButton("Snap", useSnap))
 	{
 		useSnap = !useSnap;
 	};
@@ -154,7 +174,8 @@ void WindowScene::DrawGuizmo()
 
 		float4x4 viewMat = float4x4::identity;
 
-		ComponentTransform* focusedTransform = focusedObject->GetComponent<ComponentTransform>();
+		ComponentTransform* focusedTransform = focusedObject->GetComponentInternal<ComponentTransform>();
+		ComponentTransform2D* focusedTransform2D = focusedObject->GetComponentInternal<ComponentTransform2D>();
 
 		// Guizmo 3D
 		if (focusedTransform != nullptr)
@@ -184,7 +205,7 @@ void WindowScene::DrawGuizmo()
 
 				if (parent != nullptr)
 				{
-					const ComponentTransform* parentTransform = parent->GetComponent<ComponentTransform>();
+					const ComponentTransform* parentTransform = parent->GetComponentInternal<ComponentTransform>();
 
 					inverseParentMatrix = parentTransform->GetGlobalMatrix().Inverted();
 				}
@@ -195,13 +216,13 @@ void WindowScene::DrawGuizmo()
 				switch (gizmoCurrentOperation)
 				{
 					case ImGuizmo::OPERATION::TRANSLATE:
-						focusedTransform->SetPosition(position);
+						focusedTransform->SetLocalPosition(position);
 						break;
 					case ImGuizmo::OPERATION::ROTATE:
-						focusedTransform->SetRotation(rotation);
+						focusedTransform->SetLocalRotation(rotation);
 						break;
 					case ImGuizmo::OPERATION::SCALE:
-						focusedTransform->SetScale(scale);
+						focusedTransform->SetLocalScale(scale);
 						break;
 				}
 				focusedTransform->UpdateTransformMatrices();
@@ -219,9 +240,8 @@ void WindowScene::DrawGuizmo()
 				0x10101010);
 		}
 		//Guizmo 2D
-		else
+		else if (focusedTransform2D != nullptr)
 		{
-			ComponentTransform2D* focusedTransform2D = focusedObject->GetComponent<ComponentTransform2D>();
 			ImGuizmo::SetOrthographic(true);
 			float4x4 projMat = camera->GetOrthoProjectionMatrix().Transposed();
 			float4x4 modelMatrix = focusedTransform2D->GetGlobalMatrix().Transposed();

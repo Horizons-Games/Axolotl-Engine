@@ -9,7 +9,7 @@ class WindowInspector;
 class WindowStateMachineEditor;
 class WindowLoading;
 class Resource;
-class ResourceStateMachine;
+class StateMachine;
 class GameObject;
 
 class ModuleEditor : public Module
@@ -28,7 +28,7 @@ public:
 
 	void Resized();
 
-	void SetStateMachineWindowEditor(const std::weak_ptr<ResourceStateMachine>& resource);
+	void SetStateMachineWindowEditor(StateMachine* resourceInstance,const std::string& instanceName);
 	void SetResourceOnStateMachineEditor(const std::shared_ptr<Resource>& resource);
 
 	const WindowScene* GetScene() const;
@@ -40,6 +40,12 @@ public:
 	void RefreshInspector() const;
 	std::pair<float, float> GetAvailableRegion();
 
+	bool IsSceneFullscreen() const;
+	void ToggleFullscreenScene();
+
+	bool IsEditorControlEnabled() const;
+	void ToggleEditorControl();
+
 private:
 	std::vector<std::unique_ptr<EditorWindow>> windows;
 	std::unique_ptr<WindowMainMenu> mainMenu = nullptr;
@@ -49,15 +55,18 @@ private:
 
 	WindowInspector* inspector;
 	WindowScene* scene;
+
 	bool windowResized;
+	bool fullscreenScene;
+	bool editorControl;
 
 	char* StateWindows();
 	void CreateFolderSettings();
 	static const std::string settingsFolder;
 	static const std::string set;
 
-	void DrawLoadingBuild();
-	std::unique_ptr<WindowLoading> buildGameLoading = nullptr;
+	void DrawLoadingPopUp();
+	std::unique_ptr<WindowLoading> loadingPopUp = nullptr;
 };
 
 inline void ModuleEditor::Resized()
@@ -78,4 +87,24 @@ inline WindowMainMenu* ModuleEditor::GetMainMenu() const
 inline const WindowDebug* ModuleEditor::GetDebugOptions() const
 {
 	return debugOptions.get();
+}
+
+inline void ModuleEditor::ToggleFullscreenScene()
+{
+	fullscreenScene = !fullscreenScene;
+}
+
+inline void ModuleEditor::ToggleEditorControl()
+{
+	editorControl = !editorControl;
+}
+
+inline bool ModuleEditor::IsSceneFullscreen() const
+{
+	return fullscreenScene;
+}
+
+inline bool ModuleEditor::IsEditorControlEnabled() const
+{
+	return editorControl;
 }

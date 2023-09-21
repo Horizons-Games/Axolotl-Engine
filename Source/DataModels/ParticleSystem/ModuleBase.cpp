@@ -19,6 +19,21 @@ ModuleBase::ModuleBase(ParticleEmitter* emitter) : ParticleModule(ModuleType::BA
 	originTransform = float4x4::identity;
 	originLocation = DEFAULT_ORIGIN;
 	originRotation = Quat::identity;
+
+	positionOffset = float3::zero;
+	lastPosition = float3::zero;
+
+	allPartsDead = false;
+	followTransform = false;
+}
+
+ModuleBase::ModuleBase(ParticleEmitter* emitter, ModuleBase* base) : ParticleModule(ModuleType::BASE, emitter)
+{
+	originLocation = base->GetOrigin();
+	originRotation = base->GetRotation();
+	originTransform = float4x4::FromTRS(originLocation, originRotation, float3::one);
+
+	allPartsDead = false;
 }
 
 ModuleBase::~ModuleBase()
@@ -31,12 +46,12 @@ void ModuleBase::Spawn(EmitterInstance* instance)
 
 void ModuleBase::Update(EmitterInstance* instance)
 {
-	const ParticleEmitter* partEmitter = instance->GetEmitter();
+	std::vector<EmitterInstance::Particle>& particles = instance->GetParticles();
 
-	if (instance->GetElapsedTime() <= emitter->GetDuration() || partEmitter->IsLooping())
+	if (instance->GetElapsedTime() <= instance->GetDuration() || instance->IsLooping())
 	{
 		const GameObject* go = instance->GetOwner()->GetOwner();
-		ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponent<ComponentTransform>());
+		ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponentInternal<ComponentTransform>());
 
 		if (originTransform.IsIdentity())
 		{
@@ -45,17 +60,23 @@ void ModuleBase::Update(EmitterInstance* instance)
 
 		float4x4 globalTransform = objectTransform->GetGlobalMatrix().Mul(originTransform);
 
-		std::vector<EmitterInstance::Particle>& particles = instance->GetParticles();
+		positionOffset = globalTransform.TranslatePart() - lastPosition;
+		lastPosition = globalTransform.TranslatePart();
 
 		for (int i = 0; i < particles.size(); ++i)
 		{
 			EmitterInstance::Particle& particle = particles[i];
 
-			if (particle.tranform.IsIdentity() || particle.lifespan <= 0.0f)
+			if (particle.lifespan <= 0.000f)
 			{
-				float radius = emitter->GetRadius();
+				particle.dead = true;
+			}
 
-				switch (emitter->GetShape())
+			if (particle.tranform.IsIdentity() || particle.dead)
+			{
+				float radius = instance->GetRadius();
+
+				switch (instance->GetShape())
 				{
 				case ParticleEmitter::ShapeType::CIRCLE:
 				{
@@ -81,7 +102,7 @@ void ModuleBase::Update(EmitterInstance* instance)
 					float3 point = direction * length;
 					float4x4 pointTransform = float4x4::FromTRS(point, Quat::identity, float3::one);
 
-					float baseRadius = math::Tan(math::DegToRad(emitter->GetAngle())) * CONE_HEIGHT + radius;
+					float baseRadius = math::Tan(math::DegToRad(instance->GetAngle())) * CONE_HEIGHT + radius;
 					float lengthAux = length * baseRadius / radius;
 
 					float3 pointAux = direction * lengthAux;
@@ -113,19 +134,49 @@ void ModuleBase::Update(EmitterInstance* instance)
 				}
 
 				// Initialization of basic parameters
-				float2 speed = emitter->GetSpeedRange();
-				float velocity = emitter->IsRandomSpeed() ?
+				float2 speed = instance->GetSpeedRange();
+				float velocity = instance->IsRandomSpeed() ?
 					instance->CalculateRandomValueInRange(speed.x, speed.y) : speed.x;
 				particle.initVelocity = particle.direction * velocity;
+			}
+		}
+		allPartsDead = false;
+	}
+	else if (!allPartsDead)
+	{
+		allPartsDead = true;
+
+		for (int i = 0; i < particles.size(); ++i)
+		{
+			EmitterInstance::Particle& particle = particles[i];
+
+			if (particle.lifespan <= 0.0f)
+			{
+				particle.dead = true;
+			}
+			else
+			{
+				allPartsDead = false;
 			}
 		}
 	}
 }
 
+void ModuleBase::CopyConfig(ParticleModule* module)
+{
+	ModuleBase* base = static_cast<ModuleBase*>(module);
+
+	enabled			= base->IsEnabled();
+	originTransform = base->GetOriginTranform();
+	originLocation  = base->GetOrigin();
+	originRotation  = base->GetRotation();	
+	followTransform = base->IsFollowingTransform();
+}
+
 void ModuleBase::DrawDD(EmitterInstance* instance)
 {
 	const GameObject* go = instance->GetOwner()->GetOwner();
-	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponent<ComponentTransform>());
+	ComponentTransform* objectTransform = static_cast<ComponentTransform*>(go->GetComponentInternal<ComponentTransform>());
 	float4x4 globalTransform = objectTransform->GetGlobalMatrix().Mul(originTransform);
 
 	float3 position;
@@ -133,12 +184,12 @@ void ModuleBase::DrawDD(EmitterInstance* instance)
 	float3 scale;
 	globalTransform.Decompose(position, rotation, scale);
 
-	float radius = emitter->GetRadius();
-	float angle = emitter->GetAngle();
+	float radius = instance->GetRadius();
+	float angle = instance->GetAngle();
 
 	float baseRadius = math::Tan(math::DegToRad(angle)) * CONE_HEIGHT + radius;
 
-	switch (emitter->GetShape())
+	switch (instance->GetShape())
 	{
 	case ParticleEmitter::ShapeType::CIRCLE:
 		dd::circle(position, globalTransform.WorldZ(), dd::colors::HotPink, radius, 25);
@@ -227,7 +278,7 @@ void ModuleBase::DrawImGui()
 			}
 			ImGui::PopStyleVar(); ImGui::SameLine();
 
-			ImGui::Text("y:"); ImGui::SameLine();
+			ImGui::Text("z:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 			if (ImGui::DragFloat("##ZRot", &rotation.z, 0.01f, -179.99f, 179.99f))
@@ -245,6 +296,9 @@ void ModuleBase::DrawImGui()
 			}
 
 			ImGui::EndTable();
+
+			ImGui::Text("Follow transform: "); ImGui::SameLine();
+			ImGui::Checkbox("##FollowTransform", &followTransform);
 		}
 		ImGui::TreePop();
 	}

@@ -1,0 +1,32 @@
+{
+    "UID": 13789950276450313815,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/futuristic_computer.Cube.003_0.mesh",
+        "Assets/Meshes/futuristic_computer.Cube.001_0.mesh",
+        "Assets/Meshes/futuristic_computer.Cube.002_0.mesh",
+        "Assets/Meshes/futuristic_computer.Cube.010_0.mesh",
+        "Assets/Meshes/futuristic_computer.Cube.006_0.mesh",
+        "Assets/Meshes/futuristic_computer.Cube.024_0.mesh",
+        "Assets/Meshes/futuristic_computer.Cube.003_0.mesh",
+        "Assets/Meshes/futuristic_computer.Cube.007_0.mesh",
+        "Assets/Meshes/futuristic_computer.Cube.005_0.mesh",
+        "Assets/Meshes/futuristic_computer.Cube.004_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/futuristic_computerComputer_0.mat",
+        "Assets/Materials/futuristic_computerMaterial_0.mat",
+        "Assets/Materials/futuristic_computerGround1_0.mat",
+        "Assets/Materials/futuristic_computerWallVariant_0.mat",
+        "Assets/Materials/futuristic_computerGround_0.mat",
+        "Assets/Materials/futuristic_computerDoor_0.mat",
+        "Assets/Materials/futuristic_computerComputer_0.mat",
+        "Assets/Materials/futuristic_computerPanel_0.mat",
+        "Assets/Materials/futuristic_computerWallWindow_0.mat",
+        "Assets/Materials/futuristic_computerDoor_0.mat"
+    ],
+    "AnimAssetPaths": [
+        "Assets/Animation/futuristic_computer.DoorArmature_DoorClose.anim",
+        "Assets/Animation/futuristic_computer.DoorArmature_DoorOpen.anim"
+    ]
+}

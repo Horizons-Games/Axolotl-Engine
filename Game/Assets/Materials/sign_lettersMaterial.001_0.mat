@@ -1,7 +1,7 @@
 {
-    "DiffuseAssetPath": "Assets/Textures/sign_letters_Material.001_BaseColor.png",
-    "NormalAssetPath": "Assets/Textures/sign_letters_Material.001_Normal.png",
+    "DiffuseAssetPath": "",
+    "NormalAssetPath": "",
     "OcclusionAssetPath": "",
     "MetalicAssetPath": "",
-    "EmissiveAssetPath": "Assets/Textures/sign_letters_Material.001_Emissive.png"
+    "EmissiveAssetPath": ""
 }

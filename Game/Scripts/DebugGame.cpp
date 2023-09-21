@@ -1,79 +1,55 @@
-#include "StdAfx.h"
-
 #include "DebugGame.h"
-#include "Components/ComponentPlayer.h"
+
+#include "Application.h"
+#include "ModulePlayer.h"
 #include "ModuleInput.h"
-#include "HealthSystem.h"
 #include "ModuleCamera.h"
-#include "BixAttackScript.h"
-#include "PlayerMoveScript.h"
-#include "PlayerJumpScript.h"
-#include "PlayerRotationScript.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
+
+#include "Components/ComponentPlayer.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
-#include "debugdraw.h"
-#include "Application.h"
-#include "ModulePlayer.h"
-#include "../Scripts/PowerUpLogicScript.h"
 
-#include "GameManager.h"
+#include "../Scripts/HealthSystem.h"
+#include "../Scripts/PlayerAttackScript.h"
+#include "../Scripts/PlayerMoveScript.h"
+#include "../Scripts/PlayerJumpScript.h"
+#include "../Scripts/PlayerRotationScript.h"
+#include "../Scripts/PowerUpLogicScript.h"
+#include "../Scripts/GameManager.h"
+#include "../Scripts/ComboManager.h"
+
+#include "debugdraw.h"
+#include "AxoLog.h"
 
 REGISTERCLASS(DebugGame);
 
-
-DebugGame::DebugGame() : Script(), isDebugModeActive(false), debugCurrentPosIndex(0), playerOnLocation(true), DebugPowerUp(nullptr)
+DebugGame::DebugGame() : Script(), isDebugModeActive(false), debugCurrentPosIndex(0), playerOnLocation(true), 
+	debugPowerUp(nullptr), venomitePrefab(nullptr)
 {
-	
-	REGISTER_FIELD(debugPoint1, GameObject*);
-	REGISTER_FIELD(debugPoint2, GameObject*);
-	REGISTER_FIELD(debugPoint3, GameObject*);
-	REGISTER_FIELD(debugPoint4, GameObject*);
-	REGISTER_FIELD(debugPoint5, GameObject*);
+	REGISTER_FIELD(debugPoints, std::vector<ComponentTransform*>);
+
 	REGISTER_FIELD(isDebugModeActive, bool);
 	REGISTER_FIELD(playerOnLocation, bool);
-	REGISTER_FIELD(DebugPowerUp, GameObject*)
+
+	REGISTER_FIELD(debugPowerUp, GameObject*);
+
+	REGISTER_FIELD(venomitePrefab, GameObject*);
 }
 
 void DebugGame::Start()
 {
 	input = App->GetModule<ModuleInput>();
-
-	//ImmortalityStart
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
 
 	playerHealthSystem = player->GetComponent<HealthSystem>();
-	playerAttackScript = player->GetComponent<BixAttackScript>();
+	playerAttackScript = player->GetComponent<PlayerAttackScript>();
 	playerMoveScript = player->GetComponent<PlayerMoveScript>();
 	playerJumpScript = player->GetComponent<PlayerJumpScript>();
 	playerRotationScript = player->GetComponent<PlayerRotationScript>();
-
-	//TeleportStart
-
-	if (debugPoint1)
-	{
-		debugPoints.push_back(debugPoint1->GetComponent<ComponentTransform>());
-	}
-
-	if (debugPoint2)
-	{
-		debugPoints.push_back(debugPoint2->GetComponent<ComponentTransform>());
-	}
-
-	if (debugPoint3)
-	{
-		debugPoints.push_back(debugPoint3->GetComponent<ComponentTransform>());
-	}
-
-	if (debugPoint4)
-	{
-		debugPoints.push_back(debugPoint4->GetComponent<ComponentTransform>());
-	}
-
-	if (debugPoint5)
-	{
-		debugPoints.push_back(debugPoint5->GetComponent<ComponentTransform>());
-	}
+	comboSystemScript = player->GetComponent<ComboManager>();
 
 	playerRigidBody = player->GetComponent<ComponentRigidBody>();
 	playerTransform = player->GetComponent<ComponentTransform>();
@@ -83,53 +59,78 @@ void DebugGame::Start()
 
 void DebugGame::Update(float deltaTime)
 {
-	
-	
-	//INPUTS
-
 	if (input->GetKey(SDL_SCANCODE_B) == KeyState::DOWN)
 	{
 		SwitchDebugMode();
 	}
 
-	if (input->GetKey(SDL_SCANCODE_4) == KeyState::DOWN && isDebugModeActive)
+	if (!isDebugModeActive)
+	{
+		return;
+	}
+
+	if (input->GetKey(SDL_SCANCODE_F1) == KeyState::DOWN)
+	{
+#ifndef ENGINE
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/__LEVEL1_ALFA.axolotl");
+		LOG_INFO("LOADING LEVEL 1");
+#endif // ENGINE
+	}
+	else if (input->GetKey(SDL_SCANCODE_F2) == KeyState::DOWN)
+	{
+#ifndef ENGINE
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_LEVEL02_ALFA.axolotl");
+		LOG_INFO("LOADING LEVEL 2");
+#endif // ENGINE
+	}
+	else if (input->GetKey(SDL_SCANCODE_F3) == KeyState::DOWN)
+	{
+#ifndef ENGINE
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/Gameplay_FinalBoss.axolotl");
+		LOG_INFO("LOADING BOSS FIGHT");
+#endif // ENGINE
+	}
+	else if (input->GetKey(SDL_SCANCODE_F4) == KeyState::DOWN)
+	{
+#ifndef ENGINE
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_LEVEL02_ALFA_BIX.axolotl");
+		LOG_INFO("LOADING LEVEL 2");
+#endif // ENGINE
+	}
+	else if (input->GetKey(SDL_SCANCODE_F5) == KeyState::DOWN)
+	{
+		FillComboBar();
+	}
+	else if (input->GetKey(SDL_SCANCODE_F6) == KeyState::DOWN)
 	{
 		GodCamera();
 	}
-
-	if (input->GetKey(SDL_SCANCODE_5) == KeyState::DOWN && isDebugModeActive)
+	else if (input->GetKey(SDL_SCANCODE_F7) == KeyState::DOWN)
 	{
 		PowerUpDrop();
 	}
-
-	if (input->GetKey(SDL_SCANCODE_7) == KeyState::DOWN && isDebugModeActive)
+	else if (input->GetKey(SDL_SCANCODE_F8) == KeyState::DOWN)
 	{
 		FillHealth();
 	}
-
-	if (input->GetKey(SDL_SCANCODE_8) == KeyState::DOWN && isDebugModeActive)
+	else if (input->GetKey(SDL_SCANCODE_F9) == KeyState::DOWN)
 	{
-
 		BeImmortal();
 	}
-
-	if (input->GetKey(SDL_SCANCODE_9) == KeyState::DOWN && isDebugModeActive)
+	else if (input->GetKey(SDL_SCANCODE_F10) == KeyState::DOWN)
 	{
-		
 		DeathTouch();
 	}
-
-	if (input->GetKey(SDL_SCANCODE_0) == KeyState::DOWN && isDebugModeActive)
+	else if (input->GetKey(SDL_SCANCODE_F11) == KeyState::DOWN)
 	{
 		Teleport();
 		playerOnLocation = false;
-		
 	}
 
-	//TELEPORTMOVEMENT
-	if(!playerOnLocation && isDebugModeActive)
+	// TELEPORT MOVEMENT
+	if (!playerOnLocation)
 	{
-		for(const ComponentTransform* debugPointTransform : debugPoints)
+		for (const ComponentTransform* debugPointTransform : debugPoints)
 		{
 			if (playerTransform->GetGlobalPosition().Equals(debugPointTransform->GetGlobalPosition(), 2.0f))
 			{
@@ -140,9 +141,6 @@ void DebugGame::Update(float deltaTime)
 			}
 		}
 	}
-	
-
-
 }
 
 void DebugGame::SwitchDebugMode()
@@ -150,104 +148,115 @@ void DebugGame::SwitchDebugMode()
 	if (!isDebugModeActive)
 	{
 		isDebugModeActive = true;
-		LOG_DEBUG("DEBUG MODE ACTIVATED");
+		LOG_INFO("DEBUG MODE ACTIVATED");
 	}
+
 	else
 	{
 		isDebugModeActive = false;
-		LOG_DEBUG("DEBUG MODE DEACTIVATED");
+		LOG_INFO("DEBUG MODE DEACTIVATED");
 	}
 }
 
-void DebugGame::GodCamera() const {
+void DebugGame::SpawnNewEnemy() const
+{
+	GameObject* newEnemy = App->GetModule<ModuleScene>()->GetLoadedScene()->
+		DuplicateGameObject("Debug Venomite", venomitePrefab, venomitePrefab->GetParent());
 
+	float3 newEnemyPosition = player->GetComponent<ComponentTransform>()->GetGlobalPosition() + 
+		player->GetComponent<ComponentTransform>()->GetGlobalForward().Normalized();
+
+	newEnemy->GetComponent<ComponentTransform>()->SetGlobalPosition(newEnemyPosition);
+	LOG_INFO("SPAWNING NEW ENEMY");
+}
+
+void DebugGame::FillComboBar() const
+{
+	comboSystemScript->FillComboBar();
+	LOG_INFO("COMBO BAR FILLED UP");
+}
+
+void DebugGame::GodCamera() const
+{
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 
-
-	if (!playerMoveScript->GetIsParalized() && playerJumpScript->GetCanJump())
+	if (!playerMoveScript->IsParalyzed() && playerJumpScript->CanJump())
 	{
-		playerMoveScript->SetIsParalized(true);
+		playerMoveScript->SetIsParalyzed(true);
 		playerJumpScript->SetCanJump(false);
 		
 		camera->SetSelectedPosition(1);
 		camera->SetSelectedCamera(camera->GetSelectedPosition());
-		LOG_DEBUG("GOD CAMERA ACTIVATED");
+		LOG_INFO("GOD CAMERA ACTIVATED");
 	}
-	else if (playerMoveScript->GetIsParalized() && !playerJumpScript->GetCanJump())
+
+	else if (playerMoveScript->IsParalyzed() && !playerJumpScript->CanJump())
 	{
-		playerMoveScript->SetIsParalized(false);
+		playerMoveScript->SetIsParalyzed(false);
 		playerJumpScript->SetCanJump(true);
 		
 		camera->SetSelectedPosition(0);
 		camera->SetSelectedCamera(camera->GetSelectedPosition());
-		LOG_DEBUG("GOD CAMERA DEACTIVATED");
+		LOG_INFO("GOD CAMERA DEACTIVATED");
 	}
-
-	
-
 }
 
 void DebugGame::PowerUpDrop() const
 {
-
-	if (DebugPowerUp != nullptr)
+	if (debugPowerUp != nullptr)
 	{
-		PowerUpLogicScript* newPowerUpLogic = DebugPowerUp->GetComponent<PowerUpLogicScript>();
+		PowerUpLogicScript* newPowerUpLogic = debugPowerUp->GetComponent<PowerUpLogicScript>();
 		ComponentTransform* ownerTransform = player->GetComponent<ComponentTransform>();
 
-		newPowerUpLogic->ActivatePowerUp(ownerTransform->GetPosition());
+		newPowerUpLogic->ActivatePowerUp(ownerTransform->GetOwner());
 	}
-
-
 }
 
 void DebugGame::FillHealth() const
 {
 	playerHealthSystem->HealLife(playerHealthSystem->GetMaxHealth());
-	LOG_DEBUG("Full Health");
+	LOG_INFO("HEALTH FILLED UP");
 }
 
 void DebugGame::BeImmortal() const
 {
-	if (!playerHealthSystem->GetIsImmortal()) 
+	if (!playerHealthSystem->IsImmortal()) 
 	{
 		playerHealthSystem->SetIsImmortal(true);
-		LOG_DEBUG("Immortal ON");
+		LOG_INFO("IMMORTALITY ACTIVATED");
 	}
-	else if (playerHealthSystem->GetIsImmortal())
+	else
 	{
 		playerHealthSystem->SetIsImmortal(false);
-		LOG_DEBUG("Immortal OFF");
+		LOG_INFO("IMMORTALITY DEACTIVATED");
 	}
 }
 
 void DebugGame::DeathTouch() const
 {
-
-	if (!playerAttackScript->GetIsDeathTouched())
+	if (!playerAttackScript->IsDeathTouched())
 	{
 		playerAttackScript->SetIsDeathTouched(true);
-		LOG_DEBUG("Death Touch ON");
+		LOG_INFO("DEATH TOUCH ACTIVATED");
 	}
-	else if (playerAttackScript->GetIsDeathTouched())
+	else
 	{
 		playerAttackScript->SetIsDeathTouched(false);
-		LOG_DEBUG("Death Touch OFF");	
+		LOG_INFO("DEATH TOUCH DEACTIVATED");
 	}
-
 }
 
 void DebugGame::Teleport() 
 {
-	LOG_DEBUG("TELEPORTING");
 	playerRigidBody->SetIsTrigger(true);
 	currentdDebugPointTransform = debugPoints[debugCurrentPosIndex];
 	playerRigidBody->SetPositionTarget(currentdDebugPointTransform->GetGlobalPosition());
 	debugCurrentPosIndex = (debugCurrentPosIndex + 1) % debugPoints.size();
-	LOG_DEBUG("%d", debugCurrentPosIndex);
+
+	LOG_INFO("TELEPORTING TO {}", currentdDebugPointTransform->GetOwner()->GetName());
 }
 
-
-
-
-
+bool DebugGame::IsTeleporting() const
+{
+	return isDebugModeActive && !playerOnLocation;
+}

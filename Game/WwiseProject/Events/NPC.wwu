@@ -5,6 +5,7 @@
 			<ChildrenList>
 				<WorkUnit Name="NPCsCantina" ID="{FE576376-BB94-4EB1-84EF-142998372586}" PersistMode="Reference"/>
 				<WorkUnit Name="DRON" ID="{8BF6C5A8-C367-42AE-8C83-BAE60E304659}" PersistMode="Reference"/>
+				<WorkUnit Name="MiniBoss2" ID="{1A4E0FA7-87FC-4E7B-9672-FD69A89FDDCB}" PersistMode="Reference"/>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

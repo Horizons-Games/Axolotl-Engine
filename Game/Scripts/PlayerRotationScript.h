@@ -26,7 +26,6 @@ public:
 
 	void SetHorizontalSensitivity(float sensitivity);
 	void SetVerticalSensitivity(float sensitivity);
-
 private:
     void Rotation(float deltaTime);
 	bool canRotate;
@@ -36,27 +35,5 @@ private:
 
 	PlayerForceUseScript* forceScript;
 	ComponentRigidBody* rigidBody;
-	btRigidBody* btRb;
-
+	btRigidBody* btRigidbody;
 };
-
-inline float PlayerRotationScript::GetHorizontalSensitivity() const
-{
-	return rotationSensitivityHorizontal;
-}
-
-inline float PlayerRotationScript::GetVerticalSensitivity() const
-{
-	return rotationSensitivityVertical;
-}
-
-inline void PlayerRotationScript::SetHorizontalSensitivity(float sensitivity)
-{
-	rotationSensitivityHorizontal = sensitivity;
-}
-
-inline void PlayerRotationScript::SetVerticalSensitivity(float sensitivity)
-{
-	rotationSensitivityVertical = sensitivity;
-}
-

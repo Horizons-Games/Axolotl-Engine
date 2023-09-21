@@ -31,7 +31,7 @@ void ComponentSlider::CheckSlider()
 {
 	if (background == nullptr || handle == nullptr || fill == nullptr) return;
 
-	ComponentButton* button = handle->GetComponent<ComponentButton>();
+	ComponentButton* button = handle->GetComponentInternal<ComponentButton>();
 	if (button && button->IsClicked())
 	{
 		
@@ -40,13 +40,13 @@ void ComponentSlider::CheckSlider()
 #else
 		float2 point = App->GetModule<ModuleInput>()->GetMousePosition();
 #endif
-		ComponentTransform2D* handleTransform = handle->GetComponent<ComponentTransform2D>();
+		ComponentTransform2D* handleTransform = handle->GetComponentInternal<ComponentTransform2D>();
 		float centerWorldPoint =
 			(handleTransform->GetWorldAABB().maxPoint.x + handleTransform->GetWorldAABB().minPoint.x) / 2.0f;
 
 		if (centerWorldPoint != point.x)
 		{
-			ComponentTransform2D* backgroundTransform = background->GetComponent<ComponentTransform2D>();
+			ComponentTransform2D* backgroundTransform = background->GetComponentInternal<ComponentTransform2D>();
 			bool insideBackground;
 			float newValue;
 			if (direction == DirectionSlider::LEFT_TO_RIGHT || direction == DirectionSlider::RIGHT_TO_LEFT)
@@ -161,7 +161,7 @@ void ComponentSlider::SetDirection(int direction)
 	this->direction = static_cast<DirectionSlider>(direction);
 	if (fill != nullptr)
 	{
-		fill->GetComponent<ComponentImage>()->SetDirection(direction);
+		fill->GetComponentInternal<ComponentImage>()->SetDirection(direction);
 	}
 	OnHandleDragged();
 }
@@ -177,8 +177,8 @@ void ComponentSlider::OnHandleDragged()
 	float normalizedValue = CalculateNormalizedValue();
 	if (handle != nullptr && background != nullptr)
 	{
-		ComponentTransform2D* backgroundTransform = background->GetComponent<ComponentTransform2D>();
-		ComponentTransform2D* handleTransform = handle->GetComponent<ComponentTransform2D>();
+		ComponentTransform2D* backgroundTransform = background->GetComponentInternal<ComponentTransform2D>();
+		ComponentTransform2D* handleTransform = handle->GetComponentInternal<ComponentTransform2D>();
 		
 		float3 handlePosition = handleTransform->GetPosition();
 		float centerWorldPoint;
@@ -223,7 +223,7 @@ void ComponentSlider::OnHandleDragged()
 	
 	if (fill != nullptr)
 	{
-		fill->GetComponent<ComponentImage>()->SetRenderPercentage(normalizedValue);
+		fill->GetComponentInternal<ComponentImage>()->SetRenderPercentage(normalizedValue);
 	}
 }
 
@@ -245,7 +245,7 @@ GameObject* ComponentSlider::LoadGameObject(const Json& meta, const char* name)
 	if (uid != 0)
 	{
 		UID newUID;
-		if (App->GetModule<ModuleScene>()->hasNewUID(uid, newUID))
+		if (App->GetModule<ModuleScene>()->HasNewUID(uid, newUID))
 		{
 			return App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(newUID);
 		}

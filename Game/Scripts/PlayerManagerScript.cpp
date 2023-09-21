@@ -6,15 +6,42 @@
 #include "../Scripts/PlayerJumpScript.h"
 #include "../Scripts/PlayerRotationScript.h"
 #include "../Scripts/PlayerMoveScript.h"
+#include "../Scripts/DebugGame.h"
 
 REGISTERCLASS(PlayerManagerScript);
 
-PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), playerDefense(0.f), playerSpeed(6.0f)
+PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), playerDefense(0.f), playerSpeed(6.0f),
+	movementManager(nullptr), jumpManager(nullptr), debugManager(nullptr)
 {
 	REGISTER_FIELD(playerAttack, float);
 	REGISTER_FIELD(playerDefense, float);
 	REGISTER_FIELD(playerSpeed, float);
 	REGISTER_FIELD(playerRotationSpeed, float);
+
+	REGISTER_FIELD(debugManager, DebugGame*);
+}
+
+void PlayerManagerScript::Start()
+{
+	jumpManager = owner->GetComponent<PlayerJumpScript>();
+	movementManager = owner->GetComponent<PlayerMoveScript>();
+	rotationManager = owner->GetComponent<PlayerRotationScript>();
+
+}
+
+bool PlayerManagerScript::IsGrounded() const
+{
+	return jumpManager->IsGrounded();
+}
+
+bool PlayerManagerScript::IsTeleporting() const
+{
+	if (debugManager)
+	{
+		return debugManager->IsTeleporting();
+	}
+
+	return false; // If no debug, then no tp is possible
 }
 
 float PlayerManagerScript::GetPlayerAttack() const
@@ -50,4 +77,26 @@ void PlayerManagerScript::IncreasePlayerDefense(float defenseIncrease)
 void PlayerManagerScript::IncreasePlayerSpeed(float speedIncrease)
 {
 	playerSpeed += speedIncrease;
+}
+
+PlayerJumpScript* PlayerManagerScript::GetJumpManager() const
+{
+	return jumpManager;
+}
+
+PlayerMoveScript* PlayerManagerScript::GetMovementManager() const
+{
+	return movementManager;
+}
+
+void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
+{
+	movementManager->SetIsParalyzed(paralyzed);
+	jumpManager->SetCanJump(!paralyzed);
+	rotationManager->SetCanRotate(!paralyzed);
+}
+
+void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)
+{
+	this->playerSpeed = playerSpeed;
 }

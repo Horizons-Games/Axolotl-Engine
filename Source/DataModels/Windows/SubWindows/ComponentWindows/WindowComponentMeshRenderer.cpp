@@ -43,7 +43,7 @@ WindowComponentMeshRenderer::~WindowComponentMeshRenderer()
 	ResetMaterialValues();
 }
 
-std::shared_ptr<ResourceMaterial>& WindowComponentMeshRenderer::GetMaterial() const
+std::shared_ptr<ResourceMaterial> WindowComponentMeshRenderer::GetMaterial() const
 {
 	std::shared_ptr<ResourceMaterial> materialResource = static_cast<ComponentMeshRenderer*>(component)->GetMaterial();
 	return materialResource;
@@ -66,19 +66,17 @@ void WindowComponentMeshRenderer::SetMaterial(const std::shared_ptr<ResourceMate
 
 void WindowComponentMeshRenderer::DrawWindowContents()
 {
-	if (changed)
-	{
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(75, 25, 25, 255));
-	}
-	else
-	{
-		ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(0, 0, 0, 0));
-	}
-	ImGui::BeginChild("##Window");
+	// from https://github.com/ocornut/imgui/issues/3647
+
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	draw_list->ChannelsSplit(2);
+	draw_list->ChannelsSetCurrent(1);
+
+	ImGui::BeginGroup();
 	DrawEnableAndDeleteComponent();
 
 	// used to ignore the ImGui::SameLine called in DrawEnableAndDeleteComponent
-	ImGui::Text("");
+	ImGui::NewLine();
 
 	ComponentMeshRenderer* asMeshRenderer = static_cast<ComponentMeshRenderer*>(component);
 
@@ -114,7 +112,7 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GENERAL"))
 			{
 				UID draggedMeshUID = *(UID*) payload->Data; // Double pointer to keep track correctly
-				// TODO this should be Asset Path of the asset not the UID (Because new filesystem cache)
+				AXO_TODO("this should be Asset Path of the asset not the UID (Because new filesystem cache)")
 				std::shared_ptr<ResourceMesh> newMesh =
 					App->GetModule<ModuleResources>()->SearchResource<ResourceMesh>(draggedMeshUID);
 				// And then this should be RequestResource not SearchResource
@@ -161,8 +159,22 @@ void WindowComponentMeshRenderer::DrawWindowContents()
 		}
 	}
 
-	ImGui::EndChild();
-	ImGui::PopStyleColor();
+	ImGui::EndGroup();
+
+	// from https://github.com/ocornut/imgui/issues/3647
+
+	if (changed)
+	{
+		draw_list->ChannelsSetCurrent(0);
+
+		ImVec2 itemRectMin = ImGui::GetItemRectMin();
+		ImVec2 itemRectMax = ImGui::GetItemRectMax();
+		itemRectMax.x = ImGui::GetContentRegionMax().x + ImGui::GetWindowPos().x;
+
+		draw_list->AddRectFilled(itemRectMin, itemRectMax, IM_COL32(75, 25, 25, 255));
+	}
+
+	draw_list->ChannelsMerge();
 }
 
 void WindowComponentMeshRenderer::DrawSetMaterial()
@@ -231,7 +243,7 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 			{
 				for (unsigned int i = 0; i < renderModes.size(); ++i)
 				{
-					const bool isSelected = materialResource->IsTransparent() == i;
+					const bool isSelected = static_cast<int>(materialResource->IsTransparent()) == i;
 
 					if (ImGui::Selectable(renderModes[i].c_str(), isSelected))
 					{
@@ -247,6 +259,15 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				}
 
 				ImGui::EndCombo();
+			}
+
+			bool discard = asMeshRenderer->IsDiscarded();
+			ImGui::Text("Discard:");
+			ImGui::SameLine();
+			if (ImGui::Checkbox("##Discard", &discard))
+			{
+				asMeshRenderer->SetDiscard(discard);
+				updateMaterials = true;
 			}
 
 			ImGui::Text("Diffuse Color:");
@@ -467,6 +488,30 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					offset[1] = 1.0f;
 				}
 				materialResource->SetOffset(offset);
+				updateMaterials = true;
+			}
+
+			float2 percentage = materialResource->GetPercentage();
+			if (ImGui::InputFloat2("Percentage (%)", &percentage[0], "%.2f"))
+			{
+				if (percentage[0] < 0.0f)
+				{
+					percentage[0] = 0.0f;
+				}
+				else if (percentage[0] > 100.0f)
+				{
+					percentage[0] = 100.0f;
+				}
+
+				if (percentage[1] < 0.0f)
+				{
+					percentage[1] = 0.0f;
+				}
+				else if (percentage[1] > 100.0f)
+				{
+					percentage[1] = 100.0f;
+				}
+				materialResource->SetPercentage(percentage);
 				updateMaterials = true;
 			}
 			

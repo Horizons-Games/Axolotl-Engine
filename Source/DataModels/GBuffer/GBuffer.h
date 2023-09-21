@@ -18,8 +18,13 @@ public :
 	void BindTexture();
 	void UnBindTexture();
 
+	GLuint GetEmissiveTexture();
+
 	void InitGBuffer(unsigned width, unsigned height);
 
+	GLuint GetDepthTexture();
+	GLuint GetPositionTexture();
+	GLuint GetNormalTexture();
 
 private :
 
@@ -32,4 +37,23 @@ private :
 	GLuint gDepth;
 };
 
+inline GLuint GBuffer::GetDepthTexture()
+{
+	return gDepth;
+}
+
+inline GLuint GBuffer::GetPositionTexture()
+{
+	return gPosition;;
+}
+
+inline GLuint GBuffer::GetNormalTexture()
+{
+	return gNormal;
+}
+
+inline GLuint GBuffer::GetEmissiveTexture()
+{
+	return gEmissive;
+}
 

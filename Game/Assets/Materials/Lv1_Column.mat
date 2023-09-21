@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/Lv1_CargoBay_Column1_Base.png",
+    "NormalAssetPath": "Assets/Textures/Lv1_CargoBay_Column1_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/Lv1_CargoBay_Column1_Metallic.png",
+    "EmissiveAssetPath": "Assets/Textures/Lv1_CargoBay_Column1_Emission.png"
+}

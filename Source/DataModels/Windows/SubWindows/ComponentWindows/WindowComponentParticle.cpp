@@ -14,6 +14,8 @@
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
 
+#include <vector>
+
 WindowComponentParticle::WindowComponentParticle(ComponentParticleSystem* component) :
 	ComponentWindow("PARTICLE SYSTEM", component), 
 	inputParticleSystem(std::make_unique<WindowParticleSystemInput>(component))
@@ -49,6 +51,7 @@ void WindowComponentParticle::DrawWindowContents()
 
 		if (ImGui::Button("Save"))
 		{
+			component->SaveConfig();
 			resource->SetChanged(true);
 			App->GetModule<ModuleResources>()->ReimportResource(resource->GetUID());
 			App->GetModule<ModuleScene>()->ParticlesSystemUpdate(true);
@@ -99,6 +102,30 @@ void WindowComponentParticle::DrawWindowContents()
 		{
 			ImGui::PushID(id);
 
+			if (ImGui::Button("^"))
+			{
+				if (id > 0)
+				{
+					std::swap(emitters[id], emitters[id - 1]);
+					component->SetEmitters(emitters);
+					component->GetResource()->SwapEmitter(id, id - 1);
+					ImGui::PopID();
+					return;
+				} 
+			}
+			ImGui::SameLine();
+			if (ImGui ::Button("v"))
+			{
+				if (id < emitters.size() - 1)
+				{
+					std::swap(emitters[id], emitters[id + 1]);
+					component->SetEmitters(emitters);
+					component->GetResource()->SwapEmitter(id, id + 1);
+					ImGui::PopID();
+					return;
+				}
+			}
+
 			DrawEmitter(emitters[id]);
 
 			ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -140,16 +167,19 @@ void WindowComponentParticle::DrawWindowContents()
 
 void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 {
-	ParticleEmitter* emitter = instance->GetEmitter();
-
-	if (emitter)
+	if (instance)
 	{
+		ImGui::SameLine();
 		ImGui::Dummy(ImVec2(0.0f, 2.5f));
-		ImGui::Text(emitter->GetName().c_str());
+		std::string name = instance->GetName().c_str();
+		if (ImGui::InputText(("##" + name).c_str(), name.data(), 64, ImGuiInputTextFlags_EnterReturnsTrue))
+		{
+			instance->SetName(name.c_str());
+		}
 
-		bool open = emitter->IsVisibleConfig();
+		bool open = instance->IsVisibleConfig();
 
-		ParticleEmitter::ShapeType shape = emitter->GetShape();
+		ParticleEmitter::ShapeType shape = instance->GetShape();
 
 		const char* items[] = { "CIRCLE", "CONE", "BOX" };
 
@@ -207,28 +237,28 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 					shape = ParticleEmitter::ShapeType::BOX;
 				}
 
-				emitter->SetShape(shape);
+				instance->SetShape(shape);
 
 				ImGui::EndCombo();
 			}
 
-			int maxParticles = emitter->GetMaxParticles();
-			float angle = emitter->GetAngle();
-			float radius = emitter->GetRadius();
-			float duration = emitter->GetDuration();
-			float2 lifespanRange = emitter->GetLifespanRange();
-			float2 speedRange = emitter->GetSpeedRange();
-			float2 sizeRange = emitter->GetSizeRange();
-			float2 rotRange = emitter->GetRotationRange();
-			float2 gravRange = emitter->GetGravityRange();
-			float4 color = emitter->GetColor();
+			int maxParticles = instance->GetMaxParticles();
+			float angle = instance->GetAngle();
+			float radius = instance->GetRadius();
+			float duration = instance->GetDuration();
+			float2 lifespanRange = instance->GetLifespanRange();
+			float2 speedRange = instance->GetSpeedRange();
+			float2 sizeRange = instance->GetSizeRange();
+			float2 rotRange = instance->GetRotationRange();
+			float2 gravRange = instance->GetGravityRange();
+			float4 color = instance->GetColor();
 
-			bool isLooping = emitter->IsLooping();
-			bool randomLife = emitter->IsRandomLife();
-			bool randomSpeed = emitter->IsRandomSpeed();
-			bool randomSize = emitter->IsRandomSize();
-			bool randomRot = emitter->IsRandomRot();
-			bool randomGrav = emitter->IsRandomGravity();
+			bool isLooping = instance->IsLooping();
+			bool randomLife = instance->IsRandomLife();
+			bool randomSpeed = instance->IsRandomSpeed();
+			bool randomSize = instance->IsRandomSize();
+			bool randomRot = instance->IsRandomRot();
+			bool randomGrav = instance->IsRandomGravity();
 			bool lifespanModif = false;
 			bool speedModif = false;
 			bool sizeModif = false;
@@ -240,26 +270,26 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::TableNextColumn();
 			ImGui::Text("Radius:"); ImGui::SameLine();
 			ImGui::SetNextItemWidth(60.0f);
-			if (ImGui::DragFloat("##radius", &radius, 0.1f, MIN_RADIUS, MAX_RADIUS, "%.2f"))
+			if (ImGui::DragFloat("##radius", &radius, 0.1f, MIN_RADIUS, MAX_RADIUS, "%.3f"))
 			{
 				if (radius > MAX_RADIUS)
 				{
 					radius = MAX_RADIUS;
 				}
-				else if (radius < 0.01)
+				else if (radius < MIN_RADIUS)
 				{
-					radius = 0.01;
+					radius = MIN_RADIUS;
 				}
-				emitter->SetRadius(radius);
+				instance->SetRadius(radius);
 			}
 			if (shape == ParticleEmitter::ShapeType::CONE)
 			{
 				ImGui::SameLine();
 				ImGui::Text("Angle:"); ImGui::SameLine();
 				ImGui::SetNextItemWidth(60.0f);
-				if (ImGui::DragFloat("##angle", &angle, 0.1f, 0.0f, 89.99f, "%.2f"))
+				if (ImGui::DragFloat("##angle", &angle, 0.01f, MIN_ANGLE, MAX_ANGLE, "%.2f"))
 				{
-					emitter->SetAngle(angle);
+					instance->SetAngle(angle);
 				}
 			}
 
@@ -279,7 +309,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 				{
 					maxParticles = 0;
 				}
-				emitter->SetMaxParticles(maxParticles);
+				instance->SetMaxParticles(maxParticles);
 				instance->Init();
 			}
 
@@ -297,7 +327,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 				{
 					duration = 0.0f;
 				}
-				emitter->SetDuration(duration);
+				instance->SetDuration(duration);
 			}
 
 			ImGui::SameLine(0.0f, 5.0f);
@@ -305,7 +335,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::SameLine(0.0f, 5.0f);
 			if (ImGui::Checkbox("##isLooping", &isLooping))
 			{
-				emitter->SetLooping(isLooping);
+				instance->SetLooping(isLooping);
 			}
 
 			ImGui::TableNextColumn();
@@ -321,7 +351,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::SetNextItemWidth(165.0f);
 			if (randomLife)
 			{
-				if (ImGui::DragFloat2("##sliderlife", &lifespanRange[0], 0.1f, 0.0f, MAX_DURATION, "%.2f"))
+				if (ImGui::DragFloat2("##sliderlife", &lifespanRange[0], 0.1f, 0.00f, MAX_DURATION, "%.2f"))
 				{
 					if (lifespanRange.x > lifespanRange.y)
 					{
@@ -364,7 +394,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::SameLine(0.0f, 5.0f);
 			if (ImGui::Checkbox("##randomLife", &randomLife))
 			{
-				emitter->SetRandomLife(randomLife);
+				instance->SetRandomLife(randomLife);
 			}
 
 			ImGui::TableNextColumn();
@@ -416,7 +446,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::SameLine(0.0f, 5.0f);
 			if (ImGui::Checkbox("##randomSpeed", &randomSpeed))
 			{
-				emitter->SetRandomSpeed(randomSpeed);
+				instance->SetRandomSpeed(randomSpeed);
 			}
 
 			ImGui::TableNextColumn();
@@ -469,7 +499,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::SameLine(0.0f, 5.0f);
 			if (ImGui::Checkbox("##randomSize", &randomSize))
 			{
-				emitter->SetRandomSize(randomSize);
+				instance->SetRandomSize(randomSize);
 			}
 
 			ImGui::TableNextColumn();
@@ -522,7 +552,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::SameLine(0.0f, 5.0f);
 			if (ImGui::Checkbox("##randomRot", &randomRot))
 			{
-				emitter->SetRandomRotation(randomRot);
+				instance->SetRandomRotation(randomRot);
 			}
 
 			ImGui::TableNextColumn();
@@ -575,7 +605,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 			ImGui::SameLine(0.0f, 5.0f);
 			if (ImGui::Checkbox("##randomGrav", &randomGrav))
 			{
-				emitter->SetRandomGravity(randomGrav);
+				instance->SetRandomGravity(randomGrav);
 			}
 
 			ImGui::TableNextColumn();
@@ -585,40 +615,40 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 
 			if (ImGui::ColorEdit4("##color", &color[0]))
 			{
-				emitter->SetColor(color);
+				instance->SetColor(color);
 			}
 
 			if (lifespanModif)
 			{
-				emitter->SetLifespanRange(lifespanRange);
+				instance->SetLifespanRange(lifespanRange);
 			}
 			if (speedModif)
 			{
-				emitter->SetSpeedRange(speedRange);
+				instance->SetSpeedRange(speedRange);
 			}
 			if (sizeModif)
 			{
-				emitter->SetSizeRange(sizeRange);
+				instance->SetSizeRange(sizeRange);
 			}
 			if (rotModif)
 			{
-				emitter->SetRotationRange(rotRange);
+				instance->SetRotationRange(rotRange);
 			}
 			if (gravModif)
 			{
-				emitter->SetGravityRange(gravRange);
+				instance->SetGravityRange(gravRange);
 			}
 			ImGui::EndTable();
 		}
 
-		//TODO: Draw Emitter Modules
-		for (ParticleModule* module : emitter->GetModules())
+		AXO_TODO("Draw Emitter Modules")
+		for (ParticleModule* module : instance->GetModules())
 		{
 			module->DrawImGui();
 		}
 	}
 	else
 	{
-		//TODO: Select a ParticleEmitter to assign to the EmitterInstance (it acts as a Resource for the instance)
+		AXO_TODO("Select a ParticleEmitter to assign to the EmitterInstance (it acts as a Resource for the instance)")
 	}
 }

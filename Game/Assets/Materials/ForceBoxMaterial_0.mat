@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/ForceBox_Material_AlbedoTransparency.png",
+    "NormalAssetPath": "Assets/Textures/ForceBox_Material_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/ForceBox_Material_MetallicSmoothness.png",
+    "EmissiveAssetPath": "Assets/Textures/ForceBox_Material_Emission.png"
+}

@@ -1,0 +1,11 @@
+{
+    "UID": 3811360297627165640,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Lv1_CargoBay_Roof.Plane_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Lv1_CargoBay_RoofDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

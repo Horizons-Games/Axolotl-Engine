@@ -6,7 +6,6 @@
 
 #include "DataModels/Resources/ResourceTexture.h"
 
-#include "AxoLog.h"
 
 ResourceSkyBox::ResourceSkyBox(UID resourceUID,
 							   const std::string& fileName,
@@ -83,6 +82,7 @@ void ResourceSkyBox::InternalUnload()
 {
 	// this will keep the capacity to 6
 	textures.clear();
+
 	glDeleteTextures(1, &glTexture);
 	glDeleteBuffers(1, &vbo);
 	glDeleteVertexArrays(1, &vao);

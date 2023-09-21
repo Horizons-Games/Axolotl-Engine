@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "PlayerJumpScript.h"
 
 #include "Application.h"
@@ -9,13 +10,28 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentScript.h"
 
+#include "../Scripts/PlayerAttackScript.h"
+#include "../Scripts/PlayerMoveScript.h"
+
 #include "Auxiliar/Audio/AudioData.h"
+#include "MathGeoLib/Include/Geometry/Ray.h"
+#include "Physics/Physics.h"
+
+#include "DebugDraw.h"
+
+#include "AxoLog.h"
 
 REGISTERCLASS(PlayerJumpScript);
 
-PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(2000.0f), canDoubleJump(false) , jumpReset(0), 
-	componentAnimation(nullptr), jumps(0), componentAudio(nullptr), canJump(true)
+PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(500.0f), canDoubleJump(false),
+componentAnimation(nullptr), componentAudio(nullptr), canJump(true), rigidbody(nullptr),
+coyoteTime(0.4f), groundedCount(0), isGrounded(false), attackScript(nullptr), playerMoveScript(nullptr)
 {
+	REGISTER_FIELD(coyoteTime, float);
+	REGISTER_FIELD(isGrounded, bool);
+	REGISTER_FIELD(coyoteTimerCount, float);
+	REGISTER_FIELD(doubleJumpAvailable, bool);
+
 	REGISTER_FIELD(jumpParameter, float);
 	REGISTER_FIELD(canDoubleJump, bool);
 	REGISTER_FIELD(canJump, bool);
@@ -23,67 +39,131 @@ PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(2000.0f), canDoub
 
 void PlayerJumpScript::Start()
 {
-	canDoubleJump ? jumps = 2 : jumps = 1;
+	rigidbody = owner->GetComponent<ComponentRigidBody>();
+	//Avoid Y rotation on player this should go on movement not here but
+	rigidbody->GetRigidBody()->setAngularFactor(btVector3(1.0f, 0.0f, 1.0f));
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
+
+	attackScript = owner->GetComponent<PlayerAttackScript>();
+	playerMoveScript = owner->GetComponent<PlayerMoveScript>();
 }
 
 void PlayerJumpScript::PreUpdate(float deltaTime)
 {
-	Jump(deltaTime);
+	if (!isGrounded && coyoteTimerCount > 0.0f)
+	{
+		coyoteTimerCount -= deltaTime;
+	}
+
+	CheckGround();
+
+	if (playerMoveScript->GetPlayerState() != PlayerActions::DASHING)
+	{
+		Jump(deltaTime);
+	}
+
+	if (isJumping)
+	{
+		playerMoveScript->SetPlayerState(PlayerActions::JUMPING);
+		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+	}
+
+	if (isGrounded && playerMoveScript->GetPlayerState() == PlayerActions::JUMPING)
+	{
+		playerMoveScript->SetPlayerState(PlayerActions::IDLE);
+	}
+}
+
+void PlayerJumpScript::CheckGround()
+{
+	float verticalVelocity = rigidbody->GetRigidBody()->getLinearVelocity().getY();
+
+	componentAnimation->SetParameter("IsFalling", verticalVelocity);
+
+	if (-0.001 < verticalVelocity && !isJumping) 
+	{
+		isGrounded = true;
+		isJumping = false;
+		componentAnimation->SetParameter("IsJumping", false);
+		componentAnimation->SetParameter("IsDoubleJumping", false);
+		componentAnimation->SetParameter("IsGrounded", true);
+		doubleJumpAvailable = true;
+		coyoteTimerCount = 0.0f;
+	}
+	else 
+	{
+		if (isGrounded)
+		{
+			isGrounded = false;
+			componentAnimation->SetParameter("IsGrounded", false);
+			coyoteTimerCount = coyoteTime;
+		}
+
+		if (verticalVelocity < -0.001)
+		{
+			isJumping = false;
+			componentAnimation->SetParameter("IsJumping", false);
+			componentAnimation->SetParameter("IsDoubleJumping", false);
+		}
+	}
 }
 
 void PlayerJumpScript::Jump(float deltatime)
 {
-	if (canJump) 
+	if (canJump && !attackScript->IsPerfomingJumpAttack())
 	{
-	float nDeltaTime = (deltatime < 1.f) ? deltatime : 1.f;
-	const ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
-	const ModuleInput* input = App->GetModule<ModuleInput>();
-	btRigidBody* btRb = rigidBody->GetRigidBody();
+		float nDeltaTime = (deltatime < 1.f) ? deltatime : 1.f;
+		const ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
+		const ModuleInput* input = App->GetModule<ModuleInput>();
+		btRigidBody* btRb = rigidBody->GetRigidBody();
 
-	btVector3 movement(0, 1, 0);
-	float3 direction = float3::zero;
+		btVector3 movement(0, 1, 0);
+		float3 direction = float3::zero;
 
-	if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && jumps > 0)
-	{
-		btRb->applyCentralImpulse(movement.normalized() * jumpParameter);
-		jumps --;
-		jumpReset = 0;
-		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-
-		if ((canDoubleJump && jumps == 1) || (!canDoubleJump && jumps == 0))
+		if (App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN && 
+			(isGrounded || coyoteTimerCount > 0.0f || (doubleJumpAvailable && canDoubleJump)))
 		{
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::JUMP);
+			btVector3 velocity = btRb->getLinearVelocity();
+			velocity.setY(0.0f);
+			btRb->setLinearVelocity(velocity);
+			btRb->applyCentralImpulse(movement.normalized() * jumpParameter);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			componentAnimation->SetParameter("IsJumping", true);
+			isJumping = true;
+
+			if (isGrounded || coyoteTimerCount > 0.0f)
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::JUMP);
+				componentAnimation->SetParameter("IsJumping", true);
+				componentAnimation->SetParameter("IsGrounded", false);
+				isGrounded = false;
+				coyoteTimerCount = 0.0f;
+			}
+			else
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DOUBLE_JUMP);
+				componentAnimation->SetParameter("IsDoubleJumping", true);
+				componentAnimation->SetParameter("IsGrounded", false);
+				doubleJumpAvailable = false;
+				isGrounded = false;
+				coyoteTimerCount = 0.0f;
+			}
 		}
-
-		if (canDoubleJump && jumps == 0)
-		{
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DOUBLE_JUMP);
-			componentAnimation->SetParameter("IsDoubleJumping", true);
-		}
-	}
-
-	btVector3 currentVelocity = btRb->getLinearVelocity();
-
-	if (currentVelocity.getY() < -0.1 && jumpReset == 0)
-	{
-		jumpReset = 1;
-
-		componentAnimation->SetParameter("IsJumping", false);
-	}
-	else if (currentVelocity.getY() > -0.1 && jumpReset == 1)
-	{
-		jumpReset = 0;
-		canDoubleJump ? jumps = 2 : jumps = 1;
-
-		componentAnimation->SetParameter("IsDoubleJumping", false);
-	}
 	}
 }
 
-bool PlayerJumpScript::GetCanJump() const
+bool PlayerJumpScript::IsJumping() const
+{
+	return isJumping;
+}
+
+bool PlayerJumpScript::IsGrounded() const
+{
+	return isGrounded;
+}
+
+bool PlayerJumpScript::CanJump() const
 {
 	return canJump;
 }

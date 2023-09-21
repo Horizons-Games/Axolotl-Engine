@@ -19,9 +19,12 @@ ComponentCameraSample::ComponentCameraSample(const bool active, GameObject* owne
 {
 	influenceRadius = 1.0f;
 	positionOffset = float3::zero;
-	position = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
-	isSampleFocusEnabled = false;
+	position = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
 	isSampleFixedEnabled = false;
+	isSampleFocusEnabled = false;
+	isCombatCameraEnabled = false;
+	isSampleKpPositionEnabled = false;
+	isSampleKpRotationEnabled = false;
 }
 
 ComponentCameraSample::ComponentCameraSample(const ComponentCameraSample& componentCameraSample):
@@ -29,8 +32,15 @@ ComponentCameraSample::ComponentCameraSample(const ComponentCameraSample& compon
 	influenceRadius(componentCameraSample.influenceRadius),
 	positionOffset(componentCameraSample.positionOffset),
 	position(componentCameraSample.position),
+	focusOffset(componentCameraSample.focusOffset),
+	positionFixed(componentCameraSample.positionFixed),
+	KpPosition(componentCameraSample.KpPosition),
+	KpRotation(componentCameraSample.KpRotation),
+	isSampleFixedEnabled(componentCameraSample.isSampleFixedEnabled),
 	isSampleFocusEnabled(componentCameraSample.isSampleFocusEnabled),
-	isSampleFixedEnabled(componentCameraSample.isSampleFixedEnabled)
+	isCombatCameraEnabled(componentCameraSample.isCombatCameraEnabled),
+	isSampleKpPositionEnabled(componentCameraSample.isSampleKpPositionEnabled),
+	isSampleKpRotationEnabled(componentCameraSample.isSampleKpRotationEnabled)
 {
 }
 
@@ -43,17 +53,25 @@ void ComponentCameraSample::Draw() const
 {
 #ifdef ENGINE
 	bool canDrawSample = 
-		IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+		(IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject()) 
+		|| GetOwner()->GetParent() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 
 	if (!canDrawSample)
 	{
 		return;
 	}
 
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 	float3 position = transform->GetGlobalPosition();
 
-	dd::sphere(position, dd::colors::Yellow, influenceRadius);
+	if (isCombatCameraEnabled)
+	{
+		dd::sphere(position, dd::colors::Orange, influenceRadius);
+	}
+	else
+	{
+		dd::sphere(position, dd::colors::Yellow, influenceRadius);
+	}
 #endif
 }
 
@@ -72,10 +90,16 @@ void ComponentCameraSample::InternalSave(Json& meta)
 	meta["focusOffsetX"] = (float) focusOffset.x;
 	meta["focusOffsetY"] = (float) focusOffset.y;
 
-	meta["isSampleFocusEnabled"] = (bool) isSampleFocusEnabled;
-	meta["isSampleFixedEnabled"] = (bool) isSampleFixedEnabled;
+	meta["KpPosition"] = (float) KpPosition;
+	meta["KpRotation"] = (float) KpRotation;
 
-	position = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
+	meta["isSampleFixedEnabled"] = (bool) isSampleFixedEnabled;
+	meta["isSampleFocusEnabled"] = (bool) isSampleFocusEnabled;
+	meta["isCombatCameraEnabled"] = (bool) isCombatCameraEnabled;
+	meta["isSampleKpPositionEnabled"] = (bool) isSampleKpPositionEnabled;
+	meta["isSampleKpRotationEnabled"] = (bool) isSampleKpRotationEnabled;
+
+	position = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
 	meta["positionX"] = (float) position.x;
 	meta["positionY"] = (float) position.y;
 	meta["positionZ"] = (float) position.z;
@@ -97,8 +121,14 @@ void ComponentCameraSample::InternalLoad(const Json& meta)
 	focusOffset.x = meta["focusOffsetX"];
 	focusOffset.y = meta["focusOffsetY"];
 
-	isSampleFocusEnabled = meta["isSampleFocusEnabled"];
+	KpPosition = meta["KpPosition"];
+	KpRotation = meta["KpRotation"];
+
 	isSampleFixedEnabled = meta["isSampleFixedEnabled"];
+	isSampleFocusEnabled = meta["isSampleFocusEnabled"];
+	isCombatCameraEnabled = meta["isCombatCameraEnabled"];
+	isSampleKpPositionEnabled = meta["isSampleKpPositionEnabled"];
+	isSampleKpRotationEnabled = meta["isSampleKpRotationEnabled"];
 
 	position.x = meta["positionX"];
 	position.y = meta["positionY"];

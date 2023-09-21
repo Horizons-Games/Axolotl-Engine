@@ -160,7 +160,7 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 	switch (compressImg.GetMetadata().format)
 	{
 		case DXGI_FORMAT_R32G32B32A32_FLOAT:
-			internalFormat = GL_RGBA16F;
+			internalFormat = GL_RGBA32F;
 			format = GL_RGBA;
 			type = GL_FLOAT;
 			break;

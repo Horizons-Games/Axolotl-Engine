@@ -38,13 +38,13 @@
 #endif
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner) :
-	Component(ComponentType::MESHRENDERER, active, owner, true)
+	Component(ComponentType::MESHRENDERER, active, owner, true), effectColor(0.f, 0.f, 0.f), discard(false)
 {
 }
 
 ComponentMeshRenderer::ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer) :
 	Component(componentMeshRenderer),
-	material(componentMeshRenderer.GetMaterial())
+	material(componentMeshRenderer.GetMaterial()), effectColor(0.f, 0.f, 0.f), discard(false)
 {
 	SetOwner(componentMeshRenderer.GetOwner());
 	SetMesh(componentMeshRenderer.GetMesh());
@@ -94,7 +94,7 @@ void ComponentMeshRenderer::UpdatePalette()
 
 				if (boneNode && App->IsOnPlayMode())
 				{
-					skinPalette[i] = boneNode->GetComponent<ComponentTransform>()->CalculatePaletteGlobalMatrix() *
+					skinPalette[i] = boneNode->GetComponentInternal<ComponentTransform>()->CalculatePaletteGlobalMatrix() *
 									 bindBones[i].transform;
 				}
 				else
@@ -122,7 +122,7 @@ void ComponentMeshRenderer::Draw() const
 
 		program->Deactivate();
 	}*/
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 	if (transform == nullptr)
 	{
 		return;
@@ -180,7 +180,7 @@ void ComponentMeshRenderer::DrawMeshes(Program* program) const
 
 	const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
 	const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
-	const float4x4& model = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
+	const float4x4& model = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 	glUniformMatrix4fv(2, 1, GL_TRUE, (const float*) &model);
 	glUniformMatrix4fv(1, 1, GL_TRUE, (const float*) &view);
@@ -348,7 +348,7 @@ void ComponentMeshRenderer::DrawHighlight() const
 		program->Activate();
 		const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
 		const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
-		const float4x4& model = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
+		const float4x4& model = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 		GLint programInUse;
 
@@ -452,9 +452,20 @@ void ComponentMeshRenderer::SetMesh(const std::shared_ptr<ResourceMesh>& newMesh
 	{
 		mesh->Load();
 
-		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+		ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 
 		transform->Encapsule(mesh->GetVertices().data(), mesh->GetNumVertices());
+		//set the origin to translate and scale the BoundingBox
+		transform->SetOriginScaling(transform->GetLocalAABB().HalfSize());
+		transform->SetOriginCenter(transform->GetLocalAABB().CenterPoint());
+
+		//Apply the BoundingBox modification
+		float3 translation = transform->GetBBPos();
+		float3 scaling = transform->GetBBScale();
+		transform->TranslateLocalAABB(translation);
+		transform->ScaleLocalAABB(scaling);
+		transform->CalculateBoundingBoxes();
+
 		App->GetModule<ModuleRender>()->GetBatchManager()->AddComponent(this);
 
 		InitBones();
@@ -574,74 +585,94 @@ void ComponentMeshRenderer::UnloadTexture(TextureType textureType)
 // Common attributes (setters)
 void ComponentMeshRenderer::SetDiffuseColor(float4& diffuseColor)
 {
-	this->material->SetDiffuseColor(diffuseColor);
+	material->SetDiffuseColor(diffuseColor);
 }
 
 void ComponentMeshRenderer::SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse)
 {
-	this->material->SetDiffuse(diffuse);
+	material->SetDiffuse(diffuse);
 }
 
 void ComponentMeshRenderer::SetNormal(const std::shared_ptr<ResourceTexture>& normal)
 {
-	this->material->SetNormal(normal);
+	material->SetNormal(normal);
 }
 
 void ComponentMeshRenderer::SetMetallic(const std::shared_ptr<ResourceTexture>& metallic)
 {
-	this->material->SetMetallic(metallic);
+	material->SetMetallic(metallic);
 }
 
 void ComponentMeshRenderer::SetSpecular(const std::shared_ptr<ResourceTexture>& specular)
 {
-	this->material->SetSpecular(specular);
+	material->SetSpecular(specular);
 }
 
 void ComponentMeshRenderer::SetEmissive(const std::shared_ptr<ResourceTexture>& emissive)
 {
-	this->material->SetEmission(emissive);
+	material->SetEmission(emissive);
 }
 
 void ComponentMeshRenderer::SetShaderType(unsigned int shaderType)
 {
-	this->material->SetShaderType(shaderType);
+	material->SetShaderType(shaderType);
 }
 
 void ComponentMeshRenderer::SetSmoothness(float smoothness)
 {
-	this->material->SetSmoothness(smoothness);
+	material->SetSmoothness(smoothness);
 }
 
 void ComponentMeshRenderer::SetNormalStrength(float normalStrength)
 {
-	this->material->SetNormalStrength(normalStrength);
+	material->SetNormalStrength(normalStrength);
 }
 
 void ComponentMeshRenderer::SetTiling(const float2& tiling)
 {
-	this->material->SetTiling(tiling);
+	material->SetTiling(tiling);
 }
 
 void ComponentMeshRenderer::SetOffset(const float2& offset)
 {
-	this->material->SetOffset(offset);
+	material->SetOffset(offset);
+}
+
+const float3& ComponentMeshRenderer::GetEffectColor() const
+{
+	return effectColor;
+}
+
+void ComponentMeshRenderer::SetEffectColor(float3 effectColor)
+{
+	this->effectColor = effectColor;
+}
+
+bool ComponentMeshRenderer::IsDiscarded()
+{
+	return discard;
+}
+
+void ComponentMeshRenderer::SetDiscard(bool discard)
+{
+	this->discard = discard;
 }
 
 // Default shader attributes (setters)
 void ComponentMeshRenderer::SetMetalness(float metalness)
 {
-	this->material->SetMetalness(metalness);
+	material->SetMetalness(metalness);
 }
 
 // Specular shader attributes (setters)
 void ComponentMeshRenderer::SetSpecularColor(float3& specularColor)
 {
-	this->material->SetSpecularColor(specularColor);
+	material->SetSpecularColor(specularColor);
 }
 
 void ComponentMeshRenderer::SetTransparent(bool isTransparent)
 {
-	this->material->SetTransparent(isTransparent);
+	material->SetTransparent(isTransparent);
 }
 
 void ComponentMeshRenderer::RemoveFromBatch()
@@ -695,28 +726,27 @@ const bool ComponentMeshRenderer::IsTransparent() const
 	return material->IsTransparent();
 }
 
-const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetDiffuse() const
+std::shared_ptr<ResourceTexture> ComponentMeshRenderer::GetDiffuse() const
 {
 	return material->GetDiffuse();
-	;
 }
 
-const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetNormal() const
+std::shared_ptr<ResourceTexture> ComponentMeshRenderer::GetNormal() const
 {
 	return material->GetNormal();
 }
 
-const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetOcclusion() const
+std::shared_ptr<ResourceTexture> ComponentMeshRenderer::GetOcclusion() const
 {
 	return material->GetOcclusion();
 }
 
-const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetMetallic() const
+std::shared_ptr<ResourceTexture> ComponentMeshRenderer::GetMetallic() const
 {
 	return material->GetMetallic();
 }
 
-const std::shared_ptr<ResourceTexture>& ComponentMeshRenderer::GetSpecular() const
+std::shared_ptr<ResourceTexture> ComponentMeshRenderer::GetSpecular() const
 {
 	return material->GetSpecular();
 }

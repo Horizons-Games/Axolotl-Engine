@@ -2,6 +2,11 @@
 
 #include "BatchManager.h"
 
+#include "Application.h"
+
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
+
 #include "DataModels/Components/ComponentMeshRenderer.h"
 #include "DataModels/Resources/ResourceMaterial.h"
 #include "DataModels/Resources/ResourceMesh.h"
@@ -15,6 +20,25 @@ BatchManager::BatchManager()
 BatchManager::~BatchManager()
 {
 	CleanBatches();
+}
+
+void BatchManager::FillCharactersBacthes()
+{
+	SearchAndSwapBatchCharacter(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
+}
+
+void BatchManager::SwapBatchParentAndChildren(GameObject* go)
+{
+	ComponentMeshRenderer* component = go->GetComponentInternal<ComponentMeshRenderer>();
+	if (component)
+	{
+		component->GetBatch()->DeleteComponent(component);
+		AddComponent(component);
+	}
+	for (auto child : go->GetChildren())
+	{
+		SwapBatchParentAndChildren(child);
+	}
 }
 
 void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
@@ -43,10 +67,27 @@ void BatchManager::AddComponent(ComponentMeshRenderer* newComponent)
 	}
 }
 
+void BatchManager::SearchAndSwapBatchCharacter(GameObject* parent)
+{
+	if (parent->GetTag() == "Player" || parent->GetTag() == "Enemy")
+	{
+		SwapBatchParentAndChildren(parent);
+		return;
+	}
+	for (auto child : parent->GetChildren())
+	{
+		SearchAndSwapBatchCharacter(child);
+	}
+}
+
 GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer* newComponent, int& flags)
 {
 	std::shared_ptr<ResourceMesh> mesh = newComponent->GetMesh();
 	std::shared_ptr<ResourceMaterial> material = newComponent->GetMaterial();
+	if (IsACharacter(newComponent))
+	{
+		flags |= IS_A_CHARACTER;
+	}
 
 	if (mesh)
 	{
@@ -68,14 +109,15 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 
 	if (material)
 	{
-		if (material->GetShaderType() == 0)
-		{
-			flags |= HAS_METALLIC;
-		}
-		else if (material->GetShaderType() == 1)
+		if (material->GetShaderType() == 1)
 		{
 			flags |= HAS_SPECULAR;
 		}
+		else
+		{
+			flags |= HAS_METALLIC;
+		}
+
 		if (material->IsTransparent())
 		{
 			flags |= HAS_TRANSPARENCY;
@@ -103,6 +145,37 @@ GeometryBatch* BatchManager::CheckBatchCompatibility(const ComponentMeshRenderer
 		}
 	}
 	return nullptr;
+}
+
+bool BatchManager::IsACharacter(const ComponentMeshRenderer* newComponent)
+{
+	GameObject* go = newComponent->GetOwner();
+	GameObject* root = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot();
+	while (go != nullptr && go != root)
+	{
+		if (go->GetTag() == "Player" || go->GetTag() == "Enemy")
+		{
+			return true;
+		}
+		go = go->GetParent();
+	}
+	return false;
+}
+
+void BatchManager::DrawMeshes(std::vector<GameObject*>& objects, const float3& pos)
+{
+	for (GeometryBatch* geometryBatch : geometryBatchesOpaques)
+	{
+		if (!geometryBatch->IsEmpty())
+		{
+			DrawBatch(geometryBatch, objects);
+		}
+		else
+		{
+			erase_if(geometryBatchesOpaques, [](auto const& gb) { return gb->IsEmpty(); });
+			delete geometryBatch;
+		}
+	}
 }
 
 void BatchManager::DrawOpaque(bool selected)
@@ -150,6 +223,19 @@ void BatchManager::DrawBatch(GeometryBatch* batch, bool selected)
 
 	}
 	batch->BindBatch(selected);
+}
+
+void BatchManager::DrawBatch(GeometryBatch* batch, std::vector<GameObject*>& objects)
+{
+	if (batch->IsDirty())
+	{
+		batch->ClearBuffer();
+		batch->CreateVAO();
+		batch->UpdateBatchComponents();
+		batch->SetDirty(false);
+
+	}
+	batch->BindBatch(objects);
 }
 
 void BatchManager::SetDirtybatches()
