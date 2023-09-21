@@ -17,7 +17,6 @@
 #include "DataModels/Components/ComponentMeshRenderer.h"
 #include "DataModels/Components/ComponentParticleSystem.h"
 #include "DataModels/Components/ComponentPlayer.h"
-#include "DataModels/Components/ComponentPlayerInput.h"
 #include "DataModels/Components/ComponentPointLight.h"
 #include "DataModels/Components/ComponentRigidBody.h"
 #include "DataModels/Components/ComponentScript.h"
@@ -350,12 +349,6 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
-		case ComponentType::PLAYERINPUT:
-		{
-			newComponent = std::make_unique<ComponentPlayerInput>(static_cast<ComponentPlayerInput&>(*component));
-			break;
-		}
-
 		case ComponentType::RIGIDBODY:
 		{
 			newComponent = std::make_unique<ComponentRigidBody>(static_cast<ComponentRigidBody&>(*component));
@@ -406,8 +399,6 @@ void GameObject::CopyComponent(Component* component)
 		case ComponentType::LINE:
 		{
 			newComponent = std::make_unique<ComponentLine>(*static_cast<ComponentLine*>(component));
-			App->GetModule<ModuleScene>()->GetLoadedScene()->AddComponentLines(
-				static_cast<ComponentLine*>(newComponent.get()));
 			break;
 		}
 
@@ -427,14 +418,13 @@ void GameObject::CopyComponent(Component* component)
 		{
 			newComponent = std::make_unique<ComponentParticleSystem>(*static_cast<ComponentParticleSystem*>(component), 
 																     this);
-			App->GetModule<ModuleScene>()->GetLoadedScene()->AddParticleSystem(
-				static_cast<ComponentParticleSystem*>(newComponent.get()));
 			break;
 		}
 
 		case ComponentType::TRAIL:
 		{
 			newComponent = std::make_unique<ComponentTrail>(*static_cast<ComponentTrail*>(component));
+			break;
 		}
 		
 		case ComponentType::AGENT:
@@ -499,9 +489,11 @@ void GameObject::CopyComponentLight(LightType type, Component* component)
 		case LightType::SPOT:
 			newComponent = std::make_unique<ComponentSpotLight>(static_cast<ComponentSpotLight&>(*component));
 			break;
+
 		case LightType::AREA:
 			newComponent = std::make_unique<ComponentAreaLight>(static_cast<ComponentAreaLight&>(*component));
 			break;
+
 		case LightType::LOCAL_IBL:
 			newComponent = std::make_unique<ComponentLocalIBL>(static_cast<ComponentLocalIBL&>(*component));
 			break;
@@ -620,12 +612,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::PLAYER:
 		{
 			newComponent = std::make_unique<ComponentPlayer>(true, this);
-			break;
-		}
-
-		case ComponentType::PLAYERINPUT:
-		{
-			newComponent = std::make_unique<ComponentPlayerInput>(true, this);
 			break;
 		}
 

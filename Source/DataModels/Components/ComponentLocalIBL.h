@@ -24,6 +24,7 @@ class ComponentLocalIBL : public ComponentLight
 {
 public:
 	ComponentLocalIBL(GameObject* parent);
+	ComponentLocalIBL(const ComponentLocalIBL& componentLocalIBL);
 	~ComponentLocalIBL() override;
 
 	void GenerateMaps();

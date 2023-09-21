@@ -10,7 +10,6 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentCameraSample.h"
-#include "Components/ComponentCubemap.h"
 #include "Components/ComponentLine.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
@@ -21,7 +20,6 @@
 #include "Components/ComponentSkybox.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentParticleSystem.h"
-
 
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
@@ -354,9 +352,11 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 			transform2D->CalculateMatrices();
 		}
 	}
+	int filter = 0;
 
-	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject, is3D);
-
+	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject, is3D, filter);
+	UpdateLightsFromCopiedGameObjects(filter);
+	
 	return gameObject;
 }
 
@@ -1674,9 +1674,19 @@ void Scene::SetRoot(GameObject* newRoot)
 	root = std::unique_ptr<GameObject>(newRoot);
 }
 
-void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D)
+void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D, int& filter)
 {
 	sceneGameObjects.push_back(gameObject);
+
+	if (gameObject->HasComponent<ComponentLine>())
+	{
+		AddComponentLines(static_cast<ComponentLine*>(gameObject->GetComponent<ComponentLine>()));
+	}
+	if (gameObject->HasComponent<ComponentParticleSystem>())
+	{
+		AddParticleSystem(static_cast<ComponentParticleSystem*>(gameObject->GetComponent<ComponentParticleSystem>()));
+	}
+
 	if (gameObject->IsRendereable() && is3D)
 	{
 		if (gameObject->IsStatic())
@@ -1688,10 +1698,86 @@ void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObje
 			App->GetModule<ModuleScene>()->GetLoadedScene()->AddNonStaticObject(gameObject);
 		}
 	}
+	filter |= SearchForLights(gameObject);
+
 	for (GameObject* children : gameObject->GetChildren())
 	{
-		InsertGameObjectAndChildrenIntoSceneGameObjects(children, is3D);
+		InsertGameObjectAndChildrenIntoSceneGameObjects(children, is3D, filter);
 	}
+}
+
+void Scene::UpdateLightsFromCopiedGameObjects(const int& filter)
+{
+	if (filter & HAS_SPOT)
+	{
+		UpdateSceneSpotLights();
+		RenderSpotLights();
+	}
+
+	if (filter & HAS_POINT)
+	{
+		UpdateScenePointLights();
+		RenderPointLights();
+	}
+
+	if (filter & HAS_AREA_TUBE)
+	{
+		UpdateSceneAreaTubes();
+		RenderAreaTubes();
+	}
+	
+	if (filter & HAS_AREA_SPHERE)
+	{
+		UpdateSceneAreaSpheres();
+		RenderAreaSpheres();
+	}
+
+	if (filter & HAS_LOCAL_IBL)
+	{
+		UpdateSceneLocalIBLs();
+		RenderLocalIBLs();
+	}
+}
+
+int& Scene::SearchForLights(GameObject* gameObject)
+{
+	int filter = 0;
+	
+	ComponentLight* light = gameObject->GetComponentInternal<ComponentLight>();
+
+	if (light)
+	{
+		switch (light->GetLightType())
+		{
+		case LightType::SPOT:
+			filter = HAS_SPOT;
+			break;
+
+		case LightType::POINT:
+			filter = HAS_POINT;
+			break;
+
+		case LightType::AREA:
+		{
+			ComponentAreaLight* areaLight = static_cast<ComponentAreaLight*>(light);
+			switch (areaLight->GetAreaType())
+			{
+			case AreaType::TUBE:
+				filter = HAS_AREA_TUBE;
+				break;
+			
+			case AreaType::SPHERE:
+				filter = HAS_AREA_SPHERE;
+				break;
+			}
+			break;
+		}
+		case LightType::LOCAL_IBL:
+			filter = HAS_LOCAL_IBL;
+			break;
+		}
+	}
+	return filter;
 }
 
 void Scene::AddStaticObject(GameObject* gameObject)
