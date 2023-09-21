@@ -329,15 +329,6 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 
 	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject, is3D);
 
-	if (gameObject->HasComponent<ComponentLine>())
-	{
-		AddComponentLines(static_cast<ComponentLine*>(gameObject->GetComponent<ComponentLine>()));
-	}
-	if (gameObject->HasComponent<ComponentParticleSystem>())
-	{
-		AddParticleSystem(static_cast<ComponentParticleSystem*>(gameObject->GetComponent<ComponentParticleSystem>()));
-	}
-
 	return gameObject;
 }
 
@@ -1526,6 +1517,16 @@ void Scene::SetRoot(GameObject* newRoot)
 void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D)
 {
 	sceneGameObjects.push_back(gameObject);
+
+	if (gameObject->HasComponent<ComponentLine>())
+	{
+		AddComponentLines(static_cast<ComponentLine*>(gameObject->GetComponent<ComponentLine>()));
+	}
+	if (gameObject->HasComponent<ComponentParticleSystem>())
+	{
+		AddParticleSystem(static_cast<ComponentParticleSystem*>(gameObject->GetComponent<ComponentParticleSystem>()));
+	}
+
 	if (gameObject->IsRendereable() && is3D)
 	{
 		if (gameObject->IsStatic())
