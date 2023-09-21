@@ -366,7 +366,7 @@ void PlayerAttackScript::UpdateJumpAttack()
 	if (successfulAttack)
 	{
 		animation->SetParameter("IsJumpAttacking", false);
-		if (currentAttack == AttackType::JUMPNORMAL)
+		if (!comboSystem->IsSpecialActivated())
 		{
 			EndJumpNormalAttack();
 		}
