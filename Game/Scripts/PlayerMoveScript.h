@@ -49,12 +49,12 @@ private:
 	ComponentTransform* componentTransform;
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;
-
 	bool isParalyzed;
 
 	float dashForce;
-	float dashTime;
-	float dashDuration;
+	float dashRollTime;
+	float dashRollDuration;
+	float3 totalDirection;
 
 	float lightAttacksMoveFactor;
 	float heavyAttacksMoveFactor;

@@ -17,7 +17,6 @@
 #include "DataModels/Components/ComponentMeshRenderer.h"
 #include "DataModels/Components/ComponentParticleSystem.h"
 #include "DataModels/Components/ComponentPlayer.h"
-#include "DataModels/Components/ComponentPlayerInput.h"
 #include "DataModels/Components/ComponentPointLight.h"
 #include "DataModels/Components/ComponentRigidBody.h"
 #include "DataModels/Components/ComponentScript.h"
@@ -348,12 +347,6 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
-		case ComponentType::PLAYERINPUT:
-		{
-			newComponent = std::make_unique<ComponentPlayerInput>(static_cast<ComponentPlayerInput&>(*component));
-			break;
-		}
-
 		case ComponentType::RIGIDBODY:
 		{
 			newComponent = std::make_unique<ComponentRigidBody>(static_cast<ComponentRigidBody&>(*component));
@@ -602,12 +595,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::PLAYER:
 		{
 			newComponent = std::make_unique<ComponentPlayer>(true, this);
-			break;
-		}
-
-		case ComponentType::PLAYERINPUT:
-		{
-			newComponent = std::make_unique<ComponentPlayerInput>(true, this);
 			break;
 		}
 
