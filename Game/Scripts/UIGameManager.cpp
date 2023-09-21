@@ -95,24 +95,23 @@ void UIGameManager::Update(float deltaTime)
 
 void UIGameManager::MenuIsOpen()
 {
-	if (menuIsOpen == false)
-	{
-		mainMenuObject->Disable();
-		hudCanvasObject->Enable();
-		player->SetMouse(false);
-	}
-
-	if (menuIsOpen == true)
+	if (menuIsOpen)
 	{
 		mainMenuObject->Enable();
 		hudCanvasObject->Disable();
 		player->SetMouse(true);
 	}
+	else
+	{
+		mainMenuObject->Disable();
+		hudCanvasObject->Enable();
+		player->SetMouse(false);
+	}
 }
 
 void UIGameManager::EnableUIPwrUp(enum class PowerUpType pwrUp)
 {
-	if (pwrUpActive != true)
+	if (!pwrUpActive)
 	{
 		switch (pwrUp)
 		{
