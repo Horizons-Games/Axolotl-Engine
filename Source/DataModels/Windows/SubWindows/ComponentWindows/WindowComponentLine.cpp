@@ -93,7 +93,7 @@ void WindowComponentLine::DrawWindowContents()
 
 		ImGui::Text("");
 		ImGui::Text("Size");
-		static float4 size = componentLine->GetSizeFadingPoints();
+		float4 size = componentLine->GetSizeFadingPoints();
 		if(ImGui::Bezier( "", reinterpret_cast<float*>(&size)))
 		{
 			componentLine->SetSizeFadingPoints(size);
