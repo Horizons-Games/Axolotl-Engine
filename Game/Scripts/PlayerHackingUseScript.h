@@ -44,8 +44,6 @@ private:
 	UIHackingManager* hackingManager;
 	PlayerManagerScript* playerManager;
 
-	KeyState keyState;
-
 	float currentTime;
 	float maxHackTime;
 
