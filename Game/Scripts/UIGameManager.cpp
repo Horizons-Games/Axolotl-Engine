@@ -10,6 +10,7 @@
 #include "SwitchPlayerManagerScript.h"
 #include "UIImageDisplacementControl.h"
 #include "HealthSystem.h"
+#include "PlayerManagerScript.h"
 
 REGISTERCLASS(UIGameManager);
 
@@ -95,12 +96,14 @@ void UIGameManager::MenuIsOpen()
 		mainMenuObject->Enable();
 		hudCanvasObject->Disable();
 		player->SetMouse(true);
+		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->PausePlayer(true);
 	}
 	else
 	{
 		mainMenuObject->Disable();
 		hudCanvasObject->Enable();
 		player->SetMouse(false);
+		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->PausePlayer(false);
 	}
 }
 
