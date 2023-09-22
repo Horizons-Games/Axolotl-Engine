@@ -1,0 +1,11 @@
+{
+    "UID": 12292464129727298608,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/HOD_GR_Structure_Walls.Cube.015_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/HOD_GR_Structure_WallsDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

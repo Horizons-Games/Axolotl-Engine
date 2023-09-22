@@ -21,9 +21,6 @@ public:
 private:
 	ModuleInput* input;
 	GameObject* powerUpsManager;
-	KeyState keyStateX;
-	KeyState keyStateZ;
-
 
 	PowerUpsManagerScript* powerUpsManagerScript;
 };

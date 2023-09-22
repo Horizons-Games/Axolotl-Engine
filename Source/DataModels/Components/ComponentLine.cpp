@@ -32,6 +32,15 @@ ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(C
 		});
 }
 
+ComponentLine::ComponentLine(const ComponentLine& other) :
+	Component(other),numTiles(other.numTiles),speed(other.speed),time(other.time),dirtyBuffers(other.dirtyBuffers), 
+	gradient(new ImGradient(other.gradient)),offset(other.offset),tiling(other.tiling),sizeFading(other.sizeFading),
+	sizeFadingPoints(other.sizeFadingPoints), lineTexture(other.GetLineTexture())
+{
+	LoadBuffers();
+	UpdateBuffers();
+}
+
 ComponentLine::~ComponentLine()
 {
 	glDeleteVertexArrays(1, &lineVAO);
@@ -39,6 +48,7 @@ ComponentLine::~ComponentLine()
 	glDeleteBuffers(1,&positionBuffers);
 	glDeleteBuffers(1,&textureBuffers);
 	glDeleteBuffers(1,&colorBuffers);
+	delete gradient;
 }
 
 void ComponentLine::LoadBuffers()
@@ -64,8 +74,8 @@ void ComponentLine::LoadBuffers()
 
 	glGenBuffers(1, &colorBuffers);
 	glBindBuffer(GL_ARRAY_BUFFER, colorBuffers);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * (numTiles * 2 + 2), nullptr, GL_STATIC_DRAW);
+	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 4, (void*)0);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * (numTiles * 2 + 2), nullptr, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(2);
 
 	glBindVertexArray(0);
@@ -86,7 +96,7 @@ void ComponentLine::UpdateBuffers()
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * (numTiles * 2 + 2), nullptr, GL_STATIC_DRAW);
 
 		glBindBuffer(GL_ARRAY_BUFFER, colorBuffers);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * (numTiles * 2 + 2), nullptr, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float4) * (numTiles * 2 + 2), nullptr, GL_STATIC_DRAW);
 
 		float step = 1.0f / float(numTiles);
 
@@ -125,19 +135,19 @@ void ComponentLine::UpdateBuffers()
 
 		// VBO for color
 		glBindBuffer(GL_ARRAY_BUFFER, colorBuffers);
-		float3* colorData = reinterpret_cast<float3*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
+		float4* colorData = reinterpret_cast<float4*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
 		lambda = 0.0f;
 		float stepsGradient = static_cast<float>(1) / static_cast<float>(numTiles);
-		float color[3];
+		float color[4];
 		gradient->getColorAt(0.0, color);
-		colorData[0] = float3(color[0], color[1], color[2]);
-		colorData[1] = float3(color[0], color[1], color[2]);
+		colorData[0] = float4(color[0], color[1], color[2], color[3]);
+		colorData[1] = float4(color[0], color[1], color[2], color[3]);
 		for (unsigned int i = 0; i < numTiles; ++i)
 		{
 			gradient->getColorAt(stepsGradient * (i + 1), color);
 			lambda = step * float(i + 1);
-			colorData[i * 2 + 2 + 0] = float3(color[0], color[1], color[2]);
-			colorData[i * 2 + 2 + 1] = float3(color[0], color[1], color[2]);
+			colorData[i * 2 + 2 + 0] = float4(color[0], color[1], color[2], color[3]);
+			colorData[i * 2 + 2 + 1] = float4(color[0], color[1], color[2], color[3]);
 		}
 
 		glUnmapBuffer(GL_ARRAY_BUFFER);
@@ -164,7 +174,8 @@ void ComponentLine::Render()
 {
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
 	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
-	if (camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
+
+	if (IsEnabled() && camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
 #ifdef ENGINE
 		//Draw the BoundingBox of ComponentLine
@@ -309,7 +320,7 @@ void ComponentLine::InternalLoad(const Json& meta)
 							ImColor(static_cast<float>(jsonColors[i]["color_x"]),
 							static_cast<float>(jsonColors[i]["color_y"]),
 							static_cast<float>(jsonColors[i]["color_z"]),
-							static_cast<float>(jsonColors[i]["color_a"])));
+							static_cast<float>(jsonColors[i]["color_w"])));
 	}
 	gradient->refreshCache();
 

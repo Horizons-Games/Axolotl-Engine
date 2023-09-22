@@ -10,6 +10,8 @@
 #include "PostProcess/SSAO.h"
 #include "DataModels/Render/LightProxy.h"
 
+#include "Render/Shadows.h"
+
 #define KAWASE_DUAL_SAMPLERS 4
 #define GAUSSIAN_BLUR_SHADOW_MAP 2
 
@@ -54,17 +56,20 @@ public:
 	void ToggleShadows();
 	void ToggleVSM();
 	void ToggleSSAO();
+	void ToggleCSMDebug();
 
+	GLuint GetCameraUBO() const;
 	GLuint GetRenderedTexture() const;
 	float GetObjectDistance(const GameObject* gameObject);
+	Shadows* GetShadows() const;
 
 	void SetBloomIntensity(float color);
 	float GetBloomIntensity() const;
 
 	BatchManager* GetBatchManager() const;
 
-	void FillRenderList(const Quadtree* quadtree);
-	void AddToRenderList(const GameObject* gameObject);
+	void FillRenderList(const Quadtree* quadtree, Camera* camera);
+	void AddToRenderList(const GameObject* gameObject, Camera* camera, bool recursive = false);
 
 	bool IsObjectInsideFrustrum(const GameObject* gameObject);
 
@@ -96,15 +101,10 @@ private:
 
 	void DrawHighlight(GameObject* gameObject);
 
-	void BindCameraToProgram(Program* program);
+	void BindCameraToProgram(Program* program, Camera* camera);
 	void BindCubemapToProgram(Program* program);
 
 	void KawaseDualFiltering();
-
-	float2 ParallelReduction(Program* program, int width, int height);
-	void RenderShadowMap(const GameObject* light, const float2& minMax);
-	void ShadowDepthVariacne(int width, int height);
-	void GaussianBlur(int width, int height);
 
 	Camera* GetFrustumCheckedCamera() const;
 
@@ -119,6 +119,7 @@ private:
 
 	BatchManager* batchManager;
 	GBuffer* gBuffer;
+	Shadows* shadows;
 	SSAO* ssao;
 	LightProxy* lightProxy;
 
@@ -142,25 +143,12 @@ private:
 	GLuint dualKawaseDownTextures[KAWASE_DUAL_SAMPLERS];
 	GLuint dualKawaseUpFramebuffers[KAWASE_DUAL_SAMPLERS];
 	GLuint dualKawaseUpTextures[KAWASE_DUAL_SAMPLERS];
+
+	GLuint depthStencilRenderBuffer = 0;
 	
 	//GLuint bloomFramebuffer;
 	//GLuint bloomTexture;
 	
-	// Shadow Mapping buffers and textures
-	GLuint depthStencilRenderBuffer = 0;
-	GLuint shadowMapBuffer = 0;
-	GLuint gShadowMap = 0;
-	GLuint parallelReductionInTexture = 0;
-	GLuint parallelReductionOutTexture = 0;
-	GLuint minMaxBuffer = 0;
-	
-	// Variance Shadow Mapping buffers and textures
-	GLuint shadowVarianceTexture = 0;
-	GLuint blurShadowMapBuffer[GAUSSIAN_BLUR_SHADOW_MAP];
-	GLuint gBluredShadowMap[GAUSSIAN_BLUR_SHADOW_MAP];
-
-	bool renderShadows;
-	bool varianceShadowMapping;
 
 	friend class ModuleEditor;
 };
@@ -192,17 +180,27 @@ inline void ModuleRender::SwitchBloomActivation()
 
 inline void ModuleRender::ToggleShadows()
 {
-	renderShadows = !renderShadows;
+	shadows->ToggleShadows();
 }
 
 inline void ModuleRender::ToggleVSM()
 {
-	varianceShadowMapping = !varianceShadowMapping;
+	shadows->ToggleVSM();
 }
 
 inline void ModuleRender::ToggleSSAO()
 {
 	ssao->ToggleSSAO();
+}
+
+inline void ModuleRender::ToggleCSMDebug()
+{
+	shadows->ToggleCSMDebug();
+}
+
+inline GLuint ModuleRender::GetCameraUBO() const
+{
+	return uboCamera;
 }
 
 inline GLuint ModuleRender::GetRenderedTexture() const
@@ -223,6 +221,11 @@ inline bool ModuleRender::IsObjectInsideFrustrum(const GameObject* gameObject)
 inline float ModuleRender::GetObjectDistance(const GameObject* gameObject)
 {
 	return objectsInFrustrumDistances[gameObject];
+}
+
+inline Shadows* ModuleRender::GetShadows() const
+{
+	return shadows;
 }
 
 inline void ModuleRender::SetBloomIntensity(float intensity)

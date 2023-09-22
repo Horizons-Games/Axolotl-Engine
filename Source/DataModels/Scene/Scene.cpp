@@ -10,7 +10,6 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentCameraSample.h"
-#include "Components/ComponentCubemap.h"
 #include "Components/ComponentLine.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
@@ -21,7 +20,6 @@
 #include "Components/ComponentSkybox.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentParticleSystem.h"
-
 
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
@@ -39,6 +37,7 @@
 
 #include "Modules/ModuleScene.h"
 #include "Modules/ModulePlayer.h"
+#include "Modules/ModuleNavigation.h"
 
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
@@ -205,7 +204,7 @@ void Scene::CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, Gam
 		if (go->HasComponent<ComponentMeshRenderer>())
 		{
 			ComponentMeshRenderer* mesh = go->GetComponentInternal<ComponentMeshRenderer>();
-			if (go->IsActive() && (mesh == nullptr || mesh->IsEnabled()))
+			if (go->IsActive() && (mesh != nullptr || mesh->IsEnabled()))
 			{
 				gos.push_back(go);
 			}
@@ -1443,6 +1442,7 @@ void Scene::UpdateSceneAreaTube(const ComponentAreaLight* compTube)
 void Scene::InitNewEmptyScene()
 {
 	App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
+	App->GetModule<ModuleNavigation>()->SetNavMesh(nullptr);
 
 	root = std::make_unique<GameObject>("New Scene");
 	root->InitNewEmptyGameObject();
@@ -1515,6 +1515,16 @@ void Scene::SetRoot(GameObject* newRoot)
 void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D)
 {
 	sceneGameObjects.push_back(gameObject);
+
+	if (gameObject->HasComponent<ComponentLine>())
+	{
+		AddComponentLines(static_cast<ComponentLine*>(gameObject->GetComponent<ComponentLine>()));
+	}
+	if (gameObject->HasComponent<ComponentParticleSystem>())
+	{
+		AddParticleSystem(static_cast<ComponentParticleSystem*>(gameObject->GetComponent<ComponentParticleSystem>()));
+	}
+
 	if (gameObject->IsRendereable() && is3D)
 	{
 		if (gameObject->IsStatic())

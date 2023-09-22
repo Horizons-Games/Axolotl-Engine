@@ -52,6 +52,12 @@
 const std::string ModuleEditor::settingsFolder = "Settings/";
 const std::string ModuleEditor::set = "Settings/WindowsStates.conf";
 
+namespace
+{
+constexpr const char* windowSceneName = "Scene";
+constexpr const char* windowEditorControlName = "Editor Control";
+} // namespace
+
 ModuleEditor::ModuleEditor() :
 	mainMenu(nullptr),
 	scene(nullptr),
@@ -87,12 +93,12 @@ bool ModuleEditor::Init()
 	windows.push_back(std::unique_ptr<WindowScene>(scene = new WindowScene()));
 	windows.push_back(std::make_unique<WindowConfiguration>());
 	windows.push_back(std::make_unique<WindowResources>());
+	windows.push_back(std::make_unique<WindowNavigation>());
 	windows.push_back(std::unique_ptr<WindowInspector>(inspector = new WindowInspector()));
 	windows.push_back(std::make_unique<WindowHierarchy>());
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowAssetFolder>());
 	windows.push_back(std::make_unique<WindowConsole>());
-	windows.push_back(std::make_unique<WindowNavigation>());
 	
 	char* buffer = StateWindows();
 
@@ -223,7 +229,7 @@ UpdateStatus ModuleEditor::Update()
 		ImGui::DockBuilderAddNode(dockSpaceId, dockSpaceWindowFlags | ImGuiDockNodeFlags_DockSpace);
 		ImGui::DockBuilderSetNodeSize(dockSpaceId, viewport->Size);
 
-		ImGuiID dockIdUp = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Up, 0.08f, nullptr, &dockSpaceId);
+		ImGuiID dockIdUp = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Up, 0.06f, nullptr, &dockSpaceId);
 		ImGuiID dockIdRight = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Right, 0.27f, nullptr, &dockSpaceId);
 		ImGuiID dockIdDown = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Down, 0.32f, nullptr, &dockSpaceId);
 		ImGuiID dockIdLeft = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Left, 0.22f, nullptr, &dockSpaceId);
@@ -231,6 +237,8 @@ UpdateStatus ModuleEditor::Update()
 		ImGui::DockBuilderDockWindow("File Browser", dockIdDown);
 		ImGui::DockBuilderDockWindow("State Machine Editor", dockIdDown);
 		ImGui::DockBuilderDockWindow("Configuration", dockIdRight);
+		ImGui::DockBuilderDockWindow("About", dockIdRight);
+		ImGui::DockBuilderDockWindow("Navigation", dockIdRight);
 		ImGui::DockBuilderDockWindow("Resources", dockIdRight);
 		ImGui::DockBuilderDockWindow("Inspector", dockIdRight);
 		ImGui::DockBuilderDockWindow("Editor Control", dockIdUp);
@@ -251,10 +259,25 @@ UpdateStatus ModuleEditor::Update()
 	for (int i = 0; i < windows.size(); ++i)
 	{
 		bool windowEnabled = mainMenu->IsWindowEnabled(i);
-		windows[i]->Draw(windowEnabled);
+		if (fullscreenScene)
+		{
+			bool canBeDrawn = windows[i]->GetName() == windowSceneName;
+			if (editorControl)
+			{
+				canBeDrawn = canBeDrawn || windows[i]->GetName() == windowEditorControlName;
+			}
+			windows[i]->Draw(canBeDrawn);
+		}
+		else
+		{
+			windows[i]->Draw(windowEnabled);
+		}
 		mainMenu->SetWindowEnabled(i, windowEnabled);
 	}
-	stateMachineEditor->Draw(stateMachineWindowEnable);
+	if (!fullscreenScene)
+	{
+		stateMachineEditor->Draw(stateMachineWindowEnable);
+	}
 #else
 	debugOptions->Draw();
 #endif

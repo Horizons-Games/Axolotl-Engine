@@ -10,6 +10,13 @@ class dtCrowd;
 class dtTileCache;
 class Scene;
 
+struct NavMeshHeader
+{
+	int numTiles;
+	int maxTiles;
+	float bmin[3];
+};
+
 class ResourceNavMesh : virtual public Resource
 {
 public:
@@ -27,16 +34,20 @@ public:
 	void SaveLoadOptions(Json& meta) override{};
 	void LoadLoadOptions(Json& meta) override{};
 
+	bool InitNavMesh(const float* bmin);
+	bool InitTileCache(const float* bmin, int maxTiles);
+	bool AddTile(unsigned char* data, int dataSize);
+	void InitCrowd();
+
 	bool Build(Scene* scene);
 	void DrawGizmos(Scene* scene);	
-	//void Load(Buffer<char>& buffer);
 	void CleanUp();
-	//Buffer<char> Save();
 
 	bool IsGenerated() const;
 	dtCrowd* GetCrowd() const;
 	dtNavMeshQuery* GetNavMeshQuery() const;
 	dtNavMesh* GetNavMesh() const;
+	NavMeshHeader GetNavMeshHeader() const;
 	dtTileCache* GetTileCache() const;
 
 	float GetAgentHeight() const;
@@ -104,7 +115,6 @@ public:
 	};
 
 private:
-	void InitCrowd();
 
 	float agentHeight = 2.0f;
 	float agentRadius = 0.5f;
@@ -132,21 +142,22 @@ private:
 	int maxTiles = 0;
 	int maxPolysPerTile = 0;
 
+	unsigned char navMeshDrawFlags = 0;
+
 	DrawMode drawMode = DrawMode::DRAWMODE_NAVMESH;
 
 	BuildContext* ctx = nullptr;
 
 	dtNavMesh* navMesh = nullptr;
 	dtNavMeshQuery* navQuery = nullptr;
-	dtCrowd* crowd = nullptr;
 
+	dtCrowd* crowd = nullptr;
 	dtTileCache* tileCache = nullptr;
 
 	struct LinearAllocator* talloc = nullptr;
 	struct FastLZCompressor* tcomp = nullptr;
 	struct MeshProcess* tmproc = nullptr;
 
-	unsigned char navMeshDrawFlags = 0;
 };
 
 inline ResourceType ResourceNavMesh::GetType() const

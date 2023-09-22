@@ -12,12 +12,12 @@
 #define MAX_PARTICLES 500
 #define MAX_DURATION 25.0f
 #define MAX_SPEED 75.0f
-#define MAX_SIZE 10.0f
+#define MAX_SIZE 30.0f
 #define MAX_ROTATION 359.9f
 #define MAX_GRAVITY 100.0f
 #define MAX_RADIUS 1000000000.0f
 #define MAX_ANGLE 89.99f
-#define MIN_RADIUS 0.00f
+#define MIN_RADIUS 0.001f
 #define MIN_ANGLE 0.00f
 
 #define DEFAULT_DURATION 10.0f
@@ -55,7 +55,6 @@ public:
 	void Load();
 
 	void AddModule(ParticleModule* module);
-	void DrawDD(EmitterInstance* instance) const;
 
 	void SetRandomLife(bool randLife);
 	void SetRandomSpeed(bool randSpeed);
@@ -64,7 +63,6 @@ public:
 	void SetRandomGravity(bool randGrav);
 	void SetMaxParticles(int maxParticles);
 	void SetDuration(float duration);
-	void SetElapsed(float elapsed);
 	void SetLooping(bool isLooping);
 	void SetName(const std::string &name);
 	void SetLifespanRange(const float2 &lifespan);
@@ -78,6 +76,7 @@ public:
 	void SetRadius(float radius);
 	void SetParticleTexture(const std::shared_ptr<ResourceTexture>& particleTexture);
 	void SetTexture(const std::shared_ptr<ResourceTexture>& texture);
+	void SaveModules(const std::vector<ParticleModule*>& modules);
 
 	bool IsRandomLife() const;
 	bool IsRandomSpeed() const;
@@ -87,7 +86,6 @@ public:
 	bool IsLooping() const;
 	int GetMaxParticles() const;
 	float GetDuration() const;
-	float GetElapsed() const;
 	float GetAngle() const;
 	float GetRadius() const;
 	const std::string& GetName() const;
@@ -241,6 +239,14 @@ inline void ParticleEmitter::SetParticleTexture(const std::shared_ptr<ResourceTe
 inline void ParticleEmitter::SetTexture(const std::shared_ptr<ResourceTexture>& texture)
 {
 	particleTexture = texture;
+}
+
+inline void ParticleEmitter::SaveModules(const std::vector<ParticleModule*>& modules)
+{
+	for (unsigned i = 0; i < modules.size(); ++i)
+	{
+		this->modules[i]->CopyConfig(modules[i]);
+	}
 }
 
 inline bool ParticleEmitter::IsRandomLife() const

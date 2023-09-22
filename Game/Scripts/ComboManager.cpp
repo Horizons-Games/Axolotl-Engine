@@ -49,11 +49,7 @@ bool ComboManager::NextIsSpecialAttack() const
 
 void ComboManager::CheckSpecial(float deltaTime)
 {
-	// THIS IS A PROVISIONAL WAY TO SOLVE AN ISSUE WITH THE CONTROLLER COMPONENT
-	// THE STATE GOES FROM IDLE TO REPEAT, SO WE CONVERTED REPEAT TO DOWN FOR THIS
-	// ACTION USING LOGIC COMBINATIONS AND AN AUXILIAR VARIABLE 
-	if (input->GetKey(SDL_SCANCODE_TAB) != keyState &&
-		input->GetKey(SDL_SCANCODE_TAB) == KeyState::REPEAT && specialCount == maxSpecialCount)
+	if (input->GetKey(SDL_SCANCODE_TAB) == KeyState::DOWN && specialCount == maxSpecialCount)
 	{
 		specialActivated = true;
 
@@ -92,8 +88,8 @@ void ComboManager::ClearCombo(bool finisher)
 
 AttackType ComboManager::CheckAttackInput(bool jumping)
 {
-	bool leftClick = input->GetMouseButton(SDL_BUTTON_LEFT) != KeyState::IDLE;
-	bool rightClick = input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE;
+	bool leftClick = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
+	bool rightClick = input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::DOWN;
 
 	if (jumping && (leftClick || rightClick))
 	{
@@ -165,4 +161,10 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 bool ComboManager::IsSpecialActivated() const
 {
 	return specialActivated;
+}
+
+void ComboManager::FillComboBar()
+{
+	specialCount = maxSpecialCount;
+	uiComboManager->SetComboBarValue(specialCount);
 }

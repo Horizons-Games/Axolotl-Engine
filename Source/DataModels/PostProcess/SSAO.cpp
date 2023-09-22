@@ -5,11 +5,17 @@
 
 #include "Program/Program.h"
 
-#define BIAS 0.025
-#define RADIUS 1.5
+#define BIAS 0.05f
+#define RADIUS 1.5f
 
 SSAO::SSAO() : enabled(true)
 {
+	uboKernel = 0;
+	ssaoFrameBuffer = 0;
+	gSsao = 0;
+	positionTexture = 0;
+	normalTexture = 0;
+
 	CreateKernel();
 	CreateRandomTangents();
 }
@@ -86,7 +92,7 @@ void SSAO::CalculateSSAO(Program* program, int width, int height)
 {
 	program->Activate();
 
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("SSAO"), "SSAO");
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("SSAO")), "SSAO");
 
 	glBindFramebuffer(GL_FRAMEBUFFER, ssaoFrameBuffer);
 	
@@ -97,7 +103,7 @@ void SSAO::CalculateSSAO(Program* program, int width, int height)
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, normalTexture);
 
-	program->BindUniformFloat2("screenSize", float2(width, height));
+	program->BindUniformFloat2("screenSize", float2(static_cast<float>(width), static_cast<float>(height)));
 	program->BindUniformFloat("bias", BIAS);
 	program->BindUniformFloat("radius", RADIUS);
 
@@ -117,7 +123,8 @@ void SSAO::CalculateSSAO(Program* program, int width, int height)
 
 void SSAO::BlurSSAO(Program* program, int width, int height)
 {
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("SSAO - Gaussian Blur"), "SSAO - Gaussian Blur");
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("SSAO - Gaussian Blur")), 
+					 "SSAO - Gaussian Blur");
 
 	program->Activate();
 

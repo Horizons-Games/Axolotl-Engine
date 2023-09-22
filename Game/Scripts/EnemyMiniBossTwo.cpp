@@ -159,6 +159,8 @@ void EnemyMiniBossTwo::CheckState()
 
 void EnemyMiniBossTwo::UpdateBehaviour(float deltaTime)
 {
+	float3 target = seekTargetTransform->GetGlobalPosition();
+
 	switch (bossState)
 	{
 	case MiniBossTwoBehaviours::SEEK:
@@ -169,15 +171,16 @@ void EnemyMiniBossTwo::UpdateBehaviour(float deltaTime)
 		}
 		else
 		{
-			aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+			aiMovement->SetTargetPosition(target);
+			aiMovement->SetRotationTargetPosition(target);
 		}
 
 		break;
 
 	case MiniBossTwoBehaviours::RANGEDATTACK:
 
-		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
-
+		aiMovement->SetTargetPosition(target);
+		aiMovement->SetRotationTargetPosition(target);
 
 		break;
 
@@ -185,7 +188,8 @@ void EnemyMiniBossTwo::UpdateBehaviour(float deltaTime)
 		
 		if (boostOfEnergy->attackState == BoostOfEnergyStates::AIMING)
 		{
-			aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+			aiMovement->SetTargetPosition(target);
+			aiMovement->SetRotationTargetPosition(target);
 		}
 
 		break;

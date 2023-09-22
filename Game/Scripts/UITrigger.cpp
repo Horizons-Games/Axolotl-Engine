@@ -82,7 +82,7 @@ void UITrigger::Update(float deltaTime)
 		}
 		else if (isNextSceneTrigger)
 		{
-			App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_Level2_VS3.axolotl");
+			App->GetModule<ModuleScene>()->LoadScene("Lib/Scenes/_LEVEL02_ALFA.axolotl");
 		}
 	}
 }
