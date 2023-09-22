@@ -427,7 +427,7 @@ UpdateStatus ModuleRender::Update()
 	glPopDebugGroup();
 
 	program = modProgram->GetProgram(ProgramType::LIGHT_CULLING);
-	lightProxy->DrawTest(program);
+	lightProxy->DrawLights(program);
 
 	// -------- PRE-FORWARD ----------------------
 	if (loadedScene->GetRoot()->HasComponent<ComponentSkybox>())
