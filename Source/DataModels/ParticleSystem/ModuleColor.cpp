@@ -13,6 +13,15 @@ ModuleColor::ModuleColor(ParticleEmitter* emitter) : ParticleModule(ModuleType::
 	gradient = new ImGradient();
 }
 
+ModuleColor::ModuleColor(ParticleEmitter* emitter, ModuleColor* color) : 
+	ParticleModule(ModuleType::COLOR, emitter)
+{
+	initAlpha = color->GetInitAlpha();
+	endAlpha = color->GetEndAlpha();
+	gradient = color->GetGradient();
+	enabled = color->IsEnabled();
+}
+
 ModuleColor::~ModuleColor()
 {
 	delete gradient;
@@ -38,7 +47,7 @@ void ModuleColor::Update(EmitterInstance* instance)
 		{
 			EmitterInstance::Particle& particle = particles[i];
 
-			if (particle.lifespan >= 0.0f)
+			if (!particle.dead)
 			{
 				float lifeRatio = 1.0f - particle.lifespan / particle.initLife;
 

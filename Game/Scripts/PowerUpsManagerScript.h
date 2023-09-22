@@ -17,7 +17,7 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	bool SavePowerUp(const PowerUpType& type);
+	void SavePowerUp(const PowerUpType& type);
 	void DropSavedPowerUp();
 	void UseSavedPowerUp();
 

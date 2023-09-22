@@ -21,8 +21,14 @@ enum class ComponentType
 	MESHCOLLIDER,
 	SCRIPT,
 	BREAKABLE,
+	CUBEMAP,
+	SKYBOX,
+	TRAIL,
+	LINE,
+	RENDER,
+	AGENT,
+	OBSTACLE,
 	PARTICLE,
-	CUBEMAP
 };
 
 class ComponentAnimation;
@@ -32,6 +38,7 @@ class ComponentBreakable;
 class ComponentCamera;
 class ComponentCameraSample;
 class ComponentCubemap;
+class ComponentSkybox;
 class ComponentLight;
 class ComponentMeshCollider;
 class ComponentMeshRenderer;
@@ -40,7 +47,11 @@ class ComponentParticleSystem;
 class ComponentRigidBody;
 class ComponentScript;
 class ComponentTransform;
-
+class ComponentTrail;
+class ComponentLine;
+class ComponentRender;
+class ComponentAgent;
+class ComponentObstacle;
 class ComponentButton;
 class ComponentCanvas;
 class ComponentImage;
@@ -95,6 +106,12 @@ struct ComponentToEnum<ComponentCubemap>
 };
 
 template<>
+struct ComponentToEnum<ComponentSkybox>
+{
+	const static ComponentType value = ComponentType::SKYBOX;
+};
+
+template<>
 struct ComponentToEnum<ComponentLight>
 {
 	const static ComponentType value = ComponentType::LIGHT;
@@ -143,6 +160,12 @@ struct ComponentToEnum<ComponentTransform>
 };
 
 template<>
+struct ComponentToEnum<ComponentTrail>
+{
+	const static ComponentType value = ComponentType::TRAIL;
+};
+
+template<>
 struct ComponentToEnum<ComponentButton>
 {
 	const static ComponentType value = ComponentType::BUTTON;
@@ -167,7 +190,31 @@ struct ComponentToEnum<ComponentTransform2D>
 };
 
 template<>
+struct ComponentToEnum<ComponentAgent>
+{
+	const static ComponentType value = ComponentType::AGENT;
+};
+
+template<>
+struct ComponentToEnum<ComponentObstacle>
+{
+	const static ComponentType value = ComponentType::OBSTACLE;
+};
+
+template<>
 struct ComponentToEnum<ComponentSlider>
 {
 	const static ComponentType value = ComponentType::SLIDER;
+};
+
+template<>
+struct ComponentToEnum<ComponentLine>
+{
+	const static ComponentType value = ComponentType::LINE;
+};
+
+template<>
+struct ComponentToEnum<ComponentRender>
+{
+	const static ComponentType value = ComponentType::RENDER;
 };

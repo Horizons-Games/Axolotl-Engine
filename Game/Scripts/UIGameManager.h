@@ -3,12 +3,12 @@
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
 #include "PowerUpLogicScript.h"
+#include "ModuleInput.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentPlayer;
 class ComponentSlider;
-class ModuleInput;
 class HealthSystem;
 
 class UIGameManager : public Script

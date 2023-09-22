@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/flag_DefaultMaterial_BaseColor.png",
+    "NormalAssetPath": "Assets/Textures/flag_DefaultMaterial_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/flag_DefaultMaterial_Metallic.png",
+    "EmissiveAssetPath": ""
+}

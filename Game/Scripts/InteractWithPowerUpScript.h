@@ -2,10 +2,10 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
+#include "ModuleInput.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
-class ModuleInput;
 class PlayerManagerScript;
 class PowerUpsManagerScript;
 

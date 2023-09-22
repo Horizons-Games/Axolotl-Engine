@@ -3,9 +3,14 @@
 #include "DataModels/Windows/PopUpWindows/WindowLoading.h"
 #include "imgui_internal.h"
 
-WindowLoading::WindowLoading() : PopUpWindow("Loading")
+namespace
 {
-	flags = ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoNavInputs;
+ImVec2 hardcodedSize = ImVec2(500, 250);
+}
+
+WindowLoading::WindowLoading() : PopUpWindow("Loading...")
+{
+	flags = ImGuiWindowFlags_NoMouseInputs | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize;
 }
 
 WindowLoading::~WindowLoading()
@@ -14,6 +19,8 @@ WindowLoading::~WindowLoading()
 
 void WindowLoading::DrawWindowContents()
 {
+	ImGui::SetWindowSize(hardcodedSize);
+
 	if (waitingOn.empty())
 	{
 		ImGui::TextUnformatted("Loading...");
@@ -21,10 +28,17 @@ void WindowLoading::DrawWindowContents()
 		return;
 	}
 
-	for (const std::string& waitingCondition : waitingOn)
+	for (const auto& [waitingCondition, percentage] : waitingOn)
 	{
 		ImGui::TextUnformatted(waitingCondition.c_str());
-		DrawSpinner(("##spinner" + waitingCondition).c_str(), 15, 6, col);
+		if (percentage.has_value())
+		{
+			ImGui::ProgressBar(percentage.value(), ImVec2(0.f, 100.0f));
+		}
+		else
+		{
+			DrawSpinner(("##spinner" + waitingCondition).c_str(), 15, 6, col);
+		}
 	}
 }
 

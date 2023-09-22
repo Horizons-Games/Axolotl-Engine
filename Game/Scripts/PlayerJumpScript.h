@@ -11,7 +11,8 @@ class ComponentAnimation;
 class ComponentAudioSource;
 class ComponentRigidBody;
 
-class BixAttackScript;
+class PlayerAttackScript;
+class PlayerManagerScript;
 
 class PlayerJumpScript : public Script
 {
@@ -29,8 +30,8 @@ public:
 	bool IsJumping() const;
 
 private:
-	void CheckGround();
-	void Jump(float deltatime);
+	void CheckGround(float deltaTime);
+	void Jump(float deltaTime);
 
 	bool isGrounded;
 	bool doubleJumpAvailable;
@@ -38,6 +39,7 @@ private:
 	int groundedCount;
 	float coyoteTime;
 	float coyoteTimerCount;
+	float lastVerticalVelocity;
 
 	float jumpParameter;
 	bool canDoubleJump;
@@ -47,5 +49,6 @@ private:
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudio;
 
-	BixAttackScript* attackScript;
+	PlayerAttackScript* attackScript;
+	PlayerManagerScript* playerManager;
 };

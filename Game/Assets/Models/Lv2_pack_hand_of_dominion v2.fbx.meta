@@ -1,0 +1,32 @@
+{
+    "UID": 15355783346994745855,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Lv2_pack_hand_of_dominion v2.Cube_0.mesh",
+        "Assets/Meshes/Lv2_pack_hand_of_dominion v2.Cube.001_0.mesh",
+        "Assets/Meshes/Lv2_pack_hand_of_dominion v2.Cube.002_0.mesh",
+        "Assets/Meshes/Lv2_pack_hand_of_dominion v2.Cube.003_0.mesh",
+        "Assets/Meshes/Lv2_pack_hand_of_dominion v2.Cube.010_0.mesh",
+        "Assets/Meshes/Lv2_pack_hand_of_dominion v2.Cube.006_0.mesh",
+        "Assets/Meshes/Lv2_pack_hand_of_dominion v2.Cube.004_0.mesh",
+        "Assets/Meshes/Lv2_pack_hand_of_dominion v2.Cube.007_0.mesh",
+        "Assets/Meshes/Lv2_pack_hand_of_dominion v2.Cube.024_0.mesh",
+        "Assets/Meshes/Lv2_pack_hand_of_dominion v2.Cube.005_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Lv2_pack_hand_of_dominion v2Material_0.mat",
+        "Assets/Materials/Lv2_pack_hand_of_dominion v2Material.001_0.mat",
+        "Assets/Materials/Lv2_pack_hand_of_dominion v2Material.001_0.mat",
+        "Assets/Materials/Lv2_pack_hand_of_dominion v2Ground1_0.mat",
+        "Assets/Materials/Lv2_pack_hand_of_dominion v2WallVariant_0.mat",
+        "Assets/Materials/Lv2_pack_hand_of_dominion v2Ground_0.mat",
+        "Assets/Materials/Lv2_pack_hand_of_dominion v2Computer_0.mat",
+        "Assets/Materials/Lv2_pack_hand_of_dominion v2Panel_0.mat",
+        "Assets/Materials/Lv2_pack_hand_of_dominion v2Door_0.mat",
+        "Assets/Materials/Lv2_pack_hand_of_dominion v2WallWindow_0.mat"
+    ],
+    "AnimAssetPaths": [
+        "Assets/Animation/Lv2_pack_hand_of_dominion v2.DoorArmature_DoorArmature_DoorArmature_DoorClose.anim",
+        "Assets/Animation/Lv2_pack_hand_of_dominion v2.DoorArmature_DoorArmature_DoorArmature_DoorOpen.anim"
+    ]
+}

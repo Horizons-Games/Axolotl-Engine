@@ -2,14 +2,13 @@
 
 #include "ParticleModule.h"
 
-#include "Math/float4.h"
-
 #include "ImGui/imgui_color_gradient.h"
 
 class ModuleColor : public ParticleModule
 {
 public:
 	ModuleColor(ParticleEmitter* emitter);
+	ModuleColor(ParticleEmitter* emitter, ModuleColor* color);
 	~ModuleColor() override;
 
 	void Spawn(EmitterInstance* instance) override;

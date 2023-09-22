@@ -7,12 +7,8 @@
 #include "Components/ComponentScript.h"
 #include "Components/UI/ComponentSlider.h"
 #include "ModulePlayer.h"
-#include "ModuleInput.h"
 #include "UIImageDisplacementControl.h"
 #include "HealthSystem.h"
-
-
-
 
 REGISTERCLASS(UIGameManager);
 
@@ -50,11 +46,12 @@ void UIGameManager::Update(float deltaTime)
 {
 	ModuleInput* input = App->GetModule<ModuleInput>();
 
-	if (input->GetKey(SDL_SCANCODE_M) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::DOWN)
 	{
 		menuIsOpen = !menuIsOpen;
 		MenuIsOpen();
 	}
+
 
 	if (healthSystemClass->GetCurrentHealth()!= componentSliderBixBack->GetCurrentValue() 
 		|| healthSystemClass->GetCurrentHealth() != componentSliderBixFront->GetCurrentValue())

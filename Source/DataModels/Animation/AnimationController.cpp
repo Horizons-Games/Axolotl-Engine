@@ -113,3 +113,8 @@ Quat AnimationController::Interpolate(const Quat& first, const Quat& second, flo
 
 	return result;
 }
+
+std::string AnimationController::GetStateName()
+{
+	return stateResource->name;
+}

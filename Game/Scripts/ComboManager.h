@@ -2,6 +2,7 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
+#include "ModuleInput.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -17,7 +18,6 @@ enum class AttackType
 };
 
 class UIComboManager;
-class ModuleInput;
 
 class ComboManager : public Script
 {
@@ -25,6 +25,7 @@ public:
 	ComboManager();
 	~ComboManager() override = default;
 
+	void Init() override;
 	void Start() override;
 
 	int GetComboCount() const;
@@ -35,6 +36,8 @@ public:
 	AttackType CheckAttackInput(bool jumping);
 	void SuccessfulAttack(float specialCount, AttackType type);
 	bool IsSpecialActivated() const;
+
+	void FillComboBar();
 
 private:
 	void ClearCombo(bool finisher);

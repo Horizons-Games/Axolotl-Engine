@@ -7,6 +7,7 @@
 #include "Enums/UpdateStatus.h"
 
 class ScriptFactory;
+class Scheduler;
 
 class Application
 {
@@ -14,8 +15,8 @@ public:
 	Application();
 	~Application();
 
-	bool Start();
 	bool Init();
+	bool Start();
 	UpdateStatus Update();
 	bool CleanUp();
 
@@ -38,8 +39,12 @@ public:
 	template<typename M>
 	M* GetModule();
 
+	// Add a Schedulable object (right now only a functor) that will be executed at the end of each frame
+	void ScheduleTask(std::function<void(void)>&& taskToSchedule);
+
 private:
 	std::unique_ptr<ScriptFactory> scriptFactory;
+	std::unique_ptr<Scheduler> scheduler;
 
 	std::vector<std::unique_ptr<Module>> modules;
 	Timer appTimer;

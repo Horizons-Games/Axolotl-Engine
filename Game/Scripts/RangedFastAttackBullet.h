@@ -5,6 +5,8 @@
 class ComponentRigidBody;
 class ComponentTransform;
 class ComponentAudioSource;
+class ComponentParticleSystem;
+class ComponentMeshRenderer;
 
 class RangedFastAttackBullet : public Script
 {
@@ -18,6 +20,8 @@ public:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 
 	void SetBulletVelocity(float nVelocity);
+	void SetTargetTag(std::string nTag);
+	void SetBulletDamage(float damage);
 
 private:
 	void InitializeBullet();
@@ -28,8 +32,14 @@ private:
 	float damageAttack;
 	float rayAttackSize;
 	float originTime;
+	bool waitParticlesToDestroy;
+	float particlesDuration;
+
+	std::string targetTag;
 
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
 	ComponentAudioSource* audioSource;
+	ComponentParticleSystem* particleSystem;
+	ComponentMeshRenderer* mesh;
 };

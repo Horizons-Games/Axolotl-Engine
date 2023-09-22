@@ -8,7 +8,9 @@
 #include "DataModels/Scene/Scene.h"
 #include "FileSystem/Json.h"
 #include "FileSystem/ModuleFileSystem.h"
+
 #include "ModuleScene.h"
+#include "ModuleEditor.h"
 
 #include "SDL.h"
 
@@ -156,9 +158,13 @@ void WindowMainMenu::DrawFileMenu()
 			// We should find a way to check if the scene has already been saved
 			// Using "New Scene" is a patch
 			if (filePathName != "New Scene")
+			{
 				scene->SaveScene(filePathName + SCENE_EXTENSION);
+			}
 			else
+			{
 				isSaving = true;
+			}
 		}
 		saveScene->DrawWindowContents();
 		if (ImGui::MenuItem("Exit"))
@@ -193,10 +199,16 @@ void WindowMainMenu::DrawHelpMenu()
 	{
 		ImGui::MenuItem("About Axolotl", NULL, &showAbout);
 		if (ImGui::MenuItem("GitHub Link"))
+		{
 			ShellExecuteA(NULL, "open", repositoryLink.c_str(), NULL, NULL, SW_SHOWNORMAL);
+		}
 		ImGui::EndMenu();
 	}
-	about->Draw(showAbout);
+	ModuleEditor* editor = App->GetModule<ModuleEditor>();
+	if (!editor->IsSceneFullscreen())
+	{
+		about->Draw(showAbout);
+	}
 }
 
 void WindowMainMenu::ShortcutSave()
@@ -207,13 +219,18 @@ void WindowMainMenu::ShortcutSave()
 	if (filePathName != "New Scene")
 	{
 		scene->SaveScene(filePathName + SCENE_EXTENSION);
-		LOG_DEBUG("SAVED SCENE");
+		LOG_DEBUG("SCENE SAVED");
 	}
 	else
 	{
 		isSaving = true;
-		LOG_DEBUG("SAVED SCENE");
+		LOG_DEBUG("SCENE SAVED");
 	}
+}
+
+bool WindowMainMenu::IsLoadingScene() const
+{
+	return loadScene->IsLoadingScene();
 }
 
 void WindowMainMenu::DrawBuildGameMenu()

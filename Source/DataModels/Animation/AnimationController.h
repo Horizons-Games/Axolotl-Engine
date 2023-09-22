@@ -2,6 +2,7 @@
 
 struct State;
 class ResourceAnimation;
+class ResourceStateMachine;
 
 #define DEFAULT_DURATION -1.0
 
@@ -19,6 +20,7 @@ public:
 	bool GetTransform(const std::string& name, float3& pos, Quat& rot);
 	bool GetPlay();
 	bool GetLoop();
+	std::string GetStateName();
 
 private:
 	float3 Interpolate(const float3& first, const float3& second, float lambda);

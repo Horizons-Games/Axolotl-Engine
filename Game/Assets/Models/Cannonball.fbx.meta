@@ -1,0 +1,11 @@
+{
+    "UID": 11932454579141297456,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Cannonball.Cannonball_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/CannonballCannonball_metal_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/Crane_Material_AlbedoTransparency.png",
+    "NormalAssetPath": "Assets/Textures/Crane_Material_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/Crane_Material_MetallicSmoothness.png",
+    "EmissiveAssetPath": ""
+}

@@ -2,12 +2,29 @@
 #include "Math/float2.h"
 #include "Module.h"
 #include "SDL.h"
+#include <map>
 
 #define NUM_MOUSEBUTTONS 5
 #define BMP_FREELOOKSURFACE "Assets/MouseCursors/freeLook.bmp"
 #define BMP_ORBITSURFACE "Assets/MouseCursors/orbit.bmp"
 #define BMP_MOVESURFACE "Assets/MouseCursors/move.bmp"
 #define BMP_ZOOMSURFACE "Assets/MouseCursors/zoom.bmp"
+
+enum class RumbleIntensity
+{
+	LOW,
+	NORMAL,
+	HIGH,
+	HIGHEST
+};
+
+enum class RumbleDuration
+{
+	SHORT,
+	NORMAL,
+	LONG,
+	LONGER,
+};
 
 enum class KeyState
 {
@@ -17,6 +34,38 @@ enum class KeyState
 	REPEAT
 };
 
+enum class JoystickHorizontalDirection
+{
+	LEFT,
+	RIGHT,
+	NONE
+};
+
+enum class JoystickVerticalDirection
+{
+	FORWARD,
+	BACK,
+	NONE
+};
+
+enum class InputMethod
+{
+	KEYBOARD,
+	GAMEPAD
+};
+
+struct JoystickDirection
+{
+	JoystickHorizontalDirection horizontalDirection;
+	JoystickVerticalDirection verticalDirection;
+};
+
+struct JoystickMovement
+{
+	Sint16 horizontalMovement;
+	Sint16 verticalMovement;
+};
+
 class ModuleInput : public Module
 {
 public:
@@ -24,15 +73,37 @@ public:
 	~ModuleInput() override;
 
 	bool Init() override;
+	UpdateStatus PreUpdate() override;
 	UpdateStatus Update() override;
 	bool CleanUp() override;
 
+	SDL_GameControllerAxis GetAxis() const;
+
 	KeyState GetKey(int scanCode) const;
 	KeyState GetMouseButton(int mouseButton) const;
+	KeyState GetGamepadButton(int gamepadButton) const;
+
+	InputMethod GetCurrentInputMethod() const;
+	
+	SDL_GameController* FindController() const;
+	SDL_JoystickID GetControllerInstanceID(SDL_GameController* controller) const;
+
+	JoystickMovement GetLeftJoystickMovement() const;
+	JoystickDirection GetLeftJoystickDirection() const;
+
+	JoystickMovement GetRightJoystickMovement() const;
+	JoystickDirection GetRightJoystickDirection() const;
+
+	void Rumble(RumbleIntensity intensityLeft, RumbleIntensity intensityRight, RumbleDuration durationMs) const;
+	// Overload with same intensity on both sides
+	void Rumble(RumbleIntensity intensity, RumbleDuration durationMs) const;
+	// Overload for default Rumble
+	void Rumble() const;
 
 	float2 GetMouseMotion() const;
 	float2 GetMouseWheel() const;
 	float2 GetMousePosition() const;
+
 	bool GetInFocus() const;
 
 	void SetMousePositionX(int mouseX);
@@ -54,15 +125,25 @@ public:
 private:
 	KeyState keysState[SDL_NUM_SCANCODES] = { KeyState::IDLE };
 	KeyState mouseButtonState[NUM_MOUSEBUTTONS] = { KeyState::IDLE };
-
+	KeyState gamepadState[SDL_CONTROLLER_BUTTON_MAX] = { KeyState::IDLE };
+	
 	float2 mouseWheel;
 	float2 mouseMotion;
-
 	int mousePosX;
 	int mousePosY;
 
+	JoystickMovement leftJoystickMovement;
+	JoystickDirection leftJoystickDirection;
+	
+	JoystickMovement rightJoystickMovement;
+	JoystickDirection rightJoystickDirection;
+
+	InputMethod inputMethod;
+
 	bool mouseWheelScrolled;
 	bool inFocus;
+
+	SDL_GameControllerAxis axis;
 
 	struct SDLSurfaceDestroyer
 	{
@@ -89,7 +170,28 @@ private:
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> moveCursor;
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> zoomCursor;
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> defaultCursor;
+
+	void MapControllerInput();
+
 };
+
+inline SDL_JoystickID ModuleInput::GetControllerInstanceID(SDL_GameController* controller) const
+{
+	return SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(controller));
+}
+
+inline SDL_GameController* ModuleInput::FindController() const
+{
+	for (int i = 0; i < SDL_NumJoysticks(); i++)
+	{
+		if (SDL_IsGameController(i))
+		{
+			return SDL_GameControllerOpen(i);
+		}
+	}
+
+	return nullptr;
+}
 
 inline KeyState ModuleInput::GetKey(int scanCode) const
 {
@@ -99,6 +201,11 @@ inline KeyState ModuleInput::GetKey(int scanCode) const
 inline KeyState ModuleInput::GetMouseButton(int mouseButton) const
 {
 	return mouseButtonState[mouseButton];
+}
+
+inline KeyState ModuleInput::GetGamepadButton(int gamepadButton) const
+{
+	return gamepadState[gamepadButton];
 }
 
 inline float2 ModuleInput::GetMouseMotion() const
@@ -180,3 +287,34 @@ inline KeyState ModuleInput::operator[](SDL_Scancode index)
 {
 	return keysState[index];
 }
+
+inline JoystickMovement ModuleInput::GetLeftJoystickMovement() const
+{
+	return leftJoystickMovement;
+}
+
+inline JoystickDirection ModuleInput::GetLeftJoystickDirection() const
+{
+	return leftJoystickDirection;
+}
+
+inline JoystickMovement ModuleInput::GetRightJoystickMovement() const
+{
+	return rightJoystickMovement;
+}
+
+inline JoystickDirection ModuleInput::GetRightJoystickDirection() const
+{
+	return rightJoystickDirection;
+}
+
+inline SDL_GameControllerAxis ModuleInput::GetAxis() const
+{
+	return axis;
+}
+
+inline InputMethod ModuleInput::GetCurrentInputMethod() const
+{
+	return inputMethod;
+}
+

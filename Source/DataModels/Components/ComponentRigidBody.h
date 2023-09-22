@@ -1,5 +1,6 @@
 #pragma once
 #include "Auxiliar/Generics/Updatable.h"
+#include "Auxiliar/Generics/Drawable.h"
 #include "Bullet/LinearMath/btVector3.h"
 #include "Bullet/btBulletDynamicsCommon.h"
 #include "Component.h"
@@ -9,7 +10,7 @@ class btRigidBody;
 struct btDefaultMotionState;
 class btCollisionShape;
 
-class ComponentRigidBody : public Component, public Updatable
+class ComponentRigidBody : public Component, public Updatable, public Drawable
 {
 public:
 	enum class Shape
@@ -37,18 +38,18 @@ public:
 
 	void OnTransformChanged() override;
 
+	void Draw() const override;
+
 	void Update() override;
 
 	void SetOwner(GameObject* owner) override;
 
-	uint32_t GetID() const
-	{
-		return id;
-	}
+	uint32_t GetID() const;
 
 	void SetIsKinematic(bool isKinematic);
 	bool GetIsKinematic() const;
 
+	void SetStatic(bool isStatic);
 	bool IsStatic() const;
 
 	void SetIsTrigger(bool isTrigger);
@@ -93,14 +94,14 @@ public:
 	void SetDefaultSize(Shape resetShape);
 	void SetDefaultPosition();
 
-    btVector3 GetRigidBodyOrigin() const;
-    void SetRigidBodyOrigin(btVector3 origin);
+	btVector3 GetRigidBodyOrigin() const;
+	void SetRigidBodyOrigin(btVector3 origin);
 
 	btVector3 GetRigidBodyTranslation() const;
 	void UpdateRigidBodyTranslation();
 
-    void SetPositionTarget(const float3& targetPos);
-    void SetRotationTarget(const Quat& targetRot);
+	void SetPositionTarget(const float3& targetPos);
+	void SetRotationTarget(const Quat& targetRot);
 
 	bool GetUsePositionController() const;
 	void SetUsePositionController(bool newUsePositionController);
@@ -117,21 +118,48 @@ public:
 	float GetKpTorque() const;
 	void SetKpTorque(float newKpTorque);
 
-    void RemoveRigidBodyFromSimulation();
+	bool GetIsAxialConstricted() const;
+	void SetIsAxialConstricted(bool newIsAxialConstricted);
 
-    btRigidBody* GetRigidBody() const;
-    ComponentTransform* GetOwnerTransform() const;
+	bool IsXAxisBlocked() const;
+	void SetXAxisBlocked(bool newX);
+
+	bool IsYAxisBlocked() const;
+	void SetYAxisBlocked(bool newY);
+
+	bool IsZAxisBlocked() const;
+	void SetZAxisBlocked(bool newZ);
+
+	void UpdateBlockedAxis();
+
+	bool IsXRotationAxisBlocked() const;
+	void SetXRotationAxisBlocked(bool newX);
+
+	bool IsYRotationAxisBlocked() const;
+	void SetYRotationAxisBlocked(bool newY);
+
+	bool IsZRotationAxisBlocked() const;
+	void SetZRotationAxisBlocked(bool newZ);
+
+	void UpdateBlockedRotationAxis();
+	void SetAngularFactor(btVector3 rotation);
+
+	void RemoveRigidBodyFromSimulation();
+	void AddRigidBodyToSimulation();
+
+	btRigidBody* GetRigidBody() const;
+	ComponentTransform* GetOwnerTransform() const;
 	void SetUpMobility();
 
 	void UpdateRigidBody();
+	void SimulatePositionController();
+	void SimulateRotationController();
 
 	template<typename T>
-	void AddCollisionEnterDelegate(void (T::*func)(ComponentRigidBody*), T* obj)
-	{
-		delegateCollisionEnter.push_back(std::bind(func, obj, std::placeholders::_1));
-	}
+	void AddCollisionEnterDelegate(std::function<void(T*, ComponentRigidBody*)>&& func, T* obj);
+	void AddCollisionEnterDelegate(std::function<void(ComponentRigidBody*)>&& func);
 
-    void ClearCollisionEnterDelegate();
+	void ClearCollisionEnterDelegate();
 
 private:
 	void InternalSave(Json& meta) override;
@@ -147,20 +175,29 @@ private:
 	std::unique_ptr<btDefaultMotionState> motionState = nullptr;
 	std::unique_ptr<btCollisionShape> shape = nullptr;
 
-    btVector3 gravity = { 0, -9.81f, 0 };
-    btVector3 translation = { 0.0f, 0.0f, 0.0f };
-    float linearDamping = 0.1f;
-    float angularDamping = 0.1f;
-    float mass = 100.0f;
-    float restitution = 0.f;
-    float3 boxSize;
-    float radius;
-    float factor;
-    float height;
+	btVector3 gravity = { 0, -9.81f, 0 };
+	btVector3 translation = { 0.0f, 0.0f, 0.0f };
+	float linearDamping = 0.1f;
+	float angularDamping = 0.1f;
+	float mass = 100.0f;
+	float restitution = 0.f;
+	float3 boxSize;
+	float radius;
+	float factor;
+	float height;
 
 	bool isKinematic = false;
 	bool drawCollider = false;
 	bool isTrigger = false;
+	bool isAxialConstricted = false;
+
+	bool xAxisBlocked = false;
+	bool yAxisBlocked = false;
+	bool zAxisBlocked = false;
+
+	bool xRotationAxisBlocked = false;
+	bool yRotationAxisBlocked = false;
+	bool zRotationAxisBlocked = false;
 
 	Shape currentShape = Shape::NONE;
 
@@ -178,6 +215,11 @@ private:
 	// Delegate for collision enter event the parameter is the other collider
 	std::vector<std::function<void(ComponentRigidBody*)>> delegateCollisionEnter;
 };
+
+inline uint32_t ComponentRigidBody::GetID() const
+{
+	return id;
+}
 
 inline bool ComponentRigidBody::GetIsKinematic() const
 {
@@ -276,22 +318,26 @@ inline void ComponentRigidBody::SetPositionTarget(const float3& targetPos)
 {
 	targetPosition = targetPos;
 	usePositionController = true;
+	SimulatePositionController();
 }
 
 inline void ComponentRigidBody::SetRotationTarget(const Quat& targetRot)
 {
 	targetRotation = targetRot;
 	useRotationController = true;
+	SimulateRotationController();
 }
 
 inline void ComponentRigidBody::DisablePositionController()
 {
 	usePositionController = false;
+	UpdateBlockedAxis();
 }
 
 inline void ComponentRigidBody::DisableRotationController()
 {
 	useRotationController = false;
+	UpdateBlockedRotationAxis();
 }
 
 inline bool ComponentRigidBody::GetUsePositionController() const
@@ -374,21 +420,108 @@ inline void ComponentRigidBody::SetHeight(float newHeight)
 }
 
 inline btRigidBody* ComponentRigidBody::GetRigidBody() const
-{ 
-    return rigidBody.get(); 
+{
+	return rigidBody.get();
 }
 
 inline ComponentTransform* ComponentRigidBody::GetOwnerTransform() const
 {
-    return transform;
+	return transform;
+}
+
+template<typename T>
+inline void ComponentRigidBody::AddCollisionEnterDelegate(std::function<void(T*, ComponentRigidBody*)>&& func, T* obj)
+{
+	delegateCollisionEnter.push_back(std::bind(func, obj, std::placeholders::_1));
+}
+
+inline void ComponentRigidBody::AddCollisionEnterDelegate(std::function<void(ComponentRigidBody*)>&& func)
+{
+	delegateCollisionEnter.emplace_back(std::move(func));
 }
 
 inline btVector3 ComponentRigidBody::GetRigidBodyOrigin() const
 {
-    return rigidBody->getWorldTransform().getOrigin();
+	return rigidBody->getWorldTransform().getOrigin();
 }
 
 inline btVector3 ComponentRigidBody::GetRigidBodyTranslation() const
 {
 	return translation;
+}
+
+inline void ComponentRigidBody::SetIsAxialConstricted(bool newIsAxialConstricted)
+{
+	isAxialConstricted = newIsAxialConstricted;
+}
+
+inline bool ComponentRigidBody::GetIsAxialConstricted() const
+{
+	return isAxialConstricted;
+}
+
+inline bool ComponentRigidBody::IsXRotationAxisBlocked() const
+{
+	return xRotationAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetXRotationAxisBlocked(bool newX)
+{
+	xRotationAxisBlocked = newX;
+	UpdateBlockedRotationAxis();
+}
+
+inline bool ComponentRigidBody::IsYRotationAxisBlocked() const
+{
+	return yRotationAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetYRotationAxisBlocked(bool newY)
+{
+	yRotationAxisBlocked = newY;
+	UpdateBlockedRotationAxis();
+}
+
+inline bool ComponentRigidBody::IsZRotationAxisBlocked() const
+{
+	return zRotationAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetZRotationAxisBlocked(bool newZ)
+{
+	zRotationAxisBlocked = newZ;
+	UpdateBlockedRotationAxis();
+}
+
+inline bool ComponentRigidBody::IsXAxisBlocked() const
+{
+	return xAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetXAxisBlocked(bool newX)
+{
+	xAxisBlocked = newX;
+	UpdateBlockedAxis();
+}
+
+inline bool ComponentRigidBody::IsYAxisBlocked() const
+{
+	return yAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetYAxisBlocked(bool newY)
+{
+	yAxisBlocked = newY;
+	UpdateBlockedAxis();
+}
+
+inline bool ComponentRigidBody::IsZAxisBlocked() const
+{
+	return zAxisBlocked;
+}
+
+inline void ComponentRigidBody::SetZAxisBlocked(bool newZ)
+{
+	zAxisBlocked = newZ;
+	UpdateBlockedAxis();
 }
