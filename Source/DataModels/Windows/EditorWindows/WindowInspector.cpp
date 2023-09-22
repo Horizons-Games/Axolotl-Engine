@@ -22,7 +22,6 @@
 #include "Components/ComponentLight.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentPlayer.h"
-#include "Components/ComponentPlayerInput.h"
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentCameraSample.h"
 #include "Components/ComponentRigidBody.h"
@@ -32,7 +31,6 @@
 #include "Components/ComponentLine.h"
 #include "Components/ComponentAgent.h"
 #include "Components/ComponentObstacle.h"
-
 
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
@@ -113,15 +111,6 @@ WindowInspector::WindowInspector() :
 		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
 		{
 			return gameObjectDoesNotHaveComponent.template operator()<ComponentPlayer>(gameObject);
-		},
-		ComponentFunctionality::GAMEPLAY));
-
-	actions.push_back(AddComponentAction(
-		"Create Player Input Component",
-		std::bind(&WindowInspector::AddComponentPlayerInput, this),
-		[gameObjectDoesNotHaveComponent](GameObject* gameObject)
-		{
-			return gameObjectDoesNotHaveComponent.template operator()<ComponentPlayerInput>(gameObject);
 		},
 		ComponentFunctionality::GAMEPLAY));
 
@@ -549,11 +538,6 @@ void WindowInspector::AddComponentLight(LightType type, AreaType areaType)
 void WindowInspector::AddComponentPlayer()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
-}
-
-void WindowInspector::AddComponentPlayerInput()
-{
-	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYERINPUT);
 }
 
 void WindowInspector::AddComponentCameraSample()

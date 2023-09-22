@@ -1,14 +1,18 @@
 #include "StdAfx.h"
 
+#include "DataModels/Windows/EditorWindows/ImporterWindows/WindowCubemapInput.h"
 #include "WindowComponentCubemap.h"
 #include "Components/ComponentCubemap.h"
+#include "Resources/ResourceCubemap.h"
 #include "ModuleScene.h"
 #include "Application.h"
 #include "Scene/Scene.h"
 #include "Cubemap/Cubemap.h"
 
 
-WindowComponentCubemap::WindowComponentCubemap(ComponentCubemap* component) : ComponentWindow("CUBEMAP", component)
+WindowComponentCubemap::WindowComponentCubemap(ComponentCubemap* component) : 
+	ComponentWindow("CUBEMAP", component),
+	cubemapInput(std::make_unique<WindowCubemapInput>())
 {
 }
 
@@ -18,12 +22,16 @@ WindowComponentCubemap::~WindowComponentCubemap()
 
 void WindowComponentCubemap::DrawWindowContents()
 {
-	DrawEnableAndDeleteComponent();
-
 	ComponentCubemap* asCubemap = static_cast<ComponentCubemap*>(component);
 
 	if (asCubemap)
 	{
+		ImGui::Text("Path:");
+		ImGui::SameLine();
+		ImGui::Text(
+			App->GetModule<ModuleScene>()->GetLoadedScene()->GetCubemap()->GetCubemapResource()->GetAssetsPath().c_str());
+		cubemapInput->DrawWindowContents();
+
 		ImGui::Text("");
 
 		const ModuleScene* scene = App->GetModule<ModuleScene>();

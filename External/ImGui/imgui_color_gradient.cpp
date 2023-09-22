@@ -34,6 +34,22 @@ ImGradient::~ImGradient()
 	}
 }
 
+void ImGradient::CopyMarks(ImGradient* copyGradient)
+{
+	//Clear current  marks
+	for (ImGradientMark* mark : m_marks)
+	{
+		delete mark;
+	}
+	m_marks.clear();
+
+	//Copy the marks from gradient passed by parameter
+	for (ImGradientMark* mark : copyGradient->getMarks())
+	{
+		addMark(mark->position, ImColor(mark->color[0], mark->color[1], mark->color[2], mark->color[3]));
+	}
+}
+
 void ImGradient::addMark(float position, ImColor const color)
 {
     position = ImClamp(position, 0.0f, 1.0f);
