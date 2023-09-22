@@ -77,12 +77,14 @@ Scene::~Scene()
 	sphereLights.clear();
 	tubeLights.clear();
 	localIBLs.clear();
+	planarReflections.clear();
 
 	cachedPoints.clear();
 	cachedSpots.clear();
 	cachedSpheres.clear();
 	cachedTubes.clear();
 	cachedLocalIBLs.clear();
+	cachedPlanarReflections.clear();
 }
 
 void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
