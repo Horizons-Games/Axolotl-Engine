@@ -28,10 +28,10 @@ PlayerHackingUseScript::PlayerHackingUseScript()
 void PlayerHackingUseScript::Start()
 {
 	input = App->GetModule<ModuleInput>();
-	transform = GetOwner()->GetComponentInternal<ComponentTransform>();
-	rigidBody = GetOwner()->GetComponentInternal<ComponentRigidBody>();
+	transform = GetOwner()->GetComponent<ComponentTransform>();
+	rigidBody = GetOwner()->GetComponent<ComponentRigidBody>();
 	hackZone = nullptr;
-	playerManager = GetOwner()->GetComponentInternal<PlayerManagerScript>();
+	playerManager = GetOwner()->GetComponent<PlayerManagerScript>();
 	isHackingButtonPressed = false;
 }
 
