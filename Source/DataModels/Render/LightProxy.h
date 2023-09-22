@@ -18,12 +18,16 @@ public:
 	~LightProxy();
 
 	void DrawLights(Program* program);
+	void DrawPoints(Program* program);
+	void DrawSpots(Program* program);
+	void DrawSpheres(Program* program);
+	void DrawTubes(Program* program);
 
 	void LoadShape(par_shapes_mesh_s* shape, ResourceMesh* mesh);
 
 	void SphereShape(float size, unsigned slices, unsigned stacks);
 	void ConeShape(float height, float radius, unsigned slices, unsigned stacks);
-	void CylinderShape(float height, float radius, unsigned slices, unsigned stacks);
+	void TubeShape(float height, float radius, unsigned slices, unsigned stacks);
 	void PlaneShape(float height, float radius, unsigned slices, unsigned stacks);
 
 private:
@@ -33,7 +37,7 @@ private:
 
 	ResourceMesh* sphere;
 	ResourceMesh* cone;
-	ResourceMesh* cylinder;
+	ResourceMesh* tube;
 	ResourceMesh* plane;
 };
 

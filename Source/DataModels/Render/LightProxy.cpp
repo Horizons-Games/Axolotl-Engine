@@ -25,7 +25,7 @@ LightProxy::LightProxy(): numPointLight(0),numSpotLight(0)
 {
 	sphere = new ResourceMesh(1,"","","");
 	cone = new ResourceMesh(2, "", "", "");
-	cylinder = new ResourceMesh(3, "", "", "");
+	tube = new ResourceMesh(3, "", "", "");
 	plane = new ResourceMesh(4, "", "", "");
 }
 
@@ -33,7 +33,7 @@ LightProxy::~LightProxy()
 {
 	delete sphere;
 	delete cone;
-	delete cylinder;
+	delete tube;
 }
 
 void LightProxy::DrawLights(Program* program)
@@ -42,8 +42,19 @@ void LightProxy::DrawLights(Program* program)
 
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Light Culling"), "Light Culling");
 
-	// Draw point lights
-	std::vector<std::pair<const ComponentPointLight*, unsigned int>> points = 
+	DrawPoints(program);
+	DrawSpots(program);
+	DrawSpheres(program);
+	//DrawTubes(program); //No worth to draw, needed too many welds to get a tube mesh
+
+	glPopDebugGroup();
+
+	program->Deactivate();
+}
+
+void LightProxy::DrawPoints(Program* program)
+{
+	std::vector<std::pair<const ComponentPointLight*, unsigned int>> points =
 		App->GetModule<ModuleScene>()->GetLoadedScene()->GetCachedPointLights();
 
 	for (std::pair<const ComponentPointLight*, unsigned int> point : points)
@@ -70,8 +81,10 @@ void LightProxy::DrawLights(Program* program)
 		glDepthMask(GL_TRUE);
 		glEnable(GL_DEPTH_TEST);
 	}
+}
 
-	// Draw spot lights
+void LightProxy::DrawSpots(Program* program)
+{
 	std::vector<std::pair<const ComponentSpotLight*, unsigned int>> spots =
 		App->GetModule<ModuleScene>()->GetLoadedScene()->GetCachedSpotLights();
 
@@ -101,8 +114,10 @@ void LightProxy::DrawLights(Program* program)
 		glDepthMask(GL_TRUE);
 		glEnable(GL_DEPTH_TEST);
 	}
+}
 
-	// Draw Sphere Lights
+void LightProxy::DrawSpheres(Program* program)
+{
 	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> spheres =
 		App->GetModule<ModuleScene>()->GetLoadedScene()->GetCachedSphereLights();
 
@@ -130,13 +145,42 @@ void LightProxy::DrawLights(Program* program)
 		glDepthMask(GL_TRUE);
 		glEnable(GL_DEPTH_TEST);
 	}
-
-	glPopDebugGroup();
-
-	program->Deactivate();
 }
 
-void LightProxy::LoadShape(par_shapes_mesh* shape, ResourceMesh* mesh)
+void LightProxy::DrawTubes(Program* program)
+{
+	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> tubes =
+		App->GetModule<ModuleScene>()->GetLoadedScene()->GetCachedTubeLights();
+
+	for (std::pair<const ComponentAreaLight*, unsigned int> tube : tubes)
+	{
+		float height = tube.first->GetHeight();
+		float radius = tube.first->GetAttRadius() + tube.first->GetShapeRadius();
+
+		TubeShape(height, radius, 15, 5);
+
+		float4x4 transform = tube.first->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
+
+		program->BindUniformFloat4x4("model", &transform[0][0], true);
+
+		glBindVertexArray(this->tube->GetVAO());
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->tube->GetEBO());
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		glDepthMask(GL_FALSE);
+		glDisable(GL_DEPTH_TEST);
+
+		glDrawElements(GL_TRIANGLES, this->tube->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
+		glBindVertexArray(0);
+
+		glDisable(GL_BLEND);
+		glDepthMask(GL_TRUE);
+		glEnable(GL_DEPTH_TEST);
+	}
+}
+
+void LightProxy::LoadShape(par_shapes_mesh_s* shape, ResourceMesh* mesh)
 {
 	if (mesh->IsLoaded())
 	{
@@ -219,17 +263,29 @@ void LightProxy::ConeShape(float height, float radius, unsigned slices, unsigned
 
 }
 
-void LightProxy::CylinderShape(float height, float radius, unsigned slices, unsigned stacks)
+void LightProxy::TubeShape(float height, float radius, unsigned slices, unsigned stacks)
 {
 	par_shapes_mesh* mesh = par_shapes_create_cylinder(slices, stacks);
+	//par_shapes_mesh* sphere1 = par_shapes_create_parametric_sphere(slices, stacks);
+	//par_shapes_mesh* sphere2 = par_shapes_create_parametric_sphere(slices, stacks);
 
-	if (mesh)
+	if (tube && sphere)
 	{
 		par_shapes_rotate(mesh, -static_cast<float>(PAR_PI * 0.5), reinterpret_cast<const float*>(&float3::unitX));
 		par_shapes_translate(mesh, 0.0f, -0.5f, 0.0f);
 		par_shapes_scale(mesh, radius, height, radius);
 
-		LoadShape(mesh, cylinder);
+		//par_shapes_scale(sphere1, radius, radius, radius);
+		//par_shapes_translate(sphere1, -0.5f, -0.5f + height, 0.0f);
+		//
+		//par_shapes_scale(sphere2, radius, radius, radius);
+		//par_shapes_translate(sphere2, -0.5f, -0.5f - height, 0.0f);
+
+		//mesh = par_shapes_weld(mesh, 0.0001f, nullptr);
+		//mesh = par_shapes_weld(sphere1, 0.0001f, nullptr);
+		//mesh = par_shapes_weld(sphere2, 0.0000001f, nullptr);
+
+		LoadShape(mesh, tube);
 
 		par_shapes_free_mesh(mesh);
 	}
@@ -238,10 +294,10 @@ void LightProxy::CylinderShape(float height, float radius, unsigned slices, unsi
 void LightProxy::PlaneShape(float height, float radius, unsigned slices, unsigned stacks)
 {
 	par_shapes_mesh* mesh = par_shapes_create_plane(slices, stacks);
-	par_shapes_translate(mesh, -0.5f, -0.5f, 0.0f);
 
 	if (mesh)
 	{
+		par_shapes_translate(mesh, -0.5f, -0.5f, 0.0f);
 		par_shapes_scale(mesh, radius, height, 1.0f);
 
 		LoadShape(mesh, plane);
