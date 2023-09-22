@@ -115,6 +115,7 @@ public:
 	const PointLight& GetPointLightsStruct(int index) const;
 	std::vector<std::pair<const ComponentPointLight*, unsigned int>>& GetCachedPointLights();
 	std::vector<std::pair<const ComponentSpotLight*, unsigned int>>& GetCachedSpotLights();
+	std::vector<std::pair<const ComponentAreaLight*, unsigned int>>& GetCachedSphereLights();
 	const int GetSizePointLights() const;
 	const ComponentPointLight* GetPointLight(int index) const;
 	const ComponentSpotLight* GetSpotLight(int index) const;
@@ -393,4 +394,9 @@ inline std::vector<std::pair<const ComponentPointLight*, unsigned int>>& Scene::
 inline inline std::vector<std::pair<const ComponentSpotLight*, unsigned int>>& Scene::GetCachedSpotLights()
 {
 	return cachedSpots;
+}
+
+inline std::vector<std::pair<const ComponentAreaLight*, unsigned int>>& Scene::GetCachedSphereLights()
+{
+	return cachedSpheres;
 }

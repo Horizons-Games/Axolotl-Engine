@@ -4,6 +4,7 @@
 
 #include "Application.h"
 
+#include "Components/ComponentAreaLight.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
@@ -101,6 +102,35 @@ void LightProxy::DrawLights(Program* program)
 		glEnable(GL_DEPTH_TEST);
 	}
 
+	// Draw Sphere Lights
+	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> spheres =
+		App->GetModule<ModuleScene>()->GetLoadedScene()->GetCachedSphereLights();
+
+	for (std::pair<const ComponentAreaLight*, unsigned int> sphere : spheres)
+	{
+		float radius = sphere.first->GetAttRadius() + sphere.first->GetShapeRadius();
+		float4x4 transform = sphere.first->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
+
+		SphereShape(radius, 15, 15);
+
+		program->BindUniformFloat4x4("model", &transform[0][0], true);
+
+		glBindVertexArray(this->sphere->GetVAO());
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->sphere->GetEBO());
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		glDepthMask(GL_FALSE);
+		glDisable(GL_DEPTH_TEST);
+
+		glDrawElements(GL_TRIANGLES, this->sphere->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
+		glBindVertexArray(0);
+
+		glDisable(GL_BLEND);
+		glDepthMask(GL_TRUE);
+		glEnable(GL_DEPTH_TEST);
+	}
+
 	glPopDebugGroup();
 
 	program->Deactivate();
@@ -108,6 +138,11 @@ void LightProxy::DrawLights(Program* program)
 
 void LightProxy::LoadShape(par_shapes_mesh* shape, ResourceMesh* mesh)
 {
+	if (mesh->IsLoaded())
+	{
+		mesh->Unload();
+	}
+
 	std::vector<float3> vertices(shape->npoints);
 	memcpy(&vertices[0], shape->points, shape->npoints * sizeof(float3));
 
