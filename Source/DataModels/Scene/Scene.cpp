@@ -10,7 +10,6 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentCameraSample.h"
-#include "Components/ComponentCubemap.h"
 #include "Components/ComponentLine.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
@@ -21,7 +20,6 @@
 #include "Components/ComponentSkybox.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentParticleSystem.h"
-
 
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
