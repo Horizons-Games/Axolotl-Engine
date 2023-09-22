@@ -1,7 +1,7 @@
 {
-    "DiffuseAssetPath": "Assets/Textures/BixController7_Face2_BaseColor.png",
-    "NormalAssetPath": "Assets/Textures/BixController7_Face2_Normal.png",
+    "DiffuseAssetPath": "Assets/Textures/Vix_Face_BaseColor.png",
+    "NormalAssetPath": "",
     "OcclusionAssetPath": "",
     "MetalicAssetPath": "",
-    "EmissiveAssetPath": ""
+    "EmissiveAssetPath": "Assets/Textures/Vix_Face_Emissive.png"
 }
