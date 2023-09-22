@@ -79,11 +79,13 @@ public:
 	void RenderAreaSpheres() const;
 	void RenderAreaTubes() const;
 	void RenderLocalIBLs() const;
+	void RenderPlanarReflections() const;
 	void RenderPointLight(const ComponentPointLight* compPoint) const;
 	void RenderSpotLight(const ComponentSpotLight* compSpot) const;
 	void RenderAreaSphere(const ComponentAreaLight* compSphere) const;
 	void RenderAreaTube(const ComponentAreaLight* compTube) const;
 	void RenderLocalIBL(const ComponentLocalIBL* compLocal) const;
+	void RenderPlanarReflection(const ComponentPlanarReflection* compPlanar) const;
 
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
@@ -94,11 +96,13 @@ public:
 	void UpdateSceneAreaSpheres();
 	void UpdateSceneAreaTubes();
 	void UpdateSceneLocalIBLs();
+	void UpdateScenePlanarReflections();
 	void UpdateScenePointLight(const ComponentPointLight* compPoint);
 	void UpdateSceneSpotLight(const ComponentSpotLight* compSpot);
 	void UpdateSceneAreaSphere(const ComponentAreaLight* compSphere);
 	void UpdateSceneAreaTube(const ComponentAreaLight* compTube);
 	void UpdateSceneLocalIBL(ComponentLocalIBL* compLocal);
+	void UpdateScenePlanarReflection(ComponentPlanarReflection* compPlanar);
 
 	GameObject* GetRoot() const;
 	const GameObject* GetDirectionalLight() const;
@@ -207,6 +211,7 @@ private:
 	std::vector<AreaLightSphere> sphereLights;
 	std::vector<AreaLightTube> tubeLights;
 	std::vector<LocalIBL> localIBLs;
+	std::vector<PlanarReflection> planarReflections;
 	
 	std::vector<ComponentMeshRenderer*> meshRenderers;
 	std::vector<AABB> boundingBoxes;
@@ -217,6 +222,7 @@ private:
 	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> cachedSpheres;
 	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> cachedTubes;
 	std::vector<std::pair<const ComponentLocalIBL*, unsigned int>> cachedLocalIBLs;
+	std::vector<std::pair<const ComponentPlanarReflection*, unsigned int>> cachedPlanarReflections;
 
 	unsigned uboDirectional;
 	unsigned ssboPoint;
@@ -224,6 +230,7 @@ private:
 	unsigned ssboSphere;
 	unsigned ssboTube;
 	unsigned ssboLocalIBL;
+	unsigned ssboPlanarReflection;
 
 	bool combatMode;
 	float enemiesToDefeat;
@@ -405,6 +412,8 @@ inline void Scene::RemovePlanarReflection(const ComponentPlanarReflection* compo
 				return planar == componentPlanarReflection;
 			}),
 			std::end(sceneComponentPlanarReflection));
+		UpdateScenePlanarReflections();
+		RenderPlanarReflections();
 	}
 }
 

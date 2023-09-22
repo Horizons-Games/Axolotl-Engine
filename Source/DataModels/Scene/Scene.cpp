@@ -932,6 +932,19 @@ void Scene::GenerateLights()
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingLocalIBL, ssboLocalIBL);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	// Planar Reflection
+
+	size_t numPlanar = planarReflections.size();
+
+	glGenBuffers(1, &ssboPlanarReflection);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPlanarReflection);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PlanarReflection) * numPlanar, nullptr, GL_DYNAMIC_DRAW);
+
+	const unsigned bindingPlanar = 15;
+
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPlanar, ssboPlanarReflection);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void Scene::RenderDirectionalLight() const
@@ -1072,6 +1085,23 @@ void Scene::RenderLocalIBLs() const
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
+void Scene::RenderPlanarReflections() const
+{
+	// PlanarReflection
+	size_t numPlanar = planarReflections.size();
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPlanarReflection);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PlanarReflection) * numPlanar, nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numPlanar);
+
+	if (numPlanar > 0)
+	{
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PlanarReflection) * numPlanar, &planarReflections[0]);
+	}
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+}
+
 void Scene::RenderPointLight(const ComponentPointLight* compPoint) const
 {
 	bool found = false;
@@ -1167,6 +1197,26 @@ void Scene::RenderLocalIBL(const ComponentLocalIBL* compLocal) const
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLocalIBL);
 			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(LocalIBL) * pos, sizeof(LocalIBL),
 				&localIBLs[pos]);
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		}
+	}
+}
+
+void Scene::RenderPlanarReflection(const ComponentPlanarReflection* compPlanar) const
+{
+	bool found = false;
+
+	for (int i = 0; !found && i < cachedPlanarReflections.size(); ++i)
+	{
+		if (cachedPlanarReflections[i].first == compPlanar)
+		{
+			found = true;
+
+			unsigned int pos = cachedPlanarReflections[i].second;
+
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPlanarReflection);
+			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PlanarReflection) * pos, sizeof(PlanarReflection),
+				&planarReflections[pos]);
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 		}
 	}
@@ -1468,6 +1518,31 @@ void Scene::UpdateSceneLocalIBLs()
 				++pos;
 			}
 		}
+	}
+}
+
+void Scene::UpdateScenePlanarReflections()
+{
+	planarReflections.clear();
+	cachedPlanarReflections.clear();
+
+	unsigned int pos = 0;
+
+	for (auto planarReflection : sceneComponentPlanarReflection)
+	{
+		if (planarReflection->IsEnabled() && !planarReflection->IsDeleting())
+		{
+			PlanarReflection planar;
+			planar.reflection = planarReflection->GetHandleReflection();
+			AABB influence = planarReflection->GetInfluenceAABB();
+			planar.maxInfluence = float4(influence.maxPoint, 0);
+			planar.minInfluence = float4(influence.minPoint, 0);
+
+			planarReflections.push_back(planar);
+			cachedPlanarReflections.push_back(std::make_pair(planarReflection, pos));
+
+			++pos;
+		}
 
 	}
 }
@@ -1580,7 +1655,6 @@ void Scene::UpdateSceneAreaTube(const ComponentAreaLight* compTube)
 void Scene::UpdateSceneLocalIBL(ComponentLocalIBL* compLocal)
 {
 	bool found = false;
-	const GameObject* go = compLocal->GetOwner();
 
 	for (int i = 0; !found && i < cachedLocalIBLs.size(); ++i)
 	{
@@ -1604,6 +1678,28 @@ void Scene::UpdateSceneLocalIBL(ComponentLocalIBL* compLocal)
 			localIBL.minInfluence = float4(influence.minPoint, 0);
 
 			localIBLs[cachedLocalIBLs[i].second] = localIBL;
+		}
+	}
+}
+
+void Scene::UpdateScenePlanarReflection(ComponentPlanarReflection* compPlanar)
+{
+	bool found = false;
+
+	for (int i = 0; !found && i < cachedPlanarReflections.size(); ++i)
+	{
+		if (cachedPlanarReflections[i].first == compPlanar)
+		{
+			found = true;
+
+			PlanarReflection planar;
+
+			planar.reflection = compPlanar->GetHandleReflection();
+			AABB influence = compPlanar->GetInfluenceAABB();
+			planar.maxInfluence = float4(influence.maxPoint, 0);
+			planar.minInfluence = float4(influence.minPoint, 0);
+
+			planarReflections[cachedPlanarReflections[i].second] = planar;
 		}
 	}
 }
