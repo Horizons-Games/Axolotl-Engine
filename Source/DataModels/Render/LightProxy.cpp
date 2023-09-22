@@ -4,6 +4,9 @@
 
 #include "Application.h"
 
+#include "Components/ComponentPointLight.h"
+#include "Components/ComponentTransform.h"
+
 #include "Modules/ModuleScene.h"
 #include "Modules/ModuleProgram.h"
 
@@ -12,6 +15,9 @@
 #include "Program/Program.h"
 
 #include "Scene/Scene.h"
+
+#include "GameObject/GameObject.h"
+
 
 LightProxy::LightProxy(): numPointLight(0),numSpotLight(0)
 {
@@ -28,35 +34,47 @@ LightProxy::~LightProxy()
 	delete cylinder;
 }
 
+void LightProxy::InitShapes()
+{
+	//PlaneShape(1.0f, 2.0f, 1, 1);
+	//CylinderShape(1.0f, 1.0f, 15, 15);
+	//SphereShape(1.0f, 15, 15);
+	//ConeShape(1.0f, 1.0f, 15, 15);
+}
+
 void LightProxy::DrawTest(Program* program)
 {
 	program->Activate();
 
-	//PlaneShape(1.0f, 2.0f, 1, 1);
-	//SphereShape(1.0f, 15, 15);
-	//ConeShape(1.0f, 1.0f, 15, 15);
-	CylinderShape(1.0f, 1.0f, 15, 15);
-
-	float4x4 model = float4x4::identity;
-
-	program->BindUniformFloat4x4("model", &model[0][0], false);
-
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Light Culling"), "Light Culling");
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-	glDepthMask(GL_FALSE);
-	glDisable(GL_DEPTH_TEST);
+	std::vector<std::pair<const ComponentPointLight*, unsigned int>> points = 
+		App->GetModule<ModuleScene>()->GetLoadedScene()->GetCachedPointLights();
 
-	glBindVertexArray(cylinder->GetVAO());
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cylinder->GetEBO());
+	for (std::pair<const ComponentPointLight*, unsigned int> point : points)
+	{
+		float radius = point.first->GetRadius();
+		float4x4 transform = point.first->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
-	glDrawElements(GL_TRIANGLES, cylinder->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
-	glBindVertexArray(0);
+		SphereShape(radius, 15, 15);
 
-	glDisable(GL_BLEND);
-	glDepthMask(GL_TRUE);
-	glEnable(GL_DEPTH_TEST);
+		program->BindUniformFloat4x4("model", &transform[0][0], true);
+
+		glBindVertexArray(sphere->GetVAO());
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sphere->GetEBO());
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		glDepthMask(GL_FALSE);
+		glDisable(GL_DEPTH_TEST);
+
+		glDrawElements(GL_TRIANGLES, sphere->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
+		glBindVertexArray(0);
+
+		glDisable(GL_BLEND);
+		glDepthMask(GL_TRUE);
+		glEnable(GL_DEPTH_TEST);
+	}
 
 	glPopDebugGroup();
 

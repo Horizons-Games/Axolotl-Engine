@@ -17,6 +17,8 @@ public:
 	LightProxy();
 	~LightProxy();
 
+	void InitShapes();
+
 	void DrawTest(Program* program);
 
 	void LoadShape(par_shapes_mesh_s* shape, ResourceMesh* mesh);
