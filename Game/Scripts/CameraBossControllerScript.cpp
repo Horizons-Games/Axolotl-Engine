@@ -51,15 +51,15 @@ void CameraBossControllerScript::PreUpdate(float deltaTime)
 	if (boss)
 	{
 		CalculateCameraPositionByBoss();
-		CalculateFocusOffsetVector();
 	}
 	else
 	{
 		CalculateOffsetVector();
-		CalculateFocusOffsetVector();
-		camera->RestoreKpPosition();
-		camera->RestoreKpRotation();
 	}
+
+	CalculateFocusOffsetVector();
+	camera->RestoreKpPosition();
+	camera->RestoreKpRotation();
 
 	float3 sourceDirection = camera->GetCamera()->GetFrustum()->Front().Normalized();
 	float3 targetDirection = (playerTransform->GetGlobalPosition()
