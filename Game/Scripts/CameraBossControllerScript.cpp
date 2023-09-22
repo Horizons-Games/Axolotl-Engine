@@ -52,8 +52,6 @@ void CameraBossControllerScript::PreUpdate(float deltaTime)
 	{
 		CalculateCameraPositionByBoss();
 		CalculateFocusOffsetVector();
-		camera->RestoreKpPosition();
-		camera->RestoreKpRotation();
 	}
 	else
 	{
@@ -131,6 +129,5 @@ void CameraBossControllerScript::CalculateCameraPositionByBoss()
 	float multiplier = Min(Max(distance / 50, 0.5f),1.f);
 
 	float3 offset = float3(vector.x * multiplier *10, yOffset, vector.z * multiplier * 10);
-	LOG_DEBUG("offset: {}, {}, {}", offset.x, offset.y, offset.z);
 	CalculateOffsetVector(offset);
 }
