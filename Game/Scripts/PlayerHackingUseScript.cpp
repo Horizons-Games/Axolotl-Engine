@@ -170,6 +170,7 @@ void PlayerHackingUseScript::FinishHack()
 {
 	EnableAllInteractions();
 	isHackingActive = false;
+	hackZone = nullptr;
 
 	userCommandInputs.clear();
 
