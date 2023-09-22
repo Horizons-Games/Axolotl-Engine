@@ -378,6 +378,7 @@ UpdateStatus ModuleRender::Update()
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::LIGHT_CULLING));
 
 	// -------- DEFERRED LIGHTING ---------------
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("DEFERRED LIGHTING"), "DEFERRED LIGHTING");
@@ -423,8 +424,6 @@ UpdateStatus ModuleRender::Update()
 	glDrawArrays(GL_TRIANGLES, 0, 3); // render Quad
 
 	program->Deactivate();
-	program = modProgram->GetProgram(ProgramType::LIGHT_CULLING);
-	lightProxy->DrawAreaLights(program, frameBuffer[0]);
 
 	int width, height;
 
@@ -435,6 +434,10 @@ UpdateStatus ModuleRender::Update()
 	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
 	glPopDebugGroup();
+
+	program = modProgram->GetProgram(ProgramType::LIGHT_CULLING);
+	lightProxy->DrawTest(program);
+
 	// -------- PRE-FORWARD ----------------------
 	if (loadedScene->GetRoot()->HasComponent<ComponentSkybox>())
 	{

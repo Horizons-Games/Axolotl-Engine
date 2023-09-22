@@ -1,24 +1,31 @@
 #include "StdAfx.h"
+
 #include "LightProxy.h"
+
 #include "Application.h"
-#include "par_shapes.h"
-#include "Math/TransformOps.h"
-#include "Components/ComponentTransform.h"
-
-
-#include "ModuleCamera.h"
-#include "ModuleScene.h"
-#include "ModuleProgram.h"
 
 #include "Camera/Camera.h"
-#include "Scene/Scene.h"
+
+#include "Components/ComponentTransform.h"
+
+#include "Math/TransformOps.h"
+
+#include "Modules/ModuleCamera.h"
+#include "Modules/ModuleScene.h"
+#include "Modules/ModuleProgram.h"
+
+#include "ParShapes/par_shapes.h"
+
 #include "Program/Program.h"
+
+#include "Scene/Scene.h"
 
 LightProxy::LightProxy(): numPointLight(0),numSpotLight(0)
 {
-	sphere = new ResourceMesh(0,"","","");
-	cone = new ResourceMesh(1, "", "", "");
-	cylinder = new ResourceMesh(2, "", "", "");
+	sphere = new ResourceMesh(1,"","","");
+	cone = new ResourceMesh(2, "", "", "");
+	cylinder = new ResourceMesh(3, "", "", "");
+	plane = new ResourceMesh(4, "", "", "");
 }
 
 LightProxy::~LightProxy()
@@ -28,75 +35,80 @@ LightProxy::~LightProxy()
 	delete cylinder;
 }
 
-void LightProxy::DrawAreaLights(Program* program, GLuint frameBuffer)
+void LightProxy::DrawTest(Program* program)
 {
-	Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-	numPointLight = loadedScene->GetSizePointLights();
-	numSpotLight = loadedScene->GetSizeSpotLights();
-
-	const float4x4& proj = App->GetModule<ModuleCamera>()->GetCamera()->GetProjectionMatrix();
-	const float4x4& view = App->GetModule<ModuleCamera>()->GetCamera()->GetViewMatrix();
-
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-
 	program->Activate();
-	program->BindUniformFloat4x4("proj", proj.ptr(), true);
-	program->BindUniformFloat4x4("view", view.ptr(), true);
+
+	//PlaneShape(1.0f, 2.0f, 1, 1);
+	//SphereShape(1.0f, 15, 15);
+	//ConeShape(1.0f, 1.0f, 15, 15);
+	CylinderShape(1.0f, 1.0f, 15, 15);
+
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Light Culling"), "Light Culling");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 	glDepthMask(GL_FALSE);
 	glDisable(GL_DEPTH_TEST);
-	int num = 0;
-	for (int i = 0, num = numPointLight; i < num; ++i)
-	{
-		const ComponentPointLight* pointlight = loadedScene->GetPointLight(i);
-		PointLight light = loadedScene->GetPointLightsStruct(i);
-		if (pointlight->GetOwner()->IsEnabled())
-		{
-			//It's a sphere so don't need rotation and a scale from radius is enough
-			float4x4 model = static_cast<float4x4>(float4x4::UniformScale(pointlight->GetRadius()));
-			program->BindUniformFloat4x4("model", model.ptr(), true);
-			program->BindUniformFloat4("color", float4(light.color * pointlight->GetIntensity()));
-			SphereShape(pointlight->GetRadius(),20,20);
-		}
-		glBindVertexArray(sphere->GetVAO());
-		glDrawElementsInstanced(GL_TRIANGLES, sphere->GetNumVertices(), GL_UNSIGNED_INT, nullptr, sphere->GetNumIndexes()*3);
-		glBindVertexArray(0);
-	}
 
-	for (int i = 0, num = numSpotLight; i < num; ++i)
-	{
-		const ComponentSpotLight* spotlight = loadedScene->GetSpotLight(i);
-		SpotLight light = loadedScene->GetSpotLightsStruct(i);
-		if (spotlight->GetOwner()->IsEnabled())
-		{
-			const ComponentTransform* transform = spotlight->GetOwner()->GetComponentInternal<ComponentTransform>();
+	glBindVertexArray(cylinder->GetVAO());
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cylinder->GetEBO());
 
-			float3 position = transform->GetGlobalPosition();
-			float4x4 model = float4x4::identity;
-			model = float4x4::Translate(position);
-			model = float4x4::RotateFromTo(transform->GetRotationXYZ(),light.aim);
-
-			// Apply scaling to create the cone shape
-			//GetHeight ???
-			model = model * float4x4::Scale(spotlight->GetRadius(), spotlight->GetInnerAngle(),
-				spotlight->GetOuterAngle());
-
-			program->BindUniformFloat4x4("model", model.ptr(), true);
-			program->BindUniformFloat4("color", float4(light.color * spotlight->GetIntensity()));
-			ConeShape(spotlight->GetRadius(),spotlight->GetRadius(),20,20);
-		}
-		glBindVertexArray(cone->GetVAO());
-		glDrawElementsInstanced(GL_TRIANGLES, cone->GetNumVertices(), GL_UNSIGNED_INT, nullptr, cone->GetNumIndexes()*3);
-		glBindVertexArray(0);
-	}
-
+	glDrawElements(GL_TRIANGLES, cylinder->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
+	glBindVertexArray(0);
 
 	glDisable(GL_BLEND);
 	glDepthMask(GL_TRUE);
 	glEnable(GL_DEPTH_TEST);
+
+	glPopDebugGroup();
+
 	program->Deactivate();
+}
+
+void LightProxy::LoadShape(par_shapes_mesh* shape, ResourceMesh* mesh)
+{
+	std::vector<float3> vertices(shape->npoints);
+	memcpy(&vertices[0], shape->points, shape->npoints * sizeof(float3));
+
+	mesh->SetVertices(vertices);
+	mesh->SetNumVertices(shape->npoints);
+
+	if (shape->normals)
+	{
+		std::vector<float3> normals(shape->npoints);
+		memcpy(&normals[0], shape->normals, shape->npoints * sizeof(float3));
+		mesh->SetNormals(normals);
+	}
+
+	if (shape->tcoords)
+	{
+		std::vector<float2> tcoordsCopy(shape->npoints);
+		memcpy(&tcoordsCopy[0], shape->tcoords, shape->npoints * sizeof(float2));
+
+		std::vector<float3> tcoords;
+		tcoords.reserve(shape->npoints);
+
+		for (int i = 0; i < tcoordsCopy.size(); i++)
+		{
+			tcoords.push_back(float3(tcoordsCopy[i].x, tcoordsCopy[i].y, 0.0f));
+		}
+
+		mesh->SetTextureCoords(tcoords);
+	}
+
+	std::vector<unsigned int> facesIndexes(shape->triangles, shape->triangles + shape->ntriangles * 3);
+	std::vector<std::vector<unsigned int>> faces;
+	for (unsigned int i = 0; i + 2 < shape->ntriangles * 3; i += 3)
+	{
+		std::vector<unsigned int> indexes{ facesIndexes[i], facesIndexes[i + 1], facesIndexes[i + 2] };
+		faces.push_back(indexes);
+	}
+	mesh->SetFacesIndices(faces);
+	mesh->SetNumFaces(shape->ntriangles);
+	mesh->SetNumIndexes(shape->ntriangles * 3);
+
+	mesh->Load();
 }
 
 void LightProxy::SphereShape(float size, unsigned slices, unsigned stacks)
@@ -107,33 +119,7 @@ void LightProxy::SphereShape(float size, unsigned slices, unsigned stacks)
 	{
 		par_shapes_scale(mesh, size, size, size);
 
-		sphere->SetNumVertices(mesh->npoints);
-		std::vector<float3> vertices(mesh->points, mesh->points + (mesh->npoints * 3));
-		sphere->SetVertices(vertices);
-		cone->SetNumIndexes(mesh->ntriangles);
-
-		std::vector<float3> normals(mesh->normals, mesh->normals + (mesh->npoints * 3));
-		sphere->SetNormals(normals);
-
-		std::vector<float2> tcoordsCopy(mesh->tcoords, mesh->tcoords + (mesh->npoints * 2));
-		std::vector<float3> tcoords;
-		for (int i = 0; i < tcoordsCopy.size(); i++)
-		{
-			tcoords.push_back(float3(tcoordsCopy[i].x, tcoordsCopy[i].y, 0.0f));
-		}
-		sphere->SetTextureCoords(tcoords);
-
-		std::vector<unsigned int> facesIndexes(mesh->triangles, mesh->triangles + (mesh->ntriangles * 3));
-		std::vector<std::vector<unsigned int>> faces;
-		sphere->SetNumFaces(mesh->ntriangles);
-		for (unsigned int i = 0; i + 2 < (sphere->GetNumFaces() * 3); i += 3)
-		{
-			std::vector<unsigned int> indexes{ facesIndexes[i], facesIndexes[i + 1], facesIndexes[i + 2] };
-			faces.push_back(indexes);
-		}
-		sphere->SetFacesIndices(faces);
-
-		sphere->Load();
+		LoadShape(mesh, sphere);
 
 		par_shapes_free_mesh(mesh);
 	}
@@ -145,35 +131,12 @@ void LightProxy::ConeShape(float height, float radius, unsigned slices, unsigned
 
 	if (mesh)
 	{
+		par_shapes_rotate(mesh, -float(PAR_PI * 0.5), (float*)&float3::unitX);
+		par_shapes_translate(mesh, 0.0f, -0.5f, 0.0f);
 		par_shapes_scale(mesh, radius, height, radius);
 
-		cone->SetNumVertices(mesh->npoints);
-		std::vector<float3> vertices(mesh->points, mesh->points + (mesh->npoints * 3));
-		sphere->SetVertices(vertices);
-		cone->SetNumIndexes(mesh->ntriangles);
+		LoadShape(mesh, cone);
 
-		std::vector<float3> normals(mesh->normals, mesh->normals + (mesh->npoints * 3));
-		cone->SetNormals(normals);
-
-		std::vector<float2> tcoordsCopy(mesh->tcoords, mesh->tcoords + (mesh->npoints * 2));
-		std::vector<float3> tcoords;
-		for (int i = 0; i < tcoordsCopy.size(); i++)
-		{
-			tcoords.push_back(float3(tcoordsCopy[i].x, tcoordsCopy[i].y, 0.0f));
-		}
-		cone->SetTextureCoords(tcoords);
-
-		std::vector<unsigned int> facesIndexes(mesh->triangles, mesh->triangles + (mesh->ntriangles * 3));
-		std::vector<std::vector<unsigned int>> faces;
-		cone->SetNumFaces(mesh->ntriangles);
-		for (unsigned int i = 0; i + 2 < (cone->GetNumFaces() * 3); i += 3)
-		{
-			std::vector<unsigned int> indexes{ facesIndexes[i], facesIndexes[i + 1], facesIndexes[i + 2] };
-			faces.push_back(indexes);
-		}
-		cone->SetFacesIndices(faces);
-
-		cone->Load();
 		par_shapes_free_mesh(mesh);
 	}
 
@@ -185,10 +148,27 @@ void LightProxy::CylinderShape(float height, float radius, unsigned slices, unsi
 
 	if (mesh)
 	{
+		par_shapes_rotate(mesh, -float(PAR_PI * 0.5), (float*)&float3::unitX);
+		par_shapes_translate(mesh, 0.0f, -0.5f, 0.0f);
 		par_shapes_scale(mesh, radius, height, radius);
 
-		cone->SetNumVertices(mesh->npoints);
-		cone->SetNumIndexes(mesh->ntriangles);
+		LoadShape(mesh, cylinder);
+
+		par_shapes_free_mesh(mesh);
+	}
+}
+
+void LightProxy::PlaneShape(float height, float radius, unsigned slices, unsigned stacks)
+{
+	par_shapes_mesh* mesh = par_shapes_create_plane(slices, stacks);
+	par_shapes_translate(mesh, -0.5f, -0.5f, 0.0f);
+
+	if (mesh)
+	{
+		par_shapes_scale(mesh, radius, height, 1.0f);
+
+		LoadShape(mesh, plane);
+
 		par_shapes_free_mesh(mesh);
 	}
 }
