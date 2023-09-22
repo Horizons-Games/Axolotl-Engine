@@ -48,15 +48,8 @@ private:
 	float xFocusOffset;
 	float yFocusOffset;
 
-	bool inCombat;
+	float minDistance;
+	float minMultiplier;
+	float maxDistance;
+	float maxMultiplier;
 };
-
-inline void CameraBossControllerScript::SetInCombat(bool newmode)
-{
-	inCombat = newmode;
-}
-
-inline bool CameraBossControllerScript::IsInCombat()
-{
-	return inCombat;
-}
