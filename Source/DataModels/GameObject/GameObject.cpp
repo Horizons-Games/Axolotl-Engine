@@ -795,6 +795,9 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 			break;
 		case LightType::PLANAR_REFLECTION:
 			newComponent = std::make_unique<ComponentPlanarReflection>(this);
+			App->GetModule<ModuleScene>()->GetLoadedScene()->
+				AddPlanarReflection(static_cast<ComponentPlanarReflection*>(
+					static_cast<ComponentLight*>(newComponent.get())));
 			break;
 	}
 
@@ -876,6 +879,17 @@ bool GameObject::RemoveComponent(const Component* component)
 		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveComponentLine(
 			static_cast<const ComponentLine*>(component));
 		break;
+	case ComponentType::LIGHT:
+	{
+		const ComponentLight* light = static_cast<const ComponentLight*>(component);
+		if (light->GetLightType() == LightType::PLANAR_REFLECTION)
+		{
+			App->GetModule<ModuleScene>()->GetLoadedScene()->RemovePlanarReflection(
+				static_cast<const ComponentPlanarReflection*>(component));
+		}
+		break;
+	}
+	
 	default:
 		break;
 	}

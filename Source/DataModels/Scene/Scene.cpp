@@ -69,6 +69,7 @@ Scene::~Scene()
 	sceneCameras.clear();
 	sceneParticleSystems.clear();
 	sceneComponentLines.clear();
+	sceneComponentPlanarReflection.clear();
 	nonStaticObjects.clear();
 
 	pointLights.clear();
@@ -758,6 +759,14 @@ void Scene::RemoveFatherAndChildren(const GameObject* gameObject)
 			return componentLine->GetOwner() == gameObject;
 		}),
 		std::end(sceneComponentLines));
+	
+	sceneComponentPlanarReflection.erase(std::remove_if(std::begin(sceneComponentPlanarReflection),
+		std::end(sceneComponentPlanarReflection),
+		[gameObject](const ComponentPlanarReflection* componentPlanarReflection)
+		{
+			return componentPlanarReflection->GetOwner() == gameObject;
+		}),
+		std::end(sceneComponentPlanarReflection));
 
 	sceneInteractableComponents.erase(std::remove_if(std::begin(sceneInteractableComponents),
 													 std::end(sceneInteractableComponents),

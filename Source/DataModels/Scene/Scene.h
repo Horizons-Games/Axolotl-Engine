@@ -7,6 +7,7 @@
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentLocalIBL.h"
+#include "Components/ComponentPlanarReflection.h"
 
 class Component;
 class ComponentCamera;
@@ -110,6 +111,7 @@ public:
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
 	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
 	const std::vector<ComponentLine*>& GetSceneComponentLines() const;
+	const std::vector<ComponentPlanarReflection*>& GetScenePlanarReflections() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
 	Cubemap* GetCubemap() const;
 	const bool GetCombatMode() const;
@@ -150,9 +152,11 @@ public:
 	
 	void AddParticleSystem(ComponentParticleSystem* particleSystem);
 	void AddComponentLines(ComponentLine* componentLine);
+	void AddPlanarReflection(ComponentPlanarReflection* componentPlanarReflection);
 	
 	void RemoveParticleSystem(const ComponentParticleSystem* particleSystem);
 	void RemoveComponentLine(const ComponentLine* componentLine);
+	void RemovePlanarReflection(const ComponentPlanarReflection* componentPlanarReflection);
 
 	void InitNewEmptyScene();
 	void InitLights();
@@ -193,6 +197,7 @@ private:
 	// Draw is const so I need this vector
 	std::vector<ComponentParticleSystem*> sceneParticleSystems;
 	std::vector<ComponentLine*> sceneComponentLines;
+	std::vector<ComponentPlanarReflection*> sceneComponentPlanarReflection;
 	
 	GameObject* directionalLight;
 	GameObject* cubeMapGameObject;
@@ -279,6 +284,11 @@ inline const std::vector<ComponentLine*>& Scene::GetSceneComponentLines() const
 	return sceneComponentLines;
 }
 
+inline const std::vector<ComponentPlanarReflection*>& Scene::GetScenePlanarReflections() const
+{
+	return sceneComponentPlanarReflection;
+}
+
 inline void Scene::SetSceneCameras(const std::vector<ComponentCamera*>& cameras)
 {
 	sceneCameras = cameras;
@@ -354,6 +364,11 @@ inline void Scene::AddComponentLines(ComponentLine* componentLine)
 	sceneComponentLines.push_back(componentLine);
 }
 
+inline void Scene::AddPlanarReflection(ComponentPlanarReflection* componentPlanarReflection)
+{
+	sceneComponentPlanarReflection.push_back(componentPlanarReflection);
+}
+
 inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleSystem)
 {
 	if (this)
@@ -377,6 +392,20 @@ inline void Scene::RemoveComponentLine(const ComponentLine* componentLine)
 			return lines == componentLine;
 		}),
 		std::end(sceneComponentLines));
+}
+
+inline void Scene::RemovePlanarReflection(const ComponentPlanarReflection* componentPlanarReflection)
+{
+	if (this)
+	{
+		sceneComponentPlanarReflection.erase(std::remove_if(std::begin(sceneComponentPlanarReflection),
+			std::end(sceneComponentPlanarReflection),
+			[&componentPlanarReflection](ComponentPlanarReflection* planar)
+			{
+				return planar == componentPlanarReflection;
+			}),
+			std::end(sceneComponentPlanarReflection));
+	}
 }
 
 inline const bool Scene::GetCombatMode() const
