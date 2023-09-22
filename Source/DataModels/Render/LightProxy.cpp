@@ -5,6 +5,7 @@
 #include "Application.h"
 
 #include "Components/ComponentPointLight.h"
+#include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
 
 #include "Modules/ModuleScene.h"
@@ -34,20 +35,13 @@ LightProxy::~LightProxy()
 	delete cylinder;
 }
 
-void LightProxy::InitShapes()
-{
-	//PlaneShape(1.0f, 2.0f, 1, 1);
-	//CylinderShape(1.0f, 1.0f, 15, 15);
-	//SphereShape(1.0f, 15, 15);
-	//ConeShape(1.0f, 1.0f, 15, 15);
-}
-
-void LightProxy::DrawTest(Program* program)
+void LightProxy::DrawLights(Program* program)
 {
 	program->Activate();
 
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Light Culling"), "Light Culling");
 
+	// Draw point lights
 	std::vector<std::pair<const ComponentPointLight*, unsigned int>> points = 
 		App->GetModule<ModuleScene>()->GetLoadedScene()->GetCachedPointLights();
 
@@ -69,6 +63,37 @@ void LightProxy::DrawTest(Program* program)
 		glDisable(GL_DEPTH_TEST);
 
 		glDrawElements(GL_TRIANGLES, sphere->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
+		glBindVertexArray(0);
+
+		glDisable(GL_BLEND);
+		glDepthMask(GL_TRUE);
+		glEnable(GL_DEPTH_TEST);
+	}
+
+	// Draw spot lights
+	std::vector<std::pair<const ComponentSpotLight*, unsigned int>> spots =
+		App->GetModule<ModuleScene>()->GetLoadedScene()->GetCachedSpotLights();
+
+	for (std::pair<const ComponentSpotLight*, unsigned int> spot : spots)
+	{
+		float height = spot.first->GetRadius();
+		float radius = height * math::Tan(spot.first->GetOuterAngle());
+
+		ConeShape(height, radius, 15, 15);
+
+		float4x4 transform = spot.first->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
+
+		program->BindUniformFloat4x4("model", &transform[0][0], true);
+
+		glBindVertexArray(cone->GetVAO());
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cone->GetEBO());
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		glDepthMask(GL_FALSE);
+		glDisable(GL_DEPTH_TEST);
+
+		glDrawElements(GL_TRIANGLES, cone->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
 		glBindVertexArray(0);
 
 		glDisable(GL_BLEND);
@@ -146,9 +171,11 @@ void LightProxy::ConeShape(float height, float radius, unsigned slices, unsigned
 
 	if (mesh)
 	{
-		par_shapes_rotate(mesh, -float(PAR_PI * 0.5), (float*)&float3::unitX);
+		par_shapes_rotate(mesh, -static_cast<float>(PAR_PI * 0.5), reinterpret_cast<const float*>(&float3::unitX));
 		par_shapes_translate(mesh, 0.0f, -0.5f, 0.0f);
 		par_shapes_scale(mesh, radius, height, radius);
+		par_shapes_translate(mesh, 0.0f, -height/2.0f, 0.0f);
+		par_shapes_rotate(mesh, -static_cast<float>(PAR_PI * 0.5), reinterpret_cast<const float*>(&float3::unitX));
 
 		LoadShape(mesh, cone);
 
@@ -163,7 +190,7 @@ void LightProxy::CylinderShape(float height, float radius, unsigned slices, unsi
 
 	if (mesh)
 	{
-		par_shapes_rotate(mesh, -float(PAR_PI * 0.5), (float*)&float3::unitX);
+		par_shapes_rotate(mesh, -static_cast<float>(PAR_PI * 0.5), reinterpret_cast<const float*>(&float3::unitX));
 		par_shapes_translate(mesh, 0.0f, -0.5f, 0.0f);
 		par_shapes_scale(mesh, radius, height, radius);
 
