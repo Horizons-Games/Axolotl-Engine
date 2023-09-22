@@ -4,13 +4,6 @@
 
 #include "Application.h"
 
-#include "Camera/Camera.h"
-
-#include "Components/ComponentTransform.h"
-
-#include "Math/TransformOps.h"
-
-#include "Modules/ModuleCamera.h"
 #include "Modules/ModuleScene.h"
 #include "Modules/ModuleProgram.h"
 
@@ -43,6 +36,10 @@ void LightProxy::DrawTest(Program* program)
 	//SphereShape(1.0f, 15, 15);
 	//ConeShape(1.0f, 1.0f, 15, 15);
 	CylinderShape(1.0f, 1.0f, 15, 15);
+
+	float4x4 model = float4x4::identity;
+
+	program->BindUniformFloat4x4("model", &model[0][0], false);
 
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Light Culling"), "Light Culling");
 
