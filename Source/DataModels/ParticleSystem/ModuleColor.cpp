@@ -21,6 +21,8 @@ ModuleColor::ModuleColor(ParticleEmitter* emitter, ModuleColor* color) :
 	enabled = color->IsEnabled();
 
 	gradient = new ImGradient(color->GetGradient());
+	draggingMark = gradient->getMarks().front();
+	selectedMark = gradient->getMarks().front();
 }
 
 ModuleColor::~ModuleColor()
@@ -65,7 +67,8 @@ void ModuleColor::CopyConfig(ParticleModule* module)
 	enabled   = color->IsEnabled();
 	initAlpha = color->GetInitAlpha();
 	endAlpha  = color->GetEndAlpha();
-	gradient  = color->GetGradient();
+
+	gradient->CopyMarks(color->GetGradient());
 }
 
 void ModuleColor::DrawImGui()
