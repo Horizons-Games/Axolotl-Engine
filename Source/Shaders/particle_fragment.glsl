@@ -24,8 +24,8 @@ void main()
 	}
 
 	vec4 color = hasTexture * diffuse * fragColor + (1 - hasTexture) * fragColor;
-	vec4 gammaCorrection = vec4(2.2);
-
-	color.rgb = pow(color.rgb, vec3(1.0/gammaCorrection));
+	//vec4 gammaCorrection = vec4(2.2);
+	
+	//color.rgb = pow(color.rgb, vec3(1.0/gammaCorrection));
 	outColor = color;
 }
