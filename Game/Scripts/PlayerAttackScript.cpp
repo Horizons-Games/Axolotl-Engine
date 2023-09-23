@@ -387,6 +387,7 @@ void PlayerAttackScript::EndJumpNormalAttack()
 	if (!isMelee)
 	{
 		enemiesToHit.clear();
+		enemiesToHit.reserve(enemyDetection->GetEnemiesInTheArea().size());
 		enemyDetection->FilterEnemiesByDistance(6.5f, enemiesToHit); // 6.5f like the size of Bix jump attack
 	}
 	
@@ -405,6 +406,7 @@ void PlayerAttackScript::EndJumpFinisherAttack()
 	if (!isMelee)
 	{
 		enemiesToHit.clear();
+		enemiesToHit.reserve(enemyDetection->GetEnemiesInTheArea().size());
 		enemyDetection->FilterEnemiesByDistance(6.5f, enemiesToHit); // 6.5f like the size of Bix jump finisher attack
 	}
 

@@ -243,7 +243,7 @@ void EntityDetection::FilterEnemiesByDistance(float distanceFilter,
 			enemyPosition.y = originPosition.y;
 			if (originPosition.Distance(enemyPosition) <= distanceFilter)
 			{
-				enemiesInTheAreaFiltered.push_back(enemy);
+				enemiesInTheAreaFiltered.emplace_back(enemy);
 			}
 		});
 }
