@@ -799,6 +799,9 @@
     <ClCompile Include="DataModels\Schedulable\Schedulable.cpp">
       <Filter>DataModels\Schedulable</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SceneLoadingScript.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1643,6 +1646,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Schedulable\Schedulable.h">
       <Filter>DataModels\Schedulable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SceneLoadingScript.h">
+      <Filter>UserScripts\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

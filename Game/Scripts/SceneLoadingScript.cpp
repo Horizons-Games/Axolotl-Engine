@@ -9,12 +9,13 @@
 #include "Modules/ModuleScene.h"
 
 #include "Defines/ExtensionDefines.h"
+#include "Defines/FileSystemDefines.h"
 
 REGISTERCLASS(SceneLoadingScript);
 
 namespace
 {
-constexpr const char* loadingScreenScene = "Scenes\\LoadingScreen" SCENE_EXTENSION;
+constexpr const char* loadingScreenScene = "Lib/Scenes/async_probe" SCENE_EXTENSION;
 }
 
 SceneLoadingScript::SceneLoadingScript() : Script()
@@ -27,6 +28,9 @@ void SceneLoadingScript::Init()
 #ifdef ENGINE
 	Assert(false, "Cannot change scenes while playing in the engine");
 #endif // ENGINE
+	// set the proper path here
+	sceneToLoad = "Lib/Scenes/" + sceneToLoad + SCENE_EXTENSION;
+
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	Assert(fileSystem->Exists(loadingScreenScene),
 		   axo::Format("The default loading screen {} does not exist", loadingScreenScene));
@@ -43,9 +47,14 @@ void SceneLoadingScript::StartLoad() const
 
 void SceneLoadingScript::OnLoadingScreenLoaded() const
 {
-	App->GetModule<ModuleScene>()->LoadSceneAsync(sceneToLoad,
-												  [&]()
-												  {
-													  LOG_INFO("Scene {} loaded!!", sceneToLoad);
-												  });
+	App->ScheduleTask(
+		[this]()
+		{
+			App->GetModule<ModuleScene>()->LoadSceneAsync(sceneToLoad,
+														  [&]()
+														  {
+															  LOG_INFO("Scene {} loaded!!", sceneToLoad);
+														  });
+		},
+		6U /*Wait 6 frames to start the next load, so Render can be updated and the scene shown*/);
 }
