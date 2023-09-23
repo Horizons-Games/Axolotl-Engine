@@ -73,6 +73,14 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 			return;
 		}
 
+		if (isParalyzed)
+		{
+			componentAnimation->SetParameter("IsRunning", false);
+			componentAnimation->SetParameter("IsDashing", false);
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+			return;
+		}
+
 		Move(deltaTime);
 		MoveRotate(deltaTime);
 		DashRoll(deltaTime);
@@ -94,14 +102,6 @@ void PlayerMoveScript::Move(float deltaTime)
 
 	previousMovements = currentMovements;
 	currentMovements = 0;
-
-	if (isParalyzed)
-	{
-		componentAnimation->SetParameter("IsRunning", false);
-		componentAnimation->SetParameter("IsDashing", false);
-		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-		return;
-	}
 
 	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD &&
 		(horizontalDirection != JoystickHorizontalDirection::NONE ||
