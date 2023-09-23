@@ -108,19 +108,58 @@ void PlayerAttackScript::Update(float deltaTime)
 	// Check if the special was activated
 	comboSystem->CheckSpecial(deltaTime);
 
+	if (animation->GetController()->GetStateName() == "DashingEnd")
+	{
+		if (!isAttacking)
+		{
+			AttackAfterDash();
+		}
+	}
+	else
+	{
+		PerformCombos();
+	}
+
 	if (!IsAttackAvailable())
 	{
 		if (jumpFinisherScript->IsActive())
 		{
 			UpdateJumpAttack();
 		}
-		else 
+		else
 		{
 			ResetAttackAnimations(deltaTime);
 		}
 	}
+}
 
-	PerformCombos();
+void PlayerAttackScript::AttackAfterDash()
+{
+	switch (lastAttack)
+	{
+	case AttackType::LIGHTNORMAL:
+	case AttackType::HEAVYNORMAL:
+	{
+		LOG_VERBOSE("Normal Attack Soft After Dash");
+		if (lastAttack == AttackType::LIGHTNORMAL)
+		{
+			LightNormalAttack();
+			lastAttack = AttackType::LIGHTNORMAL;
+			currentAttackAnimation = "LightAttack";
+		}
+		else
+		{
+			HeavyNormalAttack();
+			lastAttack = AttackType::HEAVYNORMAL;
+			currentAttackAnimation = "LightAttack"; //Change if new heavy animations are implemented
+		}
+		isAttacking = true;
+		break;
+	}
+
+	default:
+		break;
+	}
 }
 
 void PlayerAttackScript::UpdateEnemyDetection()
@@ -171,6 +210,19 @@ void PlayerAttackScript::PerformCombos()
 					animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
 					animation->SetParameter("IsLightAttacking", true);
 				}
+				else if (playerManager->GetPlayerState() == PlayerActions::DASHING)
+				{
+					lastAttack = currentAttack;
+					if (numAttackComboAnimation == 2.0f) //Move between three attack animations
+					{
+						numAttackComboAnimation = 0.0f;
+					}
+					else
+					{
+						numAttackComboAnimation += 1.0f;
+					}
+					animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
+				}
 				break;
 
 			case AttackType::HEAVYFINISHER:
@@ -190,7 +242,7 @@ void PlayerAttackScript::PerformCombos()
 			}
 		}
 	}
-	
+
 	if (IsAttackAvailable())
 	{
 		switch (currentAttack)
@@ -261,7 +313,6 @@ void PlayerAttackScript::LightNormalAttack()
 
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
-
 
 	if (isMelee)
 	{
@@ -358,7 +409,6 @@ void PlayerAttackScript::UpdateJumpAttack()
 	if(isMelee) 
 	{
 		landed = playerManager->IsGrounded();
-
 	}
 	else 
 	{
@@ -467,6 +517,7 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 	{
 		case AttackType::LIGHTNORMAL:
 		case AttackType::HEAVYNORMAL:
+		{
 			if (animation->GetController()->GetStateName() != currentAttackAnimation)
 			{
 				if (isNextAttackTriggered)
@@ -490,7 +541,7 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 				{
 					triggerNextAttackTimer -= deltaTime;
 					if (triggerNextAttackTimer <= 0.0f) //Wait to reset the offset time, to give the player the chance to
-						//trigger the next attack even if the animatinon has finished (due to some animations are very short)
+						//trigger the next attack even if the animation has finished (due to some animations are very short)
 					{
 						triggerNextAttackTimer = triggerNextAttackDuration;
 						currentAttackAnimation = animation->GetController()->GetStateName();
@@ -503,7 +554,8 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 					}
 				}
 			}
-			break;	
+			break;
+		}
 
 		case AttackType::JUMPNORMAL:
 		case AttackType::JUMPFINISHER:
@@ -531,6 +583,7 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 			}*/
 			break;
 		}
+
 		case AttackType::LIGHTFINISHER:	
 			if (animation->GetController()->GetStateName() != currentAttackAnimation)
 			{

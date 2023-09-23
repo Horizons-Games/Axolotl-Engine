@@ -283,7 +283,7 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN
 		&& (playerManager->GetPlayerState() == PlayerActions::IDLE
 			|| playerManager->GetPlayerState() == PlayerActions::WALKING) &&
-		timeSinceLastDash > dashRollCooldown && playerAttackScript->IsAttackAvailable())
+		timeSinceLastDash > dashRollCooldown)
 	{
 		// Start a dash
 		dashRollTime = 0.0f;
