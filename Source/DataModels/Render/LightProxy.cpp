@@ -44,10 +44,21 @@ void LightProxy::DrawLights(Program* program)
 
 	program->BindUniformFloat2("screenSize", float2(screenSize.first, screenSize.second));
 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+	glDepthMask(GL_FALSE);
+	glDisable(GL_DEPTH_TEST);
+	glFrontFace(GL_CCW);
+
 	DrawPoints(program);
 	DrawSpots(program);
 	DrawSpheres(program);
 	//DrawTubes(program); //No worth to draw, needed too many welds to get a tube mesh
+
+	glFrontFace(GL_CW);
+	glDisable(GL_BLEND);
+	glDepthMask(GL_TRUE);
+	glEnable(GL_DEPTH_TEST);
 
 	glPopDebugGroup();
 
@@ -77,17 +88,8 @@ void LightProxy::DrawPoints(Program* program)
 		glBindVertexArray(sphere->GetVAO());
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sphere->GetEBO());
 
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-		glDepthMask(GL_FALSE);
-		glDisable(GL_DEPTH_TEST);
-
 		glDrawElements(GL_TRIANGLES, sphere->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
-		glBindVertexArray(0);
-
-		glDisable(GL_BLEND);
-		glDepthMask(GL_TRUE);
-		glEnable(GL_DEPTH_TEST);
+		glBindVertexArray(0);		
 	}
 }
 
@@ -116,17 +118,8 @@ void LightProxy::DrawSpots(Program* program)
 		glBindVertexArray(cone->GetVAO());
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cone->GetEBO());
 
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-		glDepthMask(GL_FALSE);
-		glDisable(GL_DEPTH_TEST);
-
 		glDrawElements(GL_TRIANGLES, cone->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
 		glBindVertexArray(0);
-
-		glDisable(GL_BLEND);
-		glDepthMask(GL_TRUE);
-		glEnable(GL_DEPTH_TEST);
 	}
 }
 
@@ -153,19 +146,8 @@ void LightProxy::DrawSpheres(Program* program)
 		glBindVertexArray(this->sphere->GetVAO());
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->sphere->GetEBO());
 
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-		glDepthMask(GL_FALSE);
-		glDisable(GL_DEPTH_TEST);
-		glFrontFace(GL_CCW);
-
 		glDrawElements(GL_TRIANGLES, this->sphere->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
 		glBindVertexArray(0);
-
-		glFrontFace(GL_CW);
-		glDisable(GL_BLEND);
-		glDepthMask(GL_TRUE);
-		glEnable(GL_DEPTH_TEST);
 	}
 }
 
@@ -194,19 +176,8 @@ void LightProxy::DrawTubes(Program* program)
 		glBindVertexArray(this->tube->GetVAO());
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->tube->GetEBO());
 
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-		glDepthMask(GL_FALSE);
-		glDisable(GL_DEPTH_TEST);
-		glFrontFace(GL_CCW);
-
 		glDrawElements(GL_TRIANGLES, this->tube->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
 		glBindVertexArray(0);
-
-		glFrontFace(GL_CW);
-		glDisable(GL_BLEND);
-		glDepthMask(GL_TRUE);
-		glEnable(GL_DEPTH_TEST);
 	}
 }
 
