@@ -20,6 +20,7 @@ public:
 
 	void Spawn(EmitterInstance* instance) override;
 	void Update(EmitterInstance* instance) override;
+	void CopyConfig(ParticleModule* module) override;
 
 	void UpdateInstanceBuffer(EmitterInstance* instance);
 	void DrawParticles(EmitterInstance* instance);
