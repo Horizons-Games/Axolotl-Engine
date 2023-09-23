@@ -13,6 +13,7 @@ class ComponentRigidBody;
 class ComponentScript;
 class UIGameManager;
 class HealthSystem;
+class SceneLoadingScript;
 
 // Little fix until we could check if an audio is being reproduced
 enum class ActiveActions
@@ -34,7 +35,9 @@ public:
 	void OnCollisionExit(ComponentRigidBody* other) override;
 
 private:
+	void LoadScene(const std::string& sceneToLoadIfNoLoadingScreen);
 
+private:
 	bool isLoseTrigger;
 	bool isWinTrigger;
 	bool isNextSceneTrigger;
@@ -51,4 +54,5 @@ private:
 	HealthSystem* playerHealthSystem;
 	GameObject* setGameStateObject;
 	GameObject* setPlayer;
+	SceneLoadingScript* loadingScreenScript;
 };

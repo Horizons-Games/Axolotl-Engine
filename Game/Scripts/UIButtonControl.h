@@ -8,6 +8,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentButton;
 class ComponentScript;
 class UIGameManager;
+class SceneLoadingScript;
 
 class UIButtonControl : public Script
 {
@@ -29,6 +30,7 @@ private:
 	GameObject* enableObject;
 	GameObject* buttonHover;
 	GameObject* setUiGameManagerObject;
+	SceneLoadingScript* loadingScreenScript;
 };
 
 

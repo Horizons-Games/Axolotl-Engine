@@ -4,6 +4,7 @@
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentButton.h"
 #include "UIGameManager.h"
+#include "SceneLoadingScript.h"
 
 #include "Application.h"
 
@@ -19,6 +20,7 @@ buttonHover(nullptr), isGameExit(false), isGameResume(false), setUiGameManagerOb
 	REGISTER_FIELD(setUiGameManagerObject, GameObject*);
 	REGISTER_FIELD(isGameExit, bool);
 	REGISTER_FIELD(isGameResume, bool);
+	REGISTER_FIELD(loadingScreenScript, SceneLoadingScript*);
 }
 
 void UIButtonControl::Start()
@@ -65,6 +67,10 @@ void UIButtonControl::Update(float deltaTime)
 	}
 	if (buttonHover != nullptr)
 	{
+		if (loadingScreenScript != nullptr && buttonComponent->IsClicked())
+		{
+			loadingScreenScript->StartLoad();
+		}
 		if (buttonComponent->IsHovered())
 		{
 			buttonHover->Enable();

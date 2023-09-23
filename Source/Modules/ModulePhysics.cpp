@@ -10,6 +10,7 @@
 #include "GameObject/GameObject.h"
 #include "debugdraw.h"
 #include "Modules/ModuleDebugDraw.h"
+#include "Modules/ModuleScene.h"
 
 #ifndef ENGINE
 	#include "Modules/ModuleEditor.h"
@@ -76,6 +77,11 @@ void ModulePhysics::Reset()
 
 UpdateStatus ModulePhysics::PreUpdate()
 {
+	if (App->GetModule<ModuleScene>()->IsLoading())
+	{
+		return UpdateStatus::UPDATE_CONTINUE;
+	}
+
 #ifdef ENGINE
 	if (App->IsOnPlayMode())
 	{
@@ -126,7 +132,6 @@ struct ContactResultCallback : public btCollisionWorld::ContactResultCallback
 
 void ModulePhysics::ManageCollisions()
 {
-
 	btCollisionObjectArray collisionArray = dynamicsWorld->getCollisionObjectArray();
 	for (int i = 0; i < collisionArray.size(); i++)
 	{
