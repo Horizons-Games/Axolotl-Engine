@@ -1882,6 +1882,12 @@ int& Scene::SearchForLights(GameObject* gameObject)
 		case LightType::LOCAL_IBL:
 			filter = HAS_LOCAL_IBL;
 			break;
+
+		case LightType::PLANAR_REFLECTION:
+		{
+			AddPlanarReflection(static_cast<ComponentPlanarReflection*>(light));
+			break;
+		}
 		}
 	}
 	return filter;

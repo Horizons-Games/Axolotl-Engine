@@ -374,6 +374,8 @@ inline void Scene::AddComponentLines(ComponentLine* componentLine)
 inline void Scene::AddPlanarReflection(ComponentPlanarReflection* componentPlanarReflection)
 {
 	sceneComponentPlanarReflection.push_back(componentPlanarReflection);
+	UpdateScenePlanarReflections();
+	RenderPlanarReflections();
 }
 
 inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleSystem)
