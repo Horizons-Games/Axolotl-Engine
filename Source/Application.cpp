@@ -189,11 +189,11 @@ void Application::OnPause()
 {
 }
 
-void Application::ScheduleTask(std::function<void(void)>&& taskToSchedule)
+void Application::ScheduleTask(std::function<void(void)>&& taskToSchedule, std::uint16_t frameDelay)
 {
 	if (scheduler != nullptr)
 	{
-		scheduler->ScheduleTask(std::move(taskToSchedule));
+		scheduler->ScheduleTask(std::move(taskToSchedule), frameDelay);
 	}
 	else
 	{

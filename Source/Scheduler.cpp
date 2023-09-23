@@ -9,10 +9,10 @@
 Scheduler::~Scheduler()
 {
 	// clear the queue without iterating it
-	std::queue<Schedulable>().swap(scheduledTasks);
+	std::queue<std::pair<Schedulable, std::uint16_t>>().swap(scheduledTasks);
 }
 
-void Scheduler::ScheduleTask(Schedulable&& taskToSchedule)
+void Scheduler::ScheduleTask(Schedulable&& taskToSchedule, std::uint16_t frameDelay)
 {
 	if (!taskToSchedule)
 	{
@@ -20,16 +20,26 @@ void Scheduler::ScheduleTask(Schedulable&& taskToSchedule)
 		return;
 	}
 	std::scoped_lock(schedulerMutex);
-	scheduledTasks.push(std::move(taskToSchedule));
+	scheduledTasks.push(std::make_pair(std::move(taskToSchedule), frameDelay));
 }
 
 void Scheduler::RunTasks()
 {
 	std::scoped_lock(schedulerMutex);
+	std::queue<std::pair<Schedulable, std::uint16_t>> remainingTasks;
 	while (!scheduledTasks.empty())
 	{
-		const Schedulable& task = scheduledTasks.front();
-		task();
+		std::pair<Schedulable, std::uint16_t>& task = scheduledTasks.front();
+		if (task.second != 0U)
+		{
+			--task.second;
+			remainingTasks.push(std::move(task));
+		}
+		else
+		{
+			task.first();
+		}
 		scheduledTasks.pop();
 	}
+	scheduledTasks = std::move(remainingTasks);
 }
