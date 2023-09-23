@@ -82,7 +82,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 				key = keyButtonPair->first;
 				button = keyButtonPair->second;
 
-				if (input->GetKey(key) == KeyState::UP || input->GetGamepadButton(button) == KeyState::UP)
+				if (input->GetKey(key) == KeyState::DOWN || input->GetGamepadButton(button) == KeyState::DOWN)
 				{
 					userCommandInputs.push_back(command);
 					LOG_DEBUG("User add key/button to combination");
