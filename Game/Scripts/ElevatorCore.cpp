@@ -5,6 +5,7 @@
 #include "ModuleInput.h"
 #include "ModuleCamera.h"
 #include "ModuleScene.h"
+#include "ModulePlayer.h"
 
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAudioSource.h"
@@ -30,7 +31,6 @@ ElevatorCore::ElevatorCore() : Script(),
 componentAudio(nullptr), activeState(ActiveActions::INACTIVE), positionState(PositionState::UP)
 {
 	REGISTER_FIELD(elevator, GameObject*);
-	REGISTER_FIELD(bixPrefab, GameObject*)
 	REGISTER_FIELD(finalPos, float);
 }
 
@@ -59,6 +59,7 @@ void ElevatorCore::Start()
 	transform = elevator->GetComponentInternal<ComponentTransform>();
 	triggerEntrance = owner->GetComponent<ComponentRigidBody>();
 	finalUpPos = 0;
+	bixPrefab = App->GetModule<ModulePlayer>()->GetPlayer();
 	playerTransform = bixPrefab->GetComponent<ComponentTransform>();
 }
 
@@ -125,11 +126,21 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		if (other->GetOwner()->CompareTag("Player"))
 		{
-	//		componentAnimation->SetParameter("IsActive", true);
-			componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
-			activeState = ActiveActions::ACTIVE;
 
-			DisableAllInteractions();
+			PlayerActions currentAction = bixPrefab->GetComponent<PlayerManagerScript>()->GetPlayerState();
+			bool isJumping = currentAction == PlayerActions::JUMPING ||
+				currentAction == PlayerActions::DOUBLEJUMPING ||
+				currentAction == PlayerActions::FALLING;
+
+			if (!isJumping)
+			{
+				//componentAnimation->SetParameter("IsActive", true);
+				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
+				activeState = ActiveActions::ACTIVE;
+
+				DisableAllInteractions();
+
+			}
 			
 		}
 	}
