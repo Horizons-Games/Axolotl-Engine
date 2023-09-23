@@ -218,6 +218,17 @@ void ModulePhysics::RemoveRigidBody(ComponentRigidBody* rb, btRigidBody* body)
 	rigidBodyComponents.erase(rb->GetID());
 }
 
+void ModulePhysics::AddRigidBodyToSimulation(btRigidBody* body)
+{
+	
+	dynamicsWorld->addCollisionObject(body);
+}
+
+void ModulePhysics::RemoveRigidBodyFromSimulation(btRigidBody* body)
+{
+	dynamicsWorld->removeCollisionObject(body);
+}
+
 void ModulePhysics::UpdateDrawableRigidBodies(int value)
 {
 	drawableRigidBodies += value;

@@ -375,21 +375,24 @@ void ComponentRigidBody::InternalLoad(const Json& meta)
 
 void ComponentRigidBody::SignalEnable()
 {
-	AddRigidBodyToSimulation();
+	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
+	rigidBody->setGravity(gravity);
 }
 
 void ComponentRigidBody::SignalDisable()
 {
-	RemoveRigidBodyFromSimulation();
+	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
 }
 
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 {
+	//App->GetModule<ModulePhysics>()->RemoveRigidBodyFromSimulation(rigidBody.get());
 	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
 }
 
 void ComponentRigidBody::AddRigidBodyToSimulation()
 {
+	//App->GetModule<ModulePhysics>()->AddRigidBodyToSimulation(rigidBody.get());
 	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	rigidBody->setGravity(gravity);
 }
