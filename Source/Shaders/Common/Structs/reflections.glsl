@@ -1,5 +1,5 @@
-#ifndef _LOCAL_IBL_INCLUDE_
-#define _LOCAL_IBL_INCLUDE_
+#ifndef _REFLECTIONS_INCLUDE_
+#define _REFLECTIONS_INCLUDE_
 
 struct LocalIBL 
 {

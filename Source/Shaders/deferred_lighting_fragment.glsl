@@ -9,7 +9,7 @@
 
 #include "/Common/Structs/lights.glsl"
 
-#include "/Common/Structs/local_IBL.glsl"
+#include "/Common/Structs/reflections.glsl"
 
 #define CASCADES 3
 
