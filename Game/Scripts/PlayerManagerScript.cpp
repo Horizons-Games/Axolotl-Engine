@@ -90,6 +90,11 @@ PlayerMoveScript* PlayerManagerScript::GetMovementManager() const
 	return movementManager;
 }
 
+PlayerAttackScript* PlayerManagerScript::GetAttackManager() const
+{
+	return attackManager;
+}
+
 void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 {
 	playerState = PlayerActions::IDLE;

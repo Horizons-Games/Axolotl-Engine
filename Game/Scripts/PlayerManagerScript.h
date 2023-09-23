@@ -40,6 +40,7 @@ public:
 	bool IsTeleporting() const;
 	PlayerJumpScript* GetJumpManager() const;
 	PlayerMoveScript* GetMovementManager() const;
+	PlayerAttackScript* GetAttackManager() const;
 	void ParalyzePlayer(bool paralyzed);
 	void SetPlayerSpeed(float playerSpeed);
 	PlayerActions GetPlayerState() const;

@@ -45,8 +45,10 @@ void PlayerHackingUseScript::Update(float deltaTime)
 	bool isJumping = currentAction == PlayerActions::JUMPING || 
 		currentAction == PlayerActions::DOUBLEJUMPING || 
 		currentAction == PlayerActions::FALLING;
+
+	bool isAttacking = playerManager->GetAttackManager()->IsInAttackAnimation();
 		
-	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingActive && !isJumping)
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingActive && !isJumping && !isAttacking)
 	{
 		FindHackZone(hackingTag);
 		if (hackZone && !hackZone->IsCompleted())
