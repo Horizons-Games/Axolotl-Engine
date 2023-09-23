@@ -19,5 +19,4 @@ private:
 	bool loop;
 	bool verticalRotate;
 	std::unique_ptr<WindowVideoInput> inputVideo;
-	ComponentVideo* component;
 };

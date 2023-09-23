@@ -10,7 +10,6 @@ WindowComponentVideo::WindowComponentVideo(ComponentVideo* component) :
 	inputVideo(std::make_unique<WindowVideoInput>(component)),
 	loop(component->GetLoop()),
 	verticalRotate(component->GetRotateVertical()),
-	component(component),
 	playAtStart(false)
 {
 }
@@ -25,6 +24,11 @@ void WindowComponentVideo::DrawWindowContents()
 	
 
 	ComponentVideo* videoComponent = static_cast<ComponentVideo*>(component);
+	if (!videoComponent)
+	{
+		return;
+	}
+
 	bool playAtStart = videoComponent->GetPlayAtStart();
 	if (videoComponent->GetVideo() != nullptr)
 	{
