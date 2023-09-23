@@ -47,7 +47,8 @@ void JumpFinisherArea::Update(float deltaTime)
 {
 	rigidBody->UpdateRigidBody();
 
-	if (actualLandingParticleSystem && actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->IsFinished())
+	if (actualLandingParticleSystem && 
+		actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->IsFinished())
 	{
  		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualLandingParticleSystem);
 		actualLandingParticleSystem = nullptr;
@@ -69,14 +70,19 @@ void JumpFinisherArea::VisualLandingEffect()
 		initVisuals->Disable();
 	}
 
-	if (actualLandingParticleSystem) 
+	if (actualLandingParticleSystem)
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualLandingParticleSystem);
+	}
+
+	if (landingParticleSystemPrefab)
 	{
 		Scene* loadScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualLandingParticleSystem);
 
-		actualLandingParticleSystem = loadScene->DuplicateGameObject(landingParticleSystemPrefab->GetName(), landingParticleSystemPrefab, loadScene->GetRoot());
+		actualLandingParticleSystem = loadScene->DuplicateGameObject(landingParticleSystemPrefab->GetName(),
+			landingParticleSystemPrefab, loadScene->GetRoot());
+
 		actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->Enable();
-
 		actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->Play();
 	}
 }
