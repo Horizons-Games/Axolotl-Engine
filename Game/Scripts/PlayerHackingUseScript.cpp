@@ -28,10 +28,10 @@ PlayerHackingUseScript::PlayerHackingUseScript()
 void PlayerHackingUseScript::Start()
 {
 	input = App->GetModule<ModuleInput>();
-	transform = GetOwner()->GetComponentInternal<ComponentTransform>();
-	rigidBody = GetOwner()->GetComponentInternal<ComponentRigidBody>();
+	transform = GetOwner()->GetComponent<ComponentTransform>();
+	rigidBody = GetOwner()->GetComponent<ComponentRigidBody>();
 	hackZone = nullptr;
-
+	playerManager = GetOwner()->GetComponent<PlayerManagerScript>();
 	isHackingButtonPressed = false;
 }
 
@@ -41,7 +41,12 @@ void PlayerHackingUseScript::Update(float deltaTime)
 
 	currentTime += deltaTime;
 
-	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingActive)
+	PlayerActions currentAction = playerManager->GetPlayerState();
+	bool isJumping = currentAction == PlayerActions::JUMPING || 
+		currentAction == PlayerActions::DOUBLEJUMPING || 
+		currentAction == PlayerActions::FALLING;
+		
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingActive && !isJumping)
 	{
 		FindHackZone(hackingTag);
 		if (hackZone && !hackZone->IsCompleted())
@@ -165,6 +170,7 @@ void PlayerHackingUseScript::FinishHack()
 {
 	EnableAllInteractions();
 	isHackingActive = false;
+	hackZone = nullptr;
 
 	userCommandInputs.clear();
 
@@ -197,28 +203,13 @@ void PlayerHackingUseScript::RestartHack()
 
 void PlayerHackingUseScript::DisableAllInteractions()
 {
-	rigidBody->Disable();
-	PlayerManagerScript* manager = GetOwner()->GetComponentInternal<PlayerManagerScript>();
-	PlayerJumpScript* jump = GetOwner()->GetComponentInternal<PlayerJumpScript>();
-	PlayerMoveScript* move = GetOwner()->GetComponentInternal<PlayerMoveScript>();
-	PlayerAttackScript* attack = GetOwner()->GetComponentInternal<PlayerAttackScript>();
-	manager->Disable();
-	jump->Disable();
-	move->Disable();
-	attack->Disable();
+	playerManager->ParalyzePlayer(true);
 }
 
 void PlayerHackingUseScript::EnableAllInteractions()
 {
-	rigidBody->Enable();
-	PlayerManagerScript* manager = GetOwner()->GetComponentInternal<PlayerManagerScript>();
-	PlayerJumpScript* jump = GetOwner()->GetComponentInternal<PlayerJumpScript>();
-	PlayerMoveScript* move = GetOwner()->GetComponentInternal<PlayerMoveScript>();
-	PlayerAttackScript* attack = GetOwner()->GetComponentInternal<PlayerAttackScript>();
-	manager->Enable();
-	jump->Enable();
-	move->Enable();
-	attack->Enable();
+	playerManager->ParalyzePlayer(false);
+
 }
 
 void PlayerHackingUseScript::FindHackZone(const std::string& tag)
