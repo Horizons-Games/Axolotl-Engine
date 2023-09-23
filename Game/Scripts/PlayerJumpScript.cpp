@@ -104,6 +104,10 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 		}
 		else
 		{
+			if (componentAnimation->GetActualStateName() == "DoubleJumping")
+			{
+				playerManager->SetPlayerState(PlayerActions::FALLING);
+			}
 			isGrounded = false;
 			componentAnimation->SetParameter("IsGrounded", false);
 		}
