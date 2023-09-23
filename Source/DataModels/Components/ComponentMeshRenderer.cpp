@@ -707,6 +707,17 @@ const float ComponentMeshRenderer::GetNormalStrenght() const
 	return material->GetNormalStrength();
 }
 
+const bool ComponentMeshRenderer::IsReflective() const
+{
+	return material->IsReflective();
+}
+
+void ComponentMeshRenderer::SetReflective(bool reflective) const
+{
+	material->SetReflective(reflective);
+	AXO_TODO("Check if its inside of some planarReflection");
+}
+
 // Default shader attributes (getters)
 
 const float ComponentMeshRenderer::GetMetalness() const
