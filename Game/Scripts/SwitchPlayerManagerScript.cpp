@@ -192,7 +192,6 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		currentPlayer->Disable();
 
 		// Change UI of the player here
-		AXO_TODO("Change UI of the player here")
 		SwitchHealthBars();
 		
 		// Enabling the new current player
