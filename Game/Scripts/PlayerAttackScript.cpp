@@ -115,13 +115,10 @@ void PlayerAttackScript::Update(float deltaTime)
 			AttackAfterDash();
 		}
 	}
-	else
+	else if ((lastAttack == AttackType::LIGHTNORMAL || lastAttack == AttackType::HEAVYNORMAL)
+		&& !isNextAttackTriggered) //Reset attack combo animation
 	{
-		if ((lastAttack == AttackType::LIGHTNORMAL || lastAttack == AttackType::HEAVYNORMAL)
-			&& !isNextAttackTriggered) //Reset attack combo animation
-		{
-			animation->SetParameter("IsLightAttacking", false);
-		}
+		animation->SetParameter("IsLightAttacking", false);
 	}
 
 	if (!IsAttackAvailable())
