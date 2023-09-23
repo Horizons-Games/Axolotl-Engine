@@ -15,8 +15,6 @@
 #include "ComponentSkybox.h"
 #include "ComponentTransform.h"
 
-#include "Geometry/Frustum.h"
-
 #include "FileSystem/Json.h"
 
 #include "debugdraw.h"
@@ -29,6 +27,9 @@ ComponentPlanarReflection::ComponentPlanarReflection(GameObject* parent) :
 	{
 		influenceAABB = { GetPosition() + float3(-5.f, 0.f, -5.f), GetPosition() + float3(5.f, 0.f, 5.f) };
 	}
+	frustum = new Frustum();
+	frustum->SetKind(FrustumSpaceGL, FrustumRightHanded);
+
 	InitBuffer();
 }
 
@@ -38,6 +39,8 @@ ComponentPlanarReflection::~ComponentPlanarReflection()
 	glDeleteRenderbuffers(1, &depth);
 
 	glDeleteTextures(1, &reflectionTex);
+
+	delete frustum;
 
 	deleting = true;
 
@@ -125,13 +128,11 @@ void ComponentPlanarReflection::UpdateReflection()
 	// mirror up
 	float3 mirrorUp = cameraFrustum->Up() - planeNormal * (planeNormal.Dot(cameraFrustum->Up()) * 2.0f);
 
-	Frustum frustum;
-	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
-	frustum.SetPerspective(cameraFrustum->HorizontalFov(), cameraFrustum->VerticalFov());
-	frustum.SetViewPlaneDistances(cameraFrustum->NearPlaneDistance(), cameraFrustum->FarPlaneDistance());
-	frustum.SetPos(mirrorPos);
-	frustum.SetFront(mirrorFront);
-	frustum.SetUp(mirrorUp);
+	frustum->SetPerspective(cameraFrustum->HorizontalFov(), cameraFrustum->VerticalFov());
+	frustum->SetViewPlaneDistances(cameraFrustum->NearPlaneDistance(), cameraFrustum->FarPlaneDistance());
+	frustum->SetPos(mirrorPos);
+	frustum->SetFront(mirrorFront);
+	frustum->SetUp(mirrorUp);
 
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Planar Reflection")), "Planar Reflection");
 
@@ -145,23 +146,26 @@ void ComponentPlanarReflection::UpdateReflection()
 	ComponentSkybox* skybox = scene->GetRoot()->GetComponentInternal<ComponentSkybox>();
 	if (skybox)
 	{
-		skybox->Draw(frustum.ViewMatrix(), frustum.ProjectionMatrix());
+		skybox->Draw(frustum->ViewMatrix(), frustum->ProjectionMatrix());
 	}
 
-	std::vector<GameObject*> objectsInFrustum = scene->ObtainObjectsInFrustum(&frustum, NON_REFLECTIVE);
+	std::vector<GameObject*> objectsInFrustum = scene->ObtainObjectsInFrustum(frustum, NON_REFLECTIVE);
 
-	modRender->BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT), frustum);
-	modRender->BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR), frustum);
+	modRender->BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT), *frustum);
+	modRender->BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR), *frustum);
 
-	modRender->SortOpaques(objectsInFrustum, frustum.Pos());
+	modRender->SortOpaques(objectsInFrustum, frustum->Pos());
 	modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::DEFAULT, false);
 	modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::SPECULAR, false);
-	modRender->SortTransparents(objectsInFrustum, frustum.Pos());
+	modRender->SortTransparents(objectsInFrustum, frustum->Pos());
 	modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::DEFAULT);
 	modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::SPECULAR);
 
 	glPopDebugGroup();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePlanarReflection(this);
+	App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPlanarReflection(this);
 }
 
 void ComponentPlanarReflection::ScaleInfluenceAABB(float3& scaling)

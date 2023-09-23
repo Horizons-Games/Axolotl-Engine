@@ -3,6 +3,7 @@
 #include "ComponentLight.h"
 
 #include "Geometry/AABB.h"
+#include "Geometry/Frustum.h"
 
 #include "GL/glew.h"
 
@@ -42,6 +43,7 @@ public:
 	
 	const uint64_t& GetHandleReflection();
 
+	const float4x4 GetViewProj() const;
 	const float4x4 GetTransform();
 
 	void InternalSave(Json& meta) override;
@@ -58,6 +60,8 @@ private:
 	uint64_t handle = 0;
 
 	AABB influenceAABB;
+
+	Frustum* frustum;
 
 	float3 planeNormal;
 
@@ -78,6 +82,11 @@ inline void ComponentPlanarReflection::SetInfluenceAABB(AABB& aabb)
 inline const float3& ComponentPlanarReflection::GetScale() const
 {
 	return scale;
+}
+
+inline const float4x4 ComponentPlanarReflection::GetViewProj() const
+{
+	return frustum->ProjectionMatrix() * frustum->ViewMatrix();
 }
 
 inline const float4x4 ComponentPlanarReflection::GetTransform()
