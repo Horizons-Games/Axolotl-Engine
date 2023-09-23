@@ -149,6 +149,7 @@ void ComponentVideo::InternalLoad(const Json& meta)
 #endif
 }
 
+void ComponentVideo::UpdateVideoFrame()
 {
 	if (played)
 	{
@@ -271,6 +272,13 @@ void ComponentVideo::SetVideoFrameSize(int width, int height)
 	transform->SetSize(float2((float) width, (float) height));
 }
 
+void ComponentVideo::Stop()
+{
+	RestartVideo();
+	ReadVideoFrame();
+	played = false;
+}
+
 void ComponentVideo::RestartVideo()
 {
 	avio_seek(video->GetFormat()->pb, 0, SEEK_SET);
@@ -287,4 +295,24 @@ bool ComponentVideo::isPlayed()
 bool ComponentVideo::isPlayAtStart()
 {
 	return playAtStart;
+}
+
+bool ComponentVideo::GetCanBeRotate()
+{
+	return video ? video->GetCanRotate() : false;
+}
+
+void ComponentVideo::SetVideo(const std::shared_ptr<ResourceVideo>& newVideo)
+{
+	this->video = std::move(newVideo);
+	if (video)
+	{
+		video->Load();
+		frameData = new uint8_t[video->GetFrameWidth() * video->GetFrameHeight() * 4];
+		SetVideoFrameSize(video->GetFrameWidth(), video->GetFrameHeight());
+		memset(frameData, 0, video->GetFrameWidth() * video->GetFrameHeight() * 4);
+		ReadVideoFrame();
+	}
+	played = false;
+	finished = false;
 }

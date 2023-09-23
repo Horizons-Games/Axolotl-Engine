@@ -335,7 +335,7 @@ void ModuleUI::Draw2DGameObject(const GameObject* gameObject)
 			if (video->IsEnabled())
 			{
 				video->Draw();
-				video->ReadVideoFrame();
+				video->UpdateVideoFrame();
 			}
 		}
 

@@ -19,10 +19,11 @@ public:
 	void SetPlayAtStart(bool playAtStart);
 	bool GetPlayAtStart();
 	std::shared_ptr<ResourceVideo> GetVideo() const;
-	void ReadVideoFrame();
+	void UpdateVideoFrame();
 	void Draw() const override;
 	void Play();
 	void Pause();
+	void Stop();
 	void RestartVideo();
 	bool isPlayed();
 	bool isPlayAtStart();

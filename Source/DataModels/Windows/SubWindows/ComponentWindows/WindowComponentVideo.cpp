@@ -21,8 +21,7 @@ WindowComponentVideo::~WindowComponentVideo()
 void WindowComponentVideo::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
-	
-
+	ImGui::Text("");
 	ComponentVideo* videoComponent = static_cast<ComponentVideo*>(component);
 	if (!videoComponent)
 	{
@@ -34,13 +33,13 @@ void WindowComponentVideo::DrawWindowContents()
 	{
 		if (ImGui::Checkbox("Play at start", &playAtStart))
 		{
-			component->SetPlayAtStart(playAtStart);
+			videoComponent->SetPlayAtStart(playAtStart);
 		}
 		if (ImGui::ArrowButton("##Play", ImGuiDir_Right))
 		{
 			if (videoComponent->isPlayed())
 			{
-				videoComponent->RestartVideo();
+				videoComponent->Stop();
 			}
 			else
 			{
@@ -52,9 +51,16 @@ void WindowComponentVideo::DrawWindowContents()
 		{
 			videoComponent->Pause();
 		}
+		if (ImGui::Button("X"))
+		{
+			videoComponent->SetVideo(nullptr);
+			return;
+		}
+		ImGui::SameLine();
 		ImGui::Text("Path Asset:");
 		ImGui::SameLine();
 		ImGui::Text(videoComponent->GetVideo()->GetAssetsPath().c_str());
+		
 	}
 	else
 	{
@@ -65,7 +71,7 @@ void WindowComponentVideo::DrawWindowContents()
 	{
 		videoComponent->SetLoop(loop);
 	}
-	if (component->GetCanBeRotate())
+	if (videoComponent->GetCanBeRotate())
 	{
 		if (ImGui::Checkbox("Rotate Vertical", &verticalRotate))
 		{
