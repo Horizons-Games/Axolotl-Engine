@@ -85,6 +85,10 @@ void ComboManager::CheckSpecial(float deltaTime)
 	else
 	{
 		actualComboTimer -= deltaTime;
+		if (uiComboManager)
+		{
+			uiComboManager->UpdateFadeOut(actualComboTimer / comboTime);
+		}
 	}
 }
 

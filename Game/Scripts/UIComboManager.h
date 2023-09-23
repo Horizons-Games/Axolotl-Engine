@@ -34,10 +34,16 @@ public:
 
 	void CleanInputVisuals();
 
+	void UpdateFadeOut(float transparency);
+
+
 private:
 	GameObject* inputPrefabSoft;
 	GameObject* inputPrefabHeavy;
 	GameObject* noFillBar;
+	GameObject* shinnyButton;
+	GameObject* shinnyButton1;
+	GameObject* shinnyButton2;
 
 	std::deque<GameObject*> inputVisuals;
 	std::vector<GameObject*> inputPositions;
@@ -48,7 +54,5 @@ private:
 	bool clearCombo;
 
 	float transparency;
-	float transparencyInputSoft;
-	float transparencyInputHeavy;
 	bool alphaActivated;
 };

@@ -4,6 +4,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentTransform2D.h"
 
 #include "Application.h"
 #include "ModuleScene.h"
@@ -16,6 +17,9 @@ UIComboManager::UIComboManager() : Script(), clearComboTimer(0.0f), clearCombo(f
 	REGISTER_FIELD(inputPrefabSoft, GameObject*);
 	REGISTER_FIELD(inputPrefabHeavy, GameObject*);
 	REGISTER_FIELD(noFillBar, GameObject*);
+	REGISTER_FIELD(shinnyButton, GameObject*);
+	REGISTER_FIELD(shinnyButton1, GameObject*);
+	REGISTER_FIELD(shinnyButton2, GameObject*);
 }
 
 void UIComboManager::Init()
@@ -27,48 +31,48 @@ void UIComboManager::Init()
 	inputPositions.push_back(owner->GetChildren()[1]->GetChildren()[2]);
 	
 	transparency = noFillBar->GetComponent<ComponentImage>()->GetColor().w/255;
-	transparencyInputHeavy = inputPrefabHeavy->GetComponent<ComponentImage>()->GetColor().w / 255;
-	transparencyInputSoft = inputPrefabSoft->GetComponent<ComponentImage>()->GetColor().w / 255;
-	//transparencyInputHeavy = 1.0f;
-	//transparencyInputSoft = 1.0f;
+	shinnyButton->GetComponent < ComponentImage>()->GetColor().w / 255;
+	shinnyButton1->GetComponent < ComponentImage>()->GetColor().w / 255;
+	shinnyButton2->GetComponent < ComponentImage>()->GetColor().w / 255;
+	
 }
 
 void UIComboManager::Update(float deltaTime)
 {
 	if (clearCombo)
 	{
-		if (transparencyInputHeavy && transparencyInputSoft <= 0.0f)
-		{
-			transparencyInputHeavy = 1.0f;
-			transparencyInputSoft = 1.0f;
-		}
-
-
-		if (clearCombo <= 1.0f) 
-		{
-			for (int i = 0; i < 11; i++)
-			{
-				transparencyInputSoft -= deltaTime;
-				transparencyInputHeavy -= deltaTime;
-
-				inputPrefabHeavy->GetComponent<ComponentImage>()->SetColor(float4(1, 1, 1, transparencyInputHeavy));
-				inputPrefabSoft->GetComponent<ComponentImage>()->SetColor(float4(1, 1, 1, transparencyInputSoft));
-			}
-		
-		}
-
 
 		if (clearComboTimer <= 0.0f)
 		{
-
+			//los borra
 			CleanInputVisuals();
 			clearCombo = false;
-			noFillBar->Disable();
-
+			shinnyButton->Disable();
+			shinnyButton1->Disable();
+			shinnyButton2->Disable();
 		}
 		else
 		{
 
+			if (clearComboTimer -= deltaTime)
+			{
+				for (int i = 0; i < inputVisuals.size(); i++)
+				{
+					inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(370, 370));
+				}
+				shinnyButton->Enable();
+				shinnyButton1->Enable();
+				shinnyButton2->Enable();
+			}
+			else
+			{
+				clearComboTimer += deltaTime;
+
+				for (int i = 0; i < inputVisuals.size(); i++)
+				{
+					inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(350, 350));
+				}
+			}
 			clearComboTimer -= deltaTime;
 		
 		}
@@ -97,7 +101,7 @@ void UIComboManager::Update(float deltaTime)
 				alphaActivated = true;
 			}
 		}
-
+		
 		noFillBar->GetComponent<ComponentImage>()->SetColor(float4(1, 1, 1, transparency));
 
 	}
@@ -129,6 +133,7 @@ void UIComboManager::SetComboBarValue(float value)
 	if (value == 0)
 	{
 		SetActivateSpecial(false);
+		noFillBar->Disable();
 	}
 
 	else if (value >= GetMaxComboBarValue())
@@ -190,4 +195,12 @@ void UIComboManager::CleanInputVisuals()
 		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(input);
 	}
 	inputVisuals.clear();
+}
+
+void UIComboManager::UpdateFadeOut(float transparency)
+{
+	for (int i = 0; i < inputVisuals.size(); i++)
+	{
+		inputVisuals[i]->GetComponent<ComponentImage>()->SetColor(float4(1, 1, 1, transparency));
+	}
 }
