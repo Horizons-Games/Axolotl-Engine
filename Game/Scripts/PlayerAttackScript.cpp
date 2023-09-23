@@ -382,9 +382,17 @@ void PlayerAttackScript::UpdateJumpAttack()
 void PlayerAttackScript::EndJumpNormalAttack()
 {
 	jumpFinisherScript->VisualLandingEffect();
-	if (enemyDetection->AreAnyEnemiesInTheArea())
+
+	std::vector<ComponentRigidBody*> enemiesToHit = enemyDetection->GetEnemiesInTheArea();
+	if (!isMelee)
 	{
-		jumpFinisherScript->PushEnemies(10.0f, 2.0f, enemyDetection->GetEnemiesInTheArea());
+		enemiesToHit.clear();
+		enemyDetection->FilterEnemiesByDistance(6.5f, enemiesToHit); // 6.5f like the size of Bix jump attack
+	}
+	
+	if (!enemiesToHit.empty())
+	{
+		jumpFinisherScript->PushEnemies(10.0f, 2.0f, enemiesToHit);
 		comboSystem->SuccessfulAttack(comboCountJump, currentAttack);
 	}
 }
@@ -392,9 +400,17 @@ void PlayerAttackScript::EndJumpNormalAttack()
 void PlayerAttackScript::EndJumpFinisherAttack()
 {
 	jumpFinisherScript->VisualLandingEffect();
-	if (enemyDetection->AreAnyEnemiesInTheArea())
+
+	std::vector<ComponentRigidBody*> enemiesToHit = enemyDetection->GetEnemiesInTheArea();
+	if (!isMelee)
 	{
-		jumpFinisherScript->PushEnemies(15.0f, 4.0f, enemyDetection->GetEnemiesInTheArea());
+		enemiesToHit.clear();
+		enemyDetection->FilterEnemiesByDistance(6.5f, enemiesToHit); // 6.5f like the size of Bix jump finisher attack
+	}
+
+	if (!enemiesToHit.empty())
+	{
+		jumpFinisherScript->PushEnemies(15.0f, 4.0f, enemiesToHit);
 		comboSystem->SuccessfulAttack(-35.0f, currentAttack);
 	}
 }
