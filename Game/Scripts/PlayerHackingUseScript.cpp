@@ -130,7 +130,7 @@ void PlayerHackingUseScript::PrintCombination()
 		case COMMAND_A: 
 			c = '_'; 
 			break;
-		case COMMAND_B:
+		case COMMAND_X:
 			c = 'R'; 
 			break;
 		case COMMAND_Y:
