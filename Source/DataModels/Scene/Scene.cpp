@@ -116,20 +116,20 @@ bool Scene::IsInsideACamera(const AABB& aabb) const
 	return IsInsideACamera(aabb.ToOBB());
 }
 
-std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frustum)
+std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frustum, const int& filter)
 {
 	std::vector<GameObject*> objectsInFrustum;
 
-	CalculateObjectsInFrustum(frustum, rootQuadtree.get(), objectsInFrustum);
+	CalculateObjectsInFrustum(frustum, rootQuadtree.get(), objectsInFrustum, filter);
 
 	for (GameObject* go : nonStaticObjects)
 	{
-		CalculateNonStaticObjectsInFrustum(frustum, go, objectsInFrustum);
+		CalculateNonStaticObjectsInFrustum(frustum, go, objectsInFrustum, filter);
 	}
 
 #ifdef ENGINE
 	GameObject* selected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
-	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum);
+	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum, filter);
 
 	//for (auto childSelected : selected->GetChildren())
 	//{
@@ -156,7 +156,7 @@ std::vector<GameObject*> Scene::ObtainStaticObjectsInFrustum(const math::Frustum
 }
 
 void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad, 
-									  std::vector<GameObject*>& gos)
+									  std::vector<GameObject*>& gos, const int& filter)
 {
 	if (FrustumInQuadTree(frustum, quad))
 	{
@@ -175,6 +175,10 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 						ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
 						if (mesh != nullptr && mesh->IsEnabled())
 						{
+							if (filter & NON_REFLECTIVE && mesh->IsReflective())
+							{
+								return;
+							}
 							gos.push_back(gameObject);
 						}
 					}
@@ -194,6 +198,10 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 						ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
 						if (mesh != nullptr && mesh->IsEnabled())
 						{
+							if (filter & NON_REFLECTIVE && mesh->IsReflective())
+							{
+								return;
+							}
 							gos.push_back(gameObject);
 						}
 					}
@@ -216,7 +224,7 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 }
 
 void Scene::CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, GameObject* go,
-										       std::vector<GameObject*>& gos)
+										       std::vector<GameObject*>& gos, const int& filter)
 {
 	if (go->GetParent() == nullptr)
 	{
@@ -237,6 +245,10 @@ void Scene::CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, Gam
 			ComponentMeshRenderer* mesh = go->GetComponentInternal<ComponentMeshRenderer>();
 			if (go->IsActive() && (mesh != nullptr || mesh->IsEnabled()))
 			{
+				if (filter & NON_REFLECTIVE && mesh->IsReflective())
+				{
+					return;
+				}
 				gos.push_back(go);
 			}
 		}
@@ -1535,10 +1547,14 @@ void Scene::UpdateScenePlanarReflections()
 		if (planarReflection->IsEnabled() && !planarReflection->IsDeleting())
 		{
 			PlanarReflection planar;
-			planar.reflection = planarReflection->GetHandleReflection();
+			float4x4 toLocal = planarReflection->GetTransform();
+			toLocal.InverseOrthonormal();
+			planar.toLocal = toLocal;
+			planar.viewProj = planarReflection->GetViewProj();
 			AABB influence = planarReflection->GetInfluenceAABB();
 			planar.maxInfluence = float4(influence.maxPoint, 0);
 			planar.minInfluence = float4(influence.minPoint, 0);
+			planar.reflection = planarReflection->GetHandleReflection();
 
 			planarReflections.push_back(planar);
 			cachedPlanarReflections.push_back(std::make_pair(planarReflection, pos));
@@ -1696,10 +1712,14 @@ void Scene::UpdateScenePlanarReflection(ComponentPlanarReflection* compPlanar)
 
 			PlanarReflection planar;
 
-			planar.reflection = compPlanar->GetHandleReflection();
+			float4x4 toLocal = compPlanar->GetTransform();
+			toLocal.InverseOrthonormal();
+			planar.toLocal = toLocal;
+			planar.viewProj = compPlanar->GetViewProj();
 			AABB influence = compPlanar->GetInfluenceAABB();
 			planar.maxInfluence = float4(influence.maxPoint, 0);
 			planar.minInfluence = float4(influence.minPoint, 0);
+			planar.reflection = compPlanar->GetHandleReflection();
 
 			planarReflections[cachedPlanarReflections[i].second] = planar;
 		}

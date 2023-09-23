@@ -164,6 +164,12 @@ UpdateStatus ModuleScene::Update()
 		particle->Update();
 	}
 
+	// Planar reflection need to be updated
+	for (auto planar : loadedScene->GetScenePlanarReflections())
+	{
+		planar->Update();
+	}
+
 	return UpdateStatus::UPDATE_CONTINUE;
 }
 

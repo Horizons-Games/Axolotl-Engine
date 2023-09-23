@@ -20,6 +20,11 @@ void WindowComponentPlanarReflection::DrawWindowContents()
 	ComponentPlanarReflection* planar = static_cast<ComponentPlanarReflection*>(component);
 	if (planar)
 	{
+		if (ImGui::Button("Update Reflection"))
+		{
+			planar->UpdateReflection();
+		}
+
 		float3 scale = planar->GetScale();
 		if (ImGui::BeginTable("##planarReflectionTable", 2))
 		{

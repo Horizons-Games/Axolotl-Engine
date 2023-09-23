@@ -2,8 +2,17 @@
 #include "ComponentPlanarReflection.h"
 
 #include "Application.h"
+#include "ModuleCamera.h"
+#include "ModuleRender.h"
 #include "ModuleScene.h"
+#include "ModuleProgram.h"
+#include "ModuleWindow.h"
 
+#include "Camera/Camera.h"
+#include "Scene/Scene.h"
+#include "Program/Program.h"
+
+#include "ComponentSkybox.h"
 #include "ComponentTransform.h"
 
 #include "Geometry/Frustum.h"
@@ -14,12 +23,13 @@
 
 ComponentPlanarReflection::ComponentPlanarReflection(GameObject* parent) : 
 	ComponentLight(LightType::PLANAR_REFLECTION, parent, true),	frameBuffer(0), depth(0), reflectionTex(0), 
-	planeNormal(0, 1, 0), originScaling({ 0.5f, 0.5f, 0.5f }), scale(float3::one)
+	planeNormal(0, 1, 0), originScaling({ 5.f, 0.f, 5.f }), scale(float3::one)
 {
 	if (GetOwner()->HasComponent<ComponentTransform>())
 	{
-		influenceAABB = { GetPosition() + float3(-5, 0.f, -5), GetPosition() + float3(5, 0.f, 5) };
+		influenceAABB = { GetPosition() + float3(-5.f, 0.f, -5.f), GetPosition() + float3(5.f, 0.f, 5.f) };
 	}
+	InitBuffer();
 }
 
 ComponentPlanarReflection::~ComponentPlanarReflection()
@@ -28,6 +38,10 @@ ComponentPlanarReflection::~ComponentPlanarReflection()
 	glDeleteRenderbuffers(1, &depth);
 
 	glDeleteTextures(1, &reflectionTex);
+
+	deleting = true;
+
+	App->GetModule<ModuleScene>()->GetLoadedScene()->RemovePlanarReflection(this);
 }
 
 void ComponentPlanarReflection::Draw() const
@@ -58,22 +72,25 @@ void ComponentPlanarReflection::OnTransformChanged()
 	influenceAABB.minPoint = (GetPosition() - halfsize);
 	influenceAABB.maxPoint = (GetPosition() + halfsize);
 
-	AXO_TODO("Recalculate all the meshes that are inside the aabb");
+	App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePlanarReflection(this);
+	App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPlanarReflection(this);
 }
 
-void ComponentPlanarReflection::InitBuffer(unsigned width, unsigned height)
+void ComponentPlanarReflection::InitBuffer()
 {
 	glGenFramebuffers(1, &frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
+	std::pair<int, int> windowSize = App->GetModule<ModuleWindow>()->GetWindowSize();
+
 	glGenRenderbuffers(1, &depth);
 	glBindRenderbuffer(GL_RENDERBUFFER, depth);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, windowSize.first, windowSize.second);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depth);
 
 	glGenTextures(1, &reflectionTex);
 	glBindTexture(GL_TEXTURE_2D, reflectionTex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, windowSize.first, windowSize.second, 0, GL_RGB, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -82,12 +99,25 @@ void ComponentPlanarReflection::InitBuffer(unsigned width, unsigned height)
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
-		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer Reflection is not complete!");
+		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer Planar Reflection is not complete!");
 	}
 }
 
-void ComponentPlanarReflection::UpdateReflection(Frustum* cameraFrustum)
+void ComponentPlanarReflection::Update()
 {
+	ModuleCamera* camera = App->GetModule<ModuleCamera>();
+	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+
+	if (IsEnabled() && camera->GetSelectedCamera()->IsInside(transform->GetEncapsuledAABB()))
+	{
+		UpdateReflection();
+	}
+}
+
+void ComponentPlanarReflection::UpdateReflection()
+{
+	Frustum* cameraFrustum = App->GetModule<ModuleCamera>()->GetCamera()->GetFrustum();
+
 	// mirror position
 	float3 mirrorPos = cameraFrustum->Pos() - planeNormal * (cameraFrustum->Pos() - GetPosition()).Dot(planeNormal) * 2.0f;
 	// mirror front
@@ -102,6 +132,36 @@ void ComponentPlanarReflection::UpdateReflection(Frustum* cameraFrustum)
 	frustum.SetPos(mirrorPos);
 	frustum.SetFront(mirrorFront);
 	frustum.SetUp(mirrorUp);
+
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Planar Reflection")), "Planar Reflection");
+
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	ModuleRender* modRender = App->GetModule<ModuleRender>();
+	ModuleProgram* modProgram = App->GetModule<ModuleProgram>();
+
+	ComponentSkybox* skybox = scene->GetRoot()->GetComponentInternal<ComponentSkybox>();
+	if (skybox)
+	{
+		skybox->Draw(frustum.ViewMatrix(), frustum.ProjectionMatrix());
+	}
+
+	std::vector<GameObject*> objectsInFrustum = scene->ObtainObjectsInFrustum(&frustum, NON_REFLECTIVE);
+
+	modRender->BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT), frustum);
+	modRender->BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR), frustum);
+
+	modRender->SortOpaques(objectsInFrustum, frustum.Pos());
+	modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::DEFAULT, false);
+	modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::SPECULAR, false);
+	modRender->SortTransparents(objectsInFrustum, frustum.Pos());
+	modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::DEFAULT);
+	modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::SPECULAR);
+
+	glPopDebugGroup();
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void ComponentPlanarReflection::ScaleInfluenceAABB(float3& scaling)
@@ -111,23 +171,36 @@ void ComponentPlanarReflection::ScaleInfluenceAABB(float3& scaling)
 
 	influenceAABB.minPoint = center - scaling.Mul(originScaling);
 	influenceAABB.maxPoint = center + scaling.Mul(originScaling);
+
+	App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePlanarReflection(this);
+	App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPlanarReflection(this);
+}
+
+const uint64_t& ComponentPlanarReflection::GetHandleReflection()
+{
+	if (handle == 0)
+	{
+		handle = glGetTextureHandleARB(reflectionTex);
+		glMakeTextureHandleResidentARB(handle);
+	}
+	return handle;
 }
 
 void ComponentPlanarReflection::InternalSave(Json& meta)
 {
 	meta["lightType"] = GetNameByLightType(lightType).c_str();
 
-	meta["influence_min_x"] = static_cast<float>(influenceAABB.minPoint.x);
-	meta["influence_min_y"] = static_cast<float>(influenceAABB.minPoint.y);
-	meta["influence_min_z"] = static_cast<float>(influenceAABB.minPoint.z);
+	meta["influence_min_x"] = influenceAABB.minPoint.x;
+	meta["influence_min_y"] = influenceAABB.minPoint.y;
+	meta["influence_min_z"] = influenceAABB.minPoint.z;
 
-	meta["influence_max_x"] = static_cast<float>(influenceAABB.maxPoint.x);
-	meta["influence_max_y"] = static_cast<float>(influenceAABB.maxPoint.y);
-	meta["influence_max_z"] = static_cast<float>(influenceAABB.maxPoint.z);
+	meta["influence_max_x"] = influenceAABB.maxPoint.x;
+	meta["influence_max_y"] = influenceAABB.maxPoint.y;
+	meta["influence_max_z"] = influenceAABB.maxPoint.z;
 
-	meta["planeNormal_x"] = static_cast<float>(planeNormal.x);
-	meta["planeNormal_y"] = static_cast<float>(planeNormal.y);
-	meta["planeNormal_z"] = static_cast<float>(planeNormal.z);
+	meta["planeNormal_x"] = planeNormal.x;
+	meta["planeNormal_y"] = planeNormal.y;
+	meta["planeNormal_z"] = planeNormal.z;
 }
 
 void ComponentPlanarReflection::InternalLoad(const Json& meta)
@@ -147,7 +220,7 @@ void ComponentPlanarReflection::InternalLoad(const Json& meta)
 	planeNormal.z = static_cast<float>(meta["planeNormal_z"]);
 }
 
-const float3 ComponentPlanarReflection::GetPosition()
+const float3& ComponentPlanarReflection::GetPosition()
 {
 	return GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
 }

@@ -33,6 +33,11 @@ enum class Premade3D
 	CHARACTER
 };
 
+enum SearchingMeshes
+{
+	NON_REFLECTIVE = 0x00000001,
+};
+
 class Scene
 {
 public:
@@ -43,15 +48,9 @@ public:
 	bool IsInsideACamera(const OBB& obb) const;
 	bool IsInsideACamera(const AABB& aabb) const;
 
-	std::vector<GameObject*> ObtainObjectsInFrustum(const math::Frustum* frustum);
+	std::vector<GameObject*> ObtainObjectsInFrustum(const math::Frustum* frustum, const int& filter = 0);
 	std::vector<GameObject*> ObtainStaticObjectsInFrustum(const math::Frustum* frustum);
-	void CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad, 
-								   std::vector<GameObject*>& gos);
-	void CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, GameObject* go,
-										    std::vector<GameObject*>& gos);
-	bool FrustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad);
-	bool ObjectInFrustum(const math::Frustum* frustum, const AABB& aabb);
-
+	
 	GameObject* CreateGameObject(const std::string& name, GameObject* parent, bool is3D = true);
 	GameObject* DuplicateGameObject(const std::string& name, GameObject*, GameObject* parent);
 	GameObject* CreateCameraGameObject(const std::string& name, GameObject* parent);
@@ -188,6 +187,13 @@ private:
 	void RemoveFatherAndChildren(const GameObject* father);
 	void GenerateLights();
 	void RemoveGameObjectFromScripts(const GameObject* gameObject);
+
+	void CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad,
+		std::vector<GameObject*>& gos, const int& filter = 0);
+	void CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, GameObject* go,
+		std::vector<GameObject*>& gos, const int& filter = 0);
+	bool FrustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad);
+	bool ObjectInFrustum(const math::Frustum* frustum, const AABB& aabb);
 
 	std::unique_ptr<Cubemap> cubemap;
 	std::unique_ptr<GameObject> root;
