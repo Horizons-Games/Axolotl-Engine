@@ -31,7 +31,6 @@ ComponentVideo::ComponentVideo(bool active, GameObject* owner) :
 	loop(false),
 	finished(false),
 	rotateVertical(false),
-	canRotate(false),
 	played(false),
 	firstFrame(true)
 {
@@ -42,37 +41,9 @@ ComponentVideo::~ComponentVideo()
 {
 }
 
-void ComponentVideo::Init()
-{
-	// Set GL texture buffer
-	glGenTextures(1, &frameTexture);
-	glBindTexture(GL_TEXTURE_2D, frameTexture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-#ifdef ENGINE	
-	std::filesystem::path fs_path(video->GetAssetsPath());
-	std::string extension = fs_path.extension().string();
-	if (extension != AVI_VIDEO_EXTENSION)
-	{
-		canRotate = true;
-	}
-	OpenVideo(video->GetAssetsPath().c_str());
-#else
-	/*std::filesystem::path fs_path(video->GetLibraryPath());
-	std::string extension = fs_path.extension().string();*/
-	std::string extension = video->GetExtension();
-	if (extension != AVI_VIDEO_EXTENSION)
-	{
-		canRotate = true;
-	}
-	OpenVideo((video->GetLibraryPath() + extension).c_str());
-#endif
-}
-
 void ComponentVideo::Draw() const
 {
+
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SPRITE);
 	
 	if (!program)
@@ -114,11 +85,13 @@ void ComponentVideo::Draw() const
 	program->BindUniformFloat("renderPercentage", 1.0f);
 	program->BindUniformInt("direction", 1);
 		
-	if (initialized)
+	if (video)
 	{
+		video->Load();
 		program->BindUniformInt("hasDiffuse", 1);
-		glBindTexture(GL_TEXTURE_2D, frameTexture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, frameWidth, frameHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, frameData);
+		glBindTexture(GL_TEXTURE_2D, video->GetGlFrameBuffer());
+		glTexImage2D(
+			GL_TEXTURE_2D, 0, GL_RGBA8, video->GetFrameWidth(), video->GetFrameHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, frameData);
 	}
 	else program->BindUniformInt("hasDiffuse", 0);
 
@@ -144,7 +117,6 @@ void ComponentVideo::InternalSave(Json& meta)
 	}
 	meta["loop"] = loop;
 	meta["rotateVertical"] = rotateVertical;
-	meta["canBeRotate"] = canRotate;
 	meta["playAtStart"] = playAtStart;
 	
 }
@@ -154,7 +126,6 @@ void ComponentVideo::InternalLoad(const Json& meta)
 	loop = meta["loop"];
 	std::string path = meta["assetPathVideo"];
 	rotateVertical = meta["rotateVertical"];
-	canRotate = meta["canBeRotate"];
 	playAtStart = meta["playAtStart"];
 #ifdef ENGINE	
 	bool resourceExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
@@ -164,8 +135,7 @@ void ComponentVideo::InternalLoad(const Json& meta)
 			App->GetModule<ModuleResources>()->RequestResource<ResourceVideo>(path);
 		if (resourceVideo)
 		{
-			video = std::move(resourceVideo);
-			Init();
+			SetVideo(resourceVideo);
 		}
 	}
 #else
@@ -174,104 +144,32 @@ void ComponentVideo::InternalLoad(const Json& meta)
 		App->GetModule<ModuleResources>()->SearchResource<ResourceVideo>(uidVideo);
 	if (resourceVideo)
 	{
-		video = std::move(resourceVideo);
-		Init();
+		SetVideo(resourceVideo);
 	}
 #endif
 }
 
-void ComponentVideo::OpenVideo(const char* filePath)
 {
-	// Open video file
-	formatCtx = avformat_alloc_context();
-	if (!formatCtx)
+	if (played)
 	{
-		LOG_ERROR("Couldn't allocate AVFormatContext.");
-		return;
+		ReadVideoFrame();
 	}
-	if (avformat_open_input(&formatCtx, filePath, nullptr, nullptr) != 0)
-	{
-		LOG_ERROR("Couldn't open video file.");
-		return;
-	}
-
-	// DECODING VIDEO
-	// Find a valid video stream in the file
-	AVCodecParameters* videoCodecParams;
-	AVCodec* videoDecoder;
-	videoStreamIndex = -1;
-
-	videoStreamIndex = av_find_best_stream(formatCtx, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
-	if (videoStreamIndex < 0)
-	{
-		LOG_ERROR("Couldn't find valid video stream inside file.");
-		return;
-	}
-
-	// Find an appropiate video decoder
-	videoCodecParams = formatCtx->streams[videoStreamIndex]->codecpar;
-	videoDecoder = avcodec_find_decoder(videoCodecParams->codec_id);
-	if (!videoDecoder)
-	{
-		LOG_ERROR("Couldn't find valid video decoder.");
-		return;
-	}
-
-	// Set up a video codec context for the decoder
-	videoCodecCtx = avcodec_alloc_context3(videoDecoder);
-	if (!videoCodecCtx)
-	{
-		LOG_ERROR("Couldn't allocate AVCodecContext.");
-		return;
-	}
-	if (avcodec_parameters_to_context(videoCodecCtx, videoCodecParams) < 0)
-	{
-		LOG_ERROR("Couldn't initialise AVCodecContext.");
-		return;
-	}
-	if (avcodec_open2(videoCodecCtx, videoDecoder, nullptr) < 0)
-	{
-		LOG_ERROR("Couldn't open video codec.");
-		return;
-	}
-
-	// Set video parameters and Allocate frame buffer
-	frameWidth = videoCodecParams->width;
-	frameHeight = videoCodecParams->height;
-	frameData = new uint8_t[frameWidth * frameHeight * 4];
-	SetVideoFrameSize(frameWidth, frameHeight);
-	memset(frameData, 0, frameWidth * frameHeight * 4);
-
-	// Allocate memory for packets and frames
-	avPacket = av_packet_alloc();
-	if (!avPacket)
-	{
-		LOG_ERROR("Couldn't allocate AVPacket.");
-		return;
-	}
-	avFrame = av_frame_alloc();
-	if (!avFrame)
-	{
-		LOG_ERROR("Couldn't allocate AVFrame.");
-		return;
-	}
-	initialized = true;
 }
 
 void ComponentVideo::ReadVideoFrame()
 {
-	if (initialized && (played || !played && firstFrame))
+	if (video)
 	{
-		firstFrame = false;
+		video->Load();
 		int response = -1;
 		int error = 0;
 		while (error >= 0)
 		{
-			error = av_read_frame(formatCtx, avPacket);
+			error = av_read_frame(video->GetFormat(), video->GetAvPacket());
 
-			if (avPacket->stream_index != videoStreamIndex)
+			if (video->GetAvPacket()->stream_index != video->GetVideoStream())
 			{
-				av_packet_unref(avPacket);
+				av_packet_unref(video->GetAvPacket());
 				continue;
 			}
 
@@ -282,22 +180,22 @@ void ComponentVideo::ReadVideoFrame()
 				if (loop)
 				{
 					RestartVideo();
-					av_packet_unref(avPacket);
+					av_packet_unref(video->GetAvPacket());
 				}
-				if(rotateVertical)
+				if(video->GetCanRotate() && rotateVertical)
 				{
-					avFrame->data[0] += avFrame->linesize[0] * (videoCodecCtx->height - 1);
-					avFrame->linesize[0] *= -1;
-					avFrame->data[1] += avFrame->linesize[1] * (videoCodecCtx->height / 2 - 1);
-					avFrame->linesize[1] *= -1;
-					avFrame->data[2] += avFrame->linesize[2] * (videoCodecCtx->height / 2 - 1);
-					avFrame->linesize[2] *= -1;
+					video->GetAvFrame()->data[0] += video->GetAvFrame()->linesize[0] * (video->GetVideoCodec()->height - 1);
+					video->GetAvFrame()->linesize[0] *= -1;
+					video->GetAvFrame()->data[1] += video->GetAvFrame()->linesize[1] * (video->GetVideoCodec()->height / 2 - 1);
+					video->GetAvFrame()->linesize[1] *= -1;
+					video->GetAvFrame()->data[2] += video->GetAvFrame()->linesize[2] * (video->GetVideoCodec()->height / 2 - 1);
+					video->GetAvFrame()->linesize[2] *= -1;
 				}
 
 				break;
 			}
 
-			response = avcodec_send_packet(videoCodecCtx, avPacket);
+			response = avcodec_send_packet(video->GetVideoCodec(), video->GetAvPacket());
 			if (response < 0)
 			{
 				LOG_ERROR("Failed to decode packet");
@@ -305,10 +203,10 @@ void ComponentVideo::ReadVideoFrame()
 				return;
 			}
 
-			response = avcodec_receive_frame(videoCodecCtx, avFrame);
+			response = avcodec_receive_frame(video->GetVideoCodec(), video->GetAvFrame());
 			if (response == AVERROR(EAGAIN) || response == AVERROR_EOF)
 			{
-				av_packet_unref(avPacket);
+				av_packet_unref(video->GetAvPacket());
 				continue;
 			}
 			if (response < 0)
@@ -318,17 +216,17 @@ void ComponentVideo::ReadVideoFrame()
 				return;
 			}
 
-			av_packet_unref(avPacket);
+			av_packet_unref(video->GetAvPacket());
 			break;
 		}
 		if (!scalerCtx)
 		{
 			// Set SwScaler - Scale frame size + Pixel converter to RGB
-			scalerCtx = sws_getContext(frameWidth,
-									   frameHeight,
-									   videoCodecCtx->pix_fmt,
-									   frameWidth,
-									   frameHeight,
+			scalerCtx = sws_getContext(video->GetFrameWidth(),
+									   video->GetFrameHeight(),
+									   video->GetVideoCodec()->pix_fmt,
+									   video->GetFrameWidth(),
+									   video->GetFrameHeight(),
 									   AV_PIX_FMT_RGBA,
 									   SWS_FAST_BILINEAR,
 									   nullptr,
@@ -343,20 +241,26 @@ void ComponentVideo::ReadVideoFrame()
 		}
 
 
-		if (rotateVertical)
+		if (video->GetCanRotate() && rotateVertical)
 		{
-			avFrame->data[0] += avFrame->linesize[0] * (videoCodecCtx->height - 1);
-			avFrame->linesize[0] *= -1;
-			avFrame->data[1] += avFrame->linesize[1] * (videoCodecCtx->height / 2 - 1);
-			avFrame->linesize[1] *= -1;
-			avFrame->data[2] += avFrame->linesize[2] * (videoCodecCtx->height / 2 - 1);
-			avFrame->linesize[2] *= -1;
+			video->GetAvFrame()->data[0] += video->GetAvFrame()->linesize[0] * (video->GetVideoCodec()->height - 1);
+			video->GetAvFrame()->linesize[0] *= -1;
+			video->GetAvFrame()->data[1] += video->GetAvFrame()->linesize[1] * (video->GetVideoCodec()->height / 2 - 1);
+			video->GetAvFrame()->linesize[1] *= -1;
+			video->GetAvFrame()->data[2] += video->GetAvFrame()->linesize[2] * (video->GetVideoCodec()->height / 2 - 1);
+			video->GetAvFrame()->linesize[2] *= -1;
 		}
 
 
 		uint8_t* dest[4] = { frameData, nullptr, nullptr, nullptr };
-		int linSize[4] = { frameWidth * 4, 0, 0, 0 };
-		sws_scale(scalerCtx, avFrame->data, avFrame->linesize, 0, frameHeight, dest, linSize);
+		int linSize[4] = { video->GetFrameWidth() * 4, 0, 0, 0 };
+		sws_scale(scalerCtx,
+				  video->GetAvFrame()->data,
+				  video->GetAvFrame()->linesize,
+				  0,
+				  video->GetFrameHeight(),
+				  dest,
+				  linSize);
 	}
 }
 
@@ -369,8 +273,8 @@ void ComponentVideo::SetVideoFrameSize(int width, int height)
 
 void ComponentVideo::RestartVideo()
 {
-	avio_seek(formatCtx->pb, 0, SEEK_SET);
-	if (av_seek_frame(formatCtx, videoStreamIndex, -1, 0) >= 0)
+	avio_seek(video->GetFormat()->pb, 0, SEEK_SET);
+	if (av_seek_frame(video->GetFormat(), video->GetVideoStream(), -1, 0) >= 0)
 	{
 	}
 }
