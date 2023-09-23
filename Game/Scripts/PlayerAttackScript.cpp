@@ -117,7 +117,11 @@ void PlayerAttackScript::Update(float deltaTime)
 	}
 	else
 	{
-		PerformCombos();
+		if ((lastAttack == AttackType::LIGHTNORMAL || lastAttack == AttackType::HEAVYNORMAL)
+			&& !isNextAttackTriggered) //Reset attack combo animation
+		{
+			animation->SetParameter("IsLightAttacking", false);
+		}
 	}
 
 	if (!IsAttackAvailable())
@@ -131,6 +135,8 @@ void PlayerAttackScript::Update(float deltaTime)
 			ResetAttackAnimations(deltaTime);
 		}
 	}
+	
+	PerformCombos();
 }
 
 void PlayerAttackScript::AttackAfterDash()
@@ -177,11 +183,6 @@ void PlayerAttackScript::UpdateEnemyDetection()
 
 void PlayerAttackScript::PerformCombos()
 {
-	if ((lastAttack == AttackType::LIGHTNORMAL || lastAttack == AttackType::HEAVYNORMAL)
-		&& !isNextAttackTriggered) //Reset attack combo animation
-	{
-		animation->SetParameter("IsLightAttacking", false);
-	}
 
 	//Check input
 	currentAttack = comboSystem->CheckAttackInput(!playerManager->IsGrounded());
