@@ -35,24 +35,6 @@ layout(std140, binding=1) uniform Directional
 	vec4 directionalColor;	//16	//16     // note: alpha parameter of colour is the intensity 
 };
 
-readonly layout(std430, binding=2) buffer PointLights
-{
-	uint num_point;			//4		//0
-	PointLight points[]; 	//32	//16
-};
-
-readonly layout(std430, binding=3) buffer SpotLights
-{
-	uint num_spot;
-	SpotLight spots[];
-};
-
-readonly layout(std430, binding=4) buffer AreaLightsSphere
-{
-	uint num_spheres;
-	AreaLightSphere areaSphere[];
-};
-
 readonly layout(std430, binding=5) buffer AreaLightsTube
 {
 	uint num_tubes;
@@ -101,136 +83,6 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
     float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
     return (Cd*f0+0.25*FS*SV*GGXND)*directionalColor.rgb*directionalColor.a*dotNL;
-}
-
-vec3 calculatePointLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
-{
-    vec3 Lo = vec3(0.0);
-
-    for (int i = 0; i < num_point; ++i)
-    {
-        vec3 pos = points[i].position.xyz;
-        vec3 color = points[i].color.rgb;
-        float radius = points[i].position.w;
-        float intensity = points[i].color.a;
-        
-        vec3 L = normalize(pos-FragPos);
-        vec3 H = (L+V)/length(L+V);
-
-        float dotNL = max(dot(N,L), EPSILON);
-
-        vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
-        float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
-        float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
-
-        // Attenuation
-        float distance = length(FragPos - pos);
-        float maxValue = pow(max(1 - pow(distance/radius,4), 0),2);
-        float attenuation = maxValue/(pow(distance,2) + 1);
-
-        vec3 Li = color*intensity*attenuation;
-
-        Lo += (Cd*f0+0.25*FS*SV*GGXND)*Li*dotNL;
-    }
-
-    return Lo;
-}
-
-vec3 calculateSpotLights(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
-{
-    vec3 Lo = vec3(0.0);
-
-    for (int i = 0; i < num_spot; ++i)
-    {
-        vec3 pos = spots[i].position.xyz;
-        vec3 aim = spots[i].aim;
-        vec3 color = spots[i].color.rgb;
-        float radius = spots[i].position.w;
-        float intensity = spots[i].color.a;
-        float innerAngle = spots[i].innerAngle;
-        float outerAngle = spots[i].outerAngle;
-
-        float cosInner = cos(innerAngle);
-        float cosOuter = cos(outerAngle);
-
-        vec3 L = normalize(pos-FragPos);
-        vec3 H = (L+V)/length(L+V);
-        float dotNL = max(dot(N,L), EPSILON);
-
-        vec3 FS = fresnelSchlick(f0, max(dot(L,H), EPSILON));
-        float SV = smithVisibility(dotNL, max(dot(N,V), EPSILON), roughness);
-        float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
-
-        // Attenuation
-        float distance = dot(FragPos - pos, aim);
-        float maxValue = pow(max(1 - pow(distance/radius,4), 0),2);
-        float attenuation = maxValue/(pow(distance,2) + 1);
-
-        float C = dot(-L, aim);
-        float Catt = 0;
-
-        if (C > cosInner)
-        {
-            Catt = 1;
-        }
-        else if (cosInner > C && C > cosOuter)
-        {
-            Catt = (C - cosOuter)/(cosInner - cosOuter);
-        }
-    
-        vec3 Li = color * intensity * attenuation * Catt;
-            
-        Lo += (Cd*f0+0.25*FS*SV*GGXND)*Li*dotNL;
-    }
-
-    return Lo;
-}
-
-vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
-{
-    vec3 Lo = vec3(0.0);
-
-    for (int i = 0; i < num_spheres; ++i)
-    {
-        vec3 sP = areaSphere[i].position.xyz;
-        vec3 color = areaSphere[i].color.rgb;
-        float sR = areaSphere[i].position.w;
-        float intensity = areaSphere[i].color.a;
-        float lightRadius = areaSphere[i].lightRadius;
-
-        vec3 R = normalize(reflect(-V, N));
-        
-        // Attenuation from the closest point view
-        float closeDistance = max(length(FragPos-sP)-sR, 0.0);
-        float maxValue = pow(max(1-pow(closeDistance/lightRadius,4), 0),2);
-        float attenuation = maxValue/(pow(closeDistance,2) + 1);
-
-        // calculate closest point light specular
-        vec3 closest = ClosestRayToSphere(sR, sP - FragPos, R);
-
-        vec3 L = normalize(closest);
-        vec3 H = normalize(L + V);
-        float specularDotNL = max(dot(N,L), EPSILON);
-        
-        float alpha = max(roughness * roughness, EPSILON);
-        float alphaPrime = clamp(sR/(closeDistance*2.0)+alpha, 0.0f, 1.0f);
-        float D = GGXNDAreaLight(max(dot(N,H), EPSILON), roughness, alpha, alphaPrime);
-        vec3 F = fresnelSchlick(f0, max(dot(L,H), EPSILON));
-        float G = smithVisibility(specularDotNL, max(dot(N,V), EPSILON), roughness);
-        
-        // calculate closest point light diffuse
-        closest = sP;
-
-        L = normalize(closest-FragPos);
-        float diffuseDotNL = max(dot(N,L), EPSILON);
-
-        vec3 Li = color * intensity * attenuation;
-        vec3 LoSpecular = 0.25 * D * F * G * Li * specularDotNL;
-        vec3 LoDiffuse = (Cd) * Li * diffuseDotNL;
-        Lo += LoDiffuse + LoSpecular;
-    }
-
-    return Lo;
 }
 
 vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
@@ -348,21 +200,6 @@ void main()
         environmentBRDF, numLevels_IBL) * cubemap_intensity;
 
     vec3 Lo = calculateDirectionalLight(norm, viewDir, textureMat.rgb, f0, roughness);
-
-    if (num_point > 0)
-    {
-        Lo += calculatePointLights(norm, viewDir, textureMat.rgb, f0, roughness);
-    }
-
-    if (num_spot > 0)
-    {
-        Lo += calculateSpotLights(norm, viewDir, textureMat.rgb, f0, roughness);
-    }
-
-    if (num_spheres > 0)
-    {
-        Lo += calculateAreaLightSpheres(norm, viewDir, textureMat.rgb, f0, roughness);
-    }
 
     if (num_tubes > 0)
     {

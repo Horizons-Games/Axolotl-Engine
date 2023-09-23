@@ -42,6 +42,8 @@ void LightProxy::DrawLights(Program* program)
 
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Light Culling"), "Light Culling");
 
+	program->BindUniformFloat2("screenSize", float2(screenSize.first, screenSize.second));
+
 	DrawPoints(program);
 	DrawSpots(program);
 	DrawSpheres(program);
@@ -65,6 +67,12 @@ void LightProxy::DrawPoints(Program* program)
 		SphereShape(radius, 15, 15);
 
 		program->BindUniformFloat4x4("model", &transform[0][0], true);
+
+		program->BindUniformInt("lightIndex", static_cast<int>(point.second));
+		program->BindUniformInt("flagPoint", 1);
+		program->BindUniformInt("flagSpot", 0);
+		program->BindUniformInt("flagSphere", 0);
+		program->BindUniformInt("flagTube", 0);
 
 		glBindVertexArray(sphere->GetVAO());
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sphere->GetEBO());
@@ -99,6 +107,12 @@ void LightProxy::DrawSpots(Program* program)
 
 		program->BindUniformFloat4x4("model", &transform[0][0], true);
 
+		program->BindUniformInt("lightIndex", static_cast<int>(spot.second));
+		program->BindUniformInt("flagSpot", 1);
+		program->BindUniformInt("flagPoint", 0);
+		program->BindUniformInt("flagSphere", 0);
+		program->BindUniformInt("flagTube", 0);
+
 		glBindVertexArray(cone->GetVAO());
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cone->GetEBO());
 
@@ -130,6 +144,12 @@ void LightProxy::DrawSpheres(Program* program)
 
 		program->BindUniformFloat4x4("model", &transform[0][0], true);
 
+		program->BindUniformInt("lightIndex", static_cast<int>(sphere.second));
+		program->BindUniformInt("flagSphere", 1);
+		program->BindUniformInt("flagSpot", 0);
+		program->BindUniformInt("flagPoint", 0);
+		program->BindUniformInt("flagTube", 0);
+
 		glBindVertexArray(this->sphere->GetVAO());
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->sphere->GetEBO());
 
@@ -137,10 +157,12 @@ void LightProxy::DrawSpheres(Program* program)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 		glDepthMask(GL_FALSE);
 		glDisable(GL_DEPTH_TEST);
+		glFrontFace(GL_CCW);
 
 		glDrawElements(GL_TRIANGLES, this->sphere->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
 		glBindVertexArray(0);
 
+		glFrontFace(GL_CW);
 		glDisable(GL_BLEND);
 		glDepthMask(GL_TRUE);
 		glEnable(GL_DEPTH_TEST);
@@ -162,6 +184,12 @@ void LightProxy::DrawTubes(Program* program)
 		float4x4 transform = tube.first->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 		program->BindUniformFloat4x4("model", &transform[0][0], true);
+		
+		program->BindUniformInt("lightIndex", static_cast<int>(tube.second));
+		program->BindUniformInt("flagTube", 1);
+		program->BindUniformInt("flagSphere", 0);
+		program->BindUniformInt("flagSpot", 0);
+		program->BindUniformInt("flagPoint", 0);
 
 		glBindVertexArray(this->tube->GetVAO());
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->tube->GetEBO());
@@ -170,10 +198,12 @@ void LightProxy::DrawTubes(Program* program)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 		glDepthMask(GL_FALSE);
 		glDisable(GL_DEPTH_TEST);
+		glFrontFace(GL_CCW);
 
 		glDrawElements(GL_TRIANGLES, this->tube->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
 		glBindVertexArray(0);
 
+		glFrontFace(GL_CW);
 		glDisable(GL_BLEND);
 		glDepthMask(GL_TRUE);
 		glEnable(GL_DEPTH_TEST);

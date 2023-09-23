@@ -30,14 +30,24 @@ public:
 	void TubeShape(float height, float radius, unsigned slices, unsigned stacks);
 	void PlaneShape(float height, float radius, unsigned slices, unsigned stacks);
 
+	void SetScreenSize(unsigned width, unsigned height);
+
 private:
 
 	int numPointLight;
 	int numSpotLight;
+
+	std::pair<unsigned, unsigned> screenSize;
 
 	ResourceMesh* sphere;
 	ResourceMesh* cone;
 	ResourceMesh* tube;
 	ResourceMesh* plane;
 };
+
+inline void LightProxy::SetScreenSize(unsigned width, unsigned height)
+{
+	screenSize.first = width;
+	screenSize.second = height;
+}
 

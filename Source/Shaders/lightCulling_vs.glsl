@@ -18,7 +18,6 @@ layout(std140, row_major, binding = 0) uniform Camera
 
 uniform mat4 model;
 
-
 void main()
 {
     gl_Position = proj*view*model*vec4(position, 1.0);

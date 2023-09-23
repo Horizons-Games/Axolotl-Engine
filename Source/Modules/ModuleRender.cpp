@@ -426,9 +426,6 @@ UpdateStatus ModuleRender::Update()
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
 	glPopDebugGroup();
 
-	program = modProgram->GetProgram(ProgramType::LIGHT_CULLING);
-	lightProxy->DrawLights(program);
-
 	// -------- PRE-FORWARD ----------------------
 	if (loadedScene->GetRoot()->HasComponent<ComponentSkybox>())
 	{
@@ -500,6 +497,11 @@ UpdateStatus ModuleRender::Update()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
 	glDisable(GL_BLEND);
+
+	// ------- LIGHT PASS ----------
+	program = modProgram->GetProgram(ProgramType::LIGHT_CULLING);
+	lightProxy->DrawLights(program);
+	// -----------------------------
 
 	for (const GameObject* go : gameObjectsInFrustrum)
 	{
@@ -617,6 +619,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 {
 	gBuffer->InitGBuffer(width, height);
 	shadows->UpdateBuffers(width, height);
+	lightProxy->SetScreenSize(width, height);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
 
