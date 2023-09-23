@@ -98,6 +98,7 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 			
 			if (playerManager->GetPlayerState() == PlayerActions::FALLING)
 			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 				playerManager->SetPlayerState(PlayerActions::IDLE);
 			}
 		}
