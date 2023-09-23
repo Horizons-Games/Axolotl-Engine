@@ -6,6 +6,7 @@
 #include "../Scripts/PlayerJumpScript.h"
 #include "../Scripts/PlayerRotationScript.h"
 #include "../Scripts/PlayerMoveScript.h"
+#include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/DebugGame.h"
 
 REGISTERCLASS(PlayerManagerScript);
@@ -26,7 +27,7 @@ void PlayerManagerScript::Start()
 	jumpManager = owner->GetComponent<PlayerJumpScript>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
 	rotationManager = owner->GetComponent<PlayerRotationScript>();
-
+	attackManager = owner->GetComponent<PlayerAttackScript>();
 }
 
 bool PlayerManagerScript::IsGrounded() const
@@ -95,6 +96,7 @@ void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 	movementManager->SetIsParalyzed(paralyzed);
 	jumpManager->SetCanJump(!paralyzed);
 	rotationManager->SetCanRotate(!paralyzed);
+	attackManager->SetCanAttack(!paralyzed);
 }
 
 void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)

@@ -7,6 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class PlayerJumpScript;
 class PlayerMoveScript;
+class PlayerAttackScript;
 class DebugGame;
 class PlayerRotationScript;
 
@@ -56,6 +57,7 @@ private:
 	// All Main PlayerManagers
 	PlayerMoveScript* movementManager;
 	PlayerJumpScript* jumpManager;
+	PlayerAttackScript* attackManager;
 	DebugGame* debugManager;
 	PlayerRotationScript* rotationManager;
 };
