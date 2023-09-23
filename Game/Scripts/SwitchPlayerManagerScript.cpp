@@ -140,10 +140,11 @@ void SwitchPlayerManagerScript::VisualSwitchEffect()
 
 void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 {
+	componentAnimation = currentPlayer->GetComponent<ComponentAnimation>();
+	componentAnimation->SetParameter("IsJumping", true);
 	camera->ToggleCameraState();
 	currentPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(true);
 	playerManager->ForcingJump(true);
-	componentAnimation = currentPlayer->GetComponent<ComponentAnimation>();
 
 	// The position where the newCurrentPlayer will appear
 	positionPlayer = currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition();

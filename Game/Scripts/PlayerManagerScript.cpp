@@ -100,6 +100,7 @@ PlayerMoveScript* PlayerManagerScript::GetMovementManager() const
 
 void PlayerManagerScript::ForcingJump(bool forcedJump)
 {
+	playerState = PlayerActions::JUMPING;
 	jumpManager->ChangingCurrentPlayer();
 	jumpManager->SetCanJump(forcedJump);
 }
