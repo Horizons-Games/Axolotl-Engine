@@ -17,11 +17,40 @@
 	#include "optick.h"
 #endif // DEBUG
 
+namespace
+{
+const std::unordered_map<SDL_GameControllerButton, std::variant<SDL_Scancode, Uint8>> gamepadMapping = {
+	{ SDL_CONTROLLER_BUTTON_A, SDL_SCANCODE_SPACE },
+	{ SDL_CONTROLLER_BUTTON_B, SDL_SCANCODE_E },
+	{ SDL_CONTROLLER_BUTTON_X, static_cast<Uint8>(SDL_BUTTON_LEFT) },
+	{ SDL_CONTROLLER_BUTTON_Y, static_cast<Uint8>(SDL_BUTTON_RIGHT) },
+	{ SDL_CONTROLLER_BUTTON_BACK, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_GUIDE, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_START, SDL_SCANCODE_ESCAPE },
+	{ SDL_CONTROLLER_BUTTON_LEFTSTICK, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_RIGHTSTICK, SDL_SCANCODE_X },
+	{ SDL_CONTROLLER_BUTTON_LEFTSHOULDER, SDL_SCANCODE_LSHIFT },
+	{ SDL_CONTROLLER_BUTTON_RIGHTSHOULDER, SDL_SCANCODE_Z },
+	{ SDL_CONTROLLER_BUTTON_DPAD_UP, SDL_SCANCODE_TAB },
+	{ SDL_CONTROLLER_BUTTON_DPAD_DOWN, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_DPAD_LEFT, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_DPAD_RIGHT, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_MISC1, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_PADDLE1, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_PADDLE2, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_PADDLE3, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_PADDLE4, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_TOUCHPAD, SDL_SCANCODE_UNKNOWN },
+};
+} // namespace
+
 ModuleInput::ModuleInput() :
 	mouseWheel(float2::zero),
 	mouseMotion(float2::zero),
 	mousePosX(0),
 	mousePosY(0),
+	leftJoystickMovement({ 0, 0 }),
+	rightJoystickMovement({ 0, 0 }),
 	leftJoystickDirection{ JoystickHorizontalDirection::NONE, JoystickVerticalDirection::NONE },
 	rightJoystickDirection{ JoystickHorizontalDirection::NONE, JoystickVerticalDirection::NONE }
 {
@@ -63,7 +92,7 @@ bool ModuleInput::Init()
 	return true;
 }
 
-UpdateStatus ModuleInput::Update()
+UpdateStatus ModuleInput::PreUpdate()
 {
 #ifdef DEBUG
 	OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
@@ -110,7 +139,6 @@ UpdateStatus ModuleInput::Update()
 			gamepadState[i] = KeyState::IDLE;
 		}
 	}
-
 	SDL_PumpEvents();
 
 	SDL_GameController* controller = FindController();
@@ -233,73 +261,96 @@ UpdateStatus ModuleInput::Update()
 				if (controller)
 				{
 					axis = static_cast<SDL_GameControllerAxis>(sdlEvent.caxis.axis);
-					joystickAxisValue = sdlEvent.caxis.value;
+					Sint16 axisValue = sdlEvent.caxis.value;
 					if (axis == SDL_CONTROLLER_AXIS_LEFTX)
 					{
-						if (joystickAxisValue > 3200)
+						if (axisValue > 3200)
 						{
-							leftJoystickDirection.horizontalMovement = JoystickHorizontalDirection::RIGHT;
-							inputMethod = InputMethod::GAMEPAD;
+							leftJoystickDirection.horizontalDirection = JoystickHorizontalDirection::RIGHT;
 						}
-						else if (joystickAxisValue < -3200)
+						else if (axisValue < -3200)
 						{
-							leftJoystickDirection.horizontalMovement = JoystickHorizontalDirection::LEFT;	
-					inputMethod = InputMethod::GAMEPAD;
+							leftJoystickDirection.horizontalDirection = JoystickHorizontalDirection::LEFT;
 						}
 						else
 						{
-							leftJoystickDirection.horizontalMovement = JoystickHorizontalDirection::NONE;
+							leftJoystickDirection.horizontalDirection = JoystickHorizontalDirection::NONE;
+							leftJoystickMovement.horizontalMovement = 0;
+						}
+
+						if (leftJoystickDirection.horizontalDirection != JoystickHorizontalDirection::NONE)
+						{
+							leftJoystickMovement.horizontalMovement = axisValue;
+							inputMethod = InputMethod::GAMEPAD;
 						}
 					}
-					else if (axis == SDL_CONTROLLER_AXIS_LEFTY)
+
+					if (axis == SDL_CONTROLLER_AXIS_LEFTY)
 					{
-						if (joystickAxisValue < -3200)
+						if (axisValue < -3200)
 						{
-							leftJoystickDirection.verticalMovement = JoystickVerticalDirection::FORWARD;
-							inputMethod = InputMethod::GAMEPAD;
+							leftJoystickDirection.verticalDirection = JoystickVerticalDirection::FORWARD;
 						}
-						else if (joystickAxisValue > 3200)
+						else if (axisValue > 3200)
 						{
-							leftJoystickDirection.verticalMovement = JoystickVerticalDirection::BACK;
-							inputMethod = InputMethod::GAMEPAD;
-						}					
+							leftJoystickDirection.verticalDirection = JoystickVerticalDirection::BACK;
+						}
 						else
 						{
-							leftJoystickDirection.verticalMovement = JoystickVerticalDirection::NONE;
+							leftJoystickDirection.verticalDirection = JoystickVerticalDirection::NONE;
+							leftJoystickMovement.verticalMovement = 0;
+						}
+
+						if (leftJoystickDirection.verticalDirection != JoystickVerticalDirection::NONE)
+						{
+							leftJoystickMovement.verticalMovement = axisValue;
+							inputMethod = InputMethod::GAMEPAD;
 						}
 					}
-					else if (axis == SDL_CONTROLLER_AXIS_RIGHTX)
+					
+					if (axis == SDL_CONTROLLER_AXIS_RIGHTX)
 					{
-						if (joystickAxisValue > 3200)
+						if (axisValue > 3200)
 						{
-							rightJoystickDirection.horizontalMovement = JoystickHorizontalDirection::RIGHT;
-							inputMethod = InputMethod::GAMEPAD;
+							rightJoystickDirection.horizontalDirection = JoystickHorizontalDirection::RIGHT;
 						}
-						else if (joystickAxisValue < -3200)
+						else if (axisValue < -3200)
 						{
-							rightJoystickDirection.horizontalMovement = JoystickHorizontalDirection::LEFT;
-							inputMethod = InputMethod::GAMEPAD;
+							rightJoystickDirection.horizontalDirection = JoystickHorizontalDirection::LEFT;
 						}
 						else
 						{
-							rightJoystickDirection.horizontalMovement = JoystickHorizontalDirection::NONE;
+							rightJoystickDirection.horizontalDirection = JoystickHorizontalDirection::NONE;
+							rightJoystickMovement.horizontalMovement = 0;
+						}
+
+						if (rightJoystickDirection.horizontalDirection != JoystickHorizontalDirection::NONE)
+						{
+							rightJoystickMovement.horizontalMovement = axisValue;
+							inputMethod = InputMethod::GAMEPAD;
 						}
 					}
-					else if (axis == SDL_CONTROLLER_AXIS_RIGHTY)
+					
+					if (axis == SDL_CONTROLLER_AXIS_RIGHTY)
 					{
-						if (joystickAxisValue < -3200)
+						if (axisValue < -3200)
 						{
-							rightJoystickDirection.verticalMovement = JoystickVerticalDirection::FORWARD;
-							inputMethod = InputMethod::GAMEPAD;
+							rightJoystickDirection.verticalDirection = JoystickVerticalDirection::FORWARD;
 						}
-						else if (joystickAxisValue > 3200)
+						else if (axisValue > 3200)
 						{
-							rightJoystickDirection.verticalMovement = JoystickVerticalDirection::BACK;
-							inputMethod = InputMethod::GAMEPAD;
+							rightJoystickDirection.verticalDirection = JoystickVerticalDirection::BACK;
 						}
 						else
 						{
-							rightJoystickDirection.verticalMovement = JoystickVerticalDirection::NONE;
+							rightJoystickDirection.verticalDirection = JoystickVerticalDirection::NONE;
+							rightJoystickMovement.verticalMovement = 0;
+						}
+
+						if (rightJoystickDirection.verticalDirection != JoystickVerticalDirection::NONE)
+						{
+							rightJoystickMovement.horizontalMovement = axisValue;
+							inputMethod = InputMethod::GAMEPAD;
 						}
 					}
 				}
@@ -315,6 +366,17 @@ UpdateStatus ModuleInput::Update()
 				break;
 		}
 	}
+
+	MapControllerInput();
+
+	return UpdateStatus::UPDATE_CONTINUE;
+}
+
+UpdateStatus ModuleInput::Update()
+{
+#ifdef DEBUG
+	OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
+#endif // DEBUG
 
 	if (keysState[SDL_SCANCODE_LALT] == KeyState::REPEAT && keysState[SDL_SCANCODE_J] == KeyState::DOWN)
 	{
@@ -399,6 +461,34 @@ bool ModuleInput::CleanUp()
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 
 	return true;
+}
+
+void ModuleInput::MapControllerInput()
+{
+	if (!App->IsOnPlayMode())
+	{
+		return;
+	}
+
+	for (const auto& [gamepadButton, keyboardButton] : gamepadMapping)
+	{
+		KeyState gamepadButtonState = GetGamepadButton(gamepadButton);
+
+		if (gamepadButtonState == KeyState::IDLE)
+		{
+			continue;
+		}
+
+		if (std::holds_alternative<SDL_Scancode>(keyboardButton))
+		{
+			keysState[std::get<SDL_Scancode>(keyboardButton)] = gamepadButtonState;
+		}
+		else if (std::holds_alternative<Uint8>(keyboardButton))
+		{
+			Uint8 mouseButton = std::get<Uint8>(keyboardButton);
+			mouseButtonState[mouseButton] = gamepadButtonState;
+		}
+	}
 }
 
 void ModuleInput::Rumble(RumbleIntensity intensityLeft, RumbleIntensity intensityRight, RumbleDuration durationMs) const

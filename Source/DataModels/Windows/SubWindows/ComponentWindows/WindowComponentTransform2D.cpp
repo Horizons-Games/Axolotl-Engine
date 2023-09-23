@@ -156,11 +156,11 @@ void WindowComponentTransform2D::DrawTransformTable()
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 		if (ImGui::DragFloat("##XScale", &currentScale.x, currentDragSpeed, 0.0001f, std::numeric_limits<float>::max()))
 		{
-			bool anyShiftHold =
-				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN ||
-				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::REPEAT ||
-				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_RSHIFT) == KeyState::DOWN ||
-				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_RSHIFT) == KeyState::REPEAT;
+			const ModuleInput* input = App->GetModule<ModuleInput>();
+			bool anyShiftHold = input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN ||
+								input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::REPEAT ||
+								input->GetKey(SDL_SCANCODE_RSHIFT) == KeyState::DOWN ||
+								input->GetKey(SDL_SCANCODE_RSHIFT) == KeyState::REPEAT;
 
 			if(anyShiftHold)
 			{
@@ -178,11 +178,12 @@ void WindowComponentTransform2D::DrawTransformTable()
 		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 		if (ImGui::DragFloat("##YScale", &currentScale.y, currentDragSpeed, 0.0001f, std::numeric_limits<float>::max()))
 		{
+			const ModuleInput* input = App->GetModule<ModuleInput>();
 			bool anyShiftHold =
-				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN ||
-				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::REPEAT ||
-				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_RSHIFT) == KeyState::DOWN ||
-				App->GetModule<ModuleInput>()->GetKey(SDL_SCANCODE_RSHIFT) == KeyState::REPEAT;
+				input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN ||
+								input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::REPEAT ||
+								input->GetKey(SDL_SCANCODE_RSHIFT) == KeyState::DOWN ||
+								input->GetKey(SDL_SCANCODE_RSHIFT) == KeyState::REPEAT;
 
 			if (anyShiftHold)
 			{
