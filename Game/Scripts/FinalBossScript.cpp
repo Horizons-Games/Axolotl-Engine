@@ -263,12 +263,15 @@ void FinalBossScript::ManageAggressivePhase()
 	// but also the boss would come and get the player too
 	else if (seekingShockWaveChance && shockWaveAttackScript->CanPerformShockWaveAttack() && bossState == FinalBossStates::WALKING)
 	{
+		// We cant do the StopPatrol() here because he'll stop moving immediatelly,
+		// but we want to keep seeking
 		//patrolScript->StopPatrol();
 		shockWaveAttackScript->TriggerSeekingShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	else if (chargeChance && chargeAttackScript->CanPerformChargeAttack() && bossState == FinalBossStates::WALKING)
 	{
+		// The TriggerChargeAttack() is responsable to "stopPatrol"
 		//patrolScript->StopPatrol();
 		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
@@ -317,6 +320,7 @@ void FinalBossScript::ManageDefensivePhase()
 	}
 	else if (chargeChance && chargeAttackScript->CanPerformChargeAttack() && bossState == FinalBossStates::WALKING)
 	{
+		// The TriggerChargeAttack() is responsable to "stopPatrol"
 		//patrolScript->StopPatrol();
 		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
@@ -348,7 +352,7 @@ void FinalBossScript::ManageLastResortPhase()
 	bool lastResortMissilesChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(250.0f);
 
 	// If the missiles attack is ready, trigger it as much as possible
-	if (lastResortMissilesChance && missilesAttackScript->CanPerformMissilesAttack())
+	if (lastResortMissilesChance && missilesAttackScript->CanPerformMissilesAttack() && bossState == FinalBossStates::WALKING)
 	{
 		missilesAttackScript->TriggerMissilesAttack();
 		bossState = FinalBossStates::ATTACKING;
@@ -358,7 +362,6 @@ void FinalBossScript::ManageLastResortPhase()
 	{
 		if (bossState == FinalBossStates::WALKING)
 		{
-			
 			patrolScript->StopPatrol();
 		}
 		shockWaveAttackScript->TriggerNormalShockWaveAttack(targetTransform);
@@ -366,19 +369,22 @@ void FinalBossScript::ManageLastResortPhase()
 	}
 	else if (seekingShockWaveChance && shockWaveAttackScript->CanPerformShockWaveAttack() && bossState == FinalBossStates::WALKING)
 	{
+		// We cant do the StopPatrol() here because he'll stop moving immediatelly
+		// but we want to keep seeking
 		//patrolScript->StopPatrol();
 		shockWaveAttackScript->TriggerSeekingShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	else if (chargeChance && chargeAttackScript->CanPerformChargeAttack() && bossState == FinalBossStates::WALKING)
 	{
+		// The TriggerChargeAttack() is responsable to "stopPatrol"
 		//patrolScript->StopPatrol();
 		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
-	else if (!shockWaveAttackScript->IsAttacking() && !chargeAttackScript->IsAttacking())
+	else if (!shockWaveAttackScript->IsAttacking() && !chargeAttackScript->IsAttacking() && !missilesAttackScript->IsAttacking())
 	{
-		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING); 
+		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
 		if (bossState != FinalBossStates::WALKING)
 		{
 			ReactivateMovement();
