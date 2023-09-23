@@ -255,20 +255,24 @@ void LightProxy::ConeShape(float height, float radius, unsigned slices, unsigned
 		par_shapes_translate(mesh, 0.0f, -0.5f, 0.0f);
 		par_shapes_scale(mesh, radius, height, radius);
 
-		float3 center = float3(0.0f, -(height / 2.0f), 0.0f);
-		float3 normal = -float3::unitY;
+		const float3 center = float3(0.0f, -(height / 2.0f), 0.0f);
+		const float3 normal = -float3::unitY;
 		par_shapes_mesh* disk = par_shapes_create_disk(radius, slices, &center.x, &normal.x);
-		par_shapes_rotate(disk, static_cast<float>(PAR_PI * 0.1f), reinterpret_cast<const float*>(&float3::unitY));
 
-		par_shapes_merge(mesh, disk);
-		par_shapes_free_mesh(disk);
+		if (disk)
+		{
+			par_shapes_rotate(disk, static_cast<float>(PAR_PI * 0.1f), reinterpret_cast<const float*>(&float3::unitY));
 
-		par_shapes_translate(mesh, 0.0f, -height/2.0f, 0.0f);
-		par_shapes_rotate(mesh, -static_cast<float>(PAR_PI * 0.5f), reinterpret_cast<const float*>(&float3::unitX));
+			par_shapes_merge(mesh, disk);
+			par_shapes_free_mesh(disk);
 
-		LoadShape(mesh, cone);
+			par_shapes_translate(mesh, 0.0f, -height / 2.0f, 0.0f);
+			par_shapes_rotate(mesh, -static_cast<float>(PAR_PI * 0.5f), reinterpret_cast<const float*>(&float3::unitX));
 
-		par_shapes_free_mesh(mesh);
+			LoadShape(mesh, cone);
+
+			par_shapes_free_mesh(mesh);
+		}
 	}
 
 }
@@ -281,7 +285,7 @@ void LightProxy::TubeShape(float height, float radius, unsigned slices, unsigned
 
 	if (tube && sphere)
 	{
-		par_shapes_rotate(mesh, -static_cast<float>(PAR_PI * 0.5), reinterpret_cast<const float*>(&float3::unitX));
+		par_shapes_rotate(mesh, -static_cast<float>(PAR_PI * 0.5f), reinterpret_cast<const float*>(&float3::unitX));
 		par_shapes_translate(mesh, 0.0f, -0.5f, 0.0f);
 		par_shapes_scale(mesh, radius, height, radius);
 
