@@ -111,8 +111,8 @@ void PlayerHackingUseScript::Update(float deltaTime)
 			if (userCommandInputs == commandCombination)
 			{
 				LOG_DEBUG("Hacking completed");
-				FinishHack();
 				hackZone->SetCompleted();
+				FinishHack();
 			}
 
 		}
