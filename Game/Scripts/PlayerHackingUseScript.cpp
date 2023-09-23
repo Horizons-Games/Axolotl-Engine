@@ -211,7 +211,6 @@ void PlayerHackingUseScript::DisableAllInteractions()
 void PlayerHackingUseScript::EnableAllInteractions()
 {
 	playerManager->ParalyzePlayer(false);
-
 }
 
 void PlayerHackingUseScript::FindHackZone(const std::string& tag)
