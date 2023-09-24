@@ -110,6 +110,7 @@ void PlayerManagerScript::PausePlayer(bool paused)
 	ParalyzePlayer(paused);
 	healthManager->SetIsImmortal(paused);
 	attackManager->SetCanAttack(paused);
+}
 PlayerAttackScript* PlayerManagerScript::GetAttackManager() const
 {
 	return attackManager;

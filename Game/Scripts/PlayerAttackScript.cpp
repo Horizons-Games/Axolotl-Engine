@@ -619,12 +619,6 @@ bool PlayerAttackScript::CanAttack() const
 	return canAttack;
 }
 
-void PlayerAttackScript::SetCanAttack(bool canAttack)
-{
-
-	this->canAttack = canAttack;
-}
-
 bool PlayerAttackScript::IsDeathTouched() const
 {
 	return isDeathTouched;

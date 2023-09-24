@@ -124,6 +124,4 @@ private:
 	GameObject* pistolGameObject;
 
 	Scene* loadedScene;
-
-	bool canAttack;
 };
