@@ -4,7 +4,7 @@
 
 #define GAUSSIAN_BLUR_SHADOW_MAP 2
 
-#define FRUSTUM_PARTITIONS 1
+#define FRUSTUM_PARTITIONS 2
 
 class Camera;
 class GBuffer;
@@ -38,7 +38,7 @@ public:
 	float GetLambda() const;
 
 private:
-	void LogarithmicPartition(Frustum* frustum);
+	void PracticalPartition(Frustum* frustum, float lambda);
 	Frustum& ComputeLightFrustum(const GameObject* light, Frustum* cameraFrustum);
 
 private:
@@ -83,8 +83,6 @@ private:
 	bool useVarianceShadowMapping;
 	bool useCSMDebug;
 
-	float lambda;
-
 	std::pair<unsigned, unsigned> screenSize;
 };
 
@@ -111,14 +109,4 @@ inline void Shadows::ToggleVSM()
 inline void Shadows::ToggleCSMDebug()
 {
 	useCSMDebug = !useCSMDebug;
-}
-
-inline void Shadows::SetLambda(float lambda)
-{
-	this->lambda = lambda;
-}
-
-inline float Shadows::GetLambda() const
-{
-	return lambda;
 }
