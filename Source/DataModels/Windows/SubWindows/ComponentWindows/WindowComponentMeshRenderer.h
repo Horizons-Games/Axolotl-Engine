@@ -20,6 +20,12 @@ public:
 	void SetMaterial(const std::shared_ptr<ResourceMaterial>& material);
 	void MaterialChanged();
 
+	void TextureCompressions();
+
+	void InitTextureImportOptions();
+
+	void InitTextureLoadOptions();
+
 protected:
 	void DrawWindowContents() override;
 
@@ -42,6 +48,7 @@ private:
 	std::unique_ptr<WindowTextureInput> inputTextureMetallic;
 	std::unique_ptr<WindowTextureInput> inputTextureSpecular;
 	std::unique_ptr<WindowTextureInput> inputTextureEmission;
+	std::weak_ptr<Resource> resource;
 
 	ComponentMeshRenderer* oldComponent;
 
@@ -50,4 +57,21 @@ private:
 	bool changeBatch;
 
 	bool changed;
+
+	bool flag;
+	bool compressionDiffuse  = false ;
+	bool compressionNormal   = false ;
+	bool compressionMetallic = false ;
+	bool compressionSpecular = false ;
+	bool compressionEmission = false ;
+
+	bool flipVertical;
+	bool flipHorizontal;
+
+	bool mipMap;
+	int min;
+	int mag;
+	int wrapS;
+	int wrapT;
+	int compressionLevel;
 };

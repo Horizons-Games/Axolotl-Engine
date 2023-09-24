@@ -22,6 +22,10 @@
 
 const std::vector<std::string> WindowComponentMeshRenderer::shaderTypes = { "Default", "Specular" };
 const std::vector<std::string> WindowComponentMeshRenderer::renderModes = { "Opaque", "Transparent" };
+namespace
+{
+	const char* compression[] = { "No compress", "BC1", "BC3", "BC4", "BC5", "BC6", "BC7" };
+}
 
 WindowComponentMeshRenderer::WindowComponentMeshRenderer(ComponentMeshRenderer* component) :
 	ComponentWindow("MESH RENDERER", component),
@@ -332,6 +336,26 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					materialResource->SetDiffuse(nullptr);
 					updateMaterials = true;
 				}
+				ImGui::Text("Compression Diffuse");
+				if (ImGui::Checkbox("##Compression Diffuse", &(compressionDiffuse)))
+				{
+					flag = true;
+					compressionEmission = false;
+					compressionMetallic = false;
+					compressionNormal = false;
+					compressionSpecular = false;
+				}
+				if (compressionDiffuse)
+				{
+					resource = materialResource->GetDiffuse();
+					if (flag)
+					{
+						InitTextureImportOptions();
+						InitTextureLoadOptions();
+						flag = false;
+					}
+					TextureCompressions();
+				}
 			}
 			else
 			{
@@ -353,6 +377,27 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 						materialResource->GetMetallic()->Unload();
 						materialResource->SetMetallic(nullptr);
 						updateMaterials = true;
+					}
+					ImGui::Text("Compression Metallic");
+					if (ImGui::Checkbox("##Compression Metallic", &(compressionMetallic)))
+					{
+						flag = true;
+						compressionEmission = false;
+						compressionDiffuse = false;
+						compressionNormal = false;
+						compressionSpecular = false;
+					}
+					if (compressionMetallic)
+					{
+						resource = materialResource->GetMetallic();
+						if (flag)
+						{
+							InitTextureImportOptions();
+							InitTextureLoadOptions();
+							flag = false;
+						}
+						TextureCompressions();
+
 					}
 				}
 				else
@@ -395,6 +440,26 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 						materialResource->SetSpecular(nullptr);
 						updateMaterials = true;
 					}
+					ImGui::Text("Compression Specular");
+					if(ImGui::Checkbox("##Compression Specular", &(compressionSpecular)))
+					{
+						flag = true;
+						compressionEmission = false;
+						compressionDiffuse = false;
+						compressionNormal = false;
+						compressionMetallic = false;
+					}
+					if (compressionSpecular)
+					{
+						resource = materialResource->GetSpecular();
+						if (flag)
+						{
+							InitTextureImportOptions();
+							InitTextureLoadOptions();
+							flag = false;
+						}
+						TextureCompressions();
+					}
 				}
 				else
 				{
@@ -414,6 +479,26 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					materialResource->GetNormal()->Unload();
 					materialResource->SetNormal(nullptr);
 					updateMaterials = true;
+				}
+				ImGui::Text("Compression Normal");
+				if(ImGui::Checkbox("##Compression Normal", &(compressionNormal)))
+				{
+					flag = true;
+					compressionEmission = false;
+					compressionDiffuse = false;
+					compressionMetallic = false;
+					compressionSpecular = false;
+				}
+				if (compressionNormal)
+				{
+					resource = materialResource->GetNormal();
+					if (flag)
+					{
+						InitTextureImportOptions();
+						InitTextureLoadOptions();
+						flag = false;
+					}
+					TextureCompressions();
 				}
 			}
 			else
@@ -441,6 +526,26 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 					materialResource->GetEmission()->Unload();
 					materialResource->SetEmission(nullptr);
 					updateMaterials = true;
+				}
+				ImGui::Text("Compression Emission");
+				if(ImGui::Checkbox("##Compression Emission", &(compressionEmission)))
+				{
+					flag = true;
+					compressionMetallic = false;
+					compressionDiffuse = false;
+					compressionNormal = false;
+					compressionSpecular = false;
+				}
+				if (compressionEmission)
+				{
+					resource = materialResource->GetEmission();
+					if (flag)
+					{
+						InitTextureImportOptions();
+						InitTextureLoadOptions();
+						flag = false;
+					}
+					TextureCompressions();
 				}
 			}
 			else
@@ -630,4 +735,91 @@ void WindowComponentMeshRenderer::ChangedBatch()
 		 asMeshRenderer->GetBatch()->SetFillMaterials(true);
 	 }
 	 changed = true;
+ }
+
+ void WindowComponentMeshRenderer::TextureCompressions() 
+ {
+	 std::shared_ptr<ResourceTexture> texture = std::dynamic_pointer_cast<ResourceTexture>(resource.lock());
+	 if (ImGui::BeginTable("table1", 2))
+	 {
+		 //ImGui::TableNextColumn();
+		 //ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(texture->GetGlTexture())),
+		 // ImVec2(100, 100));
+		 ImGui::TableNextColumn();
+		 ImGui::Text("Width %d", texture->GetWidth());
+		 ImGui::Text("Height %d", texture->GetHeight());
+		 ImGui::EndTable();
+	 }
+	 ImGui::Text("");
+	 if (ImGui::CollapsingHeader("Import Options", ImGuiTreeNodeFlags_DefaultOpen))
+	 {
+		 ImGui::Checkbox("Flip Image Vertical", &flipVertical);
+		 ImGui::Checkbox("Flip Image Horizontal", &flipHorizontal);
+		 ImGui::Combo("Compression", &compressionLevel, compression, IM_ARRAYSIZE(compression));
+	 }
+	 ImGui::Separator();
+	 if (ImGui::CollapsingHeader("Load Options", ImGuiTreeNodeFlags_DefaultOpen))
+	 {
+		 ImGui::Checkbox("MipMap", &mipMap);
+
+		 const char* minFilters[] = { "NEAREST",
+									  "LINEAR",
+									  "NEAREST_MIPMAP_NEAREST",
+									  "LINEAR_MIPMAP_NEAREST",
+									  "NEAREST_MIPMAP_LINEAR",
+									  "LINEAR_MIPMAP_LINEAR" };
+		 ImGui::Combo("MinFilter", &min, minFilters, IM_ARRAYSIZE(minFilters));
+
+		 const char* magFilters[] = { "NEAREST", "LINEAR" };
+		 ImGui::Combo("MagFilter", &mag, magFilters, IM_ARRAYSIZE(magFilters));
+
+		 const char* wrapFilters[] = {
+			 "REPEAT", "CLAMP_TO_EDGE", "CLAMP_TO_BORDER", "MIRROR_REPEAT", "MIRROR_CLAMP_TO_EDGE"
+		 };
+		 ImGui::Combo("WrapFilterS", &wrapS, wrapFilters, IM_ARRAYSIZE(wrapFilters));
+		 ImGui::Combo("WrapFilterT", &wrapT, wrapFilters, IM_ARRAYSIZE(wrapFilters));
+	 }
+	 ImGui::Separator();
+	 ImGui::Text("");
+	 ImGui::SameLine(ImGui::GetWindowWidth() - 110);
+	 if (ImGui::Button("Revert"))
+	 {
+		 InitTextureImportOptions();
+		 InitTextureLoadOptions();
+	 }
+	 ImGui::SameLine(ImGui::GetWindowWidth() - 50);
+	 if (ImGui::Button("Apply"))
+	 {
+		 texture->GetImportOptions().flipVertical = flipVertical;
+		 texture->GetImportOptions().flipHorizontal = flipHorizontal;
+		 texture->GetImportOptions().compression = static_cast<TextureCompression>(compressionLevel);
+		 texture->GetLoadOptions().mipMap = mipMap;
+		 texture->GetLoadOptions().min = (TextureMinFilter)min;
+		 texture->GetLoadOptions().mag = (TextureMagFilter)mag;
+		 texture->GetLoadOptions().wrapS = (TextureWrap)wrapS;
+		 texture->GetLoadOptions().wrapT = (TextureWrap)wrapT;
+		 texture->Unload();
+		 texture->SetChanged(true);
+		 App->GetModule<ModuleResources>()->ReimportResource(texture->GetUID());
+		 App->GetModule<ModuleRender>()->GetBatchManager()->SetMaterialbatches();
+		 //App->GetModule<ModuleRender>()->GetBatchManager()->SetDirtybatches();
+	 }
+ }
+
+ void WindowComponentMeshRenderer::InitTextureImportOptions()
+ {
+	 std::shared_ptr<ResourceTexture> texture = std::dynamic_pointer_cast<ResourceTexture>(resource.lock());
+	 flipVertical = texture->GetImportOptions().flipVertical;
+	 flipHorizontal = texture->GetImportOptions().flipHorizontal;
+	 compressionLevel = static_cast<int>(texture->GetImportOptions().compression);
+ }
+
+ void WindowComponentMeshRenderer::InitTextureLoadOptions()
+ {
+	 std::shared_ptr<ResourceTexture> texture = std::dynamic_pointer_cast<ResourceTexture>(resource.lock());
+	 mipMap = static_cast<int>(texture->GetLoadOptions().mipMap);
+	 min = static_cast<int>(texture->GetLoadOptions().min);
+	 mag = static_cast<int>(texture->GetLoadOptions().mag);
+	 wrapS = static_cast<int>(texture->GetLoadOptions().wrapS);
+	 wrapT = static_cast<int>(texture->GetLoadOptions().wrapT);
  }

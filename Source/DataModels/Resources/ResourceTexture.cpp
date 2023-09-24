@@ -110,8 +110,15 @@ void ResourceTexture::CreateTexture()
 	
 	GetCompressFormat(importOptions.compression, compressFormat, byteSize);
 	
-	if (importOptions.compression == TextureCompression::NONE) glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, imageType, &(pixels[0]));
-	else glCompressedTexImage2D(GL_TEXTURE_2D, 0, compressFormat, width, height, 0, ((width + 3) / 4) * ((height + 3) / 4) * byteSize, &(pixels[0]));
+	if (importOptions.compression == TextureCompression::NONE)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, imageType, &(pixels[0]));
+	}
+	else
+	{
+		glCompressedTexImage2D(GL_TEXTURE_2D, 0, compressFormat, width, height, 0,
+			((width + 3) / 4) * ((height + 3) / 4) * byteSize, &(pixels[0]));
+	}
 	if (loadOptions.mipMap)
 	{
 		glGenerateMipmap(GL_TEXTURE_2D);
