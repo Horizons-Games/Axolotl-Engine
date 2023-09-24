@@ -202,6 +202,11 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 
 			if (ImGui::Button("Remove Material"))
 			{
+				compressionDiffuse = false;
+				compressionNormal = false;
+				compressionMetallic = false;
+				compressionSpecular = false;
+				compressionEmission = false;
 				asMeshRenderer->GetBatch()->DeleteMaterial(asMeshRenderer);
 				materialResource->Unload();
 				asMeshRenderer->SetMaterial(nullptr);
