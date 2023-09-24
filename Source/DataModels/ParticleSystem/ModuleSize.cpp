@@ -56,6 +56,15 @@ void ModuleSize::Update(EmitterInstance* instance)
 	}
 }
 
+void ModuleSize::CopyConfig(ParticleModule* module)
+{
+	ModuleSize* size = static_cast<ModuleSize*>(module);
+
+	enabled = size->IsEnabled();
+	random = size->IsRandom();
+	sizeOverTime = size->GetSize();
+}
+
 void ModuleSize::DrawImGui()
 {
 	if (ImGui::TreeNodeEx("Size Module", ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_FramePadding))

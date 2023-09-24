@@ -110,6 +110,9 @@ void PlayerManagerScript::PausePlayer(bool paused)
 	ParalyzePlayer(paused);
 	healthManager->SetIsImmortal(paused);
 	attackManager->SetCanAttack(paused);
+PlayerAttackScript* PlayerManagerScript::GetAttackManager() const
+{
+	return attackManager;
 }
 
 void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
@@ -119,6 +122,7 @@ void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 	owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(btVector3(0.f,0.f,0.f));
 	jumpManager->SetCanJump(!paralyzed);
 	rotationManager->SetCanRotate(!paralyzed);
+	attackManager->SetCanAttack(!paralyzed);
 }
 
 void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)
