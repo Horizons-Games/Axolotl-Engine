@@ -307,7 +307,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, 
     return Lo;
 }
 
-vec3 calculateLocalIBLs(vec3 N, vec3 R, float NdotV, vec3 Cd, vec3 f0, float roughness, vec3 fragPos)
+vec3 calculateAmbientIBL(vec3 N, vec3 R, float NdotV, vec3 Cd, vec3 f0, float roughness, vec3 fragPos)
 {
     vec3 color = vec3(0.0);
     float totalWeight = 0.0;
@@ -493,7 +493,7 @@ void main()
 
         vec3 R = reflect(-viewDir, norm);
         float NdotV = max(dot(norm, viewDir), EPSILON);
-        vec3 ambient = calculateLocalIBLs(norm, R, NdotV, Cd, f0, roughness, fragPos);
+        vec3 ambient = calculateAmbientIBL(norm, R, NdotV, Cd, f0, roughness, fragPos);
 
         vec3 color = ambient + Lo + emissiveMat.rgb;
         color += toggleCSMDebug == 1 ? layerColor : vec3(0.0, 0.0, 0.0);
