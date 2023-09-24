@@ -10,6 +10,7 @@ class ComponentParticleSystem;
 
 class PlayerAttackScript;
 class MeshEffect;
+class PlayerManagerScript;
 
 class HealthSystem : public Script
 {
@@ -46,6 +47,7 @@ private:
 
 	PlayerAttackScript* attackScript;
 	MeshEffect* meshEffect;
+	PlayerManagerScript* playerManager;
 
 	std::function<void(void)> deathCallback;
 };

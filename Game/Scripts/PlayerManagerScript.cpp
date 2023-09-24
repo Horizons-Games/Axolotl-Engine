@@ -6,12 +6,13 @@
 #include "../Scripts/PlayerJumpScript.h"
 #include "../Scripts/PlayerRotationScript.h"
 #include "../Scripts/PlayerMoveScript.h"
+#include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/DebugGame.h"
 
 REGISTERCLASS(PlayerManagerScript);
 
 PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), playerDefense(0.f), playerSpeed(6.0f),
-	movementManager(nullptr), jumpManager(nullptr), debugManager(nullptr)
+	movementManager(nullptr), jumpManager(nullptr), debugManager(nullptr), playerState(PlayerActions::IDLE)
 {
 	REGISTER_FIELD(playerAttack, float);
 	REGISTER_FIELD(playerDefense, float);
@@ -26,7 +27,7 @@ void PlayerManagerScript::Start()
 	jumpManager = owner->GetComponent<PlayerJumpScript>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
 	rotationManager = owner->GetComponent<PlayerRotationScript>();
-
+	attackManager = owner->GetComponent<PlayerAttackScript>();
 }
 
 bool PlayerManagerScript::IsGrounded() const
@@ -89,14 +90,31 @@ PlayerMoveScript* PlayerManagerScript::GetMovementManager() const
 	return movementManager;
 }
 
+PlayerAttackScript* PlayerManagerScript::GetAttackManager() const
+{
+	return attackManager;
+}
+
 void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 {
+	playerState = PlayerActions::IDLE;
 	movementManager->SetIsParalyzed(paralyzed);
 	jumpManager->SetCanJump(!paralyzed);
 	rotationManager->SetCanRotate(!paralyzed);
+	attackManager->SetCanAttack(!paralyzed);
 }
 
 void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)
 {
 	this->playerSpeed = playerSpeed;
+}
+
+PlayerActions PlayerManagerScript::GetPlayerState() const
+{
+	return playerState;
+}
+
+void PlayerManagerScript::SetPlayerState(PlayerActions playerState)
+{
+	this->playerState = playerState;
 }
