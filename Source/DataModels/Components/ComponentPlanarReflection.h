@@ -8,6 +8,7 @@
 #include "GL/glew.h"
 
 class Program;
+class UtilBlur;
 
 struct PlanarReflection
 {
@@ -67,6 +68,8 @@ private:
 
 	float3 originScaling;
 	float3 scale;
+
+	UtilBlur* utilBlur;
 };
 
 inline const AABB& ComponentPlanarReflection::GetInfluenceAABB()

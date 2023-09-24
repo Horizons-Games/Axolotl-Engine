@@ -163,11 +163,6 @@ bool ModuleRender::Init()
 
 	backgroundColor = float4(0.f, 0.f, 0.f, 1.f);
 
-	batchManager = new BatchManager();
-	gBuffer = new GBuffer();
-	shadows = new Shadows();
-	ssao = new SSAO();
-
 	GLenum err = glewInit();
 	// check for errors
 	LOG_INFO("glew error {}", glewGetErrorString(err));
@@ -191,6 +186,11 @@ bool ModuleRender::Init()
 
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+
+	batchManager = new BatchManager();
+	gBuffer = new GBuffer();
+	shadows = new Shadows();
+	ssao = new SSAO();
 
 	glGenFramebuffers(1, &frameBuffer[0]);
 	glGenTextures(1, &renderedTexture[0]);
@@ -315,8 +315,8 @@ UpdateStatus ModuleRender::Update()
 
 	// -------- DEFERRED GEOMETRY -----------
 	gBuffer->BindFrameBuffer();
+	gBuffer->ClearFrameBuffer();
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glStencilMask(0x00); // disable writing to the stencil buffer 
 
 	bool isRoot = goSelected != nullptr ? goSelected->GetParent() == nullptr : false;
@@ -335,9 +335,6 @@ UpdateStatus ModuleRender::Update()
 
 		glDisable(GL_STENCIL_TEST);
 	}
-
-	// -------- PLANAR REFLECTION --------
-	//TODO
 
 	// -------- SHADOW MAP --------
 	if (shadows->UseShadows())

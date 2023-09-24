@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "SSAO.h"
 
-#include "AxoLog.h"
+#include "Auxiliar/Utils/UtilBlur.h"
 
 #include "Program/Program.h"
 
@@ -18,6 +18,8 @@ SSAO::SSAO() : enabled(true)
 
 	CreateKernel();
 	CreateRandomTangents();
+
+	utilBlur = UtilBlur::GetInstanceBlur();
 }
 
 SSAO::~SSAO()
@@ -80,7 +82,7 @@ void SSAO::UpdateBuffers(int width, int height)
 
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		{
-			LOG_ERROR("ERROR::FRAMEBUFFER:: Blured SSAO framebuffer number {} not completed!", i);
+			LOG_ERROR("ERROR::FRAMEBUFFER:: Blured SSAO texture number {} not completed!", i);
 		}
 	}
 
@@ -155,6 +157,11 @@ void SSAO::BlurSSAO(Program* program, int width, int height)
 	glPopDebugGroup();
 }
 
+void SSAO::BlurSSAO(int width, int height)
+{
+	utilBlur->BlurTexture(gSsao, gSsaoBlured[0], gSsaoBlured[1], width, height);
+}
+
 void SSAO::CreateKernel()
 {
 	std::uniform_real_distribution<float> randoms(0.0f, 1.0f);
@@ -201,5 +208,4 @@ void SSAO::CreateRandomTangents()
 			kernel.randomTangents[i][j] = float4(dir, 0.0f);
 		}
 	}
-
 }

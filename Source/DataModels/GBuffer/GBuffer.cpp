@@ -41,6 +41,13 @@ void GBuffer::DrawFrameBuffer()
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, gFrameBuffer);
 }
 
+void GBuffer::ClearFrameBuffer()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	//float color[4] = { 0.f, 0.f, 0.f, 0.f };
+	//glClearBufferfv(GL_COLOR, 0, color);
+}
+
 void GBuffer::UnBindFrameBuffer()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -80,7 +87,7 @@ void GBuffer::InitGBuffer(unsigned width, unsigned height)
 
 	glGenTextures(1, &gNormal);
 	glBindTexture(GL_TEXTURE_2D, gNormal);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, width, height, 0, GL_RGB, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, gNormal, 0);

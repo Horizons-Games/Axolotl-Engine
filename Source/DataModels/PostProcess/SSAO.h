@@ -9,6 +9,7 @@
 #define RANDOM_TANGENTS_COLS 4
 
 class Program;
+class UtilBlur;
 
 class SSAO
 {
@@ -22,6 +23,7 @@ public:
 
 	void CalculateSSAO(Program* program, int width, int height);
 	void BlurSSAO(Program* program, int width, int height);
+	void BlurSSAO(int width, int height);
 
 	void ToggleSSAO();
 	bool IsEnabled();
@@ -44,12 +46,14 @@ private:
 	GLuint uboKernel;
 	GLuint ssaoFrameBuffer;
 	GLuint gSsao;
-	GLuint ssaoBlurFrameBuffer[2] = { 0, 0 };
+	GLuint ssaoBlurFrameBuffer[2] = { 0, 0 }; //delete
 	GLuint gSsaoBlured[2] = { 0, 0 };
 	GLuint positionTexture;
 	GLuint normalTexture;
 
 	Kernel kernel;
+
+	UtilBlur* utilBlur;
 
 	bool enabled;
 };

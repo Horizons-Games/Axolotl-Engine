@@ -8,6 +8,8 @@
 #include "ModuleProgram.h"
 #include "ModuleWindow.h"
 
+#include "Auxiliar/Utils/UtilBlur.h"
+
 #include "Camera/Camera.h"
 #include "Scene/Scene.h"
 #include "Program/Program.h"
@@ -25,10 +27,12 @@ ComponentPlanarReflection::ComponentPlanarReflection(GameObject* parent) :
 {
 	if (GetOwner()->HasComponent<ComponentTransform>())
 	{
-		influenceAABB = { GetPosition() + float3(-5.f, 0.f, -5.f), GetPosition() + float3(5.f, 0.f, 5.f) };
+		influenceAABB = { GetPosition() + float3(-5.f, -0.01f, -5.f), GetPosition() + float3(5.f, 0.01f, 5.f) };
 	}
 	frustum = new Frustum();
 	frustum->SetKind(FrustumSpaceGL, FrustumRightHanded);
+
+	utilBlur = UtilBlur::GetInstanceBlur();
 
 	InitBuffer();
 }
