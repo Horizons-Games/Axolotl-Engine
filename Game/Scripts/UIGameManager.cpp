@@ -73,7 +73,7 @@ void UIGameManager::Update(float deltaTime)
 	{
 		ModifyBixSliderHealthValue();
 	}
-	else if (manager)
+	if (manager)
 	{
 		if (healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerBack->GetCurrentValue()
 			|| healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerFront->GetCurrentValue())
