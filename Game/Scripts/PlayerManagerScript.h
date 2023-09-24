@@ -7,6 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class PlayerJumpScript;
 class PlayerMoveScript;
+class PlayerAttackScript;
 class DebugGame;
 class PlayerRotationScript;
 
@@ -39,6 +40,7 @@ public:
 	bool IsTeleporting() const;
 	PlayerJumpScript* GetJumpManager() const;
 	PlayerMoveScript* GetMovementManager() const;
+	PlayerAttackScript* GetAttackManager() const;
 	void ParalyzePlayer(bool paralyzed);
 	void SetPlayerSpeed(float playerSpeed);
 	PlayerActions GetPlayerState() const;
@@ -56,6 +58,7 @@ private:
 	// All Main PlayerManagers
 	PlayerMoveScript* movementManager;
 	PlayerJumpScript* jumpManager;
+	PlayerAttackScript* attackManager;
 	DebugGame* debugManager;
 	PlayerRotationScript* rotationManager;
 };
