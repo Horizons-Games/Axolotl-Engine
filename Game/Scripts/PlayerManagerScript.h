@@ -43,6 +43,7 @@ public:
 	void ParalyzePlayer(bool paralyzed);
 	void PausePlayer(bool paused);
 	void ForcingJump(bool forcedJump);
+	bool IsParalyzed() const;
 
 	bool IsGrounded() const;
 	bool IsTeleporting() const;
@@ -57,6 +58,7 @@ private:
 	void Start() override;
 
 	bool isActivePlayer;
+	bool isParalyzed;
 
 	ModuleInput* input;
 
