@@ -13,7 +13,7 @@ REGISTERCLASS(UIHackingManager);
 UIHackingManager::UIHackingManager() : Script()
 {
 	REGISTER_FIELD(command_A, GameObject*);
-	REGISTER_FIELD(command_B, GameObject*);
+	REGISTER_FIELD(command_X, GameObject*);
 	REGISTER_FIELD(command_Y, GameObject*);
 }
 
@@ -37,8 +37,8 @@ void UIHackingManager::AddInputVisuals(HackingCommandType type)
 		case HackingCommandType::COMMAND_A:
 			prefab = command_A;
 			break;
-		case HackingCommandType::COMMAND_B:
-			prefab = command_B;
+		case HackingCommandType::COMMAND_X:
+			prefab = command_X;
 			break;
 		case HackingCommandType::COMMAND_Y:
 			prefab = command_Y;
