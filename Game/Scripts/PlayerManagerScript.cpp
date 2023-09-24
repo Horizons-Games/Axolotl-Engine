@@ -36,6 +36,7 @@ void PlayerManagerScript::Start()
 	movementManager = owner->GetComponent<PlayerMoveScript>();
 	rotationManager = owner->GetComponent<PlayerRotationScript>();
 	attackManager = owner->GetComponent<PlayerAttackScript>();
+	playerGravity = owner->GetComponent<ComponentRigidBody>()->GetGravity();
 }
 
 bool PlayerManagerScript::IsGrounded() const
@@ -100,6 +101,7 @@ PlayerMoveScript* PlayerManagerScript::GetMovementManager() const
 
 void PlayerManagerScript::ForcingJump(bool forcedJump)
 {
+	owner->GetComponent<ComponentRigidBody>()->SetGravity(playerGravity);
 	playerState = PlayerActions::JUMPING;
 	jumpManager->ChangingCurrentPlayer();
 	jumpManager->SetCanJump(forcedJump);
@@ -110,6 +112,14 @@ void PlayerManagerScript::PausePlayer(bool paused)
 	ParalyzePlayer(paused);
 	healthManager->SetIsImmortal(paused);
 	attackManager->SetCanAttack(paused);
+	if (paused)
+	{
+		owner->GetComponent<ComponentRigidBody>()->SetGravity(btVector3(0,0,0));
+	}
+	else
+	{
+		owner->GetComponent<ComponentRigidBody>()->SetGravity(playerGravity);
+	}
 }
 
 void PlayerManagerScript::ParalyzePlayer(bool paralyzed)

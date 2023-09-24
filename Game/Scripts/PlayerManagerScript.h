@@ -3,6 +3,7 @@
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
 #include "ModuleInput.h"
+#include "Bullet/LinearMath/btVector3.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -62,6 +63,7 @@ private:
 	float playerDefense;
 	float playerSpeed;
 	float playerRotationSpeed;
+	btVector3 playerGravity;
 
 	// All Main PlayerManagers
 	HealthSystem* healthManager;
