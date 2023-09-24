@@ -90,7 +90,6 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 		if (playerManager->GetPlayerState() != PlayerActions::JUMPING &&
 			playerManager->GetPlayerState() != PlayerActions::DOUBLEJUMPING)
 		{
-			isGrounded = true;
 			coyoteTimerCount = coyoteTime;
 			componentAnimation->SetParameter("IsJumping", false);
 			componentAnimation->SetParameter("IsDoubleJumping", false);
@@ -101,10 +100,14 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 				playerManager->SetPlayerState(PlayerActions::IDLE);
 			}
+			else
+			{
+				isGrounded = true;
+			}
 		}
 		else
 		{
-			if (componentAnimation->GetActualStateName() == "DoubleJumping")
+			if (componentAnimation->GetActualStateName() == "Falling")
 			{
 				playerManager->SetPlayerState(PlayerActions::FALLING);
 			}

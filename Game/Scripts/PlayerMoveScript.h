@@ -40,6 +40,7 @@ public:
 	void Move(float deltaTime);
 	void MoveRotate(float deltaTime);
 
+	bool IsTriggeringStoredDash() const;
 	bool IsParalyzed() const;
 	void SetIsParalyzed(bool isParalyzed);
 
@@ -51,6 +52,7 @@ private:
 	ComponentAnimation* componentAnimation;
 	bool isParalyzed;
 
+	bool isTriggeringStoredDash;
 	float dashForce;
 	float dashRollTime;
 	float dashRollDuration;

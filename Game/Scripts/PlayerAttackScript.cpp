@@ -171,7 +171,6 @@ void PlayerAttackScript::UpdateEnemyDetection()
 	{
 		enemyDetection->UpdateEnemyDetection();
 	}
-
 	else
 	{
 		enemyDetection->UpdateEnemyDetection(normalAttackDistance);
@@ -538,7 +537,7 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 				else //Called when next attack input is not called
 				{
 					triggerNextAttackTimer -= deltaTime;
-					if (triggerNextAttackTimer <= 0.0f) //Wait to reset the offset time, to give the player the chance to
+					if (triggerNextAttackTimer <= 0.0f || playerManager->GetMovementManager()->IsTriggeringStoredDash()) //Wait to reset the offset time, to give the player the chance to
 						//trigger the next attack even if the animation has finished (due to some animations are very short)
 					{
 						triggerNextAttackTimer = triggerNextAttackDuration;

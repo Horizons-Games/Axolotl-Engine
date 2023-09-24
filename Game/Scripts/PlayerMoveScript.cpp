@@ -27,7 +27,8 @@ PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 componentAudio(nullptr), componentAnimation(nullptr), dashForce(30.0f), 
 playerManager(nullptr), isParalyzed(false), desiredRotation(float3::zero), 
 lightAttacksMoveFactor(2.0f), heavyAttacksMoveFactor(3.0f), dashRollTime(0.0f), 
-dashRollCooldown(0.1f), timeSinceLastDash(0.0f), dashRollDuration(0.2f), totalDirection(float3::zero)
+dashRollCooldown(0.1f), timeSinceLastDash(0.0f), dashRollDuration(0.2f), totalDirection(float3::zero),
+isTriggeringStoredDash(false)
 {
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(isParalyzed, bool);
@@ -280,14 +281,17 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 
 void PlayerMoveScript::DashRoll(float deltaTime)
 {
-	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN
-		&& (playerManager->GetPlayerState() == PlayerActions::IDLE
-			|| playerManager->GetPlayerState() == PlayerActions::WALKING) &&
-		timeSinceLastDash > dashRollCooldown)
+	if (playerAttackScript->IsAttackAvailable() &&
+		(playerManager->GetPlayerState() == PlayerActions::IDLE ||
+		playerManager->GetPlayerState() == PlayerActions::WALKING) &&
+		timeSinceLastDash > dashRollCooldown &&
+		(input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN ||
+		isTriggeringStoredDash))
 	{
 		// Start a dash
 		dashRollTime = 0.0f;
 		timeSinceLastDash = 0.0f;
+		isTriggeringStoredDash = false;
 		componentAnimation->SetParameter("IsDashing", true);
 		componentAnimation->SetParameter("IsRunning", false);
 		playerManager->SetPlayerState(PlayerActions::DASHING);
@@ -319,6 +323,16 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 	}
 	else
 	{
+		PlayerActions playerState = playerManager->GetPlayerState();
+		bool isJumping = playerState == PlayerActions::JUMPING ||
+			playerState == PlayerActions::DOUBLEJUMPING ||
+			playerState == PlayerActions::FALLING;
+
+		if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN && 
+			(!playerAttackScript->IsAttackAvailable() || isJumping))
+		{
+			isTriggeringStoredDash = true;
+		}
 		timeSinceLastDash += deltaTime;
 	}
 
@@ -352,4 +366,9 @@ void PlayerMoveScript::SetIsParalyzed(bool isParalyzed)
 PlayerJumpScript* PlayerMoveScript::GetJumpScript() const
 {
 	return jumpScript;
+}
+
+bool PlayerMoveScript::IsTriggeringStoredDash() const
+{
+	return isTriggeringStoredDash;
 }
