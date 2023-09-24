@@ -45,8 +45,10 @@ void PlayerHackingUseScript::Update(float deltaTime)
 	bool isJumping = currentAction == PlayerActions::JUMPING || 
 		currentAction == PlayerActions::DOUBLEJUMPING || 
 		currentAction == PlayerActions::FALLING;
+
+	bool isAttacking = playerManager->GetAttackManager()->IsInAttackAnimation();
 		
-	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingActive && !isJumping)
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingActive && !isJumping && !isAttacking)
 	{
 		FindHackZone(hackingTag);
 		if (hackZone && !hackZone->IsCompleted())
@@ -82,7 +84,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 				key = keyButtonPair->first;
 				button = keyButtonPair->second;
 
-				if (input->GetKey(key) == KeyState::UP || input->GetGamepadButton(button) == KeyState::UP)
+				if (input->GetKey(key) == KeyState::DOWN || input->GetGamepadButton(button) == KeyState::DOWN)
 				{
 					userCommandInputs.push_back(command);
 					LOG_DEBUG("User add key/button to combination");
@@ -111,8 +113,8 @@ void PlayerHackingUseScript::Update(float deltaTime)
 			if (userCommandInputs == commandCombination)
 			{
 				LOG_DEBUG("Hacking completed");
-				FinishHack();
 				hackZone->SetCompleted();
+				FinishHack();
 			}
 
 		}
@@ -130,7 +132,7 @@ void PlayerHackingUseScript::PrintCombination()
 		case COMMAND_A: 
 			c = '_'; 
 			break;
-		case COMMAND_B:
+		case COMMAND_X:
 			c = 'R'; 
 			break;
 		case COMMAND_Y:
@@ -209,7 +211,6 @@ void PlayerHackingUseScript::DisableAllInteractions()
 void PlayerHackingUseScript::EnableAllInteractions()
 {
 	playerManager->ParalyzePlayer(false);
-
 }
 
 void PlayerHackingUseScript::FindHackZone(const std::string& tag)
