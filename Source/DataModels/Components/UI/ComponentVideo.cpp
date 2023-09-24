@@ -313,6 +313,11 @@ void ComponentVideo::SetVideo(const std::shared_ptr<ResourceVideo>& newVideo)
 		memset(frameData, 0, video->GetFrameWidth() * video->GetFrameHeight() * 4);
 		ReadVideoFrame();
 	}
+	else
+	{
+		scalerCtx = nullptr;
+		frameData = nullptr;
+	}
 	played = false;
 	finished = false;
 }
