@@ -78,11 +78,3 @@ void ParticleEmitter::Save()
 void ParticleEmitter::Load()
 {
 }
-
-void ParticleEmitter::DrawDD(EmitterInstance* instance) const
-{
-	for (ParticleModule* module : modules)
-	{
-		module->DrawDD(instance);
-	}
-}

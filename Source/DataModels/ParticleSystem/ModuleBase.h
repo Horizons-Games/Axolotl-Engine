@@ -13,6 +13,7 @@ public:
 
 	void Spawn(EmitterInstance* instance) override;
 	void Update(EmitterInstance* instance) override;
+	void CopyConfig(ParticleModule* module) override;
 
 	void SetOrigin(const float3& origin);
 	void SetRotation(const Quat& rotation);

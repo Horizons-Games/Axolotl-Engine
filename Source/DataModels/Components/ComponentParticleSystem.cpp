@@ -180,6 +180,14 @@ void ComponentParticleSystem::Reset()
 {
 }
 
+void ComponentParticleSystem::SaveConfig()
+{
+	for (EmitterInstance* instance : emitters)
+	{
+		instance->SaveConfig();
+	}
+}
+
 void ComponentParticleSystem::CreateEmitterInstance()
 {
 	EmitterInstance* instance = new EmitterInstance(nullptr, this);

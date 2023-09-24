@@ -11,6 +11,7 @@ class HealthSystem;
 class PlayerAttackScript;
 class PlayerJumpScript;
 class PlayerMoveScript;
+class PlayerAttackScript;
 class DebugGame;
 class PlayerRotationScript;
 
@@ -47,6 +48,7 @@ public:
 	bool IsTeleporting() const;
 	PlayerJumpScript* GetJumpManager() const;
 	PlayerMoveScript* GetMovementManager() const;
+	PlayerAttackScript* GetAttackManager() const;
 	void SetPlayerSpeed(float playerSpeed);
 	PlayerActions GetPlayerState() const;
 	void SetPlayerState(PlayerActions playerState);

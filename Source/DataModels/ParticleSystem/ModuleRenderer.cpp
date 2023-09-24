@@ -155,6 +155,20 @@ void ModuleRenderer::Update(EmitterInstance* instance)
 	}
 }
 
+void ModuleRenderer::CopyConfig(ParticleModule* module)
+{
+	ModuleRenderer* renderer = static_cast<ModuleRenderer*>(module);
+
+	enabled       = renderer->IsEnabled();
+	alignment     = renderer->GetAlignment();
+	blendingMode  = renderer->GetBlending();
+	tiles[0]      = renderer->GetTiles().first;
+	tiles[1]      = renderer->GetTiles().second;
+	sheetSpeed    = renderer->GetSheetSpeed();
+	randomFrame	  = renderer->GetRandomFrame();
+	frameBlending = renderer->GetFrameBlending();
+}
+
 void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 {
 	unsigned int stride = sizeof(float3) * 4 + sizeof(float4) + sizeof(float);
@@ -226,7 +240,7 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 				ComponentTransform* objectTransform = 
 					instance->GetOwner()->GetOwner()->GetComponentInternal<ComponentTransform>();
 				float4x4 originTransform = 
-					static_cast<ModuleBase*>(emitter->GetModule(ModuleType::BASE))->GetOriginTranform();
+					static_cast<ModuleBase*>(instance->GetModule(ModuleType::BASE))->GetOriginTranform();
 				float4x4 globalTransform = objectTransform->GetGlobalMatrix().Mul(originTransform);
 				zAxis = globalTransform.WorldZ();
 				xAxis = globalTransform.WorldX();
