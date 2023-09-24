@@ -70,3 +70,8 @@ EnemyTypes EnemyClass::GetEnemyType() const
 {
 	return enemyType;
 }
+
+void EnemyClass::PauseEnemy(bool isPaused)
+{
+	this->isPaused = isPaused;
+}

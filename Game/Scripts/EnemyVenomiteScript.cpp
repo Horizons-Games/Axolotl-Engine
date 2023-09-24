@@ -75,7 +75,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		}
 	}
 
-	if (healthScript && !healthScript->EntityIsAlive())
+	if (healthScript && !healthScript->EntityIsAlive() || isPaused)
 	{
 		return;
 	}

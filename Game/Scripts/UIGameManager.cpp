@@ -10,7 +10,9 @@
 #include "SwitchPlayerManagerScript.h"
 #include "UIImageDisplacementControl.h"
 #include "HealthSystem.h"
+#include "EnemiesManager.h"
 #include "PlayerManagerScript.h"
+#include "EnemyClass.h"
 
 REGISTERCLASS(UIGameManager);
 
@@ -93,6 +95,7 @@ void UIGameManager::MenuIsOpen()
 {
 	if (menuIsOpen)
 	{
+		manager->GetComponent<EnemiesManager>()->PauseEnemies(true);
 		mainMenuObject->Enable();
 		hudCanvasObject->Disable();
 		player->SetMouse(true);
@@ -100,6 +103,7 @@ void UIGameManager::MenuIsOpen()
 	}
 	else
 	{
+		manager->GetComponent<EnemiesManager>()->PauseEnemies(false);
 		mainMenuObject->Disable();
 		hudCanvasObject->Enable();
 		player->SetMouse(false);

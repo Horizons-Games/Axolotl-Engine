@@ -37,6 +37,9 @@ public:
 
 	virtual void SetReadyToDie() = 0;
 
+	void PauseEnemy(bool isPaused);
+	bool isPaused;
+
 protected:
 	bool stunned;
 	float timeStunned;
