@@ -9,24 +9,11 @@
 
 #include "/Common/Structs/lights.glsl"
 
+#include "/Common/Structs/metallicMaterial.glsl"
+
 #include "/Common/Structs/effect.glsl"
 
 #include "/Common/Structs/tiling.glsl"
-
-struct Material {
-    vec4 diffuse_color;         //0 //16
-    int has_diffuse_map;        //16 //4
-    int has_normal_map;         //20 //4
-    int has_metallic_map;       //24 //4
-    int has_emissive_map;       //28 //4
-    float smoothness;           //32 //4
-    float metalness;            //36 //4
-    float normal_strength;      //40 //4
-    sampler2D diffuse_map;      //48 //8
-    sampler2D normal_map;       //56 //8
-    sampler2D metallic_map;     //64 //8 
-    sampler2D emissive_map;     //72 //8 --> 80
-};
 
 layout(std140, binding=1) uniform Directional
 {
@@ -59,7 +46,7 @@ readonly layout(std430, binding=5) buffer AreaLightsTube
 };
 
 readonly layout(std430, binding = 11) buffer Materials {
-    Material materials[];
+    MetallicMaterial materials[];
 };
 
 readonly layout(std430, binding = 12) buffer Tilings {
@@ -286,7 +273,7 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
   
 void main()
 {
-    Material material = materials[InstanceIndex];
+    MetallicMaterial material = materials[InstanceIndex];
     Effect effect = effects[InstanceIndex];
 
     if (effect.discardFrag == 1)

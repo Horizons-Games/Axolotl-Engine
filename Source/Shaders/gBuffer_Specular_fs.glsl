@@ -7,34 +7,20 @@
 
 #include "/Common/Functions/srgba_functions.glsl"
 
+#include "/Common/Structs/specularMaterial.glsl"
+
 #include "/Common/Structs/effect.glsl"
 
 #include "/Common/Structs/tiling.glsl"
 
-struct Material {
-    vec4 diffuse_color;         //0  //16
-    vec3 specular_color;        //16 //16
-    int has_diffuse_map;        //32 //4
-    int has_normal_map;         //36 //4
-    int has_specular_map;       //40 //4
-    int has_emissive_map;       //44 //4
-    float smoothness;           //48 //4
-    float normal_strength;      //52 //4
-    sampler2D diffuse_map;      //56 //8
-    sampler2D normal_map;       //64 //8
-    sampler2D specular_map;     //72 //8
-    sampler2D emissive_map;     //80 //8
-    int padding1, padding2;     //88 //8 --> 96
-};
-
-layout (location = 0) out vec3 gPosition;
+layout (location = 0) out vec4 gPosition;
 layout (location = 1) out vec3 gNormal;
 layout (location = 2) out vec4 gDiffuse;
 layout (location = 3) out vec4 gSpecular;
 layout (location = 4) out vec4 gEmissive;
 
 readonly layout(std430, binding = 11) buffer Materials {
-    Material materials[];
+    SpecularMaterial materials[];
 };
 
 readonly layout(std430, binding = 12) buffer Tilings {
@@ -55,7 +41,7 @@ in flat int InstanceIndex;
 
 void main()
 {    
-    Material material = materials[InstanceIndex];
+    SpecularMaterial material = materials[InstanceIndex];
     Effect effect = effects[InstanceIndex];
 
     if (effect.discardFrag == 1)
@@ -68,7 +54,7 @@ void main()
 
     vec2 newTexCoord = TexCoord*tiling.percentage*tiling.tiling+tiling.offset;
 
-    gPosition = FragPos;
+    gPosition = vec4(FragPos, material.is_reflective);
     gNormal = Normal;
 
     //Diffuse

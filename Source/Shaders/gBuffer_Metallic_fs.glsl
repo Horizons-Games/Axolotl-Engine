@@ -7,33 +7,20 @@
 
 #include "/Common/Functions/srgba_functions.glsl"
 
+#include "/Common/Structs/metallicMaterial.glsl"
+
 #include "/Common/Structs/effect.glsl"
 
 #include "/Common/Structs/tiling.glsl"
 
-struct Material {
-    vec4 diffuse_color;         //0 //16
-    int has_diffuse_map;        //16 //4
-    int has_normal_map;         //20 //4
-    int has_metallic_map;       //24 //4
-    int has_emissive_map;       //28 //4
-    float smoothness;           //32 //4
-    float metalness;            //36 //4
-    float normal_strength;      //40 //4
-    sampler2D diffuse_map;      //48 //8
-    sampler2D normal_map;       //56 //8
-    sampler2D metallic_map;     //64 //8
-    sampler2D emissive_map;     //72 //8 --> 80
-};
-
-layout (location = 0) out vec3 gPosition;
+layout (location = 0) out vec4 gPosition;
 layout (location = 1) out vec3 gNormal;
 layout (location = 2) out vec4 gDiffuse;
 layout (location = 3) out vec4 gSpecular;
 layout (location = 4) out vec4 gEmissive;
 
 readonly layout(std430, binding = 11) buffer Materials {
-    Material materials[];
+    MetallicMaterial materials[];
 };
 
 readonly layout(std430, binding = 12) buffer Tilings {
@@ -54,7 +41,7 @@ in flat int InstanceIndex;
 
 void main()
 {    
-    Material material = materials[InstanceIndex];
+    MetallicMaterial material = materials[InstanceIndex];
     Effect effect = effects[InstanceIndex];
 
     if (effect.discardFrag == 1)
@@ -67,7 +54,7 @@ void main()
 
     vec2 newTexCoord = TexCoord*tiling.percentage*tiling.tiling+tiling.offset;
 
-    gPosition = FragPos;
+    gPosition = vec4(FragPos, material.is_reflective);
     gNormal = Normal;
 
     vec4 metallicColor = texture(material.metallic_map, newTexCoord);
