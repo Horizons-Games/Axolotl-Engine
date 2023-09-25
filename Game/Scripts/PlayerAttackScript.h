@@ -73,7 +73,6 @@ private:
 	void ThrowBasicAttack(GameObject* enemyAttacked, float nDamage);
 
 	bool canAttack;
-
 	bool isAttacking;
 	bool isMelee;
 	float attackCooldown;

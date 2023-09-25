@@ -185,7 +185,6 @@ void PlayerAttackScript::UpdateEnemyDetection()
 
 void PlayerAttackScript::PerformCombos()
 {
-
 	//Check input
 	currentAttack = comboSystem->CheckAttackInput(!playerManager->IsGrounded());
 
@@ -394,7 +393,9 @@ void PlayerAttackScript::InitJumpAttack()
 {
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
+	
 	playerManager->ParalyzePlayer(true);
+
 	if (isMelee)
 	{
 		jumpFinisherScript->PerformGroundSmash(); // Bix jumping attack
