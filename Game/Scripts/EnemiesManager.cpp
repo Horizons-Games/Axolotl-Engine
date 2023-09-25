@@ -13,7 +13,7 @@ EnemiesManager::EnemiesManager() : Script(), enemiesGameObjects{ (nullptr), (nul
 
 void EnemiesManager::PauseEnemies(bool paused)
 {
-	for (int i = 0; i <= enemiesGameObjects.size(); i++)
+	for (int i = 0; i < enemiesGameObjects.size(); i++)
 	{
 		enemiesGameObjects[i]->GetComponent<EnemyClass>()->PauseEnemy(paused);
 	}
