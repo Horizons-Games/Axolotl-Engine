@@ -388,6 +388,7 @@ void PlayerAttackScript::UpdateJumpAttack()
 
 void PlayerAttackScript::EndJumpNormalAttack()
 {
+	input->Rumble();
 	jumpFinisherScript->VisualLandingEffect();
 	if (enemyDetection->AreAnyEnemiesInTheArea())
 	{
@@ -398,6 +399,7 @@ void PlayerAttackScript::EndJumpNormalAttack()
 
 void PlayerAttackScript::EndJumpFinisherAttack()
 {
+	input->Rumble();
 	jumpFinisherScript->VisualLandingEffect();
 	if (enemyDetection->AreAnyEnemiesInTheArea())
 	{
