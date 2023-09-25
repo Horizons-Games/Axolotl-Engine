@@ -50,6 +50,10 @@ private:
 
 	GameObject* mainMenuObject;
 	GameObject* hudCanvasObject;
+	GameObject* debbugModeObject;
+	GameObject* imgMouse;
+	GameObject* imgController;
+
 	GameObject* sliderHudHealthBixFront;
 	GameObject* sliderHudHealthBixBack;
 

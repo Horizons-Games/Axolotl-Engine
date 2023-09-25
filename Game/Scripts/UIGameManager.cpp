@@ -12,13 +12,17 @@
 
 REGISTERCLASS(UIGameManager);
 
-UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), player(nullptr), menuIsOpen(false),
+UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), debbugModeObject(nullptr), imgMouse(nullptr), imgController(nullptr), player(nullptr), menuIsOpen(false),
 hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr),
 speedPwrUpObject(nullptr), pwrUpActive(false), savePwrUp(PowerUpType::NONE), sliderHudHealthBixFront(nullptr), 
 sliderHudHealthBixBack(nullptr)
 {
 	REGISTER_FIELD(mainMenuObject, GameObject*);
 	REGISTER_FIELD(hudCanvasObject, GameObject*);
+	REGISTER_FIELD(debbugModeObject, GameObject*);
+	REGISTER_FIELD(imgMouse, GameObject*);
+	REGISTER_FIELD(imgController, GameObject*);
+
 	REGISTER_FIELD(sliderHudHealthBixFront, GameObject*);
 	REGISTER_FIELD(sliderHudHealthBixBack, GameObject*);
 
@@ -46,10 +50,23 @@ void UIGameManager::Update(float deltaTime)
 {
 	ModuleInput* input = App->GetModule<ModuleInput>();
 
-	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::DOWN || input->GetKey(SDL_CONTROLLER_BUTTON_B) == KeyState::DOWN)
 	{
 		menuIsOpen = !menuIsOpen;
 		MenuIsOpen();
+	}
+
+	if (input->GetKey(SDL_SCANCODE_B) == KeyState::DOWN && debbugModeObject != nullptr)
+	{
+		if (debbugModeObject->IsEnabled())
+		{
+			debbugModeObject->Enable();
+		}
+		else
+		{
+			debbugModeObject->Disable();
+		}
+		
 	}
 
 
@@ -67,14 +84,13 @@ void UIGameManager::Update(float deltaTime)
 
 void UIGameManager::MenuIsOpen()
 {
-	if (menuIsOpen == false)
+	if (!menuIsOpen)
 	{
 		mainMenuObject->Disable();
 		hudCanvasObject->Enable();
 		player->SetMouse(false);
 	}
-
-	if (menuIsOpen == true)
+	else
 	{
 		mainMenuObject->Enable();
 		hudCanvasObject->Disable();

@@ -409,6 +409,7 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIMissionTrigger.cpp" />
     <ClCompile Include="..\Game\Scripts\UIOptionsMenu.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIText.cpp" />
     <ClCompile Include="..\Game\Scripts\UITextTrigger.cpp" />
     <ClCompile Include="..\Game\Scripts\UITrigger.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
@@ -927,6 +928,7 @@
     <ClInclude Include="..\Game\Scripts\UIImageDisplacementControl.h" />
     <ClInclude Include="..\Game\Scripts\UIMissionTrigger.h" />
     <ClInclude Include="..\Game\Scripts\UIOptionsMenu.h" />
+    <ClInclude Include="..\Game\Scripts\UIText.h" />
     <ClInclude Include="..\Game\Scripts\UITextTrigger.h" />
     <ClInclude Include="..\Game\Scripts\UITrigger.h" />
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusic.h" />
@@ -974,7 +976,7 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowCubemapInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-     </ClInclude>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowNavMeshInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
