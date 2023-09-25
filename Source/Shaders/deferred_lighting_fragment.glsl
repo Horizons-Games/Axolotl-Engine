@@ -524,6 +524,12 @@ void main()
             Lo += calculateAreaLightTubes(norm, viewDir, Cd, f0, roughness, fragPos);
         }
 
+        vec3 planarColor = vec3(0.0);
+        if (num_planes > 0 && reflectiveFrag == 1)
+        {
+            planarColor = calculatePlanarReflections(roughness, fragPos);
+        }
+
         vec3 R = reflect(-viewDir, norm);
         float NdotV = max(dot(norm, viewDir), EPSILON);
         vec3 ambient = calculateAmbientIBL(norm, R, NdotV, Cd, f0, roughness, fragPos);
