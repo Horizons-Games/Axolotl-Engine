@@ -57,12 +57,14 @@ void WindowScene::DrawSceneMenu()
 {
 	ImGuiIO& io = ImGui::GetIO();
 	ModuleEditor* editor = App->GetModule<ModuleEditor>();
+	ModuleInput* input = App->GetModule<ModuleInput>();
 
 	bool fullscreenScene = editor->IsSceneFullscreen();
 	bool editorControl = editor->IsEditorControlEnabled();
 
 	ImGui::BeginMenuBar();
-	if (ImGui::RadioButton("Fullscreen", fullscreenScene))
+	if (ImGui::RadioButton("Fullscreen", fullscreenScene) || (input->GetKey(SDL_SCANCODE_LCTRL) == KeyState::REPEAT 
+		&& input->GetKey(SDL_SCANCODE_RETURN) == KeyState::DOWN))
 	{
 		editor->ToggleFullscreenScene();
 	}
