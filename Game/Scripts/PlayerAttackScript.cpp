@@ -41,10 +41,10 @@
 REGISTERCLASS(PlayerAttackScript);
 
 PlayerAttackScript::PlayerAttackScript() : Script(), 
-	canAttack(true), isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
+	canAttack(true), isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.0f), audioSource(nullptr),
 	animation(nullptr), transform(nullptr), isMelee(true),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), jumpFinisherScript(nullptr),
-	lightFinisherScript(nullptr), normalAttackDistance(0), heavyFinisherAttack(nullptr), lightWeapon(nullptr),
+	lightFinisherScript(nullptr), normalAttackDistance(0.0f), heavyFinisherAttack(nullptr), lightWeapon(nullptr),
 	comboCountHeavy(10.0f), comboCountLight(30.0f), comboCountJump(20.0f), triggerNextAttackDuration(0.5f), 
 	triggerNextAttackTimer(0.0f), isNextAttackTriggered(false), currentAttackAnimation(""),
 	numAttackComboAnimation(0.0f), isHeavyFinisherReceivedAux(false)

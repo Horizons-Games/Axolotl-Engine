@@ -42,9 +42,8 @@ void PlayerHackingUseScript::Update(float deltaTime)
 	currentTime += deltaTime;
 
 	PlayerActions currentAction = playerManager->GetPlayerState();
-	bool isJumping = currentAction == PlayerActions::JUMPING || 
-		currentAction == PlayerActions::DOUBLEJUMPING || 
-		currentAction == PlayerActions::FALLING;
+	bool isJumping = currentAction == PlayerActions::JUMPING ||
+		currentAction == PlayerActions::DOUBLEJUMPING;
 
 	bool isAttacking = playerManager->GetAttackManager()->IsInAttackAnimation();
 		

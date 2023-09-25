@@ -330,8 +330,7 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 	{
 		PlayerActions playerState = playerManager->GetPlayerState();
 		bool isJumping = playerState == PlayerActions::JUMPING ||
-			playerState == PlayerActions::DOUBLEJUMPING ||
-			playerState == PlayerActions::FALLING;
+			playerState == PlayerActions::DOUBLEJUMPING;
 
 		if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN && 
 			(!playerAttackScript->IsAttackAvailable() || isJumping))
