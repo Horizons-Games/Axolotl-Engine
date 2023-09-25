@@ -205,11 +205,13 @@ void PlayerHackingUseScript::RestartHack()
 
 void PlayerHackingUseScript::DisableAllInteractions()
 {
+	playerManager->SetPlayerState(PlayerActions::IDLE);
 	playerManager->ParalyzePlayer(true);
 }
 
 void PlayerHackingUseScript::EnableAllInteractions()
 {
+	playerManager->SetPlayerState(PlayerActions::IDLE);
 	playerManager->ParalyzePlayer(false);
 }
 
