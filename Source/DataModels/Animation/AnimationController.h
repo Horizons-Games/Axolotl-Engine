@@ -17,7 +17,7 @@ public:
 
 	void Update();
 
-	bool GetTransform(const std::string& name, float3& pos, Quat& rot);
+	bool GetTransform(const std::string& name, float3& pos, Quat& rot, bool interpolateTransition = false);
 	bool GetPlay();
 	bool GetLoop();
 	std::string GetStateName();
@@ -32,6 +32,8 @@ private:
 	const State* stateResource;
 	std::shared_ptr<ResourceAnimation> resource;
 
+	std::shared_ptr<ResourceAnimation> nextResource;
+	float lastSampleTime;
 	double duration;
 };
 

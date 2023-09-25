@@ -17,6 +17,8 @@ public:
 
 	void Update(bool statePlayFinish);
 
+	void FinishTransition();
+
 	const std::shared_ptr<ResourceStateMachine>& GetStateMachine() const;
 	void SetStateMachine(const std::shared_ptr<ResourceStateMachine>& stateMachine);
 

@@ -12,27 +12,32 @@ StateMachine::~StateMachine()
 
 void StateMachine::Update(bool statePlayFinish)
 {
-	if (stateMachine)
+	if (!stateMachine)
 	{
-		if (actualState == nextState)
+		return;
+	}
+
+	if (actualState == nextState)
+	{
+		State* state = stateMachine->GetState(actualState);
+		if (!state)
 		{
-			State* state = stateMachine->GetState(actualState);
-			if (state)
-			{
-				Transition foundTransition;
-				if (CheckTransitions(state, foundTransition, statePlayFinish))
-				{
-					nextState = foundTransition.destinationState;
-					actualTransitionDuration = foundTransition.transitionDuration;
-				}
-			}
+			return;
 		}
-		else
+
+		Transition foundTransition;
+		if (CheckTransitions(state, foundTransition, statePlayFinish))
 		{
-			lastState = actualState;
-			actualState = nextState;
+			nextState = foundTransition.destinationState;
+			actualTransitionDuration = foundTransition.transitionDuration;
 		}
 	}
+}
+
+void StateMachine::FinishTransition()
+{
+	lastState = actualState;
+	actualState = nextState;
 }
 
 bool StateMachine::CheckTransitions(const State* state, Transition& transition, bool statePlayFinish)
@@ -99,7 +104,7 @@ bool StateMachine::CheckTransitions(const State* state, Transition& transition, 
 
 bool StateMachine::IsTransitioning() const
 {
-	return !(actualState == nextState);
+	return actualState != nextState;
 }
 
 double StateMachine::GetActualTransitionDuration() const
