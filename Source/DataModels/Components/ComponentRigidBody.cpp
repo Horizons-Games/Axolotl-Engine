@@ -387,14 +387,16 @@ void ComponentRigidBody::SignalDisable()
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 {
 	//App->GetModule<ModulePhysics>()->RemoveRigidBodyFromSimulation(rigidBody.get());
-	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
+	//App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
+	isInCollisionWorld = false;
 }
 
 void ComponentRigidBody::AddRigidBodyToSimulation()
 {
 	//App->GetModule<ModulePhysics>()->AddRigidBodyToSimulation(rigidBody.get());
-	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
-	rigidBody->setGravity(gravity);
+	//App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
+	//rigidBody->setGravity(gravity);
+	isInCollisionWorld = true;
 }
 
 void ComponentRigidBody::ClearCollisionEnterDelegate()
