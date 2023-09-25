@@ -53,6 +53,8 @@ void LightProxy::CleanUp()
 	spots.clear();
 	spheres.clear();
 	tubes.clear();
+
+	numLights = 0;
 }
 
 void LightProxy::DrawLights(Program* program,
