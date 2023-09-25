@@ -416,7 +416,9 @@ float ChebyshevUpperBound(vec4 posFromLight, int layer)
 void main()
 {             
     // retrieve data from gbuffer
-    vec3 fragPos = texture(gPosition, TexCoord).rgb;
+    vec4 posTexture = texture(gPosition, TexCoord);
+    vec3 fragPos = posTexture.rgb;
+    float reflectiveFrag = posTexture.a;
     vec3 norm = texture(gNormal, TexCoord).rgb;
     vec4 textureMat = texture(gDiffuse, TexCoord);
     vec4 specularMat = texture(gSpecular, TexCoord);
