@@ -434,6 +434,11 @@ UpdateStatus ModuleRender::Update()
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
 	glPopDebugGroup();
 
+	// ------- DEFERRED LIGHT PASS ----------
+	program = modProgram->GetProgram(ProgramType::LIGHT_CULLING);
+	lightProxy->DrawLights(program, gBuffer, points, spots, spheres);
+	// -----------------------------
+
 	// -------- PRE-FORWARD ----------------------
 	if (loadedScene->GetRoot()->HasComponent<ComponentSkybox>())
 	{
@@ -505,11 +510,6 @@ UpdateStatus ModuleRender::Update()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
 	glDisable(GL_BLEND);
-
-	// ------- DEFERRED LIGHT PASS ----------
-	program = modProgram->GetProgram(ProgramType::LIGHT_CULLING);
-	lightProxy->DrawLights(program, points, spots, spheres);
-	// -----------------------------
 
 	for (const GameObject* go : gameObjectsInFrustrum)
 	{

@@ -20,6 +20,8 @@
 
 #include "GameObject/GameObject.h"
 
+#include "GBuffer/GBuffer.h"
+
 
 LightProxy::LightProxy() : numLights(0)
 {
@@ -57,7 +59,7 @@ void LightProxy::CleanUp()
 	numLights = 0;
 }
 
-void LightProxy::DrawLights(Program* program,
+void LightProxy::DrawLights(Program* program, GBuffer* gbuffer,
 							std::vector<ComponentPointLight*> pointsToRender,
 							std::vector<ComponentSpotLight*> spotsToRender,
 							std::vector<ComponentAreaLight*> spheresToRender)
@@ -67,6 +69,8 @@ void LightProxy::DrawLights(Program* program,
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Light Culling"), "Light Culling");
 
 	program->BindUniformFloat2("screenSize", float2(screenSize.first, screenSize.second));
+
+	gbuffer->BindTexture();
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);

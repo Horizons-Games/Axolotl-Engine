@@ -15,6 +15,7 @@ class ComponentPointLight;
 class ComponentSpotLight;
 class Program;
 class Scene;
+class GBuffer;
 
 class LightProxy
 {
@@ -25,7 +26,7 @@ public:
 
 	void CleanUp();
 
-	void DrawLights(Program* program, 
+	void DrawLights(Program* program, GBuffer* gbuffer,
 					std::vector<ComponentPointLight*> pointsToRender,
 					std::vector<ComponentSpotLight*> spotsToRender,
 					std::vector<ComponentAreaLight*> spheresToRender);
