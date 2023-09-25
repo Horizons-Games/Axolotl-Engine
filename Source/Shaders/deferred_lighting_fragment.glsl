@@ -74,6 +74,12 @@ readonly layout(std430, binding=14) buffer LocalIBLs
 	LocalIBL localIBL[];
 };
 
+readonly layout(std430, binding=15) buffer PlanarReflections
+{
+	uint num_planes;
+	PlanarReflection planarReflection[];
+};
+
 // IBL
 layout(binding = 8) uniform samplerCube diffuse_IBL;
 layout(binding = 9) uniform samplerCube prefiltered_IBL;
