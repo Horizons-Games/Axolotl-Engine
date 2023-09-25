@@ -566,6 +566,7 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 				playerManager->ParalyzePlayer(false);
 				animation->SetParameter("IsJumpAttacking", false);
 				isAttacking = false;
+				currentAttack = AttackType::NONE;
 				lastAttack = AttackType::NONE;
 			}
 

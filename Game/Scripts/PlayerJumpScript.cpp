@@ -62,7 +62,7 @@ void PlayerJumpScript::PreUpdate(float deltaTime)
 void PlayerJumpScript::CheckGround(float deltaTime)
 {
 	float verticalVelocity = rigidbody->GetRigidBody()->getLinearVelocity().getY();
-
+	
 	if (verticalVelocity < -5.0f)
 	{
 		isGrounded = false;
@@ -87,17 +87,15 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 				playerManager->GetPlayerState() == PlayerActions::DOUBLEJUMPING)
 			{
 				playerManager->SetPlayerState(PlayerActions::IDLE);
-				componentAnimation->SetParameter("IsGrounded", true);
-				isGrounded = true;
 			}
 			else 
 			{
 				componentAnimation->SetParameter("IsJumping", false);
 				componentAnimation->SetParameter("IsDoubleJumping", false);
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-				componentAnimation->SetParameter("IsGrounded", true);
-				isGrounded = true;
 			}
+			componentAnimation->SetParameter("IsGrounded", true);
+			isGrounded = true;
 		}
 	}
 	lastVerticalVelocity = verticalVelocity;
