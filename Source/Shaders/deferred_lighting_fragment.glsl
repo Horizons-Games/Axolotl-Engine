@@ -354,6 +354,31 @@ vec3 calculateAmbientIBL(vec3 N, vec3 R, float NdotV, vec3 Cd, vec3 f0, float ro
     return color;
 }
 
+vec3 calculatePlanarReflections(float roughness, vec3 fragPos)
+{
+    vec3 planarColor = vec3(0.0);
+    for (int i = 0; i < num_planes; ++i)
+    {
+        mat4 toLocal = planarReflection[i].toLocal;
+        mat4 viewProj = planarReflection[i].viewProj;
+        vec3 minInfluence = planarReflection[i].minInfluence.rgb;
+        vec3 maxInfluence = planarReflection[i].maxInfluence.rgb;
+        sampler2D reflection = planarReflection[i].reflection;
+        vec3 localPos = (toLocal * vec4(fragPos, 1.0)).xyz; // convert fragment pos to planar space
+        if (InsideBox(localPos, minInfluence, maxInfluence)) 
+        {
+            vec4 clipPos = viewProj*vec4(fragPos, 1.0);
+            vec2 planarUV = (clipPos.xy/clipPos.w)*0.5+0.5;
+            if(planarUV.x >= 0.0 && planarUV.x <= 1.0 &&
+            planarUV.y >= 0.0 && planarUV.y <= 1.0 )
+            {
+                planarColor = texture(reflection, planarUV).rgb;
+            }
+        }
+    }
+    return planarColor;
+}
+
 float ShadowCalculation(vec4 posFromLight, vec3 normal, int layer)
 {
     // perform perspective divide
