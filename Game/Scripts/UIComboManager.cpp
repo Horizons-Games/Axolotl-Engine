@@ -31,9 +31,10 @@ void UIComboManager::Init()
 	inputPositions.push_back(owner->GetChildren()[1]->GetChildren()[2]);
 	
 	transparency = noFillBar->GetComponent<ComponentImage>()->GetColor().w/255;
-	shinnyButton->GetComponent < ComponentImage>()->GetColor().w / 255;
-	shinnyButton1->GetComponent < ComponentImage>()->GetColor().w / 255;
-	shinnyButton2->GetComponent < ComponentImage>()->GetColor().w / 255;
+
+	shinnyButton->GetComponent<ComponentImage>();
+	shinnyButton1->GetComponent<ComponentImage>();
+	shinnyButton2->GetComponent<ComponentImage>();
 	
 }
 
