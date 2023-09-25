@@ -52,7 +52,8 @@ void PlayerJumpScript::Start()
 void PlayerJumpScript::PreUpdate(float deltaTime)
 {
 	CheckGround(deltaTime);
-	if (playerManager->GetPlayerState() != PlayerActions::DASHING)
+	if (playerManager->GetPlayerState() != PlayerActions::DASHING &&
+		playerManager->GetAttackManager()->IsAttackAvailable())
 	{
 		Jump(deltaTime);
 	}
@@ -62,7 +63,7 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 {
 	float verticalVelocity = rigidbody->GetRigidBody()->getLinearVelocity().getY();
 
-	if (verticalVelocity < -0.1f)
+	if (verticalVelocity < -5.0f)
 	{
 		isGrounded = false;
 		componentAnimation->SetParameter("IsFalling", true);
@@ -80,19 +81,24 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 		componentAnimation->SetParameter("IsFalling", false);
 		coyoteTimerCount = coyoteTime;
 
-		if (lastVerticalVelocity < -0.1f)
+		if (lastVerticalVelocity < -5.0f)
 		{
-			if (playerManager->GetPlayerState() != PlayerActions::JUMPING &&
-				playerManager->GetPlayerState() != PlayerActions::DOUBLEJUMPING)
+			if (playerManager->GetPlayerState() == PlayerActions::JUMPING ||
+				playerManager->GetPlayerState() == PlayerActions::DOUBLEJUMPING)
 			{
-				componentAnimation->SetParameter("IsJumping", false);
-				componentAnimation->SetParameter("IsDoubleJumping", false);
-				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-			}
 				playerManager->SetPlayerState(PlayerActions::IDLE);
 				componentAnimation->SetParameter("IsGrounded", true);
 				isGrounded = true;
 			}
+			else 
+			{
+				componentAnimation->SetParameter("IsJumping", false);
+				componentAnimation->SetParameter("IsDoubleJumping", false);
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+				componentAnimation->SetParameter("IsGrounded", true);
+				isGrounded = true;
+			}
+		}
 	}
 	lastVerticalVelocity = verticalVelocity;
 }

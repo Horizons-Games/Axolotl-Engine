@@ -135,9 +135,9 @@ void PlayerAttackScript::Update(float deltaTime)
 		}
 		else
 		{
-				ResetAttackAnimations(deltaTime);
-			}
+			ResetAttackAnimations(deltaTime);
 		}
+	}
 	
 	PerformCombos();
 }
@@ -186,7 +186,10 @@ void PlayerAttackScript::UpdateEnemyDetection()
 void PlayerAttackScript::PerformCombos()
 {
 	//Check input
-	currentAttack = comboSystem->CheckAttackInput(!playerManager->IsGrounded());
+	if (!IsPerformingJumpAttack())
+	{
+		currentAttack = comboSystem->CheckAttackInput(!playerManager->IsGrounded());
+	}
 
 	if (!IsAttackAvailable()) //Stack next attack if attack input called when it's currently in an attack animation
 	{
@@ -419,6 +422,7 @@ void PlayerAttackScript::UpdateJumpAttack()
 		{
 			EndJumpFinisherAttack();
 		}
+		currentAttack = AttackType::NONE;
 	}
 }
 
@@ -633,7 +637,7 @@ void PlayerAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAtta
 
 bool PlayerAttackScript::IsAttackAvailable() const
 {
-	return !isAttacking && playerManager->GetPlayerState() != PlayerActions::DASHING;
+	return !isAttacking;
 }
 
 bool PlayerAttackScript::IsMeleeAvailable() const
@@ -666,6 +670,11 @@ void PlayerAttackScript::SetIsDeathTouched(bool isDeathTouched)
 {
 	this->isDeathTouched = isDeathTouched;
 }
+
+//void PlayerAttackScript::SetIsAttacking(bool isAttacking)
+//{
+//	this->isAttacking = isAttacking;
+//}
 
 AttackType PlayerAttackScript::GetCurrentAttackType() const
 {
