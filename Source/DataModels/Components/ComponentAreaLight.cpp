@@ -182,43 +182,101 @@ void ComponentAreaLight::Draw() const
 
 void ComponentAreaLight::SetShapeRadius(float newRadius)
 {
+	isDirty = true;
 	shapeRadius = newRadius;
 
 	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
-	float3 scale = float3((shapeRadius + attRadius) * 2.0f);
-	transform->ScaleLocalAABB(scale);
+	float radius = (shapeRadius + attRadius) * 2.0f;
+
+	switch (areaType)
+	{
+		case AreaType::SPHERE:
+		{
+			float3 scale = float3(radius);
+			transform->ScaleLocalAABB(scale);
+			break;
+		}
+		case AreaType::TUBE:
+		{
+			float3 scale = float3(radius, height + radius, radius);
+			transform->ScaleLocalAABB(scale);
+			break;
+		}
+	}
 }
 
 void ComponentAreaLight::SetLightRadius(float newRadius)
 {
+	isDirty = true;
 	attRadius = newRadius;
 
 	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
-	float3 scale = float3((shapeRadius + attRadius) * 2.0f);
+	float radius = (shapeRadius + attRadius) * 2.0f;
+
+	switch (areaType)
+	{
+		case AreaType::SPHERE:
+		{
+			float3 scale = float3(radius);
+			transform->ScaleLocalAABB(scale);
+			break;
+		}
+		case AreaType::TUBE:
+		{
+			float3 scale = float3(radius, height + radius, radius);
+			transform->ScaleLocalAABB(scale);
+			break;
+		}
+	}
+}
+
+void ComponentAreaLight::SetHeight(float newHeight)
+{
+	isDirty = true;
+	height = newHeight;
+
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float radius = (shapeRadius + attRadius) * 2.0f;
+	float3 scale = float3(radius, height + radius, radius);
 	transform->ScaleLocalAABB(scale);
 }
 
 void ComponentAreaLight::OnTransformChanged()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float radius = (shapeRadius + attRadius) * 2.0f;
 
-	if (areaType == AreaType::SPHERE)
+	switch (areaType)
 	{
-		currentScene->UpdateSceneAreaSphere(this);
-		currentScene->RenderAreaSphere(this);
+		case AreaType::SPHERE:
+		{
+			currentScene->UpdateSceneAreaSphere(this);
+			currentScene->RenderAreaSphere(this);
 
-		ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius);
 
-		float3 translation = float3(-0.5f);
-		float3 scale = float3((shapeRadius + attRadius) * 2.0f);
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
 
-		transform->TranslateLocalAABB(translation);
-		transform->ScaleLocalAABB(scale);
-	}
-	else
-	{
-		currentScene->UpdateSceneAreaTube(this);
-		currentScene->RenderAreaTube(this);
+			break;
+		}
+
+		case AreaType::TUBE:
+		{
+			currentScene->UpdateSceneAreaTube(this);
+			currentScene->RenderAreaTube(this);
+
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius, height + radius, radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
 	}
 }
 

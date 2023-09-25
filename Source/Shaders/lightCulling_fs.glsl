@@ -29,6 +29,12 @@ readonly layout(std430, binding=4) buffer AreaLightsSphere
 	AreaLightSphere areaSphere[];
 };
 
+readonly layout(std430, binding=5) buffer AreaLightsTube
+{
+	uint num_tubes;
+	AreaLightTube areaTube[];
+};
+
 uniform vec3 viewPos;
 uniform vec2 screenSize;
 uniform int renderMode;
@@ -166,6 +172,55 @@ vec3 calculateAreaLightSpheres(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
         vec3 LoDiffuse = Cd * (1 - f0) * Li * diffuseDotNL;
         Lo += LoDiffuse + LoSpecular;
     }
+    return Lo;
+}
+
+vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, vec3 fragPos)
+{
+    vec3 Lo = vec3(0.0);
+
+    vec3 posA = areaTube[lightIndex].positionA.xyz;
+    vec3 posB = areaTube[lightIndex].positionB.xyz;
+    float tubeRadius = areaTube[lightIndex].positionA.w;
+    vec3 color = areaTube[lightIndex].color.rgb;
+    float intensity = areaTube[lightIndex].color.a;
+    float lightRadius = areaTube[lightIndex].lightRadius;
+
+    // Attenuation from the closest point view
+    vec3 pointAtt = ClosestPointToLine(fragPos, posA, posB, tubeRadius);
+    float closeDistance = length(pointAtt - fragPos);
+    float maxValue = pow(max(1-pow(closeDistance/lightRadius,4), 0),2);
+    float attenuation = maxValue/(pow(closeDistance,2) + 1);
+
+    vec3 R = normalize(reflect(-V, N));
+        
+    // calculate closest point light specular
+    vec3 closest = ClosestRayToLine(fragPos, posA, posB, R);
+   	closest = ClosestRayToSphere(tubeRadius, closest, R);
+
+    vec3 L = normalize(closest);
+    vec3 H = normalize(L + V);
+    float specularDotNL = max(dot(N,L), EPSILON);
+
+    float alpha = max(roughness * roughness, EPSILON);
+    float alphaPrime = clamp(tubeRadius/(closeDistance*2.0)+alpha, 0.0f, 1.0f);
+    float D = GGXNDAreaLight(max(dot(N,H), EPSILON), roughness, alpha, alphaPrime);
+    vec3 F = fresnelSchlick(f0, max(dot(L,H), EPSILON));
+    float G = smithVisibility(specularDotNL, max(dot(N,V), EPSILON), roughness);
+
+    // calculate closest point light diffuse
+    float a = length(posA-fragPos);
+    float b = length(posB-fragPos);
+    float x = (a)/(b + a);
+    closest = BisectionIntersection(fragPos, posA, posB);
+
+    L = normalize(closest-fragPos);
+    float diffuseDotNL = max(dot(N,L), EPSILON);
+
+    vec3 Li = color * intensity * attenuation;
+    vec3 LoSpecular = 0.25 * D * F * G * Li * specularDotNL;
+    vec3 LoDiffuse = (Cd) * Li * diffuseDotNL;
+    Lo += LoDiffuse + LoSpecular;
 
     return Lo;
 }
@@ -204,6 +259,11 @@ void main()
     if (flagSphere == 1)
     {
         Lo += calculateAreaLightSpheres(norm, viewDir, Cd, f0, roughness, fragPos);
+    }
+
+    if (flagTube == 1)
+    {
+        Lo += calculateAreaLightTubes(norm, viewDir, textureMat.rgb, f0, roughness, fragPos);
     }
 
     out_color = vec4(Lo, 1.0);

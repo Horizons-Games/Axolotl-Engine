@@ -29,7 +29,8 @@ public:
 	void DrawLights(Program* program, GBuffer* gbuffer,
 					std::vector<ComponentPointLight*> pointsToRender,
 					std::vector<ComponentSpotLight*> spotsToRender,
-					std::vector<ComponentAreaLight*> spheresToRender);
+					std::vector<ComponentAreaLight*> spheresToRender,
+					std::vector<ComponentAreaLight*> tubesToRender);
 
 	void DrawPoints(Program* program, std::vector<ComponentPointLight*>& pointsToRender, Scene* scene);
 	void DrawSpots(Program* program, std::vector<ComponentSpotLight*> spotsToRender, Scene* scene);

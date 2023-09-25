@@ -35,12 +35,6 @@ layout(std140, binding=1) uniform Directional
 	vec4 directionalColor;	//16	//16     // note: alpha parameter of colour is the intensity 
 };
 
-readonly layout(std430, binding=5) buffer AreaLightsTube
-{
-	uint num_tubes;
-	AreaLightTube areaTube[];
-};
-
 readonly layout(std430, binding = 11) buffer Materials {
     Material materials[];
 };
@@ -83,59 +77,6 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
     float GGXND = GGXNormalDistribution(max(dot(N,H), EPSILON), roughness);
 
     return (Cd*f0+0.25*FS*SV*GGXND)*directionalColor.rgb*directionalColor.a*dotNL;
-}
-
-vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness)
-{
-    vec3 Lo = vec3(0.0);
-
-    for (int i = 0; i < num_tubes; ++i)
-    {
-vec3 posA = areaTube[i].positionA.xyz;
-        vec3 posB = areaTube[i].positionB.xyz;
-        float tubeRadius = areaTube[i].positionA.w;
-        vec3 color = areaTube[i].color.rgb;
-        float intensity = areaTube[i].color.a;
-        float lightRadius = areaTube[i].lightRadius;
-
-        // Attenuation from the closest point view
-        vec3 pointAtt = ClosestPointToLine(FragPos, posA, posB, tubeRadius);
-        float closeDistance = length(pointAtt - FragPos);
-        float maxValue = pow(max(1-pow(closeDistance/lightRadius,4), 0),2);
-        float attenuation = maxValue/(pow(closeDistance,2) + 1);
-
-        vec3 R = normalize(reflect(-V, N));
-        
-        // calculate closest point light specular
-        vec3 closest = ClosestRayToLine(FragPos, posA, posB, R);
-   	    closest = ClosestRayToSphere(tubeRadius, closest, R);
-
-        vec3 L = normalize(closest);
-        vec3 H = normalize(L + V);
-        float specularDotNL = max(dot(N,L), EPSILON);
-
-        float alpha = max(roughness * roughness, EPSILON);
-        float alphaPrime = clamp(tubeRadius/(closeDistance*2.0)+alpha, 0.0f, 1.0f);
-        float D = GGXNDAreaLight(max(dot(N,H), EPSILON), roughness, alpha, alphaPrime);
-        vec3 F = fresnelSchlick(f0, max(dot(L,H), EPSILON));
-        float G = smithVisibility(specularDotNL, max(dot(N,V), EPSILON), roughness);
-
-        // calculate closest point light diffuse
-        float a = length(posA-FragPos);
-        float b = length(posB-FragPos);
-        float x = (a)/(b + a);
-        closest = BisectionIntersection(FragPos, posA, posB);
-
-        L = normalize(closest-FragPos);
-        float diffuseDotNL = max(dot(N,L), EPSILON);
-
-        vec3 Li = color * intensity * attenuation;
-        vec3 LoSpecular = 0.25 * D * F * G * Li * specularDotNL;
-        vec3 LoDiffuse = (Cd) * Li * diffuseDotNL;
-        Lo += LoDiffuse + LoSpecular;
-    }
-
-    return Lo;
 }
   
 void main()
@@ -200,11 +141,6 @@ void main()
         environmentBRDF, numLevels_IBL) * cubemap_intensity;
 
     vec3 Lo = calculateDirectionalLight(norm, viewDir, textureMat.rgb, f0, roughness);
-
-    if (num_tubes > 0)
-    {
-        Lo += calculateAreaLightTubes(norm, viewDir, textureMat.rgb, f0, roughness);
-    }
 
     vec3 color = ambient + Lo;
 

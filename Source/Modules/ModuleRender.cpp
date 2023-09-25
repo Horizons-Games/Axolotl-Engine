@@ -249,6 +249,7 @@ UpdateStatus ModuleRender::PreUpdate()
 	points.clear();
 	spots.clear();
 	spheres.clear();
+	tubes.clear();
 
 	return UpdateStatus::UPDATE_CONTINUE;
 }
@@ -436,7 +437,7 @@ UpdateStatus ModuleRender::Update()
 
 	// ------- DEFERRED LIGHT PASS ----------
 	program = modProgram->GetProgram(ProgramType::LIGHT_CULLING);
-	lightProxy->DrawLights(program, gBuffer, points, spots, spheres);
+	lightProxy->DrawLights(program, gBuffer, points, spots, spheres, tubes);
 	// -----------------------------
 
 	// -------- PRE-FORWARD ----------------------
@@ -791,13 +792,21 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 								spots.push_back(static_cast<ComponentSpotLight*>(light));
 								break;
 
-							case LightType::AREA:
-								ComponentAreaLight* area = static_cast<ComponentAreaLight*>(light);
-								if (area->GetAreaType() == AreaType::SPHERE)
+								case LightType::AREA:
 								{
-									spheres.push_back(static_cast<ComponentAreaLight*>(light));
+									ComponentAreaLight* area = static_cast<ComponentAreaLight*>(light);
+									switch (area->GetAreaType())
+									{
+									case AreaType::SPHERE:
+										spheres.push_back(static_cast<ComponentAreaLight*>(light));
+										break;
+
+									case AreaType::TUBE:
+										tubes.push_back(static_cast<ComponentAreaLight*>(light));
+										break;
+									}
+									break;
 								}
-								break;
 							}
 						}
 					}
@@ -840,13 +849,21 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 								spots.push_back(static_cast<ComponentSpotLight*>(light));
 								break;
 
-							case LightType::AREA:
-								ComponentAreaLight* area = static_cast<ComponentAreaLight*>(light);
-								if (area->GetAreaType() == AreaType::SPHERE)
+								case LightType::AREA:
 								{
-									spheres.push_back(static_cast<ComponentAreaLight*>(light));
+									ComponentAreaLight* area = static_cast<ComponentAreaLight*>(light);
+									switch (area->GetAreaType())
+									{
+									case AreaType::SPHERE:
+										spheres.push_back(static_cast<ComponentAreaLight*>(light));
+										break;
+
+									case AreaType::TUBE:
+										tubes.push_back(static_cast<ComponentAreaLight*>(light));
+										break;
+									}
+									break;
 								}
-								break;
 							}
 						}
 					}
@@ -921,13 +938,21 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject, Camera* camera,
 							spots.push_back(static_cast<ComponentSpotLight*>(light));
 							break;
 
-						case LightType::AREA:
-							ComponentAreaLight* area = static_cast<ComponentAreaLight*>(light);
-							if (area->GetAreaType() == AreaType::SPHERE)
+							case LightType::AREA:
 							{
-								spheres.push_back(static_cast<ComponentAreaLight*>(light));
+								ComponentAreaLight* area = static_cast<ComponentAreaLight*>(light);
+								switch (area->GetAreaType())
+								{
+								case AreaType::SPHERE:
+									spheres.push_back(static_cast<ComponentAreaLight*>(light));
+									break;
+
+								case AreaType::TUBE:
+									tubes.push_back(static_cast<ComponentAreaLight*>(light));
+									break;
+								}
+								break;
 							}
-							break;
 						}
 					}
 				}

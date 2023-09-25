@@ -138,6 +138,7 @@ private:
 	std::vector<ComponentPointLight*> points;
 	std::vector<ComponentSpotLight*> spots;
 	std::vector<ComponentAreaLight*> spheres;
+	std::vector<ComponentAreaLight*> tubes;
 
 	// 0: used in game and engine 
 	// 1: only in engine, stores the final result, to avoid writing and reading at the same time

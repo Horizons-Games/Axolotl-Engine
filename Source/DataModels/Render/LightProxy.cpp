@@ -62,7 +62,8 @@ void LightProxy::CleanUp()
 void LightProxy::DrawLights(Program* program, GBuffer* gbuffer,
 							std::vector<ComponentPointLight*> pointsToRender,
 							std::vector<ComponentSpotLight*> spotsToRender,
-							std::vector<ComponentAreaLight*> spheresToRender)
+							std::vector<ComponentAreaLight*> spheresToRender,
+							std::vector<ComponentAreaLight*> tubesToRender)
 {
 	program->Activate();
 
@@ -83,7 +84,7 @@ void LightProxy::DrawLights(Program* program, GBuffer* gbuffer,
 	DrawPoints(program, pointsToRender, scene);
 	DrawSpots(program, spotsToRender, scene);
 	DrawSpheres(program, spheresToRender, scene);
-	//DrawTubes(program); //No worth to draw, needed too many welds to get a tube mesh
+	DrawTubes(program, tubesToRender, scene);
 
 	glFrontFace(GL_CW);
 	glDisable(GL_BLEND);
@@ -100,14 +101,17 @@ void LightProxy::DrawPoints(Program* program, std::vector<ComponentPointLight*>&
 	for (ComponentPointLight* point : pointsToRender)
 	{
 		int index = scene->GetPointIndex(point);
-		float radius = point->GetRadius();
 
 		if (points.find(point) == points.end())
 		{
+			float radius = point->GetRadius();
+
 			points[point] = CreateSphereShape(radius, 15, 15);
 		}
 		else if (point->IsDirty())
 		{
+			float radius = point->GetRadius();
+
 			ReloadSphereShape(points[point], radius, 15, 15);
 			point->SetDirty(false);
 		}
@@ -136,15 +140,19 @@ void LightProxy::DrawSpots(Program* program, std::vector<ComponentSpotLight*> sp
 	for (ComponentSpotLight* spot : spotsToRender)
 	{
 		float index = scene->GetSpotIndex(spot);
-		float height = spot->GetRadius();
-		float radius = height * math::Tan(spot->GetOuterAngle());
 
 		if (spots.find(spot) == spots.end())
 		{
+			float height = spot->GetRadius();
+			float radius = height * math::Tan(spot->GetOuterAngle());
+
 			spots[spot] = CreateConeShape(height, radius, 15, 15);
 		}
 		else if (spot->IsDirty())
 		{
+			float height = spot->GetRadius();
+			float radius = height * math::Tan(spot->GetOuterAngle());
+
 			ReloadConeShape(spots[spot], height, radius, 15, 15);
 			spot->SetDirty(false);
 		}
@@ -173,14 +181,17 @@ void LightProxy::DrawSpheres(Program* program, std::vector<ComponentAreaLight*>&
 	for (ComponentAreaLight* sphere : spheresToRender)
 	{
 		int index = scene->GetSphereIndex(sphere);
-		float radius = sphere->GetAttRadius() + sphere->GetShapeRadius();
 
 		if (spheres.find(sphere) == spheres.end())
 		{
+			float radius = sphere->GetAttRadius() + sphere->GetShapeRadius();
+
 			spheres[sphere] = CreateSphereShape(radius, 15, 15);
 		}
 		else if (sphere->IsDirty())
 		{
+			float radius = sphere->GetAttRadius() + sphere->GetShapeRadius();
+
 			ReloadSphereShape(spheres[sphere], radius, 15, 15);
 			sphere->SetDirty(false);
 		}
@@ -209,16 +220,20 @@ void LightProxy::DrawTubes(Program* program, std::vector<ComponentAreaLight*>& t
 	for (ComponentAreaLight* tube : tubesToRender)
 	{
 		int index = scene->GetTubeIndex(tube);
-		float height = tube->GetHeight();
-		float radius = tube->GetAttRadius() + tube->GetShapeRadius();
 
-		if (tubes.find(tube) == spheres.end())
+		if (tubes.find(tube) == tubes.end())
 		{
+			float height = tube->GetHeight();
+			float radius = tube->GetAttRadius() + tube->GetShapeRadius();
+
 			tubes[tube] = CreateTubeShape(height, radius, 15, 5);
 		}
 		else if (tube->IsDirty())
 		{
-			ReloadTubeShape(tubes[tube], height, radius, 15, 15);
+			float height = tube->GetHeight();
+			float radius = tube->GetAttRadius() + tube->GetShapeRadius();
+
+			ReloadTubeShape(tubes[tube], height, radius, 15, 5);
 			tube->SetDirty(false);
 		}
 
@@ -352,25 +367,31 @@ ResourceMesh* LightProxy::CreateConeShape(float height, float radius, unsigned s
 ResourceMesh* LightProxy::CreateTubeShape(float height, float radius, unsigned slices, unsigned stacks)
 {
 	par_shapes_mesh* mesh = par_shapes_create_cylinder(slices, stacks);
-	//par_shapes_mesh* sphere1 = par_shapes_create_parametric_sphere(slices, stacks);
-	//par_shapes_mesh* sphere2 = par_shapes_create_parametric_sphere(slices, stacks);
+
+	float3 center = float3(0.0f, height / 2.0f + radius, 0.0f);
+	float3 normal = float3::unitY;
+	par_shapes_mesh* disk1 = par_shapes_create_disk(radius, slices, &center.x, &normal.x);
+	center = float3(0.0f, -height / 2.0f - radius, 0.0f);
+	normal = -float3::unitY;
+	par_shapes_mesh* disk2 = par_shapes_create_disk(radius, slices, &center.x, &normal.x);
+
 	ResourceMesh* tube = nullptr;
 
-	if (mesh)
+	if (mesh && disk1 && disk2)
 	{
 		par_shapes_rotate(mesh, -static_cast<float>(PAR_PI * 0.5f), reinterpret_cast<const float*>(&float3::unitX));
 		par_shapes_translate(mesh, 0.0f, -0.5f, 0.0f);
-		par_shapes_scale(mesh, radius, height, radius);
+		par_shapes_scale(mesh, radius, height + radius * 2.0f, radius);
 
-		//par_shapes_scale(sphere1, radius, radius, radius);
-		//par_shapes_translate(sphere1, -0.5f, -0.5f + height, 0.0f);
-		//
-		//par_shapes_scale(sphere2, radius, radius, radius);
-		//par_shapes_translate(sphere2, -0.5f, -0.5f - height, 0.0f);
+		par_shapes_rotate(disk1, static_cast<float>(PAR_PI * 0.1f), reinterpret_cast<const float*>(&float3::unitY));
+		par_shapes_rotate(disk2, static_cast<float>(PAR_PI * 0.1f), reinterpret_cast<const float*>(&float3::unitY));
+		par_shapes_merge(mesh, disk1);
+		par_shapes_free_mesh(disk1);
+		par_shapes_merge(mesh, disk2);
+		par_shapes_free_mesh(disk2);
 
-		//mesh = par_shapes_weld(mesh, 0.0001f, nullptr);
-		//mesh = par_shapes_weld(sphere1, 0.0001f, nullptr);
-		//mesh = par_shapes_weld(sphere2, 0.0000001f, nullptr);
+		tube = new ResourceMesh(numLights, "", "", "");
+		++numLights;
 
 		LoadShape(mesh, tube);
 
@@ -442,24 +463,26 @@ void LightProxy::ReloadConeShape(ResourceMesh* cone, float height, float radius,
 void LightProxy::ReloadTubeShape(ResourceMesh* tube, float height, float radius, unsigned slices, unsigned stacks)
 {
 	par_shapes_mesh* mesh = par_shapes_create_cylinder(slices, stacks);
-	//par_shapes_mesh* sphere1 = par_shapes_create_parametric_sphere(slices, stacks);
-	//par_shapes_mesh* sphere2 = par_shapes_create_parametric_sphere(slices, stacks);
 
-	if (mesh)
+	float3 center = float3(0.0f, height / 2.0f + radius, 0.0f);
+	float3 normal = float3::unitY;
+	par_shapes_mesh* disk1 = par_shapes_create_disk(radius, slices, &center.x, &normal.x);
+	center = float3(0.0f, -height / 2.0f - radius, 0.0f);
+	normal = -float3::unitY;
+	par_shapes_mesh* disk2 = par_shapes_create_disk(radius, slices, &center.x, &normal.x);
+
+	if (mesh && disk1 && disk2)
 	{
 		par_shapes_rotate(mesh, -static_cast<float>(PAR_PI * 0.5f), reinterpret_cast<const float*>(&float3::unitX));
 		par_shapes_translate(mesh, 0.0f, -0.5f, 0.0f);
-		par_shapes_scale(mesh, radius, height, radius);
+		par_shapes_scale(mesh, radius, height + radius * 2.0f, radius);
 
-		//par_shapes_scale(sphere1, radius, radius, radius);
-		//par_shapes_translate(sphere1, -0.5f, -0.5f + height, 0.0f);
-		//
-		//par_shapes_scale(sphere2, radius, radius, radius);
-		//par_shapes_translate(sphere2, -0.5f, -0.5f - height, 0.0f);
-
-		//mesh = par_shapes_weld(mesh, 0.0001f, nullptr);
-		//mesh = par_shapes_weld(sphere1, 0.0001f, nullptr);
-		//mesh = par_shapes_weld(sphere2, 0.0000001f, nullptr);
+		par_shapes_rotate(disk1, static_cast<float>(PAR_PI * 0.1f), reinterpret_cast<const float*>(&float3::unitY));
+		par_shapes_rotate(disk2, static_cast<float>(PAR_PI * 0.1f), reinterpret_cast<const float*>(&float3::unitY));
+		par_shapes_merge(mesh, disk1);
+		par_shapes_free_mesh(disk1);
+		par_shapes_merge(mesh, disk2);
+		par_shapes_free_mesh(disk2);
 
 		LoadShape(mesh, tube);
 
