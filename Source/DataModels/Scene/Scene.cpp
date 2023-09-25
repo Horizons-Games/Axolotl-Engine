@@ -1773,12 +1773,14 @@ void Scene::InitLights()
 	UpdateSceneSpotLights();
 	UpdateSceneAreaLights();
 	UpdateSceneLocalIBLs();
+	UpdateScenePlanarReflections();
 
 	RenderDirectionalLight();
 	RenderPointLights();
 	RenderSpotLights();
 	RenderAreaLights();
 	RenderLocalIBLs();
+	RenderPlanarReflections();
 }
 
 void Scene::SetRootQuadtree(std::unique_ptr<Quadtree> quadtree)
