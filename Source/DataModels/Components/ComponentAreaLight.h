@@ -87,19 +87,9 @@ inline void ComponentAreaLight::SetAreaType(AreaType newType)
 	areaType = newType;
 }
 
-inline void ComponentAreaLight::SetShapeRadius(float newRadius)
-{
-	shapeRadius = newRadius;
-}
-
 inline void ComponentAreaLight::SetHeight(float newHeight)
 {
 	height = newHeight;
-}
-
-inline void ComponentAreaLight::SetLightRadius(float newRadius)
-{
-	attRadius = newRadius;
 }
 
 inline const std::string ComponentAreaLight::GetNameByAreaType(AreaType type)

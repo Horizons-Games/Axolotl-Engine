@@ -6,6 +6,8 @@
 #include "FileSystem/Json.h"
 
 #include "Modules/ModuleScene.h"
+#include "Modules/ModuleDebugDraw.h"
+
 #include "Scene/Scene.h"
 
 #ifndef ENGINE
@@ -86,13 +88,34 @@ void ComponentSpotLight::Draw() const
 	{
 		return;
 	}
-	const ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 
 	float3 position = transform->GetGlobalPosition();
 	float3 forward = transform->GetGlobalForward().Normalized();
+	
+	float baseOuterRadius = radius * math::Tan(outerAngle);
+	float baseInnerRadius = radius * math::Tan(innerAngle);
 
-	dd::cone(position, forward * radius, dd::colors::White, outerAngle * radius, 0.0f);
-	dd::cone(position, forward * radius, dd::colors::Yellow, innerAngle * radius, 0.0f);
+	dd::cone(position, forward * radius, dd::colors::White, baseOuterRadius, 0.0001f);
+	dd::cone(position, forward * radius, dd::colors::Yellow, baseInnerRadius, 0.0001f);
+
+#ifdef ENGINE
+	if (transform->IsDrawBoundingBoxes())
+	{
+		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
+	}
+#endif
+}
+
+void ComponentSpotLight::SetRadius(float radius)
+{
+	isDirty = true;
+	this->radius = radius;
+
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float baseOuterRadius = radius * math::Tan(outerAngle);
+	float3 scale = float3(baseOuterRadius * 2.0f, baseOuterRadius * 2.0f, radius);
+	transform->ScaleLocalAABB(scale);
 }
 
 void ComponentSpotLight::OnTransformChanged()
@@ -101,6 +124,15 @@ void ComponentSpotLight::OnTransformChanged()
 
 	currentScene->UpdateSceneSpotLight(this);
 	currentScene->RenderSpotLight(this);
+
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+
+	float baseOuterRadius = radius * math::Tan(outerAngle);
+	float3 translation = float3(-0.5f, -0.5f, -0.5f + radius/2.0f);
+	float3 scale = float3(baseOuterRadius * 2.0f, baseOuterRadius * 2.0f, radius);
+	
+	transform->TranslateLocalAABB(translation);
+	transform->ScaleLocalAABB(scale);
 }
 
 void ComponentSpotLight::SignalEnable()

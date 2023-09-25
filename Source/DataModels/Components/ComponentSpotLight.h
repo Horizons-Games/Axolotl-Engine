@@ -65,12 +65,6 @@ inline float ComponentSpotLight::GetOuterAngle() const
 	return outerAngle;
 }
 
-inline void ComponentSpotLight::SetRadius(float radius)
-{
-	isDirty = true;
-	this->radius = radius;
-}
-
 inline void ComponentSpotLight::SetInnerAngle(float angle)
 {
 	innerAngle = angle;

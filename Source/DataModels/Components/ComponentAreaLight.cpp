@@ -9,6 +9,8 @@
 #include "Application.h"
 
 #include "Modules/ModuleScene.h"
+#include "Modules/ModuleDebugDraw.h"
+
 #include "Scene/Scene.h"
 
 #ifndef ENGINE
@@ -169,6 +171,31 @@ void ComponentAreaLight::Draw() const
 	case AreaType::DISK:
 		break;
 	}
+
+#ifdef ENGINE
+	if (transform->IsDrawBoundingBoxes())
+	{
+		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
+	}
+#endif
+}
+
+void ComponentAreaLight::SetShapeRadius(float newRadius)
+{
+	shapeRadius = newRadius;
+
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float3 scale = float3((shapeRadius + attRadius) * 2.0f);
+	transform->ScaleLocalAABB(scale);
+}
+
+void ComponentAreaLight::SetLightRadius(float newRadius)
+{
+	attRadius = newRadius;
+
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float3 scale = float3((shapeRadius + attRadius) * 2.0f);
+	transform->ScaleLocalAABB(scale);
 }
 
 void ComponentAreaLight::OnTransformChanged()
@@ -179,6 +206,14 @@ void ComponentAreaLight::OnTransformChanged()
 	{
 		currentScene->UpdateSceneAreaSphere(this);
 		currentScene->RenderAreaSphere(this);
+
+		ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+
+		float3 translation = float3(-0.5f);
+		float3 scale = float3((shapeRadius + attRadius) * 2.0f);
+
+		transform->TranslateLocalAABB(translation);
+		transform->ScaleLocalAABB(scale);
 	}
 	else
 	{
