@@ -437,7 +437,7 @@ UpdateStatus ModuleRender::Update()
 
 	// ------- DEFERRED LIGHT PASS ----------
 	program = modProgram->GetProgram(ProgramType::LIGHT_CULLING);
-	lightProxy->DrawLights(program, gBuffer, points, spots, spheres, tubes);
+	lightProxy->DrawLights(program, gBuffer, modeRender, points, spots, spheres, tubes);
 	// -----------------------------
 
 	// -------- PRE-FORWARD ----------------------

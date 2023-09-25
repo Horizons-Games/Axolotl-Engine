@@ -227,45 +227,51 @@ vec3 calculateAreaLightTubes(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness, 
 
 void main()
 {
-    vec2 texCoord = gl_FragCoord.xy / screenSize;
-
-    vec3 fragPos = texture(gPosition, texCoord).rgb;
-    vec3 norm = texture(gNormal, texCoord).rgb;
-    vec4 textureMat = texture(gDiffuse, texCoord);
-    vec4 specularMat = texture(gSpecular, texCoord);
-
-    float smoothness = specularMat.a;
-
-    vec3 viewDir = normalize(viewPos - fragPos);
-
-    vec3 Cd = textureMat.rgb;
-    vec3 f0 = specularMat.rgb;
-
-    // smoothness and roughness
-    float roughness = pow(1-smoothness,2) + EPSILON;
-
-    vec3 Lo = vec3(0.0);
-
-    if (flagPoint == 1)
+    if (renderMode == 0)
     {
-        Lo += calculatePointLights(norm, viewDir, Cd, f0, roughness, fragPos);
-    }
+        vec2 texCoord = gl_FragCoord.xy / screenSize;
+
+        vec3 fragPos = texture(gPosition, texCoord).rgb;
+        vec3 norm = texture(gNormal, texCoord).rgb;
+        vec4 textureMat = texture(gDiffuse, texCoord);
+        vec4 specularMat = texture(gSpecular, texCoord);
+
+        float smoothness = specularMat.a;
+
+        vec3 viewDir = normalize(viewPos - fragPos);
+
+        vec3 Cd = textureMat.rgb;
+        vec3 f0 = specularMat.rgb;
+
+        // smoothness and roughness
+        float roughness = pow(1-smoothness,2) + EPSILON;
+
+        vec3 Lo = vec3(0.0);
+
+        if (flagPoint == 1)
+        {
+            Lo += calculatePointLights(norm, viewDir, Cd, f0, roughness, fragPos);
+        }
     
-    if (flagSpot == 1)
-    {
-        Lo += calculateSpotLights(norm, viewDir,Cd, f0, roughness, fragPos);
-    }
+        if (flagSpot == 1)
+        {
+            Lo += calculateSpotLights(norm, viewDir,Cd, f0, roughness, fragPos);
+        }
     
-    if (flagSphere == 1)
-    {
-        Lo += calculateAreaLightSpheres(norm, viewDir, Cd, f0, roughness, fragPos);
-    }
+        if (flagSphere == 1)
+        {
+            Lo += calculateAreaLightSpheres(norm, viewDir, Cd, f0, roughness, fragPos);
+        }
 
-    if (flagTube == 1)
-    {
-        Lo += calculateAreaLightTubes(norm, viewDir, textureMat.rgb, f0, roughness, fragPos);
-    }
+        if (flagTube == 1)
+        {
+            Lo += calculateAreaLightTubes(norm, viewDir, textureMat.rgb, f0, roughness, fragPos);
+        }
 
-    out_color = vec4(Lo, 1.0);
-    
+        out_color = vec4(Lo, 1.0);
+    }
+    else
+    {
+        out_color = vec4(0.0);
+    }
 }

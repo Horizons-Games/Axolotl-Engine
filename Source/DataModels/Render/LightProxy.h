@@ -26,7 +26,7 @@ public:
 
 	void CleanUp();
 
-	void DrawLights(Program* program, GBuffer* gbuffer,
+	void DrawLights(Program* program, GBuffer* gbuffer, int renderMode,
 					std::vector<ComponentPointLight*> pointsToRender,
 					std::vector<ComponentSpotLight*> spotsToRender,
 					std::vector<ComponentAreaLight*> spheresToRender,

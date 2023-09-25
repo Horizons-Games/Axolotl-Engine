@@ -59,7 +59,7 @@ void LightProxy::CleanUp()
 	numLights = 0;
 }
 
-void LightProxy::DrawLights(Program* program, GBuffer* gbuffer,
+void LightProxy::DrawLights(Program* program, GBuffer* gbuffer, int renderMode,
 							std::vector<ComponentPointLight*> pointsToRender,
 							std::vector<ComponentSpotLight*> spotsToRender,
 							std::vector<ComponentAreaLight*> spheresToRender,
@@ -69,6 +69,7 @@ void LightProxy::DrawLights(Program* program, GBuffer* gbuffer,
 
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Light Culling"), "Light Culling");
 
+	program->BindUniformInt("renderMode", renderMode);
 	program->BindUniformFloat2("screenSize", float2(screenSize.first, screenSize.second));
 
 	gbuffer->BindTexture();
@@ -81,9 +82,19 @@ void LightProxy::DrawLights(Program* program, GBuffer* gbuffer,
 
 	Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
+	program->BindUniformInt("flagPoint", 1);
+	program->BindUniformInt("flagSpot", 0);
+	program->BindUniformInt("flagSphere", 0);
+	program->BindUniformInt("flagTube", 0);
 	DrawPoints(program, pointsToRender, scene);
+	program->BindUniformInt("flagPoint", 0);
+	program->BindUniformInt("flagSpot", 1);
 	DrawSpots(program, spotsToRender, scene);
+	program->BindUniformInt("flagSpot", 0);
+	program->BindUniformInt("flagSphere", 1);
 	DrawSpheres(program, spheresToRender, scene);
+	program->BindUniformInt("flagSphere", 0);
+	program->BindUniformInt("flagTube", 1);
 	DrawTubes(program, tubesToRender, scene);
 
 	glFrontFace(GL_CW);
@@ -120,12 +131,7 @@ void LightProxy::DrawPoints(Program* program, std::vector<ComponentPointLight*>&
 		float4x4 transform = point->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 		program->BindUniformFloat4x4("model", &transform[0][0], true);
-
 		program->BindUniformInt("lightIndex", index);
-		program->BindUniformInt("flagPoint", 1);
-		program->BindUniformInt("flagSpot", 0);
-		program->BindUniformInt("flagSphere", 0);
-		program->BindUniformInt("flagTube", 0);
 
 		glBindVertexArray(mesh->GetVAO());
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
@@ -161,12 +167,7 @@ void LightProxy::DrawSpots(Program* program, std::vector<ComponentSpotLight*> sp
 		float4x4 transform = spot->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 		program->BindUniformFloat4x4("model", &transform[0][0], true);
-
 		program->BindUniformInt("lightIndex", index);
-		program->BindUniformInt("flagSpot", 1);
-		program->BindUniformInt("flagPoint", 0);
-		program->BindUniformInt("flagSphere", 0);
-		program->BindUniformInt("flagTube", 0);
 
 		glBindVertexArray(mesh->GetVAO());
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
@@ -200,12 +201,7 @@ void LightProxy::DrawSpheres(Program* program, std::vector<ComponentAreaLight*>&
 		float4x4 transform = sphere->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 		program->BindUniformFloat4x4("model", &transform[0][0], true);
-
 		program->BindUniformInt("lightIndex", index);
-		program->BindUniformInt("flagSphere", 1);
-		program->BindUniformInt("flagSpot", 0);
-		program->BindUniformInt("flagPoint", 0);
-		program->BindUniformInt("flagTube", 0);
 
 		glBindVertexArray(mesh->GetVAO());
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
@@ -241,12 +237,7 @@ void LightProxy::DrawTubes(Program* program, std::vector<ComponentAreaLight*>& t
 		float4x4 transform = tube->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 		program->BindUniformFloat4x4("model", &transform[0][0], true);
-		
 		program->BindUniformInt("lightIndex", index);
-		program->BindUniformInt("flagTube", 1);
-		program->BindUniformInt("flagSphere", 0);
-		program->BindUniformInt("flagSpot", 0);
-		program->BindUniformInt("flagPoint", 0);
 
 		glBindVertexArray(mesh->GetVAO());
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
