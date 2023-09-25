@@ -8,7 +8,7 @@
 #include "FileSystem/UID.h"
 
 #include "PostProcess/SSAO.h"
-#include "DataModels/Render/LightProxy.h"
+#include "DataModels/Render/LightPass.h"
 
 #include "Render/Shadows.h"
 
@@ -62,7 +62,7 @@ public:
 	GLuint GetRenderedTexture() const;
 	float GetObjectDistance(const GameObject* gameObject);
 	Shadows* GetShadows() const;
-	LightProxy* GetLightProxy() const;
+	LightPass* GetLightProxy() const;
 
 	void SetBloomIntensity(float color);
 	float GetBloomIntensity() const;
@@ -122,7 +122,7 @@ private:
 	GBuffer* gBuffer;
 	Shadows* shadows;
 	SSAO* ssao;
-	LightProxy* lightProxy;
+	LightPass* lightProxy;
 
 	unsigned uboCamera;
 
@@ -233,7 +233,7 @@ inline Shadows* ModuleRender::GetShadows() const
 	return shadows;
 }
 
-inline LightProxy* ModuleRender::GetLightProxy() const
+inline LightPass* ModuleRender::GetLightProxy() const
 {
 	return lightProxy;
 }

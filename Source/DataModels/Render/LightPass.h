@@ -17,12 +17,12 @@ class Program;
 class Scene;
 class GBuffer;
 
-class LightProxy
+class LightPass
 {
 
 public:
-	LightProxy();
-	~LightProxy();
+	LightPass();
+	~LightPass();
 
 	void CleanUp();
 
@@ -62,7 +62,7 @@ private:
 	std::unordered_map<const ComponentAreaLight*, ResourceMesh*> tubes;
 };
 
-inline void LightProxy::SetScreenSize(unsigned width, unsigned height)
+inline void LightPass::SetScreenSize(unsigned width, unsigned height)
 {
 	screenSize.first = width;
 	screenSize.second = height;

@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 
-#include "LightProxy.h"
+#include "LightPass.h"
 
 #include "Application.h"
 
@@ -23,16 +23,16 @@
 #include "GBuffer/GBuffer.h"
 
 
-LightProxy::LightProxy() : numLights(0)
+LightPass::LightPass() : numLights(0)
 {
 }
 
-LightProxy::~LightProxy()
+LightPass::~LightPass()
 {
 	CleanUp();
 }
 
-void LightProxy::CleanUp()
+void LightPass::CleanUp()
 {
 	for (auto point : points)
 	{
@@ -59,7 +59,7 @@ void LightProxy::CleanUp()
 	numLights = 0;
 }
 
-void LightProxy::DrawLights(Program* program, GBuffer* gbuffer, int renderMode,
+void LightPass::DrawLights(Program* program, GBuffer* gbuffer, int renderMode,
 							std::vector<ComponentPointLight*> pointsToRender,
 							std::vector<ComponentSpotLight*> spotsToRender,
 							std::vector<ComponentAreaLight*> spheresToRender,
@@ -107,7 +107,7 @@ void LightProxy::DrawLights(Program* program, GBuffer* gbuffer, int renderMode,
 	program->Deactivate();
 }
 
-void LightProxy::DrawPoints(Program* program, std::vector<ComponentPointLight*>& pointsToRender, Scene* scene)
+void LightPass::DrawPoints(Program* program, std::vector<ComponentPointLight*>& pointsToRender, Scene* scene)
 {
 	for (ComponentPointLight* point : pointsToRender)
 	{
@@ -141,7 +141,7 @@ void LightProxy::DrawPoints(Program* program, std::vector<ComponentPointLight*>&
 	}
 }
 
-void LightProxy::DrawSpots(Program* program, std::vector<ComponentSpotLight*> spotsToRender, Scene* scene)
+void LightPass::DrawSpots(Program* program, std::vector<ComponentSpotLight*> spotsToRender, Scene* scene)
 {
 	for (ComponentSpotLight* spot : spotsToRender)
 	{
@@ -177,7 +177,7 @@ void LightProxy::DrawSpots(Program* program, std::vector<ComponentSpotLight*> sp
 	}
 }
 
-void LightProxy::DrawSpheres(Program* program, std::vector<ComponentAreaLight*>& spheresToRender, Scene* scene)
+void LightPass::DrawSpheres(Program* program, std::vector<ComponentAreaLight*>& spheresToRender, Scene* scene)
 {
 	for (ComponentAreaLight* sphere : spheresToRender)
 	{
@@ -211,7 +211,7 @@ void LightProxy::DrawSpheres(Program* program, std::vector<ComponentAreaLight*>&
 	}
 }
 
-void LightProxy::DrawTubes(Program* program, std::vector<ComponentAreaLight*>& tubesToRender, Scene* scene)
+void LightPass::DrawTubes(Program* program, std::vector<ComponentAreaLight*>& tubesToRender, Scene* scene)
 {
 	for (ComponentAreaLight* tube : tubesToRender)
 	{
@@ -247,7 +247,7 @@ void LightProxy::DrawTubes(Program* program, std::vector<ComponentAreaLight*>& t
 	}
 }
 
-void LightProxy::LoadShape(par_shapes_mesh_s* shape, ResourceMesh* mesh)
+void LightPass::LoadShape(par_shapes_mesh_s* shape, ResourceMesh* mesh)
 {
 	if (mesh->IsLoaded())
 	{
@@ -297,7 +297,7 @@ void LightProxy::LoadShape(par_shapes_mesh_s* shape, ResourceMesh* mesh)
 	mesh->Load();
 }
 
-ResourceMesh* LightProxy::CreateSphereShape(float size, unsigned slices, unsigned stacks)
+ResourceMesh* LightPass::CreateSphereShape(float size, unsigned slices, unsigned stacks)
 {
 	par_shapes_mesh* mesh = par_shapes_create_parametric_sphere(slices, stacks);
 	
@@ -318,7 +318,7 @@ ResourceMesh* LightProxy::CreateSphereShape(float size, unsigned slices, unsigne
 	return sphere;
 }
 
-ResourceMesh* LightProxy::CreateConeShape(float height, float radius, unsigned slices, unsigned stacks)
+ResourceMesh* LightPass::CreateConeShape(float height, float radius, unsigned slices, unsigned stacks)
 {
 	par_shapes_mesh* mesh = par_shapes_create_cone(slices, stacks);
 
@@ -355,7 +355,7 @@ ResourceMesh* LightProxy::CreateConeShape(float height, float radius, unsigned s
 	return cone;
 }
 
-ResourceMesh* LightProxy::CreateTubeShape(float height, float radius, unsigned slices, unsigned stacks)
+ResourceMesh* LightPass::CreateTubeShape(float height, float radius, unsigned slices, unsigned stacks)
 {
 	par_shapes_mesh* mesh = par_shapes_create_cylinder(slices, stacks);
 
@@ -391,7 +391,7 @@ ResourceMesh* LightProxy::CreateTubeShape(float height, float radius, unsigned s
 	return tube;
 }
 
-void LightProxy::CreatePlaneShape(float height, float radius, unsigned slices, unsigned stacks)
+void LightPass::CreatePlaneShape(float height, float radius, unsigned slices, unsigned stacks)
 {
 	/*par_shapes_mesh* mesh = par_shapes_create_plane(slices, stacks);
 
@@ -406,7 +406,7 @@ void LightProxy::CreatePlaneShape(float height, float radius, unsigned slices, u
 	}*/
 }
 
-void LightProxy::ReloadSphereShape(ResourceMesh* sphere, float size, unsigned slices, unsigned stacks)
+void LightPass::ReloadSphereShape(ResourceMesh* sphere, float size, unsigned slices, unsigned stacks)
 {
 	par_shapes_mesh* mesh = par_shapes_create_parametric_sphere(slices, stacks);
 
@@ -420,7 +420,7 @@ void LightProxy::ReloadSphereShape(ResourceMesh* sphere, float size, unsigned sl
 	}
 }
 
-void LightProxy::ReloadConeShape(ResourceMesh* cone, float height, float radius, unsigned slices, unsigned stacks)
+void LightPass::ReloadConeShape(ResourceMesh* cone, float height, float radius, unsigned slices, unsigned stacks)
 {
 	par_shapes_mesh* mesh = par_shapes_create_cone(slices, stacks);
 
@@ -451,7 +451,7 @@ void LightProxy::ReloadConeShape(ResourceMesh* cone, float height, float radius,
 	}
 }
 
-void LightProxy::ReloadTubeShape(ResourceMesh* tube, float height, float radius, unsigned slices, unsigned stacks)
+void LightPass::ReloadTubeShape(ResourceMesh* tube, float height, float radius, unsigned slices, unsigned stacks)
 {
 	par_shapes_mesh* mesh = par_shapes_create_cylinder(slices, stacks);
 

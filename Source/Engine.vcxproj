@@ -781,7 +781,7 @@
     <ClCompile Include="DataModels\GBuffer\GBuffer.cpp" />
     <ClCompile Include="FileSystem\UIDGenerator.cpp" />
     <ClCompile Include="Formatter.cpp" />
-    <ClCompile Include="DataModels\Render\LightProxy.cpp" />
+    <ClCompile Include="DataModels\Render\LightPass.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="DataModels\ParticleSystem\ModuleRenderer.cpp" />
     <ClCompile Include="Modules\ModuleNavigation.cpp" />
@@ -971,7 +971,7 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowCubemapInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-     </ClInclude>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowNavMeshInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -1337,7 +1337,7 @@
     <ClInclude Include="DataModels\GBuffer\GBuffer.h" />
     <ClInclude Include="DataModels\ParticleSystem\ModuleRenderer.h" />
     <ClInclude Include="Formatter.h" />
-    <ClInclude Include="DataModels\Render\LightProxy.h" />
+    <ClInclude Include="DataModels\Render\LightPass.h" />
     <ClInclude Include="Modules\ModuleNavigation.h" />
     <ClInclude Include="FileSystem\UID.h" />
     <ClInclude Include="FileSystem\UIDGenerator.h" />

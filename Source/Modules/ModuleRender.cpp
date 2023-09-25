@@ -172,7 +172,7 @@ bool ModuleRender::Init()
 	gBuffer = new GBuffer();
 	shadows = new Shadows();
 	ssao = new SSAO();
-	lightProxy = new LightProxy();
+	lightProxy = new LightPass();
 
 	GLenum err = glewInit();
 	// check for errors

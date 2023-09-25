@@ -778,7 +778,7 @@
     <ClCompile Include="..\Game\Scripts\HackingCommand.cpp">
       <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Render\LightProxy.cpp">
+    <ClCompile Include="DataModels\Render\LightPass.cpp">
       <Filter>DataModels\Render</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIHackingManager.cpp">
@@ -1615,7 +1615,7 @@
     <ClInclude Include="..\Game\Scripts\HackingCommand.h">
       <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Render\LightProxy.h">
+    <ClInclude Include="DataModels\Render\LightPass.h">
       <Filter>DataModels\Render</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIHackingManager.h">
