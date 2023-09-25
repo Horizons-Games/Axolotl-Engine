@@ -36,7 +36,6 @@ private:
 	bool isGrounded;
 	bool doubleJumpAvailable;
 	bool isJumping;
-	int groundedCount;
 	float coyoteTime;
 	float coyoteTimerCount;
 	float lastVerticalVelocity;

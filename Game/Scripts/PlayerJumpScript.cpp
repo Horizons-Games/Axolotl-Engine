@@ -25,7 +25,7 @@ REGISTERCLASS(PlayerJumpScript);
 
 PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(500.0f), canDoubleJump(false),
 componentAnimation(nullptr), componentAudio(nullptr), canJump(true), rigidbody(nullptr),
-coyoteTime(0.4f), groundedCount(0), isGrounded(false), attackScript(nullptr), playerManager(nullptr), 
+coyoteTime(0.4f), isGrounded(false), attackScript(nullptr), playerManager(nullptr), 
 lastVerticalVelocity(0.0f)
 {
 	REGISTER_FIELD(coyoteTime, float);
