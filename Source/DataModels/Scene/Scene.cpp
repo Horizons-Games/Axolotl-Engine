@@ -24,6 +24,9 @@
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
+
+#include "Components/UI/ComponentVideo.h"
+
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentTransform2D.h"
 
@@ -353,6 +356,16 @@ GameObject* Scene::CreateCanvasGameObject(const std::string& name, GameObject* p
 	return gameObject;
 }
 
+GameObject* Scene::CreateVideoGameObject(const std::string& name, GameObject* parent)
+{
+	GameObject* gameObject = CreateGameObject(name, parent);
+	ComponentVideo* component = gameObject->CreateComponent<ComponentVideo>();
+	component->SetUI(false);
+	sceneVideos.push_back(component);
+
+	return gameObject;
+}
+
 GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* parent, ComponentType type)
 {
 	GameObject* gameObject = CreateGameObject(name, parent, false);
@@ -361,35 +374,21 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 		case ComponentType::IMAGE:
 			gameObject->CreateComponent<ComponentImage>();
 			break;
+		case ComponentType::VIDEO:
+		{
+			ComponentVideo* video = gameObject->CreateComponent<ComponentVideo>();
+			sceneVideos.push_back(video);
+			break;
+		}
 		case ComponentType::BUTTON:
+		{
 			gameObject->CreateComponent<ComponentImage>();
 			sceneInteractableComponents.push_back(gameObject->CreateComponent<ComponentButton>());
 			break;
+		}
 		case ComponentType::SLIDER:
 		{
-			ComponentSlider* slider = gameObject->CreateComponent<ComponentSlider>();
-
-			GameObject* background = CreateUIGameObject("Background", gameObject, ComponentType::IMAGE);
-			ComponentTransform2D* backgroundTransform = background->GetComponentInternal<ComponentTransform2D>();
-			backgroundTransform->SetSize(float2(400, 50));
-			backgroundTransform->CalculateMatrices();
-			background->GetComponentInternal<ComponentImage>()->SetColor(float4(1.0f,0.0f,0.0f,1.0f));
-			slider->SetBackground(background);
-
-			GameObject* fill = CreateUIGameObject("Fill", gameObject, ComponentType::IMAGE);
-			ComponentTransform2D* fillTransform = fill->GetComponentInternal<ComponentTransform2D>();
-			fillTransform->SetSize(float2(400, 50));
-			fillTransform->CalculateMatrices();
-			ComponentImage* imageFill = fill->GetComponentInternal<ComponentImage>();
-			imageFill->SetColor(float4(0.0f, 1.0f, 0.0f, 1.0f));
-			imageFill->SetRenderPercentage(slider->CalculateNormalizedValue());
-			slider->SetFill(fill);
-
-			GameObject* handle = CreateUIGameObject("Handle", gameObject, ComponentType::BUTTON);
-			ComponentTransform2D* handleTransform = handle->GetComponentInternal<ComponentTransform2D>();
-			handleTransform->SetSize(float2(25, 60));
-			handleTransform->CalculateMatrices();
-			slider->SetHandle(handle);
+			//... [Your existing slider code]
 			break;
 		}
 		default:

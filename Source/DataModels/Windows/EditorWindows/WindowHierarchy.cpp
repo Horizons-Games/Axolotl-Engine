@@ -127,6 +127,12 @@ WindowHierarchy::DrawHierarchyResultCode WindowHierarchy::DrawRecursiveHierarchy
 			{
 				GameObject* newCamera = loadedScene->CreateCanvasGameObject("Canvas", gameObject);
 			}
+
+			if (ImGui::MenuItem("Create video"))
+			{
+				GameObject* newVideo = loadedScene->CreateVideoGameObject("Video", gameObject);
+			}
+
 			Create3DObjectMenu(gameObject);
 
 			// Create Light ShortCut
@@ -363,6 +369,11 @@ void WindowHierarchy::Create2DObjectMenu(GameObject* gameObject)
 	if (ImGui::MenuItem("Create Image"))
 	{
 		loadedScene->CreateUIGameObject("new Image", gameObject, ComponentType::IMAGE);
+	}
+
+	if (ImGui::MenuItem("Create Video"))
+	{
+		loadedScene->CreateUIGameObject("new Video", gameObject, ComponentType::VIDEO);
 	}
 
 	if (ImGui::MenuItem("Create Button"))

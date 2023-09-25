@@ -113,6 +113,8 @@ bool ModuleProgram::Start()
 
 	programs.push_back(CreateProgram("trail_vertex.glsl", "trail_fragment.glsl", "Trail"));
 
+	programs.push_back(CreateProgram("video_vertex.glsl", "video_frag.glsl", "Video"));
+
 	return true;
 }
 

@@ -32,6 +32,7 @@ enum class ProgramType
 	COMPONENT_LINE,
 	COLOR_CORRECTION,
 	TRAIL,
+	VIDEO,
 	PROGRAM_TYPE_SIZE
 };
 
