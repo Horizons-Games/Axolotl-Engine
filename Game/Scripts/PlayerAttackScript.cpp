@@ -135,9 +135,9 @@ void PlayerAttackScript::Update(float deltaTime)
 		}
 		else
 		{
-			ResetAttackAnimations(deltaTime);
+				ResetAttackAnimations(deltaTime);
+			}
 		}
-	}
 	
 	PerformCombos();
 }
@@ -641,7 +641,7 @@ bool PlayerAttackScript::IsMeleeAvailable() const
 	return isMelee;
 }
 
-bool PlayerAttackScript::IsPerfomingJumpAttack() const
+bool PlayerAttackScript::IsPerformingJumpAttack() const
 {
 	return (currentAttack == AttackType::JUMPFINISHER || currentAttack == AttackType::JUMPNORMAL);
 }

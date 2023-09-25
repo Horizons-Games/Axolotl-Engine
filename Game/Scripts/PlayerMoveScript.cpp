@@ -68,7 +68,7 @@ void PlayerMoveScript::Start()
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
 {
-	if (!playerAttackScript->IsPerfomingJumpAttack())
+	if (!playerAttackScript->IsPerformingJumpAttack())
 	{
 		if (forceScript && forceScript->IsForceActive())
 		{
