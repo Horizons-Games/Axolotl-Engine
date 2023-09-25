@@ -44,10 +44,12 @@ void PlayerMoveScript::Start()
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	playerManager = owner->GetComponent<PlayerManagerScript>();
+
 	if (owner->HasComponent<PlayerForceUseScript>())
 	{
 		forceScript = owner->GetComponent<PlayerForceUseScript>();
 	}
+	
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	jumpScript = owner->GetComponent<PlayerJumpScript>();
 	playerAttackScript = owner->GetComponent<PlayerAttackScript>();
@@ -66,7 +68,6 @@ void PlayerMoveScript::Start()
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
 {
-
 	if (!playerAttackScript->IsPerfomingJumpAttack())
 	{
 		if (forceScript && forceScript->IsForceActive())
