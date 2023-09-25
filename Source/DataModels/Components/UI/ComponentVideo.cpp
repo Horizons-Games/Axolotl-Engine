@@ -41,6 +41,17 @@ ComponentVideo::~ComponentVideo()
 {
 }
 
+ComponentVideo::ComponentVideo(const ComponentVideo& toCopy):
+	Component(ComponentType::VIDEO, toCopy.IsEnabled(), toCopy.GetOwner(), true),
+	loop(toCopy.loop), 
+	finished(toCopy.finished), 
+	rotateVertical(toCopy.rotateVertical), 
+	played(toCopy.played), 
+	firstFrame(toCopy.firstFrame)
+{
+	toCopy.GetVideo()->Load();
+}
+
 void ComponentVideo::Draw() const
 {
 

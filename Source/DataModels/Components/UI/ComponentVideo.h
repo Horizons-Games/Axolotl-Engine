@@ -10,6 +10,7 @@ class ComponentVideo : public Component, public Drawable
 public:
 	ComponentVideo(bool active, GameObject* owner);
 	~ComponentVideo() override;
+	ComponentVideo(const ComponentVideo& toCopy);
 	void SetLoop(bool loop);
 	bool GetLoop();
 	bool GetCanBeRotate();

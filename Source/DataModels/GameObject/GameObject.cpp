@@ -377,7 +377,7 @@ void GameObject::CopyComponent(Component* component)
 			newComponent = std::make_unique<ComponentImage>(*static_cast<ComponentImage*>(component));
 			break;
 		}
-
+		 
 		case ComponentType::VIDEO:
 		{
 			newComponent = std::make_unique<ComponentVideo>(*static_cast<ComponentVideo*>(component));
