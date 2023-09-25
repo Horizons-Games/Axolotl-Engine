@@ -21,22 +21,44 @@
 #include "GameObject/GameObject.h"
 
 
-LightProxy::LightProxy(): numPointLight(0),numSpotLight(0)
+LightProxy::LightProxy() : numLights(0)
 {
-	sphere = new ResourceMesh(1,"","","");
-	cone = new ResourceMesh(2, "", "", "");
-	tube = new ResourceMesh(3, "", "", "");
-	plane = new ResourceMesh(4, "", "", "");
 }
 
 LightProxy::~LightProxy()
 {
-	delete sphere;
-	delete cone;
-	delete tube;
+	CleanUp();
 }
 
-void LightProxy::DrawLights(Program* program)
+void LightProxy::CleanUp()
+{
+	for (auto point : points)
+	{
+		delete point.second;
+	}
+	for (auto spot : spots)
+	{
+		delete spot.second;
+	}
+	for (auto sphere : spheres)
+	{
+		delete sphere.second;
+	}
+	for (auto tube : tubes)
+	{
+		delete tube.second;
+	}
+
+	points.clear();
+	spots.clear();
+	spheres.clear();
+	tubes.clear();
+}
+
+void LightProxy::DrawLights(Program* program,
+							std::vector<ComponentPointLight*> pointsToRender,
+							std::vector<ComponentSpotLight*> spotsToRender,
+							std::vector<ComponentAreaLight*> spheresToRender)
 {
 	program->Activate();
 
@@ -50,9 +72,11 @@ void LightProxy::DrawLights(Program* program)
 	glDisable(GL_DEPTH_TEST);
 	glFrontFace(GL_CCW);
 
-	DrawPoints(program);
-	DrawSpots(program);
-	DrawSpheres(program);
+	Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	DrawPoints(program, pointsToRender, scene);
+	DrawSpots(program, spotsToRender, scene);
+	DrawSpheres(program, spheresToRender, scene);
 	//DrawTubes(program); //No worth to draw, needed too many welds to get a tube mesh
 
 	glFrontFace(GL_CW);
@@ -65,118 +89,148 @@ void LightProxy::DrawLights(Program* program)
 	program->Deactivate();
 }
 
-void LightProxy::DrawPoints(Program* program)
+void LightProxy::DrawPoints(Program* program, std::vector<ComponentPointLight*>& pointsToRender, Scene* scene)
 {
-	std::vector<std::pair<const ComponentPointLight*, unsigned int>> points =
-		App->GetModule<ModuleScene>()->GetLoadedScene()->GetCachedPointLights();
-
-	for (std::pair<const ComponentPointLight*, unsigned int> point : points)
+	for (ComponentPointLight* point : pointsToRender)
 	{
-		float radius = point.first->GetRadius();
-		float4x4 transform = point.first->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
+		int index = scene->GetPointIndex(point);
+		float radius = point->GetRadius();
 
-		SphereShape(radius, 15, 15);
+		if (points.find(point) == points.end())
+		{
+			points[point] = CreateSphereShape(radius, 15, 15);
+		}
+		else if (point->IsDirty())
+		{
+			ReloadSphereShape(points[point], radius, 15, 15);
+			point->SetDirty(false);
+		}
+
+		ResourceMesh* mesh = points[point];
+		float4x4 transform = point->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 		program->BindUniformFloat4x4("model", &transform[0][0], true);
 
-		program->BindUniformInt("lightIndex", static_cast<int>(point.second));
+		program->BindUniformInt("lightIndex", index);
 		program->BindUniformInt("flagPoint", 1);
 		program->BindUniformInt("flagSpot", 0);
 		program->BindUniformInt("flagSphere", 0);
 		program->BindUniformInt("flagTube", 0);
 
-		glBindVertexArray(sphere->GetVAO());
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sphere->GetEBO());
+		glBindVertexArray(mesh->GetVAO());
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
 
-		glDrawElements(GL_TRIANGLES, sphere->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, mesh->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
 		glBindVertexArray(0);		
 	}
 }
 
-void LightProxy::DrawSpots(Program* program)
+void LightProxy::DrawSpots(Program* program, std::vector<ComponentSpotLight*> spotsToRender, Scene* scene)
 {
-	std::vector<std::pair<const ComponentSpotLight*, unsigned int>> spots =
-		App->GetModule<ModuleScene>()->GetLoadedScene()->GetCachedSpotLights();
-
-	for (std::pair<const ComponentSpotLight*, unsigned int> spot : spots)
+	for (ComponentSpotLight* spot : spotsToRender)
 	{
-		float height = spot.first->GetRadius();
-		float radius = height * math::Tan(spot.first->GetOuterAngle());
+		float index = scene->GetSpotIndex(spot);
+		float height = spot->GetRadius();
+		float radius = height * math::Tan(spot->GetOuterAngle());
 
-		ConeShape(height, radius, 15, 15);
+		if (spots.find(spot) == spots.end())
+		{
+			spots[spot] = CreateConeShape(height, radius, 15, 15);
+		}
+		else if (spot->IsDirty())
+		{
+			ReloadConeShape(spots[spot], height, radius, 15, 15);
+			spot->SetDirty(false);
+		}
 
-		float4x4 transform = spot.first->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
+		ResourceMesh* mesh = spots[spot];
+		float4x4 transform = spot->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 		program->BindUniformFloat4x4("model", &transform[0][0], true);
 
-		program->BindUniformInt("lightIndex", static_cast<int>(spot.second));
+		program->BindUniformInt("lightIndex", index);
 		program->BindUniformInt("flagSpot", 1);
 		program->BindUniformInt("flagPoint", 0);
 		program->BindUniformInt("flagSphere", 0);
 		program->BindUniformInt("flagTube", 0);
 
-		glBindVertexArray(cone->GetVAO());
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cone->GetEBO());
+		glBindVertexArray(mesh->GetVAO());
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
 
-		glDrawElements(GL_TRIANGLES, cone->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, mesh->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
 		glBindVertexArray(0);
 	}
 }
 
-void LightProxy::DrawSpheres(Program* program)
+void LightProxy::DrawSpheres(Program* program, std::vector<ComponentAreaLight*>& spheresToRender, Scene* scene)
 {
-	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> spheres =
-		App->GetModule<ModuleScene>()->GetLoadedScene()->GetCachedSphereLights();
-
-	for (std::pair<const ComponentAreaLight*, unsigned int> sphere : spheres)
+	for (ComponentAreaLight* sphere : spheresToRender)
 	{
-		float radius = sphere.first->GetAttRadius() + sphere.first->GetShapeRadius();
-		float4x4 transform = sphere.first->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
+		int index = scene->GetSphereIndex(sphere);
+		float radius = sphere->GetAttRadius() + sphere->GetShapeRadius();
 
-		SphereShape(radius, 15, 15);
+		if (spheres.find(sphere) == spheres.end())
+		{
+			spheres[sphere] = CreateSphereShape(radius, 15, 15);
+		}
+		else if (sphere->IsDirty())
+		{
+			ReloadSphereShape(spheres[sphere], radius, 15, 15);
+			sphere->SetDirty(false);
+		}
+
+		ResourceMesh* mesh = spheres[sphere];
+		float4x4 transform = sphere->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 		program->BindUniformFloat4x4("model", &transform[0][0], true);
 
-		program->BindUniformInt("lightIndex", static_cast<int>(sphere.second));
+		program->BindUniformInt("lightIndex", index);
 		program->BindUniformInt("flagSphere", 1);
 		program->BindUniformInt("flagSpot", 0);
 		program->BindUniformInt("flagPoint", 0);
 		program->BindUniformInt("flagTube", 0);
 
-		glBindVertexArray(this->sphere->GetVAO());
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->sphere->GetEBO());
+		glBindVertexArray(mesh->GetVAO());
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
 
-		glDrawElements(GL_TRIANGLES, this->sphere->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, mesh->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
 		glBindVertexArray(0);
 	}
 }
 
-void LightProxy::DrawTubes(Program* program)
+void LightProxy::DrawTubes(Program* program, std::vector<ComponentAreaLight*>& tubesToRender, Scene* scene)
 {
-	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> tubes =
-		App->GetModule<ModuleScene>()->GetLoadedScene()->GetCachedTubeLights();
-
-	for (std::pair<const ComponentAreaLight*, unsigned int> tube : tubes)
+	for (ComponentAreaLight* tube : tubesToRender)
 	{
-		float height = tube.first->GetHeight();
-		float radius = tube.first->GetAttRadius() + tube.first->GetShapeRadius();
+		int index = scene->GetTubeIndex(tube);
+		float height = tube->GetHeight();
+		float radius = tube->GetAttRadius() + tube->GetShapeRadius();
 
-		TubeShape(height, radius, 15, 5);
+		if (tubes.find(tube) == spheres.end())
+		{
+			tubes[tube] = CreateTubeShape(height, radius, 15, 5);
+		}
+		else if (tube->IsDirty())
+		{
+			ReloadTubeShape(tubes[tube], height, radius, 15, 15);
+			tube->SetDirty(false);
+		}
 
-		float4x4 transform = tube.first->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
+		ResourceMesh* mesh = tubes[tube];
+		float4x4 transform = tube->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 		program->BindUniformFloat4x4("model", &transform[0][0], true);
 		
-		program->BindUniformInt("lightIndex", static_cast<int>(tube.second));
+		program->BindUniformInt("lightIndex", index);
 		program->BindUniformInt("flagTube", 1);
 		program->BindUniformInt("flagSphere", 0);
 		program->BindUniformInt("flagSpot", 0);
 		program->BindUniformInt("flagPoint", 0);
 
-		glBindVertexArray(this->tube->GetVAO());
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->tube->GetEBO());
+		glBindVertexArray(mesh->GetVAO());
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->GetEBO());
 
-		glDrawElements(GL_TRIANGLES, this->tube->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, mesh->GetNumIndexes(), GL_UNSIGNED_INT, nullptr);
 		glBindVertexArray(0);
 	}
 }
@@ -231,7 +285,110 @@ void LightProxy::LoadShape(par_shapes_mesh_s* shape, ResourceMesh* mesh)
 	mesh->Load();
 }
 
-void LightProxy::SphereShape(float size, unsigned slices, unsigned stacks)
+ResourceMesh* LightProxy::CreateSphereShape(float size, unsigned slices, unsigned stacks)
+{
+	par_shapes_mesh* mesh = par_shapes_create_parametric_sphere(slices, stacks);
+	
+	ResourceMesh* sphere = nullptr;
+
+	if (mesh)
+	{
+		par_shapes_scale(mesh, size, size, size);
+
+		sphere = new ResourceMesh(numLights, "", "", "");
+		++numLights;
+
+		LoadShape(mesh, sphere);
+
+		par_shapes_free_mesh(mesh);
+	}
+
+	return sphere;
+}
+
+ResourceMesh* LightProxy::CreateConeShape(float height, float radius, unsigned slices, unsigned stacks)
+{
+	par_shapes_mesh* mesh = par_shapes_create_cone(slices, stacks);
+
+	ResourceMesh* cone = nullptr;
+
+	if (mesh)
+	{
+		par_shapes_rotate(mesh, -static_cast<float>(PAR_PI * 0.5f), reinterpret_cast<const float*>(&float3::unitX));
+		par_shapes_translate(mesh, 0.0f, -0.5f, 0.0f);
+		par_shapes_scale(mesh, radius, height, radius);
+
+		const float3 center = float3(0.0f, -(height / 2.0f), 0.0f);
+		const float3 normal = -float3::unitY;
+		par_shapes_mesh* disk = par_shapes_create_disk(radius, slices, &center.x, &normal.x);
+
+		if (disk)
+		{
+			par_shapes_rotate(disk, static_cast<float>(PAR_PI * 0.1f), reinterpret_cast<const float*>(&float3::unitY));
+
+			par_shapes_merge(mesh, disk);
+			par_shapes_free_mesh(disk);
+
+			par_shapes_translate(mesh, 0.0f, -height / 2.0f, 0.0f);
+			par_shapes_rotate(mesh, -static_cast<float>(PAR_PI * 0.5f), reinterpret_cast<const float*>(&float3::unitX));
+
+			cone = new ResourceMesh(numLights, "", "", "");
+			++numLights;
+
+			LoadShape(mesh, cone);
+
+			par_shapes_free_mesh(mesh);
+		}
+	}
+	return cone;
+}
+
+ResourceMesh* LightProxy::CreateTubeShape(float height, float radius, unsigned slices, unsigned stacks)
+{
+	par_shapes_mesh* mesh = par_shapes_create_cylinder(slices, stacks);
+	//par_shapes_mesh* sphere1 = par_shapes_create_parametric_sphere(slices, stacks);
+	//par_shapes_mesh* sphere2 = par_shapes_create_parametric_sphere(slices, stacks);
+	ResourceMesh* tube = nullptr;
+
+	if (mesh)
+	{
+		par_shapes_rotate(mesh, -static_cast<float>(PAR_PI * 0.5f), reinterpret_cast<const float*>(&float3::unitX));
+		par_shapes_translate(mesh, 0.0f, -0.5f, 0.0f);
+		par_shapes_scale(mesh, radius, height, radius);
+
+		//par_shapes_scale(sphere1, radius, radius, radius);
+		//par_shapes_translate(sphere1, -0.5f, -0.5f + height, 0.0f);
+		//
+		//par_shapes_scale(sphere2, radius, radius, radius);
+		//par_shapes_translate(sphere2, -0.5f, -0.5f - height, 0.0f);
+
+		//mesh = par_shapes_weld(mesh, 0.0001f, nullptr);
+		//mesh = par_shapes_weld(sphere1, 0.0001f, nullptr);
+		//mesh = par_shapes_weld(sphere2, 0.0000001f, nullptr);
+
+		LoadShape(mesh, tube);
+
+		par_shapes_free_mesh(mesh);
+	}
+	return tube;
+}
+
+void LightProxy::CreatePlaneShape(float height, float radius, unsigned slices, unsigned stacks)
+{
+	/*par_shapes_mesh* mesh = par_shapes_create_plane(slices, stacks);
+
+	if (mesh)
+	{
+		par_shapes_translate(mesh, -0.5f, -0.5f, 0.0f);
+		par_shapes_scale(mesh, radius, height, 1.0f);
+
+		LoadShape(mesh, plane);
+
+		par_shapes_free_mesh(mesh);
+	}*/
+}
+
+void LightProxy::ReloadSphereShape(ResourceMesh* sphere, float size, unsigned slices, unsigned stacks)
 {
 	par_shapes_mesh* mesh = par_shapes_create_parametric_sphere(slices, stacks);
 
@@ -245,7 +402,7 @@ void LightProxy::SphereShape(float size, unsigned slices, unsigned stacks)
 	}
 }
 
-void LightProxy::ConeShape(float height, float radius, unsigned slices, unsigned stacks)
+void LightProxy::ReloadConeShape(ResourceMesh* cone, float height, float radius, unsigned slices, unsigned stacks)
 {
 	par_shapes_mesh* mesh = par_shapes_create_cone(slices, stacks);
 
@@ -274,16 +431,15 @@ void LightProxy::ConeShape(float height, float radius, unsigned slices, unsigned
 			par_shapes_free_mesh(mesh);
 		}
 	}
-
 }
 
-void LightProxy::TubeShape(float height, float radius, unsigned slices, unsigned stacks)
+void LightProxy::ReloadTubeShape(ResourceMesh* tube, float height, float radius, unsigned slices, unsigned stacks)
 {
 	par_shapes_mesh* mesh = par_shapes_create_cylinder(slices, stacks);
 	//par_shapes_mesh* sphere1 = par_shapes_create_parametric_sphere(slices, stacks);
 	//par_shapes_mesh* sphere2 = par_shapes_create_parametric_sphere(slices, stacks);
 
-	if (tube && sphere)
+	if (mesh)
 	{
 		par_shapes_rotate(mesh, -static_cast<float>(PAR_PI * 0.5f), reinterpret_cast<const float*>(&float3::unitX));
 		par_shapes_translate(mesh, 0.0f, -0.5f, 0.0f);
@@ -300,21 +456,6 @@ void LightProxy::TubeShape(float height, float radius, unsigned slices, unsigned
 		//mesh = par_shapes_weld(sphere2, 0.0000001f, nullptr);
 
 		LoadShape(mesh, tube);
-
-		par_shapes_free_mesh(mesh);
-	}
-}
-
-void LightProxy::PlaneShape(float height, float radius, unsigned slices, unsigned stacks)
-{
-	par_shapes_mesh* mesh = par_shapes_create_plane(slices, stacks);
-
-	if (mesh)
-	{
-		par_shapes_translate(mesh, -0.5f, -0.5f, 0.0f);
-		par_shapes_scale(mesh, radius, height, 1.0f);
-
-		LoadShape(mesh, plane);
 
 		par_shapes_free_mesh(mesh);
 	}

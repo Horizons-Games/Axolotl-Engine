@@ -47,5 +47,6 @@ inline float ComponentPointLight::GetRadius() const
 
 inline void ComponentPointLight::SetRadius(float radius)
 {
+	isDirty = true;
 	this->radius = radius;
 }

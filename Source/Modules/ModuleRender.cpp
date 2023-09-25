@@ -145,6 +145,10 @@ ModuleRender::~ModuleRender()
 	
 	objectsInFrustrumDistances.clear();
 	gameObjectsInFrustrum.clear();
+
+	points.clear();
+	spots.clear();
+	spheres.clear();
 }
 
 bool ModuleRender::Init()
@@ -241,6 +245,10 @@ UpdateStatus ModuleRender::PreUpdate()
 	
 	gameObjectsInFrustrum.clear();
 	objectsInFrustrumDistances.clear();
+
+	points.clear();
+	spots.clear();
+	spheres.clear();
 
 	return UpdateStatus::UPDATE_CONTINUE;
 }
@@ -498,9 +506,9 @@ UpdateStatus ModuleRender::Update()
 	glCullFace(GL_FRONT);
 	glDisable(GL_BLEND);
 
-	// ------- LIGHT PASS ----------
+	// ------- DEFERRED LIGHT PASS ----------
 	program = modProgram->GetProgram(ProgramType::LIGHT_CULLING);
-	lightProxy->DrawLights(program);
+	lightProxy->DrawLights(program, points, spots, spheres);
 	// -----------------------------
 
 	for (const GameObject* go : gameObjectsInFrustrum)
@@ -747,7 +755,6 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 
 	if (camera->IsInside(quadtree->GetBoundingBox()))
 	{
-
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf())
 		{
@@ -769,6 +776,30 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 
 						gameObjectsInFrustrum.insert(gameObject);
 						objectsInFrustrumDistances[gameObject] = dist;
+
+						if (gameObject->HasComponent<ComponentLight>())
+						{
+							ComponentLight* light = gameObject->GetComponentInternal<ComponentLight>();
+
+							switch (light->GetLightType())
+							{
+							case LightType::POINT:
+								points.push_back(static_cast<ComponentPointLight*>(light));
+								break;
+
+							case LightType::SPOT:
+								spots.push_back(static_cast<ComponentSpotLight*>(light));
+								break;
+
+							case LightType::AREA:
+								ComponentAreaLight* area = static_cast<ComponentAreaLight*>(light);
+								if (area->GetAreaType() == AreaType::SPHERE)
+								{
+									spheres.push_back(static_cast<ComponentAreaLight*>(light));
+								}
+								break;
+							}
+						}
 					}
 				}
 
@@ -794,6 +825,30 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 
 						gameObjectsInFrustrum.insert(gameObject);
 						objectsInFrustrumDistances[gameObject] = dist;
+
+						if (gameObject->HasComponent<ComponentLight>())
+						{
+							ComponentLight* light = gameObject->GetComponentInternal<ComponentLight>();
+
+							switch (light->GetLightType())
+							{
+							case LightType::POINT:
+								points.push_back(static_cast<ComponentPointLight*>(light));
+								break;
+
+							case LightType::SPOT:
+								spots.push_back(static_cast<ComponentSpotLight*>(light));
+								break;
+
+							case LightType::AREA:
+								ComponentAreaLight* area = static_cast<ComponentAreaLight*>(light);
+								if (area->GetAreaType() == AreaType::SPHERE)
+								{
+									spheres.push_back(static_cast<ComponentAreaLight*>(light));
+								}
+								break;
+							}
+						}
 					}
 				}
 
@@ -851,6 +906,30 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject, Camera* camera,
 
 					gameObjectsInFrustrum.insert(gameObject);
 					objectsInFrustrumDistances[gameObject] = dist;
+
+					if (gameObject->HasComponent<ComponentLight>())
+					{
+						ComponentLight* light = gameObject->GetComponentInternal<ComponentLight>();
+
+						switch (light->GetLightType())
+						{
+						case LightType::POINT:
+							points.push_back(static_cast<ComponentPointLight*>(light));
+							break;
+
+						case LightType::SPOT:
+							spots.push_back(static_cast<ComponentSpotLight*>(light));
+							break;
+
+						case LightType::AREA:
+							ComponentAreaLight* area = static_cast<ComponentAreaLight*>(light);
+							if (area->GetAreaType() == AreaType::SPHERE)
+							{
+								spheres.push_back(static_cast<ComponentAreaLight*>(light));
+							}
+							break;
+						}
+					}
 				}
 			}
 		}

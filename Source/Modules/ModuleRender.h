@@ -62,6 +62,7 @@ public:
 	GLuint GetRenderedTexture() const;
 	float GetObjectDistance(const GameObject* gameObject);
 	Shadows* GetShadows() const;
+	LightProxy* GetLightProxy() const;
 
 	void SetBloomIntensity(float color);
 	float GetBloomIntensity() const;
@@ -134,6 +135,10 @@ private:
 	std::unordered_set<const GameObject*> gameObjectsInFrustrum;
 	std::unordered_map<const GameObject*, float> objectsInFrustrumDistances;
 
+	std::vector<ComponentPointLight*> points;
+	std::vector<ComponentSpotLight*> spots;
+	std::vector<ComponentAreaLight*> spheres;
+
 	// 0: used in game and engine 
 	// 1: only in engine, stores the final result, to avoid writing and reading at the same time
 	GLuint frameBuffer[2] = {0, 0};
@@ -148,7 +153,6 @@ private:
 	
 	//GLuint bloomFramebuffer;
 	//GLuint bloomTexture;
-	
 
 	friend class ModuleEditor;
 };
@@ -226,6 +230,11 @@ inline float ModuleRender::GetObjectDistance(const GameObject* gameObject)
 inline Shadows* ModuleRender::GetShadows() const
 {
 	return shadows;
+}
+
+inline LightProxy* ModuleRender::GetLightProxy() const
+{
+	return lightProxy;
 }
 
 inline void ModuleRender::SetBloomIntensity(float intensity)

@@ -6,9 +6,15 @@
 
 #include "Resources/ResourceMesh.h"
 
+#include <map>
+
 struct par_shapes_mesh_s;
 
+class ComponentAreaLight;
+class ComponentPointLight;
+class ComponentSpotLight;
 class Program;
+class Scene;
 
 class LightProxy
 {
@@ -17,32 +23,41 @@ public:
 	LightProxy();
 	~LightProxy();
 
-	void DrawLights(Program* program);
-	void DrawPoints(Program* program);
-	void DrawSpots(Program* program);
-	void DrawSpheres(Program* program);
-	void DrawTubes(Program* program);
+	void CleanUp();
+
+	void DrawLights(Program* program, 
+					std::vector<ComponentPointLight*> pointsToRender,
+					std::vector<ComponentSpotLight*> spotsToRender,
+					std::vector<ComponentAreaLight*> spheresToRender);
+
+	void DrawPoints(Program* program, std::vector<ComponentPointLight*>& pointsToRender, Scene* scene);
+	void DrawSpots(Program* program, std::vector<ComponentSpotLight*> spotsToRender, Scene* scene);
+	void DrawSpheres(Program* program, std::vector<ComponentAreaLight*>& spheresToRender, Scene* scene);
+	void DrawTubes(Program* program, std::vector<ComponentAreaLight*>& tubesToRender, Scene* scene);
 
 	void LoadShape(par_shapes_mesh_s* shape, ResourceMesh* mesh);
 
-	void SphereShape(float size, unsigned slices, unsigned stacks);
-	void ConeShape(float height, float radius, unsigned slices, unsigned stacks);
-	void TubeShape(float height, float radius, unsigned slices, unsigned stacks);
-	void PlaneShape(float height, float radius, unsigned slices, unsigned stacks);
+	ResourceMesh* CreateSphereShape(float size, unsigned slices, unsigned stacks);
+	ResourceMesh* CreateConeShape(float height, float radius, unsigned slices, unsigned stacks);
+	ResourceMesh* CreateTubeShape(float height, float radius, unsigned slices, unsigned stacks);
+	void CreatePlaneShape(float height, float radius, unsigned slices, unsigned stacks);
+
+	void ReloadSphereShape(ResourceMesh* sphere, float size, unsigned slices, unsigned stacks);
+	void ReloadConeShape(ResourceMesh* cone, float height, float radius, unsigned slices, unsigned stacks);
+	void ReloadTubeShape(ResourceMesh* tube, float height, float radius, unsigned slices, unsigned stacks);
 
 	void SetScreenSize(unsigned width, unsigned height);
 
 private:
 
-	int numPointLight;
-	int numSpotLight;
+	int numLights;
 
 	std::pair<unsigned, unsigned> screenSize;
 
-	ResourceMesh* sphere;
-	ResourceMesh* cone;
-	ResourceMesh* tube;
-	ResourceMesh* plane;
+	std::unordered_map<const ComponentPointLight*, ResourceMesh*> points;
+	std::unordered_map<const ComponentSpotLight*, ResourceMesh*> spots;
+	std::unordered_map<const ComponentAreaLight*, ResourceMesh*> spheres;
+	std::unordered_map<const ComponentAreaLight*, ResourceMesh*> tubes;
 };
 
 inline void LightProxy::SetScreenSize(unsigned width, unsigned height)
