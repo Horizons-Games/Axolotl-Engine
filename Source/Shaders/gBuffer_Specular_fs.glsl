@@ -13,7 +13,7 @@
 
 #include "/Common/Structs/tiling.glsl"
 
-layout (location = 0) out vec4 gPosition;
+layout (location = 0) out vec3 gPosition;
 layout (location = 1) out vec3 gNormal;
 layout (location = 2) out vec4 gDiffuse;
 layout (location = 3) out vec4 gSpecular;
@@ -54,7 +54,7 @@ void main()
 
     vec2 newTexCoord = TexCoord*tiling.percentage*tiling.tiling+tiling.offset;
 
-    gPosition = vec4(FragPos, material.is_reflective);
+    gPosition = FragPos;
     gNormal = Normal;
 
     //Diffuse

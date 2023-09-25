@@ -447,9 +447,7 @@ float ChebyshevUpperBound(vec4 posFromLight, int layer)
 void main()
 {             
     // retrieve data from gbuffer
-    vec4 posTexture = texture(gPosition, TexCoord);
-    vec3 fragPos = posTexture.rgb;
-    float reflectiveFrag = posTexture.a;
+    vec3 fragPos = texture(gPosition, TexCoord).rgb;
     vec3 norm = texture(gNormal, TexCoord).rgb;
     vec4 textureMat = texture(gDiffuse, TexCoord);
     vec4 specularMat = texture(gSpecular, TexCoord);
@@ -525,7 +523,7 @@ void main()
         }
 
         vec3 planarColor = vec3(0.0);
-        if (num_planes > 0 && reflectiveFrag == 1)
+        if (num_planes > 0)
         {
             planarColor = calculatePlanarReflections(roughness, fragPos);
         }
