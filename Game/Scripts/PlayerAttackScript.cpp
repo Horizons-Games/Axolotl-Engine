@@ -671,11 +671,6 @@ void PlayerAttackScript::SetIsDeathTouched(bool isDeathTouched)
 	this->isDeathTouched = isDeathTouched;
 }
 
-//void PlayerAttackScript::SetIsAttacking(bool isAttacking)
-//{
-//	this->isAttacking = isAttacking;
-//}
-
 AttackType PlayerAttackScript::GetCurrentAttackType() const
 {
 	return lastAttack;
