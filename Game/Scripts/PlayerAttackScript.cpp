@@ -114,7 +114,7 @@ void PlayerAttackScript::Update(float deltaTime)
 	// Check if the special was activated
 	comboSystem->CheckSpecial(deltaTime);
 
-	if (!IsAttackAvailable() && !canAttack)
+	if (!IsAttackAvailable() && canAttack)
 	{
 		if (jumpFinisherScript->IsActive())
 		{
@@ -125,7 +125,7 @@ void PlayerAttackScript::Update(float deltaTime)
 			ResetAttackAnimations(deltaTime);
 		}
 	}
-	if (!canAttack) 
+	if (canAttack) 
 	{
 		PerformCombos();
 	}
