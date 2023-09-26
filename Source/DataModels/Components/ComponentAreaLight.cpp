@@ -29,6 +29,33 @@ ComponentAreaLight::ComponentAreaLight() :
 	attRadius(1.f),
 	height(1.f)
 {
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float radius = (shapeRadius + attRadius) * 2.0f;
+
+	switch (areaType)
+	{
+		case AreaType::SPHERE:
+		{
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
+
+		case AreaType::TUBE:
+		{
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius, height + radius, radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
+	}
 }
 
 ComponentAreaLight::ComponentAreaLight(const ComponentAreaLight& componentAreaLight) :
@@ -47,6 +74,33 @@ ComponentAreaLight::ComponentAreaLight(AreaType areaType, GameObject* parent) :
 	attRadius(1.f),
 	height(1.f)
 {
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float radius = (shapeRadius + attRadius) * 2.0f;
+
+	switch (areaType)
+	{
+		case AreaType::SPHERE:
+		{
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
+
+		case AreaType::TUBE:
+		{
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius, height + radius, radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
+	}
 }
 
 ComponentAreaLight::ComponentAreaLight(const float3& color, float intensity, AreaType areaType) :
@@ -56,6 +110,33 @@ ComponentAreaLight::ComponentAreaLight(const float3& color, float intensity, Are
 	attRadius(1.f),
 	height(1.f)
 {
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float radius = (shapeRadius + attRadius) * 2.0f;
+
+	switch (areaType)
+	{
+		case AreaType::SPHERE:
+		{
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
+
+		case AreaType::TUBE:
+		{
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius, height + radius, radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
+	}
 }
 
 ComponentAreaLight::ComponentAreaLight(const float3& color, float intensity, GameObject* parent, AreaType areaType) :
@@ -65,6 +146,33 @@ ComponentAreaLight::ComponentAreaLight(const float3& color, float intensity, Gam
 	attRadius(1.f),
 	height(1.f)
 {
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float radius = (shapeRadius + attRadius) * 2.0f;
+
+	switch (areaType)
+	{
+		case AreaType::SPHERE:
+		{
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
+
+		case AreaType::TUBE:
+		{
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius, height + radius, radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
+	}
 }
 
 ComponentAreaLight::~ComponentAreaLight()

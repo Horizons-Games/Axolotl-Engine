@@ -27,6 +27,14 @@ ComponentSpotLight::ComponentSpotLight() :
 	innerAngle(2.0f),
 	outerAngle(2.5f)
 {
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+
+	float baseOuterRadius = radius * math::Tan(outerAngle);
+	float3 translation = float3(-0.5f, -0.5f, -0.5f + radius / 2.0f);
+	float3 scale = float3(baseOuterRadius * 2.0f, baseOuterRadius * 2.0f, radius);
+
+	transform->TranslateLocalAABB(translation);
+	transform->ScaleLocalAABB(scale);
 }
 
 ComponentSpotLight::ComponentSpotLight(const ComponentSpotLight& componentSpotLight) :
@@ -43,6 +51,14 @@ ComponentSpotLight::ComponentSpotLight(GameObject* parent) :
 	innerAngle(2.0f),
 	outerAngle(2.5f)
 {
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+
+	float baseOuterRadius = radius * math::Tan(outerAngle);
+	float3 translation = float3(-0.5f, -0.5f, -0.5f + radius / 2.0f);
+	float3 scale = float3(baseOuterRadius * 2.0f, baseOuterRadius * 2.0f, radius);
+
+	transform->TranslateLocalAABB(translation);
+	transform->ScaleLocalAABB(scale);
 }
 
 ComponentSpotLight::ComponentSpotLight(
@@ -52,6 +68,14 @@ ComponentSpotLight::ComponentSpotLight(
 	innerAngle(innerAngle),
 	outerAngle(outerAngle)
 {
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+
+	float baseOuterRadius = radius * math::Tan(outerAngle);
+	float3 translation = float3(-0.5f, -0.5f, -0.5f + radius / 2.0f);
+	float3 scale = float3(baseOuterRadius * 2.0f, baseOuterRadius * 2.0f, radius);
+
+	transform->TranslateLocalAABB(translation);
+	transform->ScaleLocalAABB(scale);
 }
 
 ComponentSpotLight::ComponentSpotLight(
@@ -61,6 +85,14 @@ ComponentSpotLight::ComponentSpotLight(
 	innerAngle(innerAngle),
 	outerAngle(outerAngle)
 {
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+
+	float baseOuterRadius = radius * math::Tan(outerAngle);
+	float3 translation = float3(-0.5f, -0.5f, -0.5f + radius / 2.0f);
+	float3 scale = float3(baseOuterRadius * 2.0f, baseOuterRadius * 2.0f, radius);
+
+	transform->TranslateLocalAABB(translation);
+	transform->ScaleLocalAABB(scale);
 }
 
 ComponentSpotLight::~ComponentSpotLight()
@@ -113,8 +145,12 @@ void ComponentSpotLight::SetRadius(float radius)
 	this->radius = radius;
 
 	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	
 	float baseOuterRadius = radius * math::Tan(outerAngle);
+	float3 translation = float3(-0.5f, -0.5f, -0.5f + radius / 2.0f);
 	float3 scale = float3(baseOuterRadius * 2.0f, baseOuterRadius * 2.0f, radius);
+
+	transform->TranslateLocalAABB(translation);
 	transform->ScaleLocalAABB(scale);
 }
 
