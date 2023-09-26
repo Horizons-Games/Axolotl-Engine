@@ -64,6 +64,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 		componentAnimation->SetParameter("IsStoppingForce", false);
 		RaycastHit hit;
 		btVector3 rigidBodyOrigin = rigidBody->GetRigidBodyOrigin();
+		rigidBody->SetGravity(btVector3(0.0, 0.0, 0.0));
 		float3 origin = float3(rigidBodyOrigin.getX(), rigidBodyOrigin.getY(), rigidBodyOrigin.getZ());
 		int raytries = 0;
 		
@@ -129,6 +130,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 		|| currentTimeForce < 0.0f
 		|| breakForce)
 	{
+		rigidBody->SetGravity(btVector3(0.0, -150.0, 0.0));
 		ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 		if (gameObjectAttached->GetTag() == "ForceableDoors" && rigidBody->IsTrigger())
 		{
@@ -138,18 +140,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 		rigidBody->DisablePositionController();
 		rigidBody->DisableRotationController();
 		rigidBody->SetStatic(objectStaticness);
-
-		/*
-		if (rotationHorizontalScript)
-		{
-			rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity);
-		}
-
-		if (rotationVerticalScript)
-		{
-			rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity);
-		}
-		*/
 
 		if (playerManagerScript)
 		{
@@ -169,6 +159,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE)
 	{
+		rigidBody->SetGravity(btVector3(0.0, -150.0, 0.0));
 		componentAnimation->SetParameter("IsStoppingForce", true);
 		componentAnimation->SetParameter("IsStartingForce", false);
 	}
@@ -197,21 +188,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 		// Set rotation
 		hittedRigidBody->SetRotationTarget(targetRotation);
-
-		/*
-		targetRotation= hittedTransform->GetGlobalRotation();
-		float anglechanged = pickedRotation.AngleBetween(targetRotation);
 		
-		LOG_DEBUG("CurrentRot: x:{} y:{} z:{}", targetRotation.x, targetRotation.y, targetRotation.z);
-		LOG_DEBUG("PickedRot: x:{} y:{} z:{}", pickedRotation.x, pickedRotation.y, pickedRotation.z);
-		LOG_DEBUG("Angle: {}", anglechanged);
-
-		float anglechanged = pickedRotation.ToEulerXYZ().AngleBetween(targetRotationXYZ);
-		float3 OffsetAfterRotation = float3(  offsetFromPickedPoint.x * math::Cos(anglechanged) - offsetFromPickedPoint.z * math::Sin(anglechanged)
-											, offsetFromPickedPoint.y
-											, offsetFromPickedPoint.z* math::Cos(anglechanged) + offsetFromPickedPoint.x * math::Sin(anglechanged)
-											);
-		*/
 		// Get next position of the gameObject
 		float3 nextPosition = transform->GetGlobalForward();
 		nextPosition.Normalize();
