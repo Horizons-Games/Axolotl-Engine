@@ -1866,6 +1866,12 @@ void Scene::UpdateLightsFromCopiedGameObjects(const int& filter)
 		UpdateSceneLocalIBLs();
 		RenderLocalIBLs();
 	}
+
+	if (filter & HAS_PLANAR_REFLECTION)
+	{
+		UpdateScenePlanarReflections();
+		RenderPlanarReflections();
+	}
 }
 
 int& Scene::SearchForLights(GameObject* gameObject)
@@ -1906,10 +1912,9 @@ int& Scene::SearchForLights(GameObject* gameObject)
 			break;
 
 		case LightType::PLANAR_REFLECTION:
-		{
-			AddPlanarReflection(static_cast<ComponentPlanarReflection*>(light));
+			filter = HAS_PLANAR_REFLECTION;
+			sceneComponentPlanarReflection.push_back(static_cast<ComponentPlanarReflection*>(light));
 			break;
-		}
 		}
 	}
 	return filter;

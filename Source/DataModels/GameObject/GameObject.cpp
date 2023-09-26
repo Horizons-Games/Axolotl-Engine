@@ -844,10 +844,6 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 				scene->UpdateSceneLocalIBLs();
 				scene->RenderLocalIBLs();
 				break;
-
-			case LightType::PLANAR_REFLECTION:
-				AXO_TODO("UPDATE_SCENE_PLANAR_REFLECTION");
-				break;
 		}
 
 		return referenceBeforeMove;
