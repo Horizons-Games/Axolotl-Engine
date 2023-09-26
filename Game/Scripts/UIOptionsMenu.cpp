@@ -10,42 +10,36 @@
 REGISTERCLASS(UIOptionsMenu);
 
 UIOptionsMenu::UIOptionsMenu() : Script(), gameOptionButton(nullptr), videoOptionButton(nullptr), audioOptionButton(nullptr),
-hudOptionButton(nullptr), keysOptionButton(nullptr), gameOptionCanvas(nullptr), videoOptionCanvas(nullptr), audioOptionCanvas(nullptr),
-hudOptionCanvas(nullptr), keysOptionCanvas(nullptr), gameOptionHover(nullptr), videoOptionHover(nullptr), audioOptionHover(nullptr),
-hudOptionHover(nullptr), keysOptionHover(nullptr)
+controlOptionButton(nullptr), gameOptionCanvas(nullptr), videoOptionCanvas(nullptr), audioOptionCanvas(nullptr), 
+gameOptionHover(nullptr), videoOptionHover(nullptr), audioOptionHover(nullptr), controlOptionHover(nullptr)
 {
 	REGISTER_FIELD(gameOptionButton, GameObject*);
 	REGISTER_FIELD(videoOptionButton, GameObject*);
-	//REGISTER_FIELD(audioOptionButton, GameObject*);
-	REGISTER_FIELD(hudOptionButton, GameObject*);
-	REGISTER_FIELD(keysOptionButton, GameObject*);
+	REGISTER_FIELD(audioOptionButton, GameObject*);
+	REGISTER_FIELD(controlOptionButton, GameObject*);
 
 	REGISTER_FIELD(gameOptionCanvas, GameObject*);
 	REGISTER_FIELD(videoOptionCanvas, GameObject*);
-	//REGISTER_FIELD(audioOptionCanvas, GameObject*);
-	REGISTER_FIELD(hudOptionCanvas, GameObject*);
-	REGISTER_FIELD(keysOptionCanvas, GameObject*);
+	REGISTER_FIELD(audioOptionCanvas, GameObject*);
+	REGISTER_FIELD(controlOptionCanvas, GameObject*);
 
 	REGISTER_FIELD(gameOptionHover, GameObject*);
 	REGISTER_FIELD(videoOptionHover, GameObject*);
-	//REGISTER_FIELD(audioOptionHover, GameObject*);
-	REGISTER_FIELD(hudOptionHover, GameObject*);
-	REGISTER_FIELD(keysOptionHover, GameObject*);
+	REGISTER_FIELD(audioOptionHover, GameObject*);
+	REGISTER_FIELD(controlOptionHover, GameObject*);
 }
 
 void UIOptionsMenu::Start()
 {
 	gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
 	videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
-	//audioOptionComponentButton = audioOptionButton->GetComponent<ComponentButton>();
-	hudOptionComponentButton = hudOptionButton->GetComponent<ComponentButton>();
-	keysOptionComponentButton = keysOptionButton->GetComponent<ComponentButton>();
+	audioOptionComponentButton = audioOptionButton->GetComponent<ComponentButton>();
+	controlOptionComponentButton = controlOptionButton->GetComponent<ComponentButton>();
 
 	buttonsAndCanvas.push_back(OptionsButtonInfo{ gameOptionComponentButton, gameOptionCanvas, gameOptionHover });
 	buttonsAndCanvas.push_back(OptionsButtonInfo{ videoOptionComponentButton, videoOptionCanvas, videoOptionHover });
-	//buttonsAndCanvas.push_back(OptionsButtonInfo{ audioOptionComponentButton, audioOptionCanvas, audioOptionHover });
-	buttonsAndCanvas.push_back(OptionsButtonInfo{ hudOptionComponentButton, hudOptionCanvas, hudOptionHover });
-	buttonsAndCanvas.push_back(OptionsButtonInfo{ keysOptionComponentButton, keysOptionCanvas, keysOptionHover });
+	buttonsAndCanvas.push_back(OptionsButtonInfo{ audioOptionComponentButton, audioOptionCanvas, audioOptionHover });
+	buttonsAndCanvas.push_back(OptionsButtonInfo{ controlOptionComponentButton, controlOptionCanvas, controlOptionHover });
 	gameOptionComponentButton->Disable();
 }
 

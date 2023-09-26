@@ -28,26 +28,22 @@ private:
 	GameObject* gameOptionButton;
 	GameObject* videoOptionButton;
 	GameObject* audioOptionButton;
-	GameObject* hudOptionButton;
-	GameObject* keysOptionButton;
+	GameObject* controlOptionButton;
 
 	GameObject* gameOptionCanvas;
 	GameObject* videoOptionCanvas;
 	GameObject* audioOptionCanvas;
-	GameObject* hudOptionCanvas;
-	GameObject* keysOptionCanvas;
+	GameObject* controlOptionCanvas;
 
 	GameObject* gameOptionHover;
 	GameObject* videoOptionHover;
 	GameObject* audioOptionHover;
-	GameObject* hudOptionHover;
-	GameObject* keysOptionHover;
+	GameObject* controlOptionHover;
 
 	ComponentButton* gameOptionComponentButton;
 	ComponentButton* videoOptionComponentButton;
 	ComponentButton* audioOptionComponentButton;
-	ComponentButton* hudOptionComponentButton;
-	ComponentButton* keysOptionComponentButton;
+	ComponentButton* controlOptionComponentButton;
 
 };
 

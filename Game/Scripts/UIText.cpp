@@ -26,7 +26,7 @@ void UIText::Init()
 
 void UIText::Update(float deltaTime)
 {
-	//FpsMetric(deltaTime); NEXT FEATURE WHEN SARA LEAT ME DO IT
+	//FpsMetric(deltaTime); NEXT FEATURE WHEN SARA LET ME DO IT
 	if (actualNumber != prevNumber)
 	{
 		prevNumber = actualNumber;
