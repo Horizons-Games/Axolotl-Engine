@@ -32,11 +32,11 @@ private:
 	void CheckGround(float deltaTime);
 	void Jump(float deltaTime);
 
+	bool isFalling;
 	bool isGrounded;
 	bool doubleJumpAvailable;
 	float coyoteTime;
 	float coyoteTimerCount;
-
 	float jumpParameter;
 	bool canDoubleJump;
 	bool canJump;
