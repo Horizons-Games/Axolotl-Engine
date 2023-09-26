@@ -22,7 +22,6 @@ public:
 	void UpdateBuffers(int width, int height);
 
 	void CalculateSSAO(Program* program, int width, int height);
-	void BlurSSAO(Program* program, int width, int height);
 	void BlurSSAO(int width, int height);
 
 	void ToggleSSAO();
@@ -46,8 +45,7 @@ private:
 	GLuint uboKernel;
 	GLuint ssaoFrameBuffer;
 	GLuint gSsao;
-	GLuint ssaoBlurFrameBuffer[2] = { 0, 0 }; //delete
-	GLuint gSsaoBlured[2] = { 0, 0 };
+	GLuint gSsaoBlured;
 	GLuint positionTexture;
 	GLuint normalTexture;
 
@@ -70,7 +68,7 @@ inline bool SSAO::IsEnabled()
 
 inline GLuint SSAO::GetSSAOTexture() const
 {
-	return this->gSsaoBlured[1];
+	return gSsaoBlured;
 }
 
 inline void SSAO::SetTextures(GLuint positionTexture, GLuint normalTexture)

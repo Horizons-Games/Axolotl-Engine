@@ -33,8 +33,7 @@ void SSAO::CleanUp()
 	glDeleteFramebuffers(1, &ssaoFrameBuffer);
 	glDeleteTextures(1, &gSsao);
 
-	glDeleteFramebuffers(2, &ssaoBlurFrameBuffer[0]);
-	glDeleteTextures(2, &gSsaoBlured[0]);
+	glDeleteTextures(1, &gSsaoBlured);
 }
 
 void SSAO::InitBuffers()
@@ -42,8 +41,7 @@ void SSAO::InitBuffers()
 	glGenFramebuffers(1, &ssaoFrameBuffer);
 	glGenTextures(1, &gSsao);
 
-	glGenFramebuffers(2, &ssaoBlurFrameBuffer[0]);
-	glGenTextures(2, &gSsaoBlured[0]);
+	glGenTextures(1, &gSsaoBlured);
 
 	int size = sizeof(kernel);
 
@@ -70,21 +68,14 @@ void SSAO::UpdateBuffers(int width, int height)
 		LOG_ERROR("ERROR::FRAMEBUFFER:: SSAO framebuffer not completed!");
 	}
 
-	for (unsigned i = 0; i < 2; ++i)
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, ssaoBlurFrameBuffer[i]);
+	glBindTexture(GL_TEXTURE_2D, gSsaoBlured);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_R16F, width, height, 0, GL_RED, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		glBindTexture(GL_TEXTURE_2D, gSsaoBlured[i]);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_R16F, width, height, 0, GL_RED, GL_FLOAT, NULL);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gSsaoBlured[i], 0);
-
-		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		{
-			LOG_ERROR("ERROR::FRAMEBUFFER:: Blured SSAO texture number {} not completed!", i);
-		}
+	GLenum error = glGetError();
+	if (error != GL_NO_ERROR) {
+		SDL_assert(SDL_FALSE && "Problem texture Blur SSAO");
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -124,46 +115,11 @@ void SSAO::CalculateSSAO(Program* program, int width, int height)
 	program->Deactivate();
 }
 
-void SSAO::BlurSSAO(Program* program, int width, int height)
-{
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("SSAO - Gaussian Blur")), 
-					 "SSAO - Gaussian Blur");
-
-	program->Activate();
-
-	glBindFramebuffer(GL_FRAMEBUFFER, ssaoBlurFrameBuffer[0]);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, gSsao);
-
-	program->BindUniformFloat2("invSize", float2(1.0f / width, 1.0f / height));
-	program->BindUniformFloat2("blurDirection", float2(1.0f, 0.0f));
-	program->BindUniformInt(0, 0);
-
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, ssaoBlurFrameBuffer[1]);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, gSsaoBlured[0]);
-
-	program->BindUniformFloat2("blurDirection", float2(0.0f, 1.0f));
-
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	program->Deactivate();
-
-	glPopDebugGroup();
-}
-
 void SSAO::BlurSSAO(int width, int height)
 {
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("SSAO - Gaussian Blur")),
 		"SSAO - Gaussian Blur");
-	utilBlur->BlurTexture(gSsao, gSsaoBlured[1], GL_R16F, GL_RED, GL_FLOAT, 0, width, height, 0, width, height);
+	utilBlur->BlurTexture(gSsao, gSsaoBlured, GL_R16F, GL_RED, GL_FLOAT, 0, width, height, 0, width, height);
 	glPopDebugGroup();
 }
 
