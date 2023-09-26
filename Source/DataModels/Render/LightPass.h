@@ -21,21 +21,22 @@ class LightPass
 {
 
 public:
+
 	LightPass();
 	~LightPass();
 
 	void CleanUp();
 
-	void DrawLights(Program* program, GBuffer* gbuffer, int renderMode,
+	void RenderLights(Program* program, GBuffer* gbuffer, int renderMode,
 					std::vector<ComponentPointLight*> pointsToRender,
 					std::vector<ComponentSpotLight*> spotsToRender,
 					std::vector<ComponentAreaLight*> spheresToRender,
 					std::vector<ComponentAreaLight*> tubesToRender);
 
-	void DrawPoints(Program* program, std::vector<ComponentPointLight*>& pointsToRender, Scene* scene);
-	void DrawSpots(Program* program, std::vector<ComponentSpotLight*> spotsToRender, Scene* scene);
-	void DrawSpheres(Program* program, std::vector<ComponentAreaLight*>& spheresToRender, Scene* scene);
-	void DrawTubes(Program* program, std::vector<ComponentAreaLight*>& tubesToRender, Scene* scene);
+	void RenderPoints(Program* program, std::vector<ComponentPointLight*>& pointsToRender, Scene* scene);
+	void RenderSpots(Program* program, std::vector<ComponentSpotLight*> spotsToRender, Scene* scene);
+	void RenderSpheres(Program* program, std::vector<ComponentAreaLight*>& spheresToRender, Scene* scene);
+	void RenderTubes(Program* program, std::vector<ComponentAreaLight*>& tubesToRender, Scene* scene);
 
 	void LoadShape(par_shapes_mesh_s* shape, ResourceMesh* mesh);
 

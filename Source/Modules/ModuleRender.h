@@ -122,7 +122,7 @@ private:
 	GBuffer* gBuffer;
 	Shadows* shadows;
 	SSAO* ssao;
-	LightPass* lightProxy;
+	LightPass* lightPass;
 
 	unsigned uboCamera;
 
@@ -235,7 +235,7 @@ inline Shadows* ModuleRender::GetShadows() const
 
 inline LightPass* ModuleRender::GetLightProxy() const
 {
-	return lightProxy;
+	return lightPass;
 }
 
 inline void ModuleRender::SetBloomIntensity(float intensity)

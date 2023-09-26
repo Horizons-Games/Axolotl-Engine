@@ -59,7 +59,7 @@ void LightPass::CleanUp()
 	numLights = 0;
 }
 
-void LightPass::DrawLights(Program* program, GBuffer* gbuffer, int renderMode,
+void LightPass::RenderLights(Program* program, GBuffer* gbuffer, int renderMode,
 							std::vector<ComponentPointLight*> pointsToRender,
 							std::vector<ComponentSpotLight*> spotsToRender,
 							std::vector<ComponentAreaLight*> spheresToRender,
@@ -86,16 +86,16 @@ void LightPass::DrawLights(Program* program, GBuffer* gbuffer, int renderMode,
 	program->BindUniformInt("flagSpot", 0);
 	program->BindUniformInt("flagSphere", 0);
 	program->BindUniformInt("flagTube", 0);
-	DrawPoints(program, pointsToRender, scene);
+	RenderPoints(program, pointsToRender, scene);
 	program->BindUniformInt("flagPoint", 0);
 	program->BindUniformInt("flagSpot", 1);
-	DrawSpots(program, spotsToRender, scene);
+	RenderSpots(program, spotsToRender, scene);
 	program->BindUniformInt("flagSpot", 0);
 	program->BindUniformInt("flagSphere", 1);
-	DrawSpheres(program, spheresToRender, scene);
+	RenderSpheres(program, spheresToRender, scene);
 	program->BindUniformInt("flagSphere", 0);
 	program->BindUniformInt("flagTube", 1);
-	DrawTubes(program, tubesToRender, scene);
+	RenderTubes(program, tubesToRender, scene);
 
 	glFrontFace(GL_CW);
 	glDisable(GL_BLEND);
@@ -107,7 +107,7 @@ void LightPass::DrawLights(Program* program, GBuffer* gbuffer, int renderMode,
 	program->Deactivate();
 }
 
-void LightPass::DrawPoints(Program* program, std::vector<ComponentPointLight*>& pointsToRender, Scene* scene)
+void LightPass::RenderPoints(Program* program, std::vector<ComponentPointLight*>& pointsToRender, Scene* scene)
 {
 	for (ComponentPointLight* point : pointsToRender)
 	{
@@ -141,7 +141,7 @@ void LightPass::DrawPoints(Program* program, std::vector<ComponentPointLight*>& 
 	}
 }
 
-void LightPass::DrawSpots(Program* program, std::vector<ComponentSpotLight*> spotsToRender, Scene* scene)
+void LightPass::RenderSpots(Program* program, std::vector<ComponentSpotLight*> spotsToRender, Scene* scene)
 {
 	for (ComponentSpotLight* spot : spotsToRender)
 	{
@@ -177,7 +177,7 @@ void LightPass::DrawSpots(Program* program, std::vector<ComponentSpotLight*> spo
 	}
 }
 
-void LightPass::DrawSpheres(Program* program, std::vector<ComponentAreaLight*>& spheresToRender, Scene* scene)
+void LightPass::RenderSpheres(Program* program, std::vector<ComponentAreaLight*>& spheresToRender, Scene* scene)
 {
 	for (ComponentAreaLight* sphere : spheresToRender)
 	{
@@ -211,7 +211,7 @@ void LightPass::DrawSpheres(Program* program, std::vector<ComponentAreaLight*>& 
 	}
 }
 
-void LightPass::DrawTubes(Program* program, std::vector<ComponentAreaLight*>& tubesToRender, Scene* scene)
+void LightPass::RenderTubes(Program* program, std::vector<ComponentAreaLight*>& tubesToRender, Scene* scene)
 {
 	for (ComponentAreaLight* tube : tubesToRender)
 	{

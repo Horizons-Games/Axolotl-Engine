@@ -141,7 +141,7 @@ ModuleRender::~ModuleRender()
 	delete gBuffer;
 	delete shadows;
 	delete ssao;
-	delete lightProxy;
+	delete lightPass;
 	
 	objectsInFrustrumDistances.clear();
 	gameObjectsInFrustrum.clear();
@@ -172,7 +172,7 @@ bool ModuleRender::Init()
 	gBuffer = new GBuffer();
 	shadows = new Shadows();
 	ssao = new SSAO();
-	lightProxy = new LightPass();
+	lightPass = new LightPass();
 
 	GLenum err = glewInit();
 	// check for errors
@@ -377,7 +377,6 @@ UpdateStatus ModuleRender::Update()
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT), engineCamera);
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::LIGHT_CULLING), engineCamera);
 
-	// -------- DEFERRED LIGHTING ---------------
 	glPushDebugGroup
 		(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("DEFERRED LIGHTING")), "DEFERRED LIGHTING");
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
@@ -435,9 +434,9 @@ UpdateStatus ModuleRender::Update()
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
 	glPopDebugGroup();
 
-	// ------- DEFERRED LIGHT PASS ----------
+	// ------- DEFERRED LIGHT PASS - Light culling ----------
 	program = modProgram->GetProgram(ProgramType::LIGHT_CULLING);
-	lightProxy->DrawLights(program, gBuffer, modeRender, points, spots, spheres, tubes);
+	lightPass->RenderLights(program, gBuffer, modeRender, points, spots, spheres, tubes);
 	// -----------------------------
 
 	// -------- PRE-FORWARD ----------------------
@@ -628,7 +627,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 {
 	gBuffer->InitGBuffer(width, height);
 	shadows->UpdateBuffers(width, height);
-	lightProxy->SetScreenSize(width, height);
+	lightPass->SetScreenSize(width, height);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
 
