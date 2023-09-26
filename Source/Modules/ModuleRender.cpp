@@ -359,8 +359,7 @@ UpdateStatus ModuleRender::Update()
 		BindCameraToProgram(program, frustum);
 		ssao->CalculateSSAO(program, w, h);
 
-		program = modProgram->GetProgram(ProgramType::GAUSSIAN_BLUR);
-		ssao->BlurSSAO(program, w, h);
+		ssao->BlurSSAO(w, h);
 	}
 
 	// -------- DEFERRED LIGHTING ---------------

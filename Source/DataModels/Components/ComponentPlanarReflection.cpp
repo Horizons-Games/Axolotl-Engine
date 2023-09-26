@@ -12,9 +12,7 @@
 
 #include "Camera/Camera.h"
 #include "Scene/Scene.h"
-#include "Program/Program.h"
 
-#include "ComponentSkybox.h"
 #include "ComponentTransform.h"
 
 #include "FileSystem/Json.h"
@@ -23,7 +21,7 @@
 
 ComponentPlanarReflection::ComponentPlanarReflection(GameObject* parent) : 
 	ComponentLight(LightType::PLANAR_REFLECTION, parent, true),	frameBuffer(0), depth(0), reflectionTex(0), 
-	planeNormal(0, 1, 0), originScaling({ 5.f, 0.f, 5.f }), scale(float3::one)
+	planeNormal(0, 1, 0), originScaling({ 5.f, 0.f, 5.f }), scale(float3::one), numMipMaps(7)
 {
 	if (GetOwner()->HasComponent<ComponentTransform>())
 	{
@@ -32,7 +30,10 @@ ComponentPlanarReflection::ComponentPlanarReflection(GameObject* parent) :
 	frustum = new Frustum();
 	frustum->SetKind(FrustumSpaceGL, FrustumRightHanded);
 
-	utilBlur = UtilBlur::GetInstanceBlur();
+	for (int mipMap = 0; mipMap < numMipMaps; mipMap++)
+	{
+		utilsBlur.push_back(new UtilBlur());
+	}
 
 	InitBuffer();
 }
@@ -47,6 +48,11 @@ ComponentPlanarReflection::~ComponentPlanarReflection()
 	delete frustum;
 
 	deleting = true;
+
+	for (auto utilBlur : utilsBlur)
+	{
+		delete utilBlur;
+	}
 
 	App->GetModule<ModuleScene>()->GetLoadedScene()->RemovePlanarReflection(this);
 }
@@ -97,11 +103,15 @@ void ComponentPlanarReflection::InitBuffer()
 
 	glGenTextures(1, &reflectionTex);
 	glBindTexture(GL_TEXTURE_2D, reflectionTex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, windowSize.first, windowSize.second, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, windowSize.first, windowSize.second, 0, GL_RGBA, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, numMipMaps);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, reflectionTex, 0);
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
@@ -142,16 +152,12 @@ void ComponentPlanarReflection::UpdateReflection()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	float color[4] = { 0.f, 0.f, 0.f, 0.f };
+	glClearBufferfv(GL_COLOR, 0, color);
 
 	Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	ModuleRender* modRender = App->GetModule<ModuleRender>();
 	ModuleProgram* modProgram = App->GetModule<ModuleProgram>();
-
-	ComponentSkybox* skybox = scene->GetRoot()->GetComponentInternal<ComponentSkybox>();
-	if (skybox)
-	{
-		skybox->Draw(frustum->ViewMatrix(), frustum->ProjectionMatrix());
-	}
 
 	std::vector<GameObject*> objectsInFrustum = scene->ObtainObjectsInFrustum(frustum, NON_REFLECTIVE);
 
@@ -167,6 +173,8 @@ void ComponentPlanarReflection::UpdateReflection()
 
 	glPopDebugGroup();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	BlurReflection();
 
 	App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePlanarReflection(this);
 	App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPlanarReflection(this);
@@ -226,6 +234,33 @@ void ComponentPlanarReflection::InternalLoad(const Json& meta)
 	planeNormal.x = static_cast<float>(meta["planeNormal_x"]);
 	planeNormal.y = static_cast<float>(meta["planeNormal_y"]);
 	planeNormal.z = static_cast<float>(meta["planeNormal_z"]);
+}
+
+void ComponentPlanarReflection::BlurReflection()
+{
+	ModuleWindow* window = App->GetModule<ModuleWindow>();
+	int w, h;
+	SDL_GetWindowSize(window->GetWindow(), &w, &h);
+	unsigned int inMipResolutionW = w;
+	unsigned int inMipResolutionH = h;
+
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Planar Reflection - Gaussian Blur")),
+		"Planar Reflection - Gaussian Blur");
+
+	for (int mipMap = 0; mipMap < numMipMaps; ++mipMap)
+	{
+		unsigned int outMipResolutionW = static_cast<unsigned int>(w * std::pow(0.5, mipMap + 1));
+		unsigned int outMipResolutionH = static_cast<unsigned int>(h * std::pow(0.5, mipMap + 1));
+
+		utilsBlur[mipMap]->BlurTexture(reflectionTex, reflectionTex, GL_RGBA16F, GL_RGBA, GL_FLOAT, mipMap, inMipResolutionW, 
+			inMipResolutionH, mipMap + 1, outMipResolutionW, outMipResolutionH);
+
+		inMipResolutionW = outMipResolutionW;
+		inMipResolutionH = outMipResolutionH;
+	}
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glPopDebugGroup();
+	glViewport(0, 0, w, h);
 }
 
 const float3& ComponentPlanarReflection::GetPosition()

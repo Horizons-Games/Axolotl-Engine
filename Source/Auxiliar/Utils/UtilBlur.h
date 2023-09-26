@@ -5,22 +5,28 @@
 class UtilBlur
 {
 public:
+	UtilBlur();
 	~UtilBlur();
 
-	static UtilBlur* GetInstanceBlur();
-
-	UtilBlur(const UtilBlur& obj) = delete;
-
-	void BlurTexture(GLuint inputTex, GLuint auxTex, int w, int h, int mipmapLevel = 0);
-	void BlurTexture(GLuint inputTex, GLuint auxTex, GLuint outputTex, int w, int h, int mipmapLevel = 0);
+	void BlurTexture(const GLuint inputTex, const GLuint output, GLuint internalFormat,	GLuint format, GLuint type, 
+		unsigned int inMip, unsigned int inWidth, unsigned int inHeight, unsigned int outMip, unsigned int outWidth, 
+		unsigned int outHeight);
 
 private:
-	UtilBlur();
-	
-	static UtilBlur* instanceBlur;
+
+	void GenerateTexture(GLuint nInternalFormat, GLuint nFormat, GLuint nType, GLuint nWidth, GLuint nHeight);
 
 private:
-	void InitBuffer();
 
-	GLuint blurFrameBuffer[2] = { 0, 0 };
+	GLuint horizontalFrameBuffer = 0;
+	GLuint verticalFrameBuffer = 0;
+
+	GLuint auxTex = 0;
+
+	// Texture Properties
+	GLuint internalFormat = 0;
+	GLuint format = 0;
+	GLuint type = 0;
+	GLuint width = 0;
+	GLuint height = 0;
 };

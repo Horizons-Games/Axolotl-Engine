@@ -51,6 +51,8 @@ public:
 	void InternalLoad(const Json& meta) override;
 
 private:
+	void BlurReflection();
+
 	const float3& GetPosition();
 	const Quat& GetRotation();
 
@@ -69,7 +71,9 @@ private:
 	float3 originScaling;
 	float3 scale;
 
-	UtilBlur* utilBlur;
+	std::vector<UtilBlur*> utilsBlur;
+
+	int numMipMaps;
 };
 
 inline const AABB& ComponentPlanarReflection::GetInfluenceAABB()

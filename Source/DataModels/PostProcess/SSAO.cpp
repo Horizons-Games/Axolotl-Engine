@@ -19,11 +19,12 @@ SSAO::SSAO() : enabled(true)
 	CreateKernel();
 	CreateRandomTangents();
 
-	utilBlur = UtilBlur::GetInstanceBlur();
+	utilBlur = new UtilBlur();
 }
 
 SSAO::~SSAO()
 {
+	delete utilBlur;
 	CleanUp();
 }
 
@@ -137,6 +138,7 @@ void SSAO::BlurSSAO(Program* program, int width, int height)
 
 	program->BindUniformFloat2("invSize", float2(1.0f / width, 1.0f / height));
 	program->BindUniformFloat2("blurDirection", float2(1.0f, 0.0f));
+	program->BindUniformInt(0, 0);
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 
@@ -159,7 +161,10 @@ void SSAO::BlurSSAO(Program* program, int width, int height)
 
 void SSAO::BlurSSAO(int width, int height)
 {
-	utilBlur->BlurTexture(gSsao, gSsaoBlured[0], gSsaoBlured[1], width, height);
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("SSAO - Gaussian Blur")),
+		"SSAO - Gaussian Blur");
+	utilBlur->BlurTexture(gSsao, gSsaoBlured[1], GL_R16F, GL_RED, GL_FLOAT, 0, width, height, 0, width, height);
+	glPopDebugGroup();
 }
 
 void SSAO::CreateKernel()

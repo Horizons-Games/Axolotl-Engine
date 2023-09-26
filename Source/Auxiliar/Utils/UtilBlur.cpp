@@ -6,48 +6,59 @@
 
 #include "Program/Program.h"
 
-UtilBlur* UtilBlur::instanceBlur;
+UtilBlur::UtilBlur()
+{
+}
 
 UtilBlur::~UtilBlur()
 {
-	glDeleteFramebuffers(2, blurFrameBuffer);
+	glDeleteFramebuffers(1, &horizontalFrameBuffer);
+	glDeleteFramebuffers(1, &verticalFrameBuffer);
+
+	glDeleteTextures(1, &auxTex);
 }
 
-UtilBlur* UtilBlur::GetInstanceBlur()
+void UtilBlur::BlurTexture(const GLuint inputTex, const GLuint outputTex, GLuint internalFormat, GLuint format, 
+	GLuint type, unsigned int inMip, unsigned int inWidth, unsigned int inHeight, unsigned int outMip,
+	unsigned int outWidth, unsigned int outHeight)
 {
-	if (!instanceBlur)
+	if (horizontalFrameBuffer == 0)
 	{
-		instanceBlur = new UtilBlur();
+		glGenFramebuffers(1, &horizontalFrameBuffer);
 	}
-	return instanceBlur;
-}
 
-void UtilBlur::BlurTexture(GLuint inputTex, GLuint auxTex, int w, int h, int mipmapLevel)
-{
+	if (verticalFrameBuffer == 0)
+	{
+		glGenFramebuffers(1, &verticalFrameBuffer);
+	}
+
+	GenerateTexture(internalFormat, format, type, outWidth, outHeight);
+
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::GAUSSIAN_BLUR);
-
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("SSAO - Gaussian Blur")),
-		"SSAO - Gaussian Blur");
-
-	glViewport(0, 0, w, h);
-
 	program->Activate();
 
-	glBindFramebuffer(GL_FRAMEBUFFER, blurFrameBuffer[0]);
+	glBindFramebuffer(GL_FRAMEBUFFER, horizontalFrameBuffer);
+	glViewport(0, 0, outWidth, outHeight);
+
 	glFramebufferTexture2D(
-		GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, auxTex, mipmapLevel);
+		GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, auxTex, 0);
+	glClear(GL_COLOR_BUFFER_BIT);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, inputTex);
 
-	program->BindUniformFloat2("invSize", float2(1.0f / w, 1.0f / h));
+	program->BindUniformFloat2("invSize", float2(1.0f / inWidth, 1.0f / inHeight));
 	program->BindUniformFloat2("blurDirection", float2(1.0f, 0.0f));
+	program->BindUniformInt(0, inMip);
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 
-	glBindFramebuffer(GL_FRAMEBUFFER, blurFrameBuffer[1]);
+	glBindFramebuffer(GL_FRAMEBUFFER, verticalFrameBuffer);
+	glViewport(0, 0, outWidth, outHeight);
+
 	glFramebufferTexture2D(
-		GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, inputTex, mipmapLevel);
+		GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, outputTex, outMip);
+	glClear(GL_COLOR_BUFFER_BIT);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, auxTex);
@@ -55,63 +66,34 @@ void UtilBlur::BlurTexture(GLuint inputTex, GLuint auxTex, int w, int h, int mip
 	program->BindUniformFloat2("blurDirection", float2(0.0f, 1.0f));
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
 	program->Deactivate();
-
-	glPopDebugGroup();
 }
 
-void UtilBlur::BlurTexture(GLuint inputTex, GLuint auxTex, GLuint outputTex, int w, int h, int mipmapLevel)
+void UtilBlur::GenerateTexture(GLuint nInternalFormat, GLuint nFormat, GLuint nType, GLuint nWidth, GLuint nHeight)
 {
-	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::GAUSSIAN_BLUR);
+	if (auxTex == 0)
+	{
+		glGenTextures(1, &auxTex);
+	}
 
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("SSAO - Gaussian Blur")),
-		"SSAO - Gaussian Blur");
+	if (internalFormat != nInternalFormat || format != nFormat || type != nType || width != nWidth || height != nHeight)
+	{
+		glBindTexture(GL_TEXTURE_2D, auxTex);
+		glTexImage2D(GL_TEXTURE_2D, 0, nInternalFormat, nWidth, nHeight, 0, nFormat, nType, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	glViewport(0, 0, w, h);
-	
-	program->Activate();
+		GLenum error = glGetError();
+		if (error != GL_NO_ERROR) {
+			SDL_assert(SDL_FALSE && "Problem auxTexture Blur");
+		}
 
-	glBindFramebuffer(GL_FRAMEBUFFER, blurFrameBuffer[0]);
-	glFramebufferTexture2D(
-		GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, auxTex, mipmapLevel);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, inputTex);
-
-	program->BindUniformFloat2("invSize", float2(1.0f / w, 1.0f / h));
-	program->BindUniformFloat2("blurDirection", float2(1.0f, 0.0f));
-
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, blurFrameBuffer[1]);
-	glFramebufferTexture2D(
-		GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, outputTex, mipmapLevel);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, auxTex);
-
-	program->BindUniformFloat2("blurDirection", float2(0.0f, 1.0f));
-
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	program->Deactivate();
-
-	glPopDebugGroup();
-}
-
-UtilBlur::UtilBlur()
-{
-	InitBuffer();
-}
-
-void UtilBlur::InitBuffer()
-{
-	glGenFramebuffers(2, blurFrameBuffer);
+		internalFormat = nInternalFormat;
+		format = nFormat;
+		type = nType;
+		width = nWidth;
+		height = nHeight;
+	}
 }
