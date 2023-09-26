@@ -180,7 +180,8 @@ void PlayerMoveScript::Move(float deltaTime)
 				playerManager->SetPlayerState(PlayerActions::IDLE);
 			}
 		}
-		else {
+		else 
+		{
 			// Low velocity while attacking
 			if (playerAttackScript->IsInAttackAnimation())
 			{
