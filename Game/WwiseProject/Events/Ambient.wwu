@@ -65,7 +65,7 @@
 						<Action Name="" ID="{E7446D1B-C4B0-4C91-B1C7-96A5270C9540}" ShortID="13678006">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="ambient_sewers" ID="{FA71EA3B-0BBF-4022-B177-4945EF48C5B1}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+									<ObjectRef Name="sfx_ambient_sewers_001" ID="{FA71EA3B-0BBF-4022-B177-4945EF48C5B1}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -79,7 +79,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="ambient_sewers" ID="{FA71EA3B-0BBF-4022-B177-4945EF48C5B1}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+									<ObjectRef Name="sfx_ambient_sewers_001" ID="{FA71EA3B-0BBF-4022-B177-4945EF48C5B1}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
