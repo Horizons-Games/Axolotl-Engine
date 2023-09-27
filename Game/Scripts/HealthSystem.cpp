@@ -12,7 +12,7 @@
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
 #include "../Scripts/PlayerManagerScript.h"
-#include "MeshEffect.h"
+#include "../Scripts/MeshEffect.h"
 
 REGISTERCLASS(HealthSystem);
 
@@ -174,4 +174,9 @@ void HealthSystem::SetDeathCallback(std::function<void(void)>&& callDeath)
 float HealthSystem::GetCurrentHealth() const
 {
 	return currentHealth;
+}
+
+MeshEffect* HealthSystem::GetMeshEffect() const
+{
+	return meshEffect;
 }
