@@ -62,7 +62,6 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 			&& isSwitchAvailable && !playerManager->IsParalyzed())
 		{
 			CheckChangeCurrentPlayer();
-			VisualSwitchEffect();
 		}
 	}
 	else 
@@ -132,7 +131,8 @@ void SwitchPlayerManagerScript::VisualSwitchEffect()
 
 	actualSwitchPlayersParticles = loadScene->DuplicateGameObject(switchPlayersParticlesPrefab->GetName(), switchPlayersParticlesPrefab, loadScene->GetRoot());
 	actualSwitchPlayersParticles->GetComponent<ComponentParticleSystem>()->Enable();
-	actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->SetGlobalPosition(currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition());
+	actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->SetGlobalPosition(float3 (currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().x,
+		currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().y + 2, currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().z));
 	actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->RecalculateLocalMatrix();
 
 	actualSwitchPlayersParticles->GetComponent<ComponentParticleSystem>()->Play();
@@ -189,6 +189,7 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		playerManager->ForcingJump(false);
 
 		componentAnimation->SetParameter("IsFalling", true);
+		VisualSwitchEffect();
 		currentPlayer->Disable();
 
 		// Change UI of the player here

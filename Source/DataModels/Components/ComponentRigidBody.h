@@ -46,6 +46,9 @@ public:
 
 	uint32_t GetID() const;
 
+	void SetIsInCollisionWorld(bool isInCollisionWorld);
+	bool GetIsInCollisionWorld() const;
+
 	void SetIsKinematic(bool isKinematic);
 	bool GetIsKinematic() const;
 
@@ -186,6 +189,7 @@ private:
 	float factor;
 	float height;
 
+	bool isInCollisionWorld = true;
 	bool isKinematic = false;
 	bool drawCollider = false;
 	bool isTrigger = false;
@@ -220,6 +224,17 @@ inline uint32_t ComponentRigidBody::GetID() const
 {
 	return id;
 }
+
+inline bool ComponentRigidBody::GetIsInCollisionWorld() const
+{
+	return isInCollisionWorld;
+}
+
+inline void ComponentRigidBody::SetIsInCollisionWorld(bool newIsInCollisionWorld)
+{
+	isInCollisionWorld = newIsInCollisionWorld;
+}
+
 
 inline bool ComponentRigidBody::GetIsKinematic() const
 {
