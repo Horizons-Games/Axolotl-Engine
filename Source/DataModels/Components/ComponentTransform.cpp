@@ -35,6 +35,8 @@ ComponentTransform::ComponentTransform(const ComponentTransform& componentTransf
 	Component(componentTransform),
 	bbPos(componentTransform.GetBBPos()),
 	bbSca(componentTransform.GetBBScale()),
+	originScaling(componentTransform.originScaling),
+	originCenter(componentTransform.originCenter),
 	localPos(componentTransform.GetLocalPosition()),
 	localRot(componentTransform.GetLocalRotation()),
 	localSca(componentTransform.GetLocalScale()),

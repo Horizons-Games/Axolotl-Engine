@@ -778,6 +778,9 @@
     <ClCompile Include="..\Game\Scripts\HackingCommand.cpp">
       <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Render\LightPass.cpp">
+      <Filter>DataModels\Render</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIHackingManager.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
@@ -1174,9 +1177,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAreaLight.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\Test\par_shapes.h">
-      <Filter>Auxiliar\Test</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\HealthSystem.h">
       <Filter>UserScripts\Gameplay\Health System</Filter>
@@ -1615,6 +1615,9 @@
     <ClInclude Include="..\Game\Scripts\HackingCommand.h">
       <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Render\LightPass.h">
+      <Filter>DataModels\Render</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIHackingManager.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
@@ -1707,9 +1710,6 @@
     </Filter>
     <Filter Include="DataModels\ParticleSystem">
       <UniqueIdentifier>{1426e775-b621-433b-b6cf-306a93828634}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Auxiliar\Test">
-      <UniqueIdentifier>{ca480dbf-737f-4123-a23a-ee424eba9c66}</UniqueIdentifier>
     </Filter>
     <Filter Include="DataModels\Windows\PopUpWindows">
       <UniqueIdentifier>{8d04ed3e-dea2-465d-937a-8270c4b45db1}</UniqueIdentifier>

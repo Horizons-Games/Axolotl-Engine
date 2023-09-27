@@ -44,8 +44,3 @@ inline float ComponentPointLight::GetRadius() const
 {
 	return radius;
 }
-
-inline void ComponentPointLight::SetRadius(float radius)
-{
-	this->radius = radius;
-}
