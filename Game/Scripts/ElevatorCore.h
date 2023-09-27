@@ -12,6 +12,8 @@ class ComponentRigidBody;
 class ComponentTransform;
 class GameObject;
 
+class HealthSystem;
+
 // Little fix until we could check if an audio is being reproduced
 enum class ActiveActions
 {
@@ -63,4 +65,8 @@ private:
 	float currentTime;
 
 	float speed;
+
+
+	//Enemy condition
+	HealthSystem* miniBossHealth;
 };

@@ -15,6 +15,7 @@
 #include "PlayerMoveScript.h"
 #include "PlayerJumpScript.h"
 #include "PlayerAttackScript.h"
+#include "HealthSystem.h"
 
 
 #include "Scene/Scene.h"
@@ -34,6 +35,7 @@ componentAudio(nullptr), activeState(ActiveActions::INACTIVE), positionState(Pos
 	REGISTER_FIELD(finalPos, float);
 	REGISTER_FIELD(coolDown, float);
 	REGISTER_FIELD(speed, float);
+	REGISTER_FIELD(miniBossHealth, HealthSystem*);
 }
 
 ElevatorCore::~ElevatorCore()
@@ -60,10 +62,10 @@ void ElevatorCore::Start()
 	componentRigidBody = (*childWithRigid)->GetComponent<ComponentRigidBody>();
 	transform = elevator->GetComponentInternal<ComponentTransform>();
 	triggerEntrance = owner->GetComponent<ComponentRigidBody>();
-	finalUpPos = 0;
+	finalUpPos = 0.0f;
 	bixPrefab = App->GetModule<ModulePlayer>()->GetPlayer();
 	playerTransform = bixPrefab->GetComponent<ComponentTransform>();
-	currentTime = 0;
+	currentTime = 0.0f;
 }
 
 void ElevatorCore::Update(float deltaTime)
@@ -96,25 +98,19 @@ void ElevatorCore::Update(float deltaTime)
 
 	else 
 	{
-		if (playerPos.y < finalPos && positionState == PositionState::DOWN)
+		if (playerPos.y < finalPos)
 		{
-			activeState = ActiveActions::ACTIVE_AUTO;
+			if ((!miniBossHealth->EntityIsAlive() && positionState == PositionState::UP) ||
+				(miniBossHealth->EntityIsAlive() && positionState == PositionState::DOWN))
+			{
+				activeState = ActiveActions::ACTIVE_AUTO;
+			}
 			
 		}
-
-		/*
-		if (isBossDead() && positionState == PositionState::UP)
+		
+		if (currentTime >= 0.0f)
 		{
-			activeState = ActiveActions::ACTIVE_AUTO;
-		}
-		*/
-
-		else
-		{
-			if (currentTime >= 0)
-			{
-				currentTime -= deltaTime;
-			}
+			currentTime -= deltaTime;
 		}
 
 	}
@@ -216,7 +212,7 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 				currentAction == PlayerActions::DOUBLEJUMPING ||
 				currentAction == PlayerActions::FALLING;
 
-			if (!isJumping && currentTime <= 0)
+			if (!isJumping && currentTime <= 0.0f)
 			{
 				//componentAnimation->SetParameter("IsActive", true);
 				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
