@@ -20,8 +20,9 @@ struct PlanarReflection
 	vec4 minInfluence;					//128	//16
 	vec4 maxInfluence;					//144	//16
 	sampler2D reflection;				//160	//8 
-	vec4 padding1;						//168	//16
-	vec2 padding2;						//184	//8	 -->192
+	int numMipMaps;						//168	//4
+	float padding1;						//172	//4
+	vec4 padding2;						//176	//16 -->192
 };
 
 #endif

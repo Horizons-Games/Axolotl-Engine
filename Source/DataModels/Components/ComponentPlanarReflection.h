@@ -16,9 +16,10 @@ struct PlanarReflection
 	float4x4 viewProj;						//64	//64
 	float4 minInfluence;					//128	//16
 	float4 maxInfluence;					//144	//16
-	uint64_t reflection;					//160	//8 
-	float4 padding1;						//168	//16
-	float2 padding2;						//184	//8	 -->192
+	uint64_t reflection;					//160	//8
+	int numMipMaps;							//168	//4
+	float padding1;							//172	//4
+	float4 padding2;						//176	//16 -->192
 };
 
 class ComponentPlanarReflection : public ComponentLight
@@ -46,6 +47,8 @@ public:
 
 	const float4x4 GetViewProj() const;
 	const float4x4 GetTransform();
+	
+	const int GetNumMipMaps();
 
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
@@ -99,4 +102,9 @@ inline const float4x4 ComponentPlanarReflection::GetViewProj() const
 inline const float4x4 ComponentPlanarReflection::GetTransform()
 {
 	return float4x4(GetRotation(), GetPosition());
+}
+
+inline const int ComponentPlanarReflection::GetNumMipMaps()
+{
+	return numMipMaps;
 }

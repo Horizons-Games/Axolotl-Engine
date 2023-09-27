@@ -1555,6 +1555,7 @@ void Scene::UpdateScenePlanarReflections()
 			planar.maxInfluence = float4(influence.maxPoint, 0);
 			planar.minInfluence = float4(influence.minPoint, 0);
 			planar.reflection = planarReflection->GetHandleReflection();
+			planar.numMipMaps = planarReflection->GetNumMipMaps();
 
 			planarReflections.push_back(planar);
 			cachedPlanarReflections.push_back(std::make_pair(planarReflection, pos));
@@ -1720,6 +1721,7 @@ void Scene::UpdateScenePlanarReflection(ComponentPlanarReflection* compPlanar)
 			planar.maxInfluence = float4(influence.maxPoint, 0);
 			planar.minInfluence = float4(influence.minPoint, 0);
 			planar.reflection = compPlanar->GetHandleReflection();
+			planar.numMipMaps = compPlanar->GetNumMipMaps();
 
 			planarReflections[cachedPlanarReflections[i].second] = planar;
 		}
