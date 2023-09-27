@@ -108,7 +108,6 @@ void ElevatorCore::Update(float deltaTime)
 			positionState = PositionState::DOWN;
 			activeState = ActiveActions::INACTIVE;
 			currentTime = coolDown;
-			LOG_DEBUG("Cool Down of {} seconds started", currentTime);
 			EnableAllInteractions();
 		}
 		
@@ -117,7 +116,6 @@ void ElevatorCore::Update(float deltaTime)
 			positionState = PositionState::UP;
 			activeState = ActiveActions::INACTIVE;
 			currentTime = coolDown;
-			LOG_DEBUG("Cool Down of {} seconds started", currentTime);
 			EnableAllInteractions();
 		}
 	}
@@ -127,7 +125,6 @@ void ElevatorCore::Update(float deltaTime)
 		if (currentTime >= 0)
 		{
 			currentTime -= deltaTime;
-			LOG_DEBUG("Cool Down of {} seconds continues", currentTime);
 		}
 
 	}
