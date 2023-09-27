@@ -793,6 +793,9 @@
     <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SpaceshipMovement.cpp">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1632,6 +1635,9 @@
     <ClInclude Include="..\Game\Scripts\ElevatorCore.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SpaceshipMovement.h">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1843,6 +1849,9 @@
     </Filter>
     <Filter Include="DataModels\Render">
       <UniqueIdentifier>{701145da-de98-4a67-be5b-f78bd0c29386}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Spaceship">
+      <UniqueIdentifier>{06069472-a0b5-4bc1-b30e-7d275a0df5b2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
