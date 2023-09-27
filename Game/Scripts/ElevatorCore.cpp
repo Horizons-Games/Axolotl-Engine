@@ -33,6 +33,7 @@ componentAudio(nullptr), activeState(ActiveActions::INACTIVE), positionState(Pos
 	REGISTER_FIELD(elevator, GameObject*);
 	REGISTER_FIELD(finalPos, float);
 	REGISTER_FIELD(coolDown, float);
+	REGISTER_FIELD(speed, float);
 }
 
 ElevatorCore::~ElevatorCore()
@@ -73,11 +74,11 @@ void ElevatorCore::Update(float deltaTime)
 	{
 		if (positionState == PositionState::UP)
 		{
-			MoveDownElevator(true);
+			MoveDownElevator(true, deltaTime);
 		}
 		else 
 		{
-			MoveUpElevator(true);
+			MoveUpElevator(true, deltaTime);
 		}
 	}
 
@@ -85,11 +86,11 @@ void ElevatorCore::Update(float deltaTime)
 	{
 		if (positionState == PositionState::UP)
 		{
-			MoveDownElevator(false);
+			MoveDownElevator(false, deltaTime);
 		}
 		else
 		{
-			MoveUpElevator(false);
+			MoveUpElevator(false, deltaTime);
 		}
 	}
 
@@ -119,13 +120,13 @@ void ElevatorCore::Update(float deltaTime)
 	}
 }
 
-void ElevatorCore::MoveUpElevator(bool isPlayerInside)
+void ElevatorCore::MoveUpElevator(bool isPlayerInside, float deltaTime)
 {
 	float3 pos = transform->GetGlobalPosition();
 	btVector3 triggerOrigin = triggerEntrance->GetRigidBodyOrigin();
 
-	pos.y += 0.1f;
-	float newYTrigger = triggerOrigin.getY() + 0.1f;
+	pos.y += deltaTime * speed;
+	float newYTrigger = triggerOrigin.getY() + deltaTime * speed;
 	triggerOrigin.setY(newYTrigger);
 
 	transform->SetGlobalPosition(pos);
@@ -149,7 +150,7 @@ void ElevatorCore::MoveUpElevator(bool isPlayerInside)
 	if (isPlayerInside)
 	{
 		float3 playerPos = playerTransform->GetGlobalPosition();
-		playerPos.y += 0.1f;
+		playerPos.y += deltaTime * speed;
 
 		playerTransform->SetGlobalPosition(playerPos);
 		playerTransform->RecalculateLocalMatrix();
@@ -160,14 +161,14 @@ void ElevatorCore::MoveUpElevator(bool isPlayerInside)
 
 }
 
-void ElevatorCore::MoveDownElevator(bool isPlayerInside)
+void ElevatorCore::MoveDownElevator(bool isPlayerInside, float deltaTime)
 {
 	float3 pos = transform->GetGlobalPosition();
 	float3 playerPos = playerTransform->GetGlobalPosition();
 	btVector3 triggerOrigin = triggerEntrance->GetRigidBodyOrigin();
 
-	pos.y -= 0.1f;
-	float newYTrigger = triggerOrigin.getY() - 0.1f;
+	pos.y -= deltaTime * speed;
+	float newYTrigger = triggerOrigin.getY() - deltaTime * speed;
 	triggerOrigin.setY(newYTrigger);
 
 	transform->SetGlobalPosition(pos);
@@ -191,7 +192,7 @@ void ElevatorCore::MoveDownElevator(bool isPlayerInside)
 	if (isPlayerInside)
 	{
 		float3 playerPos = playerTransform->GetGlobalPosition();
-		playerPos.y -= 0.1f;
+		playerPos.y -= deltaTime * speed;
 
 		playerTransform->SetGlobalPosition(playerPos);
 		playerTransform->RecalculateLocalMatrix();

@@ -35,8 +35,8 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
-	void MoveUpElevator(bool isPlayerInside);
-	void MoveDownElevator(bool isPlayerInside);
+	void MoveUpElevator(bool isPlayerInside, float deltaTime);
+	void MoveDownElevator(bool isPlayerInside, float deltaTime);
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void OnCollisionExit(ComponentRigidBody* other) override;
 	void DisableAllInteractions();
@@ -61,4 +61,6 @@ private:
 
 	float coolDown;
 	float currentTime;
+
+	float speed;
 };
