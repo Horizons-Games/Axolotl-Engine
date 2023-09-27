@@ -781,6 +781,11 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 						{
 							ComponentLight* light = gameObject->GetComponentInternal<ComponentLight>();
 
+							if (!light->IsEnabled())
+							{
+								return;
+							}
+
 							switch (light->GetLightType())
 							{
 							case LightType::POINT:
@@ -837,6 +842,11 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 						if (gameObject->HasComponent<ComponentLight>())
 						{
 							ComponentLight* light = gameObject->GetComponentInternal<ComponentLight>();
+
+							if (!light->IsEnabled())
+							{
+								return;
+							}
 
 							switch (light->GetLightType())
 							{
@@ -926,6 +936,11 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject, Camera* camera,
 					if (gameObject->HasComponent<ComponentLight>())
 					{
 						ComponentLight* light = gameObject->GetComponentInternal<ComponentLight>();
+
+						if (!light->IsEnabled())
+						{
+							return;
+						}
 
 						switch (light->GetLightType())
 						{
