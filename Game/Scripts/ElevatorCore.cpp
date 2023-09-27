@@ -67,66 +67,137 @@ void ElevatorCore::Start()
 
 void ElevatorCore::Update(float deltaTime)
 {
-	
-	if (activeState == ActiveActions::ACTIVE) 
-	{
-		float3 pos = transform->GetGlobalPosition();
-		float3 playerPos = playerTransform->GetGlobalPosition();
-		btVector3 triggerOrigin = triggerEntrance->GetRigidBodyOrigin();
+	float3 playerPos = playerTransform->GetGlobalPosition();
 
+	if (activeState == ActiveActions::ACTIVE_PLAYER) 
+	{
 		if (positionState == PositionState::UP)
 		{
-			pos.y -= 0.1f;
-			playerPos.y -= 0.1f;
-			float newYTrigger = triggerOrigin.getY() - 0.1f;
-			triggerOrigin.setY(newYTrigger);
+			MoveDownElevator(true);
 		}
 		else 
 		{
-			pos.y += 0.1f;
-			playerPos.y += 0.1f;
-			float newYTrigger = triggerOrigin.getY() + 0.1f;
-			triggerOrigin.setY(newYTrigger);
+			MoveUpElevator(true);
 		}
-		
-		transform->SetGlobalPosition(pos);
-		playerTransform->SetGlobalPosition(playerPos);
+	}
 
-		transform->RecalculateLocalMatrix();
-		transform->UpdateTransformMatrices();
-
-		playerTransform->RecalculateLocalMatrix();
-		playerTransform->UpdateTransformMatrices();
-
-		
-		triggerEntrance->SetRigidBodyOrigin(triggerOrigin);
-		elevator->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
-		bixPrefab->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
-		
-		if (pos.y <= finalPos)
+	else if (activeState == ActiveActions::ACTIVE_AUTO)
+	{
+		if (positionState == PositionState::UP)
 		{
-			positionState = PositionState::DOWN;
-			activeState = ActiveActions::INACTIVE;
-			currentTime = coolDown;
-			EnableAllInteractions();
+			MoveDownElevator(false);
 		}
-		
-		else if (pos.y >= finalUpPos)
+		else
 		{
-			positionState = PositionState::UP;
-			activeState = ActiveActions::INACTIVE;
-			currentTime = coolDown;
-			EnableAllInteractions();
+			MoveUpElevator(false);
 		}
 	}
 
 	else 
 	{
-		if (currentTime >= 0)
+		if (playerPos.y < finalPos && positionState == PositionState::DOWN)
 		{
-			currentTime -= deltaTime;
+			activeState = ActiveActions::ACTIVE_AUTO;
+			
 		}
 
+		/*
+		if (isBossDead() && positionState == PositionState::UP)
+		{
+			activeState = ActiveActions::ACTIVE_AUTO;
+		}
+		*/
+
+		else
+		{
+			if (currentTime >= 0)
+			{
+				currentTime -= deltaTime;
+			}
+		}
+
+	}
+}
+
+void ElevatorCore::MoveUpElevator(bool isPlayerInside)
+{
+	float3 pos = transform->GetGlobalPosition();
+	btVector3 triggerOrigin = triggerEntrance->GetRigidBodyOrigin();
+
+	pos.y += 0.1f;
+	float newYTrigger = triggerOrigin.getY() + 0.1f;
+	triggerOrigin.setY(newYTrigger);
+
+	transform->SetGlobalPosition(pos);
+	transform->RecalculateLocalMatrix();
+	transform->UpdateTransformMatrices();
+
+	triggerEntrance->SetRigidBodyOrigin(triggerOrigin);
+	elevator->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
+
+	if (pos.y >= finalUpPos)
+	{
+		positionState = PositionState::UP;
+		activeState = ActiveActions::INACTIVE;
+		currentTime = coolDown;
+		if (isPlayerInside)
+		{
+			EnableAllInteractions();
+		}
+	}
+
+	if (isPlayerInside)
+	{
+		float3 playerPos = playerTransform->GetGlobalPosition();
+		playerPos.y += 0.1f;
+
+		playerTransform->SetGlobalPosition(playerPos);
+		playerTransform->RecalculateLocalMatrix();
+		playerTransform->UpdateTransformMatrices();
+
+		bixPrefab->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
+	}
+
+}
+
+void ElevatorCore::MoveDownElevator(bool isPlayerInside)
+{
+	float3 pos = transform->GetGlobalPosition();
+	float3 playerPos = playerTransform->GetGlobalPosition();
+	btVector3 triggerOrigin = triggerEntrance->GetRigidBodyOrigin();
+
+	pos.y -= 0.1f;
+	float newYTrigger = triggerOrigin.getY() - 0.1f;
+	triggerOrigin.setY(newYTrigger);
+
+	transform->SetGlobalPosition(pos);
+	transform->RecalculateLocalMatrix();
+	transform->UpdateTransformMatrices();
+
+	triggerEntrance->SetRigidBodyOrigin(triggerOrigin);
+	elevator->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
+
+	if (pos.y <= finalPos)
+	{
+		positionState = PositionState::DOWN;
+		activeState = ActiveActions::INACTIVE;
+		currentTime = coolDown;
+		if (isPlayerInside)
+		{
+			EnableAllInteractions();
+		}
+	}
+
+	if (isPlayerInside)
+	{
+		float3 playerPos = playerTransform->GetGlobalPosition();
+		playerPos.y -= 0.1f;
+
+		playerTransform->SetGlobalPosition(playerPos);
+		playerTransform->RecalculateLocalMatrix();
+		playerTransform->UpdateTransformMatrices();
+
+		bixPrefab->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
 	}
 }
 
@@ -148,7 +219,7 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 			{
 				//componentAnimation->SetParameter("IsActive", true);
 				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
-				activeState = ActiveActions::ACTIVE;
+				activeState = ActiveActions::ACTIVE_PLAYER;
 
 				DisableAllInteractions();
 

@@ -15,7 +15,8 @@ class GameObject;
 // Little fix until we could check if an audio is being reproduced
 enum class ActiveActions
 {
-	ACTIVE,
+	ACTIVE_PLAYER,
+	ACTIVE_AUTO,
 	INACTIVE
 };
 
@@ -34,6 +35,8 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
+	void MoveUpElevator(bool isPlayerInside);
+	void MoveDownElevator(bool isPlayerInside);
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void OnCollisionExit(ComponentRigidBody* other) override;
 	void DisableAllInteractions();
