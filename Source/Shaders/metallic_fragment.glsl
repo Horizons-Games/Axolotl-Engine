@@ -9,7 +9,7 @@
 
 #include "/Common/Structs/lights.glsl"
 
-#include "/Common/Structs/metallicMaterial.glsl"
+#include "/Common/Structs/materials.glsl"
 
 #include "/Common/Structs/effect.glsl"
 
