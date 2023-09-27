@@ -162,7 +162,7 @@ void ElevatorCore::OnCollisionExit(ComponentRigidBody* other)
 void ElevatorCore::DisableAllInteractions()
 {
 	//bixPrefab->SetParent(elevator);
-	bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(true);
+	bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetIsStatic(true);
 
 	PlayerManagerScript* manager = bixPrefab->GetComponentInternal<PlayerManagerScript>();
 	manager->ParalyzePlayer(true);
@@ -171,7 +171,7 @@ void ElevatorCore::DisableAllInteractions()
 void ElevatorCore::EnableAllInteractions()
 {
 	//bixPrefab->SetParent(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
-	bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(false);
+	bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetIsStatic(false);
 
 	PlayerManagerScript* manager = bixPrefab->GetComponentInternal<PlayerManagerScript>();
 	manager->ParalyzePlayer(false);
