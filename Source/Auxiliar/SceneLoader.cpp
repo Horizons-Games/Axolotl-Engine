@@ -168,9 +168,6 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 		}
 	}
 
-	ComponentTransform* mainTransform = loadedScene->GetRoot()->GetComponentInternal<ComponentTransform>();
-	mainTransform->UpdateTransformMatrices();
-
 	moduleScene->SetSceneRootAnimObjects(loadedObjects);
 	moduleScene->SetSelectedGameObject(loadedScene->GetRoot());
 
@@ -215,6 +212,9 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 	{
 		initLightsAndFinishSceneLoad();
 	}
+
+	ComponentTransform* mainTransform = loadedScene->GetRoot()->GetComponentInternal<ComponentTransform>();
+	mainTransform->UpdateTransformMatrices();
 }
 
 //////////////////////////////////////////////////////////////////
