@@ -50,7 +50,7 @@ void RangedFastAttackBullet::Update(float deltaTime)
 
 void RangedFastAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (waitParticlesToDestroy)
+	if (waitParticlesToDestroy || other->IsTrigger())
 	{
 		return;
 	}
