@@ -15,7 +15,7 @@ REGISTERCLASS(SceneLoadingScript);
 
 namespace
 {
-constexpr const char* loadingScreenScene = "Lib/Scenes/async_probe" SCENE_EXTENSION;
+constexpr const char* loadingScreenScene = "Lib/Scenes/LoadingScreen" SCENE_EXTENSION;
 }
 
 SceneLoadingScript::SceneLoadingScript() : Script()
