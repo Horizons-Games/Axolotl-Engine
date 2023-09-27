@@ -121,9 +121,7 @@ void PlayerJumpScript::Jump(float deltaTime)
 		float3 direction = float3::zero;
 
 		if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN &&
-			((isGrounded && componentAnimation->GetActualStateName() != "Landing" &&
-				componentAnimation->GetActualStateName() != "DoubleJumping") ||
-				(!isGrounded && coyoteTimerCount > 0.0f) ||
+			(isGrounded || (!isGrounded && coyoteTimerCount > 0.0f) ||
 				(canDoubleJump && playerManager->GetPlayerState() == PlayerActions::JUMPING)))
 		{
 			btVector3 velocity = btRigidbody->getLinearVelocity();
