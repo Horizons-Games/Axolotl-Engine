@@ -23,7 +23,7 @@
 
 REGISTERCLASS(SwitchPlayerManagerScript);
 
-SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr), isSwitchAvailable(true), changingPlayerTime{ 1000.f, 2000.f},
+SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr), isSwitchAvailable(true), changingPlayerTime{ 800.f, 1800.f},
 	playerHealthBar(nullptr), secondPlayerHealthBar(nullptr)
 {
 	REGISTER_FIELD(isSwitchAvailable, bool);
