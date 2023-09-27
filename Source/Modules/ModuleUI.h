@@ -27,6 +27,8 @@ public:
 
 	void ClearButtons();
 
+	std::size_t GetCurrentButtonIndex() const;
+
 private:
 	void DetectInteractionWithGameObject(const GameObject* gameObject,
 										 float2 cursorPosition,
@@ -51,4 +53,9 @@ inline unsigned int ModuleUI::GetQuadVAO() const
 inline void ModuleUI::ClearButtons()
 {
 	sortedButtonsIds.clear();
+}
+
+inline std::size_t ModuleUI::GetCurrentButtonIndex() const
+{
+	return currentButtonIndex;
 }

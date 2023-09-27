@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "ModuleInput.h"
+#include "ModuleUI.h"
 
 class ComponentButton;
 
@@ -16,8 +17,8 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void ControllEnable();
-	void keyboardEnable();
+	void ControlEnable();
+	void KeyboardEnable();
 
 	void GameOption();
 	void VideoOption();
@@ -39,6 +40,7 @@ private:
 	int actualButtonHover = 0;
 
 	ModuleInput* input;
+	ModuleUI* currentButtonIndex;
 
 	GameObject* gameOptionButton;
 	GameObject* videoOptionButton;

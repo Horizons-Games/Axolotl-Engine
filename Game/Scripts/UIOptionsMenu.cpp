@@ -35,6 +35,8 @@ padTriggersIMG (nullptr)
 
 void UIOptionsMenu::Start()
 {
+	currentButtonIndex = App->GetModule<ModuleUI>();
+
 	gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
 	videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
 	audioOptionComponentButton = audioOptionButton->GetComponent<ComponentButton>();
@@ -55,25 +57,23 @@ void UIOptionsMenu::Start()
 void UIOptionsMenu::Update(float deltaTime)
 {
 	input = App->GetModule<ModuleInput>();
-
-	ControllEnable();
+	ControlEnable();
 }
 
-void UIOptionsMenu::ControllEnable()
+void UIOptionsMenu::ControlEnable()
 {
-	if (input->GetKey(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KeyState::DOWN || input->GetKey(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KeyState::DOWN ||
-		input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN)
 	{
-		if (input->GetKey(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN)
+		if ( input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN)
 		{
 			if (selectedPositon >= 1)
 			{
 				newSelectedPositon--;
 			}
 		}
-		else if (input->GetKey(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN)
+		else if (input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN)
 		{
-			if (selectedPositon != 4)
+			if (selectedPositon < 3)
 			{
 				newSelectedPositon++;
 			}
@@ -87,36 +87,37 @@ void UIOptionsMenu::ControllEnable()
 		buttonsAndCanvas[newSelectedPositon].hovered->Enable();
 	}
 
-	//LOOK FOR THE ACTUAL SELECTED BUTTON
-	for (int a = 0; a >= buttonsAndCanvas[selectedPositon].canvas->GetChildren().size(); a++)
+	if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::DOWN ||
+		input->GetLeftJoystickDirection().horizontalDirection == JoystickHorizontalDirection::RIGHT || 
+		input->GetLeftJoystickDirection().horizontalDirection == JoystickHorizontalDirection::LEFT)
 	{
-		if (buttonsAndCanvas[selectedPositon].canvas->GetChildren()[a]->GetComponent<ComponentButton>()->IsHovered())
+		//LOOK FOR THE ACTUAL SELECTED BUTTON
+		for (int a = 0; a >= buttonsAndCanvas[selectedPositon].canvas->GetChildren().size(); a++)
 		{
-			actualButtonHover = a;
-
-			//LOOK FOR THE ACTUAL OPTION ENABLE
-			for (int b = 0; b >= buttonsAndCanvas[selectedPositon].canvas->GetChildren()[actualButtonHover]->GetChildren()[2]->GetChildren().size(); b++)
+			if (buttonsAndCanvas[selectedPositon].canvas->GetChildren()[a]->GetComponent<ComponentButton>()->IsHovered())
 			{
-				if (buttonsAndCanvas[selectedPositon].canvas->GetChildren()[actualButtonHover]->GetChildren()[2]->GetChildren()[b]->IsEnabled())
+				actualButtonHover = a;
+
+				//LOOK FOR THE ACTUAL OPTION ENABLE
+				for (int b = 0; b >= buttonsAndCanvas[selectedPositon].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren().size(); b++)
 				{
-					selectedOption = b;
-					break;
+					if (buttonsAndCanvas[selectedPositon].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren()[b]->IsEnabled())
+					{
+						selectedOption = b;
+						break;
+					}
 				}
 			}
-			break;
 		}
-	}
-
-	if (input->GetKey(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KeyState::DOWN || input->GetKey(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KeyState::DOWN
-		|| input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::DOWN)
-	{
 		//.ACTUAL CANVAS -> HOVERED BUTTON -> ALWAYS SECOND CHILDREN -> SELECTED OPTION
-		//buttonsAndCanvas[selectedPositon].canvas->GetChildren()[actualButtonHover]->GetChildren()[2]->GetChildren()[selectedOption];
+		buttonsAndCanvas[selectedPositon].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren()[selectedOption]->Disable();
+		selectedOption++;
+		buttonsAndCanvas[selectedPositon].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren()[selectedOption]->Enable();
 
 	}
 }
 
-void UIOptionsMenu::keyboardEnable()
+void UIOptionsMenu::KeyboardEnable()
 {
 	gameOptionComponentButton->Enable();
 	videoOptionComponentButton->Enable();
@@ -152,7 +153,7 @@ void UIOptionsMenu::keyboardEnable()
 
 void UIOptionsMenu::GameOption()
 {
-	//WINDOWS SIZE
+	//WINDOWS MODE
 
 }
 void UIOptionsMenu::VideoOption()
