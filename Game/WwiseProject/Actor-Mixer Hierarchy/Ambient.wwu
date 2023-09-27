@@ -286,6 +286,12 @@
 						<Sound Name="sfx_ambient_turbine" ID="{A6B18E6E-5F7D-406F-BC22-2DF7CB9193F8}" ShortID="91410222">
 							<PropertyList>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>62</Value>
+									</ValueList>
+								</Property>
+								<Property Name="OverrideEffect" Type="bool" Value="True"/>
 								<Property Name="Pitch" Type="int32">
 									<ModifierList>
 										<ModifierInfo>
@@ -323,6 +329,9 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="sfx_ambient_water_falling" ID="{D6903838-2624-410D-AAAA-BA42F370F95E}" ShortID="931862167">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -333,6 +342,10 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="sfx_ambient_water_falling" ID="{016B165A-6D9E-430D-A0DA-66E29A22E91D}">
+									<PropertyList>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimEnd" Type="Real64" Value="15.9392286760858"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>sfx_ambient_water_falling.wav</AudioFile>
 									<MediaIDList>
