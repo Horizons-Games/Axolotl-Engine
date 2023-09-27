@@ -350,11 +350,21 @@ void ComponentLine::InternalLoad(const Json& meta)
 	}
 #endif // ENGINE
 
-	UID endpoint = meta["EndPoint"];
+	UID endpointUID = meta["EndPoint"];
 
-	if (endpoint != 0)
+	if (endpointUID != 0)
 	{
-		childGameObject = App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(endpoint);
+		UID newFieldUID;
+		if (App->GetModule<ModuleScene>()->HasNewUID(endpointUID, newFieldUID))
+		{
+			childGameObject = 
+				App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(newFieldUID);
+		}
+		else
+		{
+			childGameObject = 
+				App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(endpointUID);
+		}
 	}
 
 	LoadBuffers();
