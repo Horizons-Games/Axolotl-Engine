@@ -34,13 +34,12 @@ private:
 	};
 
 	std::vector<OptionsButtonInfo> buttonsAndCanvas;
-	int selectedPositon = 0;
-	int newSelectedPositon = 0;
+	int headerMenuPosition = 0;
+	int newHeaderMenuPosition = 0;
 	int selectedOption = 0;
 	int actualButtonHover = 0;
 
 	ModuleInput* input;
-	ModuleUI* currentButtonIndex;
 
 	GameObject* gameOptionButton;
 	GameObject* videoOptionButton;

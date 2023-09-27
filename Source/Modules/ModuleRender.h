@@ -61,6 +61,10 @@ public:
 	GLuint GetRenderedTexture() const;
 	float GetObjectDistance(const GameObject* gameObject);
 	Shadows* GetShadows() const;
+	bool IsShadowsEnabled() const;
+	bool IsVSMEnabled() const;
+	bool IsSsaoEnabled() const;
+	bool IsBloomEnabled() const;
 
 	void SetBloomIntensity(float color);
 	float GetBloomIntensity() const;
@@ -234,4 +238,24 @@ inline void ModuleRender::SetBloomIntensity(float intensity)
 inline float ModuleRender::GetBloomIntensity() const
 {
 	return bloomIntensity;
+}
+
+inline bool ModuleRender::IsShadowsEnabled() const
+{
+	return shadows->UseShadows();
+}
+
+inline bool ModuleRender::IsVSMEnabled() const
+{
+	return shadows->UseVSM();
+}
+
+inline bool ModuleRender::IsSsaoEnabled() const
+{
+	return ssao->IsEnabled();
+}
+
+inline bool ModuleRender::IsBloomEnabled() const
+{
+	return bloomActivation;
 }

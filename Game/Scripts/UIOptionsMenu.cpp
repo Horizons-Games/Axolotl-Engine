@@ -35,7 +35,9 @@ padTriggersIMG (nullptr)
 
 void UIOptionsMenu::Start()
 {
-	currentButtonIndex = App->GetModule<ModuleUI>();
+	input = App->GetModule<ModuleInput>();
+
+	Assert(gameOptionButton != nullptr, axo::Format("Script owned by {} is fucked!!", owner));
 
 	gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
 	videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
@@ -56,64 +58,82 @@ void UIOptionsMenu::Start()
 
 void UIOptionsMenu::Update(float deltaTime)
 {
-	input = App->GetModule<ModuleInput>();
 	ControlEnable();
 }
 
 void UIOptionsMenu::ControlEnable()
 {
+	// MOVE THE HEADER OF THE OPTIONS
 	if (input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN)
 	{
 		if ( input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN)
 		{
-			if (selectedPositon >= 1)
+			if (headerMenuPosition >= 1)
 			{
-				newSelectedPositon--;
+				newHeaderMenuPosition--;
 			}
 		}
 		else if (input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN)
 		{
-			if (selectedPositon < 3)
+			if (headerMenuPosition < 3)
 			{
-				newSelectedPositon++;
+				newHeaderMenuPosition++;
 			}
 		}
 
 		//ENABLE-DISABLE THE MAIN BAR MENU OPTION HOVER - GAME - VIDEO - AUDIO - CONTROLS
-		buttonsAndCanvas[selectedPositon].canvas->Disable();
-		buttonsAndCanvas[selectedPositon].hovered->Disable();
-		selectedPositon = newSelectedPositon;
-		buttonsAndCanvas[newSelectedPositon].canvas->Enable();
-		buttonsAndCanvas[newSelectedPositon].hovered->Enable();
+		buttonsAndCanvas[headerMenuPosition].canvas->Disable();
+		buttonsAndCanvas[headerMenuPosition].hovered->Disable();
+		headerMenuPosition = newHeaderMenuPosition;
+		buttonsAndCanvas[newHeaderMenuPosition].canvas->Enable();
+		buttonsAndCanvas[newHeaderMenuPosition].hovered->Enable();
 	}
 
+	// MOVE LEFT OR RIGHT THE OPTIONS
 	if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::DOWN ||
-		input->GetLeftJoystickDirection().horizontalDirection == JoystickHorizontalDirection::RIGHT || 
+		input->GetLeftJoystickDirection().horizontalDirection == JoystickHorizontalDirection::RIGHT ||
 		input->GetLeftJoystickDirection().horizontalDirection == JoystickHorizontalDirection::LEFT)
 	{
-		//LOOK FOR THE ACTUAL SELECTED BUTTON
-		for (int a = 0; a >= buttonsAndCanvas[selectedPositon].canvas->GetChildren().size(); a++)
+		//LOOK FOR THE current SELECTED BUTTON
+		if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren().size() != 0)
 		{
-			if (buttonsAndCanvas[selectedPositon].canvas->GetChildren()[a]->GetComponent<ComponentButton>()->IsHovered())
+			for (int a = 0; a </*>=*/ buttonsAndCanvas[headerMenuPosition].canvas->GetChildren().size(); a++)
 			{
-				actualButtonHover = a;
-
-				//LOOK FOR THE ACTUAL OPTION ENABLE
-				for (int b = 0; b >= buttonsAndCanvas[selectedPositon].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren().size(); b++)
+				if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[a]->GetComponent<ComponentButton>()->IsHovered())
 				{
-					if (buttonsAndCanvas[selectedPositon].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren()[b]->IsEnabled())
+					actualButtonHover = a;
+					break;
+				}
+			}
+			//LOOK FOR THE ACTUAL OPTION ENABLE
+			if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren().size() != 0)
+			{
+				for (int b = 0;
+					b >= buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren().size(); b++)
+				{
+					if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren()[b]->IsEnabled())
 					{
 						selectedOption = b;
 						break;
 					}
 				}
 			}
-		}
-		//.ACTUAL CANVAS -> HOVERED BUTTON -> ALWAYS SECOND CHILDREN -> SELECTED OPTION
-		buttonsAndCanvas[selectedPositon].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren()[selectedOption]->Disable();
-		selectedOption++;
-		buttonsAndCanvas[selectedPositon].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren()[selectedOption]->Enable();
+			// DISABLE PREVIUS OPTION
+			buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren()[selectedOption]->Disable();
 
+			if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN ||
+				input->GetLeftJoystickDirection().horizontalDirection == JoystickHorizontalDirection::LEFT)
+			{
+				selectedOption--;
+			}
+			else if (input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::DOWN ||
+				input->GetLeftJoystickDirection().horizontalDirection == JoystickHorizontalDirection::RIGHT)
+			{
+				selectedOption++;
+			}
+			//.ACTUAL CANVAS -> HOVERED BUTTON -> ALWAYS SECOND CHILDREN -> SELECTED OPTION
+			buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren()[selectedOption]->Enable();
+		}
 	}
 }
 
@@ -128,7 +148,7 @@ void UIOptionsMenu::KeyboardEnable()
 	for (int i = 0; i < buttonsAndCanvas.size(); ++i)
 	{
 		ComponentButton* button = buttonsAndCanvas[i].button;
-		if (button->IsHovered() && selectedPositon != i)
+		if (button->IsHovered() && headerMenuPosition != i)
 		{
 			buttonsAndCanvas[i].hovered->Enable();
 		}
@@ -138,16 +158,16 @@ void UIOptionsMenu::KeyboardEnable()
 		}
 		if (button->IsClicked())
 		{
-			newSelectedPositon = i;
+			newHeaderMenuPosition = i;
 		}
 	}
-	if (newSelectedPositon != -1 && newSelectedPositon != selectedPositon)
+	if (newHeaderMenuPosition != -1 && newHeaderMenuPosition != headerMenuPosition)
 	{
-		buttonsAndCanvas[selectedPositon].canvas->Disable();
-		buttonsAndCanvas[selectedPositon].button->Enable();
-		selectedPositon = newSelectedPositon;
-		buttonsAndCanvas[selectedPositon].canvas->Enable();
-		buttonsAndCanvas[selectedPositon].button->Disable();
+		buttonsAndCanvas[headerMenuPosition].canvas->Disable();
+		buttonsAndCanvas[headerMenuPosition].button->Enable();
+		headerMenuPosition = newHeaderMenuPosition;
+		buttonsAndCanvas[headerMenuPosition].canvas->Enable();
+		buttonsAndCanvas[headerMenuPosition].button->Disable();
 	}
 }
 
