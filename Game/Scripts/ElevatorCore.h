@@ -55,4 +55,7 @@ private:
 	GameObject* elevator;
 	float finalPos;
 	float finalUpPos;
+
+	float coolDown;
+	float currentTime;
 };

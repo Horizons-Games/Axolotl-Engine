@@ -32,6 +32,7 @@ componentAudio(nullptr), activeState(ActiveActions::INACTIVE), positionState(Pos
 {
 	REGISTER_FIELD(elevator, GameObject*);
 	REGISTER_FIELD(finalPos, float);
+	REGISTER_FIELD(coolDown, float);
 }
 
 ElevatorCore::~ElevatorCore()
@@ -61,10 +62,12 @@ void ElevatorCore::Start()
 	finalUpPos = 0;
 	bixPrefab = App->GetModule<ModulePlayer>()->GetPlayer();
 	playerTransform = bixPrefab->GetComponent<ComponentTransform>();
+	currentTime = 0;
 }
 
 void ElevatorCore::Update(float deltaTime)
 {
+	
 	if (activeState == ActiveActions::ACTIVE) 
 	{
 		float3 pos = transform->GetGlobalPosition();
@@ -104,7 +107,8 @@ void ElevatorCore::Update(float deltaTime)
 		{
 			positionState = PositionState::DOWN;
 			activeState = ActiveActions::INACTIVE;
-
+			currentTime = coolDown;
+			LOG_DEBUG("Cool Down of {} seconds started", currentTime);
 			EnableAllInteractions();
 		}
 		
@@ -112,9 +116,20 @@ void ElevatorCore::Update(float deltaTime)
 		{
 			positionState = PositionState::UP;
 			activeState = ActiveActions::INACTIVE;
-
+			currentTime = coolDown;
+			LOG_DEBUG("Cool Down of {} seconds started", currentTime);
 			EnableAllInteractions();
 		}
+	}
+
+	else 
+	{
+		if (currentTime >= 0)
+		{
+			currentTime -= deltaTime;
+			LOG_DEBUG("Cool Down of {} seconds continues", currentTime);
+		}
+
 	}
 }
 
@@ -132,7 +147,7 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 				currentAction == PlayerActions::DOUBLEJUMPING ||
 				currentAction == PlayerActions::FALLING;
 
-			if (!isJumping)
+			if (!isJumping && currentTime <= 0)
 			{
 				//componentAnimation->SetParameter("IsActive", true);
 				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
