@@ -3,6 +3,8 @@
 #include "Scripting\Script.h"
 #include <vector>
 
+#include "ModuleInput.h"
+
 class ComponentButton;
 
 class UIOptionsMenu : public Script
@@ -14,6 +16,14 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void ControllEnable();
+	void keyboardEnable();
+
+	void GameOption();
+	void VideoOption();
+	void AudioOption();
+	void ControlOption();
+
 private:
 	struct OptionsButtonInfo
 	{
@@ -24,6 +34,11 @@ private:
 
 	std::vector<OptionsButtonInfo> buttonsAndCanvas;
 	int selectedPositon = 0;
+	int newSelectedPositon = 0;
+	int selectedOption = 0;
+	int actualButtonHover = 0;
+
+	ModuleInput* input;
 
 	GameObject* gameOptionButton;
 	GameObject* videoOptionButton;
@@ -39,6 +54,8 @@ private:
 	GameObject* videoOptionHover;
 	GameObject* audioOptionHover;
 	GameObject* controlOptionHover;
+
+	GameObject* padTriggersIMG;
 
 	ComponentButton* gameOptionComponentButton;
 	ComponentButton* videoOptionComponentButton;

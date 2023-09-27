@@ -4,6 +4,7 @@
 #include <Components/ComponentScript.h>
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentButton.h"
+#include "Application.h"
 #include "UIGameManager.h"
 
 
@@ -11,7 +12,8 @@ REGISTERCLASS(UIOptionsMenu);
 
 UIOptionsMenu::UIOptionsMenu() : Script(), gameOptionButton(nullptr), videoOptionButton(nullptr), audioOptionButton(nullptr),
 controlOptionButton(nullptr), gameOptionCanvas(nullptr), videoOptionCanvas(nullptr), audioOptionCanvas(nullptr), 
-gameOptionHover(nullptr), videoOptionHover(nullptr), audioOptionHover(nullptr), controlOptionHover(nullptr)
+gameOptionHover(nullptr), videoOptionHover(nullptr), audioOptionHover(nullptr), controlOptionHover(nullptr), 
+padTriggersIMG (nullptr)
 {
 	REGISTER_FIELD(gameOptionButton, GameObject*);
 	REGISTER_FIELD(videoOptionButton, GameObject*);
@@ -27,6 +29,8 @@ gameOptionHover(nullptr), videoOptionHover(nullptr), audioOptionHover(nullptr), 
 	REGISTER_FIELD(videoOptionHover, GameObject*);
 	REGISTER_FIELD(audioOptionHover, GameObject*);
 	REGISTER_FIELD(controlOptionHover, GameObject*);
+
+	REGISTER_FIELD(padTriggersIMG, GameObject*);
 }
 
 void UIOptionsMenu::Start()
@@ -41,11 +45,84 @@ void UIOptionsMenu::Start()
 	buttonsAndCanvas.push_back(OptionsButtonInfo{ audioOptionComponentButton, audioOptionCanvas, audioOptionHover });
 	buttonsAndCanvas.push_back(OptionsButtonInfo{ controlOptionComponentButton, controlOptionCanvas, controlOptionHover });
 	gameOptionComponentButton->Disable();
+	videoOptionComponentButton->Disable();
+	audioOptionComponentButton->Disable();
+	controlOptionComponentButton->Disable();
+	buttonsAndCanvas[0].canvas->Enable();
+	buttonsAndCanvas[0].hovered->Enable();
 }
 
 void UIOptionsMenu::Update(float deltaTime)
 {
-	int newSelectedPositon = -1;
+	input = App->GetModule<ModuleInput>();
+
+	ControllEnable();
+}
+
+void UIOptionsMenu::ControllEnable()
+{
+	if (input->GetKey(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KeyState::DOWN || input->GetKey(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KeyState::DOWN ||
+		input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN)
+	{
+		if (input->GetKey(SDL_CONTROLLER_BUTTON_LEFTSHOULDER) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN)
+		{
+			if (selectedPositon >= 1)
+			{
+				newSelectedPositon--;
+			}
+		}
+		else if (input->GetKey(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN)
+		{
+			if (selectedPositon != 4)
+			{
+				newSelectedPositon++;
+			}
+		}
+
+		//ENABLE-DISABLE THE MAIN BAR MENU OPTION HOVER - GAME - VIDEO - AUDIO - CONTROLS
+		buttonsAndCanvas[selectedPositon].canvas->Disable();
+		buttonsAndCanvas[selectedPositon].hovered->Disable();
+		selectedPositon = newSelectedPositon;
+		buttonsAndCanvas[newSelectedPositon].canvas->Enable();
+		buttonsAndCanvas[newSelectedPositon].hovered->Enable();
+	}
+
+	//LOOK FOR THE ACTUAL SELECTED BUTTON
+	for (int a = 0; a >= buttonsAndCanvas[selectedPositon].canvas->GetChildren().size(); a++)
+	{
+		if (buttonsAndCanvas[selectedPositon].canvas->GetChildren()[a]->GetComponent<ComponentButton>()->IsHovered())
+		{
+			actualButtonHover = a;
+
+			//LOOK FOR THE ACTUAL OPTION ENABLE
+			for (int b = 0; b >= buttonsAndCanvas[selectedPositon].canvas->GetChildren()[actualButtonHover]->GetChildren()[2]->GetChildren().size(); b++)
+			{
+				if (buttonsAndCanvas[selectedPositon].canvas->GetChildren()[actualButtonHover]->GetChildren()[2]->GetChildren()[b]->IsEnabled())
+				{
+					selectedOption = b;
+					break;
+				}
+			}
+			break;
+		}
+	}
+
+	if (input->GetKey(SDL_CONTROLLER_BUTTON_DPAD_LEFT) == KeyState::DOWN || input->GetKey(SDL_CONTROLLER_BUTTON_DPAD_RIGHT) == KeyState::DOWN
+		|| input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::DOWN)
+	{
+		//.ACTUAL CANVAS -> HOVERED BUTTON -> ALWAYS SECOND CHILDREN -> SELECTED OPTION
+		//buttonsAndCanvas[selectedPositon].canvas->GetChildren()[actualButtonHover]->GetChildren()[2]->GetChildren()[selectedOption];
+
+	}
+}
+
+void UIOptionsMenu::keyboardEnable()
+{
+	gameOptionComponentButton->Enable();
+	videoOptionComponentButton->Enable();
+	audioOptionComponentButton->Enable();
+	controlOptionComponentButton->Enable();
+	padTriggersIMG->Disable();
 
 	for (int i = 0; i < buttonsAndCanvas.size(); ++i)
 	{
@@ -71,4 +148,22 @@ void UIOptionsMenu::Update(float deltaTime)
 		buttonsAndCanvas[selectedPositon].canvas->Enable();
 		buttonsAndCanvas[selectedPositon].button->Disable();
 	}
+}
+
+void UIOptionsMenu::GameOption()
+{
+	//WINDOWS SIZE
+
+}
+void UIOptionsMenu::VideoOption()
+{
+
+}
+void UIOptionsMenu::AudioOption()
+{
+
+}
+void UIOptionsMenu::ControlOption()
+{
+
 }

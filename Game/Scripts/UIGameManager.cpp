@@ -14,7 +14,7 @@ REGISTERCLASS(UIGameManager);
 
 UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), debbugModeObject(nullptr), imgMouse(nullptr), imgController(nullptr), player(nullptr), menuIsOpen(false),
 hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr),
-speedPwrUpObject(nullptr), pwrUpActive(false), savePwrUp(PowerUpType::NONE), sliderHudHealthBixFront(nullptr), 
+speedPwrUpObject(nullptr), pwrUpActive(false), inputMethod(true), prevInputMetod(nullptr), savePwrUp(PowerUpType::NONE), sliderHudHealthBixFront(nullptr),
 sliderHudHealthBixBack(nullptr)
 {
 	REGISTER_FIELD(mainMenuObject, GameObject*);
@@ -48,17 +48,21 @@ void UIGameManager::Start()
 
 void UIGameManager::Update(float deltaTime)
 {
-	ModuleInput* input = App->GetModule<ModuleInput>();
+	uiTime += deltaTime;
 
+	input = App->GetModule<ModuleInput>();
+
+	//IN GAME MENU
 	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::DOWN || input->GetKey(SDL_CONTROLLER_BUTTON_B) == KeyState::DOWN)
 	{
 		menuIsOpen = !menuIsOpen;
 		MenuIsOpen();
 	}
 
+	// DEBBUG MODE
 	if (input->GetKey(SDL_SCANCODE_B) == KeyState::DOWN && debbugModeObject != nullptr)
 	{
-		if (debbugModeObject->IsEnabled())
+		if (!debbugModeObject->IsEnabled())
 		{
 			debbugModeObject->Enable();
 		}
@@ -66,16 +70,28 @@ void UIGameManager::Update(float deltaTime)
 		{
 			debbugModeObject->Disable();
 		}
-		
 	}
 
+	// Player input method ture=GAMEPAD false=KEYBOARD
+	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD)
+	{
+		inputMethod = true;
+	}
+	else if (input->GetCurrentInputMethod() == InputMethod::KEYBOARD)
+	{
+		inputMethod = false;
+	}
 
-	if (healthSystemClass->GetCurrentHealth()!= componentSliderBixBack->GetCurrentValue() 
+	InputMethodImg(inputMethod);
+
+	// HEALT SYSTEM UI
+	if (healthSystemClass->GetCurrentHealth() != componentSliderBixBack->GetCurrentValue()
 		|| healthSystemClass->GetCurrentHealth() != componentSliderBixFront->GetCurrentValue())
 	{
 		ModifySliderHealthValue();
 	}
 
+	// POWER UP SYSTEM
 	if (pwrUpActive)
 	{
 		ActiveSliderUIPwrUP(deltaTime);
@@ -225,3 +241,39 @@ void UIGameManager::SetMaxPowerUpTime(float maxPowerUpTime)
 	componentSliderDefensePwrUp->SetMaxValue(maxPowerUpTime);
 	componentSliderSpeedPwrUp->SetMaxValue(maxPowerUpTime);
 }
+
+void UIGameManager::InputMethodImg(bool input)
+{
+	if (currentInputTime == 0.0f && prevInputMetod != inputMethod )
+	{
+		if (input)
+		{
+			prevInputMetod = input;
+			imgMouse->Disable();
+			imgController->Enable();
+			currentInputTime++;
+		}
+		else
+		{
+			prevInputMetod = input;
+			imgController->Disable();
+			imgMouse->Enable();
+			currentInputTime++;
+		}
+	}
+	else
+	{
+		if (currentInputTime >= 10.0f)
+		{
+			imgController->Disable();
+			imgMouse->Disable();
+			currentInputTime = 0.0f;
+		}
+		else
+		{
+			currentInputTime++;
+		}
+	}
+
+}
+
