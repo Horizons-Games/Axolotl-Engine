@@ -21,7 +21,7 @@
 
 ComponentPlanarReflection::ComponentPlanarReflection(GameObject* parent) : 
 	ComponentLight(LightType::PLANAR_REFLECTION, parent, true),	frameBuffer(0), depth(0), reflectionTex(0), 
-	planeNormal(0, 1, 0), originScaling({ 5.f, 0.f, 5.f }), scale(float3::one), numMipMaps(7)
+	planeNormal(0, 1, 0), originScaling({ 5.f, 0.f, 5.f }), scale(float3::one), numMipMaps(7), distortionAmount(0.f)
 {
 	if (GetOwner()->HasComponent<ComponentTransform>())
 	{
@@ -217,6 +217,8 @@ void ComponentPlanarReflection::InternalSave(Json& meta)
 	meta["planeNormal_x"] = planeNormal.x;
 	meta["planeNormal_y"] = planeNormal.y;
 	meta["planeNormal_z"] = planeNormal.z;
+	
+	meta["distortion_ampunt"] = distortionAmount;
 }
 
 void ComponentPlanarReflection::InternalLoad(const Json& meta)
@@ -234,6 +236,8 @@ void ComponentPlanarReflection::InternalLoad(const Json& meta)
 	planeNormal.x = static_cast<float>(meta["planeNormal_x"]);
 	planeNormal.y = static_cast<float>(meta["planeNormal_y"]);
 	planeNormal.z = static_cast<float>(meta["planeNormal_z"]);
+
+	distortionAmount = static_cast<float>(meta["distortion_ampunt"]);
 }
 
 void ComponentPlanarReflection::BlurReflection()

@@ -18,7 +18,7 @@ struct PlanarReflection
 	float4 maxInfluence;					//144	//16
 	uint64_t reflection;					//160	//8
 	int numMipMaps;							//168	//4
-	float padding1;							//172	//4
+	float distortionAmount;					//172	//4
 	float4 padding2;						//176	//16 -->192
 };
 
@@ -50,6 +50,9 @@ public:
 	
 	const int GetNumMipMaps();
 
+	const float GetDistortionAmount();
+	void SetDistortionAmount(float newAmount);
+
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
@@ -77,6 +80,8 @@ private:
 	std::vector<UtilBlur*> utilsBlur;
 
 	int numMipMaps;
+
+	float distortionAmount;
 };
 
 inline const AABB& ComponentPlanarReflection::GetInfluenceAABB()
@@ -107,4 +112,14 @@ inline const float4x4 ComponentPlanarReflection::GetTransform()
 inline const int ComponentPlanarReflection::GetNumMipMaps()
 {
 	return numMipMaps;
+}
+
+inline const float ComponentPlanarReflection::GetDistortionAmount()
+{
+	return distortionAmount;
+}
+
+inline void ComponentPlanarReflection::SetDistortionAmount(float newAmount)
+{
+	distortionAmount = newAmount;
 }

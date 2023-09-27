@@ -365,6 +365,8 @@ vec3 calculatePlanarReflections(float roughness, vec3 fragPos)
         vec3 maxInfluence = planarReflection[i].maxInfluence.rgb;
         sampler2D reflection = planarReflection[i].reflection;
         int numMipMaps = planarReflection[i].numMipMaps;
+        float distortionAmount = planarReflection[i].distortionAmount;
+
         vec3 localPos = (toLocal * vec4(fragPos, 1.0)).xyz; // convert fragment pos to planar space
         if (InsideBox(localPos, minInfluence, maxInfluence)) 
         {

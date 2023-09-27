@@ -21,7 +21,7 @@ struct PlanarReflection
 	vec4 maxInfluence;					//144	//16
 	sampler2D reflection;				//160	//8 
 	int numMipMaps;						//168	//4
-	float padding1;						//172	//4
+	float distortionAmount;				//172	//4
 	vec4 padding2;						//176	//16 -->192
 };
 
