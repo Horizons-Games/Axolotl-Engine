@@ -17,7 +17,8 @@ enum class PlayerActions
 	WALKING,
 	DASHING,
 	JUMPING,
-	DOUBLEJUMPING
+	DOUBLEJUMPING,
+	FALLING
 };
 
 class PlayerManagerScript : public Script
