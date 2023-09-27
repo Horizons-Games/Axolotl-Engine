@@ -29,6 +29,7 @@ ResourceTexture::~ResourceTexture()
 
 void ResourceTexture::InternalUnload()
 {
+	glMakeTextureHandleNonResidentARB(handle);
 	glDeleteTextures(1, &glTexture);
 	glTexture = 0;
 }

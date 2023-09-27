@@ -812,7 +812,10 @@ void Scene::GenerateLights()
 {
 	// Directional
 
-	glGenBuffers(1, &uboDirectional);
+	if (uboDirectional == 0)
+	{
+		glGenBuffers(1, &uboDirectional);
+	}
 	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
 	glBufferData(GL_UNIFORM_BUFFER, 32, nullptr, GL_STATIC_DRAW);
 
@@ -825,7 +828,10 @@ void Scene::GenerateLights()
 
 	size_t numPoint = pointLights.size();
 
-	glGenBuffers(1, &ssboPoint);
+	if (ssboPoint == 0)
+	{
+		glGenBuffers(1, &ssboPoint);
+	}
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * numPoint, nullptr, GL_DYNAMIC_DRAW);
 
@@ -838,7 +844,10 @@ void Scene::GenerateLights()
 
 	size_t numSpot = spotLights.size();
 
-	glGenBuffers(1, &ssboSpot);
+	if (ssboSpot == 0)
+	{
+		glGenBuffers(1, &ssboSpot);
+	}
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * numSpot, nullptr, GL_DYNAMIC_DRAW);
 
@@ -851,7 +860,10 @@ void Scene::GenerateLights()
 
 	size_t numSphere = sphereLights.size();
 
-	glGenBuffers(1, &ssboSphere);
+	if (ssboSphere == 0)
+	{
+		glGenBuffers(1, &ssboSphere);
+	}
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSphere);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightSphere) * numSphere, nullptr, GL_DYNAMIC_DRAW);
 
@@ -864,7 +876,10 @@ void Scene::GenerateLights()
 
 	size_t numTube = tubeLights.size();
 
-	glGenBuffers(1, &ssboTube);
+	if (ssboTube == 0)
+	{
+		glGenBuffers(1, &ssboTube);
+	}
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboTube);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightTube) * numTube, nullptr, GL_DYNAMIC_DRAW);
 
@@ -997,6 +1012,10 @@ void Scene::RenderAreaTubes() const
 
 void Scene::RenderPointLight(const ComponentPointLight* compPoint)
 {	
+	if (pointLights.empty())
+	{
+		return;
+	}
 	unsigned int pos = cachedPoints[compPoint];
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
@@ -1007,6 +1026,10 @@ void Scene::RenderPointLight(const ComponentPointLight* compPoint)
 
 void Scene::RenderSpotLight(const ComponentSpotLight* compSpot)
 {
+	if (spotLights.empty())
+	{
+		return;
+	}
 	unsigned int pos = cachedSpots[compSpot];
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
@@ -1017,6 +1040,10 @@ void Scene::RenderSpotLight(const ComponentSpotLight* compSpot)
 
 void Scene::RenderAreaSphere(const ComponentAreaLight* compSphere)
 {
+	if (sphereLights.empty())
+	{
+		return;
+	}
 	unsigned int pos = cachedSpheres[compSphere];
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSphere);
@@ -1027,6 +1054,10 @@ void Scene::RenderAreaSphere(const ComponentAreaLight* compSphere)
 
 void Scene::RenderAreaTube(const ComponentAreaLight* compTube)
 {
+	if (tubeLights.empty())
+	{
+		return;
+	}
 	unsigned int pos = cachedTubes[compTube];
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboTube);
@@ -1296,6 +1327,11 @@ void Scene::UpdateSceneAreaTubes()
 
 void Scene::UpdateScenePointLight(const ComponentPointLight* compPoint)
 {
+	if (pointLights.empty())
+	{
+		return;
+	}
+	
 	const GameObject* go = compPoint->GetOwner();
 
 	ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
@@ -1309,6 +1345,11 @@ void Scene::UpdateScenePointLight(const ComponentPointLight* compPoint)
 
 void Scene::UpdateSceneSpotLight(const ComponentSpotLight* compSpot)
 {
+	if (spotLights.empty())
+	{
+		return;
+	}
+
 	const GameObject* go = compSpot->GetOwner();
 
 	ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
@@ -1325,6 +1366,11 @@ void Scene::UpdateSceneSpotLight(const ComponentSpotLight* compSpot)
 
 void Scene::UpdateSceneAreaSphere(const ComponentAreaLight* compSphere)
 {
+	if (sphereLights.empty())
+	{
+		return;
+	}
+	
 	const GameObject* go = compSphere->GetOwner();
 	
 	ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
@@ -1341,6 +1387,11 @@ void Scene::UpdateSceneAreaSphere(const ComponentAreaLight* compSphere)
 
 void Scene::UpdateSceneAreaTube(const ComponentAreaLight* compTube)
 {
+	if (tubeLights.empty())
+	{
+		return;
+	}
+	
 	const GameObject* go = compTube->GetOwner();
 
 	ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
