@@ -41,6 +41,8 @@ public:
 	void MoveRotate(float deltaTime);
 
 	bool IsTriggeringStoredDash() const;
+	void SetIsTriggeringStoredDash(bool isTriggeringStoredDash);
+
 	bool IsParalyzed() const;
 	void SetIsParalyzed(bool isParalyzed);
 

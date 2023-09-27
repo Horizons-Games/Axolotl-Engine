@@ -377,3 +377,8 @@ bool PlayerMoveScript::IsTriggeringStoredDash() const
 {
 	return isTriggeringStoredDash;
 }
+
+void PlayerMoveScript::SetIsTriggeringStoredDash(bool isTriggeringStoredDash)
+{
+	this->isTriggeringStoredDash = isTriggeringStoredDash;
+}

@@ -396,6 +396,7 @@ void PlayerAttackScript::InitJumpAttack()
 {
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
+	playerManager->GetMovementManager()->SetIsTriggeringStoredDash(false);
 	
 	playerManager->ParalyzePlayer(true);
 
