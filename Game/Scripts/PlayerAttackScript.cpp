@@ -182,6 +182,13 @@ void PlayerAttackScript::PerformCombos()
 				break;
 
 			case AttackType::HEAVYFINISHER:
+				triggerNextAttackTimer = triggerNextAttackDuration;
+				currentAttackAnimation = animation->GetController()->GetStateName();
+				numAttackComboAnimation = 0.0f;
+				animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
+				animation->SetParameter("HeavyFinisherInit", true);
+				isAttacking = false;
+				break;
 			case AttackType::JUMPFINISHER:
 				break;
 			case AttackType::JUMPNORMAL:
