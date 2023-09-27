@@ -17,5 +17,8 @@ public:
 	void SetVectorEnemiesGameObjects(const std::vector<GameObject*>& enemiesGameObjects);
 
 private:
+	void Start() override;
+
+	std::string tag;
 	std::vector<GameObject*> enemiesGameObjects;
 };

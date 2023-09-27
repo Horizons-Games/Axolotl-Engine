@@ -70,6 +70,7 @@ public:
 	void ConvertModelIntoGameObject(const std::string& model);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
+	std::vector<GameObject*> SearchGameObjectByTag(const std::string& gameObjectTag) const;
 
 	void RenderDirectionalLight() const;
 	void RenderPointLights() const;

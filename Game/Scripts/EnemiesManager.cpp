@@ -3,12 +3,22 @@
 
 #include "EnemyClass.h"
 #include "Components/ComponentScript.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
+#include "Application.h"
 
 REGISTERCLASS(EnemiesManager);
 
-EnemiesManager::EnemiesManager() : Script(), enemiesGameObjects{ (nullptr), (nullptr) }
+EnemiesManager::EnemiesManager() : Script(), enemiesGameObjects{}, tag("Enemy")
 {
-	REGISTER_FIELD_WITH_ACCESSORS(VectorEnemiesGameObjects, std::vector<GameObject*>);
+	REGISTER_FIELD(tag, std::string);
+}
+
+void EnemiesManager::Start()
+{
+	Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	enemiesGameObjects = scene->SearchGameObjectByTag(tag);
+
 }
 
 void EnemiesManager::PauseEnemies(bool paused)
