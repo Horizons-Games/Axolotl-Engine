@@ -1,15 +1,10 @@
 #pragma once
 
-#include <exception>
+#include "Exceptions/AxoDefaultException.h"
 
-class AccessingFailedScriptException : public std::exception
+class AccessingFailedScriptException : public AxoDefaultException
 {
 public:
 	AccessingFailedScriptException(const std::string& message);
 	~AccessingFailedScriptException() override = default;
-
-	const char* what() const noexcept override;
-
-private:
-	std::string message;
 };

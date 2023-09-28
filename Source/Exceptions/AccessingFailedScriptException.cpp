@@ -2,11 +2,6 @@
 
 #include "Exceptions/AccessingFailedScriptException.h"
 
-AccessingFailedScriptException::AccessingFailedScriptException(const std::string& message) : message(message)
+AccessingFailedScriptException::AccessingFailedScriptException(const std::string& message) : AxoDefaultException(message)
 {
-}
-
-const char* AccessingFailedScriptException::what() const noexcept
-{
-	return message.c_str();
 }
