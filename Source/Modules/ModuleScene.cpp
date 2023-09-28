@@ -24,6 +24,7 @@
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
+#include "ModuleNavigation.h"
 
 #include "Components/Component.h"
 #include "Components/ComponentCamera.h"
@@ -181,11 +182,11 @@ UpdateStatus ModuleScene::PostUpdate()
 			}
 		}
 
-		if (!sceneToLoad.empty())
-		{
-			LoadScene(sceneToLoad);
-			sceneToLoad = std::string();
-		}
+	}
+	if (!sceneToLoad.empty())
+	{
+		LoadScene(sceneToLoad);
+		sceneToLoad = std::string();
 	}
 
 	return UpdateStatus::UPDATE_CONTINUE;
@@ -333,6 +334,9 @@ void ModuleScene::SaveSceneToJson(Json& jsonScene)
 
 	const Cubemap* cubemap = loadedScene->GetCubemap();
 	cubemap->SaveOptions(jsonScene);
+
+	App->GetModule<ModuleNavigation>()->SaveOptions(jsonScene);
+
 }
 
 void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene)

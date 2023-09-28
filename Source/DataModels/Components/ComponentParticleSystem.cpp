@@ -34,8 +34,8 @@ ComponentParticleSystem::ComponentParticleSystem(const bool active, GameObject* 
 {
 }
 
-ComponentParticleSystem::ComponentParticleSystem(const ComponentParticleSystem& toCopy):
-	Component(ComponentType::PARTICLE, toCopy.IsEnabled(), toCopy.GetOwner(), true),
+ComponentParticleSystem::ComponentParticleSystem(const ComponentParticleSystem& toCopy, GameObject* parent):
+	Component(ComponentType::PARTICLE, toCopy.IsEnabled(), parent, true),
 	isPlaying(false),
 	pause(false),
 	playAtStart(toCopy.playAtStart)
@@ -180,6 +180,14 @@ void ComponentParticleSystem::Reset()
 {
 }
 
+void ComponentParticleSystem::SaveConfig()
+{
+	for (EmitterInstance* instance : emitters)
+	{
+		instance->SaveConfig();
+	}
+}
+
 void ComponentParticleSystem::CreateEmitterInstance()
 {
 	EmitterInstance* instance = new EmitterInstance(nullptr, this);
@@ -259,4 +267,16 @@ void ComponentParticleSystem::RemoveEmitter(int pos)
 {
 	delete emitters[pos];
 	emitters.erase(emitters.begin() + pos);
+}
+
+bool ComponentParticleSystem::IsFinished() const
+{
+	for (int i = 0; i < emitters.size(); i++)
+	{
+		if (emitters[i]->GetEmitter()->IsLooping() || emitters[i]->GetEmitter()->GetDuration() > emitters[i]->GetElapsedTime())
+		{
+			return false;
+		}
+	}
+	return true;
 }

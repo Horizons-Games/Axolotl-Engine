@@ -3,6 +3,7 @@
 
 #include "Application.h"
 #include "Modules/ModuleScene.h"
+#include "Modules/ModuleRandom.h"
 #include "Modules/ModulePlayer.h"
 #include "Scene/Scene.h"
 
@@ -82,9 +83,9 @@ GameObject* EnemyDeathScript::RequestPowerUp() const
 	{
 		// Make that the enemies don't always drop a powerup (20% chance)
 		srand(static_cast<unsigned int>(time(0)));
-		int randomActivation = rand() % 10;
+		bool randomActivation = App->GetModule<ModuleRandom>()->RandomChance(5.0f);
 
-		if (!selectedPowerUp->IsEnabled() && randomActivation < 10)
+		if (!selectedPowerUp->IsEnabled() && randomActivation)
 		{
 			return selectedPowerUp;
 		}

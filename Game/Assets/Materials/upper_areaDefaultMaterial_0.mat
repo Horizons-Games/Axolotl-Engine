@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/upper_area_DefaultMaterial_BaseColor.png",
+    "NormalAssetPath": "Assets/Textures/upper_area_DefaultMaterial_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/upper_area_DefaultMaterial_Metallic.png",
+    "EmissiveAssetPath": "Assets/Textures/upper_area_DefaultMaterial_Emissive.png"
+}

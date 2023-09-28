@@ -1,0 +1,29 @@
+{
+    "UID": 7941761741376396309,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/HOD_BossArena_NewFences.Cube.062_0.mesh",
+        "Assets/Meshes/HOD_BossArena_NewFences.Cube.064_0.mesh",
+        "Assets/Meshes/HOD_BossArena_NewFences.Cube.071_0.mesh",
+        "Assets/Meshes/HOD_BossArena_NewFences.Cube.075_0.mesh",
+        "Assets/Meshes/HOD_BossArena_NewFences.Cube.077_0.mesh",
+        "Assets/Meshes/HOD_BossArena_NewFences.Cube.080_0.mesh",
+        "Assets/Meshes/HOD_BossArena_NewFences.Cube.092_0.mesh",
+        "Assets/Meshes/HOD_BossArena_NewFences.Cube.162_0.mesh",
+        "Assets/Meshes/HOD_BossArena_NewFences.Cube.163_0.mesh",
+        "Assets/Meshes/HOD_BossArena_NewFences.Cube.164_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/HOD_BossArena_NewFencesMainArena_0.mat",
+        "Assets/Materials/HOD_BossArena_NewFencesMainArena_0.mat",
+        "Assets/Materials/HOD_BossArena_NewFencesMainArena_0.mat",
+        "Assets/Materials/HOD_BossArena_NewFencesMainArena_0.mat",
+        "Assets/Materials/HOD_BossArena_NewFencesMainArena_0.mat",
+        "Assets/Materials/HOD_BossArena_NewFencesMainArena_0.mat",
+        "Assets/Materials/HOD_BossArena_NewFencesMainArena_0.mat",
+        "Assets/Materials/HOD_BossArena_NewFencesMainArena_0.mat",
+        "Assets/Materials/HOD_BossArena_NewFencesMainArena_0.mat",
+        "Assets/Materials/HOD_BossArena_NewFencesMainArena_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

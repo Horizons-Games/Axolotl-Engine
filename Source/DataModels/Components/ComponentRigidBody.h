@@ -1,5 +1,6 @@
 #pragma once
 #include "Auxiliar/Generics/Updatable.h"
+#include "Auxiliar/Generics/Drawable.h"
 #include "Bullet/LinearMath/btVector3.h"
 #include "Bullet/btBulletDynamicsCommon.h"
 #include "Component.h"
@@ -9,7 +10,7 @@ class btRigidBody;
 struct btDefaultMotionState;
 class btCollisionShape;
 
-class ComponentRigidBody : public Component, public Updatable
+class ComponentRigidBody : public Component, public Updatable, public Drawable
 {
 public:
 	enum class Shape
@@ -37,11 +38,16 @@ public:
 
 	void OnTransformChanged() override;
 
+	void Draw() const override;
+
 	void Update() override;
 
 	void SetOwner(GameObject* owner) override;
 
 	uint32_t GetID() const;
+
+	void SetIsInCollisionWorld(bool isInCollisionWorld);
+	bool GetIsInCollisionWorld() const;
 
 	void SetIsKinematic(bool isKinematic);
 	bool GetIsKinematic() const;
@@ -142,6 +148,7 @@ public:
 	void SetAngularFactor(btVector3 rotation);
 
 	void RemoveRigidBodyFromSimulation();
+	void AddRigidBodyToSimulation();
 
 	btRigidBody* GetRigidBody() const;
 	ComponentTransform* GetOwnerTransform() const;
@@ -182,6 +189,7 @@ private:
 	float factor;
 	float height;
 
+	bool isInCollisionWorld = true;
 	bool isKinematic = false;
 	bool drawCollider = false;
 	bool isTrigger = false;
@@ -216,6 +224,17 @@ inline uint32_t ComponentRigidBody::GetID() const
 {
 	return id;
 }
+
+inline bool ComponentRigidBody::GetIsInCollisionWorld() const
+{
+	return isInCollisionWorld;
+}
+
+inline void ComponentRigidBody::SetIsInCollisionWorld(bool newIsInCollisionWorld)
+{
+	isInCollisionWorld = newIsInCollisionWorld;
+}
+
 
 inline bool ComponentRigidBody::GetIsKinematic() const
 {

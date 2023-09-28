@@ -19,7 +19,6 @@
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentPlayer.h"
-#include "Components/ComponentPlayerInput.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentSkybox.h"
@@ -27,7 +26,6 @@
 #include "Components/ComponentLine.h"
 #include "Components/ComponentAgent.h"
 #include "Components/ComponentObstacle.h"
-
 
 #include "DataModels/Resources/ResourceSkyBox.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
@@ -85,11 +83,6 @@ WindowInspector::WindowInspector() :
 						 &GameObjectDoesNotHaveComponent<ComponentPlayer>,
 						 ComponentFunctionality::GAMEPLAY);
 
-	actions.emplace_back("Create Player Input Component",
-						 std::bind(&WindowInspector::AddComponentPlayerInput, this),
-						 &GameObjectDoesNotHaveComponent<ComponentPlayerInput>,
-						 ComponentFunctionality::GAMEPLAY);
-
 	actions.emplace_back("Create Trail Component",
 						 std::bind(&WindowInspector::AddComponentTrail, this),
 						 &GameObjectDoesNotHaveComponent<ComponentTrail>,
@@ -112,6 +105,11 @@ WindowInspector::WindowInspector() :
 						 std::bind(&WindowInspector::AddComponentMeshCollider, this),
 						 &GameObjectDoesNotHaveComponent<ComponentMeshCollider>,
 						 ComponentFunctionality::PHYSICS);
+
+	actions.emplace_back("Create Camera Sample Component",
+						 std::bind(&WindowInspector::AddComponentCameraSample, this),
+						 &GameObjectDoesNotHaveComponent<ComponentCameraSample>,
+						 ComponentFunctionality::GAMEPLAY);
 
 	actions.emplace_back("Create Script Component",
 						 std::bind(&WindowInspector::AddComponentScript, this),
@@ -490,11 +488,6 @@ void WindowInspector::AddComponentLight(LightType type, AreaType areaType)
 void WindowInspector::AddComponentPlayer()
 {
 	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYER);
-}
-
-void WindowInspector::AddComponentPlayerInput()
-{
-	App->GetModule<ModuleScene>()->GetSelectedGameObject()->CreateComponent(ComponentType::PLAYERINPUT);
 }
 
 void WindowInspector::AddComponentCameraSample()

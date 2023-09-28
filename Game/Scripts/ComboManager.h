@@ -37,11 +37,12 @@ public:
 	void SuccessfulAttack(float specialCount, AttackType type);
 	bool IsSpecialActivated() const;
 
+	void FillComboBar();
+
 private:
 	void ClearCombo(bool finisher);
 
 	UIComboManager* uiComboManager;
-	KeyState keyState;
 
 	ModuleInput* input;
 	bool specialActivated;

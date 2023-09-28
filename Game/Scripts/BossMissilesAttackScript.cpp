@@ -3,11 +3,14 @@
 
 #include "Application.h"
 #include "Modules/ModuleScene.h"
+#include "Modules/ModuleRandom.h"
 #include "Scene/Scene.h"
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
+
+#include "../Scripts/FinalBossScript.h"
 
 REGISTERCLASS(BossMissilesAttackScript);
 
@@ -35,6 +38,7 @@ void BossMissilesAttackScript::Start()
 
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	transform = owner->GetComponent<ComponentTransform>();
+	finalBossScript = owner->GetComponent<FinalBossScript>();
 }
 
 void BossMissilesAttackScript::Update(float deltaTime)
@@ -47,6 +51,7 @@ void BossMissilesAttackScript::TriggerMissilesAttack()
 	LOG_INFO("The missiles attack was triggered");
 
 	missilesAttackState = AttackState::STARTING_SAFE_JUMP;
+	finalBossScript->RemoveAgent();
 
 	initialPosition = transform->GetGlobalPosition();
 	float3 safePosition = safePositionTransform->GetGlobalPosition();
@@ -165,10 +170,12 @@ void BossMissilesAttackScript::RotateToTarget(const float3& targetPosition) cons
 float3 BossMissilesAttackScript::SelectSpawnPosition() const
 {
 	float areaRadius = battleArenaAreaSize->GetRadius();
-	int areaDiameter = static_cast<int>(areaRadius * 2.0f);
+	float areaDiameter = areaRadius * 2.0f;
 
-	float randomXPos = (rand() % areaDiameter - areaRadius) + (rand() % 100 * 0.01f);
-	float randomZPos = (rand() % areaDiameter - areaRadius) + (rand() % 100 * 0.01f);
+	float randomXPos = (App->GetModule<ModuleRandom>()->RandomNumberInRange(areaDiameter) - areaRadius)
+		+ (App->GetModule<ModuleRandom>()->RandomNumberInRange(100.0f) * 0.01f);
+	float randomZPos = (App->GetModule<ModuleRandom>()->RandomNumberInRange(areaDiameter) - areaRadius)
+		+ (App->GetModule<ModuleRandom>()->RandomNumberInRange(100.0f) * 0.01f);
 	float3 selectedSpawningPosition = float3(randomXPos, missileSpawningHeight, randomZPos);
 
 	return selectedSpawningPosition;

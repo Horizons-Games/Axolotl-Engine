@@ -20,6 +20,7 @@ public:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 
 	void SetBulletVelocity(float nVelocity);
+	void SetTargetTag(std::string nTag);
 	void SetBulletDamage(float damage);
 
 private:
@@ -33,6 +34,8 @@ private:
 	float originTime;
 	bool waitParticlesToDestroy;
 	float particlesDuration;
+
+	std::string targetTag;
 
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;

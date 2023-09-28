@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/NewEnemy_NewMask_BaseColor.png",
+    "NormalAssetPath": "Assets/Textures/MiniBoss2_Mask_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/MiniBoss2_Mask_Metallic.png",
+    "EmissiveAssetPath": "Assets/Textures/NewEnemy_Mask_Emissive.png"
+}
