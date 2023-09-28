@@ -13,6 +13,7 @@
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/AIMovement.h"
 #include "../Scripts/EnemyDeathScript.h"
+#include "../Scripts/PathBehaviourScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -23,7 +24,7 @@ EnemyVenomiteScript::EnemyVenomiteScript() : venomiteState(VenomiteBehaviours::I
 	meleeAttackScript(nullptr), healthScript(nullptr), ownerTransform(nullptr), componentAnimation(nullptr), 
 	componentAudioSource(nullptr), batonGameObject(nullptr), blasterGameObject(nullptr), aiMovement(nullptr),
 	seekTargetTransform(nullptr), deathScript(nullptr), enemyDetectionDuration(0.0f), enemyDetectionTime(0.0f),
-	exclamationParticle(nullptr)
+	exclamationParticle(nullptr), pathScript(nullptr)
 {
 	REGISTER_FIELD(rangedAttackDistance, float);
 	REGISTER_FIELD(meleeAttackDistance, float);
@@ -52,6 +53,12 @@ void EnemyVenomiteScript::Start()
 	healthScript = owner->GetComponent<HealthSystem>();
 	aiMovement = owner->GetComponent<AIMovement>();
 	deathScript = owner->GetComponent<EnemyDeathScript>();
+
+	if (owner->HasComponent<PathBehaviourScript>())
+	{
+		pathScript = owner->GetComponent<PathBehaviourScript>();
+		venomiteState = VenomiteBehaviours::INPATH;
+	}
 
 	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
 
@@ -87,6 +94,11 @@ void EnemyVenomiteScript::Update(float deltaTime)
 
 void EnemyVenomiteScript::CheckState()
 {
+	if (venomiteState == VenomiteBehaviours::INPATH)
+	{
+		return;
+	}
+
 	if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), meleeAttackDistance))
 	{
 		if (venomiteState != VenomiteBehaviours::MELEE_ATTACK)
@@ -238,6 +250,12 @@ void EnemyVenomiteScript::UpdateBehaviour(float deltaTime)
 
 		break;
 
+	case VenomiteBehaviours::INPATH:
+		if (pathScript->IsPathFinished())
+		{
+			venomiteState = VenomiteBehaviours::IDLE;
+		}
+		break;
 	}
 }
 

@@ -27,5 +27,4 @@ private:
 
 	AIMovement* aiMovement;
 	std::vector<ComponentTransform*> waypointsPath;
-	ComponentTransform* ownerTransform;
 };

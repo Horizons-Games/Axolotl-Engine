@@ -17,6 +17,7 @@ class MeleeHeavyAttackBehaviourScript;
 class HealthSystem;
 class PlayerManagerScript;
 class AIMovement;
+class PathBehaviourScript;
 
 enum class DroneBehaviours
 {
@@ -26,7 +27,8 @@ enum class DroneBehaviours
 	SEEK,
 	FASTATTACK,
 	READYTOEXPLODE,
-	EXPLOSIONATTACK
+	EXPLOSIONATTACK,
+	INPATH
 };
 
 class EnemyDroneScript : public EnemyClass
@@ -63,6 +65,7 @@ private:
 	MeleeHeavyAttackBehaviourScript* heavyAttackScript;
 	HealthSystem* healthScript;
 	AIMovement* aiMovement;
+	PathBehaviourScript* pathScript;
 
 	GameObject* seekTarget;
 	GameObject* explosionGameObject;

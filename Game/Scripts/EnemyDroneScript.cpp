@@ -14,6 +14,7 @@
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/AIMovement.h"
+#include "../Scripts/PathBehaviourScript.h"
 
 #include "../Scripts/EnemyDeathScript.h"
 
@@ -26,7 +27,7 @@ droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f)
 componentAnimation(nullptr), componentAudioSource(nullptr), heavyAttackScript(nullptr),
 explosionGameObject(nullptr), playerManager(nullptr), aiMovement(nullptr), flinchAnimationOffset(false),
 exclamationVFX(nullptr), enemyDetectionDuration(0.0f), enemyDetectionTime(0.0f), minStopTimeAfterSeek(0.0f),
-minStopDurationAfterSeek(1.0f)
+minStopDurationAfterSeek(1.0f), pathScript(nullptr)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
 	REGISTER_FIELD(attackDistance, float);
@@ -61,14 +62,18 @@ void EnemyDroneScript::Start()
 	healthScript = owner->GetComponent<HealthSystem>();
 	aiMovement = owner->GetComponent<AIMovement>();
 
+	if(owner->HasComponent<PathBehaviourScript>())
+	{
+		pathScript = owner->GetComponent<PathBehaviourScript>();
+		droneState = DroneBehaviours::INPATH;
+	}
+
 	seekTarget = seekScript->GetTarget();
 	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
 
 	playerManager = seekTarget->GetComponent<PlayerManagerScript>();
 
 	enemyDetectionTime = 0.0f;
-
-	droneState = DroneBehaviours::IDLE;
 }
 
 void EnemyDroneScript::Update(float deltaTime)
@@ -94,7 +99,8 @@ void EnemyDroneScript::Update(float deltaTime)
 
 void EnemyDroneScript::CheckState(float deltaTime)
 {
-	if (droneState == DroneBehaviours::EXPLOSIONATTACK)
+	if (droneState == DroneBehaviours::EXPLOSIONATTACK 
+		|| droneState == DroneBehaviours::INPATH)
 	{
 		return;
 	}
@@ -274,6 +280,15 @@ void EnemyDroneScript::UpdateBehaviour(float deltaTime)
 
 		aiMovement->SetTargetPosition(target);
 		aiMovement->SetRotationTargetPosition(target);
+
+		break;
+	
+	case DroneBehaviours::INPATH:
+
+		if (pathScript->IsPathFinished())
+		{
+			droneState = DroneBehaviours::IDLE;
+		}
 
 		break;
 	}

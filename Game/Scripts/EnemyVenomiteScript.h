@@ -12,6 +12,7 @@ class MeleeFastAttackBehaviourScript;
 class HealthSystem;
 class AIMovement;
 class EnemyDeathScript;
+class PathBehaviourScript;
 
 class ComponentTransform;
 class ComponentAnimation;
@@ -25,7 +26,8 @@ enum class VenomiteBehaviours
 	ENEMY_DETECTED,
 	RANGED_ATTACK,
 	SEEK,
-	MELEE_ATTACK
+	MELEE_ATTACK,
+	INPATH
 };
 
 class EnemyVenomiteScript : public EnemyClass
@@ -54,6 +56,7 @@ private:
 	HealthSystem* healthScript;
 	AIMovement* aiMovement;
 	EnemyDeathScript* deathScript;
+	PathBehaviourScript* pathScript;
 
 	ComponentTransform* ownerTransform;
 	ComponentAnimation* componentAnimation;

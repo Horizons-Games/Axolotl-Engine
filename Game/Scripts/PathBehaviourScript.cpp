@@ -3,34 +3,38 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentAgent.h"
 
 #include "../Game/Scripts/AIMovement.h"
 
 REGISTERCLASS(PathBehaviourScript);
 
-PathBehaviourScript::PathBehaviourScript() : Script(), ownerTransform(nullptr),
-		aiMovement(nullptr), currentWayPoint(0)
+PathBehaviourScript::PathBehaviourScript() : Script(),
+		aiMovement(nullptr), currentWayPoint(0), pathFinished(false)
 {
 	REGISTER_FIELD(waypointsPath, std::vector<ComponentTransform*>);
 }
 
 void PathBehaviourScript::Start()
 {
-	ownerTransform = owner->GetComponent<ComponentTransform>();
+	owner->GetComponent<ComponentAgent>()->Disable();
 	aiMovement = owner->GetComponent<AIMovement>();
-
-	
+	StartPath();
 }
 
 void PathBehaviourScript::Update(float deltaTime)
 {
 	if (aiMovement->GetIsAtDestiny())
 	{
-		float3 target = ownerTransform->GetGlobalPosition();
-
-		aiMovement->SetTargetPosition(target);
-		aiMovement->SetRotationTargetPosition(target);
-		aiMovement->SetMovementStatuses(false, false);
+		if (currentWayPoint != waypointsPath.size())
+		{
+			NextPath();
+		}
+		else
+		{
+			owner->GetComponent<ComponentAgent>()->Enable();
+			pathFinished = true;
+		}
 	}
 }
 
@@ -40,6 +44,7 @@ void PathBehaviourScript::StartPath()
 
 	aiMovement->SetTargetPosition(target);
 	aiMovement->SetRotationTargetPosition(target);
+	aiMovement->SetMovementStatuses(true, true);
 }
 
 void PathBehaviourScript::NextPath()
