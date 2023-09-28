@@ -37,6 +37,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAgent.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentObstacle.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSlider.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentText2D.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentRender.h"
 
 #include "Components/ComponentAnimation.h"
@@ -68,6 +69,7 @@
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentText2D.h"
 #include "Components/UI/ComponentTransform2D.h"
 
 #include "Commands/CommandComponentEnabled.h"
@@ -139,6 +141,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentAgent>(static_cast<ComponentAgent*>(component));
 			case ComponentType::OBSTACLE:
 				return std::make_unique<WindowComponentObstacle>(static_cast<ComponentObstacle*>(component));
+			case ComponentType::TEXT2D:
+				return std::make_unique<WindowComponentText2D>(static_cast<ComponentText2D*>(component));
 			case ComponentType::LIGHT:
 				ComponentLight* asLight = static_cast<ComponentLight*>(component);
 				switch (asLight->GetLightType())

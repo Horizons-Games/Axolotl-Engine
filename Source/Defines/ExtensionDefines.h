@@ -14,6 +14,7 @@
 #define PARTICLESYSTEM_EXTENSION ".particle"
 #define STATEMACHINE_EXTENSION ".state"
 #define MESH_EXTENSION ".mesh"
+#define FONT_EXTENSION ".ttf"
 #define ANIMATION_EXTENSION ".anim"
 #define META_EXTENSION ".meta"
 #define NAVMESH_EXTENSION ".nav"

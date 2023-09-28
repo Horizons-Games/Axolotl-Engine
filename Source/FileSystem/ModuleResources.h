@@ -20,6 +20,7 @@ class CubemapImporter;
 class AnimationImporter;
 class StateMachineImporter;
 class ParticleSystemImporter;
+class FontImporter;
 
 class ResourceMaterial;
 class EditorResourceInterface;
@@ -107,6 +108,7 @@ private:
 	std::unique_ptr<AnimationImporter> animationImporter;
 	std::unique_ptr<StateMachineImporter> stateMachineImporter;
 	std::unique_ptr<ParticleSystemImporter> particleSystemImporter;
+	std::unique_ptr<FontImporter> fontImporter;
 
 	std::thread monitorThread;
 	bool monitorResources;

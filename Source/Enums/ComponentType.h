@@ -29,6 +29,7 @@ enum class ComponentType
 	AGENT,
 	OBSTACLE,
 	PARTICLE,
+	TEXT2D,	
 	PLAYERINPUT
 };
 
@@ -59,6 +60,8 @@ class ComponentCanvas;
 class ComponentImage;
 class ComponentTransform2D;
 class ComponentSlider;
+
+class ComponentText2D;
 
 template<typename T>
 struct ComponentToEnum
@@ -195,6 +198,12 @@ template<>
 struct ComponentToEnum<ComponentTransform2D>
 {
 	const static ComponentType value = ComponentType::TRANSFORM2D;
+};
+
+template<>
+struct ComponentToEnum<ComponentText2D>
+{
+	const static ComponentType value = ComponentType::TEXT2D;
 };
 
 template<>

@@ -25,6 +25,7 @@
 
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
+#include"Components/UI/ComponentText2D.h"
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentTransform2D.h"
@@ -366,6 +367,10 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 		case ComponentType::BUTTON:
 			gameObject->CreateComponent<ComponentImage>();
 			sceneInteractableComponents.push_back(gameObject->CreateComponent<ComponentButton>());
+			break;
+		case ComponentType::TEXT2D:
+			gameObject->CreateComponent<ComponentText2D>();
+			// sceneInteractableComponents.push_back(gameObject->CreateComponent<ComponentText2D>());
 			break;
 		case ComponentType::SLIDER:
 		{

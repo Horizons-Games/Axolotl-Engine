@@ -370,6 +370,11 @@ void WindowHierarchy::Create2DObjectMenu(GameObject* gameObject)
 		loadedScene->CreateUIGameObject("new Button", gameObject, ComponentType::BUTTON);
 	}
 
+	if (ImGui::MenuItem("Create Text 2D"))
+	{
+		loadedScene->CreateUIGameObject("new Text 2D", gameObject, ComponentType::TEXT2D);
+	}
+
 	if (ImGui::MenuItem("Create Slider"))
 	{
 		loadedScene->CreateUIGameObject("new Slider", gameObject, ComponentType::SLIDER);

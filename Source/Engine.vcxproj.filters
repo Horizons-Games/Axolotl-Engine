@@ -791,6 +791,21 @@
       <Filter>DataModels\Render</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp" />
+    <ClCompile Include="DataModels\Components\UI\ComponentText2D.cpp">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentText2D.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceFont.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\Importers\FontImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowFontInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1628,6 +1643,21 @@
       <Filter>DataModels\Render</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\ElevatorCore.h" />
+    <ClInclude Include="DataModels\Components\UI\ComponentText2D.h">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentText2D.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Resources\ResourceFont.h">
+      <Filter>DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Importers\FontImporter.h">
+      <Filter>FileSystem\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowFontInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">

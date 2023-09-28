@@ -32,6 +32,7 @@
 #include "DataModels/Components/UI/ComponentCanvas.h"
 #include "DataModels/Components/UI/ComponentImage.h"
 #include "DataModels/Components/UI/ComponentTransform2D.h"
+#include "DataModels/Components/UI/ComponentText2D.h"
 #include "DataModels/Components/UI/ComponentSlider.h"
 
 #include "Application.h"
@@ -390,6 +391,12 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
+		case ComponentType::TEXT2D:
+		{
+			newComponent = std::make_unique<ComponentText2D>(*static_cast<ComponentText2D*>(component));
+			break;
+		}
+
 		case ComponentType::TRANSFORM2D:
 		{
 			newComponent = std::make_unique<ComponentTransform2D>(*static_cast<ComponentTransform2D*>(component));
@@ -674,6 +681,12 @@ Component* GameObject::CreateComponent(ComponentType type)
 		case ComponentType::SCRIPT:
 		{
 			newComponent = std::make_unique<ComponentScript>(true, this);
+			break;
+		}
+
+		case ComponentType::TEXT2D:
+		{
+			newComponent = std::make_unique<ComponentText2D>(true, this);
 			break;
 		}
 

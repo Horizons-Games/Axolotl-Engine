@@ -13,6 +13,7 @@
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentText2D.h"
 #include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentSlider.h"
 #include "GL/glew.h"
@@ -326,6 +327,14 @@ void ModuleUI::Draw2DGameObject(const GameObject* gameObject)
 			if (image->IsEnabled())
 			{
 				image->Draw();
+			}
+		}
+
+		for (const ComponentText2D* text2D : gameObject->GetComponents<ComponentText2D>())
+		{
+			if (text2D->IsEnabled())
+			{
+				text2D->Draw();
 			}
 		}
 

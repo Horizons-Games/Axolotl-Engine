@@ -14,6 +14,7 @@
 #include "FileSystem/Importers/SkyBoxImporter.h"
 #include "FileSystem/Importers/StateMachineImporter.h"
 #include "FileSystem/Importers/ParticleSystemImporter.h"
+#include "FileSystem/Importers/FontImporter.h"
 #include "FileSystem/Importers/TextureImporter.h"
 #include "FileSystem/UIDGenerator.h"
 
@@ -24,6 +25,7 @@
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
 #include "Resources/ResourceSkyBox.h"
+#include "Resources/ResourceFont.h"
 #include "Resources/ResourceTexture.h"
 
 const std::string ModuleResources::assetsFolder = "Assets/";
@@ -52,6 +54,7 @@ bool ModuleResources::Init()
 	animationImporter = std::make_unique<AnimationImporter>();
 	stateMachineImporter = std::make_unique<StateMachineImporter>();
 	particleSystemImporter = std::make_unique<ParticleSystemImporter>();
+	fontImporter = std::make_unique<FontImporter>();
 	CreateAssetAndLibFolders();
 
 #ifdef ENGINE
@@ -208,6 +211,10 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 		case ResourceType::ParticleSystem:
 			return std::shared_ptr<EditorResource<ResourceParticleSystem>>(
 				new EditorResource<ResourceParticleSystem>(uid, fileName, assetsPath, libraryPath), customDeleter);
+		case ResourceType::Font:
+			return std::shared_ptr<EditorResource<ResourceFont>>(
+				new EditorResource<ResourceFont>(uid, fileName, assetsPath, libraryPath), customDeleter);
+			
 		default:
 			return nullptr;
 	}
@@ -380,6 +387,9 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 				case ResourceType::StateMachine:
 					stateMachineImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceStateMachine>(resource));
 					break;
+				case ResourceType::Font:
+					fontImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceFont>(resource));
+					break;
                 case ResourceType::ParticleSystem:
 				    particleSystemImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceParticleSystem>(resource));
                     break;
@@ -526,6 +536,8 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
 			break;
 		case ResourceType::ParticleSystem:
 			particleSystemImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceParticleSystem>(resource));
+		case ResourceType::Font:
+			fontImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceFont>(resource));
 		default:
 			break;
 	}
@@ -552,8 +564,8 @@ void ModuleResources::CreateAssetAndLibFolders()
 												   ResourceType::Model,			ResourceType::Scene,
 												   ResourceType::Texture,		ResourceType::SkyBox,
 												   ResourceType::Cubemap,		ResourceType::Animation,
-												   ResourceType::StateMachine,	ResourceType::NavMesh,
-                                                   ResourceType::ParticleSystem };
+												   ResourceType::StateMachine,	ResourceType::NavMesh, ResourceType::ParticleSystem, ResourceType::Font
+	};
 
 	for (ResourceType type : allResourceTypes)
 	{
@@ -730,6 +742,10 @@ ResourceType ModuleResources::FindTypeByExtension(const std::string& path)
 	{
 		return ResourceType::StateMachine;
 	}
+	else if (normalizedExtension == FONT_EXTENSION)
+	{
+		return ResourceType::Font;
+	}
 	else if (normalizedExtension == PARTICLESYSTEM_EXTENSION)
 	{
 		return ResourceType::ParticleSystem;
@@ -762,6 +778,8 @@ const std::string ModuleResources::GetNameOfType(ResourceType type)
 			return "Animation";
 		case ResourceType::StateMachine:
 			return "StateMachine";
+		case ResourceType::Font:
+			return "Fonts";
 		case ResourceType::ParticleSystem:
 			return "ParticleSystem";
 		case ResourceType::Unknown:
@@ -807,6 +825,10 @@ ResourceType ModuleResources::GetTypeOfName(const std::string& typeName)
 	if (typeName == "Animation")
 	{
 		return ResourceType::Animation;
+	}
+	if (typeName == "Fonts")
+	{
+		return ResourceType::Font;
 	}
 	if (typeName == "StateMachine")
 	{

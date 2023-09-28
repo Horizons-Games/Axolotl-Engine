@@ -27,6 +27,108 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="freetype\include\dlg\dlg.h" />
+    <ClInclude Include="freetype\include\dlg\output.h" />
+    <ClInclude Include="freetype\include\freetype\config\ftconfig.h" />
+    <ClInclude Include="freetype\include\freetype\config\ftheader.h" />
+    <ClInclude Include="freetype\include\freetype\config\ftmodule.h" />
+    <ClInclude Include="freetype\include\freetype\config\ftoption.h" />
+    <ClInclude Include="freetype\include\freetype\config\ftstdlib.h" />
+    <ClInclude Include="freetype\include\freetype\config\integer-types.h" />
+    <ClInclude Include="freetype\include\freetype\config\mac-support.h" />
+    <ClInclude Include="freetype\include\freetype\config\public-macros.h" />
+    <ClInclude Include="freetype\include\freetype\freetype.h" />
+    <ClInclude Include="freetype\include\freetype\ftadvanc.h" />
+    <ClInclude Include="freetype\include\freetype\ftbbox.h" />
+    <ClInclude Include="freetype\include\freetype\ftbdf.h" />
+    <ClInclude Include="freetype\include\freetype\ftbitmap.h" />
+    <ClInclude Include="freetype\include\freetype\ftbzip2.h" />
+    <ClInclude Include="freetype\include\freetype\ftcache.h" />
+    <ClInclude Include="freetype\include\freetype\ftchapters.h" />
+    <ClInclude Include="freetype\include\freetype\ftcid.h" />
+    <ClInclude Include="freetype\include\freetype\ftcolor.h" />
+    <ClInclude Include="freetype\include\freetype\ftdriver.h" />
+    <ClInclude Include="freetype\include\freetype\fterrdef.h" />
+    <ClInclude Include="freetype\include\freetype\fterrors.h" />
+    <ClInclude Include="freetype\include\freetype\ftfntfmt.h" />
+    <ClInclude Include="freetype\include\freetype\ftgasp.h" />
+    <ClInclude Include="freetype\include\freetype\ftglyph.h" />
+    <ClInclude Include="freetype\include\freetype\ftgxval.h" />
+    <ClInclude Include="freetype\include\freetype\ftgzip.h" />
+    <ClInclude Include="freetype\include\freetype\ftimage.h" />
+    <ClInclude Include="freetype\include\freetype\ftincrem.h" />
+    <ClInclude Include="freetype\include\freetype\ftlcdfil.h" />
+    <ClInclude Include="freetype\include\freetype\ftlist.h" />
+    <ClInclude Include="freetype\include\freetype\ftlogging.h" />
+    <ClInclude Include="freetype\include\freetype\ftlzw.h" />
+    <ClInclude Include="freetype\include\freetype\ftmac.h" />
+    <ClInclude Include="freetype\include\freetype\ftmm.h" />
+    <ClInclude Include="freetype\include\freetype\ftmodapi.h" />
+    <ClInclude Include="freetype\include\freetype\ftmoderr.h" />
+    <ClInclude Include="freetype\include\freetype\ftotval.h" />
+    <ClInclude Include="freetype\include\freetype\ftoutln.h" />
+    <ClInclude Include="freetype\include\freetype\ftparams.h" />
+    <ClInclude Include="freetype\include\freetype\ftpfr.h" />
+    <ClInclude Include="freetype\include\freetype\ftrender.h" />
+    <ClInclude Include="freetype\include\freetype\ftsizes.h" />
+    <ClInclude Include="freetype\include\freetype\ftsnames.h" />
+    <ClInclude Include="freetype\include\freetype\ftstroke.h" />
+    <ClInclude Include="freetype\include\freetype\ftsynth.h" />
+    <ClInclude Include="freetype\include\freetype\ftsystem.h" />
+    <ClInclude Include="freetype\include\freetype\fttrigon.h" />
+    <ClInclude Include="freetype\include\freetype\fttypes.h" />
+    <ClInclude Include="freetype\include\freetype\ftwinfnt.h" />
+    <ClInclude Include="freetype\include\freetype\internal\autohint.h" />
+    <ClInclude Include="freetype\include\freetype\internal\cffotypes.h" />
+    <ClInclude Include="freetype\include\freetype\internal\cfftypes.h" />
+    <ClInclude Include="freetype\include\freetype\internal\compiler-macros.h" />
+    <ClInclude Include="freetype\include\freetype\internal\ftcalc.h" />
+    <ClInclude Include="freetype\include\freetype\internal\ftdebug.h" />
+    <ClInclude Include="freetype\include\freetype\internal\ftdrv.h" />
+    <ClInclude Include="freetype\include\freetype\internal\ftgloadr.h" />
+    <ClInclude Include="freetype\include\freetype\internal\fthash.h" />
+    <ClInclude Include="freetype\include\freetype\internal\ftmemory.h" />
+    <ClInclude Include="freetype\include\freetype\internal\ftmmtypes.h" />
+    <ClInclude Include="freetype\include\freetype\internal\ftobjs.h" />
+    <ClInclude Include="freetype\include\freetype\internal\ftpsprop.h" />
+    <ClInclude Include="freetype\include\freetype\internal\ftrfork.h" />
+    <ClInclude Include="freetype\include\freetype\internal\ftserv.h" />
+    <ClInclude Include="freetype\include\freetype\internal\ftstream.h" />
+    <ClInclude Include="freetype\include\freetype\internal\fttrace.h" />
+    <ClInclude Include="freetype\include\freetype\internal\ftvalid.h" />
+    <ClInclude Include="freetype\include\freetype\internal\psaux.h" />
+    <ClInclude Include="freetype\include\freetype\internal\pshints.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svbdf.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svcfftl.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svcid.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svfntfmt.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svgldict.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svgxval.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svkern.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svmetric.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svmm.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svotval.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svpfr.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svpostnm.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svprop.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svpscmap.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svpsinfo.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svsfnt.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svttcmap.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svtteng.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svttglyf.h" />
+    <ClInclude Include="freetype\include\freetype\internal\services\svwinfnt.h" />
+    <ClInclude Include="freetype\include\freetype\internal\sfnt.h" />
+    <ClInclude Include="freetype\include\freetype\internal\svginterface.h" />
+    <ClInclude Include="freetype\include\freetype\internal\t1types.h" />
+    <ClInclude Include="freetype\include\freetype\internal\tttypes.h" />
+    <ClInclude Include="freetype\include\freetype\internal\wofftypes.h" />
+    <ClInclude Include="freetype\include\freetype\otsvg.h" />
+    <ClInclude Include="freetype\include\freetype\t1tables.h" />
+    <ClInclude Include="freetype\include\freetype\ttnameid.h" />
+    <ClInclude Include="freetype\include\freetype\tttables.h" />
+    <ClInclude Include="freetype\include\freetype\tttags.h" />
+    <ClInclude Include="freetype\include\ft2build.h" />
     <ClInclude Include="ImGuiFileDialog\dirent\dirent.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -485,7 +587,7 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick;..\External\Bullet\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\External\;..\External\DirectXTex;..\External\DirectXTex\Shaders\Compiled;..\External\ImGui;..\External\freetype\include;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\wwise\include;..\External\wwise\include\AK\SoundEngine\SampleLowLevelIO\Win32;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick;..\External\Bullet\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -495,8 +597,8 @@
       <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkMusicEngine.lib;AkSpatialAudio.lib;CommunicationCentral.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;OptickCore.lib;BulletDynamics_Debug.lib;BulletCollision_Debug.lib;LinearMath_Debug.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\Optick\lib\x64\debug;..\External\wwise\x64_vc160\Debug\lib;..\External\DirectXTex\libs\Debug_lib;..\External\Bullet\lib\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;opengl32.lib;glew32.lib;freetype.lib;physfs.lib;zip.lib;SDL2.lib;SDL2main.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkMusicEngine.lib;AkSpatialAudio.lib;CommunicationCentral.lib;ws2_32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;OptickCore.lib;BulletDynamics_Debug.lib;BulletCollision_Debug.lib;LinearMath_Debug.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\External\SDL\lib\x64;..\External\assimp;..\External\glew-2.1.0\lib\Release\x64;..\External\physfs\Lib;..\External\Zip\Lib;..\External\freetype\lib;..\External\Optick\lib\x64\debug;..\External\wwise\x64_vc160\Debug\lib;..\External\DirectXTex\libs\Debug_lib;..\External\Bullet\lib\Debug</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
