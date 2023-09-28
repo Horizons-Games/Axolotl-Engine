@@ -8,6 +8,7 @@
 #include "UIGameManager.h"
 
 
+
 REGISTERCLASS(UIOptionsMenu);
 
 UIOptionsMenu::UIOptionsMenu() : Script(), gameOptionButton(nullptr), videoOptionButton(nullptr), audioOptionButton(nullptr),
@@ -68,7 +69,7 @@ void UIOptionsMenu::ControlEnable()
 	{
 		if ( input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN)
 		{
-			if (headerMenuPosition >= 1)
+			if (headerMenuPosition > 0)
 			{
 				newHeaderMenuPosition--;
 			}
@@ -81,58 +82,77 @@ void UIOptionsMenu::ControlEnable()
 			}
 		}
 
+		//DISABLE THE HOVER BUTTON
+		
+		for (actualButtonHover = 0; actualButtonHover < 5; actualButtonHover++)
+		{
+			if (owner->GetChildren()[3]->GetChildren()[1]->GetChildren()[actualButtonHover]->IsEnabled())
+			{
+				owner->GetChildren()[3]->GetChildren()[1]->GetChildren()[actualButtonHover]->Disable();
+				break;
+			}
+		}
+
 		//ENABLE-DISABLE THE MAIN BAR MENU OPTION HOVER - GAME - VIDEO - AUDIO - CONTROLS
 		buttonsAndCanvas[headerMenuPosition].canvas->Disable();
 		buttonsAndCanvas[headerMenuPosition].hovered->Disable();
 		headerMenuPosition = newHeaderMenuPosition;
 		buttonsAndCanvas[newHeaderMenuPosition].canvas->Enable();
 		buttonsAndCanvas[newHeaderMenuPosition].hovered->Enable();
+		ui->SetUpButtons();
+		
 	}
 
 	// MOVE LEFT OR RIGHT THE OPTIONS
-	if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::DOWN ||
-		input->GetLeftJoystickDirection().horizontalDirection == JoystickHorizontalDirection::RIGHT ||
-		input->GetLeftJoystickDirection().horizontalDirection == JoystickHorizontalDirection::LEFT)
+	if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::DOWN)
 	{
+		maxButtonsOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren().size() - 1;
+
 		//LOOK FOR THE current SELECTED BUTTON
-		if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren().size() != 0)
+		if (maxButtonsOptions > 0)
 		{
-			for (int a = 0; a </*>=*/ buttonsAndCanvas[headerMenuPosition].canvas->GetChildren().size(); a++)
+			for (actualButton = 0; actualButton < maxButtonsOptions; actualButton++)
 			{
-				if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[a]->GetComponent<ComponentButton>()->IsHovered())
+				if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[0]->GetChildren()[0]->GetComponent<ComponentButton>()->IsHovered())
 				{
-					actualButtonHover = a;
 					break;
 				}
 			}
-			//LOOK FOR THE ACTUAL OPTION ENABLE
-			if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren().size() != 0)
+		}
+		maxOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->GetChildren().size() - 1;
+
+		//LOOK FOR THE ACTUAL OPTION ENABLE
+		if (maxOptions > 0)
+		{
+			for (selectedOption = 0; selectedOption < maxOptions; selectedOption++)
 			{
-				for (int b = 0;
-					b >= buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren().size(); b++)
+				if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->GetChildren()[selectedOption]->IsEnabled())
 				{
-					if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren()[b]->IsEnabled())
-					{
-						selectedOption = b;
-						break;
-					}
+					break;
 				}
 			}
-			// DISABLE PREVIUS OPTION
-			buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren()[selectedOption]->Disable();
+			newSelectedOption = selectedOption;
+			if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN)
+			{
+				if (newSelectedOption > 0)
+				{
+					newSelectedOption--;
+				}
+			}
+			else if (input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::DOWN)
+			{
+				if (newSelectedOption < maxOptions)
+				{
+					newSelectedOption++;
+				}
+			}
 
-			if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN ||
-				input->GetLeftJoystickDirection().horizontalDirection == JoystickHorizontalDirection::LEFT)
-			{
-				selectedOption--;
-			}
-			else if (input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::DOWN ||
-				input->GetLeftJoystickDirection().horizontalDirection == JoystickHorizontalDirection::RIGHT)
-			{
-				selectedOption++;
-			}
 			//.ACTUAL CANVAS -> HOVERED BUTTON -> ALWAYS SECOND CHILDREN -> SELECTED OPTION
-			buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButtonHover]->GetChildren()[1]->GetChildren()[selectedOption]->Enable();
+			if (newSelectedOption != -1 && newSelectedOption != selectedOption)
+			{
+				buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->GetChildren()[selectedOption]->Disable();
+				buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->GetChildren()[newSelectedOption]->Enable();
+			}
 		}
 	}
 }
@@ -174,6 +194,10 @@ void UIOptionsMenu::KeyboardEnable()
 void UIOptionsMenu::GameOption()
 {
 	//WINDOWS MODE
+	window->SetFullscreen(true);
+	window->SetDesktopFullscreen(true);
+	window->SetBorderless(true);
+	//window->SetBrightness();
 
 }
 void UIOptionsMenu::VideoOption()
