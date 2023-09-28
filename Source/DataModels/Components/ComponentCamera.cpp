@@ -31,6 +31,7 @@ ComponentCamera::ComponentCamera(bool active, GameObject* owner) :
 	isFrustumChecked = false;
 	KpPosition = camera->GetKpPosition();
 	KpRotation = camera->GetKpRotation();
+	camera->SetPlaneDistance(0.1f, 100.0f);
 	Update();
 }
 
@@ -107,6 +108,8 @@ void ComponentCamera::InternalSave(Json& meta)
 {
 	meta["frustumOfset"] = camera->GetFrustumOffset();
 	meta["drawFrustum"] = camera->IsDrawFrustum();
+	meta["zNear"] = camera->GetZNear();
+	meta["zFar"] = camera->GetZFar();
 	meta["kpPosition"] = KpPosition;
 	meta["kpRotation"] = KpRotation;
 	// meta["frustumMode"] = camera->GetFrustumMode();
@@ -116,6 +119,7 @@ void ComponentCamera::InternalLoad(const Json& meta)
 {
 	camera->SetFrustumOffset((float) meta["frustumOfset"]);
 	camera->SetIsDrawFrustum((bool) meta["drawFrustum"]);
+	camera->SetPlaneDistance((float) meta["zNear"], (float) meta["zFar"]);
 	KpPosition = (float) meta["kpPosition"];
 	KpRotation = (float) meta["kpRotation"];
 

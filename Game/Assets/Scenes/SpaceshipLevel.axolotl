@@ -275,6 +275,8 @@
                             "removed": false,
                             "frustumOfset": 1.0,
                             "drawFrustum": true,
+                            "zNear": 0.10000000149011612,
+                            "zFar": 20000.0,
                             "kpPosition": 5.0,
                             "kpRotation": 5.0
                         }
