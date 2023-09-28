@@ -20,6 +20,7 @@ public:
 	void SetPlayAtStart(bool playAtStart);
 	bool GetPlayAtStart();
 	std::shared_ptr<ResourceVideo> GetVideo() const;
+	void SetNativeVideoFrameSize();
 	void UpdateVideoFrame();
 	void Draw() const override;
 	void Play();
@@ -31,6 +32,7 @@ public:
 
 private:
 	void ReadVideoFrame();
+
 
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;

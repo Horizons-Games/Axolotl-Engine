@@ -44,12 +44,12 @@ ComponentVideo::~ComponentVideo()
 ComponentVideo::ComponentVideo(const ComponentVideo& toCopy):
 	Component(ComponentType::VIDEO, toCopy.IsEnabled(), toCopy.GetOwner(), true),
 	loop(toCopy.loop), 
-	finished(toCopy.finished), 
+	finished(false), 
 	rotateVertical(toCopy.rotateVertical), 
-	played(toCopy.played), 
-	firstFrame(toCopy.firstFrame)
+	played(false), 
+	firstFrame(true)
 {
-	toCopy.GetVideo()->Load();
+	SetVideo(toCopy.video);
 }
 
 void ComponentVideo::Draw() const
@@ -276,9 +276,13 @@ void ComponentVideo::ReadVideoFrame()
 	}
 }
 
+void ComponentVideo::SetNativeVideoFrameSize()
+{
+	SetVideoFrameSize(video->GetFrameWidth(), video->GetFrameHeight());
+}
+
 void ComponentVideo::SetVideoFrameSize(int width, int height)
 {
-	
 	ComponentTransform2D* transform = GetOwner()->GetComponentInternal<ComponentTransform2D>();
 	transform->SetSize(float2((float) width, (float) height));
 }
@@ -320,7 +324,6 @@ void ComponentVideo::SetVideo(const std::shared_ptr<ResourceVideo>& newVideo)
 	{
 		video->Load();
 		frameData = new uint8_t[video->GetFrameWidth() * video->GetFrameHeight() * 4];
-		SetVideoFrameSize(video->GetFrameWidth(), video->GetFrameHeight());
 		memset(frameData, 0, video->GetFrameWidth() * video->GetFrameHeight() * 4);
 		ReadVideoFrame();
 	}

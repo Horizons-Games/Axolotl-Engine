@@ -60,7 +60,11 @@ void WindowComponentVideo::DrawWindowContents()
 		ImGui::Text("Path Asset:");
 		ImGui::SameLine();
 		ImGui::Text(videoComponent->GetVideo()->GetAssetsPath().c_str());
-		
+
+		if (ImGui::Button("Native Size"))
+		{
+			videoComponent->SetNativeVideoFrameSize();
+		}
 	}
 	else
 	{
