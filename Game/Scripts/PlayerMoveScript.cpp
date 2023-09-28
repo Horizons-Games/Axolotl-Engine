@@ -287,7 +287,8 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 
 void PlayerMoveScript::DashRoll(float deltaTime)
 {
-	if (timeSinceLastDash > dashRollCooldown &&
+	if (playerAttackScript->IsAttackAvailable() &&
+		timeSinceLastDash > dashRollCooldown &&
 		(playerManager->GetPlayerState() == PlayerActions::IDLE ||
 		playerManager->GetPlayerState() == PlayerActions::WALKING) &&
 		(input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN ||
