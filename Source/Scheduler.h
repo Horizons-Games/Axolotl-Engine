@@ -1,5 +1,7 @@
 #pragma once
 
+class Schedulable;
+
 class Scheduler
 {
 public:
@@ -7,12 +9,10 @@ public:
 	~Scheduler();
 
 public:
-	using Schedulable = std::function<void(void)>;
-
-	void ScheduleTask(Schedulable&& taskToSchedule, std::uint16_t frameDelay);
+	void ScheduleTask(Schedulable&& taskToSchedule);
 	void RunTasks();
 
 private:
 	std::mutex schedulerMutex;
-	std::queue<std::pair<Schedulable, std::uint16_t>> scheduledTasks;
+	std::queue<Schedulable> scheduledTasks;
 };
