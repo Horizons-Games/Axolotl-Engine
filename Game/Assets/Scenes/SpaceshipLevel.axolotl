@@ -172,15 +172,15 @@
                             "KpForce": 5.0,
                             "KpTorque": 0.05000000074505806,
                             "gravity_Y": 0.0,
-                            "boxSize_X": 2.5999999046325684,
-                            "boxSize_Y": 0.800000011920929,
-                            "boxSize_Z": 2.5,
+                            "boxSize_X": 1.0,
+                            "boxSize_Y": 1.0,
+                            "boxSize_Z": 1.0,
                             "radius": 1.7320507764816284,
                             "factor": 0.5,
                             "height": 2.0,
                             "rbPos_X": 0.0,
-                            "rbPos_Y": 1.5,
-                            "rbPos_Z": 6.5,
+                            "rbPos_Y": 0.0,
+                            "rbPos_Z": 0.0,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -227,7 +227,17 @@
                                     "type": 0
                                 },
                                 {
+                                    "name": "OffsetSpeed",
+                                    "value": 3.0,
+                                    "type": 0
+                                },
+                                {
                                     "name": "MeshTransform",
+                                    "value": 4022421530189914217,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Rigidbody",
                                     "value": 10354332927082928423,
                                     "type": 2
                                 }
@@ -336,153 +346,6 @@
                                     "type": 5
                                 }
                             ]
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Lv1_CargoBay_SpaceShipLanded",
-                "tag": "",
-                "uid": 15673198211064830785,
-                "parentUID": 10354332927082928423,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 5.845561759088014e-7,
-                            "localPos_Z": -5.0,
-                            "localRot_X": 90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 0.05000000074505806,
-                            "localSca_Y": 0.05000000447034836,
-                            "localSca_Z": 0.05000000447034836,
-                            "boudingBoxSca_X": 1.0,
-                            "boudingBoxSca_Y": 1.0,
-                            "boudingBoxSca_Z": 1.0,
-                            "boudingBoxPos_X": 0.0,
-                            "boudingBoxPos_Y": 0.0,
-                            "boudingBoxPos_Z": 0.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "RootNode",
-                "tag": "",
-                "uid": 6947120890145865066,
-                "parentUID": 15673198211064830785,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": -0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 1.0,
-                            "boudingBoxSca_Y": 1.0,
-                            "boudingBoxSca_Z": 1.0,
-                            "boudingBoxPos_X": 0.0,
-                            "boudingBoxPos_Y": 0.0,
-                            "boudingBoxPos_Z": 0.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "SpaceShipLanded",
-                "tag": "",
-                "uid": 15308377355830335190,
-                "parentUID": 6947120890145865066,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": -90.00000762939453,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 100.0,
-                            "localSca_Y": 100.0,
-                            "localSca_Z": 100.0,
-                            "boudingBoxSca_X": 1.0,
-                            "boudingBoxSca_Y": 1.0,
-                            "boudingBoxSca_Z": 1.0,
-                            "boudingBoxPos_X": 0.0,
-                            "boudingBoxPos_Y": 0.0,
-                            "boudingBoxPos_Z": 0.0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "Lv1_CargoBay_SpaceShipLanded.Mesh.013_0",
-                "tag": "",
-                "uid": 6532359337104726877,
-                "parentUID": 15308377355830335190,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 1.0,
-                            "boudingBoxSca_Y": 1.0,
-                            "boudingBoxSca_Z": 1.0,
-                            "boudingBoxPos_X": 0.0,
-                            "boudingBoxPos_Y": 0.0,
-                            "boudingBoxPos_Z": 0.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_MeshRenderer",
-                            "active": true,
-                            "removed": true,
-                            "meshUID": 2046692554884913378,
-                            "assetPathMesh": "Assets/Meshes/Lv1_CargoBay_SpaceShipLanded.Mesh.013_0.mesh",
-                            "materialUID": 2046692554884913378,
-                            "assetPathMaterial": "Assets/Meshes/Lv1_CargoBay_SpaceShipLanded.Mesh.013_0.mesh"
                         }
                     }
                 ]
@@ -1007,6 +870,41 @@
                             "boudingBoxPos_X": 0.0,
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 1.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 2.5999999046325684,
+                            "boxSize_Y": 0.800000011920929,
+                            "boxSize_Z": 2.5,
+                            "radius": 1.7320507764816284,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 1.5,
+                            "rbPos_Z": 6.5,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
                         }
                     }
                 ]
@@ -6411,6 +6309,1180 @@
                             "particleSystemUID": 9192954908135620305,
                             "assetPathParticleSystem": "Assets/ParticleSystem/FireObstacle.particle",
                             "playAtStart": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "spaceship_1",
+                "tag": "",
+                "uid": 4022421530189914217,
+                "parentUID": 10354332927082928423,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.1661205291748047,
+                            "localPos_Z": 1.3356966972351074,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.008999999612569809,
+                            "localSca_Y": 0.008999999612569809,
+                            "localSca_Z": 0.008999999612569809,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 124814758461914630,
+                "parentUID": 4022421530189914217,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Box001",
+                "tag": "",
+                "uid": 15318605489895897274,
+                "parentUID": 124814758461914630,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.03606152534484863,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 124.2838134765625,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "spaceship_1.Box001_0",
+                "tag": "",
+                "uid": 17719788410780965534,
+                "parentUID": 15318605489895897274,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15461061630568841797,
+                            "assetPathMesh": "Assets/Meshes/spaceship_1.Box001_0.mesh",
+                            "materialUID": 17893706177714681658,
+                            "assetPathMaterial": "Assets/Materials/spaceship_1Body_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Box007",
+                "tag": "",
+                "uid": 12501341964656368748,
+                "parentUID": 124814758461914630,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -273.96624755859375,
+                            "localPos_Y": 12.210407257080078,
+                            "localPos_Z": -155.3870391845703,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "spaceship_1.Box007_0",
+                "tag": "",
+                "uid": 12920127620017291761,
+                "parentUID": 12501341964656368748,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 8.787612915039063,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 2231822789246410194,
+                            "assetPathMesh": "Assets/Meshes/spaceship_1.Box007_0.mesh",
+                            "materialUID": 2670524359517181963,
+                            "assetPathMaterial": "Assets/Materials/spaceship_1Wings_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Box011",
+                "tag": "",
+                "uid": 12339340504260478187,
+                "parentUID": 124814758461914630,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 274.1131591796875,
+                            "localPos_Y": 12.210407257080078,
+                            "localPos_Z": -155.3870391845703,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "spaceship_1.Box011_0",
+                "tag": "",
+                "uid": 13690409073601169575,
+                "parentUID": 12339340504260478187,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 16264878437161490270,
+                            "assetPathMesh": "Assets/Meshes/spaceship_1.Box011_0.mesh",
+                            "materialUID": 2670524359517181963,
+                            "assetPathMaterial": "Assets/Materials/spaceship_1Wings_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cylinder005",
+                "tag": "",
+                "uid": 10053278899253399083,
+                "parentUID": 124814758461914630,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -98.42918395996094,
+                            "localPos_Y": 39.75476837158203,
+                            "localPos_Z": -36.98541259765625,
+                            "localRot_X": 0.0000022367992187355412,
+                            "localRot_Y": -0.000009662203410698567,
+                            "localRot_Z": -59.474517822265625,
+                            "localSca_X": 1.6422569751739502,
+                            "localSca_Y": 1.6422569751739502,
+                            "localSca_Z": 0.8502560257911682,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "spaceship_1.Cylinder005_0",
+                "tag": "",
+                "uid": 9890086544236387567,
+                "parentUID": 10053278899253399083,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 12457957504843951323,
+                            "assetPathMesh": "Assets/Meshes/spaceship_1.Cylinder005_0.mesh",
+                            "materialUID": 13769681400156186778,
+                            "assetPathMaterial": "Assets/Materials/spaceship_1MotorCylinders_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cylinder004",
+                "tag": "",
+                "uid": 14296996078310621023,
+                "parentUID": 124814758461914630,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -145.8675537109375,
+                            "localPos_Y": 39.75476837158203,
+                            "localPos_Z": -36.98541259765625,
+                            "localRot_X": 0.0000022367992187355412,
+                            "localRot_Y": -0.000009662203410698567,
+                            "localRot_Z": -59.474517822265625,
+                            "localSca_X": 1.6422569751739502,
+                            "localSca_Y": 1.6422569751739502,
+                            "localSca_Z": 0.8502560257911682,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "spaceship_1.Cylinder004_0",
+                "tag": "",
+                "uid": 16764767728739519567,
+                "parentUID": 14296996078310621023,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 1155537601664409118,
+                            "assetPathMesh": "Assets/Meshes/spaceship_1.Cylinder004_0.mesh",
+                            "materialUID": 13769681400156186778,
+                            "assetPathMaterial": "Assets/Materials/spaceship_1MotorCylinders_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Box003",
+                "tag": "",
+                "uid": 7905869746840580533,
+                "parentUID": 124814758461914630,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -122.2474365234375,
+                            "localPos_Y": 39.87877655029297,
+                            "localPos_Z": -80.92719268798828,
+                            "localRot_X": 0.000006830188794992864,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.617684006690979,
+                            "localSca_Y": 1.617684006690979,
+                            "localSca_Z": 1.2108449935913086,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "spaceship_1.Box003_0",
+                "tag": "",
+                "uid": 11046387419378082524,
+                "parentUID": 7905869746840580533,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 14254905218904796105,
+                            "assetPathMesh": "Assets/Meshes/spaceship_1.Box003_0.mesh",
+                            "materialUID": 8430108049557564468,
+                            "assetPathMaterial": "Assets/Materials/spaceship_1CylindersSeparation_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Box002",
+                "tag": "",
+                "uid": 2841618077338982688,
+                "parentUID": 124814758461914630,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -133.39779663085938,
+                            "localPos_Y": 10.379472732543945,
+                            "localPos_Z": -130.6918182373047,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.617684006690979,
+                            "localSca_Y": 1.154237985610962,
+                            "localSca_Z": 1.617684006690979,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "spaceship_1.Box002_0",
+                "tag": "",
+                "uid": 17533425937815226266,
+                "parentUID": 2841618077338982688,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.9999616146087646,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 6743077165672136611,
+                            "assetPathMesh": "Assets/Meshes/spaceship_1.Box002_0.mesh",
+                            "materialUID": 16170081432362147201,
+                            "assetPathMaterial": "Assets/Materials/spaceship_1MotorCubes_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cylinder006",
+                "tag": "",
+                "uid": 6023345122256838234,
+                "parentUID": 124814758461914630,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -122.22410583496094,
+                            "localPos_Y": 41.685829162597656,
+                            "localPos_Z": -216.4884490966797,
+                            "localRot_X": 0.0000040795671338855755,
+                            "localRot_Y": -0.0000041962175600929186,
+                            "localRot_Z": -45.14359664916992,
+                            "localSca_X": 1.5659890174865723,
+                            "localSca_Y": 1.5659890174865723,
+                            "localSca_Z": 4.110199928283691,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "spaceship_1.Cylinder006_0",
+                "tag": "",
+                "uid": 11646298782266984618,
+                "parentUID": 6023345122256838234,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 16516203184200830688,
+                            "assetPathMesh": "Assets/Meshes/spaceship_1.Cylinder006_0.mesh",
+                            "materialUID": 4557493680229282263,
+                            "assetPathMaterial": "Assets/Materials/spaceship_1Exhausts_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Box009",
+                "tag": "",
+                "uid": 12872173883676613131,
+                "parentUID": 124814758461914630,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 133.57138061523438,
+                            "localPos_Y": 10.379472732543945,
+                            "localPos_Z": -130.6918182373047,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 1.617684006690979,
+                            "localSca_Y": 1.154237985610962,
+                            "localSca_Z": 1.617684006690979,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "spaceship_1.Box009_0",
+                "tag": "",
+                "uid": 17042505645075035568,
+                "parentUID": 12872173883676613131,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 90.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0760719776153564,
+                            "localSca_Y": 0.6740381121635437,
+                            "localSca_Z": 1.3720349073410034,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 12121237918647784489,
+                            "assetPathMesh": "Assets/Meshes/spaceship_1.Box009_0.mesh",
+                            "materialUID": 16170081432362147201,
+                            "assetPathMaterial": "Assets/Materials/spaceship_1MotorCubes_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Box010",
+                "tag": "",
+                "uid": 8454495385745427762,
+                "parentUID": 124814758461914630,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 122.4210205078125,
+                            "localPos_Y": 39.87877655029297,
+                            "localPos_Z": -80.92719268798828,
+                            "localRot_X": 0.0000309632123389747,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.617684006690979,
+                            "localSca_Y": 1.617684006690979,
+                            "localSca_Z": 1.2108449935913086,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "spaceship_1.Box010_0",
+                "tag": "",
+                "uid": 5224283753944086971,
+                "parentUID": 8454495385745427762,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.000056505203247,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 3120696827297766092,
+                            "assetPathMesh": "Assets/Meshes/spaceship_1.Box010_0.mesh",
+                            "materialUID": 8430108049557564468,
+                            "assetPathMaterial": "Assets/Materials/spaceship_1CylindersSeparation_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cylinder007",
+                "tag": "",
+                "uid": 134675293146457166,
+                "parentUID": 124814758461914630,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 146.0411376953125,
+                            "localPos_Y": 39.75476837158203,
+                            "localPos_Z": -36.98541259765625,
+                            "localRot_X": 0.000014442243809753563,
+                            "localRot_Y": 0.000008250166501966305,
+                            "localRot_Z": -1.0397881557502875e-12,
+                            "localSca_X": 1.6422569751739502,
+                            "localSca_Y": 1.6422569751739502,
+                            "localSca_Z": 0.8502560257911682,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "spaceship_1.Cylinder007_0",
+                "tag": "",
+                "uid": 10239578707053330770,
+                "parentUID": 134675293146457166,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 4462091588731967023,
+                            "assetPathMesh": "Assets/Meshes/spaceship_1.Cylinder007_0.mesh",
+                            "materialUID": 13769681400156186778,
+                            "assetPathMaterial": "Assets/Materials/spaceship_1MotorCylinders_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cylinder008",
+                "tag": "",
+                "uid": 9118160026119136816,
+                "parentUID": 124814758461914630,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 98.60276794433594,
+                            "localPos_Y": 39.75476837158203,
+                            "localPos_Z": -36.98541259765625,
+                            "localRot_X": 0.000014442243809753563,
+                            "localRot_Y": 0.000008250166501966305,
+                            "localRot_Z": -1.0397881557502875e-12,
+                            "localSca_X": 1.6422569751739502,
+                            "localSca_Y": 1.6422569751739502,
+                            "localSca_Z": 0.8502560257911682,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "spaceship_1.Cylinder008_0",
+                "tag": "",
+                "uid": 10017190904575194906,
+                "parentUID": 9118160026119136816,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 14657313279301039241,
+                            "assetPathMesh": "Assets/Meshes/spaceship_1.Cylinder008_0.mesh",
+                            "materialUID": 13769681400156186778,
+                            "assetPathMaterial": "Assets/Materials/spaceship_1MotorCylinders_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Cylinder009",
+                "tag": "",
+                "uid": 16389253932537802366,
+                "parentUID": 124814758461914630,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 122.39768981933594,
+                            "localPos_Y": 41.685829162597656,
+                            "localPos_Z": -216.4884490966797,
+                            "localRot_X": -0.000008541934221284464,
+                            "localRot_Y": -0.0000035507312077243114,
+                            "localRot_Z": -2.646802048367203e-13,
+                            "localSca_X": 1.5659890174865723,
+                            "localSca_Y": 1.5659890174865723,
+                            "localSca_Z": 4.110199928283691,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "spaceship_1.Cylinder009_0",
+                "tag": "",
+                "uid": 8040531411254429464,
+                "parentUID": 16389253932537802366,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.000145435333252,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 154364120160386035,
+                            "assetPathMesh": "Assets/Meshes/spaceship_1.Cylinder009_0.mesh",
+                            "materialUID": 4557493680229282263,
+                            "assetPathMaterial": "Assets/Materials/spaceship_1Exhausts_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Object001",
+                "tag": "",
+                "uid": 1875381964715735596,
+                "parentUID": 124814758461914630,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.03606152534484863,
+                            "localPos_Y": 0.000011444091796875,
+                            "localPos_Z": 124.2838134765625,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "spaceship_1.Object001_0",
+                "tag": "",
+                "uid": 6026185747591678808,
+                "parentUID": 1875381964715735596,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 15026981414269051290,
+                            "assetPathMesh": "Assets/Meshes/spaceship_1.Object001_0.mesh",
+                            "materialUID": 9394329577554088203,
+                            "assetPathMaterial": "Assets/Materials/spaceship_1Cabin_0.mat"
                         }
                     }
                 ]

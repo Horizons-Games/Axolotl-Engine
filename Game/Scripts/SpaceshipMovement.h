@@ -9,6 +9,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class btRigidBody;
 class ModuleInput;
 class ComponentTransform;
+class ComponentRigidBody;
 
 class SpaceshipMovement : public Script
 {
@@ -23,7 +24,8 @@ private:
 	void Move(float deltaTime);
 	void Rotate(float deltaTime);
 
-	btRigidBody* rigidbody;
+	ComponentRigidBody* rigidbody;
+	btRigidBody* btRigidbody;
 	JoystickHorizontalDirection horizontalDirection;
 	JoystickVerticalDirection verticalDirection;
 
@@ -37,6 +39,7 @@ private:
 	float YrotationSpeed;
 	float XrotationLimit;
 	float YrotationLimit;
+	float offsetSpeed;
 };
 
 

@@ -13,7 +13,8 @@
 REGISTERCLASS(SpaceshipMovement);
 
 SpaceshipMovement::SpaceshipMovement() : Script(), rigidbody(nullptr), forwardSpeed(20.0f), input(nullptr), XYSpeed(0.01f),
-meshTransform(nullptr), XrotationSpeed(0.1f), YrotationSpeed(0.1f), XrotationLimit(20.0f), YrotationLimit(2.0f)
+meshTransform(nullptr), XrotationSpeed(0.1f), YrotationSpeed(0.1f), XrotationLimit(20.0f), YrotationLimit(2.0f),
+offsetSpeed(3.0f)
 {
 	REGISTER_FIELD(forwardSpeed, float);
 	REGISTER_FIELD(XYSpeed, float);
@@ -21,12 +22,14 @@ meshTransform(nullptr), XrotationSpeed(0.1f), YrotationSpeed(0.1f), XrotationLim
 	REGISTER_FIELD(YrotationSpeed, float);
 	REGISTER_FIELD(XrotationLimit, float);
 	REGISTER_FIELD(YrotationLimit, float);
+	REGISTER_FIELD(offsetSpeed, float);
 	REGISTER_FIELD(meshTransform, ComponentTransform*);
+	REGISTER_FIELD(rigidbody, ComponentRigidBody*);
 }
 
 void SpaceshipMovement::Start()
 {
-	rigidbody = owner->GetComponent<ComponentRigidBody>()->GetRigidBody();
+	btRigidbody = rigidbody->GetRigidBody();
 	input = App->GetModule<ModuleInput>();
 }
 
@@ -52,8 +55,10 @@ void SpaceshipMovement::Move(float deltaTime)
 
 		movement = btVector3(newMovement.getX(), newMovement.getY(), movement.getZ());
 	}
-
-	rigidbody->setLinearVelocity(movement);
+	
+	btRigidbody->setLinearVelocity(movement);
+	
+	owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(btVector3(0, 0, forwardSpeed));
 }
 
 void SpaceshipMovement::Rotate(float deltaTime)
@@ -74,18 +79,34 @@ void SpaceshipMovement::Rotate(float deltaTime)
 
 		if (currentRotation.z <= XrotationLimit && xSign == 1.0f)
 		{
+			if (currentRotation.z < 0.0f)
+			{
+				newRotation = float3(newRotation.x, newRotation.y, xSign * deltaTime * XrotationSpeed * offsetSpeed);
+			}
 			newRotation = float3(newRotation.x, newRotation.y, xSign * deltaTime * XrotationSpeed);
 		}
 		if (currentRotation.z >= -XrotationLimit && xSign == -1.0f)
 		{
+			if (currentRotation.z > 0.0f)
+			{
+				newRotation = float3(newRotation.x, newRotation.y, xSign * deltaTime * XrotationSpeed * offsetSpeed);
+			}
 			newRotation = float3(newRotation.x, newRotation.y, xSign * deltaTime * XrotationSpeed);
 		}
 		if (currentRotation.x <= YrotationLimit && ySign == 1.0f)
 		{
+			if (currentRotation.x < 0.0f)
+			{
+				newRotation = float3(ySign * deltaTime * YrotationSpeed * offsetSpeed, newRotation.y, newRotation.z);
+			}
 			newRotation = float3(ySign * deltaTime * YrotationSpeed, newRotation.y, newRotation.z);
 		}
 		if (currentRotation.x >= -YrotationLimit && ySign == -1.0f)
 		{
+			if (currentRotation.x > 0.0f)
+			{
+				newRotation = float3(ySign * deltaTime * YrotationSpeed * offsetSpeed, newRotation.y, newRotation.z);
+			}
 			newRotation = float3(ySign * deltaTime * YrotationSpeed, newRotation.y, newRotation.z);
 		}
 
@@ -110,7 +131,7 @@ void SpaceshipMovement::Rotate(float deltaTime)
 			newRotation = float3(1.0f * deltaTime * YrotationSpeed, newRotation.y, newRotation.z);
 		}
 	}
-	newRotation = rotation.ToEulerXYZ() + newRotation;
+	newRotation = math::DegToRad(currentRotation) + newRotation;
 	meshTransform->SetGlobalRotation(math::RadToDeg(newRotation));
 
 	meshTransform->RecalculateLocalMatrix();
