@@ -37,6 +37,7 @@ padTriggersIMG (nullptr)
 void UIOptionsMenu::Start()
 {
 	input = App->GetModule<ModuleInput>();
+	ui = App->GetModule<ModuleUI>();
 
 	Assert(gameOptionButton != nullptr, axo::Format("Script owned by {} is fucked!!", owner));
 
@@ -99,8 +100,7 @@ void UIOptionsMenu::ControlEnable()
 		headerMenuPosition = newHeaderMenuPosition;
 		buttonsAndCanvas[newHeaderMenuPosition].canvas->Enable();
 		buttonsAndCanvas[newHeaderMenuPosition].hovered->Enable();
-		ui->SetUpButtons();
-		
+		ui->ResetCurrentButtonIndex();
 	}
 
 	// MOVE LEFT OR RIGHT THE OPTIONS

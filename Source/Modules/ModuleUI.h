@@ -24,7 +24,7 @@ public:
 	unsigned int GetQuadVAO() const;
 
 	void SetUpButtons();
-
+	void ResetCurrentButtonIndex();
 	void ClearButtons();
 
 	std::size_t GetCurrentButtonIndex() const;

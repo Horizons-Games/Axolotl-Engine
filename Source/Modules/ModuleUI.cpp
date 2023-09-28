@@ -208,6 +208,11 @@ void ModuleUI::CreateVAO()
 	glBindVertexArray(0);
 }
 
+void ModuleUI::ResetCurrentButtonIndex()
+{
+	currentButtonIndex = 0;
+}
+
 void ModuleUI::SetUpButtons()
 {
 	auto filteredButtons = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneInteractable()  |
