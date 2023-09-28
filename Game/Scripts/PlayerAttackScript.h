@@ -56,7 +56,6 @@ private:
 	void UpdateEnemyDetection();
 
 	void PerformCombos();
-	void AttackAfterDash();
 
 	void LightNormalAttack();
 	void HeavyNormalAttack();

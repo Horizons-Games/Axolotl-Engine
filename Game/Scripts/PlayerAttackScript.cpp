@@ -114,14 +114,7 @@ void PlayerAttackScript::Update(float deltaTime)
 	// Check if the special was activated
 	comboSystem->CheckSpecial(deltaTime);
 
-	if (animation->GetController()->GetStateName() == "DashingEnd")
-	{
-		if (!isAttacking)
-		{
-			AttackAfterDash();
-		}
-	}
-	else if ((lastAttack == AttackType::LIGHTNORMAL || lastAttack == AttackType::HEAVYNORMAL)
+	if ((lastAttack == AttackType::LIGHTNORMAL || lastAttack == AttackType::HEAVYNORMAL)
 		&& !isNextAttackTriggered) //Reset attack combo animation
 	{
 		animation->SetParameter("IsLightAttacking", false);
@@ -140,35 +133,6 @@ void PlayerAttackScript::Update(float deltaTime)
 	}
 	
 	PerformCombos();
-}
-
-void PlayerAttackScript::AttackAfterDash()
-{
-	switch (lastAttack)
-	{
-	case AttackType::LIGHTNORMAL:
-	case AttackType::HEAVYNORMAL:
-	{
-		LOG_VERBOSE("Normal Attack Soft After Dash");
-		if (lastAttack == AttackType::LIGHTNORMAL)
-		{
-			LightNormalAttack();
-			lastAttack = AttackType::LIGHTNORMAL;
-			currentAttackAnimation = "LightAttack";
-		}
-		else
-		{
-			HeavyNormalAttack();
-			lastAttack = AttackType::HEAVYNORMAL;
-			currentAttackAnimation = "LightAttack"; //Change if new heavy animations are implemented
-		}
-		isAttacking = true;
-		break;
-	}
-
-	default:
-		break;
-	}
 }
 
 void PlayerAttackScript::UpdateEnemyDetection()
