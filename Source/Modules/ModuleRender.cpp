@@ -732,6 +732,19 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 	{
 		return;
 	}
+
+	GameObject* player = App->GetModule<ModulePlayer>()->GetPlayer();
+
+	if (player && quadtree->IsLeaf() && quadtree->InQuadrant(player))
+	{
+		quadtree->AddRigidBodiesToSimulation();
+	}
+
+	else
+	{
+		quadtree->RemoveRigidBodiesFromSimulation();
+	}
+
 		
 	float3 cameraPos = camera->GetPosition();
 
