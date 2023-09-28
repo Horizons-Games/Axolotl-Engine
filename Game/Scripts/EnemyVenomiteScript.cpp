@@ -58,6 +58,7 @@ void EnemyVenomiteScript::Start()
 	{
 		pathScript = owner->GetComponent<PathBehaviourScript>();
 		venomiteState = VenomiteBehaviours::INPATH;
+		componentAnimation->SetParameter("IsRunning", true);
 	}
 
 	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
@@ -253,7 +254,10 @@ void EnemyVenomiteScript::UpdateBehaviour(float deltaTime)
 	case VenomiteBehaviours::INPATH:
 		if (pathScript->IsPathFinished())
 		{
-			venomiteState = VenomiteBehaviours::IDLE;
+			//venomiteState = VenomiteBehaviours::IDLE;
+			//componentAnimation->SetParameter("IsRunning", false);
+			//pathScript->Disable();
+			pathScript->ResetPath();
 		}
 		break;
 	}

@@ -4,21 +4,26 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAgent.h"
+#include "Components/ComponentRigidBody.h"
 
 #include "../Game/Scripts/AIMovement.h"
 
 REGISTERCLASS(PathBehaviourScript);
 
 PathBehaviourScript::PathBehaviourScript() : Script(),
-		aiMovement(nullptr), currentWayPoint(0), pathFinished(false)
+		aiMovement(nullptr), currentWayPoint(0), pathFinished(false),
+		agentComp(nullptr)
 {
 	REGISTER_FIELD(waypointsPath, std::vector<ComponentTransform*>);
 }
 
 void PathBehaviourScript::Start()
 {
-	owner->GetComponent<ComponentAgent>()->Disable();
 	aiMovement = owner->GetComponent<AIMovement>();
+	agentComp = owner->GetComponent<ComponentAgent>();
+	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	rigidBody->SetIsKinematic(false);
+	agentComp->Disable();
 	StartPath();
 }
 
@@ -26,19 +31,20 @@ void PathBehaviourScript::Update(float deltaTime)
 {
 	if (aiMovement->GetIsAtDestiny())
 	{
-		if (currentWayPoint != waypointsPath.size())
+		if (currentWayPoint != (waypointsPath.size()-1))
 		{
 			NextPath();
 		}
 		else
 		{
-			owner->GetComponent<ComponentAgent>()->Enable();
+			agentComp->Enable();
+			rigidBody->SetIsKinematic(true);
 			pathFinished = true;
 		}
 	}
 }
 
-void PathBehaviourScript::StartPath()
+void PathBehaviourScript::StartPath() const
 {
 	float3 target = waypointsPath[currentWayPoint]->GetGlobalPosition();
 
@@ -54,6 +60,15 @@ void PathBehaviourScript::NextPath()
 
 	aiMovement->SetTargetPosition(target);
 	aiMovement->SetRotationTargetPosition(target);
+}
+
+void PathBehaviourScript::ResetPath()
+{
+	pathFinished = false;
+	rigidBody->SetIsKinematic(false);
+	agentComp->Disable();
+	currentWayPoint = 0;
+	StartPath();
 }
 
 bool PathBehaviourScript::IsPathFinished() const

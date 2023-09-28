@@ -6,6 +6,8 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform;
+class ComponentAgent;
+class ComponentRigidBody;
 class AIMovement;
 
 class PathBehaviourScript : public Script
@@ -17,8 +19,10 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 	
-	void StartPath();
+	void StartPath() const;
 	void NextPath();
+	void ResetPath();
+
 	bool IsPathFinished() const;
 
 private:
@@ -26,5 +30,7 @@ private:
 	bool pathFinished;
 
 	AIMovement* aiMovement;
+	ComponentAgent* agentComp;
+	ComponentRigidBody* rigidBody;
 	std::vector<ComponentTransform*> waypointsPath;
 };

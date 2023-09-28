@@ -338,7 +338,7 @@
                                 },
                                 {
                                     "name": "Player",
-                                    "value": 798847553128553075,
+                                    "value": 15488349568880553011,
                                     "type": 2
                                 },
                                 {
@@ -13356,16 +13356,16 @@
                             "type": "Component_RigidBody",
                             "active": true,
                             "removed": true,
-                            "isKinematic": true,
+                            "isKinematic": false,
                             "isTrigger": false,
                             "drawCollider": true,
-                            "mass": 10000.0,
-                            "linearDamping": 0.75,
+                            "mass": 48.0,
+                            "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.10000000149011612,
                             "currentShape": 1,
-                            "usePositionController": true,
-                            "useRotationController": true,
+                            "usePositionController": false,
+                            "useRotationController": false,
                             "KpForce": 0.5,
                             "KpTorque": 10.0,
                             "gravity_Y": -9.8100004196167,
@@ -13631,7 +13631,7 @@
                             "fields": [
                                 {
                                     "name": "MovementSpeed",
-                                    "value": 0.0,
+                                    "value": 300.0,
                                     "type": 0
                                 },
                                 {
