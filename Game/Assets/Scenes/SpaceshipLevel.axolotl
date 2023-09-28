@@ -2969,8 +2969,8 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -14.5,
-                            "localPos_Y": 2.999849557876587,
+                            "localPos_X": -14.481184005737305,
+                            "localPos_Y": 3.0,
                             "localPos_Z": -27.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -7064,8 +7064,8 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_Y": 0.0000019073486328125,
+                            "localPos_Z": -0.00003814697265625,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -7607,6 +7607,224 @@
                             "particleSystemUID": 887342333510244496,
                             "assetPathParticleSystem": "Assets/ParticleSystem/ExplosionDrone.particle",
                             "playAtStart": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Line1",
+                "tag": "",
+                "uid": 14455754024946751826,
+                "parentUID": 16389253932537802366,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.1796875,
+                            "localPos_Y": -8.622039794921875,
+                            "localPos_Z": -16.46929931640625,
+                            "localRot_X": 0.000012837108442909084,
+                            "localRot_Y": 0.000005336160029401071,
+                            "localRot_Z": -5.97782782475742e-13,
+                            "localSca_X": 70.95268249511719,
+                            "localSca_Y": 70.95268249511719,
+                            "localSca_Z": 27.03302001953125,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Trail",
+                            "active": true,
+                            "removed": true,
+                            "duration": 0.699999988079071,
+                            "minDistance": 0.10000000149011612,
+                            "width": 0.05000000074505806,
+                            "catmullPoints": 10,
+                            "ratioWidth": 0.5,
+                            "onPlay": true,
+                            "ColorsGradient": [
+                                {
+                                    "color_x": 1.0,
+                                    "color_y": 0.7806592583656311,
+                                    "color_z": 0.570652186870575,
+                                    "color_w": 1.0,
+                                    "pos": 0.0
+                                },
+                                {
+                                    "color_x": 1.0,
+                                    "color_y": 0.3586956262588501,
+                                    "color_z": 0.0,
+                                    "color_w": 1.0,
+                                    "pos": 1.0
+                                }
+                            ],
+                            "textureUID": 511524485223456675,
+                            "assetPathTexture": "Assets/Textures/AlluraControllerV1_Allura_Hair_AlbedoTransparency.png"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Line2",
+                "tag": "",
+                "uid": 16263242691768141805,
+                "parentUID": 6023345122256838234,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 6.767601013183594,
+                            "localPos_Y": -5.399816513061523,
+                            "localPos_Z": -11.48541259765625,
+                            "localRot_X": -0.000008826285011309665,
+                            "localRot_Y": -0.000002627046569614322,
+                            "localRot_Z": 45.14359664916992,
+                            "localSca_X": 70.95267486572266,
+                            "localSca_Y": 70.95268249511719,
+                            "localSca_Z": 27.03302001953125,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Trail",
+                            "active": true,
+                            "removed": true,
+                            "duration": 0.699999988079071,
+                            "minDistance": 0.10000000149011612,
+                            "width": 0.05000000074505806,
+                            "catmullPoints": 10,
+                            "ratioWidth": 0.5,
+                            "onPlay": true,
+                            "ColorsGradient": [
+                                {
+                                    "color_x": 1.0,
+                                    "color_y": 0.7528946399688721,
+                                    "color_z": 0.5163043737411499,
+                                    "color_w": 1.0,
+                                    "pos": 0.0
+                                },
+                                {
+                                    "color_x": 1.0,
+                                    "color_y": 0.3586956262588501,
+                                    "color_z": 0.0,
+                                    "color_w": 1.0,
+                                    "pos": 1.0
+                                }
+                            ],
+                            "textureUID": 511524485223456675,
+                            "assetPathTexture": "Assets/Textures/AlluraControllerV1_Allura_Hair_AlbedoTransparency.png"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "FireVFX",
+                "tag": "",
+                "uid": 4076964641475628378,
+                "parentUID": 16389253932537802366,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.000030517578125,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": -13.332290649414063,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 17182701472893584313,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/SpaceshipExhaustFire.particle",
+                            "playAtStart": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "FireVFX",
+                "tag": "",
+                "uid": 10846771697210708501,
+                "parentUID": 6023345122256838234,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -0.0000019073486328125,
+                            "localPos_Z": -12.720420837402344,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 17182701472893584313,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/SpaceshipExhaustFire.particle",
+                            "playAtStart": true
                         }
                     }
                 ]
