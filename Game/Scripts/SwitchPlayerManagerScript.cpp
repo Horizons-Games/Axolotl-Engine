@@ -15,6 +15,7 @@
 
 #include "../Scripts/PlayerManagerScript.h"
 #include "PlayerAttackScript.h"
+#include "ParticleBillboardAsistance.h"
 
 #include "../Scripts/CameraControllerScript.h"
 
@@ -108,8 +109,7 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 
 		}
 	}
-
-	if (actualSwitchPlayersParticles && actualSwitchPlayersParticles->GetComponent<ComponentParticleSystem>()->IsFinished())
+	if (actualSwitchPlayersParticles && actualSwitchPlayersParticles->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->IsFinished())
 	{
 		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualSwitchPlayersParticles);
 		actualSwitchPlayersParticles = nullptr;
@@ -130,12 +130,13 @@ void SwitchPlayerManagerScript::VisualSwitchEffect()
 	}
 
 	actualSwitchPlayersParticles = loadScene->DuplicateGameObject(switchPlayersParticlesPrefab->GetName(), switchPlayersParticlesPrefab, loadScene->GetRoot());
-	actualSwitchPlayersParticles->GetComponent<ComponentParticleSystem>()->Enable();
 	actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->SetGlobalPosition(float3 (currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().x,
-		currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().y + 2, currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().z));
+		currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().y + 0.9f, currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().z));
 	actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->RecalculateLocalMatrix();
-
-	actualSwitchPlayersParticles->GetComponent<ComponentParticleSystem>()->Play();
+	actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->UpdateTransformMatrices();
+	actualSwitchPlayersParticles->GetComponent<ParticleBillboardAsistance>()->UpdateTransform();
+	actualSwitchPlayersParticles->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Enable();
+	actualSwitchPlayersParticles->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
 }
 
 void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
@@ -181,7 +182,6 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->SetScale(currentHealthBarScale);
 		secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->CalculateMatrices();
 	}
-
 	else if (changePlayerTimer.Read() >= changingPlayerTime[0] && !isNewPlayerEnabled)
 	{
 		// Disabling the current player
@@ -202,6 +202,7 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 
 		secondPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(true);
 
+		positionPlayer.y += 0.5f;
 		secondPlayer->GetComponent<ComponentTransform>()->SetGlobalPosition(positionPlayer);
 		secondPlayer->GetComponent<ComponentTransform>()->SetGlobalRotation(currentPlayer->GetComponent<ComponentTransform>()->GetGlobalRotation());
 		secondPlayer->GetComponent<ComponentRigidBody>()->UpdateRigidBody();

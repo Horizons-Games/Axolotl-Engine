@@ -16,6 +16,8 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void UpdateTransform();
+
 private:
 	ComponentTransform* ownerTransform;
 };

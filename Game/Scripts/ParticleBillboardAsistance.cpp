@@ -18,13 +18,25 @@ void ParticleBillboardAsistance::Start()
 
 void ParticleBillboardAsistance::Update(float deltaTime)
 {
+	UpdateTransform();
+}
+
+void ParticleBillboardAsistance::UpdateTransform() 
+{
 	ComponentTransform* objective = App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<ComponentTransform>();
 	float3 vecTowards = (objective->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized();
 
-	vecTowards.y = 0;
-	vecTowards = vecTowards.Normalized();
+	Quat rot = Quat::LookAt(ownerTransform->GetGlobalForward().Normalized(), vecTowards, ownerTransform->GetGlobalUp().Normalized(), float3::unitY);
+	Quat rotation = ownerTransform->GetGlobalRotation();
+	Quat targetRotation = rot * rotation;
 
-	Quat rot = Quat::LookAt(ownerTransform->GetGlobalForward().Normalized(), vecTowards, float3::unitY, float3::unitY);
-	ownerTransform->SetGlobalRotation(rot);
-	ownerTransform->RecalculateLocalMatrix();
+	Quat rotationError = targetRotation * rotation.Normalized().Inverted();
+	rotationError.Normalize();
+
+	if (!rotationError.Equals(Quat::identity, 0.05f))
+	{
+		ownerTransform->SetGlobalRotation(targetRotation);
+		ownerTransform->RecalculateLocalMatrix();
+		ownerTransform->UpdateTransformMatrices();
+	}
 }
