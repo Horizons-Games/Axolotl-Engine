@@ -58,8 +58,7 @@ void PlayerJumpScript::PreUpdate(float deltaTime)
 
 	CheckGround(deltaTime);
 
-	if (playerManager->GetPlayerState() != PlayerActions::DASHING &&
-		playerManager->GetAttackManager()->IsAttackAvailable())
+	if (playerManager->GetPlayerState() != PlayerActions::DASHING)
 	{
 		Jump(deltaTime);
 	}
