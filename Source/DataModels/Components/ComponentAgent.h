@@ -58,6 +58,7 @@ private:
 	bool shouldAddAgentToCrowd = true;
 	bool updateRigidBody = false;
 	bool enabledToRotate = true;
+	bool isFirstAdded = true;
 
 	ComponentTransform* transform;
 

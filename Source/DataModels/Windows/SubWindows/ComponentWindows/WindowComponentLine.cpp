@@ -18,7 +18,8 @@
 
 WindowComponentLine::WindowComponentLine(ComponentLine* component) :
 	ComponentWindow("LINE", component),
-	inputTexture(std::make_unique<WindowLineTexture>(this, TextureType::DIFFUSE))
+	inputTexture(std::make_unique<WindowLineTexture>(this, TextureType::DIFFUSE)), draggingMark(nullptr), 
+	selectedMark(nullptr)
 {
 	InitValues();
 }
@@ -93,7 +94,7 @@ void WindowComponentLine::DrawWindowContents()
 
 		ImGui::Text("");
 		ImGui::Text("Size");
-		static float4 size = componentLine->GetSizeFadingPoints();
+		float4 size = componentLine->GetSizeFadingPoints();
 		if(ImGui::Bezier( "", reinterpret_cast<float*>(&size)))
 		{
 			componentLine->SetSizeFadingPoints(size);
@@ -120,8 +121,6 @@ void WindowComponentLine::DrawWindowContents()
 		ImGui::Text("Color Gradient");
 		
 		ImGradient* gradient = componentLine->GetGradient();
-		static ImGradientMark* draggingMark = nullptr;
-		static ImGradientMark* selectedMark = nullptr;
 
 		if (ImGui::GradientEditor(gradient, draggingMark, selectedMark))
 		{

@@ -32,7 +32,10 @@ void SeekBehaviourScript::Start()
 // When this behaviour is triggered, the enemy will go towards its target
 void SeekBehaviourScript::Seeking()
 {
-	aiMovement->SetTargetPosition(targetTransform->GetGlobalPosition());
+	float3 target = targetTransform->GetGlobalPosition();
+
+	aiMovement->SetTargetPosition(target);
+	aiMovement->SetRotationTargetPosition(target);
 	aiMovement->SetMovementStatuses(true, true);
 }
 

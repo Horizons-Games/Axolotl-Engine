@@ -11,9 +11,15 @@
 
 #include "ImGui/imgui.h"
 
-ModuleSpawn::ModuleSpawn(ParticleEmitter* emitter) : ParticleModule(ModuleType::SPAWN, emitter),
-	spawnRate(DEFAULT_SPAWN_RATE)
+ModuleSpawn::ModuleSpawn(ParticleEmitter* emitter) :
+	ParticleModule(ModuleType::SPAWN, emitter), spawnRate(DEFAULT_SPAWN_RATE)
 {
+}
+
+ModuleSpawn::ModuleSpawn(ParticleEmitter* emitter, ModuleSpawn* spawn) :
+	ParticleModule(ModuleType::SPAWN, emitter)
+{
+	spawnRate = spawn->GetSpawnRate();
 }
 
 ModuleSpawn::~ModuleSpawn()
@@ -49,21 +55,21 @@ void ModuleSpawn::Spawn(EmitterInstance* instance)
 	{
 		EmitterInstance::Particle& particle = particles[lastParticleUsed];
 
-		float2 size = emitter->GetSizeRange();
-		float2 rotation = emitter->GetRotationRange();
-		float2 life = emitter->GetLifespanRange();
-		float2 gravity = emitter->GetGravityRange();
+		float2 size = instance->GetSizeRange();
+		float2 rotation = instance->GetRotationRange();
+		float2 life = instance->GetLifespanRange();
+		float2 gravity = instance->GetGravityRange();
 
-		particle.initColor = particle.color = emitter->GetColor();
-		particle.initSize = particle.size = emitter->IsRandomSize() ? 
+		particle.initColor = particle.color = instance->GetColor();
+		particle.initSize = particle.size = instance->IsRandomSize() ? 
 			instance->CalculateRandomValueInRange(size.x, size.y) : size.x;
 		particle.sizeOverTime = -1.0f;
-		particle.initRotation = particle.rotation = DegToRad(emitter->IsRandomRot() ?
+		particle.initRotation = particle.rotation = DegToRad(instance->IsRandomRot() ?
 			instance->CalculateRandomValueInRange(rotation.x, rotation.y) : rotation.x);
 		particle.rotationOverTime = UNINITIALIZED_ROTATION;
-		particle.initLife = particle.lifespan = emitter->IsRandomLife() ? 
+		particle.initLife = particle.lifespan = instance->IsRandomLife() ? 
 			instance->CalculateRandomValueInRange(life.x, life.y) : life.x;
-		particle.gravity = emitter->IsRandomGravity() ? 
+		particle.gravity = instance->IsRandomGravity() ? 
 			instance->CalculateRandomValueInRange(gravity.x, gravity.y) : gravity.x;
 		particle.frame = -1.0f;
 		particle.dead = false;
@@ -92,17 +98,15 @@ void ModuleSpawn::Update(EmitterInstance* instance)
 {
 	float dt = App->GetDeltaTime();
 
-	ParticleEmitter* partEmitter = instance->GetEmitter();
-
 	float elapsed = instance->GetElapsedTime();
 	elapsed += dt;
 	instance->SetElapsedTime(elapsed);
 	
-	if ((elapsed <= partEmitter->GetDuration() || partEmitter->IsLooping()) && spawnRate > 0)
+	if ((elapsed <= instance->GetDuration() || instance->IsLooping()) && spawnRate > 0)
 	{
 		float lastEmission = instance->GetLastEmission() + dt;
 		float emissionPeriod = 1.0f / spawnRate;
-		unsigned int maxParticles = emitter->GetMaxParticles();
+		unsigned int maxParticles = instance->GetMaxParticles();
 		
 		while (instance->GetAliveParticles() < maxParticles && (lastEmission - emissionPeriod > 0.0f))
 		{
@@ -112,6 +116,14 @@ void ModuleSpawn::Update(EmitterInstance* instance)
 
 		instance->SetLastEmission(lastEmission);
 	}
+}
+
+void ModuleSpawn::CopyConfig(ParticleModule* module)
+{
+	ModuleSpawn* spawn = static_cast<ModuleSpawn*>(module);
+
+	enabled = spawn->IsEnabled();
+	spawnRate = spawn->GetSpawnRate();
 }
 
 void ModuleSpawn::DrawImGui()

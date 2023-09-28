@@ -17,6 +17,7 @@ ComponentAgent::ComponentAgent(bool active, GameObject* owner) :
 	Component(ComponentType::AGENT, active, owner, true)
 {
 	transform = GetOwner()->GetComponent<ComponentTransform>();
+	isFirstAdded = true;
 }
 
 ComponentAgent::~ComponentAgent()
@@ -27,7 +28,7 @@ ComponentAgent::~ComponentAgent()
 void ComponentAgent::Update()
 {
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
-	if (!navMesh->IsGenerated())
+	if (navMesh == nullptr || !navMesh->IsGenerated())
 	{
 		return;
 	}
@@ -68,7 +69,7 @@ void ComponentAgent::Update()
 void ComponentAgent::SetMoveTarget(float3 newTargetPosition, bool usePathfinding)
 {
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
-	if (!navMesh->IsGenerated() || agentId == -1)
+	if (navMesh == nullptr || !navMesh->IsGenerated() || agentId == -1)
 	{
 		return;
 	}
@@ -110,12 +111,17 @@ void ComponentAgent::SetMaxSpeed(float newSpeed)
 {
 	maxSpeed = newSpeed;
 
-	if (maxSpeed > initialMaxSpeed)
+	/*if (maxSpeed > initialMaxSpeed)
 	{
 		initialMaxSpeed = maxSpeed;
-	}
+	}*/
 
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
+	if (navMesh == nullptr || !navMesh->IsGenerated())
+	{
+		return;
+	}
+
 	dtCrowdAgent* ag = navMesh->GetCrowd()->getEditableAgent(agentId);
 	if (ag == nullptr)
 	{
@@ -128,12 +134,18 @@ void ComponentAgent::SetMaxAcceleration(float newAcceleration)
 {
 	maxAcceleration = newAcceleration;
 
-	if (maxAcceleration > initialMaxAcceleration)
+	/*if (maxAcceleration > initialMaxAcceleration)
 	{
 		initialMaxAcceleration = maxAcceleration;
-	}
+	}*/
 
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
+
+	if (navMesh == nullptr || !navMesh->IsGenerated())
+	{
+		return;
+	}
+
 	dtCrowdAgent* ag = navMesh->GetCrowd()->getEditableAgent(agentId);
 	if (ag == nullptr)
 	{
@@ -147,6 +159,12 @@ void ComponentAgent::SetAgentObstacleAvoidance(bool avoidanceActive)
 	avoidingObstacle = avoidanceActive;
 
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
+
+	if (navMesh == nullptr || !navMesh->IsGenerated())
+	{
+		return;
+	}
+
 	dtCrowdAgent* ag = navMesh->GetCrowd()->getEditableAgent(agentId);
 	if (ag == nullptr)
 	{
@@ -166,7 +184,7 @@ void ComponentAgent::AddAgentToCrowd()
 	shouldAddAgentToCrowd = true;
 
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
-	if (!navMesh->IsGenerated() || agentId != -1)
+	if (navMesh == nullptr || !navMesh->IsGenerated() || agentId != -1)
 	{
 		return;
 	}
@@ -194,8 +212,16 @@ void ComponentAgent::AddAgentToCrowd()
 	ap.obstacleAvoidanceType = 3;
 	ap.separationWeight = 2;
 
-	agentId =
-		navMesh->GetCrowd()->addAgent(transform->GetGlobalPosition().ptr(), &ap);
+	float3 position = transform->GetGlobalPosition();
+
+	// We want to substract the offset only when the agent has been removed
+	// because when it is removed and added, the agent cant be added correctly
+	if (!isFirstAdded)
+	{
+		position.y -= yOffset;
+	}
+
+	agentId = navMesh->GetCrowd()->addAgent(position.ptr(), &ap);
 
 	shouldAddAgentToCrowd = false;
 }
@@ -205,19 +231,20 @@ void ComponentAgent::RemoveAgentFromCrowd()
 	shouldAddAgentToCrowd = false;
 
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
-	if (!navMesh->IsGenerated() || agentId == -1)
+	if (navMesh == nullptr || !navMesh->IsGenerated() || agentId == -1)
 	{
 		return;
 	}
 
 	navMesh->GetCrowd()->removeAgent(agentId);
 	agentId = -1;
+	isFirstAdded = false;
 }
 
 float3 ComponentAgent::GetVelocity() const
 {
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
-	if (!navMesh->IsGenerated() || agentId == -1)
+	if (navMesh == nullptr || !navMesh->IsGenerated() || agentId == -1)
 	{
 		return float3::zero;
 	}

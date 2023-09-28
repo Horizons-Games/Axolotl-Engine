@@ -15,6 +15,8 @@ class BossChargeAttackScript;
 class ShockWaveAttackScript;
 class BossShieldAttackScript;
 class BossMissilesAttackScript;
+class ComponentAgent;
+class AIMovement;
 
 enum class FinalBossPhases
 {
@@ -49,13 +51,16 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void SetReadyToDie() override;
-
-private:
-	void ManageBossPhases();
-	void TryAttacksIndividually();
+	void SetReadyToDie() override {};
 
 	void ReactivateMovement() const;
+	void RemoveAgent() const;
+
+private:
+	void ChangeBossPhase();
+	void ManageActualPhase(FinalBossPhases bossState);
+
+	void TryAttacksIndividually();
 
 	void ManageNeutralPhase();
 	void ManageAggressivePhase();
@@ -75,8 +80,8 @@ private:
 	ShockWaveAttackScript* shockWaveAttackScript;
 	BossShieldAttackScript* shieldAttackScript;
 	BossMissilesAttackScript* missilesAttackScript;
-
-	bool isLookingAtTarget;
+	ComponentAgent* agent;
+	AIMovement* aiMovement;
 
 	// Modifiable values
 	GameObject* target;

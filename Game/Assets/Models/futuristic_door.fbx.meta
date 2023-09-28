@@ -1,0 +1,16 @@
+{
+    "UID": 7024239279380002006,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/futuristic_door.DoorWall_0.mesh",
+        "Assets/Meshes/futuristic_door.Door_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/futuristic_doorDefaultMaterial_0.mat",
+        "Assets/Materials/futuristic_doorDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": [
+        "Assets/Animation/futuristic_door.Armature_Close.anim",
+        "Assets/Animation/futuristic_door.Armature_Open.anim"
+    ]
+}

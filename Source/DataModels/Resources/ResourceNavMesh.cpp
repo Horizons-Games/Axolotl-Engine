@@ -296,7 +296,7 @@ static int RasterizeTileLayers(float* verts,
 	tbmin[1] = tcfg.bmin[2];
 	tbmax[0] = tcfg.bmax[0];
 	tbmax[1] = tcfg.bmax[2];
-	int cid[512]; // TODO: Make grow when returning too many items.
+	int cid[512]; AXO_TODO("Make grow when returning too many items")
 	const int ncid = rcGetChunksOverlappingRect(chunkyMesh, tbmin, tbmax, cid, 512);
 	if (!ncid)
 	{
@@ -428,8 +428,10 @@ ResourceNavMesh::ResourceNavMesh(UID resourceUID,
 ResourceNavMesh::~ResourceNavMesh()
 {
 	CleanUp();
-
-	// RELEASE(ctx);
+	delete ctx;
+	delete talloc;
+	delete tcomp;
+	delete tmproc;
 }
 
 void DrawTiles(duDebugDraw* dd, dtTileCache* tc)
@@ -519,8 +521,8 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 			// bmax[0] = worldAABB.maxPoint[0];
 			// bmax[1] = worldAABB.maxPoint[1];
 			// bmax[2] = worldAABB.maxPoint[2];
-			// TODO: PROPERLY SHOW THE DEBUG OBB. In function getObstacleBounds there are magic numbers multiplying the
-			// ABB and not applying a rotation. That's source code from the library.
+			AXO_TODO("PROPERLY SHOW THE DEBUG OBB. In function getObstacleBounds there are magic numbers multiplying the"
+				"ABB and not applying a rotation. That's source code from the library.")
 
 			const unsigned int* colConst = &col;
 			duDebugDrawBox(dd, bmin[0], bmin[1], bmin[2], bmax[0], bmax[1], bmax[2], colConst);
@@ -529,7 +531,90 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 	}
 }
 
- bool ResourceNavMesh::Build(Scene* scene)
+ bool ResourceNavMesh::InitNavMesh(const float* bmin)
+{
+	CleanUp();
+
+	navMesh = dtAllocNavMesh();
+	if (!navMesh)
+	{
+		LOG_ERROR("Could not create Detour navmesh");
+		return false;
+	}
+
+	dtNavMeshParams params;
+	memset(&params, 0, sizeof(params));
+	rcVcopy(params.orig, bmin);
+	params.tileWidth = tileSize * cellSize;
+	params.tileHeight = tileSize * cellSize;
+	params.maxTiles = maxTiles;
+	params.maxPolys = maxPolysPerTile;
+
+	dtStatus status = navMesh->init(&params);
+	if (dtStatusFailed(status))
+	{
+		LOG_ERROR("Could not init Detour navmesh");
+		return false;
+	}
+
+	navQuery = dtAllocNavMeshQuery();
+	status = navQuery->init(navMesh, 2048);
+	if (dtStatusFailed(status))
+	{
+		LOG_ERROR("Could not init Detour navmesh query");
+		return false;
+	}
+
+	InitCrowd();
+	return true;
+}
+
+bool ResourceNavMesh::InitTileCache(const float* bmin, int maxTiles)
+{
+	tileCache = dtAllocTileCache();
+	if (!tileCache)
+	{
+		LOG_ERROR("Could not allocate tileCache");
+		return false;
+	}
+
+	dtTileCacheParams tcparams;
+	memset(&tcparams, 0, sizeof(tcparams));
+	rcVcopy(tcparams.orig, bmin);
+	tcparams.cs = cellSize;
+	tcparams.ch = cellHeight;
+	tcparams.width = (int) tileSize;
+	tcparams.height = (int) tileSize;
+	tcparams.walkableHeight = agentHeight;
+	tcparams.walkableRadius = agentRadius;
+	tcparams.walkableClimb = agentMaxClimb;
+	tcparams.maxSimplificationError = edgeMaxError;
+	tcparams.maxTiles = maxTiles;
+	tcparams.maxObstacles = 128;
+
+	dtStatus status = tileCache->init(&tcparams, talloc, tcomp, tmproc);
+	if (dtStatusFailed(status))
+	{
+		LOG_ERROR("Could not init tileCache");
+		return false;
+	}
+	return true;
+}
+
+bool ResourceNavMesh::AddTile(unsigned char* data, int dataSize)
+{
+	dtCompressedTileRef tile = 0;
+	tileCache->addTile(data, dataSize, DT_COMPRESSEDTILE_FREE_DATA, &tile);
+
+	if (tile)
+	{
+		tileCache->buildNavMeshTile(tile, navMesh);
+	}
+
+	return true;
+}
+
+bool ResourceNavMesh::Build(Scene* scene)
 {
 	CleanUp();
 
@@ -548,10 +633,6 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 		LOG_ERROR("There's no mesh to build");
 		return false;
 	}
-
-	talloc = new LinearAllocator(32000);
-	tcomp = new FastLZCompressor;
-	tmproc = new MeshProcess;
 
 	float bmin[3] = { FLT_MAX, FLT_MAX, FLT_MAX };
 	float bmax[3] = { FLT_MIN, FLT_MIN, FLT_MIN };
@@ -597,8 +678,8 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 	const int th = (gh + ts - 1) / ts;
 
 	LOG_DEBUG("Building navigation:");
-	LOG_DEBUG(" - %d x %d cells", cfg.width, cfg.height);
-	LOG_DEBUG(" - %.1fK verts, %.1fK tris", verts.size() / 1000.0f, ntris / 1000.0f);
+	LOG_DEBUG(" - {} x {} cells", cfg.width, cfg.height);
+	LOG_DEBUG(" - {}k verts, {}k tris", verts.size() / 1000.0f, ntris / 1000.0f);
 
 	int tileBits = rcMin((int) dtIlog2(dtNextPow2(tw * th * EXPECTED_LAYERS_PER_TILE)), 14);
 	if (tileBits > 14)
@@ -725,7 +806,7 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 
 	//RELEASE(chunkyMesh);
 
-	LOG_DEBUG("navmeshMemUsage = %.1f kB", navmeshMemUsage / 1024.0f);
+	LOG_DEBUG("navmeshMemUsage = {} kB", navmeshMemUsage / 1024.0f);
 
 	InitCrowd();
 
@@ -820,102 +901,11 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 	glLoadIdentity();
 }
 
- static const int TILECACHESET_MAGIC = 'T' << 24 | 'S' << 16 | 'E' << 8 | 'T'; //'TSET';
- static const int TILECACHESET_VERSION = 1;
-
- struct TileCacheSetHeader
-{
-	int magic;
-	int version;
-	int numTiles;
-	dtNavMeshParams meshParams;
-	dtTileCacheParams cacheParams;
-};
-
  struct TileCacheTileHeader
 {
 	dtCompressedTileRef tileRef;
 	int dataSize;
 };
-
-// void NavMesh::Load(Buffer<char>& buffer)
-//{
-//	CleanUp();
-//
-//	talloc = new LinearAllocator(32000);
-//	tcomp = new FastLZCompressor;
-//	tmproc = new MeshProcess;
-//
-//	char* cursor = buffer.Data();
-//
-//	TileCacheSetHeader header;
-//	header = *((TileCacheSetHeader*) cursor);
-//	cursor += sizeof(TileCacheSetHeader);
-//
-//	navMesh = dtAllocNavMesh();
-//	if (!navMesh)
-//	{
-//		LOG("Could not create Detour navmesh");
-//		return;
-//	}
-//	dtStatus status = navMesh->init(&header.meshParams);
-//	if (dtStatusFailed(status))
-//	{
-//		LOG("Could not init Detour navmesh");
-//		return;
-//	}
-//
-//	tileCache = dtAllocTileCache();
-//	if (!tileCache)
-//	{
-//		LOG("Could not allocate tileCache");
-//		return;
-//	}
-//	status = tileCache->init(&header.cacheParams, talloc, tcomp, tmproc);
-//	if (dtStatusFailed(status))
-//	{
-//		LOG("Could not init tileCache");
-//		return;
-//	}
-//
-//	for (int i = 0; i < header.numTiles; ++i)
-//	{
-//		TileCacheTileHeader tileHeader = *((TileCacheTileHeader*) cursor);
-//		cursor += sizeof(TileCacheTileHeader);
-//
-//		if (!tileHeader.tileRef || !tileHeader.dataSize)
-//			break;
-//
-//		unsigned char* data = (unsigned char*) malloc(tileHeader.dataSize);
-//		if (!data)
-//			break;
-//		memset(data, 0, tileHeader.dataSize);
-//
-//		unsigned int _dataSize = sizeof(unsigned char) * tileHeader.dataSize;
-//		memcpy_s(
-//			data,
-//			_dataSize,
-//			cursor,
-//			_dataSize);
-//		cursor += _dataSize;
-//
-//		dtCompressedTileRef tile = 0;
-//		tileCache->addTile(data, tileHeader.dataSize, DT_COMPRESSEDTILE_FREE_DATA, &tile);
-//
-//		if (tile)
-//			tileCache->buildNavMeshTile(tile, navMesh);
-//	}
-//
-//	navQuery = dtAllocNavMeshQuery();
-//	status = navQuery->init(navMesh, 2048);
-//	if (dtStatusFailed(status))
-//	{
-//		LOG("Could not init Detour navmesh query");
-//		return;
-//	}
-//
-//	InitCrowd();
-//}
 
 void ResourceNavMesh::CleanUp()
 {
@@ -930,65 +920,7 @@ void ResourceNavMesh::CleanUp()
 
 	dtFreeTileCache(tileCache);
 	tileCache = nullptr;
-
-	/*RELEASE(tmproc);
-	RELEASE(tcomp);
-	RELEASE(talloc);*/
 }
-
-// Buffer<char> ResourceNavMesh::Save()
-//{
-//	if (!tileCache || !navMesh)
-//		return Buffer<char>();
-//
-//	int sizeData = 0;
-//	int numTiles = 0;
-//	for (int i = 0; i < tileCache->getTileCount(); ++i)
-//	{
-//		const dtCompressedTile* tile = tileCache->getTile(i);
-//		if (!tile || !tile->header || !tile->dataSize)
-//			continue;
-//
-//		sizeData += tile->dataSize;
-//		sizeData += sizeof(TileCacheTileHeader);
-//		numTiles++;
-//	}
-//
-//	TileCacheSetHeader header;
-//	header.magic = TILECACHESET_MAGIC;
-//	header.version = TILECACHESET_VERSION;
-//	header.numTiles = numTiles;
-//
-//	memcpy(&header.cacheParams, tileCache->getParams(), sizeof(dtTileCacheParams));
-//	memcpy(&header.meshParams, navMesh->getParams(), sizeof(dtNavMeshParams));
-//
-//	int size = sizeof(TileCacheSetHeader) + sizeData;
-//	Buffer<char> buffer = Buffer<char>(size);
-//	char* cursor = buffer.Data();
-//
-//	*((TileCacheSetHeader*) cursor) = header;
-//	cursor += sizeof(TileCacheSetHeader);
-//
-//	for (int i = 0; i < tileCache->getTileCount(); ++i)
-//	{
-//		const dtCompressedTile* tile = tileCache->getTile(i);
-//		if (!tile || !tile->header || !tile->dataSize)
-//			continue;
-//
-//		TileCacheTileHeader tileHeader;
-//		tileHeader.tileRef = tileCache->getTileRef(tile);
-//		tileHeader.dataSize = tile->dataSize;
-//
-//		*((TileCacheTileHeader*) cursor) = tileHeader;
-//		cursor += sizeof(TileCacheTileHeader);
-//
-//		unsigned int _dataSize = sizeof(unsigned char) * tile->dataSize;
-//		memcpy_s(cursor, _dataSize, tile->data, _dataSize);
-//		cursor += _dataSize;
-//	}
-//
-//	return buffer;
-//}
 
 dtCrowd* ResourceNavMesh::GetCrowd() const
 {
@@ -1013,6 +945,21 @@ dtNavMesh* ResourceNavMesh::GetNavMesh() const
 dtTileCache* ResourceNavMesh::GetTileCache() const
 {
 	return tileCache;
+}
+
+NavMeshHeader ResourceNavMesh::GetNavMeshHeader() const
+{
+	NavMeshHeader header;
+	if (navMesh == nullptr || tileCache == nullptr)
+	{
+		header.numTiles = 0;
+		header.maxTiles = 0;
+		return header;
+	}
+	std::copy(navMesh->getParams()->orig, navMesh->getParams()->orig + 3, header.bmin);
+	header.maxTiles = tileCache->getParams()->maxTiles;
+	header.numTiles = 0;
+	return header;
 }
 
 void ResourceNavMesh::InitCrowd()
