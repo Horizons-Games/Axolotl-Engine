@@ -4,6 +4,9 @@
 #include "physfs.h"
 #include "zip.h"
 
+#include "FileSystem/FileZippedData.h"
+#include "FileSystem/UIDGenerator.h"
+
 ModuleFileSystem::ModuleFileSystem()
 {
 }
@@ -96,6 +99,16 @@ bool ModuleFileSystem::Delete(const char* filePath) const
 	return true;
 }
 
+bool ModuleFileSystem::Exists(const char* filePath) const
+{
+	return PHYSFS_exists(filePath);
+}
+
+bool ModuleFileSystem::IsDirectory(const char* directoryPath) const
+{
+	return PHYSFS_isDirectory(directoryPath);
+}
+
 unsigned int ModuleFileSystem::Load(const std::string& filePath, char*& buffer) const
 {
 	PHYSFS_File* file = PHYSFS_openRead(filePath.c_str());
@@ -117,10 +130,8 @@ unsigned int ModuleFileSystem::Load(const std::string& filePath, char*& buffer) 
 	return (unsigned int) size;
 }
 
-unsigned int ModuleFileSystem::Save(const std::string& filePath,
-									const void* buffer,
-									size_t size,
-									bool append /*= false*/) const
+unsigned int
+	ModuleFileSystem::Save(const std::string& filePath, const void* buffer, size_t size, bool append /*= false*/) const
 {
 	PHYSFS_File* file = append ? PHYSFS_openAppend(filePath.c_str()) : PHYSFS_openWrite(filePath.c_str());
 	if (file == nullptr)
@@ -257,29 +268,31 @@ const std::string ModuleFileSystem::GetPathWithExtension(const std::string& path
 	return std::string();
 }
 
+std::size_t ModuleFileSystem::CountTotalFiles(const std::string& path) const
+{
+	std::vector<std::string> allItemsInFolder = ListFiles(path.c_str());
+	auto folders = allItemsInFolder | std::views::filter(
+										  [&](const std::string& itemPath)
+										  {
+											  return IsDirectory((path + '/' + itemPath).c_str());
+										  });
+	std::size_t totalItems = 0U;
+	std::size_t numberOfFolders = 0U;
+	for (const std::string& folderPath : folders)
+	{
+		totalItems += CountTotalFiles(path + '/' + folderPath);
+		++numberOfFolders;
+	}
+	// Add the number of items that were not folders
+	totalItems += allItemsInFolder.size() - numberOfFolders;
+
+	return totalItems;
+}
+
 void ModuleFileSystem::ZipFolder(zip_t* zip, const char* path) const
 {
-	std::vector<std::string> files = ListFiles(path);
-	for (int i = 0; i < files.size(); ++i)
-	{
-		std::string newPath(path);
-		newPath += '/' + files[i];
-		if (IsDirectory(newPath.c_str()))
-		{
-			ZipFolder(zip, newPath.c_str());
-		}
-		else
-		{
-			zip_entry_open(zip, newPath.c_str());
-			{
-				char* buf = nullptr;
-				unsigned int size = Load(newPath.c_str(), buf);
-				zip_entry_write(zip, buf, size);
-				delete buf;
-			}
-			zip_entry_close(zip);
-		}
-	}
+	std::size_t initialFile = 0U;
+	ZipFolderRecursive(zip, path, path, CountTotalFiles(path), initialFile);
 }
 
 void ModuleFileSystem::ZipLibFolder() const
@@ -313,6 +326,61 @@ void ModuleFileSystem::AppendToZipFolder(const std::string& zipPath, const std::
 	unsigned int size = Load(existingFilePath, buffer);
 	AppendToZipFolder(zipPath, existingFilePath, buffer, size, true);
 	delete buffer;
+}
+
+ConnectedCallback ModuleFileSystem::RegisterFileZippedCallback(FileZippedCallback&& callback)
+{
+	std::scoped_lock(callbacksMutex);
+	UID callbackUID = UniqueID::GenerateUID();
+	callbacks[callbackUID] = std::move(callback);
+	return ConnectedCallback(std::bind(&ModuleFileSystem::DeregisterFileZippedCallback, this, callbackUID));
+}
+
+void ModuleFileSystem::DeregisterFileZippedCallback(UID callbackUID)
+{
+	std::scoped_lock(callbacksMutex);
+	auto callbackToDelete = callbacks.find(callbackUID);
+	if (callbackToDelete != std::end(callbacks))
+	{
+		callbacks.erase(callbackToDelete);
+	}
+}
+
+void ModuleFileSystem::ZipFolderRecursive(
+	zip_t* zip, const char* path, const std::string& rootPath, std::size_t totalItems, std::size_t& currentItem) const
+{
+	std::vector<std::string> files = ListFiles(path);
+	for (std::size_t i = 0; i < files.size(); ++i)
+	{
+		std::string itemPath(path);
+		itemPath += '/' + files[i];
+		if (IsDirectory(itemPath.c_str()))
+		{
+			ZipFolderRecursive(zip, itemPath.c_str(), rootPath, totalItems, currentItem);
+		}
+		else
+		{
+			std::chrono::time_point zipFileStart = std::chrono::steady_clock::now();
+			zip_entry_open(zip, itemPath.c_str());
+			{
+				char* buf = nullptr;
+				unsigned int size = Load(itemPath.c_str(), buf);
+				zip_entry_write(zip, buf, size);
+				delete buf;
+			}
+			zip_entry_close(zip);
+			std::chrono::duration<float> zipFileDuration = std::chrono::steady_clock::now() - zipFileStart;
+
+			FileZippedData fileZippedData{ itemPath, currentItem, std::move(zipFileDuration), rootPath, totalItems };
+			std::scoped_lock(callbacksMutex);
+			for (const auto& [_, callback] : callbacks)
+			{
+				callback(fileZippedData);
+			}
+
+			++currentItem;
+		}
+	}
 }
 
 void ModuleFileSystem::DeleteFileInZip(const std::string& zipPath, const std::string& fileName) const

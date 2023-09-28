@@ -6,16 +6,18 @@
 #include "Components/ComponentAreaLight.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
-#include "Components/ComponentAgent.h"
-#include "Components/ComponentMeshRenderer.h"
 
 class Component;
 class ComponentCamera;
 class ComponentCanvas;
 class ComponentParticleSystem;
+class ComponentLine;
+class ComponentMeshRenderer;
+class ComponentAgent;
+
 class GameObject;
+
 class Quadtree;
-class Skybox;
 class Cubemap;
 class Updatable;
 
@@ -41,6 +43,14 @@ public:
 	bool IsInsideACamera(const OBB& obb) const;
 	bool IsInsideACamera(const AABB& aabb) const;
 
+	std::vector<GameObject*> ObtainObjectsInFrustum(const math::Frustum* frustum);
+	void CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad, 
+								   std::vector<GameObject*>& gos);
+	void CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, GameObject* go,
+										    std::vector<GameObject*>& gos);
+	bool FrustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad);
+	bool ObjectInFrustum(const math::Frustum* frustum, const AABB& aabb);
+
 	GameObject* CreateGameObject(const std::string& name, GameObject* parent, bool is3D = true);
 	GameObject* DuplicateGameObject(const std::string& name, GameObject*, GameObject* parent);
 	GameObject* CreateCameraGameObject(const std::string& name, GameObject* parent);
@@ -53,6 +63,10 @@ public:
 									  AreaType areaType = AreaType::NONE);
 	GameObject* CreateAudioSourceGameObject(const char* name, GameObject* parent);
 	void DestroyGameObject(const GameObject* gameObject);
+
+	void RemoveComponentLineOfObject(const GameObject* gameObject);
+	void RemoveEndOfLine(const GameObject* gameObject);
+
 	void ConvertModelIntoGameObject(const std::string& model);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
@@ -91,9 +105,11 @@ public:
 	const std::vector<Component*>& GetSceneInteractable() const;
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
 	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
+	const std::vector<ComponentLine*>& GetSceneComponentLines() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
-	Skybox* GetSkybox() const;
 	Cubemap* GetCubemap() const;
+	const bool GetCombatMode() const;
+	const float GetEnemiesToDefeat() const;
 	std::vector<ComponentMeshRenderer*> GetMeshRenderers() const;
 	std::vector<AABB> GetBoundingBoxes() const;
 	std::vector<ComponentAgent*> GetAgentComponents() const;
@@ -104,20 +120,23 @@ public:
 
 	void SetRoot(GameObject* newRoot);
 	void SetRootQuadtree(std::unique_ptr<Quadtree> quadtree);
-	void SetSkybox(std::unique_ptr<Skybox> skybox);
 	void SetCubemap(std::unique_ptr<Cubemap> cubemap);
 	void SetSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void SetSceneCameras(const std::vector<ComponentCamera*>& cameras);
 	void SetSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void SetSceneInteractable(const std::vector<Component*>& interactable);
 	void SetSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems);
+	void SetComponentLines(const std::vector<ComponentLine*>& componentLines);
 	void SetDirectionalLight(GameObject* directionalLight);
+	void SetCombatMode(bool combatMode);
+	void SetEnemiesToDefeat(float enemiesToDefeat);
 
 	void AddSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void AddSceneCameras(const std::vector<ComponentCamera*>& cameras);
 	void AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void AddSceneInteractable(const std::vector<Component*>& interactable);
 	void AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems);
+	void AddSceneComponentLines(const std::vector<ComponentLine*>& componentLines);
 
 	void AddStaticObject(GameObject* gameObject);
 	void RemoveStaticObject(const GameObject* gameObject);
@@ -125,10 +144,14 @@ public:
 	void RemoveNonStaticObject(const GameObject* gameObject);
 	void AddUpdatableObject(Updatable* updatable);
 	void AddParticleSystem(ComponentParticleSystem* particleSystem);
+	void AddComponentLines(ComponentLine* componentLine);
 	void RemoveParticleSystem(const ComponentParticleSystem* particleSystem);
+
+	void RemoveComponentLine(const ComponentLine* componentLine);
 
 	void InitNewEmptyScene();
 	void InitLights();
+	void InitRender();
 	void InitCubemap();
 
 	void InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D);
@@ -140,7 +163,6 @@ private:
 	void GenerateLights();
 	void RemoveGameObjectFromScripts(const GameObject* gameObject);
 
-	std::unique_ptr<Skybox> skybox;
 	std::unique_ptr<Cubemap> cubemap;
 	std::unique_ptr<GameObject> root;
 
@@ -152,6 +174,7 @@ private:
 
 	// Draw is const so I need this vector
 	std::vector<ComponentParticleSystem*> sceneParticleSystems;
+	std::vector<ComponentLine*> sceneComponentLines;
 
 	GameObject* directionalLight;
 	GameObject* cubeMapGameObject;
@@ -174,6 +197,9 @@ private:
 	unsigned ssboSpot;
 	unsigned ssboSphere;
 	unsigned ssboTube;
+	bool combatMode;
+	float enemiesToDefeat;
+
 
 	AABB rootQuadtreeAABB;
 	// Render Objects
@@ -226,6 +252,11 @@ inline const std::vector<ComponentParticleSystem*>& Scene::GetSceneParticleSyste
 	return sceneParticleSystems;
 }
 
+inline const std::vector<ComponentLine*>& Scene::GetSceneComponentLines() const
+{
+	return sceneComponentLines;
+}
+
 inline void Scene::SetSceneCameras(const std::vector<ComponentCamera*>& cameras)
 {
 	sceneCameras = cameras;
@@ -246,6 +277,11 @@ inline void Scene::SetSceneParticleSystem(const std::vector<ComponentParticleSys
 	sceneParticleSystems = particleSystems;
 }
 
+inline void Scene::SetComponentLines(const std::vector<ComponentLine*>& componentLines)
+{
+	sceneComponentLines = componentLines;
+}
+
 inline void Scene::SetDirectionalLight(GameObject* directionalLight)
 {
 	this->directionalLight = directionalLight;
@@ -254,11 +290,6 @@ inline void Scene::SetDirectionalLight(GameObject* directionalLight)
 inline Quadtree* Scene::GetRootQuadtree() const
 {
 	return rootQuadtree.get();
-}
-
-inline Skybox* Scene::GetSkybox() const
-{
-	return skybox.get();
 }
 
 inline Cubemap* Scene::GetCubemap() const
@@ -296,13 +327,42 @@ inline void Scene::AddParticleSystem(ComponentParticleSystem* particleSystem)
 	sceneParticleSystems.push_back(particleSystem);
 }
 
+inline void Scene::AddComponentLines(ComponentLine* componentLine)
+{
+	sceneComponentLines.push_back(componentLine);
+}
+
 inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleSystem)
 {
-	sceneParticleSystems.erase(std::remove_if(std::begin(sceneParticleSystems),
-											  std::end(sceneParticleSystems),
-											  [&particleSystem](ComponentParticleSystem* particle)
-											  {
-												  return particle == particleSystem;
-											  }),
-							   std::end(sceneParticleSystems));
+	if (this)
+	{
+		sceneParticleSystems.erase(std::remove_if(std::begin(sceneParticleSystems),
+			std::end(sceneParticleSystems),
+			[&particleSystem](ComponentParticleSystem* particle)
+			{
+				return particle == particleSystem;
+			}),
+			std::end(sceneParticleSystems));
+	}
+}
+
+inline void Scene::RemoveComponentLine(const ComponentLine* componentLine)
+{
+	sceneComponentLines.erase(std::remove_if(std::begin(sceneComponentLines),
+		std::end(sceneComponentLines),
+		[&componentLine](ComponentLine* lines)
+		{
+			return lines == componentLine;
+		}),
+		std::end(sceneComponentLines));
+}
+
+inline const bool Scene::GetCombatMode() const
+{
+	return combatMode;
+}
+
+inline const float Scene::GetEnemiesToDefeat() const
+{
+	return enemiesToDefeat;
 }

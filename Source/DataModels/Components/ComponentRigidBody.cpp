@@ -32,7 +32,6 @@ ComponentRigidBody::ComponentRigidBody(bool active, GameObject* owner) :
 	btRigidBody::btRigidBodyConstructionInfo inforb(100.f, motionState.get(), shape.get());
 	inforb.m_friction = 0.0f;
 	rigidBody = std::make_unique<btRigidBody>(inforb);
-	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	SetUpMobility();
 
 	rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
@@ -73,7 +72,6 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
 	inforb.m_friction = 0.0f;
 	rigidBody = std::make_unique<btRigidBody>(inforb);
 
-	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	SetUpMobility();
 
 	rigidBody->setUserPointer(this); // Set this component as the rigidbody's user pointer
@@ -146,6 +144,11 @@ void ComponentRigidBody::OnTransformChanged()
 #endif
 }
 
+void ComponentRigidBody::Draw() const
+{
+
+}
+
 void ComponentRigidBody::Update()
 {
 	float deltaTime = App->GetDeltaTime();
@@ -163,7 +166,7 @@ void ComponentRigidBody::Update()
 		btVector3 pos = rigidBody->getCenterOfMassTransform().getOrigin();
 		float3 centerPoint = transform->GetLocalAABB().CenterPoint();
 		btVector3 offset = trans.getBasis() * btVector3(centerPoint.x, centerPoint.y, centerPoint.z);
-		float3 newPos = { pos.x() - offset.x(), pos.y() - offset.y(), pos.z() - offset.z() };
+		float3 newPos = { pos.x(), pos.y(), pos.z()};
 		newPos -= float3(translation.x(), translation.y(), translation.z());
 		transform->SetGlobalPosition(newPos);
 		transform->RecalculateLocalMatrix();
@@ -228,7 +231,7 @@ void ComponentRigidBody::UpdateRigidBodyTranslation()
 
 void ComponentRigidBody::SetUpMobility()
 {
-	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
+	RemoveRigidBodyFromSimulation();
 	if (isKinematic)
 	{
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DYNAMIC_OBJECT);
@@ -256,7 +259,7 @@ void ComponentRigidBody::SetUpMobility()
 		rigidBody->getCollisionShape()->calculateLocalInertia(mass, localInertia);
 		rigidBody->setMassProps(mass, localInertia);
 	}
-	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
+	AddRigidBodyToSimulation();
 }
 
 void ComponentRigidBody::SetCollisionShape(Shape newShape)
@@ -383,7 +386,17 @@ void ComponentRigidBody::SignalDisable()
 
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 {
-	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
+	//App->GetModule<ModulePhysics>()->RemoveRigidBodyFromSimulation(rigidBody.get());
+	//App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
+	isInCollisionWorld = false;
+}
+
+void ComponentRigidBody::AddRigidBodyToSimulation()
+{
+	//App->GetModule<ModulePhysics>()->AddRigidBodyToSimulation(rigidBody.get());
+	//App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
+	//rigidBody->setGravity(gravity);
+	isInCollisionWorld = true;
 }
 
 void ComponentRigidBody::ClearCollisionEnterDelegate()

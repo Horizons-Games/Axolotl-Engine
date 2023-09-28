@@ -8,26 +8,29 @@
 #include "DataModels/Components/ComponentAudioSource.h"
 #include "DataModels/Components/ComponentBreakable.h"
 #include "DataModels/Components/ComponentCamera.h"
+#include "DataModels/Components/ComponentRender.h"
 #include "DataModels/Components/ComponentCubemap.h"
+#include "DataModels/Components/ComponentSkybox.h"
 #include "DataModels/Components/ComponentDirLight.h"
 #include "DataModels/Components/ComponentLight.h"
 #include "DataModels/Components/ComponentMeshCollider.h"
 #include "DataModels/Components/ComponentMeshRenderer.h"
 #include "DataModels/Components/ComponentParticleSystem.h"
 #include "DataModels/Components/ComponentPlayer.h"
-#include "DataModels/Components/ComponentPlayerInput.h"
 #include "DataModels/Components/ComponentPointLight.h"
 #include "DataModels/Components/ComponentRigidBody.h"
 #include "DataModels/Components/ComponentScript.h"
 #include "DataModels/Components/ComponentSpotLight.h"
 #include "DataModels/Components/ComponentTransform.h"
-#include "DataModels//Components/ComponentAgent.h"
-#include "DataModels//Components/ComponentObstacle.h"
+#include "DataModels/Components/ComponentTrail.h"
+#include "DataModels/Components/ComponentLine.h"
+#include "DataModels/Components/ComponentCameraSample.h"
+#include "DataModels/Components/ComponentAgent.h"
+#include "DataModels/Components/ComponentObstacle.h"
 #include "DataModels/Components/UI/ComponentButton.h"
 #include "DataModels/Components/UI/ComponentCanvas.h"
 #include "DataModels/Components/UI/ComponentImage.h"
 #include "DataModels/Components/UI/ComponentTransform2D.h"
-#include "DataModels/Components/ComponentCameraSample.h"
 #include "DataModels/Components/UI/ComponentSlider.h"
 
 #include "Application.h"
@@ -157,7 +160,7 @@ void GameObject::Load(const Json& meta)
 		if (type == ComponentType::LIGHT)
 		{
 			LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-			AXO_TODO("look at this when implement metas")
+			AXO_TODO("Look at this when implement metas")
 			CreateComponentLight(lightType, AreaType::NONE);
 		}
 		else if (type == ComponentType::SCRIPT)
@@ -177,6 +180,17 @@ void GameObject::LoadComponents(const Json& jsonComponents)
 	for (unsigned int i = 0; i < jsonComponents.Size(); ++i)
 	{
 		components[i]->Load(jsonComponents[i]["Component"]);
+	}
+}
+
+void GameObject::Render() const
+{
+	for (const std::unique_ptr<Component>& component : components)
+	{
+		if (component->IsEnabled())
+		{
+			component->Render();
+		}
 	}
 }
 
@@ -333,12 +347,6 @@ void GameObject::CopyComponent(Component* component)
 			break;
 		}
 
-		case ComponentType::PLAYERINPUT:
-		{
-			newComponent = std::make_unique<ComponentPlayerInput>(static_cast<ComponentPlayerInput&>(*component));
-			break;
-		}
-
 		case ComponentType::RIGIDBODY:
 		{
 			newComponent = std::make_unique<ComponentRigidBody>(static_cast<ComponentRigidBody&>(*component));
@@ -386,6 +394,11 @@ void GameObject::CopyComponent(Component* component)
 			newComponent = std::make_unique<ComponentCanvas>(*static_cast<ComponentCanvas*>(component));
 			break;
 		}
+		case ComponentType::LINE:
+		{
+			newComponent = std::make_unique<ComponentLine>(*static_cast<ComponentLine*>(component));
+			break;
+		}
 
 		case ComponentType::BREAKABLE:
 		{
@@ -401,12 +414,17 @@ void GameObject::CopyComponent(Component* component)
 
 		case ComponentType::PARTICLE:
 		{
-			newComponent = std::make_unique<ComponentParticleSystem>(*static_cast<ComponentParticleSystem*>(component));
-			App->GetModule<ModuleScene>()->GetLoadedScene()->AddParticleSystem(
-				static_cast<ComponentParticleSystem*>(newComponent.get()));
+			newComponent = std::make_unique<ComponentParticleSystem>(*static_cast<ComponentParticleSystem*>(component), 
+																     this);
 			break;
 		}
 
+		case ComponentType::TRAIL:
+		{
+			newComponent = std::make_unique<ComponentTrail>(*static_cast<ComponentTrail*>(component));
+			break;
+		}
+		
 		case ComponentType::AGENT:
 		{
 			newComponent = std::make_unique<ComponentAgent>(static_cast<ComponentAgent&>(*component));
@@ -432,14 +450,14 @@ void GameObject::CopyComponent(Component* component)
 		{
 			App->GetModule<ModuleScene>()->GetLoadedScene()->AddUpdatableObject(updatable);
 		}
-		else
+		/*else
 		{
 			if (referenceBeforeMove->GetType() == ComponentType::PARTICLE)
 			{
 				App->GetModule<ModuleScene>()->GetLoadedScene()->AddParticleSystem(
 					static_cast<ComponentParticleSystem*>(referenceBeforeMove));
 			}
-		}
+		}*/
 
 		newComponent->SetOwner(this);
 		components.push_back(std::move(newComponent));
@@ -577,12 +595,6 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
-		case ComponentType::PLAYERINPUT:
-		{
-			newComponent = std::make_unique<ComponentPlayerInput>(true, this);
-			break;
-		}
-
 		case ComponentType::RIGIDBODY:
 		{
 			newComponent = std::make_unique<ComponentRigidBody>(true, this);
@@ -654,13 +666,38 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = std::make_unique<ComponentParticleSystem>(true, this);
 			break;
 		}
+
+		case ComponentType::TRAIL:
+		{
+			newComponent = std::make_unique<ComponentTrail>(true, this);
+			break;
+		}
 		
 		case ComponentType::CUBEMAP:
 		{
 			newComponent = std::make_unique<ComponentCubemap>(true, this);
 			break;
 		}
+		
+		case ComponentType::LINE:
+		{
+			newComponent = std::make_unique<ComponentLine>(true, this);
+			break;
+		}
 
+
+		case ComponentType::SKYBOX:
+		{
+			newComponent = std::make_unique<ComponentSkybox>(true, this);
+			break;
+		}
+
+		case ComponentType::RENDER:
+		{
+			newComponent = std::make_unique<ComponentRender>(true, this);
+			break;
+		}
+		
 		case ComponentType::AGENT:
 		{
 			newComponent = std::make_unique<ComponentAgent>(true, this);
@@ -693,6 +730,11 @@ Component* GameObject::CreateComponent(ComponentType type)
 			{
 				App->GetModule<ModuleScene>()->GetLoadedScene()->
 					AddParticleSystem(static_cast<ComponentParticleSystem*>(referenceBeforeMove));
+			}
+			else if (referenceBeforeMove->GetType() == ComponentType::LINE)
+			{
+				App->GetModule<ModuleScene>()->GetLoadedScene()->
+					AddComponentLines(static_cast<ComponentLine*>(referenceBeforeMove));
 			}
 		}
 
@@ -782,6 +824,11 @@ bool GameObject::RemoveComponent(const Component* component)
 	{
 		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(
 			static_cast<const ComponentParticleSystem*>(component));
+	}
+	else if (component->GetType() == ComponentType::LINE)
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveComponentLine(
+			static_cast<const ComponentLine*>(component));
 	}
 
 	components.erase(removeIfResult, std::end(components));

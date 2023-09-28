@@ -67,6 +67,7 @@ ComponentAreaLight::ComponentAreaLight(const float3& color, float intensity, Gam
 
 ComponentAreaLight::~ComponentAreaLight()
 {
+	deleting = true;
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	
 	if (currentScene)
@@ -189,32 +190,32 @@ void ComponentAreaLight::OnTransformChanged()
 
 void ComponentAreaLight::InternalSave(Json& meta)
 {
-	meta["color_light_X"] = (float) color.x;
-	meta["color_light_Y"] = (float) color.y;
-	meta["color_light_Z"] = (float) color.z;
+	meta["color_light_X"] = color.x;
+	meta["color_light_Y"] = color.y;
+	meta["color_light_Z"] = color.z;
 
-	meta["intensity"] = (float) intensity;
+	meta["intensity"] = intensity;
 
 	meta["lightType"] = GetNameByLightType(lightType).c_str();
 
 	meta["areaType"] = GetNameByAreaType(areaType).c_str();
-	meta["shapeRadius"] = (float) shapeRadius;
-	meta["height"] = (float) height;
-	meta["attRadius"] = (float) attRadius;
+	meta["shapeRadius"] = shapeRadius;
+	meta["height"] = height;
+	meta["attRadius"] = attRadius;
 }
 
 void ComponentAreaLight::InternalLoad(const Json& meta)
 {
-	color.x = (float) meta["color_light_X"];
-	color.y = (float) meta["color_light_Y"];
-	color.z = (float) meta["color_light_Z"];
+	color.x = static_cast<float>(meta["color_light_X"]);
+	color.y = static_cast<float>(meta["color_light_Y"]);
+	color.z = static_cast<float>(meta["color_light_Z"]);
 
-	intensity = (float) meta["intensity"];
+	intensity = static_cast<float>(meta["intensity"]);
 
 	lightType = GetLightTypeByName(meta["lightType"]);
 
 	areaType = GetAreaTypeByName(meta["areaType"]);
-	shapeRadius = (float) meta["shapeRadius"];
-	height = (float) meta["height"];
-	attRadius = (float) meta["attRadius"];
+	shapeRadius = static_cast<float>(meta["shapeRadius"]);
+	height = static_cast<float>(meta["height"]);
+	attRadius = static_cast<float>(meta["attRadius"]);
 }

@@ -3,6 +3,7 @@
 #include "Auxiliar/GameBuilder.h"
 
 #include "Application.h"
+#include "FileSystem/FileZippedData.h"
 #include "FileSystem/Json.h"
 #include "FileSystem/ModuleFileSystem.h"
 
@@ -14,6 +15,12 @@ namespace
 {
 std::future<void> compileThread;
 std::future<void> zipThread;
+
+std::optional<FileZippedData> lastFileZippedData;
+std::mutex fileZippedDataMutex;
+
+// if it takes more than this amount of minutes to zip a file, log a warning
+constexpr int maxMinutesToZip = 1;
 
 void CompileGame(const std::wstring& batchFilePath)
 {
@@ -77,7 +84,27 @@ void AddConfigToZip(const std::string& startingScene)
 
 	std::string path = GAME_STARTING_CONFIG;
 
-	App->GetModule<ModuleFileSystem>()->AppendToZipFolder(zipPath, path.c_str(), buffer.GetString(), buffer.GetSize(), true);
+	App->GetModule<ModuleFileSystem>()->AppendToZipFolder(
+		zipPath, path.c_str(), buffer.GetString(), buffer.GetSize(), true);
+}
+
+void OnFileZipped(const FileZippedData& data)
+{
+	LOG_VERBOSE("File {} zipped in {} seconds ({}/{})",
+				data.fileZipped,
+				data.timeTaken.count(),
+				data.fileZippedIndex,
+				data.totalFiles);
+	std::chrono::minutes minutesToZip = std::chrono::duration_cast<std::chrono::minutes>(data.timeTaken);
+	if (minutesToZip >= std::chrono::minutes(maxMinutesToZip))
+	{
+		LOG_WARNING("Item {} took more than {} minute(s) to zip. Seconds it took: {}",
+					data.fileZipped,
+					maxMinutesToZip,
+					data.timeTaken.count());
+	}
+	std::scoped_lock(fileZippedDataMutex);
+	lastFileZippedData = data;
 }
 
 void CreateZip(const std::string& startingScene)
@@ -85,9 +112,16 @@ void CreateZip(const std::string& startingScene)
 	CopyFolderInLib(SCENE_PATH, "Scenes/");
 	CopyFolderInLib("Source/Shaders/", "Shaders/");
 
-	App->GetModule<ModuleFileSystem>()->ZipLibFolder();
+	{
+		ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+		ConnectedCallback connectedCallback = fileSystem->RegisterFileZippedCallback(&OnFileZipped);
+		fileSystem->ZipLibFolder();
+	}
 
 	AddConfigToZip(startingScene);
+
+	std::scoped_lock(fileZippedDataMutex);
+	lastFileZippedData.reset();
 
 	LOG_INFO("Done creating ZIP!");
 }
@@ -145,6 +179,12 @@ bool Compiling()
 bool Zipping()
 {
 	return zipThread.valid() && !zipThread._Is_ready();
+}
+
+std::optional<FileZippedData> GetLastFileZippedData()
+{
+	std::scoped_lock(fileZippedDataMutex);
+	return lastFileZippedData;
 }
 
 } // namespace builder

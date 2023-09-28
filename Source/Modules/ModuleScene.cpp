@@ -12,29 +12,38 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentSkybox.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 
+
 #include "DataModels/Resources/ResourceSkyBox.h"
-#include "DataModels/Skybox/Skybox.h"
 
 #include "FileSystem/ModuleFileSystem.h"
 #include "FileSystem/ModuleResources.h"
+#include "ModuleNavigation.h"
 
 #include "Components/Component.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentLight.h"
 #include "Components/ComponentParticleSystem.h"
+
+#include "DataModels/Cubemap/Cubemap.h"
+#include "DataModels/Resources/ResourceCubemap.h"
+#include "DataModels/Resources/ResourceSkyBox.h"
+#include "DataModels/Batch/BatchManager.h"
+
 #include "Components/ComponentScript.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "DataModels/Batch/BatchManager.h"
 #include "DataModels/Cubemap/Cubemap.h"
 #include "DataModels/Resources/ResourceCubemap.h"
 #include "DataModels/Resources/ResourceSkyBox.h"
-#include "DataModels/Skybox/Skybox.h"
+
+
 #include "DataStructures/Quadtree.h"
 #include "ModulePlayer.h"
 
@@ -176,11 +185,11 @@ UpdateStatus ModuleScene::PostUpdate()
 			}
 		}
 
-		if (!sceneToLoad.empty())
-		{
-			LoadScene(sceneToLoad);
-			sceneToLoad = std::string();
-		}
+	}
+	if (!sceneToLoad.empty())
+	{
+		LoadScene(sceneToLoad);
+		sceneToLoad = std::string();
 	}
 
 	return UpdateStatus::UPDATE_CONTINUE;
@@ -326,11 +335,11 @@ void ModuleScene::SaveSceneToJson(Json& jsonScene)
 	Quadtree* rootQuadtree = loadedScene->GetRootQuadtree();
 	rootQuadtree->SaveOptions(jsonScene);
 
-	const Skybox* skybox = loadedScene->GetSkybox();
-	skybox->SaveOptions(jsonScene);
-
 	const Cubemap* cubemap = loadedScene->GetCubemap();
 	cubemap->SaveOptions(jsonScene);
+
+	App->GetModule<ModuleNavigation>()->SaveOptions(jsonScene);
+
 }
 
 void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene)
@@ -436,16 +445,7 @@ void ModuleScene::RemoveGameObject(const GameObject* object)
 	}
 }
 
-bool ModuleScene::hasNewUID(UID oldUID, UID& newUID)
+bool ModuleScene::HasNewUID(UID oldUID, UID& newUID)
 {
-	const auto& uid = uidMap.find(oldUID);
-	if (uid == uidMap.end())
-	{
-		return false;
-	}
-	else
-	{
-		newUID = uid->second;
-		return true;
-	}
+	return loader::HasNewUID(oldUID, newUID);
 }

@@ -22,10 +22,13 @@ enum class ComponentType
 	SCRIPT,
 	BREAKABLE,
 	CUBEMAP,
+	SKYBOX,
+	TRAIL,
+	LINE,
+	RENDER,
 	AGENT,
 	OBSTACLE,
 	PARTICLE,
-	PLAYERINPUT
 };
 
 class ComponentAnimation;
@@ -35,18 +38,20 @@ class ComponentBreakable;
 class ComponentCamera;
 class ComponentCameraSample;
 class ComponentCubemap;
+class ComponentSkybox;
 class ComponentLight;
 class ComponentMeshCollider;
 class ComponentMeshRenderer;
 class ComponentPlayer;
-class ComponentPlayerInput;
 class ComponentParticleSystem;
 class ComponentRigidBody;
 class ComponentScript;
 class ComponentTransform;
+class ComponentTrail;
+class ComponentLine;
+class ComponentRender;
 class ComponentAgent;
 class ComponentObstacle;
-
 class ComponentButton;
 class ComponentCanvas;
 class ComponentImage;
@@ -101,6 +106,12 @@ struct ComponentToEnum<ComponentCubemap>
 };
 
 template<>
+struct ComponentToEnum<ComponentSkybox>
+{
+	const static ComponentType value = ComponentType::SKYBOX;
+};
+
+template<>
 struct ComponentToEnum<ComponentLight>
 {
 	const static ComponentType value = ComponentType::LIGHT;
@@ -125,12 +136,6 @@ struct ComponentToEnum<ComponentPlayer>
 };
 
 template<>
-struct ComponentToEnum<ComponentPlayerInput>
-{
-	const static ComponentType value = ComponentType::PLAYERINPUT;
-};
-
-template<>
 struct ComponentToEnum<ComponentParticleSystem>
 {
 	const static ComponentType value = ComponentType::PARTICLE;
@@ -152,6 +157,12 @@ template<>
 struct ComponentToEnum<ComponentTransform>
 {
 	const static ComponentType value = ComponentType::TRANSFORM;
+};
+
+template<>
+struct ComponentToEnum<ComponentTrail>
+{
+	const static ComponentType value = ComponentType::TRAIL;
 };
 
 template<>
@@ -194,4 +205,16 @@ template<>
 struct ComponentToEnum<ComponentSlider>
 {
 	const static ComponentType value = ComponentType::SLIDER;
+};
+
+template<>
+struct ComponentToEnum<ComponentLine>
+{
+	const static ComponentType value = ComponentType::LINE;
+};
+
+template<>
+struct ComponentToEnum<ComponentRender>
+{
+	const static ComponentType value = ComponentType::RENDER;
 };

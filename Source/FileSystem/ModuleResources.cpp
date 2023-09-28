@@ -26,8 +26,6 @@
 #include "Resources/ResourceSkyBox.h"
 #include "Resources/ResourceTexture.h"
 
-#include "Auxiliar/CollectionAwareDeleter.h"
-
 const std::string ModuleResources::assetsFolder = "Assets/";
 const std::string ModuleResources::libraryFolder = "Lib/";
 
@@ -83,11 +81,8 @@ void ModuleResources::CreateDefaultResource(ResourceType type, const std::string
 	{
 		case ResourceType::NavMesh:
 			assetsPath += NAVMESH_EXTENSION;
-			importedRes = CreateNewResource("DefaultNavMesh", assetsPath, ResourceType::NavMesh);
-			CreateMetaFileOfResource(importedRes);
-			navMeshImporter->Import(assetsPath.c_str(),
-				std::dynamic_pointer_cast<ResourceNavMesh>(importedRes));
-			//TODO when we finish the ResourceNavMesh we need to create a PreMade Default or other form to create the resource
+			App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/DefaultNavMesh.nav", assetsPath);
+			ImportResource(assetsPath);
 			break;
 		case ResourceType::Material:
 			assetsPath += MATERIAL_EXTENSION;
@@ -163,87 +158,60 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 																const std::string& libraryPath,
 																ResourceType type)
 {
+	// at this point, it might be easier to make this erase_if call each post update,
+	// but I'd need to profile it in order to not get comments about performance, and I don't wanna
+	auto customDeleter = [this](Resource* pointer)
+	{
+		std::erase_if(resources,
+					  [](const auto& uidAndRes)
+					  {
+						  return uidAndRes.second.expired();
+					  });
+		delete pointer;
+	};
+
 #ifdef ENGINE
-	std::shared_ptr<EditorResourceInterface> res = nullptr;
 	switch (type)
 	{
 		case ResourceType::Model:
-			res = std::shared_ptr<EditorResource<ResourceModel>>(
-				new EditorResource<ResourceModel>(uid, fileName, assetsPath, libraryPath),
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceModel>>(
+				new EditorResource<ResourceModel>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		case ResourceType::Texture:
-			res = std::shared_ptr<EditorResource<ResourceTexture>>(
-				new EditorResource<ResourceTexture>(uid, fileName, assetsPath, libraryPath),
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceTexture>>(
+				new EditorResource<ResourceTexture>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		case ResourceType::Mesh:
-			res = std::shared_ptr<EditorResource<ResourceMesh>>(
-				new EditorResource<ResourceMesh>(uid, fileName, assetsPath, libraryPath),
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceMesh>>(
+				new EditorResource<ResourceMesh>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		case ResourceType::NavMesh:
-			res = std::shared_ptr<EditorResource<ResourceNavMesh>>(
-				new EditorResource<ResourceNavMesh>(uid, fileName, assetsPath, libraryPath),
-				CollectionAwareDeleter<Resource>());
+			return std::shared_ptr<EditorResource<ResourceNavMesh>>(
+				new EditorResource<ResourceNavMesh>(uid, fileName, assetsPath, libraryPath), customDeleter);
 			break;
 		case ResourceType::Scene:
 			// good luck with that :)
 			AXO_TODO("Implement resource scene")
 			return nullptr;
 		case ResourceType::Material:
-			res = std::shared_ptr<EditorResource<ResourceMaterial>>(
-				new EditorResource<ResourceMaterial>(uid, fileName, assetsPath, libraryPath),
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceMaterial>>(
+				new EditorResource<ResourceMaterial>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		case ResourceType::SkyBox:
-			res = std::shared_ptr<EditorResource<ResourceSkyBox>>(
-				new EditorResource<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath),
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceSkyBox>>(
+				new EditorResource<ResourceSkyBox>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		case ResourceType::Cubemap:
-			res = std::shared_ptr<EditorResource<ResourceCubemap>>(
-				new EditorResource<ResourceCubemap>(uid, fileName, assetsPath, libraryPath),
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceCubemap>>(
+				new EditorResource<ResourceCubemap>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		case ResourceType::Animation:
-			res = std::shared_ptr<EditorResource<ResourceAnimation>>(
-				new EditorResource<ResourceAnimation>(uid, fileName, assetsPath, libraryPath),
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceAnimation>>(
+				new EditorResource<ResourceAnimation>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		case ResourceType::StateMachine:
-			res = std::shared_ptr<EditorResource<ResourceStateMachine>>(
-				new EditorResource<ResourceStateMachine>(uid, fileName, assetsPath, libraryPath),
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceStateMachine>>(
+				new EditorResource<ResourceStateMachine>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		case ResourceType::ParticleSystem:
-			res = std::shared_ptr<EditorResource<ResourceParticleSystem>>(
-				new EditorResource<ResourceParticleSystem>(uid, fileName, assetsPath, libraryPath), 
-				CollectionAwareDeleter<Resource>());
-			break;
+			return std::shared_ptr<EditorResource<ResourceParticleSystem>>(
+				new EditorResource<ResourceParticleSystem>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		default:
 			return nullptr;
 	}
-
-	std::get_deleter<CollectionAwareDeleter<Resource>>(res)->AddCollection(resources);
-	return res;
 #else
-	auto customDeleter = [this](Resource* pointer)
-	{
-		std::map<UID, std::weak_ptr<Resource>>& map = resources;
-		for (auto it = std::begin(map); it != std::end(map);)
-		{
-			if (it->second.expired())
-			{
-				it = map.erase(it);
-			}
-			else
-			{
-				++it;
-			}
-		}
-		delete pointer;
-	};
 	switch (type)
 	{
 		case ResourceType::Model:
@@ -429,37 +397,54 @@ void ModuleResources::ReimportResource(UID resourceUID)
 	std::shared_ptr<Resource> resource = resources[resourceUID].lock();
 	CreateMetaFileOfResource(resource);
 	resource->SetChanged(false);
-	if (resource->GetType() == ResourceType::Material)
-	{
-		std::shared_ptr<ResourceMaterial> materialResource = std::dynamic_pointer_cast<ResourceMaterial>(resource);
-		rapidjson::Document doc;
-		Json mat(doc, doc);
-		materialResource->SavePaths(mat);
-		rapidjson::StringBuffer buffer;
-		mat.toBuffer(buffer);
-		App->GetModule<ModuleFileSystem>()->Save(
-			materialResource->GetAssetsPath().c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
-	}
-	if (resource->GetType() == ResourceType::StateMachine)
-	{
-		std::shared_ptr<ResourceStateMachine> stateMachineResource =
-			std::dynamic_pointer_cast<ResourceStateMachine>(resource);
-		char* saveBuffer = {};
-		unsigned int size = 0;
-		stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
-		App->GetModule<ModuleFileSystem>()->Save(stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
-		delete saveBuffer;
-	}
-	if (resource->GetType() == ResourceType::ParticleSystem)
-	{
-		std::shared_ptr<ResourceParticleSystem> particleResource =
-			std::dynamic_pointer_cast<ResourceParticleSystem>(resource);
-		char* saveBuffer = {};
-		unsigned int size = 0;
-		particleSystemImporter->Save(particleResource, saveBuffer, size);
 
-		App->GetModule<ModuleFileSystem>()->Save(particleResource->GetAssetsPath().c_str(), saveBuffer, size);
-		delete saveBuffer;
+	switch (resource->GetType())
+	{
+		case ResourceType::NavMesh:
+		{
+			std::shared_ptr<ResourceNavMesh> navMeshResource = std::dynamic_pointer_cast<ResourceNavMesh>(resource);
+			char* saveBuffer = {};
+			unsigned int size = 0;
+			navMeshImporter->Save(navMeshResource, saveBuffer, size);
+			App->GetModule<ModuleFileSystem>()->Save(navMeshResource->GetAssetsPath().c_str(), saveBuffer, size);
+			delete saveBuffer;
+			break;
+		}
+		case ResourceType::Material:
+		{
+			std::shared_ptr<ResourceMaterial> materialResource = std::dynamic_pointer_cast<ResourceMaterial>(resource);
+			rapidjson::Document doc;
+			Json mat(doc, doc);
+			materialResource->SavePaths(mat);
+			rapidjson::StringBuffer buffer;
+			mat.toBuffer(buffer);
+			App->GetModule<ModuleFileSystem>()->Save(
+				materialResource->GetAssetsPath().c_str(), buffer.GetString(), (unsigned int) buffer.GetSize());
+			break;
+		}
+		case ResourceType::StateMachine:
+		{
+			std::shared_ptr<ResourceStateMachine> stateMachineResource =
+				std::dynamic_pointer_cast<ResourceStateMachine>(resource);
+			char* saveBuffer = {};
+			unsigned int size = 0;
+			stateMachineImporter->Save(stateMachineResource, saveBuffer, size);
+			App->GetModule<ModuleFileSystem>()->Save(stateMachineResource->GetAssetsPath().c_str(), saveBuffer, size);
+			delete saveBuffer;
+			break;
+		}
+		case ResourceType::ParticleSystem:
+		{
+			std::shared_ptr<ResourceParticleSystem> particleResource =
+				std::dynamic_pointer_cast<ResourceParticleSystem>(resource);
+			char* saveBuffer = {};
+			unsigned int size = 0;
+			particleSystemImporter->Save(particleResource, saveBuffer, size);
+
+			App->GetModule<ModuleFileSystem>()->Save(particleResource->GetAssetsPath().c_str(), saveBuffer, size);
+			delete saveBuffer;
+			break;
+		}
 	}
 	ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
 }

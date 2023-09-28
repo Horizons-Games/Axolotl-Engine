@@ -34,6 +34,7 @@ private:
 	void InitTextureImportOptions();
 	void InitTextureLoadOptions();
 	void DrawTextureOptions();
+	void DrawSkyboxOptions();
 
 	void DrawTextureTable();
 	bool MousePosIsInWindow();
@@ -42,7 +43,6 @@ private:
 	void AddComponentMeshRenderer();
 	void AddComponentLight(LightType type, AreaType areaType);
 	void AddComponentPlayer();
-	void AddComponentPlayerInput();
 	void AddComponentCameraSample();
 	void AddComponentAnimation();
 
@@ -53,6 +53,9 @@ private:
 	void AddComponentScript();
 	void AddComponentParticle();
 	void AddComponentBreakable();
+	void AddComponentSkybox();
+	void AddComponentTrail();
+	void AddComponentLine();
 	void AddComponentAgent();
 	void AddComponentObstacle();
 

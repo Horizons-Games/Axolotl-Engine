@@ -10,14 +10,15 @@
 #include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
 #include "ModuleInput.h"
+#include "ModuleNavigation.h"
 #include "ModulePhysics.h"
 #include "ModulePlayer.h"
 #include "ModuleProgram.h"
+#include "ModuleRandom.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "ModuleUI.h"
 #include "ModuleWindow.h"
-#include "ModuleNavigation.h"
 
 #include "ScriptFactory.h"
 
@@ -50,6 +51,7 @@ Application::Application() :
 	modules[static_cast<int>(ModuleToEnum<ModuleResources>::value)] = std::make_unique<ModuleResources>();
 	modules[static_cast<int>(ModuleToEnum<ModuleDebugDraw>::value)] = std::make_unique<ModuleDebugDraw>();
 	modules[static_cast<int>(ModuleToEnum<ModuleCommand>::value)] = std::make_unique<ModuleCommand>();
+	modules[static_cast<int>(ModuleToEnum<ModuleRandom>::value)] = std::make_unique<ModuleRandom>();
 }
 
 Application::~Application()
@@ -179,6 +181,7 @@ void Application::OnPause()
 		GetModule<ModuleInput>()->SetShowCursor(true);
 		GetModule<ModuleCamera>()->SetSelectedCamera(-1);
 		GetModule<ModuleAudio>()->Suspend();
+		GetModule<ModuleUI>()->SetUpButtons();
 	}
 	else if (GetPlayState() == PlayState::PAUSED)
 	{
@@ -196,6 +199,7 @@ void Application::OnStop()
 	GetModule<ModulePlayer>()->UnloadNewPlayer();
 	onPlayTimer.Stop();
 	GetModule<ModuleScene>()->OnStop();
+	GetModule<ModuleUI>()->ClearButtons();
 }
 
 

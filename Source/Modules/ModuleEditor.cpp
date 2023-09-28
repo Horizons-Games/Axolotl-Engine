@@ -13,6 +13,7 @@
 #include "DataModels/Scene/Scene.h"
 #include "FileSystem/ModuleFileSystem.h"
 
+#include "FileSystem/FileZippedData.h"
 #include "FileSystem/Json.h"
 
 #include "Windows/EditorWindows/WindowStateMachineEditor.h"
@@ -51,6 +52,12 @@
 const std::string ModuleEditor::settingsFolder = "Settings/";
 const std::string ModuleEditor::set = "Settings/WindowsStates.conf";
 
+namespace
+{
+constexpr const char* windowSceneName = "Scene";
+constexpr const char* windowEditorControlName = "Editor Control";
+} // namespace
+
 ModuleEditor::ModuleEditor() :
 	mainMenu(nullptr),
 	scene(nullptr),
@@ -86,12 +93,12 @@ bool ModuleEditor::Init()
 	windows.push_back(std::unique_ptr<WindowScene>(scene = new WindowScene()));
 	windows.push_back(std::make_unique<WindowConfiguration>());
 	windows.push_back(std::make_unique<WindowResources>());
+	windows.push_back(std::make_unique<WindowNavigation>());
 	windows.push_back(std::unique_ptr<WindowInspector>(inspector = new WindowInspector()));
 	windows.push_back(std::make_unique<WindowHierarchy>());
 	windows.push_back(std::make_unique<WindowEditorControl>());
 	windows.push_back(std::make_unique<WindowAssetFolder>());
 	windows.push_back(std::make_unique<WindowConsole>());
-	windows.push_back(std::make_unique<WindowNavigation>());
 	
 	char* buffer = StateWindows();
 
@@ -222,7 +229,7 @@ UpdateStatus ModuleEditor::Update()
 		ImGui::DockBuilderAddNode(dockSpaceId, dockSpaceWindowFlags | ImGuiDockNodeFlags_DockSpace);
 		ImGui::DockBuilderSetNodeSize(dockSpaceId, viewport->Size);
 
-		ImGuiID dockIdUp = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Up, 0.08f, nullptr, &dockSpaceId);
+		ImGuiID dockIdUp = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Up, 0.06f, nullptr, &dockSpaceId);
 		ImGuiID dockIdRight = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Right, 0.27f, nullptr, &dockSpaceId);
 		ImGuiID dockIdDown = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Down, 0.32f, nullptr, &dockSpaceId);
 		ImGuiID dockIdLeft = ImGui::DockBuilderSplitNode(dockSpaceId, ImGuiDir_Left, 0.22f, nullptr, &dockSpaceId);
@@ -230,6 +237,8 @@ UpdateStatus ModuleEditor::Update()
 		ImGui::DockBuilderDockWindow("File Browser", dockIdDown);
 		ImGui::DockBuilderDockWindow("State Machine Editor", dockIdDown);
 		ImGui::DockBuilderDockWindow("Configuration", dockIdRight);
+		ImGui::DockBuilderDockWindow("About", dockIdRight);
+		ImGui::DockBuilderDockWindow("Navigation", dockIdRight);
 		ImGui::DockBuilderDockWindow("Resources", dockIdRight);
 		ImGui::DockBuilderDockWindow("Inspector", dockIdRight);
 		ImGui::DockBuilderDockWindow("Editor Control", dockIdUp);
@@ -250,10 +259,25 @@ UpdateStatus ModuleEditor::Update()
 	for (int i = 0; i < windows.size(); ++i)
 	{
 		bool windowEnabled = mainMenu->IsWindowEnabled(i);
-		windows[i]->Draw(windowEnabled);
+		if (fullscreenScene)
+		{
+			bool canBeDrawn = windows[i]->GetName() == windowSceneName;
+			if (editorControl)
+			{
+				canBeDrawn = canBeDrawn || windows[i]->GetName() == windowEditorControlName;
+			}
+			windows[i]->Draw(canBeDrawn);
+		}
+		else
+		{
+			windows[i]->Draw(windowEnabled);
+		}
 		mainMenu->SetWindowEnabled(i, windowEnabled);
 	}
-	stateMachineEditor->Draw(stateMachineWindowEnable);
+	if (!fullscreenScene)
+	{
+		stateMachineEditor->Draw(stateMachineWindowEnable);
+	}
 #else
 	debugOptions->Draw();
 #endif
@@ -274,7 +298,29 @@ void ModuleEditor::DrawLoadingPopUp()
 	}
 	if (zipping)
 	{
-		loadingPopUp->AddWaitingOn("Binaries are being zipped...");
+		std::optional<FileZippedData> lastFileZippedData = builder::GetLastFileZippedData();
+		if (lastFileZippedData.has_value())
+		{
+			FileZippedData data = lastFileZippedData.value();
+			// this is too unreliable, since the time it takes to zip each file vastly varies among them
+			// we could maybe keep a history of the time (maybe in a helper class?), but we can do that later
+
+			// std::chrono::minutes expectedTimeRemaining =
+			//	duration_cast<std::chrono::minutes>((data.totalFiles - data.fileZippedIndex) * data.timeTaken);
+			// std::string extraInfo =
+			//	"Estimated time remaining: " + std::to_string(expectedTimeRemaining.count()) + " minutes";
+
+			std::string extraInfo = "Last file zipped: " + data.fileZipped;
+			extraInfo +=
+				"\nCurrent files: " + std::to_string(data.fileZippedIndex) + "/" + std::to_string(data.totalFiles);
+
+			loadingPopUp->AddWaitingOn("Binaries are being zipped...\n" + extraInfo,
+									   static_cast<float>(data.fileZippedIndex) / static_cast<float>(data.totalFiles));
+		}
+		else
+		{
+			loadingPopUp->AddWaitingOn("Binaries are being zipped...", 0.f);
+		}
 	}
 	if (loadingScene)
 	{
@@ -352,7 +398,9 @@ std::pair<float, float> ModuleEditor::GetAvailableRegion()
 	ImVec2 region = scene->GetAvailableRegion();
 	return std::make_pair(region.x, region.y);
 #else
-	return App->GetModule<ModuleWindow>()->GetWindowSize();
+	std::pair<int, int> windowSizeAsInt = App->GetModule<ModuleWindow>()->GetWindowSize();
+	return std::make_pair<float, float>(static_cast<float>(windowSizeAsInt.first),
+										static_cast<float>(windowSizeAsInt.second));
 #endif
 }
 

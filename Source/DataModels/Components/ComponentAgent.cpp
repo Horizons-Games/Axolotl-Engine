@@ -16,6 +16,8 @@
 ComponentAgent::ComponentAgent(bool active, GameObject* owner) :
 	Component(ComponentType::AGENT, active, owner, true)
 {
+	transform = GetOwner()->GetComponent<ComponentTransform>();
+	isFirstAdded = true;
 }
 
 ComponentAgent::~ComponentAgent()
@@ -25,13 +27,8 @@ ComponentAgent::~ComponentAgent()
 
 void ComponentAgent::Update()
 {
-	/*if (!App->time->IsGameRunning())
-		return;
-
-	if (App->scene->scene != GetOwner().scene)
-		return;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
-	if (!navMesh->IsGenerated())
+	if (navMesh == nullptr || !navMesh->IsGenerated())
 	{
 		return;
 	}
@@ -47,9 +44,18 @@ void ComponentAgent::Update()
 	}
 
 	const dtCrowdAgent* ag = navMesh->GetCrowd()->getAgent(agentId);
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	
+	float3 newPos = float3(ag->npos);
 
-	transform->SetGlobalPosition(float3(ag->npos));
+	newPos.y += yOffset;
+	transform->SetGlobalPosition(newPos);
+
+	if (enabledToRotate)
+	{
+		Quat newRot = CalculateRotationToPosition();
+		transform->SetGlobalRotation(newRot);
+	}
+
 	transform->RecalculateLocalMatrix();
 	transform->UpdateTransformMatrices();
 
@@ -62,10 +68,8 @@ void ComponentAgent::Update()
 
 void ComponentAgent::SetMoveTarget(float3 newTargetPosition, bool usePathfinding)
 {
-	/*if (App->scene->scene != GetOwner().scene)
-		return;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
-	if (!navMesh->IsGenerated() || agentId == -1)
+	if (navMesh == nullptr || !navMesh->IsGenerated() || agentId == -1)
 	{
 		return;
 	}
@@ -107,9 +111,17 @@ void ComponentAgent::SetMaxSpeed(float newSpeed)
 {
 	maxSpeed = newSpeed;
 
-	/*if (App->scene->scene != GetOwner().scene)
-		return;*/
+	/*if (maxSpeed > initialMaxSpeed)
+	{
+		initialMaxSpeed = maxSpeed;
+	}*/
+
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
+	if (navMesh == nullptr || !navMesh->IsGenerated())
+	{
+		return;
+	}
+
 	dtCrowdAgent* ag = navMesh->GetCrowd()->getEditableAgent(agentId);
 	if (ag == nullptr)
 	{
@@ -122,9 +134,18 @@ void ComponentAgent::SetMaxAcceleration(float newAcceleration)
 {
 	maxAcceleration = newAcceleration;
 
-	/*if (App->scene->scene != GetOwner().scene)
-		return;*/
+	/*if (maxAcceleration > initialMaxAcceleration)
+	{
+		initialMaxAcceleration = maxAcceleration;
+	}*/
+
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
+
+	if (navMesh == nullptr || !navMesh->IsGenerated())
+	{
+		return;
+	}
+
 	dtCrowdAgent* ag = navMesh->GetCrowd()->getEditableAgent(agentId);
 	if (ag == nullptr)
 	{
@@ -137,9 +158,13 @@ void ComponentAgent::SetAgentObstacleAvoidance(bool avoidanceActive)
 {
 	avoidingObstacle = avoidanceActive;
 
-	//if (App->scene->scene != GetOwner().scene)
-	//	return;
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
+
+	if (navMesh == nullptr || !navMesh->IsGenerated())
+	{
+		return;
+	}
+
 	dtCrowdAgent* ag = navMesh->GetCrowd()->getEditableAgent(agentId);
 	if (ag == nullptr)
 	{
@@ -158,10 +183,8 @@ void ComponentAgent::AddAgentToCrowd()
 {
 	shouldAddAgentToCrowd = true;
 
-	/*if (App->scene->scene != GetOwner().scene)
-		return;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
-	if (!navMesh->IsGenerated() || agentId != -1)
+	if (navMesh == nullptr || !navMesh->IsGenerated() || agentId != -1)
 	{
 		return;
 	}
@@ -189,8 +212,16 @@ void ComponentAgent::AddAgentToCrowd()
 	ap.obstacleAvoidanceType = 3;
 	ap.separationWeight = 2;
 
-	agentId =
-		navMesh->GetCrowd()->addAgent(GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition().ptr(), &ap);
+	float3 position = transform->GetGlobalPosition();
+
+	// We want to substract the offset only when the agent has been removed
+	// because when it is removed and added, the agent cant be added correctly
+	if (!isFirstAdded)
+	{
+		position.y -= yOffset;
+	}
+
+	agentId = navMesh->GetCrowd()->addAgent(position.ptr(), &ap);
 
 	shouldAddAgentToCrowd = false;
 }
@@ -199,24 +230,21 @@ void ComponentAgent::RemoveAgentFromCrowd()
 {
 	shouldAddAgentToCrowd = false;
 
-	/*if (App->GetModule<ModuleScene>()->GetLoadedScene() != GetOwner().scene)
-		return;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
-	if (!navMesh->IsGenerated() || agentId == -1)
+	if (navMesh == nullptr || !navMesh->IsGenerated() || agentId == -1)
 	{
 		return;
 	}
 
 	navMesh->GetCrowd()->removeAgent(agentId);
 	agentId = -1;
+	isFirstAdded = false;
 }
 
 float3 ComponentAgent::GetVelocity() const
 {
-	/*if (App->scene->scene != GetOwner().scene)
-		return float3::zero;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
-	if (!navMesh->IsGenerated() || agentId == -1)
+	if (navMesh == nullptr || !navMesh->IsGenerated() || agentId == -1)
 	{
 		return float3::zero;
 	}
@@ -230,12 +258,65 @@ float3 ComponentAgent::GetVelocity() const
 	return float3::zero;
 }
 
+Quat ComponentAgent::CalculateRotationToPosition()
+{
+	float deltaTime = App->GetDeltaTime();
+	Quat globalRotation = transform->GetGlobalRotation().Normalized();
+
+	float3 newDirection = targetPositionRotate - transform->GetGlobalPosition();
+	newDirection.y = 0.0f;
+
+	float3 newPos = newDirection.Normalized();
+	float3 forward = transform->GetGlobalForward().Normalized();
+
+	Quat rot = Quat::LookAt(forward, newPos, transform->GetLocalMatrix().WorldY(), float3::unitY);
+	Quat rotation = transform->GetGlobalRotation();
+	Quat targetRotation = rot * transform->GetGlobalRotation();
+
+	Quat rotationError = targetRotation * rotation.Normalized().Inverted();
+	rotationError.Normalize();
+
+	if (!rotationError.Equals(Quat::identity, 0.05f))
+	{
+		float3 axis;
+		float angle;
+		rotationError.ToAxisAngle(axis, angle);
+		axis.Normalize();
+
+		float3 velocityRotation = axis * angle * rotationSpeed;
+		Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
+		Quat wq_0 = angularVelocityQuat * globalRotation;
+
+		float deltaValue = 0.5f * deltaTime;
+		Quat deltaRotation = Quat(deltaValue * wq_0.x, deltaValue * wq_0.y, deltaValue * wq_0.z, deltaValue * wq_0.w);
+
+		if (deltaRotation.Length() > rotationError.Length())
+		{
+			return targetRotation;
+		}
+		else
+		{
+			Quat nextRotation(globalRotation.x + deltaRotation.x,
+							  globalRotation.y + deltaRotation.y,
+							  globalRotation.z + deltaRotation.z,
+							  globalRotation.w + deltaRotation.w);
+			nextRotation.Normalize();
+
+			return nextRotation;
+		}
+	}
+
+	return globalRotation;
+}
+
 void ComponentAgent::InternalSave(Json& meta)
 {
 	meta["maxSpeed"] = static_cast<float>(GetMaxSpeed());
 	meta["maxAcceleration"] = static_cast<float>(GetMaxAcceleration());
 	meta["avoidingObstacle"] = static_cast<bool>(IsAvoidingObstacle());
 	meta["updateRigidBody"] = static_cast<bool>(GetUpdateRigidBody());
+	meta["yOffset"] = static_cast<float>(GetYOffset());
+	meta["rotationSpeed"] = static_cast<float>(GetRotationSpeed());
 }
 
 void ComponentAgent::InternalLoad(const Json& meta)
@@ -244,4 +325,6 @@ void ComponentAgent::InternalLoad(const Json& meta)
 	SetMaxAcceleration(static_cast<float>(meta["maxAcceleration"]));
 	SetAgentObstacleAvoidance(static_cast<bool>(meta["avoidingObstacle"]));
 	SetUpdateRigidBody(static_cast<bool>(meta["updateRigidBody"]));
+	SetYOffset(static_cast<float>(meta["yOffset"]));
+	SetRotationSpeed(static_cast<float>(meta["rotationSpeed"]));
 }

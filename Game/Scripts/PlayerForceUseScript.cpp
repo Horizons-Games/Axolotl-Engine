@@ -31,11 +31,12 @@ REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
 	gameObjectAttachedParent(nullptr), tag("Forceable"), tag2("ForceableDoors"), distancePointGameObjectAttached(0.0f),
-	maxDistanceForce(20.0f), minDistanceForce(0.5f), maxTimeForce(20.0f), isForceActive(false),
+	maxDistanceForce(20.0f), minDistanceForce(1.f), maxTimeForce(20.0f), isForceActive(false),
 	currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componentAudioSource(nullptr),
 	playerManagerScript(nullptr)
 {
 	REGISTER_FIELD(maxDistanceForce, float);
+	REGISTER_FIELD(minDistanceForce, float);
 	REGISTER_FIELD(maxTimeForce, float);
 
 }
@@ -68,7 +69,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 		
 		while (gameObjectAttached == nullptr && raytries < 4)
 		{
-			Ray ray(origin + float3(0.f, 1 * raytries, 0.f), transform->GetGlobalForward() );
+			Ray ray(origin + float3(0.f, 1.f * static_cast<float>(raytries), 0.f), transform->GetGlobalForward());
 			LineSegment line(ray, 300);
 			raytries++;
 
@@ -82,6 +83,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 				rigidBody->SetStatic(false);
 				offsetFromPickedPoint = hittedTransform->GetGlobalPosition() - hit.hitPoint;
 				pickedRotation = hittedTransform->GetGlobalRotation();
+				pickedPlayerPosition = owner->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
 				if (gameObjectAttached->GetTag() == "ForceableDoors" && !rigidBody->IsTrigger())
 				{
@@ -167,7 +169,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE)
 	{
-		
 		componentAnimation->SetParameter("IsStoppingForce", true);
 		componentAnimation->SetParameter("IsStartingForce", false);
 	}
@@ -222,15 +223,24 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 		float3 currentDistance = hittedTransform->GetGlobalPosition() - nextPosition;
 		
-		if (std::abs(currentDistance.x) > 2 && std::abs(currentDistance.z) > 2 && currentTimeForce < 14.5f)
+		if ( std::abs(currentDistance.x) > 2 && std::abs(currentDistance.z) > 2 && currentTimeForce < 14.5f )
 		{
 			breakForce = true;
 			currentTimeForce = 10;
 			return;
 		} 
+		float difX = pickedPlayerPosition.x - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().x;
+		float difY = pickedPlayerPosition.y - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().y;
+		float difZ = pickedPlayerPosition.z - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().z;
+		if ( abs(difX) + abs(difY) + abs(difZ) > 0.2f)
+		{
+			breakForce = true;
+			currentTimeForce = 10;
+			return;
+		}
 
 		float2 mouseMotion = input->GetMouseMotion();
-		nextPosition.y = nextPosition.y -= mouseMotion.y * 0.2 * deltaTime;
+		nextPosition.y = nextPosition.y -= mouseMotion.y * 0.2f * deltaTime;
 
 
 

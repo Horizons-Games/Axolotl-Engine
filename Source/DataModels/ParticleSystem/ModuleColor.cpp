@@ -13,6 +13,18 @@ ModuleColor::ModuleColor(ParticleEmitter* emitter) : ParticleModule(ModuleType::
 	gradient = new ImGradient();
 }
 
+ModuleColor::ModuleColor(ParticleEmitter* emitter, ModuleColor* color) : 
+	ParticleModule(ModuleType::COLOR, emitter)
+{
+	initAlpha = color->GetInitAlpha();
+	endAlpha = color->GetEndAlpha();
+	enabled = color->IsEnabled();
+
+	gradient = new ImGradient(color->GetGradient());
+	draggingMark = gradient->getMarks().front();
+	selectedMark = gradient->getMarks().front();
+}
+
 ModuleColor::~ModuleColor()
 {
 	delete gradient;
@@ -38,7 +50,7 @@ void ModuleColor::Update(EmitterInstance* instance)
 		{
 			EmitterInstance::Particle& particle = particles[i];
 
-			if (particle.lifespan >= 0.0f)
+			if (!particle.dead)
 			{
 				float lifeRatio = 1.0f - particle.lifespan / particle.initLife;
 
@@ -46,6 +58,17 @@ void ModuleColor::Update(EmitterInstance* instance)
 			}
 		}
 	}
+}
+
+void ModuleColor::CopyConfig(ParticleModule* module)
+{
+	ModuleColor* color = static_cast<ModuleColor*>(module);
+
+	enabled   = color->IsEnabled();
+	initAlpha = color->GetInitAlpha();
+	endAlpha  = color->GetEndAlpha();
+
+	gradient->CopyMarks(color->GetGradient());
 }
 
 void ModuleColor::DrawImGui()

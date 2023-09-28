@@ -18,6 +18,7 @@ public:
 	bool IsLeaf() const;
 	bool InQuadrant(const GameObject* gameObject) const;
 	bool EntireInQuadrant(const GameObject* gameObject) const;
+	bool HasGameObject(GameObject* gameObject) const;
 
 	void Add(GameObject* gameObject);
 	void AddGameObjectAndChildren(GameObject* gameObject);
@@ -57,6 +58,9 @@ public:
 	void SetBoundingBox(AABB boundingBox);
 
 	std::list<GameObject*> GetAllGameObjects(GameObject* gameObject);
+
+	void AddRigidBodiesToSimulation() const;
+	void RemoveRigidBodiesFromSimulation() const;
 
 private:
 	std::set<GameObject*> gameObjects;
