@@ -55,7 +55,7 @@ void RunScriptMethodAndHandleException(bool& scriptFailedState, ComponentScript*
 	}
 	catch (const AccessingFailedScriptException& exception)
 	{
-		LOG_ERROR("Script {}, owned by {} attempted to access script that has stopped running. Error message: {}",
+		LOG_ERROR("Script {}, owned by {} attempted to access a script that has stopped running. Error message: {}",
 				  script->GetConstructName(),
 				  script->GetOwner(),
 				  exception.what());
