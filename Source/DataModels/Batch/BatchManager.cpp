@@ -250,6 +250,18 @@ void BatchManager::SetDirtybatches()
 	}
 }
 
+void BatchManager::SetMaterialbatches()
+{
+	for (GeometryBatch* batch : geometryBatchesOpaques)
+	{
+		batch->SetFillMaterials(true);
+	}
+	for (GeometryBatch* batch : geometryBatchesTransparent)
+	{
+		batch->SetFillMaterials(true);
+	}
+}
+
 void BatchManager::CleanBatches()
 {
 #ifndef ENGINE

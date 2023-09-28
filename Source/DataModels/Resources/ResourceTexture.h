@@ -2,12 +2,15 @@
 
 #include "Resource.h"
 
+
 enum class TextureCompression
 {
 	NONE,
-	DXT1,
-	DXT3,
-	DXT5,
+	BC1,
+	BC3,
+	BC4,
+	BC5,
+	BC6,
 	BC7
 };
 
@@ -58,8 +61,9 @@ struct ImportOptionsTexture
 {
 	bool flipVertical;
 	bool flipHorizontal;
+	TextureCompression compression;
 
-	ImportOptionsTexture() : flipVertical(true), flipHorizontal(false)
+	ImportOptionsTexture() : flipVertical(true), flipHorizontal(false), compression(TextureCompression::NONE)
 	{
 	}
 };
@@ -90,6 +94,7 @@ public:
 	const std::vector<uint8_t>& GetPixels() const;
 	unsigned int GetPixelsSize() const;
 	const uint64_t& GetHandle();
+	void GetCompressFormat(TextureCompression compression, int &compressFormat, int &byteSize);
 
 	ImportOptionsTexture& GetImportOptions();
 	LoadOptionsTexture& GetLoadOptions();

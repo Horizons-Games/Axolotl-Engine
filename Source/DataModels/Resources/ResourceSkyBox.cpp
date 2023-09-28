@@ -34,17 +34,37 @@ void ResourceSkyBox::InternalLoad()
 
 		if (textI)
 		{
+			TextureCompression compression = textI->GetImportOptions().compression;
+			int compressFormat = -1;
+			int byteSize = 0;
+			textI->GetCompressFormat(compression, compressFormat, byteSize);
 			textI->Load();
 			std::vector<uint8_t> aux = textI->GetPixels();
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-						 0,
-						 textI->GetInternalFormat(),
-						 textI->GetWidth(),
-						 textI->GetHeight(),
-						 0,
-						 textI->GetFormat(),
-						 textI->GetImageType(),
-						 &(aux[0]));
+			if (compression == TextureCompression::NONE)
+			{
+				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+							 0,
+							 textI->GetInternalFormat(),
+							 textI->GetWidth(),
+							 textI->GetHeight(),
+							 0,
+							 textI->GetFormat(),
+							 textI->GetImageType(),
+							 &(aux[0]));
+			
+			}
+			else
+			{
+				glCompressedTexImage2D(
+					GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+					0,
+					compressFormat,
+					textI->GetWidth(),
+					textI->GetHeight(),
+					0,
+					((textI->GetWidth()+ 3) / 4) * ((textI->GetHeight() + 3) / 4) * byteSize,
+					&(aux[0]));
+			}
 		}
 	}
 

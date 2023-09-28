@@ -39,6 +39,7 @@ public:
 	void DrawBatch(GeometryBatch* batch, std::vector<GameObject*>& meshes);
 
 	void SetDirtybatches();
+	void SetMaterialbatches();
 
 	void CleanBatches();
 

@@ -24,7 +24,7 @@ TextureImporter::~TextureImporter()
 
 void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTexture> resource)
 {
-	LOG_VERBOSE("Import texture from {}", filePath);
+	LOG_VERBOSE("Import texture from {} with a compression of {}", filePath, static_cast<int>(resource->GetImportOptions().compression));
 
 	ImportOptionsTexture options = resource->GetImportOptions();
 
@@ -33,7 +33,7 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 	const wchar_t* path = wideString.c_str();
 
 	DirectX::TexMetadata md;
-	DirectX::ScratchImage* imgResult;
+	DirectX::ScratchImage* imgResult, compressImg;
 	DirectX::ScratchImage img, flippedImg, dcmprsdImg;
 
 	HRESULT result = DirectX::LoadFromDDSFile(path, DirectX::DDS_FLAGS::DDS_FLAGS_NONE, &md, img);
@@ -103,14 +103,61 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 		}
 	}
 
-	// narrowString = resource->GetLibraryPath() + DDS_TEXTURE_EXTENSION;
-	// wideString = std::wstring(narrowString.begin(), narrowString.end());
-	// path = wideString.c_str();
+	DXGI_FORMAT compressFormat;
+	switch (options.compression)
+	{
+		case TextureCompression::BC1:
+			compressFormat = DXGI_FORMAT_BC1_UNORM;
+			break;
+		case TextureCompression::BC3:
+			compressFormat = DXGI_FORMAT_BC3_UNORM;
+			break;
+		case TextureCompression::BC4:
+			compressFormat = DXGI_FORMAT_BC4_UNORM;
+			break;
+		case TextureCompression::BC5:
+			compressFormat = DXGI_FORMAT_BC5_UNORM;
+			break;
+		case TextureCompression::BC6:
+			compressFormat = DXGI_FORMAT_BC6H_SF16;
+			break;
+		case TextureCompression::BC7:
+			compressFormat = DXGI_FORMAT_BC7_UNORM;
+			break;
+		default:
+			break;
+	}
 
+	
+	if (options.compression != TextureCompression::NONE)
+	{
+		result = DirectX::Compress(imgResult->GetImages(),
+								   imgResult->GetImageCount(),
+								   imgResult->GetMetadata(),
+								   compressFormat,
+								   DirectX::TEX_COMPRESS_DEFAULT,
+								   DirectX::TEX_THRESHOLD_DEFAULT,
+								   compressImg);
+
+		if (FAILED(result)) // Compression fails
+		{
+			LOG_ERROR("Cannot compress texture %s", filePath);
+		}
+	}
+	else
+	{
+		HRESULT result = compressImg.InitializeFromImage(
+			*imgResult->GetImages(), false, DirectX::CP_FLAGS_NONE);
+		if (FAILED(result))
+		{
+			// Handle the error appropriately
+			LOG_ERROR("Fail to initialize image %s", filePath);
+		}
+	}
 	GLint internalFormat;
 	GLenum format, type;
 
-	switch (imgResult->GetMetadata().format)
+	switch (compressImg.GetMetadata().format)
 	{
 		case DXGI_FORMAT_R32G32B32A32_FLOAT:
 			internalFormat = GL_RGBA32F;
@@ -144,25 +191,65 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 			format = GL_RGBA;
 			type = GL_UNSIGNED_BYTE;
 			break;
+		case DXGI_FORMAT_BC2_UNORM:
+			internalFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT;
+			format = GL_RGBA;
+			type = GL_UNSIGNED_BYTE;
+			break;
+		case DXGI_FORMAT_BC3_UNORM:
+			internalFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT;
+			format = GL_RGBA;
+			type = GL_UNSIGNED_BYTE;
+			break;
+		case DXGI_FORMAT_BC4_UNORM:
+			internalFormat = GL_COMPRESSED_RED_RGTC1;
+			format = GL_RGBA;
+			type = GL_UNSIGNED_BYTE;
+			break;
+		case DXGI_FORMAT_BC5_UNORM:
+			internalFormat = GL_COMPRESSED_RG_RGTC2;
+			format = GL_RGBA;
+			type = GL_UNSIGNED_BYTE;
+			break;
+		case DXGI_FORMAT_BC6H_SF16:
+			internalFormat = GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT;
+			format = GL_RGBA;
+			type = GL_UNSIGNED_BYTE;
+			break;
+		case DXGI_FORMAT_BC7_UNORM:
+			internalFormat = GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM;
+			format = GL_RGBA;
+			type = GL_UNSIGNED_BYTE;
+			break;
 		default:
 			assert(false && "Unsupported format");
 	}
 
-	resource->SetWidth((unsigned int) imgResult->GetMetadata().width);
-	resource->SetHeight((unsigned int) imgResult->GetMetadata().height);
+	resource->SetWidth((unsigned int) compressImg.GetMetadata().width);
+	resource->SetHeight((unsigned int) compressImg.GetMetadata().height);
 
 	resource->SetInternalFormat(internalFormat);
 	resource->SetFormat(format);
 	resource->SetImageType(type);
 
-	resource->SetPixelsSize((unsigned int) imgResult->GetPixelsSize());
+	resource->SetPixelsSize((unsigned int) compressImg.GetPixelsSize());
 
 	resource->SetPixels(
-		std::vector<uint8_t>(imgResult->GetPixels(), imgResult->GetPixels() + imgResult->GetPixelsSize()));
+		std::vector<uint8_t>(compressImg.GetPixels(), compressImg.GetPixels() + compressImg.GetPixelsSize()));
 
+
+	// Save in DDS format
+	narrowString = resource->GetLibraryPath() + DDS_TEXTURE_EXTENSION;
+	wideString = std::wstring(narrowString.begin(), narrowString.end());
+	path = wideString.c_str();
+
+	result = DirectX::SaveToDDSFile(
+		compressImg.GetImages(), compressImg.GetImageCount(), compressImg.GetMetadata(), DirectX::DDS_FLAGS_NONE, path);
+	
 	char* buffer{};
 	unsigned int size;
 	Save(resource, buffer, size);
+
 	App->GetModule<ModuleFileSystem>()->Save(
 		(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
 
@@ -171,60 +258,159 @@ void TextureImporter::Import(const char* filePath, std::shared_ptr<ResourceTextu
 
 void TextureImporter::Save(const std::shared_ptr<ResourceTexture>& resource, char*& fileBuffer, unsigned int& size)
 {
-	unsigned int header[6] = { resource->GetWidth(),		  resource->GetHeight(),	resource->GetFormat(),
-							   resource->GetInternalFormat(), resource->GetImageType(), resource->GetPixelsSize() };
-
 	unsigned int options[5] = { static_cast<unsigned int>(resource->GetLoadOptions().min),
 								static_cast<unsigned int>(resource->GetLoadOptions().mag),
 								static_cast<unsigned int>(resource->GetLoadOptions().wrapS),
 								static_cast<unsigned int>(resource->GetLoadOptions().wrapT),
 								resource->GetLoadOptions().mipMap };
-
-	size = sizeof(header) + sizeof(unsigned char) * resource->GetPixelsSize() + sizeof(options);
-
-	char* cursor = new char[size];
-
-	fileBuffer = cursor;
-
-	unsigned int bytes = sizeof(header);
-	memcpy(cursor, header, bytes);
-
-	cursor += bytes;
-
-	bytes = sizeof(unsigned char) * resource->GetPixelsSize();
-	memcpy(cursor, &(resource->GetPixels()[0]), bytes);
-
-	cursor += bytes;
-
-	bytes = sizeof(options);
-	memcpy(cursor, options, bytes);
+	size = sizeof(options);
+	unsigned int bytes = sizeof(options);
+	fileBuffer = new char[size];
+	memcpy(fileBuffer, options, bytes);
 }
 
-void TextureImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceTexture> resource)
+void TextureImporter::Load(const char* filePath, std::shared_ptr<ResourceTexture> resource)
 {
-	unsigned int header[6];
-	memcpy(header, fileBuffer, sizeof(header));
+	std::string narrowString(filePath);
+	std::wstring wideString = std::wstring(narrowString.begin(), narrowString.end());
+	const wchar_t* path = wideString.c_str();
 
-	resource->SetWidth(header[0]);
-	resource->SetHeight(header[1]);
-	resource->SetFormat(header[2]);
-	resource->SetInternalFormat(header[3]);
-	resource->SetImageType(header[4]);
-	resource->SetPixelsSize(header[5]);
+	DirectX::TexMetadata md;
+	DirectX::ScratchImage* imgResult;
+	DirectX::ScratchImage img;
 
-	fileBuffer += sizeof(header);
+	
+	HRESULT result = DirectX::LoadFromDDSFile(path, DirectX::DDS_FLAGS::DDS_FLAGS_NONE, &md, img);
 
-	unsigned char* pixelsPointer = new unsigned char[resource->GetPixelsSize()];
-	memcpy(pixelsPointer, fileBuffer, sizeof(unsigned char) * resource->GetPixelsSize());
-	resource->SetPixels(std::vector<unsigned char>(pixelsPointer, pixelsPointer + resource->GetPixelsSize()));
+	if (!FAILED(result)) // DDS load
+	{
+		imgResult = &img;
 
-	fileBuffer += sizeof(unsigned char) * resource->GetPixelsSize();
+		resource->SetWidth((unsigned int) imgResult->GetMetadata().width);
+		resource->SetHeight((unsigned int) imgResult->GetMetadata().height);
 
-	delete[] pixelsPointer;
+		GLint internalFormat;
+		GLenum format, type;
+
+		switch (imgResult->GetMetadata().format)
+		{
+			case DXGI_FORMAT_R32G32B32A32_FLOAT:
+				internalFormat = GL_RGBA16F;
+				format = GL_RGBA;
+				type = GL_FLOAT;
+				break;
+			case DXGI_FORMAT_R8_UNORM:
+				internalFormat = GL_R8;
+				format = GL_RED;
+				type = GL_BYTE;
+				break;
+			case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
+			case DXGI_FORMAT_R8G8B8A8_UNORM:
+				internalFormat = GL_RGBA8;
+				format = GL_RGBA;
+				type = GL_UNSIGNED_BYTE;
+				break;
+			case DXGI_FORMAT_B8G8R8A8_UNORM_SRGB:
+			case DXGI_FORMAT_B8G8R8A8_UNORM:
+				internalFormat = GL_RGBA8;
+				format = GL_BGRA;
+				type = GL_UNSIGNED_BYTE;
+				break;
+			case DXGI_FORMAT_B5G6R5_UNORM:
+				internalFormat = GL_RGB8;
+				format = GL_BGR;
+				type = GL_UNSIGNED_BYTE;
+				break;
+			case DXGI_FORMAT_BC1_UNORM:
+				internalFormat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+				format = GL_RGBA;
+				type = GL_UNSIGNED_BYTE;
+				break;
+			case DXGI_FORMAT_BC3_UNORM:
+				internalFormat = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT;
+				format = GL_RGBA;
+				type = GL_UNSIGNED_BYTE;
+				break;
+			case DXGI_FORMAT_BC4_UNORM:
+				internalFormat = GL_COMPRESSED_RED_RGTC1;
+				format = GL_RGBA;
+				type = GL_UNSIGNED_BYTE;
+				break;
+			case DXGI_FORMAT_BC5_UNORM:
+				internalFormat = GL_COMPRESSED_RG_RGTC2;
+				format = GL_RGBA;
+				type = GL_UNSIGNED_BYTE;
+				break;
+			case DXGI_FORMAT_BC6H_SF16:
+				internalFormat = GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT;
+				format = GL_RGBA;
+				type = GL_UNSIGNED_BYTE;
+				break;
+			case DXGI_FORMAT_BC7_UNORM:
+				internalFormat = GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM;
+				format = GL_RGBA;
+				type = GL_UNSIGNED_BYTE;
+				break;
+			default:
+				assert(false && "Unsupported format");
+		}
+
+		resource->SetInternalFormat(internalFormat);
+		resource->SetFormat(format);
+		resource->SetImageType(type);
+
+		resource->SetPixelsSize((unsigned int) imgResult->GetPixelsSize());
+
+		uint8_t* pixels = imgResult->GetPixels();
+
+		std::vector<uint8_t> vpixels(pixels, pixels + imgResult->GetPixelsSize());
+
+		resource->SetPixels(vpixels);
+	}
+	else //Cubemap
+	{
+		char* fileBuffer = {};
+		ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+		fileSystem->Load(filePath, fileBuffer);
+		unsigned int header[6];
+		memcpy(header, fileBuffer, sizeof(header));
+
+		resource->SetWidth(header[0]);
+		resource->SetHeight(header[1]);
+		resource->SetFormat(header[2]);
+		resource->SetInternalFormat(header[3]);
+		resource->SetImageType(header[4]);
+		resource->SetPixelsSize(header[5]);
+
+		fileBuffer += sizeof(header);
+
+		unsigned char* pixelsPointer = new unsigned char[resource->GetPixelsSize()];
+		memcpy(pixelsPointer, fileBuffer, sizeof(unsigned char) * resource->GetPixelsSize());
+		std::vector<unsigned char> pixels(pixelsPointer, pixelsPointer + resource->GetPixelsSize());
+		resource->SetPixels(pixels);
+
+
+		delete[] pixelsPointer;
+		delete fileBuffer;
+	}
+	
 
 #ifndef ENGINE
+	std::string narrowStringOptions(filePath);
+	size_t dotPos = narrowStringOptions.find_last_of('.');
+	if (dotPos != std::string::npos)
+	{
+		// Remove the existing extension
+		narrowStringOptions.erase(dotPos);
+	}
+
+	// Append the new extension
+	narrowStringOptions += GENERAL_BINARY_EXTENSION;
+	std::wstring wideStringOptions = std::wstring(narrowStringOptions.begin(), narrowStringOptions.end());
+	const wchar_t* pathOptions = wideStringOptions.c_str();
+	
 	unsigned int options[5];
-	memcpy(options, fileBuffer, sizeof(options));
+	memcpy(options, pathOptions, sizeof(options));
 
 	resource->GetLoadOptions().min = (TextureMinFilter) options[0];
 	resource->GetLoadOptions().mag = (TextureMagFilter) options[1];

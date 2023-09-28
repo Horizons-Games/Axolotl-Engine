@@ -6,11 +6,16 @@
 #include "FileSystem/ModuleResources.h"
 #include "ModuleScene.h"
 #include "ModuleRender.h"
+#include "Batch/BatchManager.h"
 
 #include "DataModels/Resources/Resource.h"
 #include "DataModels/Resources/ResourceTexture.h"
 #include "Scene/Scene.h"
-
+#include "GameObject/GameObject.h"
+#include "DataModels/Resources/ResourceMaterial.h"
+#include "Components/Component.h"
+#include "Components/ComponentLight.h"
+#include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioListener.h"
 #include "Components/ComponentBreakable.h"
@@ -31,6 +36,10 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
 #include "Auxiliar/AddComponentAction.h"
+namespace
+{
+	const char* compression[] = { "No compress", "BC1", "BC3", "BC4", "BC5", "BC6", "BC7" };
+}
 
 namespace
 {
@@ -433,6 +442,7 @@ void WindowInspector::InitTextureImportOptions()
 	std::shared_ptr<ResourceTexture> resourceTexture = std::dynamic_pointer_cast<ResourceTexture>(resource.lock());
 	flipVertical = resourceTexture->GetImportOptions().flipVertical;
 	flipHorizontal = resourceTexture->GetImportOptions().flipHorizontal;
+	compressionLevel = static_cast<int>(resourceTexture->GetImportOptions().compression);
 }
 
 void WindowInspector::InitTextureLoadOptions()
@@ -455,8 +465,8 @@ void WindowInspector::DrawTextureOptions()
 		ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(resourceTexture->GetGlTexture())),
 					 ImVec2(100, 100));
 		ImGui::TableNextColumn();
-		ImGui::Text("Width %.2f", resourceTexture->GetWidth());
-		ImGui::Text("Height %.2f", resourceTexture->GetHeight());
+		ImGui::Text("Width %d", resourceTexture->GetWidth());
+		ImGui::Text("Height %d", resourceTexture->GetHeight());
 		ImGui::EndTable();
 	}
 	ImGui::Text("");
@@ -464,6 +474,7 @@ void WindowInspector::DrawTextureOptions()
 	{
 		ImGui::Checkbox("Flip Image Vertical", &flipVertical);
 		ImGui::Checkbox("Flip Image Horizontal", &flipHorizontal);
+		ImGui::Combo("Compression", &compressionLevel, compression, IM_ARRAYSIZE(compression));
 	}
 	ImGui::Separator();
 	if (ImGui::CollapsingHeader("Load Options", ImGuiTreeNodeFlags_DefaultOpen))
@@ -500,6 +511,7 @@ void WindowInspector::DrawTextureOptions()
 	{
 		resourceTexture->GetImportOptions().flipVertical = flipVertical;
 		resourceTexture->GetImportOptions().flipHorizontal = flipHorizontal;
+		resourceTexture->GetImportOptions().compression = static_cast<TextureCompression>(compressionLevel);
 		resourceTexture->GetLoadOptions().mipMap = mipMap;
 		resourceTexture->GetLoadOptions().min = (TextureMinFilter) min;
 		resourceTexture->GetLoadOptions().mag = (TextureMagFilter) mag;
@@ -508,6 +520,8 @@ void WindowInspector::DrawTextureOptions()
 		resourceTexture->Unload();
 		resourceTexture->SetChanged(true);
 		App->GetModule<ModuleResources>()->ReimportResource(resourceTexture->GetUID());
+		App->GetModule<ModuleRender>()->GetBatchManager()->SetMaterialbatches();
+		//App->GetModule<ModuleRender>()->GetBatchManager()->SetDirtybatches();
 	}
 }
 
