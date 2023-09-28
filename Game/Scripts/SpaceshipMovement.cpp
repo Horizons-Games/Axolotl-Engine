@@ -12,9 +12,9 @@
 
 REGISTERCLASS(SpaceshipMovement);
 
-SpaceshipMovement::SpaceshipMovement() : Script(), rigidbody(nullptr), forwardSpeed(20.0f), input(nullptr), XYSpeed(0.01f),
+SpaceshipMovement::SpaceshipMovement() : Script(), spaceshipRigidbody(nullptr), forwardSpeed(20.0f), input(nullptr), XYSpeed(0.01f),
 meshTransform(nullptr), XrotationSpeed(0.1f), YrotationSpeed(0.1f), XrotationLimit(20.0f), YrotationLimit(2.0f),
-offsetSpeed(3.0f)
+offsetSpeed(3.0f), ownerRigidbody(nullptr)
 {
 	REGISTER_FIELD(forwardSpeed, float);
 	REGISTER_FIELD(XYSpeed, float);
@@ -24,12 +24,13 @@ offsetSpeed(3.0f)
 	REGISTER_FIELD(YrotationLimit, float);
 	REGISTER_FIELD(offsetSpeed, float);
 	REGISTER_FIELD(meshTransform, ComponentTransform*);
-	REGISTER_FIELD(rigidbody, ComponentRigidBody*);
+	REGISTER_FIELD(spaceshipRigidbody, ComponentRigidBody*);
 }
 
 void SpaceshipMovement::Start()
 {
-	btRigidbody = rigidbody->GetRigidBody();
+	ownerRigidbody = owner->GetComponent<ComponentRigidBody>();
+	btRigidbody = spaceshipRigidbody->GetRigidBody();
 	input = App->GetModule<ModuleInput>();
 }
 
@@ -58,7 +59,7 @@ void SpaceshipMovement::Move(float deltaTime)
 	
 	btRigidbody->setLinearVelocity(movement);
 	
-	owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(btVector3(0, 0, forwardSpeed));
+	ownerRigidbody->GetRigidBody()->setLinearVelocity(btVector3(0, 0, forwardSpeed));
 }
 
 void SpaceshipMovement::Rotate(float deltaTime)
@@ -136,4 +137,10 @@ void SpaceshipMovement::Rotate(float deltaTime)
 
 	meshTransform->RecalculateLocalMatrix();
 	meshTransform->UpdateTransformMatrices();
+}
+
+void SpaceshipMovement::Stop()
+{
+	btRigidbody->setLinearVelocity(btVector3(0.f, 0.f, 0.f));
+	ownerRigidbody->GetRigidBody()->setLinearVelocity(btVector3(0.f, 0.f, 0.f));
 }

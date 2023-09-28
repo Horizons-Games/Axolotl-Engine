@@ -6,14 +6,8 @@
 
 REGISTERCLASS(TurbineObstacle);
 
-TurbineObstacle::TurbineObstacle() : Script(), rigidbody(nullptr)
+TurbineObstacle::TurbineObstacle() : SpaceshipObstacle()
 {
-
-}
-
-void TurbineObstacle::Start()
-{
-	rigidbody = owner->GetComponent<ComponentRigidBody>();
 
 }
 

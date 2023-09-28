@@ -20,11 +20,14 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void Stop();
+
 private:
 	void Move(float deltaTime);
 	void Rotate(float deltaTime);
 
-	ComponentRigidBody* rigidbody;
+	ComponentRigidBody* spaceshipRigidbody;
+	ComponentRigidBody* ownerRigidbody;
 	btRigidBody* btRigidbody;
 	JoystickHorizontalDirection horizontalDirection;
 	JoystickVerticalDirection verticalDirection;

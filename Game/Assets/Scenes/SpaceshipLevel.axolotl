@@ -116,7 +116,7 @@
         {
             "GameObject": {
                 "name": "Spaceship",
-                "tag": "Player",
+                "tag": "PlayerSpaceship",
                 "uid": 1140418160817041032,
                 "parentUID": 4811276466569697195,
                 "enabled": true,
@@ -237,11 +237,91 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "Rigidbody",
+                                    "name": "SpaceshipRigidbody",
                                     "value": 10354332927082928423,
                                     "type": 2
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "HealthSystem",
+                            "fields": [
+                                {
+                                    "name": "CurrentHealth",
+                                    "value": 3.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MaxHealth",
+                                    "value": 3.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "IsImmortal",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "EnemyParticleSystem",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "MeshEffect",
+                                    "value": 1140418160817041032,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "MeshEffect",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 0,
+                            "assetPathState": ""
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "SpaceshipDeathManager",
+                            "fields": [
+                                {
+                                    "name": "SpaceshipMesh",
+                                    "value": 4022421530189914217,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "DeathVFX",
+                                    "value": 5441162723048119715,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
                         }
                     }
                 ]
@@ -844,7 +924,7 @@
         {
             "GameObject": {
                 "name": "Mesh",
-                "tag": "",
+                "tag": "PlayerSpaceshipMesh",
                 "uid": 10354332927082928423,
                 "parentUID": 1140418160817041032,
                 "enabled": true,
@@ -7483,6 +7563,50 @@
                             "assetPathMesh": "Assets/Meshes/spaceship_1.Object001_0.mesh",
                             "materialUID": 9394329577554088203,
                             "assetPathMaterial": "Assets/Materials/spaceship_1Cabin_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DeathVFX",
+                "tag": "",
+                "uid": 5441162723048119715,
+                "parentUID": 1140418160817041032,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.9411660432815552,
+                            "localPos_Z": 7.149649143218994,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Particle",
+                            "active": true,
+                            "removed": true,
+                            "particleSystemUID": 887342333510244496,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/ExplosionDrone.particle",
+                            "playAtStart": false
                         }
                     }
                 ]
