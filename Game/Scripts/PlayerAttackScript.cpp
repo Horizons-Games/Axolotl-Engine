@@ -418,7 +418,6 @@ void PlayerAttackScript::UpdateJumpAttack()
 	if (isMelee)
 	{
 		landed = playerManager->IsGrounded();
-
 	}
 	else
 	{
