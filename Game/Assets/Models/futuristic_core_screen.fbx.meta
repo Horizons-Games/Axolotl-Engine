@@ -1,0 +1,11 @@
+{
+    "UID": 2705316664572587874,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/futuristic_core_screen.Cube.004_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/futuristic_core_screenDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

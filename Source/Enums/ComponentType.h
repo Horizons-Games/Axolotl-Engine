@@ -29,7 +29,6 @@ enum class ComponentType
 	AGENT,
 	OBSTACLE,
 	PARTICLE,
-	PLAYERINPUT
 };
 
 class ComponentAnimation;
@@ -44,7 +43,6 @@ class ComponentLight;
 class ComponentMeshCollider;
 class ComponentMeshRenderer;
 class ComponentPlayer;
-class ComponentPlayerInput;
 class ComponentParticleSystem;
 class ComponentRigidBody;
 class ComponentScript;
@@ -135,12 +133,6 @@ template<>
 struct ComponentToEnum<ComponentPlayer>
 {
 	const static ComponentType value = ComponentType::PLAYER;
-};
-
-template<>
-struct ComponentToEnum<ComponentPlayerInput>
-{
-	const static ComponentType value = ComponentType::PLAYERINPUT;
 };
 
 template<>

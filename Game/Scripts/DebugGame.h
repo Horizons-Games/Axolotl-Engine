@@ -6,11 +6,12 @@ class ComponentPlayer;
 class HealthSystem;
 class ComponentTransform;
 class ComponentRigidBody;
-class BixAttackScript;
+class PlayerAttackScript;
 class PlayerMoveScript;
 class PlayerJumpScript;
 class PlayerRotationScript;
 class ModuleInput;
+class ComboManager;
 
 class DebugGame : public Script
 {
@@ -23,14 +24,16 @@ public:
 
 	void SwitchDebugMode();
 
+	void SpawnNewEnemy() const;
+	void FillComboBar() const;
 	void GodCamera() const;
-
 	void FillHealth() const;
 	void BeImmortal() const;
 	void DeathTouch() const;
 	void PowerUpDrop() const;
 
 	void Teleport();
+	bool IsTeleporting() const;
 
 private:
 	bool isDebugModeActive;
@@ -41,22 +44,20 @@ private:
 	ModuleInput* input;
 
 	GameObject* player;
-	GameObject* DebugPowerUp;
+	GameObject* debugPowerUp;
 	HealthSystem* playerHealthSystem;
-	BixAttackScript* playerAttackScript;
+	PlayerAttackScript* playerAttackScript;
 	PlayerMoveScript* playerMoveScript;
 	PlayerJumpScript* playerJumpScript;
 	PlayerRotationScript* playerRotationScript;
 	GameObject* setGodCamera;
-
-	GameObject* debugPoint1;
-	GameObject* debugPoint2;
-	GameObject* debugPoint3;
-	GameObject* debugPoint4;
-	GameObject* debugPoint5;
+	ComboManager* comboSystemScript;
 
 	std::vector<ComponentTransform*> debugPoints;
+
 	ComponentTransform* currentdDebugPointTransform;
 	ComponentTransform* playerTransform;
 	ComponentRigidBody* playerRigidBody;
+
+	GameObject* venomitePrefab;
 };

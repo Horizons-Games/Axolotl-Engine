@@ -1,0 +1,11 @@
+{
+    "UID": 4453252559265448645,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/HOD_GR_Structure_Roof.Cube.033_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/HOD_GR_Structure_RoofDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

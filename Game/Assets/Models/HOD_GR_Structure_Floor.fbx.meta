@@ -1,0 +1,11 @@
+{
+    "UID": 1365769045414112741,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/HOD_GR_Structure_Floor.Cube.025_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/HOD_GR_Structure_FloorDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

@@ -8,9 +8,9 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentAnimation;
 class ComponentParticleSystem;
 
-class BixAttackScript;
+class PlayerAttackScript;
 class MeshEffect;
-
+class PlayerManagerScript;
 
 class HealthSystem : public Script
 {
@@ -45,9 +45,9 @@ private:
 	ComponentAnimation* componentAnimation;
 	ComponentParticleSystem* componentParticleSystem;
 
+	PlayerAttackScript* attackScript;
 	MeshEffect* meshEffect;
-
-	BixAttackScript* attackScript;
+	PlayerManagerScript* playerManager;
 
 	std::function<void(void)> deathCallback;
 };

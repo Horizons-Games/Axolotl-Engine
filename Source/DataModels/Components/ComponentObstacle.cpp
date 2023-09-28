@@ -54,7 +54,7 @@ void ComponentObstacle::AddObstacle()
 	/*if (App->scene->scene != GetOwner().scene)
 		return;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
-	if (!navMesh->IsGenerated())
+	if (navMesh == nullptr || !navMesh->IsGenerated())
 	{
 		return;
 	}
@@ -97,7 +97,7 @@ void ComponentObstacle::RemoveObstacle()
 	/*if (App->scene->scene != GetOwner().scene)
 		return;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
-	if (!navMesh->IsGenerated())
+	if (navMesh == nullptr || !navMesh->IsGenerated())
 	{
 		return;
 	}

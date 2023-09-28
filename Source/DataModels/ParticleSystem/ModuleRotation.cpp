@@ -12,6 +12,14 @@ ModuleRotation::ModuleRotation(ParticleEmitter* emitter) :
 {
 }
 
+ModuleRotation::ModuleRotation(ParticleEmitter* emitter, ModuleRotation* rotation) :
+	ParticleModule(ModuleType::ROTATION, emitter)
+{
+	random = rotation->IsRandom();
+	rotationOverTime = rotation->GetRotation();
+	enabled = rotation->IsEnabled();
+}
+
 ModuleRotation::~ModuleRotation()
 {
 }
@@ -42,6 +50,15 @@ void ModuleRotation::Update(EmitterInstance* instance)
 			}
 		}
 	}
+}
+
+void ModuleRotation::CopyConfig(ParticleModule* module)
+{
+	ModuleRotation* rotation = static_cast<ModuleRotation*>(module);
+
+	enabled = rotation->IsEnabled();
+	random = rotation->IsRandom();
+	rotationOverTime = rotation->GetRotation();
 }
 
 void ModuleRotation::DrawImGui()

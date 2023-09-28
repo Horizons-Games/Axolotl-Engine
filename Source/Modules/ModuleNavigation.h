@@ -16,11 +16,14 @@ public:
 	UpdateStatus Update() override;
 	UpdateStatus PostUpdate() override;
 
-	void ChangeNavMesh(UID navMeshId);
+	void SaveOptions(Json& meta);
+	void LoadOptions(Json& meta);
+
 	void BakeNavMesh(); // Builds new navMesh
 
 	void DrawGizmos();	   // Draws NavMesh Gizmos
 	std::shared_ptr<ResourceNavMesh> GetNavMesh(); // Returns navMesh
+	void SetNavMesh(const std::shared_ptr<ResourceNavMesh> resource);
 	void Raycast(float3 startPosition,
 				 float3 targetPosition,
 				 bool& hitResult,

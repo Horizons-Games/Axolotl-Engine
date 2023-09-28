@@ -774,7 +774,7 @@ void GeometryBatch::BindBatch(bool selected)
 					memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 				}
 
-				Effect effect(component->GetEffectColor(), static_cast<int>(component->IsDiscarded())); //TODO change
+				Effect effect(component->GetEffectColor(), static_cast<int>(component->IsDiscarded())); AXO_TODO("Change")
 				memcpy(&effectData[paletteIndex], &effect, sizeof(Effect));
 
 				//do a for for all the instaces existing

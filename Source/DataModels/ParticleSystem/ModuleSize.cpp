@@ -12,6 +12,14 @@ ModuleSize::ModuleSize(ParticleEmitter* emitter) :
 {
 }
 
+ModuleSize::ModuleSize(ParticleEmitter* emitter, ModuleSize* size) :
+	ParticleModule(ModuleType::SIZE, emitter)
+{
+	random = size->IsRandom();
+	sizeOverTime = size->GetSize();
+	enabled = size->IsEnabled();
+}
+
 ModuleSize::~ModuleSize()
 {
 }
@@ -46,6 +54,15 @@ void ModuleSize::Update(EmitterInstance* instance)
 			}
 		}
 	}
+}
+
+void ModuleSize::CopyConfig(ParticleModule* module)
+{
+	ModuleSize* size = static_cast<ModuleSize*>(module);
+
+	enabled = size->IsEnabled();
+	random = size->IsRandom();
+	sizeOverTime = size->GetSize();
 }
 
 void ModuleSize::DrawImGui()
