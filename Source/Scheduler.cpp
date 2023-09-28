@@ -37,7 +37,17 @@ void Scheduler::RunTasks()
 		}
 		else
 		{
-			task.first();
+			if(task.first)
+			{
+				task.first();
+			}
+			else
+			{
+				// Error, because ScheduleTask should prevent this
+				// If this becomes too frequent we could index/ID the tasks and also log that index
+				// So we can see who schedules it
+				LOG_ERROR("Trying to run an empty task!");
+			}
 		}
 		scheduledTasks.pop();
 	}
