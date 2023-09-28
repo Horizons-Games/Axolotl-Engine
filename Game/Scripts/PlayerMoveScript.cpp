@@ -287,10 +287,9 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 
 void PlayerMoveScript::DashRoll(float deltaTime)
 {
-	if (playerAttackScript->IsAttackAvailable() &&
+	if (timeSinceLastDash > dashRollCooldown &&
 		(playerManager->GetPlayerState() == PlayerActions::IDLE ||
 		playerManager->GetPlayerState() == PlayerActions::WALKING) &&
-		timeSinceLastDash > dashRollCooldown &&
 		(input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN ||
 		isTriggeringStoredDash))
 	{
@@ -329,12 +328,9 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 	}
 	else
 	{
-		PlayerActions playerState = playerManager->GetPlayerState();
-		bool isJumping = playerState == PlayerActions::JUMPING ||
-			playerState == PlayerActions::DOUBLEJUMPING;
-
-		if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN && 
-			(!playerAttackScript->IsAttackAvailable() || isJumping))
+		if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN &&
+			(playerManager->GetPlayerState() == PlayerActions::IDLE ||
+			playerManager->GetPlayerState() == PlayerActions::WALKING))
 		{
 			isTriggeringStoredDash = true;
 		}

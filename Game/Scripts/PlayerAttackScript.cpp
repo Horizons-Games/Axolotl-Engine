@@ -193,7 +193,7 @@ void PlayerAttackScript::PerformCombos()
 
 	if (!IsAttackAvailable()) //Stack next attack if attack input called when it's currently in an attack animation
 	{
-		if (!isNextAttackTriggered)
+		if (!isNextAttackTriggered && !playerManager->GetMovementManager()->IsTriggeringStoredDash())
 		{
 			switch (currentAttack)
 			{
