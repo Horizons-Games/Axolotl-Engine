@@ -255,7 +255,7 @@ void PlayerAttackScript::PerformCombos()
 		}
 	}
 
-	if (IsAttackAvailable())
+	if (IsAttackAvailable() && playerManager->GetPlayerState() != PlayerActions::DASHING)
 	{
 		switch (currentAttack)
 		{
