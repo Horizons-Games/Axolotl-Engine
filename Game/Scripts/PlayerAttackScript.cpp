@@ -412,7 +412,21 @@ void PlayerAttackScript::InitJumpAttack()
 
 void PlayerAttackScript::UpdateJumpAttack()
 {
-	if (playerManager->IsGrounded())
+	bool landed = false;
+	//if (isMelee) landing is player grounded if not then is the projectile detection for the moment I only put this
+
+	if (isMelee)
+	{
+		landed = playerManager->IsGrounded();
+
+	}
+	else
+	{
+		AXO_TODO("Add Allura Checks")
+		landed = true;
+	}
+
+	if (landed)
 	{
 		animation->SetParameter("IsJumpAttacking", false);
 		if (currentAttack == AttackType::JUMPNORMAL)
