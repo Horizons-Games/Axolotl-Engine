@@ -796,6 +796,9 @@
     <ClCompile Include="..\Game\Scripts\SpaceshipMovement.cpp">
       <Filter>UserScripts\Gameplay\Spaceship</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\TurbineObstacle.cpp">
+      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1638,6 +1641,9 @@
     <ClInclude Include="..\Game\Scripts\SpaceshipMovement.h">
       <Filter>UserScripts\Gameplay\Spaceship</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\TurbineObstacle.h">
+      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1852,6 +1858,9 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Spaceship">
       <UniqueIdentifier>{06069472-a0b5-4bc1-b30e-7d275a0df5b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Spaceship\Obstacles">
+      <UniqueIdentifier>{52911ff2-a8af-4267-b3e7-7d92cae8e7f3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
