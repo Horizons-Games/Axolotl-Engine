@@ -15,6 +15,8 @@
 #include "PlayerMoveScript.h"
 #include "PlayerJumpScript.h"
 #include "PlayerAttackScript.h"
+#include "EnemyDroneScript.h"
+#include "EnemyVenomiteScript.h"
 
 
 #include "Scene/Scene.h"
@@ -143,6 +145,10 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 			}
 			
 		}
+		else if (other->GetOwner()->CompareTag("Enemy"))
+		{
+			DisableAllInteractionsEnemies(other->GetOwner());
+		}
 	}
 }
 
@@ -177,10 +183,20 @@ void ElevatorCore::EnableAllInteractions()
 	manager->ParalyzePlayer(false);
 }
 
-void ElevatorCore::EnableAllInteractionsEnemies()
+void ElevatorCore::EnableAllInteractionsEnemies(const GameObject* enemy)
 {
+	if (enemy->HasComponent<EnemyVenomiteScript>())
+	{
+		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(true);
+		enemy->GetComponent<EnemyVenomiteScript>()->ParalyzeEnemy(true);
+	}
+	else if (enemy->HasComponent<EnemyDroneScript>())
+	{
+		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(true);
+		enemy->GetComponent<EnemyDroneScript>()->ParalyzeEnemy(true);
+	}
 }
 
-void ElevatorCore::DisableAllInteractionsEnemies()
+void ElevatorCore::DisableAllInteractionsEnemies(const GameObject* enemy)
 {
 }

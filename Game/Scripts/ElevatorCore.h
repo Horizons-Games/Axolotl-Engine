@@ -38,8 +38,8 @@ public:
 	void OnCollisionExit(ComponentRigidBody* other) override;
 	void DisableAllInteractions();
 	void EnableAllInteractions();
-	void EnableAllInteractionsEnemies();
-	void DisableAllInteractionsEnemies();
+	void EnableAllInteractionsEnemies(const GameObject* enemy);
+	void DisableAllInteractionsEnemies(const GameObject* enemy);
 
 private:
 	ComponentAudioSource* componentAudio;
