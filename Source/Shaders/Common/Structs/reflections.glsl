@@ -22,7 +22,7 @@ struct PlanarReflection
 	sampler2D reflection;				//160	//8 
 	int numMipMaps;						//168	//4
 	float distortionAmount;				//172	//4
-	vec4 padding2;						//176	//16 -->192
+	vec4 planeNormal;					//176	//16 -->192
 };
 
 #endif

@@ -19,7 +19,7 @@ struct PlanarReflection
 	uint64_t reflection;					//160	//8
 	int numMipMaps;							//168	//4
 	float distortionAmount;					//172	//4
-	float4 padding2;						//176	//16 -->192
+	float4 planeNormal;						//176	//16 -->192
 };
 
 class ComponentPlanarReflection : public ComponentLight
