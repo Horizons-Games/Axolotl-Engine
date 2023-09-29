@@ -337,13 +337,20 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 		}
 		timeSinceLastDash += deltaTime;
 	}
+	
+	bool dashAnimationHasFinished = componentAnimation->GetActualStateName() != "DashingInit" &&
+		componentAnimation->GetActualStateName() != "DashingKeep" &&
+		componentAnimation->GetActualStateName() != "DashingEnd";
 
 	if (playerManager->GetPlayerState() == PlayerActions::DASHING)
 	{
 		// Stop the dash
 		if (dashRollTime > dashRollDuration)
 		{
-			playerManager->SetPlayerState(PlayerActions::IDLE);
+			if (dashAnimationHasFinished)
+			{
+				playerManager->SetPlayerState(PlayerActions::IDLE);
+			}
 			timeSinceLastDash = 0.0f;
 			componentAnimation->SetParameter("IsDashing", false);
 			btRigidbody->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
