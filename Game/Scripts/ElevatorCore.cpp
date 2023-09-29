@@ -112,7 +112,7 @@ void ElevatorCore::Update(float deltaTime)
 	}
 }
 
-void ElevatorCore::MoveUpElevator(bool isPlayerInside, float deltaTime)
+void ElevatorCore::MoveUpElevator(bool isGOInside, float deltaTime)
 {
 	float3 pos = transform->GetGlobalPosition();
 	btVector3 triggerOrigin = triggerEntrance->GetRigidBodyOrigin();
@@ -133,13 +133,13 @@ void ElevatorCore::MoveUpElevator(bool isPlayerInside, float deltaTime)
 		positionState = PositionState::UP;
 		activeState = ActiveActions::INACTIVE;
 		currentTime = coolDown;
-		if (isPlayerInside)
+		if (isGOInside)
 		{
 			SetDisableInteractions(false);
 		}
 	}
 
-	if (isPlayerInside)
+	if (isGOInside)
 	{
 		float3 playerPos = goTransform->GetGlobalPosition();
 		playerPos.y += deltaTime * speed;
@@ -153,7 +153,7 @@ void ElevatorCore::MoveUpElevator(bool isPlayerInside, float deltaTime)
 
 }
 
-void ElevatorCore::MoveDownElevator(bool isPlayerInside, float deltaTime)
+void ElevatorCore::MoveDownElevator(bool isGOInside, float deltaTime)
 {
 	float3 pos = transform->GetGlobalPosition();
 	float3 playerPos = goTransform->GetGlobalPosition();
@@ -175,13 +175,13 @@ void ElevatorCore::MoveDownElevator(bool isPlayerInside, float deltaTime)
 		positionState = PositionState::DOWN;
 		activeState = ActiveActions::INACTIVE;
 		currentTime = coolDown;
-		if (isPlayerInside)
+		if (isGOInside)
 		{
 			SetDisableInteractions(false);
 		}
 	}
 
-	if (isPlayerInside)
+	if (isGOInside)
 	{
 		float3 playerPos = goTransform->GetGlobalPosition();
 		playerPos.y -= deltaTime * speed;
