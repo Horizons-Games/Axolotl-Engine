@@ -25,6 +25,12 @@ enum class PositionState
 	DOWN
 };
 
+enum class GameObjectInElevator
+{
+	PLAYER,
+	ENEMY
+};
+
 class ElevatorCore : public Script
 {
 
@@ -48,6 +54,7 @@ private:
 
 	ActiveActions activeState;
 	PositionState positionState;
+	GameObjectInElevator goInElevator;
 
 	GameObject* bixPrefab;
 	ComponentTransform* playerTransform;

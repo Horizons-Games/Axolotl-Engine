@@ -120,11 +120,11 @@ void ElevatorCore::Update(float deltaTime)
 	}
 }
 
-
 void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 {
 	LOG_DEBUG("{} enters in CollisionEnter of ElevatorCore", other->GetOwner());
-	if (!App->GetModule<ModuleScene>()->GetLoadedScene()->GetCombatMode())
+	if (!App->GetModule<ModuleScene>()->GetLoadedScene()->GetCombatMode() 
+		&& activeState == ActiveActions::INACTIVE)
 	{
 		if (other->GetOwner()->CompareTag("Player"))
 		{
@@ -141,13 +141,14 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 				activeState = ActiveActions::ACTIVE;
 
 				SetDisableInteractions(true);
-
+				goInElevator = GameObjectInElevator::PLAYER;
 			}
 			
 		}
 		else if (other->GetOwner()->CompareTag("Enemy"))
 		{
 			SetDisableInteractionsEnemies(other->GetOwner(), true);
+			goInElevator = GameObjectInElevator::ENEMY;
 		}
 	}
 }
@@ -167,7 +168,6 @@ void ElevatorCore::OnCollisionExit(ComponentRigidBody* other)
 
 void ElevatorCore::SetDisableInteractions(bool interactions)
 {
-	//bixPrefab->SetParent(elevator);
 	bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
 
 	PlayerManagerScript* manager = bixPrefab->GetComponentInternal<PlayerManagerScript>();
@@ -178,11 +178,15 @@ void ElevatorCore::SetDisableInteractionsEnemies(const GameObject* enemy, bool i
 {
 	if (enemy->HasComponent<EnemyVenomiteScript>())
 	{
+		activeState = ActiveActions::ACTIVE;
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
 		enemy->GetComponent<EnemyVenomiteScript>()->ParalyzeEnemy(interactions);
 	}
 	else if (enemy->HasComponent<EnemyDroneScript>())
 	{
+		activeState = ActiveActions::ACTIVE;				
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
 		enemy->GetComponent<EnemyDroneScript>()->ParalyzeEnemy(interactions);
 	}
