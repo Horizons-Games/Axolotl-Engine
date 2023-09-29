@@ -30,14 +30,11 @@
 REGISTERCLASS(ElevatorCore);
 
 ElevatorCore::ElevatorCore() : Script(),
-componentAudio(nullptr), activeState(ActiveActions::INACTIVE), positionState(PositionState::UP)
+componentAudio(nullptr), activeState(ActiveActions::INACTIVE), positionState(PositionState::UP),
+goTransform(nullptr), go(nullptr)
 {
 	REGISTER_FIELD(elevator, GameObject*);
 	REGISTER_FIELD(finalPos, float);
-}
-
-ElevatorCore::~ElevatorCore()
-{
 }
 
 void ElevatorCore::Start()
@@ -61,8 +58,7 @@ void ElevatorCore::Start()
 	transform = elevator->GetComponentInternal<ComponentTransform>();
 	triggerEntrance = owner->GetComponent<ComponentRigidBody>();
 	finalUpPos = 0;
-	bixPrefab = App->GetModule<ModulePlayer>()->GetPlayer();
-	playerTransform = bixPrefab->GetComponent<ComponentTransform>();
+	//bixPrefab = App->GetModule<ModulePlayer>()->GetPlayer();
 }
 
 void ElevatorCore::Update(float deltaTime)
@@ -70,44 +66,51 @@ void ElevatorCore::Update(float deltaTime)
 	if (activeState == ActiveActions::ACTIVE) 
 	{
 		float3 pos = transform->GetGlobalPosition();
-		float3 playerPos = playerTransform->GetGlobalPosition();
+		float3 goPos = goTransform->GetGlobalPosition();
 		btVector3 triggerOrigin = triggerEntrance->GetRigidBodyOrigin();
 
 		if (positionState == PositionState::UP)
 		{
 			pos.y -= 0.1f;
-			playerPos.y -= 0.1f;
+			goPos.y -= 0.1f;
 			float newYTrigger = triggerOrigin.getY() - 0.1f;
 			triggerOrigin.setY(newYTrigger);
 		}
 		else 
 		{
 			pos.y += 0.1f;
-			playerPos.y += 0.1f;
+			goPos.y += 0.1f;
 			float newYTrigger = triggerOrigin.getY() + 0.1f;
 			triggerOrigin.setY(newYTrigger);
 		}
 		
 		transform->SetGlobalPosition(pos);
-		playerTransform->SetGlobalPosition(playerPos);
+		goTransform->SetGlobalPosition(goPos);
 
 		transform->RecalculateLocalMatrix();
 		transform->UpdateTransformMatrices();
 
-		playerTransform->RecalculateLocalMatrix();
-		playerTransform->UpdateTransformMatrices();
+		goTransform->RecalculateLocalMatrix();
+		goTransform->UpdateTransformMatrices();
 
 		
 		triggerEntrance->SetRigidBodyOrigin(triggerOrigin);
 		elevator->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
-		bixPrefab->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
+		go->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
 		
 		if (pos.y <= finalPos)
 		{
 			positionState = PositionState::DOWN;
 			activeState = ActiveActions::INACTIVE;
 
-			SetDisableInteractions(false);
+			if (go->CompareTag("Player"))
+			{
+				SetDisableInteractions(false);
+			}
+			else
+			{
+				SetDisableInteractionsEnemies(go, false);
+			}
 		}
 		
 		else if (pos.y >= finalUpPos)
@@ -115,7 +118,14 @@ void ElevatorCore::Update(float deltaTime)
 			positionState = PositionState::UP;
 			activeState = ActiveActions::INACTIVE;
 
-			SetDisableInteractions(false);
+			if (go->CompareTag("Player"))
+			{
+				SetDisableInteractions(false);
+			}
+			else
+			{
+				SetDisableInteractionsEnemies(go, false);
+			}
 		}
 	}
 }
@@ -128,8 +138,9 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		if (other->GetOwner()->CompareTag("Player"))
 		{
-
-			PlayerActions currentAction = bixPrefab->GetComponent<PlayerManagerScript>()->GetPlayerState();
+			go = other->GetOwner();
+			goTransform = go->GetComponentInternal<ComponentTransform>();
+			PlayerActions currentAction = go->GetComponent<PlayerManagerScript>()->GetPlayerState();
 			bool isJumping = currentAction == PlayerActions::JUMPING ||
 				currentAction == PlayerActions::DOUBLEJUMPING ||
 				currentAction == PlayerActions::FALLING;
@@ -141,36 +152,23 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 				activeState = ActiveActions::ACTIVE;
 
 				SetDisableInteractions(true);
-				goInElevator = GameObjectInElevator::PLAYER;
 			}
 			
 		}
 		else if (other->GetOwner()->CompareTag("Enemy"))
 		{
+			go = other->GetOwner();
+			goTransform = go->GetComponentInternal<ComponentTransform>();
 			SetDisableInteractionsEnemies(other->GetOwner(), true);
-			goInElevator = GameObjectInElevator::ENEMY;
-		}
-	}
-}
-
-void ElevatorCore::OnCollisionExit(ComponentRigidBody* other)
-{
-	LOG_DEBUG("{} enters in CollisionExit of ElevatorCore", other->GetOwner());
-	if (!App->GetModule<ModuleScene>()->GetLoadedScene()->GetCombatMode())
-	{
-		if (other->GetOwner()->CompareTag("Player"))
-		{
-			//componentAnimation->SetParameter("IsActive", false);
-			//componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
 		}
 	}
 }
 
 void ElevatorCore::SetDisableInteractions(bool interactions)
 {
-	bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
+	go->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
 
-	PlayerManagerScript* manager = bixPrefab->GetComponentInternal<PlayerManagerScript>();
+	PlayerManagerScript* manager = go->GetComponentInternal<PlayerManagerScript>();
 	manager->ParalyzePlayer(interactions);
 }
 
@@ -182,6 +180,7 @@ void ElevatorCore::SetDisableInteractionsEnemies(const GameObject* enemy, bool i
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
 		enemy->GetComponent<EnemyVenomiteScript>()->ParalyzeEnemy(interactions);
+		goTransform = enemy->GetComponent<ComponentTransform>();
 	}
 	else if (enemy->HasComponent<EnemyDroneScript>())
 	{
@@ -189,5 +188,6 @@ void ElevatorCore::SetDisableInteractionsEnemies(const GameObject* enemy, bool i
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
 		enemy->GetComponent<EnemyDroneScript>()->ParalyzeEnemy(interactions);
+		goTransform = enemy->GetComponent<ComponentTransform>();
 	}
 }

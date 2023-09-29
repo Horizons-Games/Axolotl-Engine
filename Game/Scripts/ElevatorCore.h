@@ -25,23 +25,15 @@ enum class PositionState
 	DOWN
 };
 
-enum class GameObjectInElevator
-{
-	PLAYER,
-	ENEMY
-};
-
 class ElevatorCore : public Script
 {
 
 public:
 	ElevatorCore();
-	~ElevatorCore();
 
 	void Start() override;
 	void Update(float deltaTime) override;
 	void OnCollisionEnter(ComponentRigidBody* other) override;
-	void OnCollisionExit(ComponentRigidBody* other) override;
 	void SetDisableInteractions(bool interactions);
 	void SetDisableInteractionsEnemies(const GameObject* enemy, bool interactions);
 
@@ -54,10 +46,9 @@ private:
 
 	ActiveActions activeState;
 	PositionState positionState;
-	GameObjectInElevator goInElevator;
 
-	GameObject* bixPrefab;
-	ComponentTransform* playerTransform;
+	GameObject* go;
+	ComponentTransform* goTransform;
 
 	GameObject* elevator;
 	float finalPos;
