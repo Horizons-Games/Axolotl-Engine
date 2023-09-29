@@ -68,17 +68,17 @@ void UIGameManager::Update(float deltaTime)
 	}
 
 
-	if (healthSystemClassBix->GetCurrentHealth()!= componentSliderPlayerBack->GetCurrentValue()
+	if (healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerBack->GetCurrentValue()
 		|| healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerFront->GetCurrentValue())
 	{
-		ModifyBixSliderHealthValue();
+		ModifySliderHealthValue(healthSystemClassBix, componentSliderPlayerBack, componentSliderPlayerFront);
 	}
 	if (manager)
 	{
 		if (healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerBack->GetCurrentValue()
 			|| healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerFront->GetCurrentValue())
 		{
-			ModifyAlluraSliderHealthValue();
+			ModifySliderHealthValue(healthSystemClassAllura, componentSliderSecondPlayerBack, componentSliderSecondPlayerFront);
 		}
 	}
 
@@ -200,39 +200,21 @@ void UIGameManager::DisableUIPwrUP()
 	EnableUIPwrUp(savePwrUp);
 }
 
-void UIGameManager::ModifyBixSliderHealthValue()
+void UIGameManager::ModifySliderHealthValue(HealthSystem* healthSystemClass, ComponentSlider* componentSliderBack, ComponentSlider* componentSliderFront)
 {
 	// We use 2 slider to do a effect in the health bar
-	damage = healthSystemClassBix->GetCurrentHealth() - componentSliderPlayerFront->GetCurrentValue();
-	damageBack = healthSystemClassBix->GetCurrentHealth() - componentSliderPlayerBack->GetCurrentValue();
+	damage = healthSystemClass->GetCurrentHealth() - componentSliderFront->GetCurrentValue();
+	damageBack = healthSystemClass->GetCurrentHealth() - componentSliderBack->GetCurrentValue();
 
 	if (damageBack <= 0.0f && damage <= 0.0f)
 	{
-		componentSliderPlayerBack->ModifyCurrentValue(componentSliderPlayerBack->GetCurrentValue() + std::max(damageBack, -0.1f));
-		componentSliderPlayerFront->ModifyCurrentValue(componentSliderPlayerFront->GetCurrentValue() + std::max(damage, -0.4f));
+		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + std::max(damageBack, -0.1f));
+		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + std::max(damage, -0.4f));
 	}
 	else
 	{
-		componentSliderPlayerBack->ModifyCurrentValue(componentSliderPlayerBack->GetCurrentValue() + std::min(damageBack, 0.4f));
-		componentSliderPlayerFront->ModifyCurrentValue(componentSliderPlayerFront->GetCurrentValue() + std::min(damage, 0.2f));
-	}
-}
-
-void UIGameManager::ModifyAlluraSliderHealthValue()
-{
-	// We use 2 slider to do a effect in the health bar
-	damage = healthSystemClassAllura->GetCurrentHealth() - componentSliderSecondPlayerFront->GetCurrentValue();
-	damageBack = healthSystemClassAllura->GetCurrentHealth() - componentSliderSecondPlayerBack->GetCurrentValue();
-
-	if (damageBack <= 0.0f && damage <= 0.0f)
-	{
-		componentSliderSecondPlayerBack->ModifyCurrentValue(componentSliderSecondPlayerBack->GetCurrentValue() + std::max(damageBack, -0.1f));
-		componentSliderSecondPlayerFront->ModifyCurrentValue(componentSliderSecondPlayerFront->GetCurrentValue() + std::max(damage, -0.4f));
-	}
-	else
-	{
-		componentSliderSecondPlayerBack->ModifyCurrentValue(componentSliderSecondPlayerBack->GetCurrentValue() + std::min(damageBack, 0.4f));
-		componentSliderSecondPlayerFront->ModifyCurrentValue(componentSliderSecondPlayerFront->GetCurrentValue() + std::min(damage, 0.2f));
+		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + std::min(damageBack, 0.4f));
+		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + std::min(damage, 0.2f));
 	}
 }
 
