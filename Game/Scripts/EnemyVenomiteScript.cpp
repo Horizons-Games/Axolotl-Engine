@@ -68,6 +68,11 @@ void EnemyVenomiteScript::Start()
 
 void EnemyVenomiteScript::Update(float deltaTime)
 {
+	if (paralyzed)
+	{
+		return;
+	}
+
 	if (stunned)
 	{
 		if (timeStunned < 0)
@@ -286,10 +291,12 @@ void EnemyVenomiteScript::ResetValues()
 	healthScript->HealLife(1000.0f); // It will cap at max health
 	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
 	enemyDeathScript->ResetDespawnTimerAndEnableActions();
+	pathScript->Enable();
 }
 
-void EnemyVenomiteScript::ParalyzeEnemy(bool paralyzed) const 
+void EnemyVenomiteScript::ParalyzeEnemy(bool nparalyzed) 
 {
+	paralyzed = nparalyzed;
 }
 
 void EnemyVenomiteScript::SetStunnedTime(float newTime)

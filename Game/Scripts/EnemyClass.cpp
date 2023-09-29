@@ -6,7 +6,7 @@
 
 #include "../Scripts/HealthSystem.h"
 
-EnemyClass::EnemyClass() : stunned(false), timeStunned(0.0f), isSpawnedEnemy(false), enemyType(EnemyTypes::NONE),
+EnemyClass::EnemyClass() : stunned(false), paralyzed(false), timeStunned(0.0f), isSpawnedEnemy(false), enemyType(EnemyTypes::NONE),
 	needsToBeReset(false)
 {
 	REGISTER_FIELD(particleTargetGO, GameObject*);
@@ -71,7 +71,7 @@ EnemyTypes EnemyClass::GetEnemyType() const
 	return enemyType;
 }
 
-void EnemyClass::ParalyzeEnemy(bool paralyzed) const
+void EnemyClass::ParalyzeEnemy(bool nparalyzed)
 {
 	return;
 }
