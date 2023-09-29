@@ -37,6 +37,7 @@ SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullpt
 void SwitchPlayerManagerScript::Start()
 {
 	input = App->GetModule<ModuleInput>();
+	modulePlayer = App->GetModule<ModulePlayer>();
 	
 	mainCamera = App->GetModule<ModulePlayer>()->GetCameraPlayerObject();
 

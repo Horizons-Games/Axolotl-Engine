@@ -35,6 +35,7 @@ private:
 	void Start() override;
 
 	ModuleInput* input;
+	ModulePlayer* modulePlayer;
 	Timer changePlayerTimer;
 	std::vector<float> changingPlayerTime;
 
