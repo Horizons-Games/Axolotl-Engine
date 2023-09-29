@@ -31,7 +31,7 @@ public:
 	void SetIsSwitchAvailable(bool available);
 
 	void VisualSwitchEffect();
-	GameObject* GetSecondPlayer();
+	GameObject* GetSecondPlayer() const;
 
 private:
 	void Start() override;

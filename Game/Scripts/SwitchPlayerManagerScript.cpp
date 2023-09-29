@@ -130,7 +130,7 @@ void SwitchPlayerManagerScript::VisualSwitchEffect()
 	Scene* loadScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	if (actualSwitchPlayersParticles)
 	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualSwitchPlayersParticles);
+		loadScene->DestroyGameObject(actualSwitchPlayersParticles);
 	}
 
 	actualSwitchPlayersParticles = loadScene->DuplicateGameObject(switchPlayersParticlesPrefab->GetName(), switchPlayersParticlesPrefab, loadScene->GetRoot());
@@ -224,7 +224,7 @@ void SwitchPlayerManagerScript::SwitchHealthBars()
 	isSwitchingHealthBars = true;
 }
 
-GameObject* SwitchPlayerManagerScript::GetSecondPlayer()
+GameObject* SwitchPlayerManagerScript::GetSecondPlayer() const
 {
 	return secondPlayer;
 }
