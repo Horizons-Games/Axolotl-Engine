@@ -17,7 +17,7 @@ class HealthSystem;
 // Little fix until we could check if an audio is being reproduced
 enum class ActiveActions
 {
-	ACTIVE_PLAYER,
+	ACTIVE,
 	ACTIVE_AUTO,
 	INACTIVE
 };
