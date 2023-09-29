@@ -45,7 +45,7 @@ public:
 	
 	const uint64_t& GetHandleReflection();
 
-	const float4x4 GetViewProj() const;
+	const float4x4 GetViewProjMatrix() const;
 	const float4x4 GetTransform() const;
 	
 	const int GetNumMipMaps() const;
@@ -101,9 +101,9 @@ inline const float3& ComponentPlanarReflection::GetScale() const
 	return scale;
 }
 
-inline const float4x4 ComponentPlanarReflection::GetViewProj() const
+inline const float4x4 ComponentPlanarReflection::GetViewProjMatrix() const
 {
-	return frustum->ProjectionMatrix() * frustum->ViewMatrix();
+	return frustum->ViewProjMatrix();
 }
 
 inline const float4x4 ComponentPlanarReflection::GetTransform() const

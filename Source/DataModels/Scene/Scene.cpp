@@ -1567,7 +1567,7 @@ void Scene::UpdateScenePlanarReflections()
 			float4x4 toLocal = planarReflection->GetTransform();
 			toLocal.InverseOrthonormal();
 			planar.toLocal = toLocal;
-			planar.viewProj = planarReflection->GetViewProj();
+			planar.viewProj = planarReflection->GetViewProjMatrix();
 			AABB influence = planarReflection->GetInfluenceAABB();
 			planar.maxInfluence = float4(influence.maxPoint, 0);
 			planar.minInfluence = float4(influence.minPoint, 0);
@@ -1735,7 +1735,7 @@ void Scene::UpdateScenePlanarReflection(ComponentPlanarReflection* compPlanar)
 			float4x4 toLocal = compPlanar->GetTransform();
 			toLocal.InverseOrthonormal();
 			planar.toLocal = toLocal;
-			planar.viewProj = compPlanar->GetViewProj();
+			planar.viewProj = compPlanar->GetViewProjMatrix();
 			AABB influence = compPlanar->GetInfluenceAABB();
 			planar.maxInfluence = float4(influence.maxPoint, 0);
 			planar.minInfluence = float4(influence.minPoint, 0);
