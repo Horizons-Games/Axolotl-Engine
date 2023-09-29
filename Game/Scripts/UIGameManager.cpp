@@ -94,14 +94,13 @@ void UIGameManager::MenuIsOpen()
 	{
 		mainMenuObject->Enable();
 		hudCanvasObject->Disable();
-		player->SetMouse(true);
 	}
 	else
 	{
 		mainMenuObject->Disable();
 		hudCanvasObject->Enable();
-		player->SetMouse(false);
 	}
+	player->SetMouse(menuIsOpen);
 }
 
 void UIGameManager::EnableUIPwrUp(enum class PowerUpType pwrUp)
