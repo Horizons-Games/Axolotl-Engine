@@ -296,6 +296,15 @@ void EnemyVenomiteScript::ResetValues()
 
 void EnemyVenomiteScript::ParalyzeEnemy(bool nparalyzed) 
 {
+	if (nparalyzed)
+	{
+		componentAnimation->SetParameter("IsRunning", false);
+	}
+	else
+	{
+		componentAnimation->SetParameter("IsRunning", true);
+	}
+
 	paralyzed = nparalyzed;
 }
 

@@ -61,14 +61,12 @@ void ElevatorCore::Start()
 	componentRigidBody = (*childWithRigid)->GetComponent<ComponentRigidBody>();
 	transform = elevator->GetComponentInternal<ComponentTransform>();
 	triggerEntrance = owner->GetComponent<ComponentRigidBody>();
-	finalUpPos = 0.0f;
+	finalUpPos = transform->GetGlobalPosition().y;
 	currentTime = 0.0f;
 }
 
 void ElevatorCore::Update(float deltaTime)
 {
-	float3 goPos = goTransform->GetGlobalPosition();
-
 	if (activeState == ActiveActions::ACTIVE) 
 	{
 		if (positionState == PositionState::UP)
@@ -94,7 +92,7 @@ void ElevatorCore::Update(float deltaTime)
 	}
 	else 
 	{
-		if (goPos.y < finalPos)
+		/*if (goTransform->GetGlobalPosition().y < finalPos)
 		{
 			if ((!miniBossHealth->EntityIsAlive() && positionState == PositionState::UP) ||
 				(miniBossHealth->EntityIsAlive() && positionState == PositionState::DOWN))
@@ -103,7 +101,7 @@ void ElevatorCore::Update(float deltaTime)
 			}
 			
 		}
-		
+		*/
 		if (currentTime >= 0.0f)
 		{
 			currentTime -= deltaTime;
@@ -135,16 +133,23 @@ void ElevatorCore::MoveUpElevator(bool isGOInside, float deltaTime)
 		currentTime = coolDown;
 		if (isGOInside)
 		{
-			SetDisableInteractions(false);
+			if (go->CompareTag("Player"))
+			{
+				SetDisableInteractions(false);
+			}
+			else if (go->CompareTag("Enemy"))
+			{
+				SetDisableInteractionsEnemies(go, false);
+			}
 		}
 	}
 
 	if (isGOInside)
 	{
-		float3 playerPos = goTransform->GetGlobalPosition();
-		playerPos.y += deltaTime * speed;
+		float3 goPos = goTransform->GetGlobalPosition();
+		goPos.y += deltaTime * speed;
 
-		goTransform->SetGlobalPosition(playerPos);
+		goTransform->SetGlobalPosition(goPos);
 		goTransform->RecalculateLocalMatrix();
 		goTransform->UpdateTransformMatrices();
 
@@ -156,7 +161,7 @@ void ElevatorCore::MoveUpElevator(bool isGOInside, float deltaTime)
 void ElevatorCore::MoveDownElevator(bool isGOInside, float deltaTime)
 {
 	float3 pos = transform->GetGlobalPosition();
-	float3 playerPos = goTransform->GetGlobalPosition();
+	float3 goPos = goTransform->GetGlobalPosition();
 	btVector3 triggerOrigin = triggerEntrance->GetRigidBodyOrigin();
 
 	pos.y -= deltaTime * speed;
@@ -177,16 +182,23 @@ void ElevatorCore::MoveDownElevator(bool isGOInside, float deltaTime)
 		currentTime = coolDown;
 		if (isGOInside)
 		{
-			SetDisableInteractions(false);
+			if (go->CompareTag("Player"))
+			{
+				SetDisableInteractions(false);
+			}
+			else if (go->CompareTag("Enemy"))
+			{
+				SetDisableInteractionsEnemies(go, false);
+			}
 		}
 	}
 
 	if (isGOInside)
 	{
-		float3 playerPos = goTransform->GetGlobalPosition();
-		playerPos.y -= deltaTime * speed;
+		float3 goPos = goTransform->GetGlobalPosition();
+		goPos.y -= deltaTime * speed;
 
-		goTransform->SetGlobalPosition(playerPos);
+		goTransform->SetGlobalPosition(goPos);
 		goTransform->RecalculateLocalMatrix();
 		goTransform->UpdateTransformMatrices();
 
@@ -219,7 +231,7 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 			}
 			
 		}
-		else if (other->GetOwner()->CompareTag("Enemy"))
+		else if (other->GetOwner()->CompareTag("Enemy") && currentTime <= 0.0f)
 		{
 			go = other->GetOwner();
 			goTransform = go->GetComponentInternal<ComponentTransform>();
@@ -240,18 +252,21 @@ void ElevatorCore::SetDisableInteractionsEnemies(const GameObject* enemy, bool i
 {
 	if (enemy->HasComponent<EnemyVenomiteScript>())
 	{
-		activeState = ActiveActions::ACTIVE;
+		if (interactions)
+		{
+			activeState = ActiveActions::ACTIVE;
+		}
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
 		enemy->GetComponent<EnemyVenomiteScript>()->ParalyzeEnemy(interactions);
-		goTransform = enemy->GetComponent<ComponentTransform>();
 	}
 	else if (enemy->HasComponent<EnemyDroneScript>())
 	{
-		activeState = ActiveActions::ACTIVE;				
-		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
+		if (interactions)
+		{
+			activeState = ActiveActions::ACTIVE;
+		}		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
 		enemy->GetComponent<EnemyDroneScript>()->ParalyzeEnemy(interactions);
-		goTransform = enemy->GetComponent<ComponentTransform>();
 	}
 }
