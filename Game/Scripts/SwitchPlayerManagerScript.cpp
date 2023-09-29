@@ -40,6 +40,8 @@ void SwitchPlayerManagerScript::Start()
 	input = App->GetModule<ModuleInput>();
 	modulePlayer = App->GetModule<ModulePlayer>();
 
+	currentPlayer = modulePlayer->GetPlayer();
+
 	currentHealthBarTransform = currentPlayerHealthBar->GetComponent<ComponentTransform2D>();
 	secondHealthBarTransform = secondPlayerHealthBar->GetComponent<ComponentTransform2D>();
 	currentPlayerTransform = currentPlayer->GetComponent<ComponentTransform>();
@@ -50,7 +52,6 @@ void SwitchPlayerManagerScript::Start()
 	camera = mainCamera->GetComponent<CameraControllerScript>();
 	cameraTransform = mainCamera->GetComponent<ComponentTransform>();
 
-	currentPlayer = modulePlayer->GetPlayer();
 	playerManager = currentPlayer->GetComponent<PlayerManagerScript>();
 
 	camera->ChangeCurrentPlayer(currentPlayerTransform);
@@ -155,6 +156,9 @@ void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 	camera->ToggleCameraState();
 	currentPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(true);
 	playerManager->TriggerJump(true);
+
+	currentPlayerTransform = currentPlayer->GetComponent<ComponentTransform>();
+	secondPlayerTransform = secondPlayer->GetComponent<ComponentTransform>();
 
 	// The position where the newCurrentPlayer will appear
 	playerPosition = currentPlayerTransform->GetGlobalPosition();
