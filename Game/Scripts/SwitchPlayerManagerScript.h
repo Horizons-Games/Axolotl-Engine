@@ -10,6 +10,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class CameraControllerScript;
 class ComponentAnimation;
 class ComponentTransform;
+class ComponentTransform2D;
 class ComponentRigidBody;
 class PlayerManagerScript;
 class ModuleInput;
@@ -62,6 +63,9 @@ private:
 	float3 currentHealthBarScale;
 	float3 secondHealthBarPosition;
 	float3 secondHealthBarScale;
+
+	ComponentTransform2D* currentHealthBarTransform;
+	ComponentTransform2D* secondHealthBarTransform;
 
 	bool isSwitchingHealthBars;
 	bool isChangingPlayer;
