@@ -531,6 +531,7 @@
     </ClCompile>
     <ClCompile Include="Exceptions\ComponentNotFoundException.cpp" />
     <ClCompile Include="Exceptions\ScriptAssertFailedException.cpp" />
+    <ClCompile Include="Enums\WritableEnum.cpp" />
     <ClCompile Include="FileSystem\Importers\CubemapImporter.cpp" />
     <ClCompile Include="DataModels\Cubemap\Cubemap.cpp" />
     <ClCompile Include="DataModels\Animation\AnimationController.cpp" />
@@ -1061,6 +1062,7 @@
     <ClInclude Include="FileSystem\FileZippedData.h" />
     <ClInclude Include="Exceptions\ComponentNotFoundException.h" />
     <ClInclude Include="Exceptions\ScriptAssertFailedException.h" />
+    <ClInclude Include="Enums\WritableEnum.h" />
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h" />
     <ClInclude Include="DataModels\Cubemap\Cubemap.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />
