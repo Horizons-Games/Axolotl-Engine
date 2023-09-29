@@ -40,8 +40,7 @@ public:
 	M* GetModule();
 
 	// Add a Schedulable object (right now only a functor) that will be executed at the end of each frame
-	// Optionally, set the frame delay until the object is executed
-	void ScheduleTask(std::function<void(void)>&& taskToSchedule, std::uint16_t frameDelay = 0U);
+	void ScheduleTask(std::function<void(void)>&& taskToSchedule);
 
 private:
 	std::unique_ptr<ScriptFactory> scriptFactory;

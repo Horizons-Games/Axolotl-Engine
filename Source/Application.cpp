@@ -22,7 +22,6 @@
 
 #include "ScriptFactory.h"
 
-#include "DataModels/Schedulable/Schedulable.h"
 #include "Scheduler.h"
 
 #include "Defines/FramerateDefines.h"
@@ -190,11 +189,11 @@ void Application::OnPause()
 {
 }
 
-void Application::ScheduleTask(std::function<void(void)>&& taskToSchedule, std::uint16_t frameDelay)
+void Application::ScheduleTask(std::function<void(void)>&& taskToSchedule)
 {
 	if (scheduler != nullptr)
 	{
-		scheduler->ScheduleTask(Schedulable(std::move(taskToSchedule), frameDelay));
+		scheduler->ScheduleTask(std::move(taskToSchedule));
 	}
 	else
 	{
