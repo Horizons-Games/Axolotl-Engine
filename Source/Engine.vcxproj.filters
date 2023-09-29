@@ -794,6 +794,12 @@
     <ClCompile Include="..\Game\Scripts\UIText.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Enums\WritableEnum.cpp">
+      <Filter>Enums</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Schedulable\Schedulable.cpp">
+      <Filter>DataModels\Schedulable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1634,6 +1640,12 @@
     <ClInclude Include="..\Game\Scripts\UIText.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Enums\WritableEnum.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Schedulable\Schedulable.h">
+      <Filter>DataModels\Schedulable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1845,6 +1857,9 @@
     </Filter>
     <Filter Include="DataModels\Render">
       <UniqueIdentifier>{701145da-de98-4a67-be5b-f78bd0c29386}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Schedulable">
+      <UniqueIdentifier>{aebeccfc-924c-4feb-a954-996d552b513f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
