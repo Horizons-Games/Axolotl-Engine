@@ -793,6 +793,9 @@
     <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
+    <ClCompile Include="Enums\WritableEnum.cpp">
+      <Filter>Enums</Filter>
+    </ClCompile>
     <ClCompile Include="DataModels\Schedulable\Schedulable.cpp">
       <Filter>DataModels\Schedulable</Filter>
     </ClCompile>
@@ -1634,6 +1637,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\ElevatorCore.h">
       <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\WritableEnum.h">
+      <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Schedulable\Schedulable.h">
       <Filter>DataModels\Schedulable</Filter>
