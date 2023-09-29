@@ -28,28 +28,41 @@ public:
 	void ControlOption();
 
 private:
-	struct OptionsButtonInfo
+	struct HeaderOptionsButton
 	{
 		ComponentButton* button;
 		GameObject* canvas;
 		GameObject* hovered;
 	};
 
-	std::vector<OptionsButtonInfo> buttonsAndCanvas;
-	int headerMenuPosition = 0;
-	int newHeaderMenuPosition = -1;
-	int selectedOption = -1;
-	int actualButton = -1;
-	int actualButtonHover = -1;
-	int maxButtonsOptions = -1;
-	int maxOptions = -1;
-	int newSelectedOption = -1;
+	struct ButtonOptionInfo
+	{
+		int canvasPosition;
+		int buttonPosition;
+		int optionPosition;
+	};
+
+	std::vector<HeaderOptionsButton> buttonsAndCanvas;
+	std::vector<ButtonOptionInfo> actualConfig;
+	std::vector<ButtonOptionInfo> previousConfig;
+
+	int headerMenuPosition;
+	int newHeaderMenuPosition;
+	int selectedOption;
+	int actualButton;
+	int previousButton;
+	int actualButtonHover;
+	int maxButtonsOptions;
+	int maxOptions;
+	int newSelectedOption;
+	int saveSelectedOption;
 
 	ModuleInput* input;
 	ModuleUI* ui;
 	ModuleWindow* window;
 	ModuleRender* render;
 	ModuleAudio* audio;
+	JoystickVerticalDirection verticalDirection;
 
 	GameObject* gameOptionButton;
 	GameObject* videoOptionButton;

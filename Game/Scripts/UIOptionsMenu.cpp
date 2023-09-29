@@ -14,7 +14,8 @@ REGISTERCLASS(UIOptionsMenu);
 UIOptionsMenu::UIOptionsMenu() : Script(), gameOptionButton(nullptr), videoOptionButton(nullptr), audioOptionButton(nullptr),
 controlOptionButton(nullptr), gameOptionCanvas(nullptr), videoOptionCanvas(nullptr), audioOptionCanvas(nullptr), 
 gameOptionHover(nullptr), videoOptionHover(nullptr), audioOptionHover(nullptr), controlOptionHover(nullptr), 
-padTriggersIMG (nullptr)
+padTriggersIMG (nullptr), headerMenuPosition(0), newHeaderMenuPosition(-1), selectedOption(-1), actualButton(-1),
+actualButtonHover(-1), maxButtonsOptions(-1), maxOptions(-1), newSelectedOption(-1), saveSelectedOption(-1), previousButton(-1)
 {
 	REGISTER_FIELD(gameOptionButton, GameObject*);
 	REGISTER_FIELD(videoOptionButton, GameObject*);
@@ -37,7 +38,9 @@ padTriggersIMG (nullptr)
 void UIOptionsMenu::Start()
 {
 	input = App->GetModule<ModuleInput>();
+	window = App->GetModule<ModuleWindow>();
 	ui = App->GetModule<ModuleUI>();
+	verticalDirection = input->GetLeftJoystickDirection().verticalDirection;
 
 	Assert(gameOptionButton != nullptr, axo::Format("Script owned by {} is fucked!!", owner));
 
@@ -45,17 +48,17 @@ void UIOptionsMenu::Start()
 	videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
 	audioOptionComponentButton = audioOptionButton->GetComponent<ComponentButton>();
 	controlOptionComponentButton = controlOptionButton->GetComponent<ComponentButton>();
-
-	buttonsAndCanvas.push_back(OptionsButtonInfo{ gameOptionComponentButton, gameOptionCanvas, gameOptionHover });
-	buttonsAndCanvas.push_back(OptionsButtonInfo{ videoOptionComponentButton, videoOptionCanvas, videoOptionHover });
-	buttonsAndCanvas.push_back(OptionsButtonInfo{ audioOptionComponentButton, audioOptionCanvas, audioOptionHover });
-	buttonsAndCanvas.push_back(OptionsButtonInfo{ controlOptionComponentButton, controlOptionCanvas, controlOptionHover });
+	buttonsAndCanvas.push_back(HeaderOptionsButton{ gameOptionComponentButton, gameOptionCanvas, gameOptionHover });
+	buttonsAndCanvas.push_back(HeaderOptionsButton{ videoOptionComponentButton, videoOptionCanvas, videoOptionHover });
+	buttonsAndCanvas.push_back(HeaderOptionsButton{ audioOptionComponentButton, audioOptionCanvas, audioOptionHover });
+	buttonsAndCanvas.push_back(HeaderOptionsButton{ controlOptionComponentButton, controlOptionCanvas, controlOptionHover });
 	gameOptionComponentButton->Disable();
 	videoOptionComponentButton->Disable();
 	audioOptionComponentButton->Disable();
 	controlOptionComponentButton->Disable();
 	buttonsAndCanvas[0].canvas->Enable();
 	buttonsAndCanvas[0].hovered->Enable();
+	ui->ResetCurrentButtonIndex();
 }
 
 void UIOptionsMenu::Update(float deltaTime)
@@ -68,7 +71,9 @@ void UIOptionsMenu::ControlEnable()
 	// MOVE THE HEADER OF THE OPTIONS
 	if (input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN)
 	{
-		if ( input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN)
+		newHeaderMenuPosition = headerMenuPosition;
+
+		if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN)
 		{
 			if (headerMenuPosition > 0)
 			{
@@ -84,7 +89,6 @@ void UIOptionsMenu::ControlEnable()
 		}
 
 		//DISABLE THE HOVER BUTTON
-		
 		for (actualButtonHover = 0; actualButtonHover < 5; actualButtonHover++)
 		{
 			if (owner->GetChildren()[3]->GetChildren()[1]->GetChildren()[actualButtonHover]->IsEnabled())
@@ -103,23 +107,40 @@ void UIOptionsMenu::ControlEnable()
 		ui->ResetCurrentButtonIndex();
 	}
 
+	maxButtonsOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren().size() - 1;
+
+	//LOOK FOR THE current SELECTED BUTTON
+	if (maxButtonsOptions > 0)
+	{
+		for (actualButton = 0; actualButton < maxButtonsOptions; actualButton++)
+		{
+			if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[0]->GetChildren()[0]->GetComponent<ComponentButton>()->IsHovered())
+			{
+				break;
+			}
+		}
+	}
+	//IF YOU DONT SAVE ANY OPTIONS THIS GO BACK TO THE LAST SAVED OPTION
+	if (saveSelectedOption != -1 && actualButton != previousButton && previousButton != -1)
+	{
+		//if (verticalDirection == JoystickVerticalDirection::FORWARD || verticalDirection == JoystickVerticalDirection::BACK)
+		//{
+		buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[previousButton]->GetChildren()[1]->GetChildren()[newSelectedOption]->Disable();
+		buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[previousButton]->GetChildren()[1]->GetChildren()[saveSelectedOption]->Enable();
+		saveSelectedOption = -1;
+		previousButton = -1;
+		newSelectedOption = -1;
+		//}
+	}
 	// MOVE LEFT OR RIGHT THE OPTIONS
 	if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::DOWN)
 	{
-		maxButtonsOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren().size() - 1;
-
-		//LOOK FOR THE current SELECTED BUTTON
-		if (maxButtonsOptions > 0)
-		{
-			for (actualButton = 0; actualButton < maxButtonsOptions; actualButton++)
-			{
-				if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[0]->GetChildren()[0]->GetComponent<ComponentButton>()->IsHovered())
-				{
-					break;
-				}
-			}
-		}
 		maxOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->GetChildren().size() - 1;
+
+		if (previousButton == -1)
+		{
+			previousButton = actualButton;
+		}
 
 		//LOOK FOR THE ACTUAL OPTION ENABLE
 		if (maxOptions > 0)
@@ -128,6 +149,10 @@ void UIOptionsMenu::ControlEnable()
 			{
 				if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->GetChildren()[selectedOption]->IsEnabled())
 				{
+					if (saveSelectedOption == -1)
+					{
+						saveSelectedOption = selectedOption;
+					}
 					break;
 				}
 			}
@@ -155,6 +180,26 @@ void UIOptionsMenu::ControlEnable()
 			}
 		}
 	}
+
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
+	{
+		saveSelectedOption = newSelectedOption;
+
+		switch (headerMenuPosition)
+		{
+		case 0:
+			GameOption();
+		case 1:
+			VideoOption();
+		case 2:
+			AudioOption();
+		case 3:
+			ControlOption();
+		default:
+			break;
+		}
+	}
+
 }
 
 void UIOptionsMenu::KeyboardEnable()
@@ -195,8 +240,8 @@ void UIOptionsMenu::GameOption()
 {
 	//WINDOWS MODE
 	window->SetFullscreen(true);
-	window->SetDesktopFullscreen(true);
-	window->SetBorderless(true);
+	//window->SetDesktopFullscreen(true);
+	//window->SetBorderless(true);
 	//window->SetBrightness();
 
 }
