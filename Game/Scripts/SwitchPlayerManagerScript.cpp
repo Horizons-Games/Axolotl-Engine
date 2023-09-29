@@ -25,10 +25,10 @@
 REGISTERCLASS(SwitchPlayerManagerScript);
 
 SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr), isSwitchAvailable(true), changingPlayerTime{ 800.f, 1800.f},
-	playerHealthBar(nullptr), secondPlayerHealthBar(nullptr)
+	currentPlayerHealthBar(nullptr), secondPlayerHealthBar(nullptr)
 {
 	REGISTER_FIELD(isSwitchAvailable, bool);
-	REGISTER_FIELD(playerHealthBar, GameObject*);
+	REGISTER_FIELD(currentPlayerHealthBar, GameObject*);
 	REGISTER_FIELD(secondPlayerHealthBar, GameObject*);
 	REGISTER_FIELD(secondPlayer, GameObject*);
 	REGISTER_FIELD(switchPlayersParticlesPrefab, GameObject*);
@@ -75,14 +75,14 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 			
 			// Interpolate position and scale
 			float3 newCurrentPlayerPosition = float3(
-				Lerp(playerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().x, secondHealthBarPosition.x, t),
-				Lerp(playerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().y, secondHealthBarPosition.y, t),
+				Lerp(currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().x, secondHealthBarPosition.x, t),
+				Lerp(currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().y, secondHealthBarPosition.y, t),
 				secondHealthBarPosition.z
 			);
 
 			float3 newCurrentPlayerScale = float3(
-				Lerp(playerHealthBar->GetComponent<ComponentTransform2D>()->GetScale().x, secondHealthBarScale.x, t),
-				Lerp(playerHealthBar->GetComponent<ComponentTransform2D>()->GetScale().y, secondHealthBarScale.y, t),
+				Lerp(currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetScale().x, secondHealthBarScale.x, t),
+				Lerp(currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetScale().y, secondHealthBarScale.y, t),
 				secondHealthBarScale.z
 			);
 
@@ -99,9 +99,9 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 			);
 
 			// Set the interpolated values
-			playerHealthBar->GetComponent<ComponentTransform2D>()->SetPosition(newCurrentPlayerPosition);
-			playerHealthBar->GetComponent<ComponentTransform2D>()->SetScale(newCurrentPlayerScale);
-			playerHealthBar->GetComponent<ComponentTransform2D>()->CalculateMatrices();
+			currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->SetPosition(newCurrentPlayerPosition);
+			currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->SetScale(newCurrentPlayerScale);
+			currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->CalculateMatrices();
 			
 			secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->SetPosition(newSecondPlayerPosition);
 			secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->SetScale(newSecondPlayerScale);
@@ -174,9 +174,9 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 
 		// Finish Switch HealthBars
 		isSwitchingHealthBars = false;
-		playerHealthBar->GetComponent<ComponentTransform2D>()->SetPosition(secondHealthBarPosition);
-		playerHealthBar->GetComponent<ComponentTransform2D>()->SetScale(secondHealthBarScale);
-		playerHealthBar->GetComponent<ComponentTransform2D>()->CalculateMatrices();
+		currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->SetPosition(secondHealthBarPosition);
+		currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->SetScale(secondHealthBarScale);
+		currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->CalculateMatrices();
 	
 		secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->SetPosition(currentHealthBarPosition);
 		secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->SetScale(currentHealthBarScale);
@@ -212,8 +212,8 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 
 void SwitchPlayerManagerScript::SwitchHealthBars()
 {
-	currentHealthBarPosition = playerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition();
-	currentHealthBarScale = playerHealthBar->GetComponent<ComponentTransform2D>()->GetScale();
+	currentHealthBarPosition = currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition();
+	currentHealthBarScale = currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetScale();
 	secondHealthBarPosition = secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition();
 	secondHealthBarScale = secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetScale();
 

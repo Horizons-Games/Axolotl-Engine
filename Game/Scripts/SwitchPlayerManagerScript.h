@@ -38,7 +38,7 @@ private:
 	Timer changePlayerTimer;
 	std::vector<float> changingPlayerTime;
 
-	GameObject* playerHealthBar;
+	GameObject* currentPlayerHealthBar;
 	GameObject* secondPlayerHealthBar;
 	GameObject* mainCamera;
 	CameraControllerScript* camera;

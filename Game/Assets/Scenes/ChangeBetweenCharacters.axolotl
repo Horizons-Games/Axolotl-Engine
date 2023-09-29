@@ -518,7 +518,7 @@
                                     "type": 5
                                 },
                                 {
-                                    "name": "PlayerHealthBar",
+                                    "name": "CurrentPlayerHealthBar",
                                     "value": 15055874419752301131,
                                     "type": 2
                                 },
