@@ -25,7 +25,8 @@
 REGISTERCLASS(SwitchPlayerManagerScript);
 
 SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr), modulePlayer(nullptr), isSwitchAvailable(true), changingPlayerTime{800.f, 1800.f},
-	currentPlayerHealthBar(nullptr), secondPlayerHealthBar(nullptr), currentHealthBarTransform(nullptr), secondHealthBarTransform(nullptr)
+	currentPlayerHealthBar(nullptr), secondPlayerHealthBar(nullptr), currentHealthBarTransform(nullptr), secondHealthBarTransform(nullptr), currentPlayerTransform(nullptr),
+	secondPlayerTransform(nullptr), particlesTransofrm(nullptr)
 {
 	REGISTER_FIELD(isSwitchAvailable, bool);
 	REGISTER_FIELD(currentPlayerHealthBar, GameObject*);
@@ -41,6 +42,8 @@ void SwitchPlayerManagerScript::Start()
 
 	currentHealthBarTransform = currentPlayerHealthBar->GetComponent<ComponentTransform2D>();
 	secondHealthBarTransform = secondPlayerHealthBar->GetComponent<ComponentTransform2D>();
+	currentPlayerTransform = currentPlayer->GetComponent<ComponentTransform>();
+	secondPlayerTransform = secondPlayer->GetComponent<ComponentTransform>();
 	
 	mainCamera = modulePlayer->GetCameraPlayerObject();
 
@@ -50,7 +53,7 @@ void SwitchPlayerManagerScript::Start()
 	currentPlayer = modulePlayer->GetPlayer();
 	playerManager = currentPlayer->GetComponent<PlayerManagerScript>();
 
-	camera->ChangeCurrentPlayer(currentPlayer->GetComponent<ComponentTransform>());
+	camera->ChangeCurrentPlayer(currentPlayerTransform);
 
 	if (switchPlayersParticlesPrefab)
 	{
@@ -134,10 +137,12 @@ void SwitchPlayerManagerScript::VisualSwitchEffect()
 	}
 
 	actualSwitchPlayersParticles = loadScene->DuplicateGameObject(switchPlayersParticlesPrefab->GetName(), switchPlayersParticlesPrefab, loadScene->GetRoot());
-	actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->SetGlobalPosition(float3 (currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().x,
-		currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().y + 0.9f, currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().z));
-	actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->RecalculateLocalMatrix();
-	actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->UpdateTransformMatrices();
+	particlesTransofrm = actualSwitchPlayersParticles->GetComponent<ComponentTransform>();
+
+	particlesTransofrm->SetGlobalPosition(float3 (currentPlayerTransform->GetGlobalPosition().x,
+		currentPlayerTransform->GetGlobalPosition().y + 0.9f, currentPlayerTransform->GetGlobalPosition().z));
+	particlesTransofrm->RecalculateLocalMatrix();
+	particlesTransofrm->UpdateTransformMatrices();
 	actualSwitchPlayersParticles->GetComponent<ParticleBillboardAssistance>()->UpdateTransform();
 	actualSwitchPlayersParticles->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Enable();
 	actualSwitchPlayersParticles->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
@@ -152,7 +157,7 @@ void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 	playerManager->TriggerJump(true);
 
 	// The position where the newCurrentPlayer will appear
-	playerPosition = currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition();
+	playerPosition = currentPlayerTransform->GetGlobalPosition();
 
 	changePlayerTimer.Start();
 	isChangingPlayer = true;
@@ -162,7 +167,7 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 {
 	if (changePlayerTimer.Read() >= changingPlayerTime[1])
 	{	
-		camera->ChangeCurrentPlayer(secondPlayer->GetComponent<ComponentTransform>());
+		camera->ChangeCurrentPlayer(secondPlayerTransform);
 
 		changePlayerTimer.Stop();
 		isChangingPlayer = false;
@@ -207,8 +212,8 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		secondPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(true);
 
 		playerPosition.y += 0.5f;
-		secondPlayer->GetComponent<ComponentTransform>()->SetGlobalPosition(playerPosition);
-		secondPlayer->GetComponent<ComponentTransform>()->SetGlobalRotation(currentPlayer->GetComponent<ComponentTransform>()->GetGlobalRotation());
+		secondPlayerTransform->SetGlobalPosition(playerPosition);
+		secondPlayerTransform->SetGlobalRotation(currentPlayerTransform->GetGlobalRotation());
 		secondPlayer->GetComponent<ComponentRigidBody>()->UpdateRigidBody();
 		isNewPlayerEnabled = !isNewPlayerEnabled;
 	}

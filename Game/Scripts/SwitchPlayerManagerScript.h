@@ -47,8 +47,13 @@ private:
 	CameraControllerScript* camera;
 	ComponentTransform* cameraTransform;
 
+	ComponentTransform* currentPlayerTransform;
+	ComponentTransform* secondPlayerTransform;
+
 	GameObject* switchPlayersParticlesPrefab;
 	GameObject* actualSwitchPlayersParticles;
+
+	ComponentTransform* particlesTransofrm;
 
 	GameObject* currentPlayer;
 	GameObject* secondPlayer;
