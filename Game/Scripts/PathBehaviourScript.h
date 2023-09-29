@@ -24,6 +24,7 @@ public:
 	void ResetPath();
 
 	bool IsPathFinished() const;
+	void SetNewPath(GameObject* nPath);
 
 private:
 	unsigned int currentWayPoint;

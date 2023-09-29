@@ -75,3 +75,16 @@ bool PathBehaviourScript::IsPathFinished() const
 {
 	return pathFinished;
 }
+
+void PathBehaviourScript::SetNewPath(GameObject* nPath)
+{
+	std::list<GameObject*> nPathChildren = nPath->GetAllDescendants();
+
+	waypointsPath.clear();
+	waypointsPath.resize(nPathChildren.size());
+
+	for (auto transforPath : nPathChildren)
+	{
+		waypointsPath.push_back(transforPath->GetComponent<ComponentTransform>());
+	}
+}

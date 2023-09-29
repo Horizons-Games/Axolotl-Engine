@@ -33,6 +33,8 @@ BossShieldAttackScript::BossShieldAttackScript() : Script(), bossShieldObject(nu
 	REGISTER_FIELD(enemiesToSpawnParent, GameObject*);
 
 	REGISTER_FIELD(battleArenaAreaSize, ComponentRigidBody*);
+
+	REGISTER_FIELD(initsPaths, std::vector<GameObject*>);
 }
 
 void BossShieldAttackScript::Init()
