@@ -107,7 +107,7 @@ void ElevatorCore::Update(float deltaTime)
 			positionState = PositionState::DOWN;
 			activeState = ActiveActions::INACTIVE;
 
-			EnableAllInteractions();
+			SetDisableInteractions(false);
 		}
 		
 		else if (pos.y >= finalUpPos)
@@ -115,7 +115,7 @@ void ElevatorCore::Update(float deltaTime)
 			positionState = PositionState::UP;
 			activeState = ActiveActions::INACTIVE;
 
-			EnableAllInteractions();
+			SetDisableInteractions(false);
 		}
 	}
 }
@@ -140,14 +140,14 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 				activeState = ActiveActions::ACTIVE;
 
-				DisableAllInteractions();
+				SetDisableInteractions(true);
 
 			}
 			
 		}
 		else if (other->GetOwner()->CompareTag("Enemy"))
 		{
-			DisableAllInteractionsEnemies(other->GetOwner());
+			SetDisableInteractionsEnemies(other->GetOwner(), true);
 		}
 	}
 }
@@ -165,38 +165,25 @@ void ElevatorCore::OnCollisionExit(ComponentRigidBody* other)
 	}
 }
 
-void ElevatorCore::DisableAllInteractions()
+void ElevatorCore::SetDisableInteractions(bool interactions)
 {
 	//bixPrefab->SetParent(elevator);
-	bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(true);
+	bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
 
 	PlayerManagerScript* manager = bixPrefab->GetComponentInternal<PlayerManagerScript>();
-	manager->ParalyzePlayer(true);
+	manager->ParalyzePlayer(interactions);
 }
 
-void ElevatorCore::EnableAllInteractions()
-{
-	//bixPrefab->SetParent(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
-	bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(false);
-
-	PlayerManagerScript* manager = bixPrefab->GetComponentInternal<PlayerManagerScript>();
-	manager->ParalyzePlayer(false);
-}
-
-void ElevatorCore::EnableAllInteractionsEnemies(const GameObject* enemy)
+void ElevatorCore::SetDisableInteractionsEnemies(const GameObject* enemy, bool interactions)
 {
 	if (enemy->HasComponent<EnemyVenomiteScript>())
 	{
-		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(true);
-		enemy->GetComponent<EnemyVenomiteScript>()->ParalyzeEnemy(true);
+		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
+		enemy->GetComponent<EnemyVenomiteScript>()->ParalyzeEnemy(interactions);
 	}
 	else if (enemy->HasComponent<EnemyDroneScript>())
 	{
-		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(true);
-		enemy->GetComponent<EnemyDroneScript>()->ParalyzeEnemy(true);
+		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
+		enemy->GetComponent<EnemyDroneScript>()->ParalyzeEnemy(interactions);
 	}
-}
-
-void ElevatorCore::DisableAllInteractionsEnemies(const GameObject* enemy)
-{
 }

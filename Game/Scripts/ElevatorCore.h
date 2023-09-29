@@ -36,10 +36,8 @@ public:
 	void Update(float deltaTime) override;
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void OnCollisionExit(ComponentRigidBody* other) override;
-	void DisableAllInteractions();
-	void EnableAllInteractions();
-	void EnableAllInteractionsEnemies(const GameObject* enemy);
-	void DisableAllInteractionsEnemies(const GameObject* enemy);
+	void SetDisableInteractions(bool interactions);
+	void SetDisableInteractionsEnemies(const GameObject* enemy, bool interactions);
 
 private:
 	ComponentAudioSource* componentAudio;
