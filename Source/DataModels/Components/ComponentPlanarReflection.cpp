@@ -21,7 +21,7 @@
 
 ComponentPlanarReflection::ComponentPlanarReflection(GameObject* parent) : 
 	ComponentLight(LightType::PLANAR_REFLECTION, parent, true),	frameBuffer(0), depth(0), reflectionTex(0), 
-	planeNormal(0, 1, 0), originScaling({ 5.f, 0.f, 5.f }), scale(float3::one), numMipMaps(7), distortionAmount(0.f)
+	planeNormal(float3::unitY), originScaling({ 5.f, 0.f, 5.f }), scale(float3::one), numMipMaps(7), distortionAmount(0.f)
 {
 	if (GetOwner()->HasComponent<ComponentTransform>())
 	{
@@ -189,8 +189,13 @@ void ComponentPlanarReflection::ScaleInfluenceAABB(float3& scaling)
 	scale = scaling;
 	float3 center = influenceAABB.CenterPoint();
 
-	influenceAABB.minPoint = center - scaling.Mul(originScaling);
-	influenceAABB.maxPoint = center + scaling.Mul(originScaling);
+	float3 valueScaled = center - scaling.Mul(originScaling);
+	influenceAABB.minPoint.x = valueScaled.x;
+	influenceAABB.minPoint.z = valueScaled.z;
+	
+	valueScaled = center + scaling.Mul(originScaling);
+	influenceAABB.maxPoint.x = valueScaled.x;
+	influenceAABB.maxPoint.z = valueScaled.z;
 
 	App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePlanarReflection(this);
 	App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPlanarReflection(this);
