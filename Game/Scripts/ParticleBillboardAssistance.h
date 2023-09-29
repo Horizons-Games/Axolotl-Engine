@@ -7,11 +7,11 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform;
 
-class ParticleBillboardAsistance : public Script
+class ParticleBillboardAssistance : public Script
 {
 public:
-	ParticleBillboardAsistance();
-	~ParticleBillboardAsistance() override = default;
+	ParticleBillboardAssistance();
+	~ParticleBillboardAssistance() override = default;
 
 	void Start() override;
 	void Update(float deltaTime) override;

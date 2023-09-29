@@ -15,7 +15,7 @@
 
 #include "../Scripts/PlayerManagerScript.h"
 #include "PlayerAttackScript.h"
-#include "ParticleBillboardAsistance.h"
+#include "ParticleBillboardAssistance.h"
 
 #include "../Scripts/CameraControllerScript.h"
 
@@ -134,7 +134,7 @@ void SwitchPlayerManagerScript::VisualSwitchEffect()
 		currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().y + 0.9f, currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().z));
 	actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->RecalculateLocalMatrix();
 	actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->UpdateTransformMatrices();
-	actualSwitchPlayersParticles->GetComponent<ParticleBillboardAsistance>()->UpdateTransform();
+	actualSwitchPlayersParticles->GetComponent<ParticleBillboardAssistance>()->UpdateTransform();
 	actualSwitchPlayersParticles->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Enable();
 	actualSwitchPlayersParticles->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
 }

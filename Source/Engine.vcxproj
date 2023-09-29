@@ -235,7 +235,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\MinMaxForce.cpp" />
-    <ClCompile Include="..\Game\Scripts\ParticleBillboardAsistance.cpp" />
+    <ClCompile Include="..\Game\Scripts\ParticleBillboardAssistance.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerAttackScript.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -890,7 +890,7 @@
     <ClInclude Include="..\Game\Scripts\EnemyVenomiteScript.h" />
     <ClInclude Include="..\Game\Scripts\CameraControllerScript.h" />
     <ClInclude Include="..\Game\Scripts\MinMaxForce.h" />
-    <ClInclude Include="..\Game\Scripts\ParticleBillboardAsistance.h" />
+    <ClInclude Include="..\Game\Scripts\ParticleBillboardAssistance.h" />
     <ClInclude Include="..\Game\Scripts\PlayerAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h" />

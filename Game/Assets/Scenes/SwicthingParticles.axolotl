@@ -181,7 +181,7 @@
                             "type": "Component_Script",
                             "active": true,
                             "removed": true,
-                            "constructName": "ParticleBillboardAsistance",
+                            "constructName": "ParticleBillboardAssistance",
                             "fields": null
                         }
                     }

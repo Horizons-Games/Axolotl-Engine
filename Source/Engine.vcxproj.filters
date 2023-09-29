@@ -796,12 +796,10 @@
     <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\ParticleBillboardAsistance.cpp">
-      <Filter>UserScripts\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Enums\WritableEnum.cpp">
       <Filter>Enums</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ParticleBillboardAssistance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1644,12 +1642,10 @@
     <ClInclude Include="..\Game\Scripts\ElevatorCore.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\ParticleBillboardAsistance.h">
-      <Filter>UserScripts\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Enums\WritableEnum.h">
       <Filter>Enums</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ParticleBillboardAssistance.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">

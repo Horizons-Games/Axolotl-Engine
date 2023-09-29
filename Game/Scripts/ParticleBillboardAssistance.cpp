@@ -1,27 +1,27 @@
 #include "StdAfx.h"
-#include "ParticleBillboardAsistance.h"
+#include "ParticleBillboardAssistance.h"
 #include "GameObject/GameObject.h"
 #include "Components/ComponentTransform.h"
 #include "Application.h"
 #include "ModulePlayer.h"
 
-REGISTERCLASS(ParticleBillboardAsistance);
+REGISTERCLASS(ParticleBillboardAssistance);
 
-ParticleBillboardAsistance::ParticleBillboardAsistance() : Script()
+ParticleBillboardAssistance::ParticleBillboardAssistance() : Script()
 {
 }
 
-void ParticleBillboardAsistance::Start()
+void ParticleBillboardAssistance::Start()
 {
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 }
 
-void ParticleBillboardAsistance::Update(float deltaTime)
+void ParticleBillboardAssistance::Update(float deltaTime)
 {
 	UpdateTransform();
 }
 
-void ParticleBillboardAsistance::UpdateTransform() 
+void ParticleBillboardAssistance::UpdateTransform() 
 {
 	ComponentTransform* objective = App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<ComponentTransform>();
 	float3 vecTowards = (objective->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized();
