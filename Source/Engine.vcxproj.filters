@@ -787,6 +787,9 @@
     <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
+    <ClCompile Include="Enums\WritableEnum.cpp">
+      <Filter>Enums</Filter>
+    </ClCompile>
     <ClCompile Include="Exceptions\AxoDefaultException.cpp">
       <Filter>Exceptions</Filter>
     </ClCompile>
@@ -1637,6 +1640,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\ElevatorCore.h">
       <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\WritableEnum.h">
+      <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="Exceptions\AccessingFailedScriptException.h">
       <Filter>Exceptions</Filter>
