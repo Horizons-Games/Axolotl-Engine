@@ -13,6 +13,7 @@ class ComponentTransform;
 class ComponentRigidBody;
 class PlayerManagerScript;
 class ModuleInput;
+class ModulePlayer;
 
 class SwitchPlayerManagerScript : public Script
 {

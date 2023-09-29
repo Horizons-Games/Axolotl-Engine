@@ -24,7 +24,7 @@
 
 REGISTERCLASS(SwitchPlayerManagerScript);
 
-SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr), isSwitchAvailable(true), changingPlayerTime{800.f, 1800.f},
+SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr), modulePlayer(nullptr), isSwitchAvailable(true), changingPlayerTime{800.f, 1800.f},
 	currentPlayerHealthBar(nullptr), secondPlayerHealthBar(nullptr)
 {
 	REGISTER_FIELD(isSwitchAvailable, bool);
@@ -39,12 +39,12 @@ void SwitchPlayerManagerScript::Start()
 	input = App->GetModule<ModuleInput>();
 	modulePlayer = App->GetModule<ModulePlayer>();
 	
-	mainCamera = App->GetModule<ModulePlayer>()->GetCameraPlayerObject();
+	mainCamera = modulePlayer->GetCameraPlayerObject();
 
 	camera = mainCamera->GetComponent<CameraControllerScript>();
 	cameraTransform = mainCamera->GetComponent<ComponentTransform>();
 
-	currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
+	currentPlayer = modulePlayer->GetPlayer();
 	playerManager = currentPlayer->GetComponent<PlayerManagerScript>();
 
 	camera->ChangeCurrentPlayer(currentPlayer->GetComponent<ComponentTransform>());
@@ -70,32 +70,32 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 	{
 		HandleChangeCurrentPlayer();
 
-		if(isSwitchingHealthBars)
+		if (isSwitchingHealthBars)
 		{
-			float t = (changePlayerTimer.Read() - changingPlayerTime[0]) / 1000;
+			float switchingBarsTime = (changePlayerTimer.Read() - changingPlayerTime[0]) / 1000;
 			
 			// Interpolate position and scale
 			float3 newCurrentPlayerPosition = float3(
-				Lerp(currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().x, secondHealthBarPosition.x, t),
-				Lerp(currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().y, secondHealthBarPosition.y, t),
+				Lerp(currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().x, secondHealthBarPosition.x, switchingBarsTime),
+				Lerp(currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().y, secondHealthBarPosition.y, switchingBarsTime),
 				secondHealthBarPosition.z
 			);
 
 			float3 newCurrentPlayerScale = float3(
-				Lerp(currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetScale().x, secondHealthBarScale.x, t),
-				Lerp(currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetScale().y, secondHealthBarScale.y, t),
+				Lerp(currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetScale().x, secondHealthBarScale.x, switchingBarsTime),
+				Lerp(currentPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetScale().y, secondHealthBarScale.y, switchingBarsTime),
 				secondHealthBarScale.z
 			);
 
 			float3 newSecondPlayerPosition = float3(
-				Lerp(secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().x, currentHealthBarPosition.x, t),
-				Lerp(secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().y, currentHealthBarPosition.y, t),
+				Lerp(secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().x, currentHealthBarPosition.x, switchingBarsTime),
+				Lerp(secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().y, currentHealthBarPosition.y, switchingBarsTime),
 				currentHealthBarPosition.z
 			);
 
 			float3 newSecondPlayerScale = float3(
-				Lerp(secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetScale().x, currentHealthBarScale.x, t),
-				Lerp(secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetScale().y, currentHealthBarScale.y, t),
+				Lerp(secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetScale().x, currentHealthBarScale.x, switchingBarsTime),
+				Lerp(secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetScale().y, currentHealthBarScale.y, switchingBarsTime),
 				secondHealthBarScale.z
 			);
 
@@ -165,7 +165,7 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		isChangingPlayer = false;
 		isNewPlayerEnabled = !isNewPlayerEnabled;
 		GameObject* changePlayerGameObject = currentPlayer;
-		currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
+		currentPlayer = modulePlayer->GetPlayer();
 		secondPlayer = changePlayerGameObject;
 
 		playerManager = currentPlayer->GetComponent<PlayerManagerScript>();
