@@ -797,7 +797,7 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 			newComponent = std::make_unique<ComponentPlanarReflection>(this);
 			App->GetModule<ModuleScene>()->GetLoadedScene()->
 				AddPlanarReflection(static_cast<ComponentPlanarReflection*>(
-					static_cast<ComponentLight*>(newComponent.get())));
+					static_cast<ComponentLight*>(newComponent.get())), updateLights);
 			break;
 	}
 

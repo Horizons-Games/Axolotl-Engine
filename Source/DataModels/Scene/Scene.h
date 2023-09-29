@@ -49,7 +49,8 @@ public:
 	bool IsInsideACamera(const AABB& aabb) const;
 
 	std::vector<GameObject*> ObtainObjectsInFrustum(const math::Frustum* frustum, const int& filter = 0);
-	std::vector<GameObject*> ObtainStaticObjectsInFrustum(const math::Frustum* frustum);
+	std::vector<GameObject*> ObtainStaticObjectsInFrustum(const math::Frustum* frustum, const int& filter = 0);
+	std::vector<GameObject*> ObtainDynamicObjectsInFrustum(const math::Frustum* frustum, const int& filter = 0);
 	
 	GameObject* CreateGameObject(const std::string& name, GameObject* parent, bool is3D = true);
 	GameObject* DuplicateGameObject(const std::string& name, GameObject*, GameObject* parent);
@@ -155,7 +156,7 @@ public:
 	
 	void AddParticleSystem(ComponentParticleSystem* particleSystem);
 	void AddComponentLines(ComponentLine* componentLine);
-	void AddPlanarReflection(ComponentPlanarReflection* componentPlanarReflection);
+	void AddPlanarReflection(ComponentPlanarReflection* componentPlanarReflection, bool updateBuffer);
 	
 	void RemoveParticleSystem(const ComponentParticleSystem* particleSystem);
 	void RemoveComponentLine(const ComponentLine* componentLine);
@@ -378,11 +379,14 @@ inline void Scene::AddComponentLines(ComponentLine* componentLine)
 	sceneComponentLines.push_back(componentLine);
 }
 
-inline void Scene::AddPlanarReflection(ComponentPlanarReflection* componentPlanarReflection)
+inline void Scene::AddPlanarReflection(ComponentPlanarReflection* componentPlanarReflection, bool updateBuffer)
 {
 	sceneComponentPlanarReflection.push_back(componentPlanarReflection);
-	UpdateScenePlanarReflections();
-	RenderPlanarReflections();
+	if (updateBuffer)
+	{
+		UpdateScenePlanarReflections();
+		RenderPlanarReflections();
+	}
 }
 
 inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleSystem)

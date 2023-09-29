@@ -73,11 +73,6 @@ void SSAO::UpdateBuffers(int width, int height)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-	GLenum error = glGetError();
-	if (error != GL_NO_ERROR) {
-		SDL_assert(SDL_FALSE && "Problem texture Blur SSAO");
-	}
-
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }

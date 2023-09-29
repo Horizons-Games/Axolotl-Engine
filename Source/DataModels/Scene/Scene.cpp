@@ -140,16 +140,33 @@ std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frus
 	return objectsInFrustum;
 }
 
-std::vector<GameObject*> Scene::ObtainStaticObjectsInFrustum(const math::Frustum* frustum)
+std::vector<GameObject*> Scene::ObtainStaticObjectsInFrustum(const math::Frustum* frustum, const int& filter)
 {
 	std::vector<GameObject*> objectsInFrustum;
 
-	CalculateObjectsInFrustum(frustum, rootQuadtree.get(), objectsInFrustum);
+	CalculateObjectsInFrustum(frustum, rootQuadtree.get(), objectsInFrustum, filter);
 
 #ifdef ENGINE
 	GameObject* selected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
-	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum);
+	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum, filter);
 
+#endif
+
+	return objectsInFrustum;
+}
+
+std::vector<GameObject*> Scene::ObtainDynamicObjectsInFrustum(const math::Frustum* frustum, const int& filter)
+{
+	std::vector<GameObject*> objectsInFrustum;
+	
+	for (GameObject* go : nonStaticObjects)
+	{
+		CalculateNonStaticObjectsInFrustum(frustum, go, objectsInFrustum, filter);
+	}
+
+#ifdef ENGINE
+	GameObject* selected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum, filter);
 #endif
 
 	return objectsInFrustum;
@@ -175,7 +192,7 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 						ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
 						if (mesh != nullptr && mesh->IsEnabled())
 						{
-							if (filter & NON_REFLECTIVE && mesh->IsReflective())
+							if (filter & NON_REFLECTIVE && mesh->GetMaterial() && mesh->IsReflective())
 							{
 								return;
 							}
@@ -198,7 +215,7 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 						ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
 						if (mesh != nullptr && mesh->IsEnabled())
 						{
-							if (filter & NON_REFLECTIVE && mesh->IsReflective())
+							if (filter & NON_REFLECTIVE && mesh->GetMaterial() && mesh->IsReflective())
 							{
 								return;
 							}
@@ -245,7 +262,7 @@ void Scene::CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, Gam
 			ComponentMeshRenderer* mesh = go->GetComponentInternal<ComponentMeshRenderer>();
 			if (go->IsActive() && (mesh != nullptr || mesh->IsEnabled()))
 			{
-				if (filter & NON_REFLECTIVE && mesh->IsReflective())
+				if (filter & NON_REFLECTIVE && mesh->GetMaterial() && mesh->IsReflective())
 				{
 					return;
 				}

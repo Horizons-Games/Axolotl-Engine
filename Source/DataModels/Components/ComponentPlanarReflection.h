@@ -37,7 +37,7 @@ public:
 	void Update();
 	void UpdateReflection();
 
-	const AABB& GetInfluenceAABB();
+	const AABB& GetInfluenceAABB() const;
 	void SetInfluenceAABB(AABB& aabb);
 
 	const float3& GetScale() const;
@@ -46,12 +46,14 @@ public:
 	const uint64_t& GetHandleReflection();
 
 	const float4x4 GetViewProj() const;
-	const float4x4 GetTransform();
+	const float4x4 GetTransform() const;
 	
-	const int GetNumMipMaps();
+	const int GetNumMipMaps() const;
 
-	const float GetDistortionAmount();
+	const float GetDistortionAmount() const;
 	void SetDistortionAmount(float newAmount);
+	
+	const float3 GetPlaneNormal() const;
 
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
@@ -59,8 +61,8 @@ public:
 private:
 	void BlurReflection();
 
-	const float3& GetPosition();
-	const Quat& GetRotation();
+	const float3& GetPosition() const;
+	const Quat& GetRotation() const;
 
 	GLuint frameBuffer;
 	GLuint depth;
@@ -84,7 +86,7 @@ private:
 	float distortionAmount;
 };
 
-inline const AABB& ComponentPlanarReflection::GetInfluenceAABB()
+inline const AABB& ComponentPlanarReflection::GetInfluenceAABB() const
 {
 	return influenceAABB;
 }
@@ -104,17 +106,17 @@ inline const float4x4 ComponentPlanarReflection::GetViewProj() const
 	return frustum->ProjectionMatrix() * frustum->ViewMatrix();
 }
 
-inline const float4x4 ComponentPlanarReflection::GetTransform()
+inline const float4x4 ComponentPlanarReflection::GetTransform() const
 {
 	return float4x4(GetRotation(), GetPosition());
 }
 
-inline const int ComponentPlanarReflection::GetNumMipMaps()
+inline const int ComponentPlanarReflection::GetNumMipMaps() const
 {
 	return numMipMaps;
 }
 
-inline const float ComponentPlanarReflection::GetDistortionAmount()
+inline const float ComponentPlanarReflection::GetDistortionAmount() const
 {
 	return distortionAmount;
 }
@@ -122,4 +124,9 @@ inline const float ComponentPlanarReflection::GetDistortionAmount()
 inline void ComponentPlanarReflection::SetDistortionAmount(float newAmount)
 {
 	distortionAmount = newAmount;
+}
+
+inline const float3 ComponentPlanarReflection::GetPlaneNormal() const
+{
+	return planeNormal;
 }

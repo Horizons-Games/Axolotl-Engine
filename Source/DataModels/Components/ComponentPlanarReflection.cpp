@@ -35,7 +35,10 @@ ComponentPlanarReflection::ComponentPlanarReflection(GameObject* parent) :
 		utilsBlur.push_back(new UtilBlur());
 	}
 
-	InitBuffer();
+	App->ScheduleTask([this]()
+		{
+			InitBuffer();
+		});
 }
 
 ComponentPlanarReflection::~ComponentPlanarReflection()
@@ -44,6 +47,7 @@ ComponentPlanarReflection::~ComponentPlanarReflection()
 	glDeleteRenderbuffers(1, &depth);
 
 	glDeleteTextures(1, &reflectionTex);
+	glMakeTextureHandleNonResidentARB(handle);
 
 	delete frustum;
 
@@ -159,7 +163,7 @@ void ComponentPlanarReflection::UpdateReflection()
 	ModuleRender* modRender = App->GetModule<ModuleRender>();
 	ModuleProgram* modProgram = App->GetModule<ModuleProgram>();
 
-	std::vector<GameObject*> objectsInFrustum = scene->ObtainObjectsInFrustum(frustum, NON_REFLECTIVE);
+	std::vector<GameObject*> objectsInFrustum = scene->ObtainDynamicObjectsInFrustum(frustum, NON_REFLECTIVE);
 
 	modRender->BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT), *frustum);
 	modRender->BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR), *frustum);
@@ -267,12 +271,12 @@ void ComponentPlanarReflection::BlurReflection()
 	glViewport(0, 0, w, h);
 }
 
-const float3& ComponentPlanarReflection::GetPosition()
+const float3& ComponentPlanarReflection::GetPosition() const
 {
 	return GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
 }
 
-const Quat& ComponentPlanarReflection::GetRotation()
+const Quat& ComponentPlanarReflection::GetRotation() const
 {
 	return GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalRotation();
 }

@@ -30,7 +30,7 @@ void WindowComponentPlanarReflection::DrawWindowContents()
 		{
 			ImGui::TableNextColumn();
 			ImGui::Text("Scaling");
-			ImGui::SameLine();
+			
 
 			ImGui::TableNextColumn();
 			ImGui::Text("x:");
@@ -54,15 +54,18 @@ void WindowComponentPlanarReflection::DrawWindowContents()
 			}
 			ImGui::PopStyleVar();
 
+			ImGui::TableNextColumn();
 			float distortionAmount = planar->GetDistortionAmount();
 			ImGui::Text("Distortion Amount:");
-			ImGui::SameLine();
+			
+			ImGui::TableNextColumn();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
 			if (ImGui::DragFloat("##DistortionAmount", &distortionAmount, 0.01f, 0.01f, std::numeric_limits<float>::max(), "%.2f"))
 			{
 				planar->SetDistortionAmount(distortionAmount);
 			}
+			ImGui::PopStyleVar();
 
 			ImGui::EndTable();
 		}
