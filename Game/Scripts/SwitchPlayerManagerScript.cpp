@@ -145,7 +145,7 @@ void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 	componentAnimation->SetParameter("IsJumping", true);
 	camera->ToggleCameraState();
 	currentPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(true);
-	playerManager->ForcingJump(true);
+	playerManager->TriggerJump(true);
 
 	// The position where the newCurrentPlayer will appear
 	positionPlayer = currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition();
@@ -186,7 +186,7 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 	{
 		// Disabling the current player
 		currentPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(false);
-		playerManager->ForcingJump(false);
+		playerManager->TriggerJump(false);
 
 		componentAnimation->SetParameter("IsFalling", true);
 		VisualSwitchEffect();

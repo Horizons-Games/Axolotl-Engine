@@ -41,7 +41,7 @@ public:
 
 	void ParalyzePlayer(bool paralyzed);
 	void PausePlayer(bool paused);
-	void ForcingJump(bool forcedJump);
+	void TriggerJump(bool forcedJump);
 
 	bool IsGrounded() const;
 	bool IsTeleporting() const;

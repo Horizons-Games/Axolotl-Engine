@@ -98,7 +98,7 @@ PlayerMoveScript* PlayerManagerScript::GetMovementManager() const
 	return movementManager;
 }
 
-void PlayerManagerScript::ForcingJump(bool forcedJump)
+void PlayerManagerScript::TriggerJump(bool forcedJump)
 {
 	playerState = PlayerActions::JUMPING;
 	jumpManager->ChangingCurrentPlayer();
