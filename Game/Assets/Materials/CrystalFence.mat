@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/HOD_BossArena_NewFences_CrystalRed_AlbedoTransparency.png",
+    "NormalAssetPath": "",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/HOD_BossArena_NewFences_CrystalRed_MetallicSmoothness.png",
+    "EmissiveAssetPath": "Assets/Textures/HOD_BossArena_NewFences_CrystalRed_Emission.png"
+}
