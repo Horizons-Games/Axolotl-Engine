@@ -148,7 +148,7 @@ void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 	playerManager->TriggerJump(true);
 
 	// The position where the newCurrentPlayer will appear
-	positionPlayer = currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition();
+	playerPosition = currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
 	changePlayerTimer.Start();
 	isChangingPlayer = true;
@@ -202,8 +202,8 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 
 		secondPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(true);
 
-		positionPlayer.y += 0.5f;
-		secondPlayer->GetComponent<ComponentTransform>()->SetGlobalPosition(positionPlayer);
+		playerPosition.y += 0.5f;
+		secondPlayer->GetComponent<ComponentTransform>()->SetGlobalPosition(playerPosition);
 		secondPlayer->GetComponent<ComponentTransform>()->SetGlobalRotation(currentPlayer->GetComponent<ComponentTransform>()->GetGlobalRotation());
 		secondPlayer->GetComponent<ComponentRigidBody>()->UpdateRigidBody();
 		isNewPlayerEnabled = !isNewPlayerEnabled;
