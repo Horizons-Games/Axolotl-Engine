@@ -1,5 +1,7 @@
 #pragma once
 
+class Schedulable;
+
 class Scheduler
 {
 public:
@@ -7,8 +9,6 @@ public:
 	~Scheduler();
 
 public:
-	using Schedulable = std::function<void(void)>;
-
 	void ScheduleTask(Schedulable&& taskToSchedule);
 	void RunTasks();
 
