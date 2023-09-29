@@ -12,10 +12,13 @@ class ComponentRigidBody;
 class ComponentTransform;
 class GameObject;
 
+class HealthSystem;
+
 // Little fix until we could check if an audio is being reproduced
 enum class ActiveActions
 {
-	ACTIVE,
+	ACTIVE_PLAYER,
+	ACTIVE_AUTO,
 	INACTIVE
 };
 
@@ -33,6 +36,8 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
+	void MoveUpElevator(bool isPlayerInside, float deltaTime);
+	void MoveDownElevator(bool isPlayerInside, float deltaTime);
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void SetDisableInteractions(bool interactions);
 	void SetDisableInteractionsEnemies(const GameObject* enemy, bool interactions);
@@ -53,4 +58,13 @@ private:
 	GameObject* elevator;
 	float finalPos;
 	float finalUpPos;
+
+	float coolDown;
+	float currentTime;
+
+	float speed;
+
+
+	//Enemy condition
+	HealthSystem* miniBossHealth;
 };
