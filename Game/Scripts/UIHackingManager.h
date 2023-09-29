@@ -25,7 +25,7 @@ public:
 private:
 
 	GameObject* command_A;
-	GameObject* command_B;
+	GameObject* command_X;
 	GameObject* command_Y;
 
 	std::deque<GameObject*> inputVisuals;

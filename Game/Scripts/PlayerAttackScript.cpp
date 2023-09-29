@@ -41,7 +41,7 @@
 REGISTERCLASS(PlayerAttackScript);
 
 PlayerAttackScript::PlayerAttackScript() : Script(), 
-	isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
+	canAttack(true), isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
 	animation(nullptr), transform(nullptr), isMelee(true),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), jumpFinisherScript(nullptr),
 	lightFinisherScript(nullptr), normalAttackDistance(0), heavyFinisherAttack(nullptr), lightWeapon(nullptr),
@@ -102,6 +102,12 @@ void PlayerAttackScript::Start()
 
 void PlayerAttackScript::Update(float deltaTime)
 {
+
+	if (!canAttack)
+	{
+		return;
+	}
+
 	// Mark the enemy that is going to be attacked
 	UpdateEnemyDetection();
 
@@ -174,6 +180,13 @@ void PlayerAttackScript::PerformCombos()
 				break;
 
 			case AttackType::HEAVYFINISHER:
+				triggerNextAttackTimer = triggerNextAttackDuration;
+				currentAttackAnimation = animation->GetController()->GetStateName();
+				numAttackComboAnimation = 0.0f;
+				animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
+				animation->SetParameter("HeavyFinisherInit", true);
+				isAttacking = false;
+				break;
 			case AttackType::JUMPFINISHER:
 				break;
 			case AttackType::JUMPNORMAL:
@@ -599,6 +612,17 @@ bool PlayerAttackScript::IsMeleeAvailable() const
 bool PlayerAttackScript::IsPerfomingJumpAttack() const
 {
 	return (currentAttack == AttackType::JUMPFINISHER || currentAttack == AttackType::JUMPNORMAL);
+}
+
+bool PlayerAttackScript::CanAttack() const
+{
+	return canAttack;
+}
+
+void PlayerAttackScript::SetCanAttack(bool canAttack)
+{
+
+	this->canAttack = canAttack;
 }
 
 bool PlayerAttackScript::IsDeathTouched() const
