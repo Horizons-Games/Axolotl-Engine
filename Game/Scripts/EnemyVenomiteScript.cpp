@@ -288,6 +288,10 @@ void EnemyVenomiteScript::ResetValues()
 	enemyDeathScript->ResetDespawnTimerAndEnableActions();
 }
 
+void EnemyVenomiteScript::ParalyzeEnemy(bool paralyzed) const 
+{
+}
+
 void EnemyVenomiteScript::SetStunnedTime(float newTime)
 {
 	EnemyClass::SetStunnedTime(newTime);

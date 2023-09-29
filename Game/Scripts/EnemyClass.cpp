@@ -70,3 +70,8 @@ EnemyTypes EnemyClass::GetEnemyType() const
 {
 	return enemyType;
 }
+
+void EnemyClass::ParalyzeEnemy(bool paralyzed) const
+{
+	return;
+}

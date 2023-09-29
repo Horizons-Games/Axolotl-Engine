@@ -56,6 +56,7 @@ private:
 	BossShieldScript* bossShieldObject;
 
 	float enemyMaxSpawnTime;
+	unsigned int currentPath;
 
 	GameObject* enemiesToSpawnParent;
 

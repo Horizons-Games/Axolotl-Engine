@@ -15,13 +15,15 @@
 #include "../Scripts/EnemyDroneScript.h"
 #include "../Scripts/EnemyVenomiteScript.h"
 #include "../Scripts/HealthSystem.h"
+#include "../Scripts/PathBehaviourScript.h"
 
 REGISTERCLASS(BossShieldAttackScript);
 
 BossShieldAttackScript::BossShieldAttackScript() : Script(), bossShieldObject(nullptr), isShielding(false),
 	shieldingTime(0.0f), shieldingMaxTime(20.0f), triggerShieldAttackCooldown(false), shieldAttackCooldown(0.0f),
 	shieldAttackMaxCooldown(50.0f), triggerEnemySpawning(false), enemiesToSpawnParent(nullptr),
-	enemySpawnTime(0.0f), enemyMaxSpawnTime(2.0f), battleArenaAreaSize(nullptr), healthSystemScript(nullptr)
+	enemySpawnTime(0.0f), enemyMaxSpawnTime(2.0f), battleArenaAreaSize(nullptr), healthSystemScript(nullptr),
+	currentPath(0)
 {
 	REGISTER_FIELD(shieldingMaxTime, float);
 	REGISTER_FIELD(shieldAttackMaxCooldown, float);
@@ -206,6 +208,12 @@ GameObject* BossShieldAttackScript::SelectEnemyToSpawn()
 
 	enemiesReadyToSpawn.erase(enemiesReadyToSpawn.begin() + randomEnemyIndex);
 	enemiesNotReadyToSpawn.push_back(selectedEnemy);
+
+	if (!initsPaths.empty())
+	{
+		selectedEnemy->GetComponent<PathBehaviourScript>()->SetNewPath(initsPaths[currentPath]);
+		currentPath = (currentPath + 1) % initsPaths.size();
+	}
 
 	return selectedEnemy;
 }

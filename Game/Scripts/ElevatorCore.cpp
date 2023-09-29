@@ -176,3 +176,11 @@ void ElevatorCore::EnableAllInteractions()
 	PlayerManagerScript* manager = bixPrefab->GetComponentInternal<PlayerManagerScript>();
 	manager->ParalyzePlayer(false);
 }
+
+void ElevatorCore::EnableAllInteractionsEnemies()
+{
+}
+
+void ElevatorCore::DisableAllInteractionsEnemies()
+{
+}

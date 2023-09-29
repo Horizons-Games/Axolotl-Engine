@@ -37,6 +37,8 @@ public:
 
 	virtual void SetReadyToDie() = 0;
 
+	virtual void ParalyzeEnemy(bool paralyzed) const;
+
 protected:
 	bool stunned;
 	float timeStunned;

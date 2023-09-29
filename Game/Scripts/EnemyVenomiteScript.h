@@ -42,6 +42,7 @@ public:
 	void SetReadyToDie() override;
 	void SetStunnedTime(float newTime) override;
 	void ResetValues();
+	void ParalyzeEnemy(bool paralyzed) const override;
 
 private:
 	void CheckState();
