@@ -118,12 +118,14 @@ PlayerAttackScript* PlayerManagerScript::GetAttackManager() const
 
 void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 {
-	playerState = PlayerActions::IDLE;
 	movementManager->SetIsParalyzed(paralyzed);
 	owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(btVector3(0.f,0.f,0.f));
 	jumpManager->SetCanJump(!paralyzed);
 	rotationManager->SetCanRotate(!paralyzed);
-	attackManager->SetCanAttack(!paralyzed);
+	if (attackManager->IsAttackAvailable())
+	{
+		attackManager->SetCanAttack(!paralyzed);
+	}
 }
 
 void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)
