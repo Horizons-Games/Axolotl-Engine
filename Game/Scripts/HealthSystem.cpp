@@ -12,12 +12,12 @@
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
 #include "../Scripts/PlayerManagerScript.h"
-#include "MeshEffect.h"
+#include "../Scripts/MeshEffect.h"
 
 REGISTERCLASS(HealthSystem);
 
-#define TIME_BETWEEN_EFFECTS 0.05f
-#define MAX_TIME_EFFECT_DURATION 0.1f
+#define TIME_BETWEEN_EFFECTS 0.10f
+#define MAX_TIME_EFFECT_DURATION 0.15f
 
 HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), 
 	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr),	damageTaken(false), playerManager(nullptr)
@@ -174,4 +174,9 @@ void HealthSystem::SetDeathCallback(std::function<void(void)>&& callDeath)
 float HealthSystem::GetCurrentHealth() const
 {
 	return currentHealth;
+}
+
+MeshEffect* HealthSystem::GetMeshEffect() const
+{
+	return meshEffect;
 }
