@@ -2,7 +2,7 @@
     "GameObjects": [
         {
             "GameObject": {
-                "name": "Gameplay_TrialAllura",
+                "name": "Gameplay_TrialAllura_modified",
                 "tag": "",
                 "uid": 9011007661183311806,
                 "parentUID": 0,
