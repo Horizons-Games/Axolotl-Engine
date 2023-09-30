@@ -46,6 +46,7 @@ void EntityDetection::UpdateEnemyDetection(float distanceFilter)
 {
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
 	rigidBody->UpdateRigidBody();
+	playerTransform = player->GetComponent<ComponentTransform>();
 
 	vecForward = playerTransform->GetGlobalForward();
 	originPosition = playerTransform->GetGlobalPosition() - vecForward.Normalized() * interactionOffset;
