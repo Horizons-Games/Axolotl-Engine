@@ -18,6 +18,7 @@
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/PlayerMoveScript.h"
+#include "../Scripts/PlayerJumpScript.h"
 #include "../Scripts/EntityDetection.h"
 #include "../Scripts/JumpFinisherAttack.h"
 #include "../Scripts/JumpFinisherArea.h"
@@ -47,7 +48,8 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	lightFinisherScript(nullptr), normalAttackDistance(0.0f), heavyFinisherAttack(nullptr), lightWeapon(nullptr),
 	comboCountHeavy(10.0f), comboCountLight(30.0f), comboCountJump(20.0f), triggerNextAttackDuration(0.5f), 
 	triggerNextAttackTimer(0.0f), isNextAttackTriggered(false), currentAttackAnimation(""),
-	numAttackComboAnimation(0.0f), isHeavyFinisherReceivedAux(false)
+	numAttackComboAnimation(0.0f), isHeavyFinisherReceivedAux(false), jumpAttackCooldown(0.8f), timeSinceLastJumpAttack(0.0f),
+	jumpBeforeJumpAttackCooldown(0.1f)
 {
 	REGISTER_FIELD(comboCountHeavy, float);
 	REGISTER_FIELD(comboCountLight, float);
@@ -70,6 +72,8 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	REGISTER_FIELD(pistolGameObject, GameObject*);
 
 	REGISTER_FIELD(triggerNextAttackDuration, float);
+	REGISTER_FIELD(jumpAttackCooldown, float);
+	REGISTER_FIELD(jumpBeforeJumpAttackCooldown, float);
 }
 
 void PlayerAttackScript::Start()
@@ -97,11 +101,22 @@ void PlayerAttackScript::Start()
 		pistolGameObject->Disable();
 	}
 
+	timeSinceLastJumpAttack = jumpAttackCooldown;
 	triggerNextAttackTimer = triggerNextAttackDuration;
 }
 
 void PlayerAttackScript::Update(float deltaTime)
 {
+	if (isMelee && timeSinceLastJumpAttack < jumpAttackCooldown)
+	{
+		playerManager->ParalyzePlayer(true);
+	}
+	else
+	{
+		playerManager->ParalyzePlayer(false);
+	}
+
+	timeSinceLastJumpAttack += deltaTime;
 
 	if (!canAttack)
 	{
@@ -149,8 +164,12 @@ void PlayerAttackScript::UpdateEnemyDetection()
 
 void PlayerAttackScript::PerformCombos()
 {
+	bool isJumping = playerManager->GetPlayerState() == PlayerActions::JUMPING ||
+		playerManager->GetPlayerState() == PlayerActions::DOUBLEJUMPING;
+
 	//Check input
-	if (!IsPerformingJumpAttack())
+	if (!IsPerformingJumpAttack() && (!isJumping || isJumping &&
+		playerManager->GetJumpManager()->GetTimeSinceLastJump() > jumpBeforeJumpAttackCooldown))
 	{
 		currentAttack = comboSystem->CheckAttackInput(!playerManager->IsGrounded());
 	}
@@ -235,6 +254,7 @@ void PlayerAttackScript::PerformCombos()
 					currentAttackAnimation = "LightAttack";
 				}
 				break;
+
 			case AttackType::HEAVYNORMAL:
 				if (!isNextAttackTriggered) //Calling only when is not currently attacking
 				{
@@ -368,12 +388,12 @@ void PlayerAttackScript::InitJumpAttack()
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
 	playerManager->GetMovementManager()->SetIsTriggeringStoredDash(false);
-	
 	playerManager->ParalyzePlayer(true);
 
 	if (isMelee)
 	{
 		jumpFinisherScript->PerformGroundSmash(); // Bix jumping attack
+		timeSinceLastJumpAttack = 0.0f;
 	}
 	else
 	{

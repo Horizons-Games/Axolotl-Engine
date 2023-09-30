@@ -26,7 +26,7 @@ REGISTERCLASS(PlayerJumpScript);
 PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(500.0f), canDoubleJump(false),
 componentAnimation(nullptr), componentAudio(nullptr), canJump(true), rigidbody(nullptr),
 coyoteTime(0.4f), isGrounded(false), attackScript(nullptr), playerManager(nullptr),
-doubleJumpAvailable(true), isFalling(false)
+doubleJumpAvailable(true), isFalling(false), timeSinceLastJump(0.0f)
 {
 	REGISTER_FIELD(coyoteTime, float);
 	REGISTER_FIELD(isGrounded, bool);
@@ -35,6 +35,8 @@ doubleJumpAvailable(true), isFalling(false)
 	REGISTER_FIELD(jumpParameter, float);
 	REGISTER_FIELD(canDoubleJump, bool);
 	REGISTER_FIELD(canJump, bool);
+
+	REGISTER_FIELD(timeSinceLastJump, float);
 }
 
 void PlayerJumpScript::Start()
@@ -57,6 +59,8 @@ void PlayerJumpScript::PreUpdate(float deltaTime)
 	}
 
 	CheckGround(deltaTime);
+
+	timeSinceLastJump += deltaTime;
 
 	if (playerManager->GetPlayerState() != PlayerActions::DASHING)
 	{
@@ -123,6 +127,7 @@ void PlayerJumpScript::Jump(float deltaTime)
 			(isGrounded || (!isGrounded && coyoteTimerCount > 0.0f) ||
 				(canDoubleJump && playerManager->GetPlayerState() == PlayerActions::JUMPING)))
 		{
+			timeSinceLastJump = 0.0f;
 			btVector3 velocity = btRigidbody->getLinearVelocity();
 			velocity.setY(0.0f);
 			btRigidbody->setLinearVelocity(velocity);
@@ -163,4 +168,9 @@ bool PlayerJumpScript::CanJump() const
 void PlayerJumpScript::SetCanJump(bool canJump)
 {
 	this->canJump = canJump;
+}
+
+float PlayerJumpScript::GetTimeSinceLastJump() const
+{
+	return timeSinceLastJump;
 }

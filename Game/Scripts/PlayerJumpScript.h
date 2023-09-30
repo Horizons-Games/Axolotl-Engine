@@ -28,6 +28,8 @@ public:
 
 	bool IsGrounded() const;
 
+	float GetTimeSinceLastJump() const;
+
 private:
 	void CheckGround(float deltaTime);
 	void Jump(float deltaTime);
@@ -38,6 +40,7 @@ private:
 	float coyoteTime;
 	float coyoteTimerCount;
 	float jumpParameter;
+	float timeSinceLastJump;
 	bool canDoubleJump;
 	bool canJump;
 

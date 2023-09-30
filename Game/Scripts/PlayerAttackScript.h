@@ -84,6 +84,11 @@ private:
 	std::string currentAttackAnimation;
 	float numAttackComboAnimation;
 
+	float jumpAttackCooldown;
+	float timeSinceLastJumpAttack;
+
+	float jumpBeforeJumpAttackCooldown;
+
 	bool isHeavyFinisherReceivedAux;
 
 	bool isDeathTouched;
