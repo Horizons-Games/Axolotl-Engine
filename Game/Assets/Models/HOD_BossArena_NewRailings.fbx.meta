@@ -1,0 +1,11 @@
+{
+    "UID": 9365546662259236592,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/HOD_BossArena_NewRailings.Cube.161_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/HOD_BossArena_NewRailingsMainArena_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
