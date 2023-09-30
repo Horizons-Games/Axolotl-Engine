@@ -34,6 +34,8 @@ public:
 	
 	void SetDeathCallback(std::function<void(void)>&& callDeath);
 
+	MeshEffect* GetMeshEffect() const;
+
 private:
 
 	float currentHealth;

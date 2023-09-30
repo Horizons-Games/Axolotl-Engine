@@ -18,6 +18,7 @@
 
 #include "../Scripts/CameraControllerScript.h"
 #include "../Scripts/PlayerManagerScript.h"
+#include "../Scripts/HackZoneScript.h"
 
 #include "DataStructures/Quadtree.h"
 #include "Auxiliar/Audio/AudioData.h"
@@ -27,6 +28,7 @@ REGISTERCLASS(ActivationLogic);
 ActivationLogic::ActivationLogic() : Script(),
 componentAudio(nullptr), activeState(ActiveActions::INACTIVE)
 {
+	REGISTER_FIELD(linkedHackZone, HackZoneScript*);
 }
 
 ActivationLogic::~ActivationLogic()
@@ -60,6 +62,11 @@ void ActivationLogic::Update(float deltaTime)
 
 void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 {
+	if (linkedHackZone && !linkedHackZone->IsCompleted())
+	{
+		return;
+	}
+
 	if (!App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat())
 	{
 		if (other->GetOwner()->CompareTag("Player"))
