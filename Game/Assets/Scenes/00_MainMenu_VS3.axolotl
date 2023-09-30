@@ -2959,7 +2959,7 @@
                 "tag": "",
                 "uid": 18146638544442064004,
                 "parentUID": 13045427081882602319,
-                "enabled": false,
+                "enabled": true,
                 "static": true,
                 "Components": [
                     {
@@ -3341,7 +3341,7 @@
                 "tag": "",
                 "uid": 13392629973447689559,
                 "parentUID": 13045427081882602319,
-                "enabled": true,
+                "enabled": false,
                 "static": true,
                 "Components": [
                     {
@@ -6656,112 +6656,6 @@
         },
         {
             "GameObject": {
-                "name": "new Image",
-                "tag": "",
-                "uid": 16687761116123550331,
-                "parentUID": 16881585802559929277,
-                "enabled": false,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform2D",
-                            "active": true,
-                            "removed": true,
-                            "localPositionX": 0.0,
-                            "localPositionY": 0.0,
-                            "localPositionZ": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localScaleX": 1.0,
-                            "localScaleY": 1.0,
-                            "localScaleZ": 1.0,
-                            "sizeX": 200.0,
-                            "sizeY": 200.0,
-                            "localAABB_min_x": -0.5,
-                            "localAABB_min_y": -0.5,
-                            "localAABB_max_x": 0.5,
-                            "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 663.3645629882813,
-                            "worldAABB_min_y": 403.8645935058594,
-                            "worldAABB_max_x": 817.6354370117188,
-                            "worldAABB_max_y": 558.1354370117188
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Image",
-                            "active": true,
-                            "removed": true,
-                            "imageUID": 0,
-                            "assetPathImage": "",
-                            "color_x": 1.0,
-                            "color_y": 1.0,
-                            "color_z": 1.0,
-                            "color_w": 1.0,
-                            "renderPercentage": 1.0,
-                            "direction": 0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
-                "name": "new Image",
-                "tag": "",
-                "uid": 8475700687033803824,
-                "parentUID": 16881585802559929277,
-                "enabled": false,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform2D",
-                            "active": true,
-                            "removed": true,
-                            "localPositionX": 0.0,
-                            "localPositionY": 0.0,
-                            "localPositionZ": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localScaleX": 1.0,
-                            "localScaleY": 1.0,
-                            "localScaleZ": 1.0,
-                            "sizeX": 200.0,
-                            "sizeY": 200.0,
-                            "localAABB_min_x": -0.5,
-                            "localAABB_min_y": -0.5,
-                            "localAABB_max_x": 0.5,
-                            "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 663.3645629882813,
-                            "worldAABB_min_y": 403.8645935058594,
-                            "worldAABB_max_x": 817.6354370117188,
-                            "worldAABB_max_y": 558.1354370117188
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Image",
-                            "active": true,
-                            "removed": true,
-                            "imageUID": 0,
-                            "assetPathImage": "",
-                            "color_x": 1.0,
-                            "color_y": 1.0,
-                            "color_z": 1.0,
-                            "color_w": 1.0,
-                            "renderPercentage": 1.0,
-                            "direction": 0
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "new Button",
                 "tag": "",
                 "uid": 6750953653814791842,
@@ -7958,6 +7852,233 @@
                         "Component": {
                             "type": "Component_Button",
                             "active": true,
+                            "removed": true,
+                            "colorHovered_x": 0.699999988079071,
+                            "colorHovered_y": 0.699999988079071,
+                            "colorHovered_z": 0.699999988079071,
+                            "colorHovered_w": 1.0,
+                            "colorClicked_x": 0.5,
+                            "colorClicked_y": 0.5,
+                            "colorClicked_z": 0.5,
+                            "colorClicked_w": 1.0,
+                            "sceneName": ""
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "BRIGHTNESS",
+                "tag": "",
+                "uid": 13360638200104847245,
+                "parentUID": 3997517798953445617,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 457.8756408691406,
+                            "localPositionY": -76.10636138916016,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 0.75,
+                            "localScaleY": 0.75,
+                            "localScaleZ": 0.5,
+                            "sizeX": 200.0,
+                            "sizeY": 200.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1035.832763671875,
+                            "worldAABB_min_y": 481.8533935546875,
+                            "worldAABB_max_x": 1151.535888671875,
+                            "worldAABB_max_y": 597.5565185546875
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Slider",
+                            "active": true,
+                            "removed": true,
+                            "background": 4013327219497764921,
+                            "fill": 18300225792889393494,
+                            "handle": 10023679540278260963,
+                            "minValue": 0.0,
+                            "maxValue": 100.0,
+                            "currentValue": 100.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Background",
+                "tag": "",
+                "uid": 4013327219497764921,
+                "parentUID": 13360638200104847245,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 400.0,
+                            "sizeY": 50.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 939.4135131835938,
+                            "worldAABB_min_y": 520.4210815429688,
+                            "worldAABB_max_x": 1247.9552001953125,
+                            "worldAABB_max_y": 558.9888305664063
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 0,
+                            "assetPathImage": "",
+                            "color_x": 1.0,
+                            "color_y": 0.0,
+                            "color_z": 0.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Fill",
+                "tag": "",
+                "uid": 18300225792889393494,
+                "parentUID": 13360638200104847245,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 0.0,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 400.0,
+                            "sizeY": 50.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 939.4135131835938,
+                            "worldAABB_min_y": 520.4210815429688,
+                            "worldAABB_max_x": 1247.9552001953125,
+                            "worldAABB_max_y": 558.9888305664063
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 0,
+                            "assetPathImage": "",
+                            "color_x": 0.0,
+                            "color_y": 1.0,
+                            "color_z": 0.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Handle",
+                "tag": "",
+                "uid": 10023679540278260963,
+                "parentUID": 13360638200104847245,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform2D",
+                            "active": true,
+                            "removed": true,
+                            "localPositionX": 192.0335693359375,
+                            "localPositionY": 0.0,
+                            "localPositionZ": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localScaleX": 1.0,
+                            "localScaleY": 1.0,
+                            "localScaleZ": 1.0,
+                            "sizeX": 25.0,
+                            "sizeY": 60.0,
+                            "localAABB_min_x": -0.5,
+                            "localAABB_min_y": -0.5,
+                            "localAABB_max_x": 0.5,
+                            "localAABB_max_y": 0.5,
+                            "worldAABB_min_x": 1232.168212890625,
+                            "worldAABB_min_y": 516.5643310546875,
+                            "worldAABB_max_x": 1251.4521484375,
+                            "worldAABB_max_y": 562.8455810546875
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Image",
+                            "active": true,
+                            "removed": true,
+                            "imageUID": 0,
+                            "assetPathImage": "",
+                            "color_x": 1.0,
+                            "color_y": 1.0,
+                            "color_z": 1.0,
+                            "color_w": 1.0,
+                            "renderPercentage": 1.0,
+                            "direction": 0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Button",
+                            "active": false,
                             "removed": true,
                             "colorHovered_x": 0.699999988079071,
                             "colorHovered_y": 0.699999988079071,

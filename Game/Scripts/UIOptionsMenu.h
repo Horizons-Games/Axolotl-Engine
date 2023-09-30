@@ -9,6 +9,7 @@
 #include "ModuleRender.h"
 #include "ModuleAudio.h"
 class ComponentButton;
+class ComponentSlider;
 
 class UIOptionsMenu : public Script
 {
@@ -22,12 +23,19 @@ public:
 	void ControlEnable();
 	void KeyboardEnable();
 
-	void GameOption();
+	int LookSavedOptions(int button);
+	void SaveOption(int header, int button, int option);
+
+	void GameOption(int button, int option);
 	void VideoOption();
 	void AudioOption();
 	void ControlOption();
 
+	void BackToLastSavedOption();
+	bool IsSlider(int header, int button, int option);
+
 private:
+
 	struct HeaderOptionsButton
 	{
 		ComponentButton* button;
@@ -56,6 +64,9 @@ private:
 	int maxOptions;
 	int newSelectedOption;
 	int saveSelectedOption;
+	float valueSlider;
+
+	bool isSlider;
 
 	ModuleInput* input;
 	ModuleUI* ui;
@@ -85,6 +96,7 @@ private:
 	ComponentButton* videoOptionComponentButton;
 	ComponentButton* audioOptionComponentButton;
 	ComponentButton* controlOptionComponentButton;
+	ComponentSlider* slider;
 
 };
 
