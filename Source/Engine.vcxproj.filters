@@ -626,9 +626,6 @@
     <ClCompile Include="DataModels\Animation\StateMachine.cpp">
       <Filter>DataModels\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Components\ComponentPlayerInput.cpp">
-      <Filter>DataModels\Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\EnemyClass.cpp">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClCompile>
@@ -793,7 +790,15 @@
     <ClCompile Include="DataModels\Render\Shadows.cpp">
       <Filter>DataModels\Render</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp" />
+    <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Enums\WritableEnum.cpp">
+      <Filter>Enums</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Schedulable\Schedulable.cpp">
+      <Filter>DataModels\Schedulable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1450,9 +1455,6 @@
     <ClInclude Include="DataModels\Animation\StateMachine.h">
       <Filter>DataModels\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="DataModels\Components\ComponentPlayerInput.h">
-      <Filter>DataModels\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\EnemyClass.h">
       <Filter>UserScripts\Gameplay\Enemies</Filter>
     </ClInclude>
@@ -1633,7 +1635,15 @@
     <ClInclude Include="DataModels\Render\Shadows.h">
       <Filter>DataModels\Render</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\ElevatorCore.h" />
+    <ClInclude Include="..\Game\Scripts\ElevatorCore.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\WritableEnum.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Schedulable\Schedulable.h">
+      <Filter>DataModels\Schedulable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1845,6 +1855,9 @@
     </Filter>
     <Filter Include="DataModels\Render">
       <UniqueIdentifier>{701145da-de98-4a67-be5b-f78bd0c29386}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Schedulable">
+      <UniqueIdentifier>{aebeccfc-924c-4feb-a954-996d552b513f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2064,9 +2077,6 @@
       <Filter>DataModels\Windows</Filter>
     </ClCompile>
     <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.cpp">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayerInput.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\EditorWindows\WindowAssetFolder.cpp">
@@ -2387,9 +2397,6 @@
       <Filter>DataModels\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayer.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="Datamodels\Windows\SubWindows\ComponentWindows\WindowComponentPlayerInput.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\WindowAssetFolder.h">

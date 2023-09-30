@@ -37,6 +37,7 @@ class ComponentTrail : public Component, public Updatable, public Drawable
 {
 public:
 	ComponentTrail(bool active, GameObject* owner);
+	ComponentTrail(const ComponentTrail& trail);
 	~ComponentTrail();
 
 	void Update() override;
@@ -55,8 +56,8 @@ public:
 	const float GetRatioWidth() const;
 	void SetRatioWidth(float ratioWidth);
 
-	const int GetCatmunPoints();
-	void SetCatmunPoints(int numSamplers);
+	const int GetCatmullPoints();
+	void SetCatmullPoints(int numSamplers);
 
 	std::shared_ptr<ResourceTexture> GetTexture() const;
 	void SetTexture(const std::shared_ptr<ResourceTexture>& texture);
@@ -107,7 +108,7 @@ private:
 	float minDistance;
 	float width;
 	float ratioWidth; // this value is used to calculate the minimum width that vertex can size
-	int catmunPoints;
+	int catmullPoints;
 
 	// render properties
 	ImGradient* gradient;
@@ -159,14 +160,14 @@ inline void ComponentTrail::SetRatioWidth(float ratioWidth)
 	points.clear();
 }
 
-inline const int ComponentTrail::GetCatmunPoints()
+inline const int ComponentTrail::GetCatmullPoints()
 {
-	return catmunPoints;
+	return catmullPoints;
 }
 
-inline void ComponentTrail::SetCatmunPoints(int numSamplers)
+inline void ComponentTrail::SetCatmullPoints(int numSamplers)
 {
-	catmunPoints = numSamplers;
+	catmullPoints = numSamplers;
 }
 
 inline std::shared_ptr<ResourceTexture> ComponentTrail::GetTexture() const

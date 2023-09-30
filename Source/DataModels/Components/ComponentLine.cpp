@@ -32,6 +32,15 @@ ComponentLine::ComponentLine(const bool active, GameObject* owner) : Component(C
 		});
 }
 
+ComponentLine::ComponentLine(const ComponentLine& other) :
+	Component(other),numTiles(other.numTiles),speed(other.speed),time(other.time),dirtyBuffers(other.dirtyBuffers), 
+	gradient(new ImGradient(other.gradient)),offset(other.offset),tiling(other.tiling),sizeFading(other.sizeFading),
+	sizeFadingPoints(other.sizeFadingPoints), lineTexture(other.GetLineTexture())
+{
+	LoadBuffers();
+	UpdateBuffers();
+}
+
 ComponentLine::~ComponentLine()
 {
 	glDeleteVertexArrays(1, &lineVAO);
@@ -39,6 +48,7 @@ ComponentLine::~ComponentLine()
 	glDeleteBuffers(1,&positionBuffers);
 	glDeleteBuffers(1,&textureBuffers);
 	glDeleteBuffers(1,&colorBuffers);
+	delete gradient;
 }
 
 void ComponentLine::LoadBuffers()
@@ -340,11 +350,21 @@ void ComponentLine::InternalLoad(const Json& meta)
 	}
 #endif // ENGINE
 
-	UID endpoint = meta["EndPoint"];
+	UID endpointUID = meta["EndPoint"];
 
-	if (endpoint != 0)
+	if (endpointUID != 0)
 	{
-		childGameObject = App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(endpoint);
+		UID newFieldUID;
+		if (App->GetModule<ModuleScene>()->HasNewUID(endpointUID, newFieldUID))
+		{
+			childGameObject = 
+				App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(newFieldUID);
+		}
+		else
+		{
+			childGameObject = 
+				App->GetModule<ModuleScene>()->GetLoadedScene()->SearchGameObjectByID(endpointUID);
+		}
 	}
 
 	LoadBuffers();

@@ -10,7 +10,6 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentCameraSample.h"
-#include "Components/ComponentCubemap.h"
 #include "Components/ComponentLine.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
@@ -21,7 +20,6 @@
 #include "Components/ComponentSkybox.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentParticleSystem.h"
-
 
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
@@ -1517,6 +1515,16 @@ void Scene::SetRoot(GameObject* newRoot)
 void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D)
 {
 	sceneGameObjects.push_back(gameObject);
+
+	if (gameObject->HasComponent<ComponentLine>())
+	{
+		AddComponentLines(static_cast<ComponentLine*>(gameObject->GetComponent<ComponentLine>()));
+	}
+	if (gameObject->HasComponent<ComponentParticleSystem>())
+	{
+		AddParticleSystem(static_cast<ComponentParticleSystem*>(gameObject->GetComponent<ComponentParticleSystem>()));
+	}
+
 	if (gameObject->IsRendereable() && is3D)
 	{
 		if (gameObject->IsStatic())

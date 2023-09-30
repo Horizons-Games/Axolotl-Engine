@@ -7,15 +7,27 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class PlayerJumpScript;
 class PlayerMoveScript;
+class PlayerAttackScript;
 class DebugGame;
 class PlayerRotationScript;
-class PlayerAttackScript;
+
+enum class PlayerActions
+{
+	IDLE,
+	WALKING,
+	DASHING,
+	JUMPING,
+	DOUBLEJUMPING,
+	FALLING
+};
 
 class PlayerManagerScript : public Script
 {
 public:
 	PlayerManagerScript();
 	~PlayerManagerScript() override = default;
+
+	void Start() override;
 
 	float GetPlayerAttack() const;
 	float GetPlayerDefense() const;
@@ -30,23 +42,23 @@ public:
 	bool IsTeleporting() const;
 	PlayerJumpScript* GetJumpManager() const;
 	PlayerMoveScript* GetMovementManager() const;
+	PlayerAttackScript* GetAttackManager() const;
 	void ParalyzePlayer(bool paralyzed);
 	void SetPlayerSpeed(float playerSpeed);
-
-	bool IsJumpAttacking() const;
+	PlayerActions GetPlayerState() const;
+	void SetPlayerState(PlayerActions playerState);
 
 private:
-	void Start() override;
-
+	PlayerActions playerState;
 	float playerAttack;
 	float playerDefense;
 	float playerSpeed;
 	float playerRotationSpeed;
 
-	// All Principal PlayerManagers
+	// All Main PlayerManagers
 	PlayerMoveScript* movementManager;
 	PlayerJumpScript* jumpManager;
+	PlayerAttackScript* attackManager;
 	DebugGame* debugManager;
 	PlayerRotationScript* rotationManager;
-	PlayerAttackScript* attackManager;
 };

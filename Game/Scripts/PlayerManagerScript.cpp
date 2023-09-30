@@ -12,7 +12,7 @@
 REGISTERCLASS(PlayerManagerScript);
 
 PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), playerDefense(0.f), playerSpeed(6.0f),
-	movementManager(nullptr), jumpManager(nullptr), debugManager(nullptr), attackManager(nullptr)
+	movementManager(nullptr), jumpManager(nullptr), debugManager(nullptr), playerState(PlayerActions::IDLE)
 {
 	REGISTER_FIELD(playerAttack, float);
 	REGISTER_FIELD(playerDefense, float);
@@ -90,11 +90,20 @@ PlayerMoveScript* PlayerManagerScript::GetMovementManager() const
 	return movementManager;
 }
 
+PlayerAttackScript* PlayerManagerScript::GetAttackManager() const
+{
+	return attackManager;
+}
+
 void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 {
 	movementManager->SetIsParalyzed(paralyzed);
 	jumpManager->SetCanJump(!paralyzed);
 	rotationManager->SetCanRotate(!paralyzed);
+	if (attackManager->IsAttackAvailable())
+	{
+		attackManager->SetCanAttack(!paralyzed);
+	}
 }
 
 void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)
@@ -102,9 +111,12 @@ void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)
 	this->playerSpeed = playerSpeed;
 }
 
-bool PlayerManagerScript::IsJumpAttacking() const
+PlayerActions PlayerManagerScript::GetPlayerState() const
 {
-	return !attackManager->IsAttackAvailable() && 
-		(attackManager->GetCurrentAttackType() == AttackType::JUMPNORMAL ||
-		attackManager->GetCurrentAttackType() == AttackType::JUMPFINISHER);
+	return playerState;
+}
+
+void PlayerManagerScript::SetPlayerState(PlayerActions playerState)
+{
+	this->playerState = playerState;
 }
