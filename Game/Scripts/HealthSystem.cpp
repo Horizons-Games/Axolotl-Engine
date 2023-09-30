@@ -104,7 +104,7 @@ void HealthSystem::TakeDamage(float damage)
 			}
 			damageTaken = true;
 		}
-		else if (owner->CompareTag("Player") && !attackScript->IsPerfomingJumpAttack())
+		else if (owner->CompareTag("Player") && !attackScript->IsPerformingJumpAttack())
 		{
 			float playerDefense = owner->GetComponent<PlayerManagerScript>()->GetPlayerDefense();
 			float actualDamage = std::max(damage - playerDefense, 0.f);
