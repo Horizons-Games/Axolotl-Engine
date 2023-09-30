@@ -50,17 +50,19 @@ public:
 	const float3& GetColor() const;
 	float GetIntensity() const;
 	LightType GetLightType() const;
+	const bool IsDeleting() const;
+	const bool IsDirty() const;
 
 	void SetColor(const float3& color);
 	void SetIntensity(float intensity);
-
-	const bool IsDeleting() const;
+	void SetDirty(bool dirty);
 
 protected:
 	float3 color;
 	float intensity;
 	
 	bool deleting;
+	bool isDirty;
 
 	LightType lightType;
 };
@@ -80,6 +82,11 @@ inline LightType ComponentLight::GetLightType() const
 	return lightType;
 }
 
+inline const bool ComponentLight::IsDirty() const
+{
+	return isDirty;
+}
+
 inline void ComponentLight::SetColor(const float3& color)
 {
 	this->color = color;
@@ -93,6 +100,11 @@ inline void ComponentLight::SetIntensity(float intensity)
 inline const bool ComponentLight::IsDeleting() const
 {
 	return deleting;
+}
+
+inline void ComponentLight::SetDirty(bool dirty)
+{
+	isDirty = dirty;
 }
 
 inline const std::string GetNameByLightType(LightType type)

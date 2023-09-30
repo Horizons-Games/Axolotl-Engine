@@ -78,11 +78,11 @@ public:
 	void RenderAreaSpheres() const;
 	void RenderAreaTubes() const;
 	void RenderLocalIBLs() const;
-	void RenderPointLight(const ComponentPointLight* compPoint) const;
-	void RenderSpotLight(const ComponentSpotLight* compSpot) const;
-	void RenderAreaSphere(const ComponentAreaLight* compSphere) const;
-	void RenderAreaTube(const ComponentAreaLight* compTube) const;
 	void RenderLocalIBL(const ComponentLocalIBL* compLocal) const;
+	void RenderPointLight(const ComponentPointLight* compPoint);
+	void RenderSpotLight(const ComponentSpotLight* compSpot);
+	void RenderAreaSphere(const ComponentAreaLight* compSphere);
+	void RenderAreaTube(const ComponentAreaLight* compTube);
 
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
@@ -99,9 +99,21 @@ public:
 	void UpdateSceneAreaTube(const ComponentAreaLight* compTube);
 	void UpdateSceneLocalIBL(ComponentLocalIBL* compLocal);
 
+	
 	GameObject* GetRoot() const;
-	const GameObject* GetDirectionalLight() const;
 	Quadtree* GetRootQuadtree() const;
+	Cubemap* GetCubemap() const;
+	const bool GetCombatMode() const;
+	const float GetEnemiesToDefeat() const;
+	const int GetSizeSpotLights() const;
+	const int GetSizePointLights() const;
+	const int GetPointIndex(const ComponentPointLight* point);
+	const int GetSphereIndex(const ComponentAreaLight* sphere);
+	const int GetSpotIndex(const ComponentSpotLight* spot);
+	const int GetTubeIndex(const ComponentAreaLight* tube);
+	const GameObject* GetDirectionalLight() const;
+	const SpotLight& GetSpotLightsStruct(int index) const;
+	const PointLight& GetPointLightsStruct(int index) const;
 	const std::vector<GameObject*>& GetNonStaticObjects() const;
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<ComponentCamera*>& GetSceneCameras() const;
@@ -110,17 +122,17 @@ public:
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
 	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
 	const std::vector<ComponentLine*>& GetSceneComponentLines() const;
-	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
-	Cubemap* GetCubemap() const;
-	const bool GetCombatMode() const;
-	const float GetEnemiesToDefeat() const;
 	std::vector<ComponentMeshRenderer*> GetMeshRenderers() const;
 	std::vector<AABB> GetBoundingBoxes() const;
 	std::vector<ComponentAgent*> GetAgentComponents() const;
-
 	std::vector<float> GetVertices();
 	std::vector<int> GetTriangles();
 	std::vector<float> GetNormals();
+	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
+	std::unordered_map<const ComponentPointLight*, unsigned int>& GetCachedPointLights();
+	std::unordered_map<const ComponentSpotLight*, unsigned int>& GetCachedSpotLights();
+	std::unordered_map<const ComponentAreaLight*, unsigned int>& GetCachedSphereLights();
+	std::unordered_map<const ComponentAreaLight*, unsigned int>& GetCachedTubeLights();
 
 	void SetRoot(GameObject* newRoot);
 	void SetRootQuadtree(std::unique_ptr<Quadtree> quadtree);
@@ -207,11 +219,11 @@ private:
 	std::vector<AABB> boundingBoxes;
 	std::vector<ComponentAgent*> agentComponents;
 
-	std::vector<std::pair<const ComponentPointLight*, unsigned int>> cachedPoints;
-	std::vector<std::pair<const ComponentSpotLight*, unsigned int>> cachedSpots;
-	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> cachedSpheres;
-	std::vector<std::pair<const ComponentAreaLight*, unsigned int>> cachedTubes;
 	std::vector<std::pair<const ComponentLocalIBL*, unsigned int>> cachedLocalIBLs;
+	std::unordered_map<const ComponentPointLight*, unsigned int> cachedPoints;
+	std::unordered_map<const ComponentSpotLight*, unsigned int> cachedSpots;
+	std::unordered_map<const ComponentAreaLight*, unsigned int> cachedSpheres;
+	std::unordered_map<const ComponentAreaLight*, unsigned int> cachedTubes;
 
 	unsigned uboDirectional;
 	unsigned ssboPoint;
@@ -387,4 +399,54 @@ inline const bool Scene::GetCombatMode() const
 inline const float Scene::GetEnemiesToDefeat() const
 {
 	return enemiesToDefeat;
+}
+
+inline const int Scene::GetSizeSpotLights() const
+{
+	return spotLights.size();
+}
+
+inline const int Scene::GetSizePointLights() const
+{
+	return pointLights.size();
+}
+
+inline std::unordered_map<const ComponentPointLight*, unsigned int>& Scene::GetCachedPointLights()
+{
+	return cachedPoints;
+}
+
+inline std::unordered_map<const ComponentSpotLight*, unsigned int>& Scene::GetCachedSpotLights()
+{
+	return cachedSpots;
+}
+
+inline std::unordered_map<const ComponentAreaLight*, unsigned int>& Scene::GetCachedSphereLights()
+{
+	return cachedSpheres;
+}
+
+inline std::unordered_map<const ComponentAreaLight*, unsigned int>& Scene::GetCachedTubeLights()
+{
+	return cachedTubes;
+}
+
+inline const int Scene::GetPointIndex(const ComponentPointLight* point)
+{
+	return cachedPoints[point];
+}
+
+inline const int Scene::GetSphereIndex(const ComponentAreaLight* sphere)
+{
+	return cachedSpheres[sphere];
+}
+
+inline const int Scene::GetSpotIndex(const ComponentSpotLight* spot)
+{
+	return cachedSpots[spot];
+}
+
+inline const int Scene::GetTubeIndex(const ComponentAreaLight* tube)
+{
+	return cachedTubes[tube];
 }
