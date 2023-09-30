@@ -1,6 +1,6 @@
 #include "StdAfx.h"
-#include "TutorialSystem.h"
-#include "CombatTutorial.h"
+#include "..\Game\Scripts\TutorialSystem.h"
+#include "..\Game\Scripts\CombatTutorial.h"
 
 
 #include "Application.h"
@@ -46,6 +46,7 @@ void CombatTutorial::Start()
 	tutorialActivable = false;
 	userControllable = false;
 	dummyHealthSystem->SetIsImmortal(true);
+	nextStateActive = false;
 
 	
 }
@@ -57,7 +58,9 @@ void CombatTutorial::Update(float deltaTime)
 		tutorialUI->NextState();
 		if (tutorialUI->GetTutorialCurrentState() == 1)
 		{
+			
 			userControllable = false;
+			nextStateActive = true;
 		
 		}
 	}
@@ -65,21 +68,38 @@ void CombatTutorial::Update(float deltaTime)
 	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.75 
 		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.50)
 	{
-	
+		if (nextStateActive)
+		{
+			tutorialUI->NextState();
+			nextStateActive = false;
+		}
+		
 	
 	}
 
 	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.50 
 		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.25)
 	{
+		nextStateActive = true;
 
+		if (nextStateActive)
+		{
+			tutorialUI->NextState();
+			nextStateActive = false;
+		}
 
 	}
 
 	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.25 
 		&& dummyHealthSystem->GetCurrentHealth() >= 0)
 	{
+		nextStateActive = true;
 
+		if (nextStateActive)
+		{
+			tutorialUI->NextState();
+			nextStateActive = false;
+		}
 
 	}
 
@@ -121,3 +141,4 @@ void CombatTutorial::Update(float deltaTime)
 		//componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
 	}
 }
+

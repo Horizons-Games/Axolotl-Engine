@@ -11,33 +11,35 @@ class ComponentAudioSource;
 class ComponentAnimation;
 class ComponentRigidBody;
 
-// Little fix until we could check if an audio is being reproduced
-enum class ActiveActions
-{
-	ACTIVE,
-	INACTIVE
-};
+
 
 class TutorialSystem : public Script
 {
 public:
 	TutorialSystem();
-	~TutorialSystem();
+	~TutorialSystem() override = default;
 
 	void Start() override;
 	void Update(float deltaTime) override;
-	void OnCollisionEnter(ComponentRigidBody* other) override;
-	void OnCollisionExit(ComponentRigidBody* other) override;
+	void TutorialStart();
 	void NextState();
+	void DeployUI();
+	void TutorialEnd();
+	int GetTutorialCurrentState() const;
+
+	int GetTutorialSlideSize() const;
+	void SetTutorialSlideSize(int tutorialTotalStates);
 
 private:
 	int tutorialCurrentState;
 	int tutorialTotalStates;
 	bool userControllable;
-	std::vector<ComponentTransform*> tutorialUI;
+	std::vector<GameObject*> tutorialUI;
+	GameObject* currentTutorialUI;
+	GameObject* NextTutorialUI;
+
 
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;
-	ActiveActions activeState;
 	ComponentRigidBody* componentRigidBody;
 };

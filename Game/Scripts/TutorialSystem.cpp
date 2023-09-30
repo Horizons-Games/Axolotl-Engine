@@ -29,9 +29,9 @@ TutorialSystem::TutorialSystem() :
 {
 
 	REGISTER_FIELD(userControllable, bool);
-	
-	REGISTER_FIELD(tutorialCurrentState, int);
-	REGISTER_FIELD(tutorialTotalStates, int);
+
+	/*REGISTER_FIELD(tutorialCurrentState, float);
+	REGISTER_FIELD(tutorialTotalStates, float);*/
 
 	REGISTER_FIELD(tutorialUI, std::vector<GameObject*>);
 }
@@ -56,7 +56,7 @@ void TutorialSystem::TutorialStart()
 {
 	currentTutorialUI = tutorialUI.front();
 	tutorialCurrentState = 0;
-	tutorialTotalStates = tutorialUI.size();
+	tutorialTotalStates = (tutorialTotalStates + 1) % tutorialUI.size();
 	currentTutorialUI->Enable();
 
 }
@@ -98,36 +98,19 @@ void TutorialSystem::TutorialEnd()
 	
 }
 
-int TutorialSystem::GetTutorialIndex() const
+int TutorialSystem::GetTutorialCurrentState() const
 {
 
 	return tutorialCurrentState;
 
 }
 
-//void TutorialSystem::OnCollisionEnter(ComponentRigidBody* other)
-//{
-//
-//		if (other->GetOwner()->CompareTag("Player"))
-//		{
-//			PlayerManagerScript* playerManager = other->GetOwner()->GetComponent<PlayerManagerScript>();
-//			if (!playerManager->IsTeleporting())
-//			{
-//				componentAnimation->SetParameter("IsActive", true);
-//				componentRigidBody->Disable();
-//				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
-//			}
-//		}
-//	
-//}
-//
-//void TutorialSystem::OnCollisionExit(ComponentRigidBody* other)
-//{
-//	if (other->GetOwner()->CompareTag("Player"))
-//	{
-//		//componentAnimation->SetParameter("IsActive", false);
-//		//// Until the trigger works 100% of the time better cross a closed door than be closed forever
-//		//componentRigidBody->Enable();
-//		//componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
-//	}
-//}
+int TutorialSystem::GetTutorialSlideSize() const
+{
+	return tutorialTotalStates;
+}
+
+void TutorialSystem::SetTutorialSlideSize(int tutorialTotalStates)
+{
+	this->tutorialTotalStates = tutorialTotalStates;
+}

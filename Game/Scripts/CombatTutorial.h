@@ -20,17 +20,19 @@ class CombatTutorial : public Script
 {
 public:
 	CombatTutorial();
-	~CombatTutorial();
+	~CombatTutorial() override = default;
 
 	void Start() override;
 	void Update(float deltaTime) override;
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void OnCollisionExit(ComponentRigidBody* other) override;
+	
 
 private:
 
 	bool userControllable;
 	bool tutorialActivable;
+	bool nextStateActive;
 
 	GameObject* player;
 	GameObject* combatTutorialUI;
