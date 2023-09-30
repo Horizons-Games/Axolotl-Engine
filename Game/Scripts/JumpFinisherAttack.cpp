@@ -71,8 +71,11 @@ void JumpFinisherAttack::ShootForceBullet(float pushForce, float stunTime)
 	newForceBulletScript->SetAreaPushForce(pushForce);
 	newForceBulletScript->SetAreaStunTime(stunTime);
 
-	ComponentLine* bulletLine = forceArea->GetVisualStartEffect()->GetComponent<ComponentLine>();
-	bulletLine->SetEnd(newForceBullet->GetChildren().front());
+	if (forceArea->GetVisualStartEffect())
+	{
+		ComponentLine* bulletLine = forceArea->GetVisualStartEffect()->GetComponent<ComponentLine>();
+		bulletLine->SetEnd(newForceBullet->GetChildren().front());
+	}
 
 	forceArea->VisualStartEffect();
 	activated = true;
