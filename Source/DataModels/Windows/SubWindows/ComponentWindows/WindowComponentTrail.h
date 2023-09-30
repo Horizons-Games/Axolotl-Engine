@@ -2,6 +2,7 @@
 #include "Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
 class ComponentTrail;
+class ImGradientMark;
 class ResourceTexture;
 class WindowTrailTexture;
 
@@ -21,6 +22,9 @@ private:
 
 	std::shared_ptr<ResourceTexture> texture;
 	std::unique_ptr<WindowTrailTexture> inputTexture;
+
+	ImGradientMark* draggingMark;
+	ImGradientMark* selectedMark;
 };
 
 inline void WindowComponentTrail::SetTexture(const std::shared_ptr<ResourceTexture>& texture)
