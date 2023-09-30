@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/HOD_BossArena2_Pilar_AlbedoTransparency.png",
+    "NormalAssetPath": "Assets/Textures/HOD_BossArena2_Pilar_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/HOD_BossArena2_Pilar_MetallicSmoothness.png",
+    "EmissiveAssetPath": "Assets/Textures/HOD_BossArena2_Pilar_Emission.png"
+}
