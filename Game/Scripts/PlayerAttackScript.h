@@ -40,7 +40,7 @@ public:
 
 	bool IsAttackAvailable() const;
 	bool IsMeleeAvailable() const;
-	bool IsPerfomingJumpAttack() const;
+	bool IsPerformingJumpAttack() const;
 
 	bool CanAttack() const;
 	void SetCanAttack(bool canAttack);
@@ -72,7 +72,6 @@ private:
 	void ThrowBasicAttack(GameObject* enemyAttacked, float nDamage);
 
 	bool canAttack;
-
 	bool isAttacking;
 	bool isMelee;
 	float attackCooldown;
@@ -84,6 +83,11 @@ private:
 	bool isNextAttackTriggered;
 	std::string currentAttackAnimation;
 	float numAttackComboAnimation;
+
+	float jumpAttackCooldown;
+	float timeSinceLastJumpAttack;
+
+	float jumpBeforeJumpAttackCooldown;
 
 	bool isHeavyFinisherReceivedAux;
 

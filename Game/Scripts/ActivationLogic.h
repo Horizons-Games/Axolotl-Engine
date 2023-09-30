@@ -11,6 +11,8 @@ class ComponentAudioSource;
 class ComponentAnimation;
 class ComponentRigidBody;
 
+class HackZoneScript;
+
 // Little fix until we could check if an audio is being reproduced
 enum class ActiveActions
 {
@@ -36,4 +38,6 @@ private:
 	ComponentAnimation* componentAnimation;
 	ActiveActions activeState;
 	ComponentRigidBody* componentRigidBody;
+
+	HackZoneScript* linkedHackZone;
 };
