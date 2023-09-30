@@ -354,9 +354,9 @@ vec3 calculateAmbientIBL(vec3 N, vec3 R, float NdotV, vec3 Cd, vec3 f0, float ro
     return color;
 }
 
+// take the first reflection
 vec4 calculatePlanarReflections(float roughness, vec3 normal, vec3 fragPos)
 {
-    vec4 planarColor = vec4(0.0);
     for (int i = 0; i < num_planes; ++i)
     {
         mat4 toLocal = planarReflection[i].toLocal;
@@ -373,15 +373,17 @@ vec4 calculatePlanarReflections(float roughness, vec3 normal, vec3 fragPos)
         {
             vec4 clipPos = viewProj * vec4(fragPos, 1.0);
             vec2 planarUV = (clipPos.xy / clipPos.w) * 0.5 + 0.5;
+
             if (planarUV.x >= 0.0 && planarUV.x <= 1.0 &&
-            planarUV.y >= 0.0 && planarUV.y <= 1.0 )
+                planarUV.y >= 0.0 && planarUV.y <= 1.0)
             {
-                vec3 local = CreateTangentSpace(planeNormal) * normal;
-                planarColor = textureLod(reflection, planarUV + local.xy * distortionAmount, roughness * numMipMaps);;
+                mat3 tangent = CreateTangentSpace(planeNormal);
+                vec3 local = tangent * normal;
+                return textureLod(reflection, planarUV + local.xy * distortionAmount, roughness * numMipMaps);
             }
         }
     }
-    return planarColor;
+    return vec4(0.0);
 }
 
 float ShadowCalculation(vec4 posFromLight, vec3 normal, int layer)
