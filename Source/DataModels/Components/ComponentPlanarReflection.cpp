@@ -27,8 +27,10 @@ ComponentPlanarReflection::ComponentPlanarReflection(GameObject* parent) :
 	{
 		influenceAABB = { GetPosition() + float3(-5.f, -0.01f, -5.f), GetPosition() + float3(5.f, 0.01f, 5.f) };
 	}
+
 	frustum = new Frustum();
 	frustum->SetKind(FrustumSpaceGL, FrustumRightHanded);
+	frustum->SetViewPlaneDistances(0.1f, 100.0f);
 
 	for (int mipMap = 0; mipMap < numMipMaps; mipMap++)
 	{
@@ -88,9 +90,6 @@ void ComponentPlanarReflection::OnTransformChanged()
 
 	influenceAABB.minPoint = (GetPosition() - halfsize);
 	influenceAABB.maxPoint = (GetPosition() + halfsize);
-
-	App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePlanarReflection(this);
-	App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPlanarReflection(this);
 }
 
 void ComponentPlanarReflection::InitBuffer()
@@ -143,11 +142,12 @@ void ComponentPlanarReflection::UpdateReflection()
 	float3 mirrorPos = cameraFrustum->Pos() - planeNormal * (cameraFrustum->Pos() - GetPosition()).Dot(planeNormal) * 2.0f;
 	// mirror front
 	float3 mirrorFront = cameraFrustum->Front() - planeNormal * (planeNormal.Dot(cameraFrustum->Front()) * 2.0f);
+	mirrorFront.Normalize();
 	// mirror up
 	float3 mirrorUp = cameraFrustum->Up() - planeNormal * (planeNormal.Dot(cameraFrustum->Up()) * 2.0f);
+	mirrorUp.Normalize();
 
 	frustum->SetPerspective(cameraFrustum->HorizontalFov(), cameraFrustum->VerticalFov());
-	frustum->SetViewPlaneDistances(cameraFrustum->NearPlaneDistance(), cameraFrustum->FarPlaneDistance());
 	frustum->SetPos(mirrorPos);
 	frustum->SetFront(mirrorFront);
 	frustum->SetUp(mirrorUp);
@@ -196,9 +196,6 @@ void ComponentPlanarReflection::ScaleInfluenceAABB(float3& scaling)
 	valueScaled = center + scaling.Mul(originScaling);
 	influenceAABB.maxPoint.x = valueScaled.x;
 	influenceAABB.maxPoint.z = valueScaled.z;
-
-	App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateScenePlanarReflection(this);
-	App->GetModule<ModuleScene>()->GetLoadedScene()->RenderPlanarReflection(this);
 }
 
 const uint64_t& ComponentPlanarReflection::GetHandleReflection()
@@ -227,7 +224,7 @@ void ComponentPlanarReflection::InternalSave(Json& meta)
 	meta["planeNormal_y"] = planeNormal.y;
 	meta["planeNormal_z"] = planeNormal.z;
 	
-	meta["distortion_ampunt"] = distortionAmount;
+	meta["distortion_amount"] = distortionAmount;
 }
 
 void ComponentPlanarReflection::InternalLoad(const Json& meta)
@@ -246,7 +243,7 @@ void ComponentPlanarReflection::InternalLoad(const Json& meta)
 	planeNormal.y = static_cast<float>(meta["planeNormal_y"]);
 	planeNormal.z = static_cast<float>(meta["planeNormal_z"]);
 
-	distortionAmount = static_cast<float>(meta["distortion_ampunt"]);
+	distortionAmount = static_cast<float>(meta["distortion_amount"]);
 }
 
 void ComponentPlanarReflection::BlurReflection()
