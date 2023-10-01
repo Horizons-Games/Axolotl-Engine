@@ -76,6 +76,8 @@ private:
 	bool canAttack;
 	bool isAttacking;
 	bool isMelee;
+	bool isGroundParalyzed;
+
 	float attackCooldown;
 	float attackCooldownCounter;
 	float comboInitTimer;
