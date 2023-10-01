@@ -805,6 +805,12 @@
     <ClCompile Include="..\Game\Scripts\SpaceshipDeathManager.cpp">
       <Filter>UserScripts\Gameplay\Spaceship</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\FireMovingObstacle.cpp">
+      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\MultipleFireObstacle.cpp">
+      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1655,6 +1661,12 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\SpaceshipDeathManager.h">
       <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\FireMovingObstacle.h">
+      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\MultipleFireObstacle.h">
+      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

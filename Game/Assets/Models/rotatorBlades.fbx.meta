@@ -1,0 +1,21 @@
+{
+    "UID": 14984527579099109018,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/rotatorBlades.ExteriorCircle_0.mesh",
+        "Assets/Meshes/rotatorBlades.Blade04_0.mesh",
+        "Assets/Meshes/rotatorBlades.Blade03_0.mesh",
+        "Assets/Meshes/rotatorBlades.Blade02_0.mesh",
+        "Assets/Meshes/rotatorBlades.Blade01_0.mesh",
+        "Assets/Meshes/rotatorBlades.InteriorCircle_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/rotatorBladesExteriorCircle_0.mat",
+        "Assets/Materials/rotatorBladesBlades_0.mat",
+        "Assets/Materials/rotatorBladesBlades_0.mat",
+        "Assets/Materials/rotatorBladesBlades_0.mat",
+        "Assets/Materials/rotatorBladesBlades_0.mat",
+        "Assets/Materials/rotatorBladesInteriorCircles_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

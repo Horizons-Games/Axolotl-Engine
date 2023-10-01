@@ -8,6 +8,7 @@
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/SpaceshipMovement.h"
+#include "../Scripts/HealthSystem.h"
 #include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(SpaceshipDeathManager);
@@ -32,6 +33,10 @@ void SpaceshipDeathManager::ManageSpaceshipDeath()
 	SpaceshipMovement* moveScript = owner->GetComponent<SpaceshipMovement>();
 	moveScript->Stop();
 	moveScript->Disable();
+
+	HealthSystem* healthScript = owner->GetComponent<HealthSystem>();
+	healthScript->Disable();
+
 	spaceshipMesh->Disable();
 	//DisablePlayerActions();
 }

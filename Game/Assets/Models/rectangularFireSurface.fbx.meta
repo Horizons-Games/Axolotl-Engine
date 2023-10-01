@@ -1,0 +1,11 @@
+{
+    "UID": 4883383232616046409,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/rectangularFireSurface.Box001_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/rectangularFireSurfaceMaterial #25_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
