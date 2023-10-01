@@ -25,17 +25,9 @@ void UIButtonControl::Start()
 {
 	buttonComponent = owner->GetComponent<ComponentButton>();
 	
-	if (isGameResume != false)
+	if (isGameResume)
 	{
-		std::vector<ComponentScript*> gameObjectScripts = setUiGameManagerObject->GetComponents<ComponentScript>();
-		for (int i = 0; i < gameObjectScripts.size(); ++i)
-		{
-			if (gameObjectScripts[i]->GetConstructName() == "UIGameManager")
-			{
-				UIGameManagerClass = static_cast<UIGameManager*>(gameObjectScripts[i]->GetScript());
-				break;
-			}
-		}
+		UIGameManagerClass = setUiGameManagerObject->GetComponent<UIGameManager>();
 	}
 }
 

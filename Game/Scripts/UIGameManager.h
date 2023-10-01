@@ -32,7 +32,7 @@ public:
 
 	void SetMaxPowerUpTime(float maxPowerUpTime);
 
-private:
+protected:
 	enum class PowerUpType savePwrUp;
 	enum class PowerUpType activePwrUp;
 

@@ -12,25 +12,20 @@
 
 REGISTERCLASS(UIGameManagerSpaceship);
 
-UIGameManagerSpaceship::UIGameManagerSpaceship() : Script(), mainMenuObject(nullptr), player(nullptr), menuIsOpen(false),
-hudCanvasObject(nullptr), sliderHudHealthSpaceshipFront(nullptr), sliderHudHealthSpaceshipBack(nullptr)
+UIGameManagerSpaceship::UIGameManagerSpaceship() : UIGameManager()
 {
-	REGISTER_FIELD(mainMenuObject, GameObject*);
-	REGISTER_FIELD(hudCanvasObject, GameObject*);
-	REGISTER_FIELD(sliderHudHealthSpaceshipFront, GameObject*);
-	REGISTER_FIELD(sliderHudHealthSpaceshipBack, GameObject*);
 }
 
 void UIGameManagerSpaceship::Start()
 {
 	player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();
-	
+
 	healthSystemClass = player->GetOwner()->GetComponent<HealthSystem>();
 
-	componentSliderSpaceshipFront = sliderHudHealthSpaceshipFront->GetComponent<ComponentSlider>();
-	componentSliderSpaceshipBack = sliderHudHealthSpaceshipBack->GetComponent<ComponentSlider>();
-	componentSliderSpaceshipFront->SetMaxValue(healthSystemClass->GetMaxHealth());
-	componentSliderSpaceshipBack->SetMaxValue(healthSystemClass->GetMaxHealth());
+	componentSliderBixFront = sliderHudHealthBixFront->GetComponent<ComponentSlider>();
+	componentSliderBixBack = sliderHudHealthBixBack->GetComponent<ComponentSlider>();
+	componentSliderBixFront->SetMaxValue(healthSystemClass->GetMaxHealth());
+	componentSliderBixBack->SetMaxValue(healthSystemClass->GetMaxHealth());
 
 
 }
@@ -46,8 +41,8 @@ void UIGameManagerSpaceship::Update(float deltaTime)
 	}
 
 
-	if (healthSystemClass->GetCurrentHealth()!= componentSliderSpaceshipBack->GetCurrentValue()
-		|| healthSystemClass->GetCurrentHealth() != componentSliderSpaceshipFront->GetCurrentValue())
+	if (healthSystemClass->GetCurrentHealth()!= componentSliderBixBack->GetCurrentValue()
+		|| healthSystemClass->GetCurrentHealth() != componentSliderBixFront->GetCurrentValue())
 	{
 		ModifySliderHealthValue();
 	}
@@ -73,17 +68,17 @@ void UIGameManagerSpaceship::MenuIsOpen()
 void UIGameManagerSpaceship::ModifySliderHealthValue()
 {
 	// We use 2 slider to do a effect in the health bar
-	damage = healthSystemClass->GetCurrentHealth() - componentSliderSpaceshipFront->GetCurrentValue();
-	damageBack = healthSystemClass->GetCurrentHealth() - componentSliderSpaceshipBack->GetCurrentValue();
+	damage = healthSystemClass->GetCurrentHealth() - componentSliderBixFront->GetCurrentValue();
+	damageBack = healthSystemClass->GetCurrentHealth() - componentSliderBixBack->GetCurrentValue();
 
 	if (damageBack <= 0.0f && damage <= 0.0f)
 	{
-		componentSliderSpaceshipBack->ModifyCurrentValue(componentSliderSpaceshipBack->GetCurrentValue() + std::max(damageBack, -0.1f));
-		componentSliderSpaceshipFront->ModifyCurrentValue(componentSliderSpaceshipFront->GetCurrentValue() + std::max(damage, -0.4f));
+		componentSliderBixBack->ModifyCurrentValue(componentSliderBixBack->GetCurrentValue() + std::max(damageBack, -0.1f));
+		componentSliderBixFront->ModifyCurrentValue(componentSliderBixFront->GetCurrentValue() + std::max(damage, -0.4f));
 	}
 	else
 	{
-		componentSliderSpaceshipBack->ModifyCurrentValue(componentSliderSpaceshipBack->GetCurrentValue() + std::min(damageBack, 0.4f));
-		componentSliderSpaceshipFront->ModifyCurrentValue(componentSliderSpaceshipFront->GetCurrentValue() + std::min(damage, 0.2f));
+		componentSliderBixBack->ModifyCurrentValue(componentSliderBixBack->GetCurrentValue() + std::min(damageBack, 0.4f));
+		componentSliderBixFront->ModifyCurrentValue(componentSliderBixFront->GetCurrentValue() + std::min(damage, 0.2f));
 	}
 }

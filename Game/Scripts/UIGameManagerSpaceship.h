@@ -3,14 +3,16 @@
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
 #include "ModuleInput.h"
+#include "../Scripts/UIGameManager.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentPlayer;
 class ComponentSlider;
 class HealthSystem;
+class UIGameManager;
 
-class UIGameManagerSpaceship : public Script
+class UIGameManagerSpaceship : public UIGameManager
 {
 public:
 	UIGameManagerSpaceship();
@@ -26,7 +28,7 @@ public:
 
 private:
 
-	bool menuIsOpen;
+	/*bool menuIsOpen;
 
 	float damage = 0.0f;
 	float damageBack = 0.0f;
@@ -43,7 +45,7 @@ private:
 	ModuleInput* input;
 	ComponentSlider* componentSliderSpaceshipFront;
 	ComponentSlider* componentSliderSpaceshipBack;
-	HealthSystem* healthSystemClass;
+	HealthSystem* healthSystemClass;*/
 
 };
 
