@@ -27,10 +27,11 @@
 
 REGISTERCLASS(CombatTutorial);
 
-CombatTutorial::CombatTutorial() : Script(), combatDummy(nullptr), userControllable(false)
+CombatTutorial::CombatTutorial() : Script(), combatDummy(nullptr), userControllable(false), combatTutorialUI(nullptr)
 {
 	REGISTER_FIELD(combatDummy, GameObject*);
 	REGISTER_FIELD(userControllable, bool);
+	REGISTER_FIELD(combatTutorialUI, GameObject*);
 }
 
 void CombatTutorial::Start()
@@ -38,70 +39,101 @@ void CombatTutorial::Start()
 	input = App->GetModule<ModuleInput>();
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
 	
-	componentAudio = owner->GetComponent<ComponentAudioSource>();
-	componentAnimation = owner->GetComponent<ComponentAnimation>();
+	//componentAudio = owner->GetComponent<ComponentAudioSource>();
+	//componentAnimation = owner->GetComponent<ComponentAnimation>();
 	tutorialUI = combatTutorialUI->GetComponent<TutorialSystem>();
 	dummyHealthSystem = combatDummy->GetComponent<HealthSystem>();
 
 	tutorialActivable = false;
 	userControllable = false;
 	dummyHealthSystem->SetIsImmortal(true);
-	nextStateActive = false;
+	nextStateActive = true;
+	userControllable = true;
 
 	
 }
 
 void CombatTutorial::Update(float deltaTime)
 {
-	if (input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
+	//Normal Attacks XXX - XXY
+	if (tutorialActivable && userControllable && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
 	{
-		tutorialUI->NextState();
-		if (tutorialUI->GetTutorialCurrentState() == 1)
-		{
-			
-			userControllable = false;
-			nextStateActive = true;
 		
+
+		
+		tutorialUI->NextState();
+		if (tutorialUI->GetTutorialCurrentState() == 3)
+		{
+			dummyHealthSystem->SetIsImmortal(false);
+			userControllable = false;
+			nextStateActive = false;
+			
+
 		}
 	}
 
-	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.75 
-		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.50)
-	{
-		if (nextStateActive)
-		{
-			tutorialUI->NextState();
-			nextStateActive = false;
-		}
-		
+	//else if (dummyHealthSystem->GetCurrentHealth() < dummyHealthSystem->GetMaxHealth() && dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.75 && nextStateActive)
+	//{
+	//	//JumpAttack
+	//	LOG_INFO("Tutorial:BasicAttacks");
+
+	//	tutorialUI->NextState();
+	//	nextStateActive = false;
+	//}
 	
+
+
+	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.75 
+		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.50 && !nextStateActive)
+	{
+		//JumpAttack
+		LOG_INFO("Tutorial:JumpAttack");
+		
+			tutorialUI->NextState();
+			nextStateActive = true;
 	}
 
 	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.50 
-		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.25)
+		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.25 && nextStateActive)
 	{
-		nextStateActive = true;
+		//SpecialLightAttack
+		LOG_INFO("Tutorial:SpecialLightAttack");
+		
 
-		if (nextStateActive)
-		{
+		
 			tutorialUI->NextState();
 			nextStateActive = false;
-		}
+		
 
 	}
 
 	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.25 
-		&& dummyHealthSystem->GetCurrentHealth() >= 0)
+		&& dummyHealthSystem->GetCurrentHealth() > 0 && !nextStateActive)
 	{
-		nextStateActive = true;
+		//SpecialHeavyAttack
+		LOG_INFO("Tutorial:SpecialHeavyAttack");
+		
 
-		if (nextStateActive)
-		{
+	
 			tutorialUI->NextState();
-			nextStateActive = false;
-		}
+			nextStateActive = true;
+		
 
 	}
+
+	else if (dummyHealthSystem->GetCurrentHealth() <= 0 && nextStateActive)
+	{
+		//SpecialHeavyAttack
+		LOG_INFO("Tutorial:END");
+
+
+
+		tutorialUI->NextState();
+		nextStateActive = false;
+
+
+	}
+
 
 	
 
@@ -117,14 +149,9 @@ void CombatTutorial::Update(float deltaTime)
 		{
 			PlayerManagerScript* playerManager = other->GetOwner()->GetComponent<PlayerManagerScript>();
 			tutorialActivable = true;
-
-			if (!playerManager->IsTeleporting() && tutorialActivable 
-			&& !userControllable && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
-			{
-				tutorialUI->TutorialStart();
-				dummyHealthSystem->SetIsImmortal(false);
-				userControllable = true;
-			}
+			//Launches intro
+			tutorialUI->TutorialStart();
+			LOG_INFO("TutorialEntered");
 		}
 
 }
@@ -135,6 +162,7 @@ void CombatTutorial::Update(float deltaTime)
 	{
 		tutorialActivable = false;
 		tutorialUI->TutorialEnd();
+		LOG_INFO("TutorialExit");
 		//componentAnimation->SetParameter("IsActive", false);
 		//// Until the trigger works 100% of the time better cross a closed door than be closed forever
 		//componentRigidBody->Enable();

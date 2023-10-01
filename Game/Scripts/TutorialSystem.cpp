@@ -40,10 +40,10 @@ TutorialSystem::TutorialSystem() :
 
 void TutorialSystem::Start()
 {
-	componentAudio = owner->GetComponent<ComponentAudioSource>();
-	componentAnimation = owner->GetComponent<ComponentAnimation>();
-	TutorialStart();
-	
+	//componentAudio = owner->GetComponent<ComponentAudioSource>();
+	// = owner->GetComponent<ComponentAnimation>();
+	//TutorialStart();
+	currentTutorialUI = tutorialUI.front();
 }
 
 void TutorialSystem::Update(float deltaTime)
@@ -54,9 +54,9 @@ void TutorialSystem::Update(float deltaTime)
 
 void TutorialSystem::TutorialStart()
 {
-	currentTutorialUI = tutorialUI.front();
+	//currentTutorialUI = tutorialUI.front();
 	tutorialCurrentState = 0;
-	tutorialTotalStates = (tutorialTotalStates + 1) % tutorialUI.size();
+	tutorialTotalStates =  tutorialUI.size();
 	currentTutorialUI->Enable();
 
 }

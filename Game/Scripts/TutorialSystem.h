@@ -10,6 +10,9 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentAudioSource;
 class ComponentAnimation;
 class ComponentRigidBody;
+class ComponentImage;
+class ComponentVideo;
+class ComponentTransform2D;
 
 
 
