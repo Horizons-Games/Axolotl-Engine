@@ -37,7 +37,7 @@ void WindowComponentPlanarReflection::DrawWindowContents()
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##XScale", &scale.x, 0.01f, 0.01f, std::numeric_limits<float>::max(), "%.2f"))
+			if (ImGui::DragFloat("##Planar_XScale", &scale.x, 0.01f, 0.01f, std::numeric_limits<float>::max(), "%.2f"))
 			{
 				planar->ScaleInfluenceAABB(scale);
 			}
@@ -48,7 +48,7 @@ void WindowComponentPlanarReflection::DrawWindowContents()
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
-			if (ImGui::DragFloat("##ZScale", &scale.z, 0.01f, 0.01f, std::numeric_limits<float>::max(), "%.2f"))
+			if (ImGui::DragFloat("##Planar_ZScale", &scale.z, 0.01f, 0.01f, std::numeric_limits<float>::max(), "%.2f"))
 			{
 				planar->ScaleInfluenceAABB(scale);
 			}

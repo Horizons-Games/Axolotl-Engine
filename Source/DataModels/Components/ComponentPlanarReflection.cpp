@@ -20,8 +20,8 @@
 #include "debugdraw.h"
 
 ComponentPlanarReflection::ComponentPlanarReflection(GameObject* parent) : 
-	ComponentLight(LightType::PLANAR_REFLECTION, parent, true),	frameBuffer(0), depth(0), reflectionTex(0), 
-	planeNormal(float3::unitY), originScaling({ 5.f, 0.f, 5.f }), scale(float3::one), numMipMaps(7), distortionAmount(0.f)
+	ComponentLight(LightType::PLANAR_REFLECTION, parent, true),	frameBuffer(0), depth(0), reflectionTex(0), handle(0),
+	planeNormal(float3::unitY), numMipMaps(7), distortionAmount(0.f), originScaling({ 5.f, 0.0f, 5.f }), scale(float3::one)
 {
 	if (GetOwner()->HasComponent<ComponentTransform>())
 	{

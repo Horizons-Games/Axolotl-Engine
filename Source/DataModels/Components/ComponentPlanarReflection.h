@@ -68,22 +68,20 @@ private:
 	GLuint depth;
 	GLuint reflectionTex;
 
-	uint64_t handle = 0;
+	uint64_t handle;
 
 	AABB influenceAABB;
 
-	Frustum* frustum;
-
 	float3 planeNormal;
-
-	float3 originScaling;
-	float3 scale;
-
-	std::vector<UtilBlur*> utilsBlur;
 
 	int numMipMaps;
 
 	float distortionAmount;
+
+	Frustum* frustum;
+	std::vector<UtilBlur*> utilsBlur;
+	float3 originScaling;
+	float3 scale;
 };
 
 inline const AABB& ComponentPlanarReflection::GetInfluenceAABB() const
