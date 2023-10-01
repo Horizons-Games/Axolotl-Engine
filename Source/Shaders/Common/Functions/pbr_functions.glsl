@@ -23,7 +23,7 @@ mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
 
 mat3 CreateTangentSpace(const vec3 normal) // Plane purpouse
 {
-    vec3 tangent = vec3(0, normal.z, -normal.y);
+    vec3 tangent = normalize(vec3(-normal.y, normal.x, normal.z));
     return CreateTangentSpace(normal, tangent);
 }
 
