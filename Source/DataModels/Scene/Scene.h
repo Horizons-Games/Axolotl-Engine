@@ -128,10 +128,6 @@ public:
 	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
 	const std::vector<ComponentLine*>& GetSceneComponentLines() const;
 	const std::vector<ComponentPlanarReflection*>& GetScenePlanarReflections() const;
-	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
-	Cubemap* GetCubemap() const;
-	const bool GetCombatMode() const;
-	const float GetEnemiesToDefeat() const;
 	std::vector<ComponentMeshRenderer*> GetMeshRenderers() const;
 	std::vector<AABB> GetBoundingBoxes() const;
 	std::vector<ComponentAgent*> GetAgentComponents() const;
