@@ -31,7 +31,7 @@
 REGISTERCLASS(ElevatorCore);
 
 ElevatorCore::ElevatorCore() : Script(),
-componentAudio(nullptr), activeState(ActiveActions::INACTIVE), positionState(PositionState::UP),
+componentAudio(nullptr), activeState(ActiveActionsElevator::INACTIVE), positionState(PositionState::UP),
 goTransform(nullptr), go(nullptr)
 {
 	REGISTER_FIELD(elevator, GameObject*);
@@ -68,7 +68,7 @@ void ElevatorCore::Start()
 
 void ElevatorCore::Update(float deltaTime)
 {
-	if (activeState == ActiveActions::ACTIVE) 
+	if (activeState == ActiveActionsElevator::ACTIVE)
 	{
 		if (positionState == PositionState::UP)
 		{
@@ -80,7 +80,7 @@ void ElevatorCore::Update(float deltaTime)
 		}
 	}
 
-	else if (activeState == ActiveActions::ACTIVE_AUTO)
+	else if (activeState == ActiveActionsElevator::ACTIVE_AUTO)
 	{
 		if (positionState == PositionState::UP)
 		{
@@ -130,7 +130,8 @@ void ElevatorCore::MoveUpElevator(bool isGOInside, float deltaTime)
 	if (pos.y >= finalUpPos)
 	{
 		positionState = PositionState::UP;
-		activeState = ActiveActions::INACTIVE;
+		activeState = ActiveActionsElevator::INACTIVE;
+		booked = false;
 		currentTime = coolDown;
 		if (isGOInside)
 		{
@@ -179,7 +180,8 @@ void ElevatorCore::MoveDownElevator(bool isGOInside, float deltaTime)
 	if (pos.y <= finalPos)
 	{
 		positionState = PositionState::DOWN;
-		activeState = ActiveActions::INACTIVE;
+		activeState = ActiveActionsElevator::INACTIVE;
+		booked = false;
 		currentTime = coolDown;
 		if (isGOInside)
 		{
@@ -211,7 +213,7 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 {
 	LOG_DEBUG("{} enters in CollisionEnter of ElevatorCore", other->GetOwner());
 	if (!App->GetModule<ModuleScene>()->GetLoadedScene()->GetCombatMode() 
-		&& activeState == ActiveActions::INACTIVE)
+		&& activeState == ActiveActionsElevator::INACTIVE)
 	{
 		if (other->GetOwner()->CompareTag("Player"))
 		{
@@ -224,9 +226,10 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 
 			if (!isJumping && currentTime <= 0.0f)
 			{
+				booked = true;
 				//componentAnimation->SetParameter("IsActive", true);
 				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
-				activeState = ActiveActions::ACTIVE;
+				activeState = ActiveActionsElevator::ACTIVE;
 
 				SetDisableInteractions(true);
 			}
@@ -251,7 +254,7 @@ void ElevatorCore::SetDisableInteractions(bool interactions)
 
 void ElevatorCore::ActiveAuto()
 {
-	activeState = ActiveActions::ACTIVE_AUTO;
+	activeState = ActiveActionsElevator::ACTIVE_AUTO;
 }
 
 void ElevatorCore::SetDisableInteractionsEnemies(const GameObject* enemy, bool interactions)
@@ -260,7 +263,7 @@ void ElevatorCore::SetDisableInteractionsEnemies(const GameObject* enemy, bool i
 	{
 		if (interactions)
 		{
-			activeState = ActiveActions::ACTIVE;
+			activeState = ActiveActionsElevator::ACTIVE;
 		}
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
@@ -270,7 +273,7 @@ void ElevatorCore::SetDisableInteractionsEnemies(const GameObject* enemy, bool i
 	{
 		if (interactions)
 		{
-			activeState = ActiveActions::ACTIVE;
+			activeState = ActiveActionsElevator::ACTIVE;
 		}		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
 		enemy->GetComponent<EnemyDroneScript>()->ParalyzeEnemy(interactions);
@@ -284,7 +287,7 @@ bool ElevatorCore::GetElevatorPos(const PositionState pos) const
 
 bool ElevatorCore::GetBooked() const
 {
-	return Booked;
+	return booked;
 }
 
 void ElevatorCore::SetBooked(bool nbooked)

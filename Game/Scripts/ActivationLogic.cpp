@@ -74,7 +74,7 @@ void ActivationLogic::Update(float deltaTime)
 		{
 			elevator->ActiveAuto();
 		}
-		else if (elevator->GetElevatorPos(PositionState::UP))
+		else if (elevator->GetElevatorPos(PositionState::UP) && !elevator->GetBooked())
 		{
 			NextInTheList();
 		}
@@ -107,6 +107,7 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 		if (other->GetOwner()->CompareTag("Enemy"))
 		{
 			enemisWating.push_back(other->GetOwner());
+			elevator->SetDisableInteractionsEnemies(other->GetOwner(), true);
 		}
 	}
 }
@@ -120,10 +121,25 @@ void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 		componentRigidBody->Enable();
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
 	}
+
+	if (interactWithEnemies)
+	{
+		if (other->GetOwner()->CompareTag("Enemy"))
+		{
+			componentAnimation->SetParameter("IsActive", false);
+			// Until the trigger works 100% of the time better cross a closed door than be closed forever
+			componentRigidBody->Enable();
+			componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
+		}
+	}
 }
 
 void ActivationLogic::NextInTheList()
 {
 	elevator->SetBooked(true);
-
+	elevator->SetDisableInteractionsEnemies(enemisWating[0],false);
+	enemisWating.erase(enemisWating.begin());
+	componentAnimation->SetParameter("IsActive", true);
+	componentRigidBody->Disable();
+	componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 }

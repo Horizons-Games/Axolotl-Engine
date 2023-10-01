@@ -15,7 +15,7 @@ class GameObject;
 class HealthSystem;
 
 // Little fix until we could check if an audio is being reproduced
-enum class ActiveActions
+enum class ActiveActionsElevator
 {
 	ACTIVE,
 	ACTIVE_AUTO,
@@ -55,7 +55,7 @@ private:
 	ComponentRigidBody* triggerEntrance;
 	ComponentTransform* transform;
 
-	ActiveActions activeState;
+	ActiveActionsElevator activeState;
 	PositionState positionState;
 
 	GameObject* go;
