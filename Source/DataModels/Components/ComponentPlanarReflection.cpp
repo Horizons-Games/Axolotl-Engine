@@ -78,6 +78,7 @@ void ComponentPlanarReflection::Draw() const
 	}
 
 	dd::aabb(influenceAABB.minPoint, influenceAABB.maxPoint, dd::colors::Blue);
+	dd::arrow(GetPosition(), GetPosition() + planeNormal * 4, dd::colors::OrangeRed, 1.f);
 }
 
 void ComponentPlanarReflection::OnTransformChanged()
