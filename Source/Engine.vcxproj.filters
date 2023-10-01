@@ -784,6 +784,9 @@
     <ClCompile Include="..\Game\Scripts\HackingCommand.cpp">
       <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Render\LightPass.cpp">
+      <Filter>DataModels\Render</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIHackingManager.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
@@ -796,7 +799,6 @@
     <ClCompile Include="DataModels\Render\Shadows.cpp">
       <Filter>DataModels\Render</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp" />
     <ClCompile Include="DataModels\Components\ComponentPlanarReflection.cpp">
       <Filter>DataModels\Components</Filter>
     </ClCompile>
@@ -805,6 +807,15 @@
     </ClCompile>
     <ClCompile Include="Auxiliar\Utils\UtilBlur.cpp">
       <Filter>Auxiliar\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Enums\WritableEnum.cpp">
+      <Filter>Enums</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Schedulable\Schedulable.cpp">
+      <Filter>DataModels\Schedulable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1189,9 +1200,6 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAreaLight.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="Auxiliar\Test\par_shapes.h">
-      <Filter>Auxiliar\Test</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\HealthSystem.h">
       <Filter>UserScripts\Gameplay\Health System</Filter>
@@ -1636,6 +1644,9 @@
     <ClInclude Include="..\Game\Scripts\HackingCommand.h">
       <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Render\LightPass.h">
+      <Filter>DataModels\Render</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIHackingManager.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
@@ -1648,7 +1659,6 @@
     <ClInclude Include="DataModels\Render\Shadows.h">
       <Filter>DataModels\Render</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\ElevatorCore.h" />
     <ClInclude Include="DataModels\Components\ComponentPlanarReflection.h">
       <Filter>DataModels\Components</Filter>
     </ClInclude>
@@ -1657,6 +1667,15 @@
     </ClInclude>
     <ClInclude Include="Auxiliar\Utils\UtilBlur.h">
       <Filter>Auxiliar\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ElevatorCore.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\WritableEnum.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Schedulable\Schedulable.h">
+      <Filter>DataModels\Schedulable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1737,9 +1756,6 @@
     </Filter>
     <Filter Include="DataModels\ParticleSystem">
       <UniqueIdentifier>{1426e775-b621-433b-b6cf-306a93828634}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Auxiliar\Test">
-      <UniqueIdentifier>{ca480dbf-737f-4123-a23a-ee424eba9c66}</UniqueIdentifier>
     </Filter>
     <Filter Include="DataModels\Windows\PopUpWindows">
       <UniqueIdentifier>{8d04ed3e-dea2-465d-937a-8270c4b45db1}</UniqueIdentifier>
@@ -1869,6 +1885,9 @@
     </Filter>
     <Filter Include="DataModels\Render">
       <UniqueIdentifier>{701145da-de98-4a67-be5b-f78bd0c29386}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Schedulable">
+      <UniqueIdentifier>{aebeccfc-924c-4feb-a954-996d552b513f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

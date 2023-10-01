@@ -8,6 +8,7 @@
 #include "FileSystem/UID.h"
 
 #include "PostProcess/SSAO.h"
+#include "DataModels/Render/LightPass.h"
 
 #include "Render/Shadows.h"
 
@@ -64,6 +65,7 @@ public:
 	GLuint GetUboCamera() const;
 	float GetObjectDistance(const GameObject* gameObject);
 	Shadows* GetShadows() const;
+	LightPass* GetLightProxy() const;
 
 	void SetBloomIntensity(float color);
 	float GetBloomIntensity() const;
@@ -129,6 +131,7 @@ private:
 	GBuffer* gBuffer;
 	Shadows* shadows;
 	SSAO* ssao;
+	LightPass* lightPass;
 
 	unsigned uboCamera;
 
@@ -140,6 +143,11 @@ private:
 	
 	std::unordered_set<const GameObject*> gameObjectsInFrustrum;
 	std::unordered_map<const GameObject*, float> objectsInFrustrumDistances;
+
+	std::vector<ComponentPointLight*> points;
+	std::vector<ComponentSpotLight*> spots;
+	std::vector<ComponentAreaLight*> spheres;
+	std::vector<ComponentAreaLight*> tubes;
 
 	// 0: used in game and engine 
 	// 1: only in engine, stores the final result, to avoid writing and reading at the same time
@@ -155,7 +163,6 @@ private:
 	
 	//GLuint bloomFramebuffer;
 	//GLuint bloomTexture;
-	
 
 	friend class ModuleEditor;
 };
@@ -238,6 +245,11 @@ inline float ModuleRender::GetObjectDistance(const GameObject* gameObject)
 inline Shadows* ModuleRender::GetShadows() const
 {
 	return shadows;
+}
+
+inline LightPass* ModuleRender::GetLightProxy() const
+{
+	return lightPass;
 }
 
 inline void ModuleRender::SetBloomIntensity(float intensity)

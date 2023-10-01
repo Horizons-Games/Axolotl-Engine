@@ -189,6 +189,13 @@ bool Quadtree::EntireInQuadrant(const GameObject* gameObject) const
 		   objectAABB.maxPoint.y <= boundingBox.maxPoint.y && objectAABB.maxPoint.z <= boundingBox.maxPoint.z;
 }
 
+bool Quadtree::HasGameObject(GameObject* gameObject) const
+{
+	return gameObjects.find(gameObject) != gameObjects.end();
+}
+
+
+
 void Quadtree::Subdivide()
 {
 	// Subdivision part

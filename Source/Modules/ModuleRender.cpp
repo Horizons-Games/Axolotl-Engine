@@ -141,9 +141,14 @@ ModuleRender::~ModuleRender()
 	delete gBuffer;
 	delete shadows;
 	delete ssao;
-
+	delete lightPass;
+	
 	objectsInFrustrumDistances.clear();
 	gameObjectsInFrustrum.clear();
+
+	points.clear();
+	spots.clear();
+	spheres.clear();
 }
 
 bool ModuleRender::Init()
@@ -191,6 +196,7 @@ bool ModuleRender::Init()
 	gBuffer = new GBuffer();
 	shadows = new Shadows();
 	ssao = new SSAO();
+	lightPass = new LightPass();
 
 	glGenFramebuffers(1, &frameBuffer[0]);
 	glGenTextures(1, &renderedTexture[0]);
@@ -240,6 +246,11 @@ UpdateStatus ModuleRender::PreUpdate()
 	gameObjectsInFrustrum.clear();
 	objectsInFrustrumDistances.clear();
 
+	points.clear();
+	spots.clear();
+	spheres.clear();
+	tubes.clear();
+
 	return UpdateStatus::UPDATE_CONTINUE;
 }
 
@@ -269,6 +280,7 @@ UpdateStatus ModuleRender::Update()
 	// Camera
 	Camera* checkedCamera = GetFrustumCheckedCamera();
 	Camera* engineCamera = camera->GetCamera();
+	Frustum frustum = *engineCamera->GetFrustum();
 
 #ifdef ENGINE
 	if (App->IsOnPlayMode())
@@ -309,7 +321,6 @@ UpdateStatus ModuleRender::Update()
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
-	Frustum frustum = *engineCamera->GetFrustum();
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_METALLIC), frustum);
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_SPECULAR), frustum);
 
@@ -366,8 +377,8 @@ UpdateStatus ModuleRender::Update()
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT), frustum);
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR), frustum);
 	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT), frustum);
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::LIGHT_CULLING), frustum);
 
-	// -------- DEFERRED LIGHTING ---------------
 	glPushDebugGroup
 		(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("DEFERRED LIGHTING")), "DEFERRED LIGHTING");
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
@@ -420,6 +431,12 @@ UpdateStatus ModuleRender::Update()
 	glBlitFramebuffer(0, 0, w, h, 0, 0, w, h, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
 	glPopDebugGroup();
+
+	// ------- DEFERRED LIGHT PASS - Light culling ----------
+	program = modProgram->GetProgram(ProgramType::LIGHT_CULLING);
+	lightPass->RenderLights(program, gBuffer, modeRender, points, spots, spheres, tubes);
+	// -----------------------------
+
 	// -------- PRE-FORWARD ----------------------
 	if (loadedScene->GetRoot()->HasComponent<ComponentSkybox>())
 	{
@@ -609,6 +626,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 {
 	gBuffer->InitGBuffer(width, height);
 	shadows->UpdateBuffers(width, height);
+	lightPass->SetScreenSize(width, height);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
 
@@ -730,12 +748,24 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 	{
 		return;
 	}
+
+	GameObject* player = App->GetModule<ModulePlayer>()->GetPlayer();
+
+	if (player && quadtree->IsLeaf() && quadtree->InQuadrant(player))
+	{
+		quadtree->AddRigidBodiesToSimulation();
+	}
+
+	else
+	{
+		quadtree->RemoveRigidBodiesFromSimulation();
+	}
+
 		
 	float3 cameraPos = camera->GetPosition();
 
 	if (camera->IsInside(quadtree->GetBoundingBox()))
 	{
-
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf())
 		{
@@ -757,6 +787,43 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 
 						gameObjectsInFrustrum.insert(gameObject);
 						objectsInFrustrumDistances[gameObject] = dist;
+
+						if (gameObject->HasComponent<ComponentLight>())
+						{
+							ComponentLight* light = gameObject->GetComponentInternal<ComponentLight>();
+
+							if (!light->IsEnabled())
+							{
+								return;
+							}
+
+							switch (light->GetLightType())
+							{
+							case LightType::POINT:
+								points.push_back(static_cast<ComponentPointLight*>(light));
+								break;
+
+							case LightType::SPOT:
+								spots.push_back(static_cast<ComponentSpotLight*>(light));
+								break;
+
+								case LightType::AREA:
+								{
+									ComponentAreaLight* area = static_cast<ComponentAreaLight*>(light);
+									switch (area->GetAreaType())
+									{
+									case AreaType::SPHERE:
+										spheres.push_back(static_cast<ComponentAreaLight*>(light));
+										break;
+
+									case AreaType::TUBE:
+										tubes.push_back(static_cast<ComponentAreaLight*>(light));
+										break;
+									}
+									break;
+								}
+							}
+						}
 					}
 				}
 
@@ -782,6 +849,43 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 
 						gameObjectsInFrustrum.insert(gameObject);
 						objectsInFrustrumDistances[gameObject] = dist;
+
+						if (gameObject->HasComponent<ComponentLight>())
+						{
+							ComponentLight* light = gameObject->GetComponentInternal<ComponentLight>();
+
+							if (!light->IsEnabled())
+							{
+								return;
+							}
+
+							switch (light->GetLightType())
+							{
+							case LightType::POINT:
+								points.push_back(static_cast<ComponentPointLight*>(light));
+								break;
+
+							case LightType::SPOT:
+								spots.push_back(static_cast<ComponentSpotLight*>(light));
+								break;
+
+								case LightType::AREA:
+								{
+									ComponentAreaLight* area = static_cast<ComponentAreaLight*>(light);
+									switch (area->GetAreaType())
+									{
+									case AreaType::SPHERE:
+										spheres.push_back(static_cast<ComponentAreaLight*>(light));
+										break;
+
+									case AreaType::TUBE:
+										tubes.push_back(static_cast<ComponentAreaLight*>(light));
+										break;
+									}
+									break;
+								}
+							}
+						}
 					}
 				}
 
@@ -839,6 +943,43 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject, Camera* camera,
 
 					gameObjectsInFrustrum.insert(gameObject);
 					objectsInFrustrumDistances[gameObject] = dist;
+
+					if (gameObject->HasComponent<ComponentLight>())
+					{
+						ComponentLight* light = gameObject->GetComponentInternal<ComponentLight>();
+
+						if (!light->IsEnabled())
+						{
+							return;
+						}
+
+						switch (light->GetLightType())
+						{
+						case LightType::POINT:
+							points.push_back(static_cast<ComponentPointLight*>(light));
+							break;
+
+						case LightType::SPOT:
+							spots.push_back(static_cast<ComponentSpotLight*>(light));
+							break;
+
+							case LightType::AREA:
+							{
+								ComponentAreaLight* area = static_cast<ComponentAreaLight*>(light);
+								switch (area->GetAreaType())
+								{
+								case AreaType::SPHERE:
+									spheres.push_back(static_cast<ComponentAreaLight*>(light));
+									break;
+
+								case AreaType::TUBE:
+									tubes.push_back(static_cast<ComponentAreaLight*>(light));
+									break;
+								}
+								break;
+							}
+						}
+					}
 				}
 			}
 		}

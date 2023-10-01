@@ -42,6 +42,9 @@ public:
 	bool IsMeleeAvailable() const;
 	bool IsPerfomingJumpAttack() const;
 
+	bool CanAttack() const;
+	void SetCanAttack(bool canAttack);
+
 	AttackType GetCurrentAttackType() const;
 	bool IsInAttackAnimation() const;
 	GameObject* GetEnemyDetected() const;
@@ -67,6 +70,8 @@ private:
 
 	void DamageEnemy(GameObject* enemyAttacked, float damageAttack);
 	void ThrowBasicAttack(GameObject* enemyAttacked, float nDamage);
+
+	bool canAttack;
 
 	bool isAttacking;
 	bool isMelee;
