@@ -31,7 +31,7 @@ public:
 
 	float GetTimeSinceLastJump() const;
 
-	void ChangingCurrentPlayer();
+	void ToggleIsChangingPlayer();
 
 private:
 	void CheckGround(float deltaTime);

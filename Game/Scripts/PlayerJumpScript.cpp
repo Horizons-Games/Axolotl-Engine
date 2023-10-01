@@ -156,7 +156,7 @@ void PlayerJumpScript::Jump(float deltaTime)
 	}
 }
 
-void PlayerJumpScript::ChangingCurrentPlayer()
+void PlayerJumpScript::ToggleIsChangingPlayer()
 {
 	isChangingPlayer = !isChangingPlayer;
 }

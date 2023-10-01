@@ -107,7 +107,7 @@ void PlayerManagerScript::TriggerJump(bool forcedJump)
 	}
 	else
 	{
-		jumpManager->ChangingCurrentPlayer();
+		jumpManager->ToggleIsChangingPlayer();
 	}
 	jumpManager->SetCanJump(forcedJump);
 }
