@@ -397,6 +397,8 @@ void Shadows::RenderShadowMap(const GameObject* light, const float2& minMax, Cam
 	program->Deactivate();
 
 	glPopDebugGroup();
+
+	delete cameraFrustum;
 }
 
 void Shadows::ShadowDepthVariance()
