@@ -30,7 +30,8 @@ PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), play
 void PlayerManagerScript::Start()
 {
 	input = App->GetModule<ModuleInput>();
-	
+
+	rigidBodyManager = owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->getLinearVelocity();
 	jumpManager = owner->GetComponent<PlayerJumpScript>();
 	healthManager = owner->GetComponent<HealthSystem>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
@@ -117,6 +118,14 @@ void PlayerManagerScript::PausePlayer(bool paused)
 	ParalyzePlayer(paused);
 	healthManager->SetIsImmortal(paused);
 	attackManager->SetCanAttack(!paused);
+	if (paused)
+	{
+		owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(btVector3(0.f, 0.f, 0.f));
+	}
+	else
+	{
+		owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(rigidBodyManager);
+	}
 }
 PlayerAttackScript* PlayerManagerScript::GetAttackManager() const
 {
@@ -126,10 +135,6 @@ PlayerAttackScript* PlayerManagerScript::GetAttackManager() const
 void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 {
 	movementManager->SetIsParalyzed(paralyzed);
-	if (paralyzed)
-	{
-		owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(btVector3(0.f, 0.f, 0.f));
-	}
 	jumpManager->SetCanJump(!paralyzed);
 	rotationManager->SetCanRotate(!paralyzed);
 	if (attackManager->IsAttackAvailable())

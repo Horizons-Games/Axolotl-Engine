@@ -3,6 +3,7 @@
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
 #include "ModuleInput.h"
+#include "Bullet\LinearMath\btVector3.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -72,4 +73,5 @@ private:
 	PlayerAttackScript* attackManager;
 	DebugGame* debugManager;
 	PlayerRotationScript* rotationManager;
+	btVector3 rigidBodyManager;
 };

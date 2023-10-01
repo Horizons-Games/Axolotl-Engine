@@ -49,7 +49,7 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	comboCountHeavy(10.0f), comboCountLight(30.0f), comboCountJump(20.0f), triggerNextAttackDuration(0.5f), 
 	triggerNextAttackTimer(0.0f), isNextAttackTriggered(false), currentAttackAnimation(""),
 	numAttackComboAnimation(0.0f), isHeavyFinisherReceivedAux(false), jumpAttackCooldown(0.8f), timeSinceLastJumpAttack(0.0f),
-	jumpBeforeJumpAttackCooldown(0.1f), isGroundParalyzed(true)
+	jumpBeforeJumpAttackCooldown(0.1f), isGroundParalyzed(false)
 {
 	REGISTER_FIELD(comboCountHeavy, float);
 	REGISTER_FIELD(comboCountLight, float);
@@ -110,12 +110,12 @@ void PlayerAttackScript::Update(float deltaTime)
 	if (isMelee && timeSinceLastJumpAttack < jumpAttackCooldown)
 	{
 		playerManager->ParalyzePlayer(true);
-		isGroundParalyzed = !isGroundParalyzed;
+		isGroundParalyzed = true;
 	}
 	else if(isGroundParalyzed)
 	{
 		playerManager->ParalyzePlayer(false);
-		isGroundParalyzed = !isGroundParalyzed;
+		isGroundParalyzed = false;
 	}
 
 	timeSinceLastJumpAttack += deltaTime;
