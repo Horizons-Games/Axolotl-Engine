@@ -151,6 +151,7 @@ void PlayerJumpScript::Jump(float deltaTime)
 			componentAnimation->SetParameter("IsGrounded", false);
 			isFalling = false;
 			isGrounded = false;
+			isChangingPlayer = false;
 		}
 	}
 }
@@ -163,6 +164,11 @@ void PlayerJumpScript::ChangingCurrentPlayer()
 bool PlayerJumpScript::IsGrounded() const
 {
 	return isGrounded;
+}
+
+void PlayerJumpScript::SetIsGrounded(bool isGrounded)
+{
+	this->isGrounded = isGrounded;
 }
 
 bool PlayerJumpScript::CanJump() const

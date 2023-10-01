@@ -27,6 +27,7 @@ public:
 	void SetCanJump(bool canJump);
 
 	bool IsGrounded() const;
+	void SetIsGrounded(bool isGrounded);
 
 	float GetTimeSinceLastJump() const;
 

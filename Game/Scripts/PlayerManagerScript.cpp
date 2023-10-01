@@ -100,8 +100,15 @@ PlayerMoveScript* PlayerManagerScript::GetMovementManager() const
 
 void PlayerManagerScript::TriggerJump(bool forcedJump)
 {
-	playerState = PlayerActions::JUMPING;
-	jumpManager->ChangingCurrentPlayer();
+	if (!forcedJump)
+	{
+		jumpManager->SetIsGrounded(!forcedJump);
+		playerState = PlayerActions::IDLE;
+	}
+	else
+	{
+		jumpManager->ChangingCurrentPlayer();
+	}
 	jumpManager->SetCanJump(forcedJump);
 }
 

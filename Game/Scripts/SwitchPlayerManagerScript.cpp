@@ -24,9 +24,9 @@
 
 REGISTERCLASS(SwitchPlayerManagerScript);
 
-SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr), modulePlayer(nullptr), isSwitchAvailable(true), changingPlayerTime{800.f, 1800.f},
+SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr), modulePlayer(nullptr), isSwitchAvailable(true), changingPlayerTime{200.f, 800.f, 1800.f},
 	currentPlayerHealthBar(nullptr), secondPlayerHealthBar(nullptr), currentHealthBarTransform(nullptr), secondHealthBarTransform(nullptr), currentPlayerTransform(nullptr),
-	secondPlayerTransform(nullptr), particlesTransofrm(nullptr)
+	secondPlayerTransform(nullptr), particlesTransofrm(nullptr), isSecondJumpAvailable(true)
 {
 	REGISTER_FIELD(isSwitchAvailable, bool);
 	REGISTER_FIELD(currentPlayerHealthBar, GameObject*);
@@ -169,13 +169,14 @@ void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 
 void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 {
-	if (changePlayerTimer.Read() >= changingPlayerTime[1])
+	if (changePlayerTimer.Read() >= changingPlayerTime[2])
 	{	
 		camera->ChangeCurrentPlayer(secondPlayerTransform);
 
 		changePlayerTimer.Stop();
 		isChangingPlayer = false;
 		isNewPlayerEnabled = !isNewPlayerEnabled;
+		isSecondJumpAvailable = !isSecondJumpAvailable;
 		GameObject* changePlayerGameObject = currentPlayer;
 		currentPlayer = modulePlayer->GetPlayer();
 		secondPlayer = changePlayerGameObject;
@@ -195,7 +196,7 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		secondHealthBarTransform->SetScale(currentHealthBarScale);
 		secondHealthBarTransform->CalculateMatrices();
 	}
-	else if (changePlayerTimer.Read() >= changingPlayerTime[0] && !isNewPlayerEnabled)
+	else if (changePlayerTimer.Read() >= changingPlayerTime[1] && !isNewPlayerEnabled)
 	{
 		// Disabling the current player
 		currentPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(false);
@@ -220,6 +221,11 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		secondPlayerTransform->SetGlobalRotation(currentPlayerTransform->GetGlobalRotation());
 		secondPlayer->GetComponent<ComponentRigidBody>()->UpdateRigidBody();
 		isNewPlayerEnabled = !isNewPlayerEnabled;
+	}
+	else if (changePlayerTimer.Read() >= changingPlayerTime[0] && isSecondJumpAvailable)
+	{
+		playerManager->TriggerJump(true);
+		isSecondJumpAvailable = !isSecondJumpAvailable;
 	}
 }
 

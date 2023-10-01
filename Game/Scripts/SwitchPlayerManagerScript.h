@@ -76,4 +76,5 @@ private:
 	bool isChangingPlayer;
 	bool isNewPlayerEnabled;
 	bool isSwitchAvailable;
+	bool isSecondJumpAvailable;
 };
