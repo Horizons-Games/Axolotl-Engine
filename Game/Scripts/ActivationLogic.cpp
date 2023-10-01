@@ -19,6 +19,7 @@
 #include "../Scripts/CameraControllerScript.h"
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/HackZoneScript.h"
+#include "../Scripts/ElevatorCore.h"
 
 #include "DataStructures/Quadtree.h"
 #include "Auxiliar/Audio/AudioData.h"
@@ -31,6 +32,7 @@ componentAudio(nullptr), activeState(ActiveActions::INACTIVE)
 	REGISTER_FIELD(linkedHackZone, HackZoneScript*);
 	REGISTER_FIELD(interactWithEnemies, bool);
 	REGISTER_FIELD(enemisToSpawn, GameObject*);
+	REGISTER_FIELD(elevator, ElevatorCore*);
 }
 
 ActivationLogic::~ActivationLogic()
@@ -49,6 +51,11 @@ void ActivationLogic::Start()
 										   return child->HasComponent<ComponentRigidBody>();
 									   });
 	componentRigidBody = (*childWithRigid)->GetComponent<ComponentRigidBody>();
+
+	if(interactWithEnemies)
+	{
+		enemisWating.reserve(enemisToSpawn->GetChildren().size());
+	}
 	//componentRigidBody->Disable();
 }
 
@@ -59,6 +66,11 @@ void ActivationLogic::Update(float deltaTime)
 		componentAnimation->SetParameter("IsActive", false);
 		componentRigidBody->Enable();
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
+	}
+
+	if (!enemisWating.empty()) 
+	{
+
 	}
 }
 
@@ -80,6 +92,14 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 				componentRigidBody->Disable();
 				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 			}
+		}
+	}
+
+	if (interactWithEnemies)
+	{
+		if (other->GetOwner()->CompareTag("Enemy"))
+		{
+			enemisWating.push_back(other->GetOwner());
 		}
 	}
 }
