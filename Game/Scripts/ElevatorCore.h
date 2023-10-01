@@ -40,7 +40,13 @@ public:
 	void MoveDownElevator(bool isPlayerInside, float deltaTime);
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void SetDisableInteractions(bool interactions);
+	void ActiveAuto();
 	void SetDisableInteractionsEnemies(const GameObject* enemy, bool interactions);
+
+	bool GetElevatorPos(const PositionState pos) const;
+
+	bool GetBooked() const;
+	void SetBooked(bool nbooked);
 
 private:
 	ComponentAudioSource* componentAudio;
@@ -63,7 +69,7 @@ private:
 	float currentTime;
 
 	float speed;
-
+	bool booked;
 
 	//Enemy condition
 	HealthSystem* miniBossHealth;

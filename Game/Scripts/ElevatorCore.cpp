@@ -249,6 +249,11 @@ void ElevatorCore::SetDisableInteractions(bool interactions)
 	manager->ParalyzePlayer(interactions);
 }
 
+void ElevatorCore::ActiveAuto()
+{
+	activeState = ActiveActions::ACTIVE_AUTO;
+}
+
 void ElevatorCore::SetDisableInteractionsEnemies(const GameObject* enemy, bool interactions)
 {
 	if (enemy->HasComponent<EnemyVenomiteScript>())
@@ -270,4 +275,19 @@ void ElevatorCore::SetDisableInteractionsEnemies(const GameObject* enemy, bool i
 		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
 		enemy->GetComponent<EnemyDroneScript>()->ParalyzeEnemy(interactions);
 	}
+}
+
+bool ElevatorCore::GetElevatorPos(const PositionState pos) const
+{
+	return ((positionState == pos) && (coolDown < currentTime/2.f));
+}
+
+bool ElevatorCore::GetBooked() const
+{
+	return Booked;
+}
+
+void ElevatorCore::SetBooked(bool nbooked)
+{
+	booked = nbooked;
 }

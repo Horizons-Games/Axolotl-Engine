@@ -35,6 +35,8 @@ public:
 
 private:
 
+	void NextInTheList();
+
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;
 	ActiveActions activeState;

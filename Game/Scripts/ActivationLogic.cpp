@@ -70,7 +70,14 @@ void ActivationLogic::Update(float deltaTime)
 
 	if (!enemisWating.empty()) 
 	{
-
+		if (elevator->GetElevatorPos(PositionState::DOWN))
+		{
+			elevator->ActiveAuto();
+		}
+		else if (elevator->GetElevatorPos(PositionState::UP))
+		{
+			NextInTheList();
+		}
 	}
 }
 
@@ -113,4 +120,10 @@ void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 		componentRigidBody->Enable();
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
 	}
+}
+
+void ActivationLogic::NextInTheList()
+{
+	elevator->SetBooked(true);
+
 }
