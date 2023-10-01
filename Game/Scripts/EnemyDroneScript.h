@@ -43,6 +43,7 @@ public:
 	void SetReadyToDie() override;
 	void SetStunnedTime(float newTime) override;
 	void ResetValues();
+	void ParalyzeEnemy(bool nparalyzed) override;
 
 private:
 	void CalculateNextPosition() const;

@@ -286,7 +286,7 @@ void EnemyVenomiteScript::ResetValues()
 	}
 
 	componentAnimation->SetParameter("IsRunning", true);
-	venomiteState = VenomiteBehaviours::IDLE;
+	venomiteState = VenomiteBehaviours::INPATH;
 	meleeAttackScript->ResetScriptValues();
 	healthScript->HealLife(1000.0f); // It will cap at max health
 	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();

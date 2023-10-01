@@ -12,7 +12,7 @@ REGISTERCLASS(PathBehaviourScript);
 
 PathBehaviourScript::PathBehaviourScript() : Script(),
 		aiMovement(nullptr), currentWayPoint(0), pathFinished(false),
-		agentComp(nullptr)
+		agentComp(nullptr), waypointsPath(std::vector<ComponentTransform*>())
 {
 	REGISTER_FIELD(waypointsPath, std::vector<ComponentTransform*>);
 }
@@ -24,7 +24,10 @@ void PathBehaviourScript::Start()
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	rigidBody->SetIsKinematic(false);
 	agentComp->Disable();
-	StartPath();
+	if (!waypointsPath.empty())
+	{
+		StartPath();
+	}
 }
 
 void PathBehaviourScript::Update(float deltaTime)
@@ -81,7 +84,7 @@ void PathBehaviourScript::SetNewPath(GameObject* nPath)
 	std::list<GameObject*> nPathChildren = nPath->GetAllDescendants();
 
 	waypointsPath.clear();
-	waypointsPath.resize(nPathChildren.size());
+	waypointsPath.reserve(nPathChildren.size());
 
 	for (auto transforPath : nPathChildren)
 	{

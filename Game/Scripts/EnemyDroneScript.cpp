@@ -78,6 +78,11 @@ void EnemyDroneScript::Start()
 
 void EnemyDroneScript::Update(float deltaTime)
 {
+	if (paralyzed)
+	{
+		return;
+	}
+
 	if (stunned && droneState != DroneBehaviours::READYTOEXPLODE && droneState != DroneBehaviours::EXPLOSIONATTACK)
 	{
 		if (timeStunned < 0)
@@ -305,11 +310,25 @@ void EnemyDroneScript::ResetValues()
 	}
 
 	componentAnimation->SetParameter("IsSeeking", true);
-	droneState = DroneBehaviours::IDLE;
+	droneState = DroneBehaviours::INPATH;
 	fastAttackScript->ResetScriptValues();
 	healthScript->HealLife(1000.0f); // It will cap at max health
 	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
 	enemyDeathScript->ResetDespawnTimerAndEnableActions();
+}
+
+void EnemyDroneScript::ParalyzeEnemy(bool nparalyzed)
+{
+	if (nparalyzed)
+	{
+		componentAnimation->SetParameter("IsRunning", false);
+	}
+	else
+	{
+		componentAnimation->SetParameter("IsRunning", true);
+	}
+
+	paralyzed = nparalyzed;
 }
 
 void EnemyDroneScript::CalculateNextPosition() const
