@@ -811,6 +811,9 @@
     <ClCompile Include="..\Game\Scripts\MultipleFireObstacle.cpp">
       <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIGameManagerSpaceship.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1667,6 +1670,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\MultipleFireObstacle.h">
       <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIGameManagerSpaceship.h">
+      <Filter>UserScripts\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

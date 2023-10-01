@@ -406,6 +406,7 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIComboManager.cpp" />
     <ClCompile Include="..\Game\Scripts\UIGameManager.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIGameManagerSpaceship.cpp" />
     <ClCompile Include="..\Game\Scripts\UIHackingManager.cpp" />
     <ClCompile Include="..\Game\Scripts\UIImageDisplacementControl.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
@@ -935,6 +936,7 @@
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\UIComboManager.h" />
     <ClInclude Include="..\Game\Scripts\UIGameManager.h" />
+    <ClInclude Include="..\Game\Scripts\UIGameManagerSpaceship.h" />
     <ClInclude Include="..\Game\Scripts\UIHackingManager.h" />
     <ClInclude Include="..\Game\Scripts\UIImageDisplacementControl.h" />
     <ClInclude Include="..\Game\Scripts\UIMissionTrigger.h" />
