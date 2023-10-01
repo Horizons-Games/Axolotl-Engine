@@ -43,9 +43,10 @@ ComponentLocalIBL::ComponentLocalIBL(GameObject* parent) :
 		});
 }
 
-ComponentLocalIBL::ComponentLocalIBL(const ComponentLocalIBL& componentLocalIBL) : ComponentLight(componentLocalIBL), first(true),
-parallaxAABB(componentLocalIBL.parallaxAABB), originCenterParallax(componentLocalIBL.originCenterParallax),
-influenceAABB(componentLocalIBL.influenceAABB), originCenterInfluence(componentLocalIBL.originCenterInfluence)
+ComponentLocalIBL::ComponentLocalIBL(const ComponentLocalIBL& componentLocalIBL) : ComponentLight(componentLocalIBL), 
+	cubemap(0), diffuse(0), preFiltered(0), cubeVAO(0), cubeVBO(0), handleIrradiance(0), handlePreFiltered(0), first(true),
+	parallaxAABB(componentLocalIBL.parallaxAABB), originCenterParallax(componentLocalIBL.originCenterParallax),
+	influenceAABB(componentLocalIBL.influenceAABB), originCenterInfluence(componentLocalIBL.originCenterInfluence)
 {
 	Initialize();
 	GenerateMaps();
