@@ -128,7 +128,6 @@ public:
 	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
 	const std::vector<ComponentLine*>& GetSceneComponentLines() const;
 	const std::vector<ComponentPlanarReflection*>& GetScenePlanarReflections() const;
-	std::vector<ComponentMeshRenderer*> GetMeshRenderers() const;
 	std::vector<AABB> GetBoundingBoxes() const;
 	std::vector<ComponentAgent*> GetAgentComponents() const;
 	std::vector<float> GetVertices();
@@ -147,8 +146,6 @@ public:
 	void SetSceneCameras(const std::vector<ComponentCamera*>& cameras);
 	void SetSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void SetSceneInteractable(const std::vector<Component*>& interactable);
-	void SetSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems); // unused
-	void SetComponentLines(const std::vector<ComponentLine*>& componentLines); // unused
 	void SetDirectionalLight(GameObject* directionalLight);
 	void SetCombatMode(bool combatMode);
 	void SetEnemiesToDefeat(float enemiesToDefeat);
@@ -158,7 +155,6 @@ public:
 	void AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void AddSceneInteractable(const std::vector<Component*>& interactable);
 	void AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems);
-	void AddSceneComponentLines(const std::vector<ComponentLine*>& componentLines); // unused
 
 	void AddStaticObject(GameObject* gameObject);
 	void RemoveStaticObject(const GameObject* gameObject);
@@ -194,7 +190,7 @@ private:
 		HAS_PLANAR_REFLECTION = 0X00000020
 	};
 
-	int& SearchForLights(GameObject* gameObject);
+	int SearchForLights(GameObject* gameObject);
 
 	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);
 	const std::vector<GameObject*> CacheBoneHierarchy(GameObject* gameObjectNode, const std::vector<Bone>& bones);
@@ -331,16 +327,6 @@ inline void Scene::SetSceneInteractable(const std::vector<Component*>& interacta
 	sceneInteractableComponents = interactable;
 }
 
-inline void Scene::SetSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems)
-{
-	sceneParticleSystems = particleSystems;
-}
-
-inline void Scene::SetComponentLines(const std::vector<ComponentLine*>& componentLines)
-{
-	sceneComponentLines = componentLines;
-}
-
 inline void Scene::SetDirectionalLight(GameObject* directionalLight)
 {
 	this->directionalLight = directionalLight;
@@ -354,11 +340,6 @@ inline Quadtree* Scene::GetRootQuadtree() const
 inline Cubemap* Scene::GetCubemap() const
 {
 	return cubemap.get();
-}
-
-inline std::vector<ComponentMeshRenderer*> Scene::GetMeshRenderers() const
-{
-	return meshRenderers;
 }
 
 inline std::vector<ComponentAgent*> Scene::GetAgentComponents() const
@@ -454,12 +435,12 @@ inline const float Scene::GetEnemiesToDefeat() const
 
 inline const int Scene::GetSizeSpotLights() const
 {
-	return spotLights.size();
+	return static_cast<int>(spotLights.size());
 }
 
 inline const int Scene::GetSizePointLights() const
 {
-	return pointLights.size();
+	return static_cast<int>(pointLights.size());
 }
 
 inline std::unordered_map<const ComponentPointLight*, unsigned int>& Scene::GetCachedPointLights()

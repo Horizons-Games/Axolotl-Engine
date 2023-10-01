@@ -1874,7 +1874,7 @@ void Scene::UpdateLightsFromCopiedGameObjects(const int& filter)
 	}
 }
 
-int& Scene::SearchForLights(GameObject* gameObject)
+int Scene::SearchForLights(GameObject* gameObject)
 {
 	int filter = 0;
 	
@@ -1988,11 +1988,6 @@ void Scene::AddSceneInteractable(const std::vector<Component*>& interactable)
 void Scene::AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems)
 {
 	sceneParticleSystems.insert(std::end(sceneParticleSystems), std::begin(particleSystems), std::end(particleSystems));
-}
-
-void Scene::AddSceneComponentLines(const std::vector<ComponentLine*>& componentLines)
-{
-	sceneComponentLines.insert(std::end(sceneComponentLines), std::begin(componentLines), std::end(componentLines));
 }
 
 void Scene::InitRender()
