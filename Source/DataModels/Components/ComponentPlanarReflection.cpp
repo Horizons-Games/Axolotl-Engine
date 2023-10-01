@@ -43,6 +43,23 @@ ComponentPlanarReflection::ComponentPlanarReflection(GameObject* parent) :
 		});
 }
 
+ComponentPlanarReflection::ComponentPlanarReflection(const ComponentPlanarReflection& copyComponent) :
+	ComponentLight(copyComponent), frameBuffer(0), depth(0), reflectionTex(0), handle(0), influenceAABB(copyComponent.influenceAABB),
+	planeNormal(copyComponent.planeNormal), numMipMaps(copyComponent.numMipMaps), distortionAmount(copyComponent.distortionAmount), 
+	originScaling(copyComponent.originScaling), scale(copyComponent.scale)
+{
+	frustum = new Frustum();
+	frustum->SetKind(FrustumSpaceGL, FrustumRightHanded);
+	frustum->SetViewPlaneDistances(0.1f, 100.0f);
+
+	for (int mipMap = 0; mipMap < numMipMaps; mipMap++)
+	{
+		utilsBlur.push_back(new UtilBlur());
+	}
+
+	InitBuffer();
+}
+
 ComponentPlanarReflection::~ComponentPlanarReflection()
 {
 	glDeleteFramebuffers(1, &frameBuffer);

@@ -27,6 +27,7 @@ class ComponentPlanarReflection : public ComponentLight
 public:
 
 	ComponentPlanarReflection(GameObject* parent);
+	ComponentPlanarReflection(const ComponentPlanarReflection& copyComponent);
 	~ComponentPlanarReflection();
 
 	void Draw() const override;
