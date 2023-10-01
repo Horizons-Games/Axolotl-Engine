@@ -29,6 +29,8 @@ ActivationLogic::ActivationLogic() : Script(),
 componentAudio(nullptr), activeState(ActiveActions::INACTIVE)
 {
 	REGISTER_FIELD(linkedHackZone, HackZoneScript*);
+	REGISTER_FIELD(interactWithEnemies, bool);
+	REGISTER_FIELD(enemisToSpawn, GameObject*);
 }
 
 ActivationLogic::~ActivationLogic()

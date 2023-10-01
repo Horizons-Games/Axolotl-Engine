@@ -39,5 +39,8 @@ private:
 	ActiveActions activeState;
 	ComponentRigidBody* componentRigidBody;
 
+	GameObject* enemisToSpawn;
+
 	HackZoneScript* linkedHackZone;
+	bool interactWithEnemies;
 };

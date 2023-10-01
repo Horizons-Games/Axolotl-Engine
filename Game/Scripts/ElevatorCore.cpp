@@ -62,6 +62,7 @@ void ElevatorCore::Start()
 	transform = elevator->GetComponentInternal<ComponentTransform>();
 	triggerEntrance = owner->GetComponent<ComponentRigidBody>();
 	finalUpPos = transform->GetGlobalPosition().y;
+	finalPos = finalUpPos + finalPos;
 	currentTime = 0.0f;
 }
 
