@@ -529,6 +529,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Exceptions\AccessingFailedScriptException.cpp" />
+    <ClCompile Include="Exceptions\AxoDefaultException.cpp" />
     <ClCompile Include="Exceptions\ComponentNotFoundException.cpp" />
     <ClCompile Include="Exceptions\ScriptAssertFailedException.cpp" />
     <ClCompile Include="Enums\WritableEnum.cpp" />
@@ -1059,6 +1061,8 @@
     <ClInclude Include="Enums\EFrustumMode.h" />
     <ClInclude Include="Enums\TextureType.h" />
     <ClInclude Include="Enums\UpdateStatus.h" />
+    <ClInclude Include="Exceptions\AccessingFailedScriptException.h" />
+    <ClInclude Include="Exceptions\AxoDefaultException.h" />
     <ClInclude Include="FileSystem\FileZippedData.h" />
     <ClInclude Include="Exceptions\ComponentNotFoundException.h" />
     <ClInclude Include="Exceptions\ScriptAssertFailedException.h" />

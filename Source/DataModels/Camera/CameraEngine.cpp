@@ -50,7 +50,7 @@ bool CameraEngine::Update()
 
 	bool sceneFocused = editor->IsSceneFocused();
 
-	if (sceneFocused && !App->IsOnPlayMode())
+	if (sceneFocused && App->GetPlayState() != Application::PlayState::RUNNING)
 	{
 		if (isFocusing)
 		{
@@ -144,7 +144,7 @@ bool CameraEngine::Update()
 		}
 	}
 
-	if ((sceneFocused || rotating) && !App->IsOnPlayMode())
+	if ((sceneFocused || rotating) && App->GetPlayState() != Application::PlayState::RUNNING)
 	{
 		// Move and rotate with right buttons and ASDWQE
 		if (input->GetMouseButton(SDL_BUTTON_RIGHT) != KeyState::IDLE &&

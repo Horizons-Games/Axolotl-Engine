@@ -390,28 +390,13 @@ UpdateStatus ModuleInput::Update()
 	}
 
 #ifdef ENGINE
-	if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN) &&
-		keysState[SDL_SCANCODE_Q] == KeyState::DOWN)
-	{
-		if (App->IsOnPlayMode())
-		{
-			App->OnStop();
-		}
-	}
-
-	if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN) &&
-		keysState[SDL_SCANCODE_A] == KeyState::DOWN)
-	{
-		if (App->IsOnPlayMode())
-		{
-			SDL_ShowCursor(SDL_QUERY) ? SetShowCursor(false) : SetShowCursor(true);
-		}
-	}
-
 	if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT && keysState[SDL_SCANCODE_S] == KeyState::DOWN &&
 		SDL_ShowCursor(SDL_QUERY))
 	{
-		App->GetModule<ModuleEditor>()->GetMainMenu()->ShortcutSave();
+		if (App->GetPlayState() == Application::PlayState::STOPPED)
+		{
+			App->GetModule<ModuleEditor>()->GetMainMenu()->ShortcutSave();
+		}
 	}
 
 	if (keysState[SDL_SCANCODE_F1] == KeyState::DOWN && SDL_ShowCursor(SDL_QUERY))
@@ -465,7 +450,7 @@ bool ModuleInput::CleanUp()
 
 void ModuleInput::MapControllerInput()
 {
-	if (!App->IsOnPlayMode())
+	if (App->GetPlayState() != Application::PlayState::RUNNING)
 	{
 		return;
 	}

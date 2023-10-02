@@ -750,12 +750,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="Exceptions\ComponentNotFoundException.cpp">
-      <Filter>Exceptions</Filter>
-    </ClCompile>
-    <ClCompile Include="Exceptions\ScriptAssertFailedException.cpp">
-      <Filter>Exceptions</Filter>
-    </ClCompile>
     <ClCompile Include="Formatter.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowNavMeshInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
@@ -799,6 +793,18 @@
     </ClCompile>
     <ClCompile Include="DataModels\Schedulable\Schedulable.cpp">
       <Filter>DataModels\Schedulable</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions\AxoDefaultException.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions\ComponentNotFoundException.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions\ScriptAssertFailedException.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions\AccessingFailedScriptException.cpp">
+      <Filter>Exceptions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1645,6 +1651,12 @@
     </ClInclude>
     <ClInclude Include="DataModels\Schedulable\Schedulable.h">
       <Filter>DataModels\Schedulable</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\AccessingFailedScriptException.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\AxoDefaultException.h">
+      <Filter>Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

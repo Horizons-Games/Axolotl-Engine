@@ -39,7 +39,7 @@ void WindowComponentPlayer::DrawWindowContents()
 		bool actualPlayer = asPlayer->IsActualPlayer();
 		if (ImGui::Checkbox("Actual Player", &actualPlayer))
 		{
-			if (!App->IsOnPlayMode())
+			if (App->GetPlayState() != Application::PlayState::STOPPED)
 			{
 				asPlayer->SetActualPlayer(actualPlayer, true);
 			}
