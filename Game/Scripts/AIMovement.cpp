@@ -78,6 +78,7 @@ void AIMovement::MoveToTarget(float deltaTime)
 	btVector3 currentVelocity = rigidBody->GetRigidBody()->getLinearVelocity();
 	btVector3 newVelocity(movement.getX(), currentVelocity.getY(), movement.getZ());
 
+	LOG_DEBUG("Velocity: {} ,{} ,{}", newVelocity.getX(), newVelocity.getY(), newVelocity.getZ());
 	rigidBody->GetRigidBody()->setLinearVelocity(newVelocity);
 }
 
