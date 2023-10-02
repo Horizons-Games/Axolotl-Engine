@@ -68,7 +68,9 @@ void PathBehaviourScript::NextPath()
 void PathBehaviourScript::ResetPath()
 {
 	pathFinished = false;
+	rigidBody->Enable();
 	rigidBody->SetIsKinematic(false);
+	rigidBody->SetUpMobility();
 	agentComp->Disable();
 	currentWayPoint = 0;
 	StartPath();
@@ -84,7 +86,8 @@ void PathBehaviourScript::SetNewPath(GameObject* nPath)
 	std::list<GameObject*> nPathChildren = nPath->GetAllDescendants();
 
 	waypointsPath.clear();
-	waypointsPath.reserve(nPathChildren.size());
+	waypointsPath.reserve(nPathChildren.size()-1);
+	nPathChildren.erase(nPathChildren.begin());
 
 	for (auto transforPath : nPathChildren)
 	{

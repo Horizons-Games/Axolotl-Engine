@@ -141,7 +141,7 @@ void ElevatorCore::MoveUpElevator(bool isGOInside, float deltaTime)
 			}
 			else if (go->CompareTag("Enemy"))
 			{
-				SetDisableInteractionsEnemies(go, false);
+				SetDisableInteractionsEnemies(go, false, false, false);
 			}
 		}
 	}
@@ -191,7 +191,7 @@ void ElevatorCore::MoveDownElevator(bool isGOInside, float deltaTime)
 			}
 			else if (go->CompareTag("Enemy"))
 			{
-				SetDisableInteractionsEnemies(go, false);
+				SetDisableInteractionsEnemies(go, false, false, false);
 			}
 		}
 	}
@@ -239,7 +239,7 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 		{
 			go = other->GetOwner();
 			goTransform = go->GetComponentInternal<ComponentTransform>();
-			SetDisableInteractionsEnemies(other->GetOwner(), true);
+			SetDisableInteractionsEnemies(other->GetOwner(), true, true, true);
 		}
 	}
 }
@@ -257,32 +257,34 @@ void ElevatorCore::ActiveAuto()
 	activeState = ActiveActionsElevator::ACTIVE_AUTO;
 }
 
-void ElevatorCore::SetDisableInteractionsEnemies(const GameObject* enemy, bool interactions)
+void ElevatorCore::SetDisableInteractionsEnemies(const GameObject* enemy, bool interactions,
+	bool activeElevator, bool setStaticRigidBody)
 {
 	if (enemy->HasComponent<EnemyVenomiteScript>())
 	{
-		if (interactions)
+		if (activeElevator)
 		{
 			activeState = ActiveActionsElevator::ACTIVE;
 		}
+		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(setStaticRigidBody);
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
-		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
 		enemy->GetComponent<EnemyVenomiteScript>()->ParalyzeEnemy(interactions);
 	}
 	else if (enemy->HasComponent<EnemyDroneScript>())
 	{
-		if (interactions)
+		if (activeElevator)
 		{
 			activeState = ActiveActionsElevator::ACTIVE;
-		}		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
-		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
+		}		
+		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(setStaticRigidBody);
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 		enemy->GetComponent<EnemyDroneScript>()->ParalyzeEnemy(interactions);
 	}
 }
 
 bool ElevatorCore::GetElevatorPos(const PositionState pos) const
 {
-	return ((positionState == pos) && (coolDown < currentTime/2.f));
+	return ((positionState == pos) && (0.0f + coolDown/2 > currentTime));
 }
 
 bool ElevatorCore::GetBooked() const

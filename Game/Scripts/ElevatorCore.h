@@ -41,7 +41,8 @@ public:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void SetDisableInteractions(bool interactions);
 	void ActiveAuto();
-	void SetDisableInteractionsEnemies(const GameObject* enemy, bool interactions);
+	void SetDisableInteractionsEnemies(const GameObject* enemy, bool interactions, 
+		bool activeElevator, bool setStaticRigidBody);
 
 	bool GetElevatorPos(const PositionState pos) const;
 

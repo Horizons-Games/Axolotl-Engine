@@ -107,7 +107,7 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 		if (other->GetOwner()->CompareTag("Enemy"))
 		{
 			enemisWating.push_back(other->GetOwner());
-			elevator->SetDisableInteractionsEnemies(other->GetOwner(), true);
+			elevator->SetDisableInteractionsEnemies(other->GetOwner(), true, false, false);
 		}
 	}
 }
@@ -137,7 +137,7 @@ void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 void ActivationLogic::NextInTheList()
 {
 	elevator->SetBooked(true);
-	elevator->SetDisableInteractionsEnemies(enemisWating[0],false);
+	elevator->SetDisableInteractionsEnemies(enemisWating[0],false, false, false);
 	enemisWating.erase(enemisWating.begin());
 	componentAnimation->SetParameter("IsActive", true);
 	componentRigidBody->Disable();

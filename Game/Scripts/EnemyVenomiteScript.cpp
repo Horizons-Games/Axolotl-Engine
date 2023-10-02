@@ -97,7 +97,6 @@ void EnemyVenomiteScript::Update(float deltaTime)
 	UpdateBehaviour(deltaTime);
 }
 
-
 void EnemyVenomiteScript::CheckState()
 {
 	if (venomiteState == VenomiteBehaviours::INPATH)
