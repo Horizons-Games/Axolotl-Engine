@@ -70,8 +70,12 @@ void ElevatorCore::Start()
 
 void ElevatorCore::Update(float deltaTime)
 {
-	currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
-	playerTransform = currentPlayer->GetComponent<ComponentTransform>();
+	if (currentPlayer != App->GetModule<ModulePlayer>()->GetPlayer())
+	{
+		currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
+		playerTransform = currentPlayer->GetComponent<ComponentTransform>();
+	}
+
 	float3 playerPos = playerTransform->GetGlobalPosition();
 
 	if (activeState == ActiveActions::ACTIVE_PLAYER) 

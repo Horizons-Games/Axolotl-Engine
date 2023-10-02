@@ -33,7 +33,11 @@ void SeekBehaviourScript::Start()
 
 void SeekBehaviourScript::Update(float deltaTime)
 {
-	target = App->GetModule<ModulePlayer>()->GetPlayer();
+	if (target != App->GetModule<ModulePlayer>()->GetPlayer()) 
+	{
+		target = App->GetModule<ModulePlayer>()->GetPlayer();
+	}
+
 	if (target)
 	{
 		targetTransform = target->GetComponent<ComponentTransform>();

@@ -38,6 +38,9 @@ void FinalBossScript::Start()
 	rigidBody->SetKpForce(0.25f);
 	transform = owner->GetComponent<ComponentTransform>();
 
+	target = App->GetModule<ModulePlayer>()->GetPlayer();
+	targetTransform = target->GetComponent<ComponentTransform>();
+
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 	bossHealthSystem = owner->GetComponent<HealthSystem>();
 	chargeAttackScript = owner->GetComponent<BossChargeAttackScript>();
@@ -52,12 +55,15 @@ void FinalBossScript::Start()
 
 void FinalBossScript::Update(float deltaTime)
 {
-	target = App->GetModule<ModulePlayer>()->GetPlayer();
-	targetTransform = target->GetComponent<ComponentTransform>();
-
 	if (!target)
 	{
 		return;
+	}
+
+	if (target != App->GetModule<ModulePlayer>()->GetPlayer())
+	{
+		target = App->GetModule<ModulePlayer>()->GetPlayer();
+		targetTransform = target->GetComponent<ComponentTransform>();
 	}
 
 	// Uncomment this line to check the attacks individually (you have to activate each one of them below)
