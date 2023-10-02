@@ -8,8 +8,33 @@
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
 #include "ModuleAudio.h"
+
 class ComponentButton;
 class ComponentSlider;
+
+enum class Canvas
+{
+	GAME_CANVAS = 0,
+	VIDEO_CANVAS = 1,
+	AUDIO_CANVAS = 2,
+	CONTROLL_CANVAS = 3
+};
+enum class Button
+{
+	//GAME
+	FPS = 0,
+	VSYNC = 1,
+	BRIGHTNESS = 2,
+	RESOLUTION = 3,
+	WINDOWSMODE = 4,
+
+	//VIDEO
+
+	//AUDIO
+	GENERAL = 0,
+	MUSIC = 1,
+	VFX = 2,
+};
 
 class UIOptionsMenu : public Script
 {
@@ -21,10 +46,12 @@ public:
 	void Update(float deltaTime) override;
 
 	void ControlEnable();
-	void KeyboardEnable();
+	//void KeyboardEnable();
 
+	void ApplyChanges();
+	void InitOptionMenu();
 	int LookSavedOptions(int button);
-	void SaveOption(int header, int button, int option);
+	void SaveOption(int header, int button, int option, bool locked);
 
 	void GameOption(int button, int option);
 	void VideoOption();
@@ -33,6 +60,8 @@ public:
 
 	void BackToLastSavedOption();
 	bool IsSlider(int header, int button, int option);
+	void IsSizeOptionEnable();
+	void IsFpsEnable();
 
 private:
 
@@ -45,14 +74,17 @@ private:
 
 	struct ButtonOptionInfo
 	{
-		int canvasPosition;
-		int buttonPosition;
-		int optionPosition;
+		int actualOption;
+		int defaultOption;
+		bool locked;
+	};
+	struct CanvasOptionInfo
+	{
+		std::vector<ButtonOptionInfo> options;
 	};
 
 	std::vector<HeaderOptionsButton> buttonsAndCanvas;
-	std::vector<ButtonOptionInfo> actualConfig;
-	std::vector<ButtonOptionInfo> previousConfig;
+	std::vector<CanvasOptionInfo> actualConfig;
 
 	int headerMenuPosition;
 	int newHeaderMenuPosition;
@@ -63,10 +95,12 @@ private:
 	int maxButtonsOptions;
 	int maxOptions;
 	int newSelectedOption;
-	int saveSelectedOption;
 	float valueSlider;
 
 	bool isSlider;
+	bool windowSize;
+	bool optionSizeLock;
+	bool resettButtonIndex;
 
 	ModuleInput* input;
 	ModuleUI* ui;

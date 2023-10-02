@@ -53,7 +53,7 @@ void UIGameManager::Update(float deltaTime)
 	input = App->GetModule<ModuleInput>();
 
 	//IN GAME MENU
-	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::DOWN || input->GetKey(SDL_CONTROLLER_BUTTON_B) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::DOWN)
 	{
 		menuIsOpen = !menuIsOpen;
 		MenuIsOpen();
