@@ -12,7 +12,7 @@ REGISTERCLASS(PathBehaviourScript);
 
 PathBehaviourScript::PathBehaviourScript() : Script(),
 		aiMovement(nullptr), currentWayPoint(0), pathFinished(false),
-		agentComp(nullptr), waypointsPath(std::vector<ComponentTransform*>())
+		agentComp(nullptr)
 {
 	REGISTER_FIELD(waypointsPath, std::vector<ComponentTransform*>);
 }

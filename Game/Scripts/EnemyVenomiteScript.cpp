@@ -291,7 +291,11 @@ void EnemyVenomiteScript::ResetValues()
 	healthScript->HealLife(1000.0f); // It will cap at max health
 	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
 	enemyDeathScript->ResetDespawnTimerAndEnableActions();
-	pathScript->Enable();
+	if (pathScript)
+	{
+		pathScript->Enable();
+		pathScript->ResetPath();
+	}
 }
 
 void EnemyVenomiteScript::ParalyzeEnemy(bool nparalyzed) 
