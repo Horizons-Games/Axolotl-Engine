@@ -123,7 +123,7 @@ UpdateStatus ModuleScene::PreUpdate()
 		App->GetScriptFactory()->UpdateNotifier();
 	}
 
-	if (App->IsOnPlayMode())
+	if (App->GetPlayState() == Application::PlayState::RUNNING)
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
@@ -147,7 +147,7 @@ UpdateStatus ModuleScene::Update()
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
 #endif // DEBUG
 
-	if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
+	if (App->GetPlayState() == Application::PlayState::RUNNING && !App->GetScriptFactory()->IsCompiling())
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
@@ -158,10 +158,13 @@ UpdateStatus ModuleScene::Update()
 		}
 	}
 
-	// Particles need to be updated
-	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
+	if (App->GetPlayState() == Application::PlayState::RUNNING)
 	{
-		particle->Update();
+		// Particles need to be updated
+		for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
+		{
+			particle->Update();
+		}
 	}
 
 	return UpdateStatus::UPDATE_CONTINUE;
@@ -169,9 +172,9 @@ UpdateStatus ModuleScene::Update()
 
 UpdateStatus ModuleScene::PostUpdate()
 {
-	if (IsLoading())
+	if (App->GetPlayState() == Application::PlayState::RUNNING && IsLoading())
 	{
-		if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
+		if (!App->GetScriptFactory()->IsCompiling())
 		{
 			for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 			{
