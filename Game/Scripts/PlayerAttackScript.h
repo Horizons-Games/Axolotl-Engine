@@ -49,7 +49,7 @@ public:
 	bool IsInAttackAnimation() const;
 	GameObject* GetEnemyDetected() const;
 
-	void PlayWeaponSounds();
+	void PlayWeaponSounds() const;
 
 private:
 	void Start() override;

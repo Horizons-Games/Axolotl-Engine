@@ -696,7 +696,7 @@ GameObject* PlayerAttackScript::GetEnemyDetected() const
 	return enemyDetection->GetEnemySelected();
 }
 
-void PlayerAttackScript::PlayWeaponSounds()
+void PlayerAttackScript::PlayWeaponSounds() const
 {
 	if (isMelee)
 	{
