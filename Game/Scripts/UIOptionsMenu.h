@@ -48,21 +48,6 @@ public:
 	void ControlEnable();
 	//void KeyboardEnable();
 
-	void ApplyChanges();
-	void InitOptionMenu();
-	int LookSavedOptions(int button);
-	void SaveOption(int header, int button, int option, bool locked);
-
-	void GameOption(int button, int option);
-	void VideoOption();
-	void AudioOption();
-	void ControlOption();
-
-	void BackToLastSavedOption();
-	bool IsSlider(int header, int button, int option);
-	void IsSizeOptionEnable();
-	void IsFpsEnable();
-
 private:
 
 	struct HeaderOptionsButton
@@ -131,6 +116,23 @@ private:
 	ComponentButton* audioOptionComponentButton;
 	ComponentButton* controlOptionComponentButton;
 	ComponentSlider* slider;
+
+	void UpdateChanges();
+	void ApplyChanges(int headerMenuPosition, int actualButton, int newSelectedOption);
+	void InitOptionMenu();
+	void LoadOptions();
+	void SaveOptions();
+	void LoadDefaultOptions();
+
+	void GameOption(int button, int option);
+	void VideoOption(int button, int option);
+	void AudioOption(int button, int option);
+	void ControlOption();
+
+	void BackToLastSavedOption();
+	bool IsSlider(int header, int button, int option);
+	void IsSizeOptionEnable();
+	void IsFpsEnable();
 
 };
 
