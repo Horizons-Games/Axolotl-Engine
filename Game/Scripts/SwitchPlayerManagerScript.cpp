@@ -24,9 +24,11 @@
 
 REGISTERCLASS(SwitchPlayerManagerScript);
 
-SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr), modulePlayer(nullptr), isSwitchAvailable(true), changingPlayerTime{200.f, 800.f, 1800.f},
-	currentPlayerHealthBar(nullptr), secondPlayerHealthBar(nullptr), currentHealthBarTransform(nullptr), secondHealthBarTransform(nullptr), currentPlayerTransform(nullptr),
-	secondPlayerTransform(nullptr), particlesTransofrm(nullptr), isSecondJumpAvailable(true)
+SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr),
+	modulePlayer(nullptr), isSwitchAvailable(true), changingPlayerTime{200.f, 800.f, 1800.f},
+	currentPlayerHealthBar(nullptr), secondPlayerHealthBar(nullptr), currentHealthBarTransform(nullptr),
+	secondHealthBarTransform(nullptr), currentPlayerTransform(nullptr), secondPlayerTransform(nullptr),
+	particlesTransofrm(nullptr), isSecondJumpAvailable(true)
 {
 	REGISTER_FIELD(isSwitchAvailable, bool);
 	REGISTER_FIELD(currentPlayerHealthBar, GameObject*);
@@ -117,7 +119,8 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 
 		}
 	}
-	if (actualSwitchPlayersParticles && actualSwitchPlayersParticles->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->IsFinished())
+	if (actualSwitchPlayersParticles && 
+		actualSwitchPlayersParticles->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->IsFinished())
 	{
 		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualSwitchPlayersParticles);
 		actualSwitchPlayersParticles = nullptr;
@@ -137,7 +140,8 @@ void SwitchPlayerManagerScript::VisualSwitchEffect()
 		loadScene->DestroyGameObject(actualSwitchPlayersParticles);
 	}
 
-	actualSwitchPlayersParticles = loadScene->DuplicateGameObject(switchPlayersParticlesPrefab->GetName(), switchPlayersParticlesPrefab, loadScene->GetRoot());
+	actualSwitchPlayersParticles = loadScene->DuplicateGameObject(switchPlayersParticlesPrefab->GetName(),
+		switchPlayersParticlesPrefab, loadScene->GetRoot());
 	particlesTransofrm = actualSwitchPlayersParticles->GetComponent<ComponentTransform>();
 
 	particlesTransofrm->SetGlobalPosition(float3 (currentPlayerTransform->GetGlobalPosition().x,
