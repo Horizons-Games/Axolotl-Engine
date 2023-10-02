@@ -54,7 +54,7 @@ private:
 	ActiveActions activeState;
 	PositionState positionState;
 
-	GameObject* bixPrefab;
+	GameObject* currentPlayer;
 	ComponentTransform* playerTransform;
 
 	GameObject* elevator;
