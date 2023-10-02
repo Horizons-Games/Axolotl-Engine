@@ -21,9 +21,11 @@
 
 ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player(nullptr), componentPlayer(nullptr)
 {
-};
+}
 
-ModulePlayer::~ModulePlayer(){};
+ModulePlayer::~ModulePlayer()
+{
+}
 
 bool ModulePlayer::Start()
 {
@@ -46,7 +48,10 @@ void ModulePlayer::SetPlayer(GameObject* newPlayer)
 		componentPlayer->SetActualPlayer(false);
 	}
 	player = newPlayer;
-	if (player) componentPlayer = player->GetComponentInternal<ComponentPlayer>();
+	if (player)
+	{
+		componentPlayer = player->GetComponentInternal<ComponentPlayer>();
+	}
 }
 
 Camera* ModulePlayer::GetCameraPlayer()
@@ -87,12 +92,12 @@ bool ModulePlayer::LoadNewPlayer()
 
 				return true;
 			}
+			LOG_ERROR("Not found Camera with MainCamera tag");
+			return false;
 		}
-		LOG_ERROR("Not found Camera with MainCamera tag");
+		LOG_ERROR("Active Player not found");
 		return false;
 	}
-	LOG_ERROR("Active Player not found");
-	return false;
 }
 
 void ModulePlayer::UnloadNewPlayer()
@@ -115,5 +120,4 @@ void ModulePlayer::CheckIfActivateMouse()
 	{
 		App->GetModule<ModuleInput>()->SetShowCursor(false);
 	}
-
 }

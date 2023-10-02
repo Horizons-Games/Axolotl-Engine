@@ -121,7 +121,8 @@ void ComponentAreaLight::Draw() const
 {
 	bool canDrawLight =
 #ifdef ENGINE
-		IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+		IsEnabled() && App->GetPlayState() != Application::PlayState::RUNNING &&
+		GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 #else
 		IsEnabled() && App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawAreaLight();
 #endif // ENGINE

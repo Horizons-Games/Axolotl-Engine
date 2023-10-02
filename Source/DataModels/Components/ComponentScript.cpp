@@ -317,7 +317,7 @@ void ComponentScript::SetScript(IScript* script)
 
 bool ComponentScript::ScriptCanBeCalled() const
 {
-	return script && App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling();
+	return script && App->GetPlayState() != Application::PlayState::STOPPED && !App->GetScriptFactory()->IsCompiling();
 }
 
 void ComponentScript::InternalSave(Json& meta)
@@ -677,7 +677,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 
 void ComponentScript::SignalEnable()
 {
-	if (App->IsOnPlayMode() && !App->GetModule<ModuleScene>()->IsLoading())
+	if (App->GetPlayState() != Application::PlayState::STOPPED && !App->GetModule<ModuleScene>()->IsLoading())
 	{
 		Init();
 		Start();
