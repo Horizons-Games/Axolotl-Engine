@@ -137,7 +137,7 @@ void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 void ComponentRigidBody::OnTransformChanged()
 {
 #ifdef ENGINE
-	if (!App->IsOnPlayMode())
+	if (App->GetPlayState() == Application::PlayState::STOPPED)
 	{
 		UpdateRigidBody();
 	}

@@ -271,7 +271,7 @@ UpdateStatus ModuleRender::Update()
 	Camera* engineCamera = App->GetModule<ModuleCamera>()->GetCamera();
 
 #ifdef ENGINE
-	if (App->IsOnPlayMode())
+	if (App->GetPlayState() != Application::PlayState::STOPPED)
 #else
 	if (player)
 #endif
@@ -320,7 +320,7 @@ UpdateStatus ModuleRender::Update()
 
 	// Draw opaque objects
 	batchManager->DrawOpaque(false);
-	if (!App->IsOnPlayMode() && !isRoot)
+	if (!isRoot && App->GetPlayState() == Application::PlayState::STOPPED)
 	{
 		// Draw selected opaque
 		glEnable(GL_STENCIL_TEST);
@@ -438,7 +438,7 @@ UpdateStatus ModuleRender::Update()
 
 	batchManager->DrawTransparent(false);
 
-	if (!App->IsOnPlayMode() && !isRoot)
+	if (!isRoot && App->GetPlayState() == Application::PlayState::STOPPED)
 	{
 		// Draw selected transparent
 		glEnable(GL_STENCIL_TEST);

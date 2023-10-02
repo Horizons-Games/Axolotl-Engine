@@ -723,7 +723,7 @@ void GeometryBatch::BindBatch(bool selected)
 #ifdef ENGINE
 			bool draw = false;
 
-			if (selectedGo != nullptr && !App->IsOnPlayMode() && !isRoot)
+			if (selectedGo != nullptr && App->GetPlayState() == Application::PlayState::STOPPED && !isRoot)
 			{
 				if (!selected)
 				{
