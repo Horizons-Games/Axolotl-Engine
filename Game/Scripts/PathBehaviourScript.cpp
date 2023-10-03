@@ -51,6 +51,7 @@ void PathBehaviourScript::StartPath() const
 {
 	float3 target = waypointsPath[currentWayPoint]->GetGlobalPosition();
 
+	rigidBody->SetUpMobility();
 	aiMovement->SetTargetPosition(target);
 	aiMovement->SetRotationTargetPosition(target);
 	aiMovement->SetMovementStatuses(true, true);

@@ -153,8 +153,16 @@ void ComponentRigidBody::Update()
 {
 	float deltaTime = App->GetDeltaTime();
 
+	
 	if (!rigidBody->isStaticOrKinematicObject())
 	{
+		if (GetOwner()->GetName() == "Venomite_Soldier 1")
+		{
+			LOG_DEBUG("velocidad linear: {} ,{} ,{}",
+					  rigidBody->getLinearVelocity().getX(),
+					  rigidBody->getLinearVelocity().getY(),
+					  rigidBody->getLinearVelocity().getZ());
+		}
 		rigidBody->setCcdMotionThreshold(0.1f);
 		rigidBody->setCcdSweptSphereRadius(0.1f);
 
