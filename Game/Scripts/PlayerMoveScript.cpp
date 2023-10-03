@@ -27,7 +27,8 @@ PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 componentAudio(nullptr), componentAnimation(nullptr), dashForce(30.0f), 
 playerManager(nullptr), isParalyzed(false), desiredRotation(float3::zero), 
 lightAttacksMoveFactor(2.0f), heavyAttacksMoveFactor(3.0f), dashRollTime(0.0f), 
-dashRollCooldown(0.1f), timeSinceLastDash(0.0f), dashRollDuration(0.2f), totalDirection(float3::zero)
+dashRollCooldown(0.1f), timeSinceLastDash(0.0f), dashRollDuration(0.2f), totalDirection(float3::zero),
+isTriggeringStoredDash(false)
 {
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(isParalyzed, bool);
@@ -43,10 +44,12 @@ void PlayerMoveScript::Start()
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	playerManager = owner->GetComponent<PlayerManagerScript>();
+
 	if (owner->HasComponent<PlayerForceUseScript>())
 	{
 		forceScript = owner->GetComponent<PlayerForceUseScript>();
 	}
+	
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	jumpScript = owner->GetComponent<PlayerJumpScript>();
 	playerAttackScript = owner->GetComponent<PlayerAttackScript>();
@@ -65,8 +68,7 @@ void PlayerMoveScript::Start()
 
 void PlayerMoveScript::PreUpdate(float deltaTime)
 {
-
-	if (!playerAttackScript->IsPerfomingJumpAttack())
+	if (!playerAttackScript->IsPerformingJumpAttack())
 	{
 		if (forceScript && forceScript->IsForceActive())
 		{
@@ -178,7 +180,8 @@ void PlayerMoveScript::Move(float deltaTime)
 				playerManager->SetPlayerState(PlayerActions::IDLE);
 			}
 		}
-		else {
+		else 
+		{
 			// Low velocity while attacking
 			if (playerAttackScript->IsInAttackAnimation())
 			{
@@ -284,14 +287,17 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 
 void PlayerMoveScript::DashRoll(float deltaTime)
 {
-	if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN
-		&& (playerManager->GetPlayerState() == PlayerActions::IDLE
-			|| playerManager->GetPlayerState() == PlayerActions::WALKING) &&
-		timeSinceLastDash > dashRollCooldown && playerAttackScript->IsAttackAvailable())
+	if (playerAttackScript->IsAttackAvailable() &&
+		timeSinceLastDash > dashRollCooldown &&
+		(playerManager->GetPlayerState() == PlayerActions::IDLE ||
+		playerManager->GetPlayerState() == PlayerActions::WALKING) &&
+		(input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN ||
+		isTriggeringStoredDash))
 	{
 		// Start a dash
 		dashRollTime = 0.0f;
 		timeSinceLastDash = 0.0f;
+		isTriggeringStoredDash = false;
 		componentAnimation->SetParameter("IsDashing", true);
 		componentAnimation->SetParameter("IsRunning", false);
 		playerManager->SetPlayerState(PlayerActions::DASHING);
@@ -323,15 +329,28 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 	}
 	else
 	{
+		if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN &&
+			(playerManager->GetPlayerState() == PlayerActions::IDLE ||
+			playerManager->GetPlayerState() == PlayerActions::WALKING))
+		{
+			isTriggeringStoredDash = true;
+		}
 		timeSinceLastDash += deltaTime;
 	}
+	
+	bool dashAnimationHasFinished = componentAnimation->GetActualStateName() != "DashingInit" &&
+		componentAnimation->GetActualStateName() != "DashingKeep" &&
+		componentAnimation->GetActualStateName() != "DashingEnd";
 
 	if (playerManager->GetPlayerState() == PlayerActions::DASHING)
 	{
 		// Stop the dash
 		if (dashRollTime > dashRollDuration)
 		{
-			playerManager->SetPlayerState(PlayerActions::IDLE);
+			if (dashAnimationHasFinished)
+			{
+				playerManager->SetPlayerState(PlayerActions::IDLE);
+			}
 			timeSinceLastDash = 0.0f;
 			componentAnimation->SetParameter("IsDashing", false);
 			btRigidbody->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
@@ -356,4 +375,14 @@ void PlayerMoveScript::SetIsParalyzed(bool isParalyzed)
 PlayerJumpScript* PlayerMoveScript::GetJumpScript() const
 {
 	return jumpScript;
+}
+
+bool PlayerMoveScript::IsTriggeringStoredDash() const
+{
+	return isTriggeringStoredDash;
+}
+
+void PlayerMoveScript::SetIsTriggeringStoredDash(bool isTriggeringStoredDash)
+{
+	this->isTriggeringStoredDash = isTriggeringStoredDash;
 }

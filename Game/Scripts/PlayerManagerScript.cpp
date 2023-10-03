@@ -97,11 +97,13 @@ PlayerAttackScript* PlayerManagerScript::GetAttackManager() const
 
 void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 {
-	playerState = PlayerActions::IDLE;
 	movementManager->SetIsParalyzed(paralyzed);
 	jumpManager->SetCanJump(!paralyzed);
 	rotationManager->SetCanRotate(!paralyzed);
-	attackManager->SetCanAttack(!paralyzed);
+	if (attackManager->IsAttackAvailable())
+	{
+		attackManager->SetCanAttack(!paralyzed);
+	}
 }
 
 void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)

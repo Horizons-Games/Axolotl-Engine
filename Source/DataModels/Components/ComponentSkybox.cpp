@@ -11,11 +11,12 @@
 #include "Resources/ResourceSkyBox.h"
 #include "DataModels/Program/Program.h"
 
+#include "Cubemap/Cubemap.h"
+
 #include "Camera/Camera.h"
 
 ComponentSkybox::ComponentSkybox(bool active, GameObject* owner) : 
-	Component(ComponentType::SKYBOX, active, owner, true),
-	enable(true)
+	Component(ComponentType::SKYBOX, active, owner, true), useCubemap(false)
 {
 }
 
@@ -23,9 +24,9 @@ ComponentSkybox::~ComponentSkybox()
 {
 }
 
-void ComponentSkybox::Draw() const
+void ComponentSkybox::Draw()
 {
-	if (enable)
+	if (IsEnabled())
 	{
 		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SKYBOX);
 		if (program && skyboxRes)
@@ -61,7 +62,7 @@ void ComponentSkybox::Draw() const
 void ComponentSkybox::InternalSave(Json& meta)
 {
 	Json jsonSkybox = meta["Skybox"];
-	jsonSkybox["enable"] = this->enable;
+	jsonSkybox["useCubemap"] = useCubemap;
 	jsonSkybox["skyboxUID"] = skyboxRes->GetUID();
 	jsonSkybox["skyboxAssetPath"] = skyboxRes->GetAssetsPath().c_str();
 }
@@ -69,7 +70,7 @@ void ComponentSkybox::InternalSave(Json& meta)
 void ComponentSkybox::InternalLoad(const Json& meta)
 {
 	Json jsonSkybox = meta["Skybox"];
-	this->enable = jsonSkybox["enable"];
+	useCubemap = jsonSkybox["useCubemap"];
 	UID resUID = jsonSkybox["skyboxUID"];
 	std::string resPath = jsonSkybox["skyboxAssetPath"];
 
@@ -80,16 +81,6 @@ void ComponentSkybox::InternalLoad(const Json& meta)
 #endif // ENGINE
 }
 
-void ComponentSkybox::SignalEnable()
-{
-	enable = true;
-}
-
-void ComponentSkybox::SignalDisable()
-{
-	enable = false;
-}
-
 std::shared_ptr<ResourceSkyBox> ComponentSkybox::GetSkyboxResource() const
 {
 	return skyboxRes;
@@ -97,6 +88,19 @@ std::shared_ptr<ResourceSkyBox> ComponentSkybox::GetSkyboxResource() const
 
 void ComponentSkybox::SetSkyboxResource(std::shared_ptr<ResourceSkyBox> resource)
 {
-	this->skyboxRes = resource;
+	skyboxRes = resource;
+	cubemap.release();
 }
 
+Cubemap* ComponentSkybox::GetCubemap()
+{
+	if (cubemap == nullptr)
+	{
+		if (!skyboxRes->IsLoaded())
+		{
+			skyboxRes->Load();
+		}
+		cubemap = std::make_unique<Cubemap>(skyboxRes->GetGlTexture());
+	}
+	return cubemap.get();
+}

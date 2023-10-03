@@ -15,6 +15,8 @@
 #include "../Scripts/PowerUpLogicScript.h"
 #include "../Scripts/CameraControllerScript.h"
 #include "../Scripts/FinalBossScript.h"
+#include "../Scripts/MeshEffect.h"
+#include "../Scripts/HealthSystem.h"
 
 REGISTERCLASS(EnemyDeathScript);
 
@@ -97,6 +99,9 @@ GameObject* EnemyDeathScript::RequestPowerUp() const
 
 void EnemyDeathScript::DisableEnemyActions()
 {
+	MeshEffect* meshEffectScript = owner->GetComponent<HealthSystem>()->GetMeshEffect();
+	meshEffectScript->ClearEffect();
+
 	// Once the enemy is dead, disable its scripts
 	std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
 
