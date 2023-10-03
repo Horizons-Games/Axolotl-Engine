@@ -160,7 +160,7 @@ void CombatTutorial::Update(float deltaTime)
 
 	}
 
-	/*if (tutorialFinished)
+	if (tutorialFinished && !nextStateActive)
 	{
 		finalWaitTime -= deltaTime;
 
@@ -172,7 +172,7 @@ void CombatTutorial::Update(float deltaTime)
 		tutorialUI->UnDeployUI();
 		tutorialFinished = false;
 		tutorialActivable = false;
-	}*/
+	}
 
 }
 

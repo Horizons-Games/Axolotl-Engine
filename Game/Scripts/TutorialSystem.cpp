@@ -91,22 +91,22 @@ void TutorialSystem::TutorialStart()
 	//transform2D = currentTutorialUI->GetComponent<ComponentTransform2D>();
 }
 
-void TutorialSystem::NextState()
-{
-	if (tutorialCurrentState < tutorialTotalStates)
-	{
-		UnDeployUI();
-		
-	}
-
-	else if (tutorialCurrentState >= tutorialTotalStates)
-	{
-		TutorialEnd();
-
-	}
-	
-
-}
+//void TutorialSystem::NextState()
+//{
+//	if (tutorialCurrentState < tutorialTotalStates)
+//	{
+//		UnDeployUI();
+//		
+//	}
+//
+//	else if (tutorialCurrentState >= tutorialTotalStates)
+//	{
+//		TutorialEnd();
+//
+//	}
+//	
+//
+//}
 
 void TutorialSystem::DeployUI()
 {
@@ -133,6 +133,7 @@ void TutorialSystem::UnDeployUI()
 	{
 		isWaiting = true;
 		//displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
+		currentTutorialUI->Enable();
 		displacementControl->SetMovingToEnd(false);
 		displacementControl->MoveImageToStarPosition();
 
@@ -149,7 +150,7 @@ void TutorialSystem::UnDeployUI()
 	}
 
 
-	else if (tutorialCurrentState >= tutorialTotalStates)
+	else
 	{
 		TutorialEnd();
 
