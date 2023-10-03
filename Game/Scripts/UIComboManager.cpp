@@ -1,14 +1,14 @@
 #include "StdAfx.h"
 #include "UIComboManager.h"
 
+#include "Application.h"
+#include "ModuleScene.h"
+#include "Scene/Scene.h"
+
 #include "Components/ComponentScript.h"
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentImage.h"
 #include "Components/UI/ComponentTransform2D.h"
-
-#include "Application.h"
-#include "ModuleScene.h"
-#include "Scene/Scene.h"
 
 REGISTERCLASS(UIComboManager);
 
