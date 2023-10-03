@@ -127,20 +127,34 @@ void TutorialSystem::DeployUI()
 
 void TutorialSystem::UnDeployUI()
 {
-	isWaiting = true;
-	
-	displacementControl->SetMovingToEnd(false);
-	displacementControl->MoveImageToStarPosition();
-	
-	displacementControl->SetIsMoving(true);
 
-	//currentTutorialUI->Disable();
-	//NextTutorialUI->Enable();
-	tutorialCurrentState++;
-	currentTutorialUI = tutorialUI[tutorialCurrentState];
-	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
-	//tutorialUI[tutorialCurrentState - 1]->Disable();
-	dummyHealthSystem->SetIsImmortal(true);
+
+	if (tutorialCurrentState < tutorialTotalStates)
+	{
+		isWaiting = true;
+		//displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
+		displacementControl->SetMovingToEnd(false);
+		displacementControl->MoveImageToStarPosition();
+
+		displacementControl->SetIsMoving(true);
+
+		//currentTutorialUI->Disable();
+		//NextTutorialUI->Enable();
+		tutorialCurrentState++;
+		currentTutorialUI = tutorialUI[tutorialCurrentState];
+		displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
+		//tutorialUI[tutorialCurrentState - 1]->Disable();
+		dummyHealthSystem->SetIsImmortal(true);
+
+	}
+
+
+	else if (tutorialCurrentState >= tutorialTotalStates)
+	{
+		TutorialEnd();
+
+	}
+	
 }
 
 void TutorialSystem::TutorialEnd()

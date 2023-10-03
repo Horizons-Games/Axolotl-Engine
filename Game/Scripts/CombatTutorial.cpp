@@ -17,21 +17,25 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentTransform.h"
 
 #include "..\Game\Scripts\HealthSystem.h"
 #include "..\Game\Scripts\PlayerManagerScript.h"
 #include "..\Game\Scripts\PlayerManagerScript.h"
+#include "../Scripts/PowerUpLogicScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
 
 REGISTERCLASS(CombatTutorial);
 
-CombatTutorial::CombatTutorial() : Script(), combatDummy(nullptr), userControllable(false), combatTutorialUI(nullptr)
+CombatTutorial::CombatTutorial() : Script(), combatDummy(nullptr), userControllable(false), combatTutorialUI(nullptr), 
+debugPowerUp(nullptr), finalWaitTime(2.0f)
 {
 	REGISTER_FIELD(combatDummy, GameObject*);
 	REGISTER_FIELD(userControllable, bool);
 	REGISTER_FIELD(combatTutorialUI, GameObject*);
+	REGISTER_FIELD(debugPowerUp, GameObject*);
 }
 
 void CombatTutorial::Start()
@@ -68,9 +72,28 @@ void CombatTutorial::Update(float deltaTime)
 			userControllable = false;
 			nextStateActive = false;
 			
-
 		}
 	}
+
+	/*else if (tutorialActivable && userControllable && nextStateActive && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
+	{
+		tutorialUI->UnDeployUI();
+		
+		tutorialFinished = true;
+		nextStateActive = false;
+		tutorialFinished = true;
+
+	}
+
+	else if (tutorialActivable && userControllable && nextStateActive && tutorialFinished
+	&& input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
+	{
+		tutorialUI->TutorialEnd();
+
+
+	}*/
+
+
 	
 	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.75 
 		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.50 && !nextStateActive)
@@ -121,15 +144,40 @@ void CombatTutorial::Update(float deltaTime)
 		tutorialUI->UnDeployUI();
 		dummyHealthSystem->SetIsImmortal(false);
 		nextStateActive = false;
+
+		if (debugPowerUp != nullptr)
+		{
+			PowerUpLogicScript* newPowerUpLogic = debugPowerUp->GetComponent<PowerUpLogicScript>();
+			ComponentTransform* ownerTransform = player->GetComponent<ComponentTransform>();
+
+			newPowerUpLogic->ActivatePowerUp(ownerTransform->GetOwner());
+		}
+		//finalWaitTime -= deltaTime;
+		userControllable = true;
 		tutorialFinished = true;
+		
 
 
 	}
 
+	/*if (tutorialFinished)
+	{
+		finalWaitTime -= deltaTime;
 
-	
+	}
+
+	if (finalWaitTime <= 0)
+	{
+		
+		tutorialUI->UnDeployUI();
+		tutorialFinished = false;
+		tutorialActivable = false;
+	}*/
 
 }
+
+
+
 
 
 
@@ -152,7 +200,6 @@ void CombatTutorial::Update(float deltaTime)
 {
 	if (other->GetOwner()->CompareTag("Player") && tutorialFinished)
 	{
-		tutorialActivable = false;
 		tutorialUI->TutorialEnd();
 		LOG_INFO("TutorialExit");
 		
