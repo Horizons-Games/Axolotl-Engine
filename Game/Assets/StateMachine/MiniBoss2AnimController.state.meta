@@ -1,0 +1,12 @@
+{
+    "UID": 6969169460292802767,
+    "Type": "StateMachine",
+    "ResourcesAssetPaths": [
+        "Assets/Animation/Bix.Armature_Idle.anim",
+        "Assets/Animation/Bix.Armature_Run.anim",
+        "Assets/Animation/Bix.Armature_Attack1Idle.anim",
+        "Assets/Animation/Bix.Armature_AttackComboEnd.anim",
+        "Assets/Animation/Bix.Armature_BlasterAttack1.anim",
+        "Assets/Animation/Bix.Armature_Death.anim"
+    ]
+}

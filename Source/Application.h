@@ -7,30 +7,42 @@
 #include "Enums/UpdateStatus.h"
 
 class ScriptFactory;
+class Scheduler;
 
 class Application
 {
 public:
+	// For the record, it doesn't make sense for this to be in the Application layer
+	// This enum only carries meaning in Editor/Engine mode, and thus should not be compiled in Game
+	// But I don't feel like doing that big of a refactor
+	enum class PlayState
+	{
+		RUNNING,
+		PAUSED,
+		STOPPED
+	};
+
+public:
 	Application();
 	~Application();
 
-	bool Start();
 	bool Init();
+	bool Start();
 	UpdateStatus Update();
 	bool CleanUp();
 
 	void OnPlay();
-	void OnStop();
 	void OnPause();
+	void OnStop();
+
+	PlayState GetPlayState() const;
 
 	void SetMaxFrameRate(int maxFrames);
 	int GetMaxFrameRate() const;
 	float GetDeltaTime() const;
-	bool IsOnPlayMode() const;
 
 	bool IsDebuggingGame() const;
 	void SetDebuggingGame(bool debuggingGame);
-	void SetIsOnPlayMode(bool newIsOnPlayMode);
 	void SwitchDebuggingGame();
 
 	ScriptFactory* GetScriptFactory() const;
@@ -38,8 +50,13 @@ public:
 	template<typename M>
 	M* GetModule();
 
+	// Add a Schedulable object (right now only a functor) that will be executed at the end of each frame
+	// Optionally, set the frame delay until the object is executed
+	void ScheduleTask(std::function<void(void)>&& taskToSchedule, std::uint16_t frameDelay = 0U);
+
 private:
 	std::unique_ptr<ScriptFactory> scriptFactory;
+	std::unique_ptr<Scheduler> scheduler;
 
 	std::vector<std::unique_ptr<Module>> modules;
 	Timer appTimer;
@@ -48,8 +65,9 @@ private:
 	int maxFramerate;
 	float deltaTime = 0.f;
 	bool debuggingGame;
-	bool isOnPlayMode;
 	bool closeGame;
+
+	PlayState editorPlayState;
 };
 
 extern std::unique_ptr<Application> App;
@@ -69,11 +87,6 @@ inline float Application::GetDeltaTime() const
 	return deltaTime;
 }
 
-inline bool Application::IsOnPlayMode() const
-{
-	return isOnPlayMode;
-}
-
 inline bool Application::IsDebuggingGame() const
 {
 	return debuggingGame;
@@ -82,12 +95,6 @@ inline bool Application::IsDebuggingGame() const
 inline void Application::SetDebuggingGame(bool debuggingGame)
 {
 	this->debuggingGame = debuggingGame;
-}
-
-inline void Application::SetIsOnPlayMode(bool newIsOnPlayMode)
-{
-	isOnPlayMode = newIsOnPlayMode;
-	isOnPlayMode ? OnPlay() : OnStop();
 }
 
 inline void Application::SwitchDebuggingGame()
@@ -110,4 +117,14 @@ M* Application::GetModule()
 inline void Application::SetCloseGame(bool closeGameStatus)
 {
 	closeGame = closeGameStatus;
+}
+
+inline Application::PlayState Application::GetPlayState() const
+{
+	// See comment in the enum class
+#ifdef GAME
+	return PlayState::RUNNING;
+#else
+	return editorPlayState;
+#endif // GAME
 }

@@ -3,6 +3,7 @@
 #include "Quadtree.h"
 #include "Application.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentRigidBody.h"
 #include "GameObject/GameObject.h"
 
 #include "ModuleScene.h"
@@ -187,6 +188,13 @@ bool Quadtree::EntireInQuadrant(const GameObject* gameObject) const
 		   boundingBox.minPoint.z <= objectAABB.minPoint.z && objectAABB.maxPoint.x <= boundingBox.maxPoint.x &&
 		   objectAABB.maxPoint.y <= boundingBox.maxPoint.y && objectAABB.maxPoint.z <= boundingBox.maxPoint.z;
 }
+
+bool Quadtree::HasGameObject(GameObject* gameObject) const
+{
+	return gameObjects.find(gameObject) != gameObjects.end();
+}
+
+
 
 void Quadtree::Subdivide()
 {
@@ -432,6 +440,30 @@ std::list<GameObject*> Quadtree::GetAllGameObjects(GameObject* gameObject)
 		familyObjects.insert(familyObjects.end(), objectsChildren.begin(), objectsChildren.end());
 	}
 	return familyObjects;
+}
+
+void Quadtree::AddRigidBodiesToSimulation() const
+{
+	for (GameObject* child: gameObjects)
+	{
+		ComponentRigidBody* rb = child->GetComponentInternal<ComponentRigidBody>();
+		if (rb)
+		{
+			rb->AddRigidBodyToSimulation();
+		}
+	}
+}
+
+void Quadtree::RemoveRigidBodiesFromSimulation() const
+{
+	for (GameObject* child : gameObjects)
+	{
+		ComponentRigidBody* rb = child->GetComponentInternal<ComponentRigidBody>();
+		if (rb)
+		{
+			rb->RemoveRigidBodyFromSimulation();
+		}
+	}
 }
 
 void Quadtree::SaveOptions(Json& meta)

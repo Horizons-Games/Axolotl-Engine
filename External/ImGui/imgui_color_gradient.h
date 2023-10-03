@@ -61,7 +61,10 @@ class ImGradient
 {
 public:
     ImGradient();
+	ImGradient(ImGradient* copyGradient);
     ~ImGradient();
+
+	void CopyMarks(ImGradient* copyGradient);
     
     void getColorAt(float position, float* color) const;
     void addMark(float position, ImColor const color);
@@ -71,7 +74,7 @@ public:
 private:
     void computeColorAt(float position, float* color) const;
     std::list<ImGradientMark*> m_marks;
-    float m_cachedValues[256 * 3];
+    float m_cachedValues[256 * 4];
 };
 
 namespace ImGui

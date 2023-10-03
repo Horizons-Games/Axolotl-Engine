@@ -16,6 +16,8 @@
 #include "ParticleSystem/ModuleRotation.h"
 #include "ParticleSystem/ModuleSize.h"
 
+#include "Enums/BlendingType.h"
+
 ParticleSystemImporter::ParticleSystemImporter()
 {
 }
@@ -85,6 +87,7 @@ void ParticleSystemImporter::Save
 			{
 				case ParticleModule::ModuleType::BASE:
 					size += sizeof(float) * 7;
+					size += sizeof(bool);
 					break;
 				case ParticleModule::ModuleType::SPAWN:
 					size += sizeof(float);
@@ -484,6 +487,12 @@ void ParticleSystemImporter::SaveModule(char*& cursor, ParticleModule*& module)
 
 			cursor += bytes;
 
+			bytes = sizeof(bool);
+			bool following = base->IsFollowingTransform();
+			memcpy(cursor, &following, bytes);
+
+			cursor += bytes;
+
 			break;
 		}
 		case ParticleModule::ModuleType::SPAWN:
@@ -650,6 +659,14 @@ void ParticleSystemImporter::LoadModule(const char*& fileBuffer, ParticleModule*
 
 			fileBuffer += bytes;
 
+			bytes = sizeof(bool);
+			bool following;
+			memcpy(&following, fileBuffer, bytes);
+
+			base->SetFollowTransform(following);
+
+			fileBuffer += bytes;
+
 			break;
 		}
 		case ParticleModule::ModuleType::SPAWN:
@@ -682,7 +699,7 @@ void ParticleSystemImporter::LoadModule(const char*& fileBuffer, ParticleModule*
 			int blending;
 			memcpy(&blending, fileBuffer, bytes);
 
-			render->SetBlending(static_cast<ModuleRenderer::BlendingMode>(blending));
+			render->SetBlending(static_cast<BlendingMode>(blending));
 
 			fileBuffer += bytes;
 

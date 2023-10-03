@@ -53,9 +53,13 @@ public:
 	void SetColor(const float3& color);
 	void SetIntensity(float intensity);
 
+	const bool IsDeleting() const;
+
 protected:
 	float3 color;
 	float intensity;
+	
+	bool deleting;
 
 	LightType lightType;
 };
@@ -83,6 +87,11 @@ inline void ComponentLight::SetColor(const float3& color)
 inline void ComponentLight::SetIntensity(float intensity)
 {
 	this->intensity = intensity;
+}
+
+inline const bool ComponentLight::IsDeleting() const
+{
+	return deleting;
 }
 
 inline const std::string GetNameByLightType(LightType type)

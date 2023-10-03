@@ -1,5 +1,6 @@
 #pragma once
 #include "Auxiliar/Generics/Updatable.h"
+#include "Auxiliar/Generics/Drawable.h"
 #include "Bullet/LinearMath/btVector3.h"
 #include "Bullet/btBulletDynamicsCommon.h"
 #include "Component.h"
@@ -9,7 +10,7 @@ class btRigidBody;
 struct btDefaultMotionState;
 class btCollisionShape;
 
-class ComponentRigidBody : public Component, public Updatable
+class ComponentRigidBody : public Component, public Updatable, public Drawable
 {
 public:
 	enum class Shape
@@ -37,14 +38,16 @@ public:
 
 	void OnTransformChanged() override;
 
+	void Draw() const override;
+
 	void Update() override;
 
 	void SetOwner(GameObject* owner) override;
 
-	uint32_t GetID() const
-	{
-		return id;
-	}
+	uint32_t GetID() const;
+
+	void SetIsInCollisionWorld(bool isInCollisionWorld);
+	bool GetIsInCollisionWorld() const;
 
 	void SetIsKinematic(bool isKinematic);
 	bool GetIsKinematic() const;
@@ -94,14 +97,14 @@ public:
 	void SetDefaultSize(Shape resetShape);
 	void SetDefaultPosition();
 
-    btVector3 GetRigidBodyOrigin() const;
-    void SetRigidBodyOrigin(btVector3 origin);
+	btVector3 GetRigidBodyOrigin() const;
+	void SetRigidBodyOrigin(btVector3 origin);
 
 	btVector3 GetRigidBodyTranslation() const;
 	void UpdateRigidBodyTranslation();
 
-    void SetPositionTarget(const float3& targetPos);
-    void SetRotationTarget(const Quat& targetRot);
+	void SetPositionTarget(const float3& targetPos);
+	void SetRotationTarget(const Quat& targetRot);
 
 	bool GetUsePositionController() const;
 	void SetUsePositionController(bool newUsePositionController);
@@ -144,10 +147,11 @@ public:
 	void UpdateBlockedRotationAxis();
 	void SetAngularFactor(btVector3 rotation);
 
-    void RemoveRigidBodyFromSimulation();
+	void RemoveRigidBodyFromSimulation();
+	void AddRigidBodyToSimulation();
 
-    btRigidBody* GetRigidBody() const;
-    ComponentTransform* GetOwnerTransform() const;
+	btRigidBody* GetRigidBody() const;
+	ComponentTransform* GetOwnerTransform() const;
 	void SetUpMobility();
 
 	void UpdateRigidBody();
@@ -155,12 +159,10 @@ public:
 	void SimulateRotationController();
 
 	template<typename T>
-	void AddCollisionEnterDelegate(void (T::*func)(ComponentRigidBody*), T* obj)
-	{
-		delegateCollisionEnter.push_back(std::bind(func, obj, std::placeholders::_1));
-	}
+	void AddCollisionEnterDelegate(std::function<void(T*, ComponentRigidBody*)>&& func, T* obj);
+	void AddCollisionEnterDelegate(std::function<void(ComponentRigidBody*)>&& func);
 
-    void ClearCollisionEnterDelegate();
+	void ClearCollisionEnterDelegate();
 
 private:
 	void InternalSave(Json& meta) override;
@@ -176,17 +178,18 @@ private:
 	std::unique_ptr<btDefaultMotionState> motionState = nullptr;
 	std::unique_ptr<btCollisionShape> shape = nullptr;
 
-    btVector3 gravity = { 0, -9.81f, 0 };
-    btVector3 translation = { 0.0f, 0.0f, 0.0f };
-    float linearDamping = 0.1f;
-    float angularDamping = 0.1f;
-    float mass = 100.0f;
-    float restitution = 0.f;
-    float3 boxSize;
-    float radius;
-    float factor;
-    float height;
+	btVector3 gravity = { 0, -9.81f, 0 };
+	btVector3 translation = { 0.0f, 0.0f, 0.0f };
+	float linearDamping = 0.1f;
+	float angularDamping = 0.1f;
+	float mass = 100.0f;
+	float restitution = 0.f;
+	float3 boxSize;
+	float radius;
+	float factor;
+	float height;
 
+	bool isInCollisionWorld = true;
 	bool isKinematic = false;
 	bool drawCollider = false;
 	bool isTrigger = false;
@@ -216,6 +219,22 @@ private:
 	// Delegate for collision enter event the parameter is the other collider
 	std::vector<std::function<void(ComponentRigidBody*)>> delegateCollisionEnter;
 };
+
+inline uint32_t ComponentRigidBody::GetID() const
+{
+	return id;
+}
+
+inline bool ComponentRigidBody::GetIsInCollisionWorld() const
+{
+	return isInCollisionWorld;
+}
+
+inline void ComponentRigidBody::SetIsInCollisionWorld(bool newIsInCollisionWorld)
+{
+	isInCollisionWorld = newIsInCollisionWorld;
+}
+
 
 inline bool ComponentRigidBody::GetIsKinematic() const
 {
@@ -416,18 +435,29 @@ inline void ComponentRigidBody::SetHeight(float newHeight)
 }
 
 inline btRigidBody* ComponentRigidBody::GetRigidBody() const
-{ 
-    return rigidBody.get(); 
+{
+	return rigidBody.get();
 }
 
 inline ComponentTransform* ComponentRigidBody::GetOwnerTransform() const
 {
-    return transform;
+	return transform;
+}
+
+template<typename T>
+inline void ComponentRigidBody::AddCollisionEnterDelegate(std::function<void(T*, ComponentRigidBody*)>&& func, T* obj)
+{
+	delegateCollisionEnter.push_back(std::bind(func, obj, std::placeholders::_1));
+}
+
+inline void ComponentRigidBody::AddCollisionEnterDelegate(std::function<void(ComponentRigidBody*)>&& func)
+{
+	delegateCollisionEnter.emplace_back(std::move(func));
 }
 
 inline btVector3 ComponentRigidBody::GetRigidBodyOrigin() const
 {
-    return rigidBody->getWorldTransform().getOrigin();
+	return rigidBody->getWorldTransform().getOrigin();
 }
 
 inline btVector3 ComponentRigidBody::GetRigidBodyTranslation() const

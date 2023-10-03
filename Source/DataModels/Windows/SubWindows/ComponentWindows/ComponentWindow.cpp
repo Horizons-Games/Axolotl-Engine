@@ -16,6 +16,7 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCamera.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCameraSample.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCanvas.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSkybox.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCubemap.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentDirLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentImage.h"
@@ -23,15 +24,19 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshCollider.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentParticle.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTrail.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
-#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayerInput.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPointLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentRigidBody.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentScript.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSpotLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTransform2D.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLine.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentAgent.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentObstacle.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentSlider.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentRender.h"
 
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentAreaLight.h"
@@ -40,18 +45,23 @@
 #include "Components/ComponentBreakable.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentCameraSample.h"
+#include "Components/ComponentSkybox.h"
 #include "Components/ComponentCubemap.h"
 #include "Components/ComponentDirLight.h"
 #include "Components/ComponentMeshCollider.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentTrail.h"
 #include "Components/ComponentPlayer.h"
-#include "Components/ComponentPlayerInput.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentLine.h"
+#include "Components/ComponentRender.h"
+#include "Components/ComponentAgent.h"
+#include "Components/ComponentObstacle.h"
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
@@ -87,8 +97,6 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentCameraSample>(static_cast<ComponentCameraSample*>(component));
 			case ComponentType::PLAYER:
 				return std::make_unique<WindowComponentPlayer>(static_cast<ComponentPlayer*>(component));
-			case ComponentType::PLAYERINPUT:
-				return std::make_unique<WindowComponentPlayerInput>(static_cast<ComponentPlayerInput*>(component));
 			case ComponentType::ANIMATION:
 				return std::make_unique<WindowComponentAnimation>(static_cast<ComponentAnimation*>(component));
 			case ComponentType::CANVAS:
@@ -113,8 +121,20 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentScript>(static_cast<ComponentScript*>(component));
 			case ComponentType::PARTICLE:
 				return std::make_unique<WindowComponentParticle>(static_cast<ComponentParticleSystem*>(component));
+			case ComponentType::TRAIL:
+				return std::make_unique<WindowComponentTrail>(static_cast<ComponentTrail*>(component));
 			case ComponentType::CUBEMAP:
 				return std::make_unique<WindowComponentCubemap>(static_cast<ComponentCubemap*>(component));
+			case ComponentType::SKYBOX:
+				return std::make_unique<WindowComponentSkybox>(static_cast<ComponentSkybox*>(component));
+			case ComponentType::LINE:
+				return std::make_unique<WindowComponentLine>(static_cast<ComponentLine*>(component));
+			case ComponentType::RENDER:
+				return std::make_unique<WindowComponentRender>(static_cast<ComponentRender*>(component));
+			case ComponentType::AGENT:
+				return std::make_unique<WindowComponentAgent>(static_cast<ComponentAgent*>(component));
+			case ComponentType::OBSTACLE:
+				return std::make_unique<WindowComponentObstacle>(static_cast<ComponentObstacle*>(component));
 			case ComponentType::LIGHT:
 				ComponentLight* asLight = static_cast<ComponentLight*>(component);
 				switch (asLight->GetLightType())

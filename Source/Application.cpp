@@ -10,21 +10,30 @@
 #include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
 #include "ModuleInput.h"
+#include "ModuleNavigation.h"
 #include "ModulePhysics.h"
 #include "ModulePlayer.h"
 #include "ModuleProgram.h"
+#include "ModuleRandom.h"
 #include "ModuleRender.h"
 #include "ModuleScene.h"
 #include "ModuleUI.h"
 #include "ModuleWindow.h"
-#include "ModuleNavigation.h"
+
 #include "ScriptFactory.h"
+
+#include "DataModels/Schedulable/Schedulable.h"
+#include "Scheduler.h"
 
 #include "Defines/FramerateDefines.h"
 
 constexpr int FRAMES_BUFFER = 50;
 
-Application::Application() : maxFramerate(MAX_FRAMERATE), debuggingGame(false), isOnPlayMode(false), closeGame(false)
+Application::Application() :
+	maxFramerate(MAX_FRAMERATE),
+	debuggingGame(false),
+	editorPlayState(PlayState::STOPPED),
+	closeGame(false)
 {
 	modules.resize(static_cast<int>(ModuleType::LAST));
 	modules[static_cast<int>(ModuleToEnum<ModuleWindow>::value)] = std::make_unique<ModuleWindow>();
@@ -43,6 +52,7 @@ Application::Application() : maxFramerate(MAX_FRAMERATE), debuggingGame(false), 
 	modules[static_cast<int>(ModuleToEnum<ModuleResources>::value)] = std::make_unique<ModuleResources>();
 	modules[static_cast<int>(ModuleToEnum<ModuleDebugDraw>::value)] = std::make_unique<ModuleDebugDraw>();
 	modules[static_cast<int>(ModuleToEnum<ModuleCommand>::value)] = std::make_unique<ModuleCommand>();
+	modules[static_cast<int>(ModuleToEnum<ModuleRandom>::value)] = std::make_unique<ModuleRandom>();
 }
 
 Application::~Application()
@@ -52,12 +62,10 @@ Application::~Application()
 
 bool Application::Init()
 {
-#ifndef ENGINE
-	isOnPlayMode = true;
-#endif // !ENGINE
-
 	scriptFactory = std::make_unique<ScriptFactory>();
 	scriptFactory->Init();
+
+	scheduler = std::make_unique<Scheduler>();
 
 	for (const std::unique_ptr<Module>& module : modules)
 	{
@@ -92,7 +100,7 @@ UpdateStatus Application::Update()
 		return UpdateStatus::UPDATE_STOP;
 	}
 
-	bool playMode = isOnPlayMode;
+	bool playMode = editorPlayState != PlayState::STOPPED;
 	float ms = playMode ? onPlayTimer.Read() : appTimer.Read();
 
 	for (const std::unique_ptr<Module>& module : modules)
@@ -122,11 +130,13 @@ UpdateStatus Application::Update()
 		}
 	}
 
+	scheduler->RunTasks();
+
 	float dt = playMode ? onPlayTimer.Read() - ms : appTimer.Read() - ms;
 
 	if (dt < 1000.0f / GetMaxFrameRate())
 	{
-		SDL_Delay((Uint32)(1000.0f / GetMaxFrameRate() - dt));
+		SDL_Delay((Uint32) (1000.0f / GetMaxFrameRate() - dt));
 	}
 
 	deltaTime = playMode ? (onPlayTimer.Read() - ms) / 1000.0f : (appTimer.Read() - ms) / 1000.0f;
@@ -150,31 +160,59 @@ bool Application::CleanUp()
 
 void Application::OnPlay()
 {
-	onPlayTimer.Start();
-	isOnPlayMode = true;
-	ModulePlayer* player = GetModule<ModulePlayer>();
-	if (!player->LoadNewPlayer())
+	editorPlayState = PlayState::RUNNING;
+	if (!GetModule<ModulePlayer>()->LoadNewPlayer())
 	{
-		isOnPlayMode = false;
+		editorPlayState = PlayState::STOPPED;
+		LOG_WARNING("Player could not be loaded, game not starting");
+		return;
 		onPlayTimer.Stop();
 	}
-	else
+
+	onPlayTimer.Start();
+	// Active Scripts
+	GetModule<ModuleScene>()->OnPlay();
+}
+
+void Application::OnPause()
+{
+	if (GetPlayState() == PlayState::RUNNING)
 	{
-		// Active Scripts
-		GetModule<ModuleScene>()->OnPlay();
+		editorPlayState = PlayState::PAUSED;
+		GetModule<ModuleInput>()->SetShowCursor(true);
+		GetModule<ModuleCamera>()->SetSelectedCamera(-1);
+		GetModule<ModuleAudio>()->Suspend();
+		GetModule<ModuleUI>()->SetUpButtons();
+	}
+	else if (GetPlayState() == PlayState::PAUSED)
+	{
+		editorPlayState = PlayState::RUNNING;
+		GetModule<ModuleInput>()->SetShowCursor(false);
+		GetModule<ModuleCamera>()->SetSelectedCamera(-1);
+		GetModule<ModuleAudio>()->WakeUp();
 	}
 }
 
 void Application::OnStop()
 {
-	isOnPlayMode = false;
+	editorPlayState = PlayState::STOPPED;
 	GetModule<ModuleInput>()->SetShowCursor(true);
 	GetModule<ModulePlayer>()->UnloadNewPlayer();
 	onPlayTimer.Stop();
 	GetModule<ModuleScene>()->OnStop();
+	GetModule<ModuleUI>()->ClearButtons();
 }
 
-void Application::OnPause()
+
+void Application::ScheduleTask(std::function<void(void)>&& taskToSchedule, std::uint16_t frameDelay)
 {
-	
+	if (scheduler != nullptr)
+	{
+		scheduler->ScheduleTask(Schedulable(std::move(taskToSchedule), frameDelay));
+	}
+	else
+	{
+		// should never happen, just in case
+		LOG_ERROR("Scheduler not initialized!!");
+	}
 }

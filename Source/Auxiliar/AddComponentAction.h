@@ -1,64 +1,47 @@
 #pragma once
 
-#include "GameObject/GameObject.h"
+#include "Enums/WritableEnum.h"
 
-enum class ComponentFunctionality
-{
+class GameObject;
+
+WRITABLE_ENUM(ComponentFunctionality,
 	NONE,
 	GRAPHICS,
 	PHYSICS,
 	GAMEPLAY,
-	AUDIO
-};
+	AUDIO,
+	NAVIGATION
+);
 
 struct AddComponentAction
 {
 	std::string actionName;
 	std::function<void(void)> callback;
-	std::function<bool(GameObject*)> condition;
 	ComponentFunctionality functionalGroup;
+	std::function<bool(GameObject*)> condition;
 
-	AddComponentAction(const std::string& actionName,
-					   const std::function<void(void)>& callback,
-					   const std::function<bool(GameObject*)>& condition,
+	AddComponentAction(std::string&& actionName,
+					   std::function<void(void)>&& callback,
+					   std::function<bool(GameObject*)>&& condition,
 					   ComponentFunctionality functionalGroup) :
-		actionName(actionName),
-		callback(callback),
-		condition(condition),
+		actionName(std::move(actionName)),
+		callback(std::move(callback)),
+		condition(std::move(condition)),
 		functionalGroup(functionalGroup)
 	{
 	}
 
-	AddComponentAction(const std::string& actionName,
-					   const std::function<void(void)>& callback,
-					   const std::function<bool(GameObject*)>& condition) :
-		AddComponentAction(actionName, callback, condition, ComponentFunctionality::NONE)
-	{
-	}
-
-	AddComponentAction(const std::string& actionName,
-					   const std::function<void(void)>& callback,
+	AddComponentAction(std::string&& actionName,
+					   std::function<void(void)>&& callback,
 					   ComponentFunctionality functionalGroup) :
 		AddComponentAction(
-			actionName,
-			callback,
+			std::move(actionName),
+			std::move(callback),
 			[](GameObject*)
 			{
 				return true;
 			},
 			functionalGroup)
-	{
-	}
-
-	AddComponentAction(const std::string& actionName, const std::function<void(void)>& callback) :
-		AddComponentAction(
-			actionName,
-			callback,
-			[](GameObject*)
-			{
-				return true;
-			},
-			ComponentFunctionality::NONE)
 	{
 	}
 

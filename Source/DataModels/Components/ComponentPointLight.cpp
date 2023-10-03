@@ -49,6 +49,7 @@ ComponentPointLight::ComponentPointLight(float radius, const float3& color, floa
 
 ComponentPointLight::~ComponentPointLight()
 {
+	deleting = true;
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	if (currentScene)
@@ -62,7 +63,8 @@ void ComponentPointLight::Draw() const
 {
 	bool canDrawLight =
 #ifdef ENGINE
-		IsEnabled() && !App->IsOnPlayMode() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+		IsEnabled() && App->GetPlayState() != Application::PlayState::RUNNING &&
+		GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 #else
 		IsEnabled() && App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawPointLight();
 #endif // ENGINE

@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/futuristic_roof_DefaultMaterial_BaseColor.png",
+    "NormalAssetPath": "Assets/Textures/futuristic_roof_DefaultMaterial_Normal_alter.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/futuristic_roof_DefaultMaterial_Metallic.png",
+    "EmissiveAssetPath": "Assets/Textures/futuristic_roof_DefaultMaterial_Emissive.png"
+}

@@ -9,6 +9,7 @@
 #include "Components/ComponentTransform.h"
 #include "GameObject/GameObject.h"
 #include "debugdraw.h"
+#include "Modules/ModuleDebugDraw.h"
 
 #ifndef ENGINE
 	#include "Modules/ModuleEditor.h"
@@ -76,13 +77,13 @@ void ModulePhysics::Reset()
 UpdateStatus ModulePhysics::PreUpdate()
 {
 #ifdef ENGINE
-	if (App->IsOnPlayMode())
+	if (App->GetPlayState() == Application::PlayState::RUNNING)
 	{
 		dynamicsWorld->stepSimulation(App->GetDeltaTime());
 		ManageCollisions();
 	}
 
-	if (drawableRigidBodies > 0)
+	if (App->GetModule<ModuleDebugDraw>()->IsShowingRigidBody())
 	{
 		dynamicsWorld->debugDrawWorld();
 	}
@@ -139,7 +140,7 @@ void ModulePhysics::ManageCollisions()
 			if (obj->getUserPointer() != nullptr)
 			{
 				ComponentRigidBody* rb = static_cast<ComponentRigidBody*>(obj->getUserPointer());
-				if (rb != nullptr)
+				if (rb != nullptr && (!rb->IsStatic() || rb->IsTrigger()) && rb->GetIsInCollisionWorld())
 				{
 					for (int j = 0; j < result.othersRigidBody.size(); j++)
 					{
@@ -200,7 +201,7 @@ void ModulePhysics::AddRigidBody(ComponentRigidBody* rb, btRigidBody* body)
 {
 	if (rigidBodyComponents[rb->GetID()] != nullptr)
 	{
-		LOG_WARNING("Trying to add rigidbody twice! Owner: {}", rb->GetOwner());
+		//LOG_WARNING("Trying to add rigidbody twice! Owner: {}", rb->GetOwner());
 		return;
 	}
 	dynamicsWorld->addRigidBody(body);
@@ -215,6 +216,17 @@ void ModulePhysics::RemoveRigidBody(ComponentRigidBody* rb, btRigidBody* body)
 		dynamicsWorld->removeRigidBody(body);
 	}
 	rigidBodyComponents.erase(rb->GetID());
+}
+
+void ModulePhysics::AddRigidBodyToSimulation(btRigidBody* body)
+{
+	
+	dynamicsWorld->addCollisionObject(body);
+}
+
+void ModulePhysics::RemoveRigidBodyFromSimulation(btRigidBody* body)
+{
+	dynamicsWorld->removeCollisionObject(body);
 }
 
 void ModulePhysics::UpdateDrawableRigidBodies(int value)

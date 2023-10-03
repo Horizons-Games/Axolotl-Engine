@@ -65,6 +65,20 @@ This engine has been created by [Horizons Games](https://github.com/Horizons-Gam
 - Add textures and spritesheet animations to a particle system.
 - Initialize almost every property of the particle system using random values.
 
+**Shadows**
+- Directional light shadows implemented with Sample Distribution shadow maps (SDSM)
+- Variance Shadow Mapping (VSM) for smoother shadows around the edges.
+- Cascade Shadow Maps implemented in order to improve shadow resolution in big scenes
+
+**Component Line**
+
+**Trails**
+
+**Bloom & Tone mapping**
+
+**SSAO**
+- Gaussian blurred Screen space ambient occlusion with smooth radius cutoff, and configurable range check and bias.
+
 **Audio**
 - Create and configure audio sources
 
@@ -148,6 +162,13 @@ You can drag and drop different models and edit it's meshes and textures (loadin
 - Ctrl + S to save
 - Ctrl + Z to undo
 - Ctrl + Y to redo
+- F1 to toggle bloom
+- F2 to change tone mapping
+- F3 to toggle shadows on/off
+- F4 to toggle VSM on/off
+- F5 to change the rendered buffer texture
+- F6 to toggle SSAO on/off
+- F7 to toggle CSM debugging on/off
 
 # Note
 

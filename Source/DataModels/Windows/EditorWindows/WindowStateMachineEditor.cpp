@@ -10,6 +10,7 @@
 #include "ImporterWindows/WindowResourceInput.h"
 #include "ModuleEditor.h"
 #include "Resources/ResourceStateMachine.h"
+#include "Animation/StateMachine.h"
 
 #include "Geometry/LineSegment2D.h"
 
@@ -32,16 +33,23 @@ WindowStateMachineEditor::WindowStateMachineEditor() :
 
 void WindowStateMachineEditor::SetResourceOnState(const std::shared_ptr<Resource>& resource)
 {
-	std::shared_ptr<ResourceStateMachine> stateAsShared = stateMachine.lock();
-	if (stateAsShared && stateIdSelected != -1)
+	if (stateMachine)
 	{
-		stateAsShared->SetStateResource(stateIdSelected, resource);
+		std::shared_ptr<ResourceStateMachine> stateAsShared = stateMachine->GetStateMachine();
+		if (stateAsShared && stateIdSelected != -1)
+		{
+			stateAsShared->SetStateResource(stateIdSelected, resource);
+		}
 	}
 }
 
 void WindowStateMachineEditor::DrawWindowContents()
 {
-	std::shared_ptr<ResourceStateMachine> stateAsShared = stateMachine.lock();
+	std::shared_ptr<ResourceStateMachine> stateAsShared;
+	if (stateMachine)
+	{
+		stateAsShared = stateMachine->GetStateMachine();
+	}
 
 	ImGui::BeginChild("Side_lists", ImVec2(310, 0));
 	if (stateAsShared)
@@ -125,18 +133,20 @@ void WindowStateMachineEditor::DrawWindowContents()
 	}
 
 	drawList->AddRectFilled(ImVec2(canvasP0.x + 10, canvasP0.y + 10),
-							ImVec2(canvasP0.x + 156, canvasP0.y + 30),
+							ImVec2(canvasP0.x + 276, canvasP0.y + 45),
 							IM_COL32(30, 30, 30, 255),
 							0.0f);
 
 	drawList->AddRect(ImVec2(canvasP0.x + 6, canvasP0.y + 6),
-					  ImVec2(canvasP0.x + 160, canvasP0.y + 34),
+					  ImVec2(canvasP0.x + 280, canvasP0.y + 50),
 					  IM_COL32(150, 150, 150, 255),
 					  0.0f);
 
 	ImGui::SetCursorScreenPos(ImVec2(canvasP0.x + 15, canvasP0.y + 12));
 	if (stateAsShared)
 	{
+		ImGui::Text(instanceName.c_str());
+		ImGui::SetCursorScreenPos(ImVec2(canvasP0.x + 15, canvasP0.y + 28));
 		ImGui::Text(stateAsShared->GetFileName().c_str());
 	}
 	else
@@ -172,7 +182,7 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 	const std::string* oldName = nullptr;
 	std::string newName;
 	TypeFieldPairParameter field;
-	for (const auto& it : stateAsShared->GetParameters())
+	for (const auto& it : stateMachine->GetMapParameters())
 	{
 		std::string name = it.first;
 		name.resize(24);
@@ -180,6 +190,7 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 		if (ImGui::Button(("x##" + name).c_str()))
 		{
 			stateAsShared->EraseParameter(name.c_str());
+			stateMachine->SetMapParameters(stateAsShared->GetParameters());
 			break;
 		}
 		ImGui::SameLine();
@@ -204,12 +215,14 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 				if (ImGui::DragFloat(("##Float" + name).c_str(), &std::get<float>(value)))
 				{
 					stateAsShared->SetParameter(it.first, value);
+					stateMachine->SetParameter(it.first, value);
 				}
 				break;
 			case FieldTypeParameter::BOOL:
 				if (ImGui::Checkbox(("##Bool" + name).c_str(), &std::get<bool>(value)))
 				{
 					stateAsShared->SetParameter(it.first, value);
+					stateMachine->SetParameter(it.first, value);
 				}
 				break;
 			default:
@@ -221,6 +234,7 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 	{
 		stateAsShared->EraseParameter(*oldName);
 		stateAsShared->AddParameter(newName.c_str(), field.first, field.second);
+		stateMachine->SetMapParameters(stateAsShared->GetParameters());
 	}
 }
 
@@ -297,7 +311,7 @@ void WindowStateMachineEditor::DrawTransitionEditor(std::shared_ptr<ResourceStat
 			ImGui::SameLine();
 
 			Condition& condition = it->second.conditions[i];
-			ImGui::SetNextItemWidth(90);
+			ImGui::SetNextItemWidth(120);
 			if (ImGui::BeginCombo(("##comboName" + std::to_string(i)).c_str(), condition.parameter.c_str()))
 			{
 				for (const auto& parameter : stateAsShared->GetParameters())
@@ -457,6 +471,10 @@ void WindowStateMachineEditor::DrawTransitions(std::shared_ptr<ResourceStateMach
 
 		ImU32 color = IM_COL32(255, 255, 255, 255);
 
+		if (App->GetPlayState() != Application::PlayState::STOPPED && it.first == stateMachine->GetLastTranstionID())
+		{
+			color = IM_COL32(250, 100, 20, 255);
+		}
 		if (transitionIdSelected == it.first)
 		{
 			color = IM_COL32(240, 180, 20, 255);
@@ -556,43 +574,38 @@ void WindowStateMachineEditor::DrawStates(std::shared_ptr<ResourceStateMachine>&
 				}
 			}
 
-			if (i != 0)
-			{
-				ImU32 colorRectFilled = IM_COL32(100, 100, 120, 255);
-				ImU32 colorRectMultiColorUp = IM_COL32(65, 65, 75, 255);
-				ImU32 colorRectMultiColorDown = IM_COL32(25, 25, 45, 255);
+			ImU32 colorRectFilled = IM_COL32(100, 100, 120, 255);
+			ImU32 colorRectMultiColorUp = IM_COL32(65, 65, 75, 255);
+			ImU32 colorRectMultiColorDown = IM_COL32(25, 25, 45, 255);
 
-				if (stateIdSelected == i)
-				{
-					colorRectFilled = IM_COL32(240, 180, 20, 255);
-					colorRectMultiColorUp = IM_COL32(245, 208, 11, 255);
-					colorRectMultiColorDown = IM_COL32(186, 120, 2, 255);
-				}
-
-				drawList->AddRectFilled(ImVec2(minRect.x - 2, minRect.y - 2),
-										ImVec2(maxRect.x + 2, maxRect.y + 2), colorRectFilled,
-										4.0f);
-				drawList->AddRectFilledMultiColor(minRect,
-												  maxRect,
-												  colorRectMultiColorUp,
-												  colorRectMultiColorUp,
-												  colorRectMultiColorDown,
-												  colorRectMultiColorDown);
-			}
-			else
+			if (i == 0)
 			{
-				//Entry State
-				drawList->AddRectFilled(ImVec2(minRect.x - 2, minRect.y - 2),
-										ImVec2(maxRect.x + 2, maxRect.y + 2),
-										IM_COL32(0, 120, 0, 255),
-										4.0f);
-				drawList->AddRectFilledMultiColor(minRect,
-												  maxRect,
-												  IM_COL32(0, 125, 0, 255),
-												  IM_COL32(0, 125, 0, 255),
-												  IM_COL32(0, 85, 0, 255),
-												  IM_COL32(0, 85, 0, 255));
+				colorRectFilled = IM_COL32(0, 120, 0, 255);
+				colorRectMultiColorUp = IM_COL32(0, 125, 0, 255);
+				colorRectMultiColorDown = IM_COL32(0, 85, 0, 255);
 			}
+
+			if (stateIdSelected == i)
+			{
+				colorRectFilled = IM_COL32(240, 180, 20, 255);
+				colorRectMultiColorUp = IM_COL32(245, 208, 11, 255);
+				colorRectMultiColorDown = IM_COL32(186, 120, 2, 255);
+			}
+			else if (App->GetPlayState() != Application::PlayState::STOPPED && stateMachine->GetActualStateID() == i)
+			{
+				colorRectFilled = IM_COL32(250, 100, 20, 255);
+				colorRectMultiColorUp = IM_COL32(255, 120, 11, 255);
+				colorRectMultiColorDown = IM_COL32(200, 80, 2, 255);
+			}
+			
+			drawList->AddRectFilled(
+				ImVec2(minRect.x - 2, minRect.y - 2), ImVec2(maxRect.x + 2, maxRect.y + 2), colorRectFilled, 4.0f);
+			drawList->AddRectFilledMultiColor(minRect,
+											  maxRect,
+											  colorRectMultiColorUp,
+											  colorRectMultiColorUp,
+											  colorRectMultiColorDown,
+											  colorRectMultiColorDown);
 
 			ImGui::SetNextItemWidth(150);
 			ImGui::SetCursorScreenPos(ImVec2(minRect.x + 25, minRect.y + 10));

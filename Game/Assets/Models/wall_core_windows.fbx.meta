@@ -1,0 +1,11 @@
+{
+    "UID": 12365116022198001848,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/wall_core_windows.Cube.004_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/wall_core_windowsDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
