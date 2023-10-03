@@ -480,6 +480,7 @@ UpdateStatus ModuleRender::Update()
 		glStencilMask(0x00); // disable writing to the stencil buffer 
 		glDisable(GL_STENCIL_TEST);
 	}
+
 	glDisable(GL_CULL_FACE);
 	glPolygonMode(GL_BACK, GL_FILL);
 
@@ -514,6 +515,12 @@ UpdateStatus ModuleRender::Update()
 	for (const GameObject* go : gameObjectsInFrustrum)
 	{
 		go->Render();
+	}
+
+	// ----- DRAW NAVMESH -----
+	if (navigation->GetNavMesh() != nullptr && navigation->GetDrawNavMesh())
+	{
+		navigation->DrawGizmos();
 	}
 
 	// -------- POST EFFECTS ---------------------
@@ -560,12 +567,6 @@ UpdateStatus ModuleRender::Update()
 		frustumCheckedCamera->Draw();
 	}
 #endif // ENGINE
-
-
-	if (navigation->GetNavMesh() != nullptr && navigation->GetDrawNavMesh())
-	{
-		navigation->DrawGizmos();
-	}
 
 #ifndef ENGINE
 	if (!App->IsDebuggingGame())
