@@ -38,8 +38,6 @@ void UIGameManager::Start()
 	componentSliderBixBack = sliderHudHealthBixBack->GetComponent<ComponentSlider>();
 	componentSliderBixFront->SetMaxValue(healthSystemClass->GetMaxHealth());
 	componentSliderBixBack->SetMaxValue(healthSystemClass->GetMaxHealth());
-
-
 }
 
 void UIGameManager::Update(float deltaTime)

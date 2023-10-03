@@ -34,8 +34,7 @@ void UIComboManager::Init()
 
 	shinnyButton->GetComponent<ComponentImage>();
 	shinnyButton1->GetComponent<ComponentImage>();
-	shinnyButton2->GetComponent<ComponentImage>();
-	
+	shinnyButton2->GetComponent<ComponentImage>();	
 }
 
 void UIComboManager::Update(float deltaTime)
