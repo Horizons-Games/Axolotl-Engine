@@ -82,7 +82,7 @@ void TutorialSystem::TutorialStart()
 {
 	
 	tutorialCurrentState = 0;
-	tutorialTotalStates =  tutorialUI.size();
+	tutorialTotalStates =  tutorialUI.size() - 1;
 	currentTutorialUI->Enable();
 	transform2D->SetPosition(initialPos);
 	transform2D->CalculateMatrices();

@@ -75,23 +75,7 @@ void CombatTutorial::Update(float deltaTime)
 		}
 	}
 
-	/*else if (tutorialActivable && userControllable && nextStateActive && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
-	{
-		tutorialUI->UnDeployUI();
-		
-		tutorialFinished = true;
-		nextStateActive = false;
-		tutorialFinished = true;
-
-	}
-
-	else if (tutorialActivable && userControllable && nextStateActive && tutorialFinished
-	&& input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
-	{
-		tutorialUI->TutorialEnd();
-
-
-	}*/
+	
 
 
 	
@@ -166,12 +150,13 @@ void CombatTutorial::Update(float deltaTime)
 
 	}
 
-	if (finalWaitTime <= 0)
+	if (tutorialFinished && !nextStateActive && finalWaitTime <= 0)
 	{
 		
 		tutorialUI->UnDeployUI();
 		tutorialFinished = false;
 		tutorialActivable = false;
+		finalWaitTime = 2.0f;
 	}
 
 }
@@ -198,7 +183,7 @@ void CombatTutorial::Update(float deltaTime)
 
  void CombatTutorial::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->CompareTag("Player") && tutorialFinished)
+	if (other->GetOwner()->CompareTag("Player") && !tutorialFinished)
 	{
 		tutorialUI->TutorialEnd();
 		LOG_INFO("TutorialExit");
