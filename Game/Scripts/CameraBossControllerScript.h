@@ -52,4 +52,7 @@ private:
 	float minMultiplier;
 	float maxDistance;
 	float maxMultiplier;
+	float HeightDistance;
+	float Heightmultiplier;
+	float multiplierWithHeight;
 };

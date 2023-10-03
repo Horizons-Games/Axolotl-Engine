@@ -29,6 +29,10 @@ CameraBossControllerScript::CameraBossControllerScript() : Script(),
 	REGISTER_FIELD(minMultiplier, float);
 	REGISTER_FIELD(maxDistance, float);
 	REGISTER_FIELD(maxMultiplier, float);
+	REGISTER_FIELD(HeightDistance, float);
+	REGISTER_FIELD(Heightmultiplier, float);
+	REGISTER_FIELD(multiplierWithHeight, float);
+
 }
 
 void CameraBossControllerScript::Start()
@@ -127,6 +131,7 @@ void CameraBossControllerScript::CalculateCameraPositionByBoss()
 	float3 playerPos = playerTransform->GetGlobalPosition();
 	float3 bossPos = bossTransform->GetGlobalPosition();
 	float3 vector = (playerPos - bossPos).Normalized();
+	float newyOffset = yOffset;
 
 	float distance = vector.Length();
 
@@ -146,6 +151,12 @@ void CameraBossControllerScript::CalculateCameraPositionByBoss()
 		multiplier = (1 - t) * minMultiplier + t * maxMultiplier;
 	}
 
-	float3 offset = float3(vector.x * multiplier, yOffset, vector.z * multiplier);
+	if (bossPos.y > playerPos.y + HeightDistance)
+	{
+		newyOffset += Heightmultiplier;
+		multiplier += multiplierWithHeight;
+	}
+
+	float3 offset = float3(vector.x * multiplier, newyOffset, vector.z * multiplier);
 	CalculateOffsetVector(offset);
 }
