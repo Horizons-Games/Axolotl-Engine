@@ -471,7 +471,7 @@ void WindowStateMachineEditor::DrawTransitions(std::shared_ptr<ResourceStateMach
 
 		ImU32 color = IM_COL32(255, 255, 255, 255);
 
-		if (App->IsOnPlayMode() && it.first == stateMachine->GetLastTranstionID())
+		if (App->GetPlayState() != Application::PlayState::STOPPED && it.first == stateMachine->GetLastTranstionID())
 		{
 			color = IM_COL32(250, 100, 20, 255);
 		}
@@ -591,7 +591,7 @@ void WindowStateMachineEditor::DrawStates(std::shared_ptr<ResourceStateMachine>&
 				colorRectMultiColorUp = IM_COL32(245, 208, 11, 255);
 				colorRectMultiColorDown = IM_COL32(186, 120, 2, 255);
 			}
-			else if (App->IsOnPlayMode() && stateMachine->GetActualStateID() == i)
+			else if (App->GetPlayState() != Application::PlayState::STOPPED && stateMachine->GetActualStateID() == i)
 			{
 				colorRectFilled = IM_COL32(250, 100, 20, 255);
 				colorRectMultiColorUp = IM_COL32(255, 120, 11, 255);

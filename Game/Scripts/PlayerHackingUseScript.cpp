@@ -42,9 +42,8 @@ void PlayerHackingUseScript::Update(float deltaTime)
 	currentTime += deltaTime;
 
 	PlayerActions currentAction = playerManager->GetPlayerState();
-	bool isJumping = currentAction == PlayerActions::JUMPING || 
-		currentAction == PlayerActions::DOUBLEJUMPING || 
-		currentAction == PlayerActions::FALLING;
+	bool isJumping = currentAction == PlayerActions::JUMPING ||
+		currentAction == PlayerActions::DOUBLEJUMPING;
 
 	bool isAttacking = playerManager->GetAttackManager()->IsInAttackAnimation();
 		
@@ -205,12 +204,14 @@ void PlayerHackingUseScript::RestartHack()
 
 void PlayerHackingUseScript::DisableAllInteractions()
 {
-	playerManager->ParalyzePlayer(true);
+	playerManager->SetPlayerState(PlayerActions::IDLE);
+	playerManager->PausePlayer(true);
 }
 
 void PlayerHackingUseScript::EnableAllInteractions()
 {
-	playerManager->ParalyzePlayer(false);
+	playerManager->SetPlayerState(PlayerActions::IDLE);
+	playerManager->PausePlayer(false);
 }
 
 void PlayerHackingUseScript::FindHackZone(const std::string& tag)

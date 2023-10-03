@@ -33,10 +33,12 @@ LightAttackBullet::LightAttackBullet() :
 	particleSystem(nullptr), 
 	particleSystemTimer(1.0f), 
 	triggerParticleSystemTimer(false), 
-	particleSystemCurrentTimer(0.0f)
+	particleSystemCurrentTimer(0.0f),
+	bulletGravity(0.1f)
 {
 	REGISTER_FIELD(particleSystemTimer, float);
 	REGISTER_FIELD(maxDistanceBullet, float);
+	REGISTER_FIELD(bulletGravity, float);
 }
 
 void LightAttackBullet::Start()
@@ -72,7 +74,7 @@ void LightAttackBullet::Update(float deltaTime)
 
 	else
 	{
-		defaultTargetPos.y -= 0.1f;
+		defaultTargetPos.y -= bulletGravity;
 		rigidBody->SetKpForce(2.0f);
 
 		rigidBody->SetPositionTarget(defaultTargetPos);

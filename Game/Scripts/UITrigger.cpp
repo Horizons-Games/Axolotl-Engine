@@ -60,7 +60,11 @@ void UITrigger::Start()
 
 void UITrigger::Update(float deltaTime)
 {
-	setPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
+	if (setPlayer != App->GetModule<ModulePlayer>()->GetPlayer())
+	{
+		setPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
+	}
+
 	if(onTriggerState)
 	{
 		if (isWinTrigger)

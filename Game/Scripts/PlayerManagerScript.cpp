@@ -30,7 +30,8 @@ PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), play
 void PlayerManagerScript::Start()
 {
 	input = App->GetModule<ModuleInput>();
-	
+
+	rigidBodyManager = owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->getLinearVelocity();
 	jumpManager = owner->GetComponent<PlayerJumpScript>();
 	healthManager = owner->GetComponent<HealthSystem>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
@@ -99,11 +100,17 @@ PlayerMoveScript* PlayerManagerScript::GetMovementManager() const
 	return movementManager;
 }
 
-void PlayerManagerScript::ForcingJump(bool forcedJump)
+void PlayerManagerScript::TriggerJump(bool forcedJump)
 {
-	owner->GetComponent<ComponentRigidBody>()->SetGravity(playerGravity);
-	playerState = PlayerActions::JUMPING;
-	jumpManager->ChangingCurrentPlayer();
+	if (!forcedJump)
+	{
+		jumpManager->SetIsGrounded(!forcedJump);
+		playerState = PlayerActions::IDLE;
+	}
+	else
+	{
+		jumpManager->ToggleIsChangingPlayer();
+	}
 	jumpManager->SetCanJump(forcedJump);
 }
 
@@ -111,14 +118,14 @@ void PlayerManagerScript::PausePlayer(bool paused)
 {
 	ParalyzePlayer(paused);
 	healthManager->SetIsImmortal(paused);
-	attackManager->SetCanAttack(paused);
+	attackManager->SetCanAttack(!paused);
 	if (paused)
 	{
-		owner->GetComponent<ComponentRigidBody>()->SetGravity(btVector3(0,0,0));
+		owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(btVector3(0.f, 0.f, 0.f));
 	}
 	else
 	{
-		owner->GetComponent<ComponentRigidBody>()->SetGravity(playerGravity);
+		owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(rigidBodyManager);
 	}
 }
 PlayerAttackScript* PlayerManagerScript::GetAttackManager() const
@@ -133,13 +140,13 @@ bool PlayerManagerScript::IsParalyzed() const
 
 void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 {
-	playerState = PlayerActions::IDLE;
 	movementManager->SetIsParalyzed(paralyzed);
-	owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(btVector3(0.f,0.f,0.f));
 	jumpManager->SetCanJump(!paralyzed);
 	rotationManager->SetCanRotate(!paralyzed);
-	attackManager->SetCanAttack(!paralyzed);
-	isParalyzed = paralyzed;
+	if (attackManager->IsAttackAvailable())
+	{
+		attackManager->SetCanAttack(!paralyzed);
+	}
 }
 
 void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)

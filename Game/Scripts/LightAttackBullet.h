@@ -29,6 +29,7 @@ private:
 	float stunTime;
 	float damageAttack;
 	float maxDistanceBullet;
+	float bulletGravity;
 
 	float3 defaultTargetPos;
 

@@ -15,6 +15,7 @@
 
 #include "../Scripts/PlayerManagerScript.h"
 #include "PlayerAttackScript.h"
+#include "ParticleBillboardAssistance.h"
 
 #include "../Scripts/CameraControllerScript.h"
 
@@ -23,11 +24,14 @@
 
 REGISTERCLASS(SwitchPlayerManagerScript);
 
-SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr), isSwitchAvailable(true), changingPlayerTime{ 1000.f, 2000.f},
-	playerHealthBar(nullptr), secondPlayerHealthBar(nullptr)
+SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr),
+	modulePlayer(nullptr), isSwitchAvailable(true), changingPlayerTime{200.f, 800.f, 1800.f},
+	currentPlayerHealthBar(nullptr), secondPlayerHealthBar(nullptr), currentHealthBarTransform(nullptr),
+	secondHealthBarTransform(nullptr), currentPlayerTransform(nullptr), secondPlayerTransform(nullptr),
+	particlesTransofrm(nullptr), isSecondJumpAvailable(true)
 {
 	REGISTER_FIELD(isSwitchAvailable, bool);
-	REGISTER_FIELD(playerHealthBar, GameObject*);
+	REGISTER_FIELD(currentPlayerHealthBar, GameObject*);
 	REGISTER_FIELD(secondPlayerHealthBar, GameObject*);
 	REGISTER_FIELD(secondPlayer, GameObject*);
 	REGISTER_FIELD(switchPlayersParticlesPrefab, GameObject*);
@@ -36,16 +40,23 @@ SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullpt
 void SwitchPlayerManagerScript::Start()
 {
 	input = App->GetModule<ModuleInput>();
+	modulePlayer = App->GetModule<ModulePlayer>();
+
+	currentPlayer = modulePlayer->GetPlayer();
+
+	currentHealthBarTransform = currentPlayerHealthBar->GetComponent<ComponentTransform2D>();
+	secondHealthBarTransform = secondPlayerHealthBar->GetComponent<ComponentTransform2D>();
+	currentPlayerTransform = currentPlayer->GetComponent<ComponentTransform>();
+	secondPlayerTransform = secondPlayer->GetComponent<ComponentTransform>();
 	
-	mainCamera = App->GetModule<ModulePlayer>()->GetCameraPlayerObject();
+	mainCamera = modulePlayer->GetCameraPlayerObject();
 
 	camera = mainCamera->GetComponent<CameraControllerScript>();
 	cameraTransform = mainCamera->GetComponent<ComponentTransform>();
 
-	currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
 	playerManager = currentPlayer->GetComponent<PlayerManagerScript>();
 
-	camera->ChangeCurrentPlayer(currentPlayer->GetComponent<ComponentTransform>());
+	camera->ChangeCurrentPlayer(currentPlayerTransform);
 
 	if (switchPlayersParticlesPrefab)
 	{
@@ -68,48 +79,48 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 	{
 		HandleChangeCurrentPlayer();
 
-		if(isSwitchingHealthBars)
+		if (isSwitchingHealthBars)
 		{
-			float t = (changePlayerTimer.Read() - changingPlayerTime[0]) / 1000;
+			float switchingBarsTime = (changePlayerTimer.Read() - changingPlayerTime[0]) / 1000;
 			
 			// Interpolate position and scale
 			float3 newCurrentPlayerPosition = float3(
-				Lerp(playerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().x, secondHealthBarPosition.x, t),
-				Lerp(playerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().y, secondHealthBarPosition.y, t),
+				Lerp(currentHealthBarTransform->GetPosition().x, secondHealthBarPosition.x, switchingBarsTime),
+				Lerp(currentHealthBarTransform->GetPosition().y, secondHealthBarPosition.y, switchingBarsTime),
 				secondHealthBarPosition.z
 			);
 
 			float3 newCurrentPlayerScale = float3(
-				Lerp(playerHealthBar->GetComponent<ComponentTransform2D>()->GetScale().x, secondHealthBarScale.x, t),
-				Lerp(playerHealthBar->GetComponent<ComponentTransform2D>()->GetScale().y, secondHealthBarScale.y, t),
+				Lerp(currentHealthBarTransform->GetScale().x, secondHealthBarScale.x, switchingBarsTime),
+				Lerp(currentHealthBarTransform->GetScale().y, secondHealthBarScale.y, switchingBarsTime),
 				secondHealthBarScale.z
 			);
 
 			float3 newSecondPlayerPosition = float3(
-				Lerp(secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().x, currentHealthBarPosition.x, t),
-				Lerp(secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition().y, currentHealthBarPosition.y, t),
+				Lerp(secondHealthBarTransform->GetPosition().x, currentHealthBarPosition.x, switchingBarsTime),
+				Lerp(secondHealthBarTransform->GetPosition().y, currentHealthBarPosition.y, switchingBarsTime),
 				currentHealthBarPosition.z
 			);
 
 			float3 newSecondPlayerScale = float3(
-				Lerp(secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetScale().x, currentHealthBarScale.x, t),
-				Lerp(secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetScale().y, currentHealthBarScale.y, t),
+				Lerp(secondHealthBarTransform->GetScale().x, currentHealthBarScale.x, switchingBarsTime),
+				Lerp(secondHealthBarTransform->GetScale().y, currentHealthBarScale.y, switchingBarsTime),
 				secondHealthBarScale.z
 			);
 
 			// Set the interpolated values
-			playerHealthBar->GetComponent<ComponentTransform2D>()->SetPosition(newCurrentPlayerPosition);
-			playerHealthBar->GetComponent<ComponentTransform2D>()->SetScale(newCurrentPlayerScale);
-			playerHealthBar->GetComponent<ComponentTransform2D>()->CalculateMatrices();
+			currentHealthBarTransform->SetPosition(newCurrentPlayerPosition);
+			currentHealthBarTransform->SetScale(newCurrentPlayerScale);
+			currentHealthBarTransform->CalculateMatrices();
 			
-			secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->SetPosition(newSecondPlayerPosition);
-			secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->SetScale(newSecondPlayerScale);
-			secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->CalculateMatrices();
+			secondHealthBarTransform->SetPosition(newSecondPlayerPosition);
+			secondHealthBarTransform->SetScale(newSecondPlayerScale);
+			secondHealthBarTransform->CalculateMatrices();
 
 		}
 	}
-
-	if (actualSwitchPlayersParticles && actualSwitchPlayersParticles->GetComponent<ComponentParticleSystem>()->IsFinished())
+	if (actualSwitchPlayersParticles && 
+		actualSwitchPlayersParticles->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->IsFinished())
 	{
 		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualSwitchPlayersParticles);
 		actualSwitchPlayersParticles = nullptr;
@@ -126,16 +137,20 @@ void SwitchPlayerManagerScript::VisualSwitchEffect()
 	Scene* loadScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	if (actualSwitchPlayersParticles)
 	{
-		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualSwitchPlayersParticles);
+		loadScene->DestroyGameObject(actualSwitchPlayersParticles);
 	}
 
-	actualSwitchPlayersParticles = loadScene->DuplicateGameObject(switchPlayersParticlesPrefab->GetName(), switchPlayersParticlesPrefab, loadScene->GetRoot());
-	actualSwitchPlayersParticles->GetComponent<ComponentParticleSystem>()->Enable();
-	actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->SetGlobalPosition(float3 (currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().x,
-		currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().y + 2, currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition().z));
-	actualSwitchPlayersParticles->GetComponent<ComponentTransform>()->RecalculateLocalMatrix();
+	actualSwitchPlayersParticles = loadScene->DuplicateGameObject(switchPlayersParticlesPrefab->GetName(),
+		switchPlayersParticlesPrefab, loadScene->GetRoot());
+	particlesTransofrm = actualSwitchPlayersParticles->GetComponent<ComponentTransform>();
 
-	actualSwitchPlayersParticles->GetComponent<ComponentParticleSystem>()->Play();
+	particlesTransofrm->SetGlobalPosition(float3 (currentPlayerTransform->GetGlobalPosition().x,
+		currentPlayerTransform->GetGlobalPosition().y + 0.9f, currentPlayerTransform->GetGlobalPosition().z));
+	particlesTransofrm->RecalculateLocalMatrix();
+	particlesTransofrm->UpdateTransformMatrices();
+	actualSwitchPlayersParticles->GetComponent<ParticleBillboardAssistance>()->UpdateTransform();
+	actualSwitchPlayersParticles->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Enable();
+	actualSwitchPlayersParticles->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
 }
 
 void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
@@ -144,10 +159,13 @@ void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 	componentAnimation->SetParameter("IsJumping", true);
 	camera->ToggleCameraState();
 	currentPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(true);
-	playerManager->ForcingJump(true);
+	playerManager->TriggerJump(true);
+
+	currentPlayerTransform = currentPlayer->GetComponent<ComponentTransform>();
+	secondPlayerTransform = secondPlayer->GetComponent<ComponentTransform>();
 
 	// The position where the newCurrentPlayer will appear
-	positionPlayer = currentPlayer->GetComponent<ComponentTransform>()->GetGlobalPosition();
+	playerPosition = currentPlayerTransform->GetGlobalPosition();
 
 	changePlayerTimer.Start();
 	isChangingPlayer = true;
@@ -155,15 +173,16 @@ void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 
 void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 {
-	if (changePlayerTimer.Read() >= changingPlayerTime[1])
+	if (changePlayerTimer.Read() >= changingPlayerTime[2])
 	{	
-		camera->ChangeCurrentPlayer(secondPlayer->GetComponent<ComponentTransform>());
+		camera->ChangeCurrentPlayer(secondPlayerTransform);
 
 		changePlayerTimer.Stop();
 		isChangingPlayer = false;
 		isNewPlayerEnabled = !isNewPlayerEnabled;
+		isSecondJumpAvailable = !isSecondJumpAvailable;
 		GameObject* changePlayerGameObject = currentPlayer;
-		currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
+		currentPlayer = modulePlayer->GetPlayer();
 		secondPlayer = changePlayerGameObject;
 
 		playerManager = currentPlayer->GetComponent<PlayerManagerScript>();
@@ -173,20 +192,19 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 
 		// Finish Switch HealthBars
 		isSwitchingHealthBars = false;
-		playerHealthBar->GetComponent<ComponentTransform2D>()->SetPosition(secondHealthBarPosition);
-		playerHealthBar->GetComponent<ComponentTransform2D>()->SetScale(secondHealthBarScale);
-		playerHealthBar->GetComponent<ComponentTransform2D>()->CalculateMatrices();
+		currentHealthBarTransform->SetPosition(secondHealthBarPosition);
+		currentHealthBarTransform->SetScale(secondHealthBarScale);
+		currentHealthBarTransform->CalculateMatrices();
 	
-		secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->SetPosition(currentHealthBarPosition);
-		secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->SetScale(currentHealthBarScale);
-		secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->CalculateMatrices();
+		secondHealthBarTransform->SetPosition(currentHealthBarPosition);
+		secondHealthBarTransform->SetScale(currentHealthBarScale);
+		secondHealthBarTransform->CalculateMatrices();
 	}
-
-	else if (changePlayerTimer.Read() >= changingPlayerTime[0] && !isNewPlayerEnabled)
+	else if (changePlayerTimer.Read() >= changingPlayerTime[1] && !isNewPlayerEnabled)
 	{
 		// Disabling the current player
 		currentPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(false);
-		playerManager->ForcingJump(false);
+		playerManager->TriggerJump(false);
 
 		componentAnimation->SetParameter("IsFalling", true);
 		VisualSwitchEffect();
@@ -196,30 +214,36 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		SwitchHealthBars();
 		
 		// Enabling the new current player
+		secondPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(true);
 		secondPlayer->Enable();
 		secondPlayer->GetComponent<PlayerAttackScript>()->PlayWeaponSounds();;
-		secondPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(true);
 
 		secondPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(true);
 
-		secondPlayer->GetComponent<ComponentTransform>()->SetGlobalPosition(positionPlayer);
-		secondPlayer->GetComponent<ComponentTransform>()->SetGlobalRotation(currentPlayer->GetComponent<ComponentTransform>()->GetGlobalRotation());
+		playerPosition.y += 0.5f;
+		secondPlayerTransform->SetGlobalPosition(playerPosition);
+		secondPlayerTransform->SetGlobalRotation(currentPlayerTransform->GetGlobalRotation());
 		secondPlayer->GetComponent<ComponentRigidBody>()->UpdateRigidBody();
 		isNewPlayerEnabled = !isNewPlayerEnabled;
+	}
+	else if (changePlayerTimer.Read() >= changingPlayerTime[0] && isSecondJumpAvailable)
+	{
+		playerManager->TriggerJump(true);
+		isSecondJumpAvailable = !isSecondJumpAvailable;
 	}
 }
 
 void SwitchPlayerManagerScript::SwitchHealthBars()
 {
-	currentHealthBarPosition = playerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition();
-	currentHealthBarScale = playerHealthBar->GetComponent<ComponentTransform2D>()->GetScale();
-	secondHealthBarPosition = secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetPosition();
-	secondHealthBarScale = secondPlayerHealthBar->GetComponent<ComponentTransform2D>()->GetScale();
+	currentHealthBarPosition = currentHealthBarTransform->GetPosition();
+	currentHealthBarScale = currentHealthBarTransform->GetScale();
+	secondHealthBarPosition = secondHealthBarTransform->GetPosition();
+	secondHealthBarScale = secondHealthBarTransform->GetScale();
 
 	isSwitchingHealthBars = true;
 }
 
-GameObject* SwitchPlayerManagerScript::GetSecondPlayer()
+GameObject* SwitchPlayerManagerScript::GetSecondPlayer() const
 {
 	return secondPlayer;
 }

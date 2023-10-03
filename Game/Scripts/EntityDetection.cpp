@@ -44,7 +44,6 @@ void EntityDetection::Start()
 
 void EntityDetection::UpdateEnemyDetection(float distanceFilter)
 {
-	player = App->GetModule<ModulePlayer>()->GetPlayer();
 	rigidBody->UpdateRigidBody();
 
 	vecForward = playerTransform->GetGlobalForward();

@@ -3,7 +3,7 @@
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
 #include "ModuleInput.h"
-#include "Bullet/LinearMath/btVector3.h"
+#include "Bullet\LinearMath\btVector3.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -42,7 +42,7 @@ public:
 
 	void ParalyzePlayer(bool paralyzed);
 	void PausePlayer(bool paused);
-	void ForcingJump(bool forcedJump);
+	void TriggerJump(bool forcedJump);
 	bool IsParalyzed() const;
 
 	bool IsGrounded() const;
@@ -76,4 +76,5 @@ private:
 	PlayerAttackScript* attackManager;
 	DebugGame* debugManager;
 	PlayerRotationScript* rotationManager;
+	btVector3 rigidBodyManager;
 };
