@@ -214,9 +214,9 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		SwitchHealthBars();
 		
 		// Enabling the new current player
+		secondPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(true);
 		secondPlayer->Enable();
 		secondPlayer->GetComponent<PlayerAttackScript>()->PlayWeaponSounds();;
-		secondPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(true);
 
 		secondPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(true);
 
