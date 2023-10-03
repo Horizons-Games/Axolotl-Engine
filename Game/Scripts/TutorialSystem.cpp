@@ -18,6 +18,8 @@
 
 #include "..\Game\Scripts\PlayerManagerScript.h"
 #include "..\Game\Scripts\PlayerManagerScript.h"
+#include "..\Game\Scripts\UIImageDisplacementControl.h"
+#include "..\Game\Scripts\HealthSystem.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -25,39 +27,61 @@
 REGISTERCLASS(TutorialSystem);
 
 TutorialSystem::TutorialSystem() :
-	Script(), userControllable(false), tutorialCurrentState(0), tutorialTotalStates(0)
+	Script(), userControllable(false), tutorialCurrentState(0), tutorialTotalStates(0), stateWaitTime(0.0f), 
+	totalStateWaitTime(0.0f), dummy(nullptr), numNotControllableStates(0.0f)
 {
 
 	REGISTER_FIELD(userControllable, bool);
+	REGISTER_FIELD(totalStateWaitTime, float);
+	REGISTER_FIELD(stateWaitTime, float);
+
+	REGISTER_FIELD(numNotControllableStates, float);
 
 	/*REGISTER_FIELD(tutorialCurrentState, float);
 	REGISTER_FIELD(tutorialTotalStates, float);*/
 
 	REGISTER_FIELD(tutorialUI, std::vector<GameObject*>);
+	REGISTER_FIELD(dummy, GameObject*);
 }
 
 
 
 void TutorialSystem::Start()
 {
-	//componentAudio = owner->GetComponent<ComponentAudioSource>();
-	// = owner->GetComponent<ComponentAnimation>();
-	//TutorialStart();
+	
 	currentTutorialUI = tutorialUI.front();
+	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
+	isWaiting = false;
+	stateWaitTime = totalStateWaitTime;
+	dummyHealthSystem = dummy->GetComponent<HealthSystem>();
 }
 
 void TutorialSystem::Update(float deltaTime)
 {
-	
+	if (isWaiting)
+	{
+		stateWaitTime-= deltaTime;
+	}
+
+	if (stateWaitTime <= 0)
+	{
+		isWaiting = false;
+		stateWaitTime = totalStateWaitTime;
+		DeployUI();
+		
+		
+	}
 
 }
 
 void TutorialSystem::TutorialStart()
 {
-	//currentTutorialUI = tutorialUI.front();
+	
 	tutorialCurrentState = 0;
 	tutorialTotalStates =  tutorialUI.size();
 	currentTutorialUI->Enable();
+	displacementControl->MoveImageToEndPosition();
+	
 
 }
 
@@ -65,7 +89,7 @@ void TutorialSystem::NextState()
 {
 	if (tutorialCurrentState < tutorialTotalStates)
 	{
-		DeployUI();
+		UnDeployUI();
 		
 	}
 
@@ -80,18 +104,56 @@ void TutorialSystem::NextState()
 
 void TutorialSystem::DeployUI()
 {
+	currentTutorialUI->Enable();
 	
-	currentTutorialUI->Disable();
-	NextTutorialUI = tutorialUI[tutorialCurrentState + 1];
-	NextTutorialUI->Enable();
-	tutorialCurrentState++;
-	currentTutorialUI = tutorialUI[tutorialCurrentState];
+	displacementControl->MoveImageToEndPosition();
+
+	if (tutorialCurrentState == int(numNotControllableStates))
+	{
+		dummyHealthSystem->SetIsImmortal(false);
+
+	}
+	
+	
+	//NextTutorialUI = tutorialUI[tutorialCurrentState + 1];
+
 	
 	
 }
 
+//void TutorialSystem::DeployUI()
+//{
+//
+//	//currentTutorialUI->Disable();
+//	displacementControl->MoveImageToEndPosition();
+//
+//	NextTutorialUI = tutorialUI[tutorialCurrentState + 1];
+//
+//	//displacementControl->MoveImageToStarPosition();
+//	////NextTutorialUI->Enable();
+//	//tutorialCurrentState++;
+//	//currentTutorialUI = tutorialUI[tutorialCurrentState];
+//	//displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
+
+void TutorialSystem::UnDeployUI()
+{
+	isWaiting = true;
+	
+
+	displacementControl->MoveImageToStarPosition();
+
+	//currentTutorialUI->Disable();
+	//NextTutorialUI->Enable();
+	tutorialCurrentState++;
+	currentTutorialUI = tutorialUI[tutorialCurrentState];
+	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
+	tutorialUI[tutorialCurrentState - 1]->Disable();
+	dummyHealthSystem->SetIsImmortal(true);
+}
+
 void TutorialSystem::TutorialEnd()
 {
+	//displacementControl->MoveImageToStarPosition();
 	currentTutorialUI->Disable();
 	tutorialCurrentState = 0;
 	currentTutorialUI = tutorialUI.front();
@@ -102,6 +164,13 @@ int TutorialSystem::GetTutorialCurrentState() const
 {
 
 	return tutorialCurrentState;
+
+}
+
+float TutorialSystem::GetNumControllableState() const
+{
+
+	return numNotControllableStates;
 
 }
 

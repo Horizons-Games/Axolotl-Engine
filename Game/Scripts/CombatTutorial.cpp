@@ -59,10 +59,12 @@ void CombatTutorial::Update(float deltaTime)
 	if (tutorialActivable && userControllable && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
 	{
 		
-
+		tutorialUI->UnDeployUI();
+		dummyHealthSystem->SetIsImmortal(true);
+		//tutorialUI->DeployUI();
 		
-		tutorialUI->NextState();
-		if (tutorialUI->GetTutorialCurrentState() == 3)
+		//tutorialUI->NextState();
+		if (tutorialUI->GetTutorialCurrentState() == int(tutorialUI->GetNumControllableState()))
 		{
 			dummyHealthSystem->SetIsImmortal(false);
 			userControllable = false;
@@ -71,25 +73,17 @@ void CombatTutorial::Update(float deltaTime)
 
 		}
 	}
-
-	//else if (dummyHealthSystem->GetCurrentHealth() < dummyHealthSystem->GetMaxHealth() && dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.75 && nextStateActive)
-	//{
-	//	//JumpAttack
-	//	LOG_INFO("Tutorial:BasicAttacks");
-
-	//	tutorialUI->NextState();
-	//	nextStateActive = false;
-	//}
 	
-
-
 	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.75 
 		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.50 && !nextStateActive)
 	{
 		//JumpAttack
 		LOG_INFO("Tutorial:JumpAttack");
-		
-			tutorialUI->NextState();
+			
+			tutorialUI->UnDeployUI();
+			//tutorialUI->DeployUI();
+
+			//tutorialUI->NextState();
 			nextStateActive = true;
 	}
 
@@ -99,9 +93,10 @@ void CombatTutorial::Update(float deltaTime)
 		//SpecialLightAttack
 		LOG_INFO("Tutorial:SpecialLightAttack");
 		
-
+		tutorialUI->UnDeployUI();
+		//tutorialUI->DeployUI();
 		
-			tutorialUI->NextState();
+			//tutorialUI->NextState();
 			nextStateActive = false;
 		
 
@@ -113,9 +108,10 @@ void CombatTutorial::Update(float deltaTime)
 		//SpecialHeavyAttack
 		LOG_INFO("Tutorial:SpecialHeavyAttack");
 		
-
+		tutorialUI->UnDeployUI();
+		//tutorialUI->DeployUI();
 	
-			tutorialUI->NextState();
+			//tutorialUI->NextState();
 			nextStateActive = true;
 		
 
@@ -126,9 +122,10 @@ void CombatTutorial::Update(float deltaTime)
 		//SpecialHeavyAttack
 		LOG_INFO("Tutorial:END");
 
+		tutorialUI->UnDeployUI();
+		//tutorialUI->DeployUI();
 
-
-		tutorialUI->NextState();
+		//tutorialUI->NextState();
 		nextStateActive = false;
 
 
