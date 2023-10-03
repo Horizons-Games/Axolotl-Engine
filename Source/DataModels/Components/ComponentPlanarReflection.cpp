@@ -170,8 +170,6 @@ void ComponentPlanarReflection::UpdateReflection()
 	frustum->SetFront(mirrorFront);
 	frustum->SetUp(mirrorUp);
 
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Planar Reflection")), "Planar Reflection");
-
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	float color[4] = { 0.f, 0.f, 0.f, 0.f };
@@ -185,6 +183,8 @@ void ComponentPlanarReflection::UpdateReflection()
 
 	modRender->BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT), *frustum);
 	modRender->BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR), *frustum);
+
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Planar Reflection")), "Planar Reflection");
 
 	modRender->SortOpaques(objectsInFrustum, frustum->Pos());
 	modRender->DrawMeshesByFilter(objectsInFrustum, ProgramType::DEFAULT, false);
@@ -238,6 +238,10 @@ void ComponentPlanarReflection::InternalSave(Json& meta)
 	meta["influence_max_y"] = influenceAABB.maxPoint.y;
 	meta["influence_max_z"] = influenceAABB.maxPoint.z;
 
+	meta["scale_x"] = scale.x;
+	meta["scale_y"] = scale.y;
+	meta["scale_z"] = scale.z;
+
 	meta["planeNormal_x"] = planeNormal.x;
 	meta["planeNormal_y"] = planeNormal.y;
 	meta["planeNormal_z"] = planeNormal.z;
@@ -252,6 +256,10 @@ void ComponentPlanarReflection::InternalLoad(const Json& meta)
 	influenceAABB.minPoint.x = static_cast<float>(meta["influence_min_x"]);
 	influenceAABB.minPoint.y = static_cast<float>(meta["influence_min_y"]);
 	influenceAABB.minPoint.z = static_cast<float>(meta["influence_min_z"]);
+
+	scale.x = static_cast<float>(meta["scale_x"]);
+	scale.y = static_cast<float>(meta["scale_y"]);
+	scale.z = static_cast<float>(meta["scale_z"]);
 
 	influenceAABB.maxPoint.x = static_cast<float>(meta["influence_max_x"]);
 	influenceAABB.maxPoint.y = static_cast<float>(meta["influence_max_y"]);
