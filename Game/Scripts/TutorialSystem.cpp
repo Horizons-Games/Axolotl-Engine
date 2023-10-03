@@ -20,6 +20,7 @@
 #include "..\Game\Scripts\PlayerManagerScript.h"
 #include "..\Game\Scripts\UIImageDisplacementControl.h"
 #include "..\Game\Scripts\HealthSystem.h"
+#include "Components/UI/ComponentTransform2D.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -28,7 +29,7 @@ REGISTERCLASS(TutorialSystem);
 
 TutorialSystem::TutorialSystem() :
 	Script(), userControllable(false), tutorialCurrentState(0), tutorialTotalStates(0), stateWaitTime(0.0f), 
-	totalStateWaitTime(0.0f), dummy(nullptr), numNotControllableStates(0.0f)
+	totalStateWaitTime(0.0f), dummy(nullptr), numNotControllableStates(0.0f), initialPos(45.0f, -195.0f, 0.0f)
 {
 
 	REGISTER_FIELD(userControllable, bool);
@@ -51,9 +52,12 @@ void TutorialSystem::Start()
 	
 	currentTutorialUI = tutorialUI.front();
 	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
+	transform2D = currentTutorialUI->GetComponent<ComponentTransform2D>();
 	isWaiting = false;
 	stateWaitTime = totalStateWaitTime;
 	dummyHealthSystem = dummy->GetComponent<HealthSystem>();
+	
+	
 }
 
 void TutorialSystem::Update(float deltaTime)
@@ -80,9 +84,11 @@ void TutorialSystem::TutorialStart()
 	tutorialCurrentState = 0;
 	tutorialTotalStates =  tutorialUI.size();
 	currentTutorialUI->Enable();
+	transform2D->SetPosition(initialPos);
+	transform2D->CalculateMatrices();
+	displacementControl->SetMovingToEnd(true);
 	displacementControl->MoveImageToEndPosition();
-	
-
+	//transform2D = currentTutorialUI->GetComponent<ComponentTransform2D>();
 }
 
 void TutorialSystem::NextState()
@@ -104,57 +110,44 @@ void TutorialSystem::NextState()
 
 void TutorialSystem::DeployUI()
 {
+	transform2D->SetPosition(initialPos);
+	transform2D->CalculateMatrices();
 	currentTutorialUI->Enable();
 	
+	displacementControl->SetMovingToEnd(true);
 	displacementControl->MoveImageToEndPosition();
 
 	if (tutorialCurrentState == int(numNotControllableStates))
 	{
 		dummyHealthSystem->SetIsImmortal(false);
 
-	}
-	
-	
-	//NextTutorialUI = tutorialUI[tutorialCurrentState + 1];
-
-	
+	}	
 	
 }
-
-//void TutorialSystem::DeployUI()
-//{
-//
-//	//currentTutorialUI->Disable();
-//	displacementControl->MoveImageToEndPosition();
-//
-//	NextTutorialUI = tutorialUI[tutorialCurrentState + 1];
-//
-//	//displacementControl->MoveImageToStarPosition();
-//	////NextTutorialUI->Enable();
-//	//tutorialCurrentState++;
-//	//currentTutorialUI = tutorialUI[tutorialCurrentState];
-//	//displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
 
 void TutorialSystem::UnDeployUI()
 {
 	isWaiting = true;
 	
-
+	displacementControl->SetMovingToEnd(false);
 	displacementControl->MoveImageToStarPosition();
+	
+	displacementControl->SetIsMoving(true);
 
 	//currentTutorialUI->Disable();
 	//NextTutorialUI->Enable();
 	tutorialCurrentState++;
 	currentTutorialUI = tutorialUI[tutorialCurrentState];
 	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
-	tutorialUI[tutorialCurrentState - 1]->Disable();
+	//tutorialUI[tutorialCurrentState - 1]->Disable();
 	dummyHealthSystem->SetIsImmortal(true);
 }
 
 void TutorialSystem::TutorialEnd()
 {
-	//displacementControl->MoveImageToStarPosition();
-	currentTutorialUI->Disable();
+	displacementControl->SetMovingToEnd(false);
+	displacementControl->MoveImageToStarPosition();
+	//currentTutorialUI->Disable();
 	tutorialCurrentState = 0;
 	currentTutorialUI = tutorialUI.front();
 	

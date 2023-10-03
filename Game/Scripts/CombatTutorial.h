@@ -33,6 +33,7 @@ private:
 	bool userControllable;
 	bool tutorialActivable;
 	bool nextStateActive;
+	bool tutorialFinished;
 
 	GameObject* player;
 	GameObject* combatTutorialUI;

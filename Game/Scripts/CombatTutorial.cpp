@@ -61,9 +61,7 @@ void CombatTutorial::Update(float deltaTime)
 		
 		tutorialUI->UnDeployUI();
 		dummyHealthSystem->SetIsImmortal(true);
-		//tutorialUI->DeployUI();
 		
-		//tutorialUI->NextState();
 		if (tutorialUI->GetTutorialCurrentState() == int(tutorialUI->GetNumControllableState()))
 		{
 			dummyHealthSystem->SetIsImmortal(false);
@@ -81,9 +79,8 @@ void CombatTutorial::Update(float deltaTime)
 		LOG_INFO("Tutorial:JumpAttack");
 			
 			tutorialUI->UnDeployUI();
-			//tutorialUI->DeployUI();
-
-			//tutorialUI->NextState();
+			dummyHealthSystem->SetIsImmortal(false);
+			
 			nextStateActive = true;
 	}
 
@@ -94,9 +91,8 @@ void CombatTutorial::Update(float deltaTime)
 		LOG_INFO("Tutorial:SpecialLightAttack");
 		
 		tutorialUI->UnDeployUI();
-		//tutorialUI->DeployUI();
+		dummyHealthSystem->SetIsImmortal(false);
 		
-			//tutorialUI->NextState();
 			nextStateActive = false;
 		
 
@@ -109,7 +105,7 @@ void CombatTutorial::Update(float deltaTime)
 		LOG_INFO("Tutorial:SpecialHeavyAttack");
 		
 		tutorialUI->UnDeployUI();
-		//tutorialUI->DeployUI();
+		dummyHealthSystem->SetIsImmortal(false);
 	
 			//tutorialUI->NextState();
 			nextStateActive = true;
@@ -123,10 +119,9 @@ void CombatTutorial::Update(float deltaTime)
 		LOG_INFO("Tutorial:END");
 
 		tutorialUI->UnDeployUI();
-		//tutorialUI->DeployUI();
-
-		//tutorialUI->NextState();
+		dummyHealthSystem->SetIsImmortal(false);
 		nextStateActive = false;
+		tutorialFinished = true;
 
 
 	}
@@ -155,15 +150,12 @@ void CombatTutorial::Update(float deltaTime)
 
  void CombatTutorial::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->CompareTag("Player"))
+	if (other->GetOwner()->CompareTag("Player") && tutorialFinished)
 	{
 		tutorialActivable = false;
 		tutorialUI->TutorialEnd();
 		LOG_INFO("TutorialExit");
-		//componentAnimation->SetParameter("IsActive", false);
-		//// Until the trigger works 100% of the time better cross a closed door than be closed forever
-		//componentRigidBody->Enable();
-		//componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
+		
 	}
 }
 

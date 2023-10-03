@@ -20,6 +20,7 @@ public:
 	void MoveImageToStarPosition();
 	bool GetIsMovingToEnd() const;
 	bool GetIsMoving() const;
+	void SetIsMoving(bool isMoving);
 	bool SetMovingToEnd(bool movingToEnd);
 
 private:
@@ -46,6 +47,13 @@ inline bool UIImageDisplacementControl::SetMovingToEnd(bool movingToEnd)
 inline bool UIImageDisplacementControl::GetIsMoving() const
 {
 	return isMoving;
+}
+
+inline void UIImageDisplacementControl::SetIsMoving(bool IsMoving) 
+{
+
+	this->isMoving = IsMoving;
+
 }
 
 

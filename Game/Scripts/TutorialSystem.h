@@ -51,9 +51,12 @@ private:
 	GameObject* dummy;
 	HealthSystem* dummyHealthSystem;
 
+	float3 initialPos;
 
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;
 	ComponentRigidBody* componentRigidBody;
+	ComponentTransform2D* transform2D;
 	UIImageDisplacementControl* displacementControl;
+
 };
