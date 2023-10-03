@@ -30,9 +30,9 @@ EmitterInstance::EmitterInstance(ParticleEmitter* emitter, ComponentParticleSyst
 		static_cast<ModuleBase*>(emitter->GetModule(ParticleModule::ModuleType::BASE)));
 	ModuleSpawn* spawn = new ModuleSpawn(emitter, 
 		static_cast<ModuleSpawn*>(emitter->GetModule(ParticleModule::ModuleType::SPAWN)));
-	ModuleColor* color = new ModuleColor(emitter,
+	ModuleColor* col = new ModuleColor(emitter,
 		static_cast<ModuleColor*>(emitter->GetModule(ParticleModule::ModuleType::COLOR)));
-	ModuleRotation* rotation = new ModuleRotation(emitter, 
+	ModuleRotation* rot = new ModuleRotation(emitter,
 		static_cast<ModuleRotation*>(emitter->GetModule(ParticleModule::ModuleType::ROTATION)));
 	ModuleSize* size = new ModuleSize(emitter, 
 		static_cast<ModuleSize*>(emitter->GetModule(ParticleModule::ModuleType::SIZE)));
@@ -43,11 +43,34 @@ EmitterInstance::EmitterInstance(ParticleEmitter* emitter, ComponentParticleSyst
 
 	modules.push_back(base);
 	modules.push_back(spawn);
-	modules.push_back(color);
-	modules.push_back(rotation);
+	modules.push_back(col);
+	modules.push_back(rot);
 	modules.push_back(size);
 	modules.push_back(position);
 	modules.push_back(render);
+
+	name		 = emitter->GetName();
+
+	isLooping	 = emitter->IsLooping();
+	maxParticles = emitter->GetMaxParticles();
+	duration	 = emitter->GetDuration();
+	lifespan	 = emitter->GetLifespanRange();
+	speed		 = emitter->GetSpeedRange();
+	rotation	 = emitter->GetRotationRange();
+	gravity		 = emitter->GetGravityRange();
+	color		 = emitter->GetColor();
+	this->size   = emitter->GetSizeRange();
+
+	angle		 = emitter->GetAngle();
+	radius		 = emitter->GetRadius();
+
+	randomLife	 = emitter->IsRandomLife();
+	randomSpeed  = emitter->IsRandomSpeed();
+	randomSize	 = emitter->IsRandomSize();
+	randomRot	 = emitter->IsRandomRot();
+	randomGrav	 = emitter->IsRandomGravity();
+
+	shape		 = emitter->GetShape();
 
 	srand(static_cast <unsigned> (time(nullptr))); //seeding the random generation once
 	program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::PARTICLES);
@@ -55,6 +78,12 @@ EmitterInstance::EmitterInstance(ParticleEmitter* emitter, ComponentParticleSyst
 
 EmitterInstance::~EmitterInstance()
 {
+	for (ParticleModule* module : modules)
+	{
+		delete module;
+	}
+	modules.clear();
+
 	owner = nullptr;
 	particles.clear();
 	sortedPositions.clear();
@@ -62,8 +91,8 @@ EmitterInstance::~EmitterInstance()
 
 void EmitterInstance::Init()
 {
-	particles.resize(emitter->GetMaxParticles());
-	sortedPositions.resize(emitter->GetMaxParticles());
+	particles.resize(GetMaxParticles());
+	sortedPositions.resize(GetMaxParticles());
 	elapsedTime = 0.0f;
 	aliveParticles = 0;
 	lastEmission = 0.0f;
@@ -103,5 +132,33 @@ void EmitterInstance::DrawParticles()
 
 void EmitterInstance::DrawDD()
 {
-	emitter->DrawDD(this);
+	for (ParticleModule* module : modules)
+	{
+		module->DrawDD(this);
+	}
+}
+
+void EmitterInstance::SaveConfig()
+{
+	emitter->SetName(name);
+	emitter->SetLooping(isLooping);
+	emitter->SetMaxParticles(maxParticles);
+	emitter->SetDuration(duration);
+	emitter->SetLifespanRange(lifespan);
+	emitter->SetSpeedRange(speed);
+	emitter->SetSizeRange(size);
+	emitter->SetRotationRange(rotation);
+	emitter->SetGravityRange(gravity);
+	emitter->SetColor(color);
+	emitter->SetAngle(angle);
+	emitter->SetRadius(radius);
+	emitter->SetRandomLife(randomLife);
+	emitter->SetRandomSpeed(randomSpeed);
+	emitter->SetRandomSize(randomSize);
+	emitter->SetRandomRotation(randomRot);
+	emitter->SetRandomGravity(randomGrav);
+	emitter->SetShape(shape);
+	emitter->SetVisibleConfig(visibleConfig);
+
+	emitter->SaveModules(modules);
 }

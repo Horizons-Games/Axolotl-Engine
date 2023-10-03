@@ -5,6 +5,7 @@
 #include "ModuleInput.h"
 #include "ModuleCamera.h"
 #include "ModuleScene.h"
+#include "ModulePlayer.h"
 
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAudioSource.h"
@@ -14,6 +15,7 @@
 #include "PlayerMoveScript.h"
 #include "PlayerJumpScript.h"
 #include "PlayerAttackScript.h"
+#include "HealthSystem.h"
 
 
 #include "Scene/Scene.h"
@@ -27,11 +29,13 @@
 REGISTERCLASS(ElevatorCore);
 
 ElevatorCore::ElevatorCore() : Script(),
-componentAudio(nullptr), activeState(ActiveActions::INACTIVE)
+componentAudio(nullptr), activeState(ActiveActions::INACTIVE), positionState(PositionState::UP)
 {
 	REGISTER_FIELD(elevator, GameObject*);
-	REGISTER_FIELD(bixPrefab, GameObject*)
 	REGISTER_FIELD(finalPos, float);
+	REGISTER_FIELD(coolDown, float);
+	REGISTER_FIELD(speed, float);
+	REGISTER_FIELD(miniBossHealth, HealthSystem*);
 }
 
 ElevatorCore::~ElevatorCore()
@@ -56,43 +60,141 @@ void ElevatorCore::Start()
 		throw ComponentNotFoundException("ComponentRigidBody not found in children");
 	}
 	componentRigidBody = (*childWithRigid)->GetComponent<ComponentRigidBody>();
-	//componentRigidBody->Disable();
+	transform = elevator->GetComponentInternal<ComponentTransform>();
+	triggerEntrance = owner->GetComponent<ComponentRigidBody>();
+	finalUpPos = 0.0f;
+	bixPrefab = App->GetModule<ModulePlayer>()->GetPlayer();
+	playerTransform = bixPrefab->GetComponent<ComponentTransform>();
+	currentTime = 0.0f;
 }
 
 void ElevatorCore::Update(float deltaTime)
 {
-	if (activeState == ActiveActions::ACTIVE) 
+	float3 playerPos = playerTransform->GetGlobalPosition();
+
+	if (activeState == ActiveActions::ACTIVE_PLAYER) 
 	{
-		ComponentTransform* transform = elevator->GetComponentInternal<ComponentTransform>();
-		float3 pos = transform->GetGlobalPosition();
-		pos.y -= 0.1f;
-		transform->SetGlobalPosition(pos);
-
-		transform->RecalculateLocalMatrix();
-		transform->UpdateTransformMatrices();
-		elevator->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
-		bixPrefab->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
-
-		DisableAllInteractions();
-
-
-		LOG_DEBUG("POS.Y: {}, FINAL POS: {}", pos.y, finalPos);
-		
-		if (pos.y < finalPos)
+		if (positionState == PositionState::UP)
 		{
-			activeState = ActiveActions::INACTIVE;
+			MoveDownElevator(true, deltaTime);
 		}
-
-
-		componentRigidBody->Disable();
-		
+		else 
+		{
+			MoveUpElevator(true, deltaTime);
+		}
 	}
 
-	else
+	else if (activeState == ActiveActions::ACTIVE_AUTO)
 	{
-		bixPrefab->SetParent(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
-		bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(false);
-		EnableAllInteractions();
+		if (positionState == PositionState::UP)
+		{
+			MoveDownElevator(false, deltaTime);
+		}
+		else
+		{
+			MoveUpElevator(false, deltaTime);
+		}
+	}
+
+	else 
+	{
+		if (playerPos.y < finalPos)
+		{
+			if ((!miniBossHealth->EntityIsAlive() && positionState == PositionState::UP) ||
+				(miniBossHealth->EntityIsAlive() && positionState == PositionState::DOWN))
+			{
+				activeState = ActiveActions::ACTIVE_AUTO;
+			}
+			
+		}
+		
+		if (currentTime >= 0.0f)
+		{
+			currentTime -= deltaTime;
+		}
+
+	}
+}
+
+void ElevatorCore::MoveUpElevator(bool isPlayerInside, float deltaTime)
+{
+	float3 pos = transform->GetGlobalPosition();
+	btVector3 triggerOrigin = triggerEntrance->GetRigidBodyOrigin();
+
+	pos.y += deltaTime * speed;
+	float newYTrigger = triggerOrigin.getY() + deltaTime * speed;
+	triggerOrigin.setY(newYTrigger);
+
+	transform->SetGlobalPosition(pos);
+	transform->RecalculateLocalMatrix();
+	transform->UpdateTransformMatrices();
+
+	triggerEntrance->SetRigidBodyOrigin(triggerOrigin);
+	elevator->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
+
+	if (pos.y >= finalUpPos)
+	{
+		positionState = PositionState::UP;
+		activeState = ActiveActions::INACTIVE;
+		currentTime = coolDown;
+		if (isPlayerInside)
+		{
+			EnableAllInteractions();
+		}
+	}
+
+	if (isPlayerInside)
+	{
+		float3 playerPos = playerTransform->GetGlobalPosition();
+		playerPos.y += deltaTime * speed;
+
+		playerTransform->SetGlobalPosition(playerPos);
+		playerTransform->RecalculateLocalMatrix();
+		playerTransform->UpdateTransformMatrices();
+
+		bixPrefab->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
+	}
+
+}
+
+void ElevatorCore::MoveDownElevator(bool isPlayerInside, float deltaTime)
+{
+	float3 pos = transform->GetGlobalPosition();
+	float3 playerPos = playerTransform->GetGlobalPosition();
+	btVector3 triggerOrigin = triggerEntrance->GetRigidBodyOrigin();
+
+	pos.y -= deltaTime * speed;
+	float newYTrigger = triggerOrigin.getY() - deltaTime * speed;
+	triggerOrigin.setY(newYTrigger);
+
+	transform->SetGlobalPosition(pos);
+	transform->RecalculateLocalMatrix();
+	transform->UpdateTransformMatrices();
+
+	triggerEntrance->SetRigidBodyOrigin(triggerOrigin);
+	elevator->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
+
+	if (pos.y <= finalPos)
+	{
+		positionState = PositionState::DOWN;
+		activeState = ActiveActions::INACTIVE;
+		currentTime = coolDown;
+		if (isPlayerInside)
+		{
+			EnableAllInteractions();
+		}
+	}
+
+	if (isPlayerInside)
+	{
+		float3 playerPos = playerTransform->GetGlobalPosition();
+		playerPos.y -= deltaTime * speed;
+
+		playerTransform->SetGlobalPosition(playerPos);
+		playerTransform->RecalculateLocalMatrix();
+		playerTransform->UpdateTransformMatrices();
+
+		bixPrefab->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
 	}
 }
 
@@ -104,13 +206,22 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		if (other->GetOwner()->CompareTag("Player"))
 		{
-	//		componentAnimation->SetParameter("IsActive", true);
-			//componentRigidBody->Disable();
-			componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
-			activeState = ActiveActions::ACTIVE;
 
-			bixPrefab->SetParent(elevator);
-			bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(true);
+			PlayerActions currentAction = bixPrefab->GetComponent<PlayerManagerScript>()->GetPlayerState();
+			bool isJumping = currentAction == PlayerActions::JUMPING ||
+				currentAction == PlayerActions::DOUBLEJUMPING ||
+				currentAction == PlayerActions::FALLING;
+
+			if (!isJumping && currentTime <= 0.0f)
+			{
+				//componentAnimation->SetParameter("IsActive", true);
+				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
+				activeState = ActiveActions::ACTIVE_PLAYER;
+
+				DisableAllInteractions();
+
+			}
+			
 		}
 	}
 }
@@ -123,8 +234,6 @@ void ElevatorCore::OnCollisionExit(ComponentRigidBody* other)
 		if (other->GetOwner()->CompareTag("Player"))
 		{
 			//componentAnimation->SetParameter("IsActive", false);
-			//// Until the trigger works 100% of the time better cross a closed door than be closed forever
-			//componentRigidBody->Enable();
 			//componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
 		}
 	}
@@ -132,24 +241,18 @@ void ElevatorCore::OnCollisionExit(ComponentRigidBody* other)
 
 void ElevatorCore::DisableAllInteractions()
 {
+	//bixPrefab->SetParent(elevator);
+	bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(true);
+
 	PlayerManagerScript* manager = bixPrefab->GetComponentInternal<PlayerManagerScript>();
-	PlayerJumpScript* jump = bixPrefab->GetComponentInternal<PlayerJumpScript>();
-	PlayerMoveScript* move = bixPrefab->GetComponentInternal<PlayerMoveScript>();
-	PlayerAttackScript* attack = bixPrefab->GetComponentInternal<PlayerAttackScript>();
-	manager->Disable();
-	jump->Disable();
-	move->Disable();
-	attack->Disable();
+	manager->ParalyzePlayer(true);
 }
 
 void ElevatorCore::EnableAllInteractions()
 {
+	//bixPrefab->SetParent(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
+	bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(false);
+
 	PlayerManagerScript* manager = bixPrefab->GetComponentInternal<PlayerManagerScript>();
-	PlayerJumpScript* jump = bixPrefab->GetComponentInternal<PlayerJumpScript>();
-	PlayerMoveScript* move = bixPrefab->GetComponentInternal<PlayerMoveScript>();
-	PlayerAttackScript* attack = bixPrefab->GetComponentInternal<PlayerAttackScript>();
-	manager->Enable();
-	jump->Enable();
-	move->Enable();
-	attack->Enable();
+	manager->ParalyzePlayer(false);
 }

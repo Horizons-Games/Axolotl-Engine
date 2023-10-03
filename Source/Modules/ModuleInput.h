@@ -54,10 +54,16 @@ enum class InputMethod
 	GAMEPAD
 };
 
+struct JoystickDirection
+{
+	JoystickHorizontalDirection horizontalDirection;
+	JoystickVerticalDirection verticalDirection;
+};
+
 struct JoystickMovement
 {
-	JoystickHorizontalDirection horizontalMovement;
-	JoystickVerticalDirection verticalMovement;
+	Sint16 horizontalMovement;
+	Sint16 verticalMovement;
 };
 
 class ModuleInput : public Module
@@ -67,11 +73,11 @@ public:
 	~ModuleInput() override;
 
 	bool Init() override;
+	UpdateStatus PreUpdate() override;
 	UpdateStatus Update() override;
 	bool CleanUp() override;
 
-	SDL_GameControllerAxis GetJoystickAxis() const;
-	Sint16 GetJoystickAxisValue() const;
+	SDL_GameControllerAxis GetAxis() const;
 
 	KeyState GetKey(int scanCode) const;
 	KeyState GetMouseButton(int mouseButton) const;
@@ -79,15 +85,14 @@ public:
 
 	InputMethod GetCurrentInputMethod() const;
 	
-	// This setter methods will override user input
-	// Use them with care
-	void SetKey(SDL_Scancode scanCode, KeyState newState);
-	void SetMouseButton(Uint8 mouseButtonCode, KeyState newState);
-
 	SDL_GameController* FindController() const;
 	SDL_JoystickID GetControllerInstanceID(SDL_GameController* controller) const;
 
-	JoystickMovement GetDirection() const;
+	JoystickMovement GetLeftJoystickMovement() const;
+	JoystickDirection GetLeftJoystickDirection() const;
+
+	JoystickMovement GetRightJoystickMovement() const;
+	JoystickDirection GetRightJoystickDirection() const;
 
 	void Rumble(RumbleIntensity intensityLeft, RumbleIntensity intensityRight, RumbleDuration durationMs) const;
 	// Overload with same intensity on both sides
@@ -98,6 +103,7 @@ public:
 	float2 GetMouseMotion() const;
 	float2 GetMouseWheel() const;
 	float2 GetMousePosition() const;
+
 	bool GetInFocus() const;
 
 	void SetMousePositionX(int mouseX);
@@ -123,18 +129,21 @@ private:
 	
 	float2 mouseWheel;
 	float2 mouseMotion;
-
 	int mousePosX;
 	int mousePosY;
 
-	JoystickMovement direction;
+	JoystickMovement leftJoystickMovement;
+	JoystickDirection leftJoystickDirection;
+	
+	JoystickMovement rightJoystickMovement;
+	JoystickDirection rightJoystickDirection;
+
 	InputMethod inputMethod;
 
 	bool mouseWheelScrolled;
 	bool inFocus;
 
 	SDL_GameControllerAxis axis;
-	Sint16 axisValue;
 
 	struct SDLSurfaceDestroyer
 	{
@@ -161,6 +170,9 @@ private:
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> moveCursor;
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> zoomCursor;
 	std::unique_ptr<SDL_Cursor, SDLCursorDestroyer> defaultCursor;
+
+	void MapControllerInput();
+
 };
 
 inline SDL_JoystickID ModuleInput::GetControllerInstanceID(SDL_GameController* controller) const
@@ -194,16 +206,6 @@ inline KeyState ModuleInput::GetMouseButton(int mouseButton) const
 inline KeyState ModuleInput::GetGamepadButton(int gamepadButton) const
 {
 	return gamepadState[gamepadButton];
-}
-
-inline void ModuleInput::SetKey(SDL_Scancode scanCode, KeyState newState)
-{
-	keysState[scanCode] = newState;
-}
-
-inline void ModuleInput::SetMouseButton(Uint8 mouseButtonCode, KeyState newState)
-{
-	mouseButtonState[mouseButtonCode] = newState;
 }
 
 inline float2 ModuleInput::GetMouseMotion() const
@@ -286,22 +288,33 @@ inline KeyState ModuleInput::operator[](SDL_Scancode index)
 	return keysState[index];
 }
 
-inline JoystickMovement ModuleInput::GetDirection() const
+inline JoystickMovement ModuleInput::GetLeftJoystickMovement() const
 {
-	return direction;
+	return leftJoystickMovement;
 }
 
-inline SDL_GameControllerAxis ModuleInput::GetJoystickAxis() const
+inline JoystickDirection ModuleInput::GetLeftJoystickDirection() const
+{
+	return leftJoystickDirection;
+}
+
+inline JoystickMovement ModuleInput::GetRightJoystickMovement() const
+{
+	return rightJoystickMovement;
+}
+
+inline JoystickDirection ModuleInput::GetRightJoystickDirection() const
+{
+	return rightJoystickDirection;
+}
+
+inline SDL_GameControllerAxis ModuleInput::GetAxis() const
 {
 	return axis;
-}
-
-inline Sint16 ModuleInput::GetJoystickAxisValue() const
-{
-	return axisValue;
 }
 
 inline InputMethod ModuleInput::GetCurrentInputMethod() const
 {
 	return inputMethod;
 }
+

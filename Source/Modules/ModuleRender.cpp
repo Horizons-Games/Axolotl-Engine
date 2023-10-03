@@ -271,7 +271,7 @@ UpdateStatus ModuleRender::Update()
 	Camera* engineCamera = App->GetModule<ModuleCamera>()->GetCamera();
 
 #ifdef ENGINE
-	if (App->IsOnPlayMode())
+	if (App->GetPlayState() != Application::PlayState::STOPPED)
 #else
 	if (player)
 #endif
@@ -320,7 +320,7 @@ UpdateStatus ModuleRender::Update()
 
 	// Draw opaque objects
 	batchManager->DrawOpaque(false);
-	if (!App->IsOnPlayMode() && !isRoot)
+	if (!isRoot && App->GetPlayState() == Application::PlayState::STOPPED)
 	{
 		// Draw selected opaque
 		glEnable(GL_STENCIL_TEST);
@@ -384,11 +384,15 @@ UpdateStatus ModuleRender::Update()
 
 		ComponentDirLight* directLight = static_cast<ComponentDirLight*>(
 			App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight()->GetComponent<ComponentLight>());
+		
+		float2 shadowBias = directLight->GetShadowBias();
+
+		program->BindUniformFloat("amount", directLight->GetBleedingAmount());
 
 		if (!shadows->UseVSM())
 		{
-			program->BindUniformFloat("minBias", directLight->shadowBias[0]);
-			program->BindUniformFloat("maxBias", directLight->shadowBias[1]);
+			program->BindUniformFloat("minBias", shadowBias[0]);
+			program->BindUniformFloat("maxBias", shadowBias[1]);
 		}
 	}
 	program->BindUniformInt("useShadows", static_cast<int>(shadows->UseShadows()));
@@ -434,7 +438,7 @@ UpdateStatus ModuleRender::Update()
 
 	batchManager->DrawTransparent(false);
 
-	if (!App->IsOnPlayMode() && !isRoot)
+	if (!isRoot && App->GetPlayState() == Application::PlayState::STOPPED)
 	{
 		// Draw selected transparent
 		glEnable(GL_STENCIL_TEST);
@@ -728,6 +732,19 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 	{
 		return;
 	}
+
+	GameObject* player = App->GetModule<ModulePlayer>()->GetPlayer();
+
+	if (player && quadtree->IsLeaf() && quadtree->InQuadrant(player))
+	{
+		quadtree->AddRigidBodiesToSimulation();
+	}
+
+	else
+	{
+		quadtree->RemoveRigidBodiesFromSimulation();
+	}
+
 		
 	float3 cameraPos = camera->GetPosition();
 

@@ -15,7 +15,7 @@ public:
 
 	void Spawn(EmitterInstance* instance) override;
 	void Update(EmitterInstance* instance) override;
-
+	void CopyConfig(ParticleModule* module) override;
 	void DrawImGui() override;
 
 	void SetSpawnRate(float spawnRate);

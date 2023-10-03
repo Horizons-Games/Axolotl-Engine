@@ -137,7 +137,7 @@ void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 void ComponentRigidBody::OnTransformChanged()
 {
 #ifdef ENGINE
-	if (!App->IsOnPlayMode())
+	if (App->GetPlayState() == Application::PlayState::STOPPED)
 	{
 		UpdateRigidBody();
 	}
@@ -375,23 +375,28 @@ void ComponentRigidBody::InternalLoad(const Json& meta)
 
 void ComponentRigidBody::SignalEnable()
 {
-	AddRigidBodyToSimulation();
+	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
+	rigidBody->setGravity(gravity);
 }
 
 void ComponentRigidBody::SignalDisable()
 {
-	RemoveRigidBodyFromSimulation();
+	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
 }
 
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 {
-	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
+	//App->GetModule<ModulePhysics>()->RemoveRigidBodyFromSimulation(rigidBody.get());
+	//App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
+	isInCollisionWorld = false;
 }
 
 void ComponentRigidBody::AddRigidBodyToSimulation()
 {
-	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
-	rigidBody->setGravity(gravity);
+	//App->GetModule<ModulePhysics>()->AddRigidBodyToSimulation(rigidBody.get());
+	//App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
+	//rigidBody->setGravity(gravity);
+	isInCollisionWorld = true;
 }
 
 void ComponentRigidBody::ClearCollisionEnterDelegate()

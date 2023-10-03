@@ -19,14 +19,6 @@ class PlayerForceUseScript;
 class PlayerAttackScript;
 class btRigidBody;
 
-enum class PlayerActions
-{
-    IDLE,
-    WALKING,
-	DASHING,
-	JUMPING
-};
-
 enum MovementFlag
 {
 	W_DOWN = 0x00000001,
@@ -36,39 +28,42 @@ enum MovementFlag
 };
 
 class PlayerMoveScript :
-    public Script
+	public Script
 {
 public:
-    PlayerMoveScript();
+	PlayerMoveScript();
 	~PlayerMoveScript() override = default;
 
-    void Start() override;
-    void PreUpdate(float deltaTime) override;
+	void Start() override;
+	void PreUpdate(float deltaTime) override;
 
-    void Move(float deltaTime);
+	void Move(float deltaTime);
 	void MoveRotate(float deltaTime);
+
+	bool IsTriggeringStoredDash() const;
+	void SetIsTriggeringStoredDash(bool isTriggeringStoredDash);
 
 	bool IsParalyzed() const;
 	void SetIsParalyzed(bool isParalyzed);
 
-	PlayerActions GetPlayerState() const;
-	void SetPlayerState(PlayerActions playerState);
 	PlayerJumpScript* GetJumpScript() const;
 
 private:
-    ComponentTransform* componentTransform;
-    ComponentAudioSource* componentAudio;
-    ComponentAnimation* componentAnimation;
-    PlayerActions playerState;
+	ComponentTransform* componentTransform;
+	ComponentAudioSource* componentAudio;
+	ComponentAnimation* componentAnimation;
 	bool isParalyzed;
 
-    float dashForce;
-    float nextDash;
-    bool isDashing;
-    bool canDash;
+	bool isTriggeringStoredDash;
+	float dashForce;
+	float dashRollTime;
+	float dashRollDuration;
+	float3 totalDirection;
 
-    float lightAttacksMoveFactor;
-    float heavyAttacksMoveFactor;
+	float lightAttacksMoveFactor;
+	float heavyAttacksMoveFactor;
+	float dashRollCooldown;
+	float timeSinceLastDash;
 
 	PlayerManagerScript* playerManager;
 	PlayerForceUseScript* forceScript;
@@ -79,7 +74,7 @@ private:
 	Camera* camera;
 	Frustum cameraFrustum;
 	ModuleInput* input;
-	
+
 	PlayerJumpScript* jumpScript;
 	PlayerAttackScript* playerAttackScript;
 
@@ -87,6 +82,6 @@ private:
 	int currentMovements;
 
 	float3 desiredRotation;
-	
-	void Dash();
+
+	void DashRoll(float deltaTime);
 };
