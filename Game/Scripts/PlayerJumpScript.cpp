@@ -120,7 +120,7 @@ void PlayerJumpScript::Jump(float deltaTime)
 		const ModuleInput* input = App->GetModule<ModuleInput>();
 		btRigidBody* btRigidbody = rigidBody->GetRigidBody();
 
-		btVector3 movement(0, 1, 0);
+		btVector3 movement(0.f, 1.f, 0.f);
 		float3 direction = float3::zero;
 
 		if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN &&
@@ -173,4 +173,9 @@ void PlayerJumpScript::SetCanJump(bool canJump)
 float PlayerJumpScript::GetTimeSinceLastJump() const
 {
 	return timeSinceLastJump;
+}
+
+float PlayerJumpScript::GetJumpForce() const
+{
+	return jumpParameter;
 }

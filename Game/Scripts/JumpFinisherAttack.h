@@ -9,6 +9,7 @@ class ModuleInput;
 
 class JumpFinisherArea;
 class JumpFinisherAttackBullet;
+class PlayerManagerScript;
 
 class ComponentRigidBody;
 
@@ -35,6 +36,9 @@ private:
 
 	JumpFinisherArea* forceArea;
 	GameObject* forceAttackBullet;
+
+	ComponentRigidBody* rigidBody;
+	PlayerManagerScript* playerManager;
 
 	bool activated;
 	bool bulletHitTheFloor;

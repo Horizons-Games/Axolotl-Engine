@@ -16,10 +16,13 @@
 
 #include "../Scripts/JumpFinisherArea.h"
 #include "../Scripts/JumpFinisherAttackBullet.h"
+#include "../Scripts/PlayerManagerScript.h"
+#include "../Scripts/PlayerJumpScript.h"
 
 REGISTERCLASS(JumpFinisherAttack);
 
-JumpFinisherAttack::JumpFinisherAttack() : Script(), input(nullptr), bulletHitTheFloor(false)
+JumpFinisherAttack::JumpFinisherAttack() : Script(), input(nullptr), bulletHitTheFloor(false), rigidBody(nullptr),
+	playerManager(nullptr)
 {
 	REGISTER_FIELD(forceArea, JumpFinisherArea*);
 	REGISTER_FIELD(forceAttackBullet, GameObject*);
@@ -28,6 +31,8 @@ JumpFinisherAttack::JumpFinisherAttack() : Script(), input(nullptr), bulletHitTh
 void JumpFinisherAttack::Start()
 {
 	input = App->GetModule<ModuleInput>();
+	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	playerManager = owner->GetComponent<PlayerManagerScript>();
 }
 
 void JumpFinisherAttack::PerformGroundSmash()
@@ -79,6 +84,10 @@ void JumpFinisherAttack::ShootForceBullet(float pushForce, float stunTime)
 
 	forceArea->VisualStartEffect();
 	activated = true;
+
+	btRigidBody* bulletRigidBody = rigidBody->GetRigidBody();
+	bulletRigidBody->applyCentralImpulse(btVector3(0.f, 1.f, 0.f).normalized() * 
+											(playerManager->GetJumpManager()->GetJumpForce() / 1.5f));
 }
 
 bool JumpFinisherAttack::IsActive() const

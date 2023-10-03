@@ -30,6 +30,8 @@ public:
 
 	float GetTimeSinceLastJump() const;
 
+	float GetJumpForce() const;
+
 private:
 	void CheckGround(float deltaTime);
 	void Jump(float deltaTime);
