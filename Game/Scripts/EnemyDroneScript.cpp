@@ -293,6 +293,8 @@ void EnemyDroneScript::UpdateBehaviour(float deltaTime)
 		if (pathScript->IsPathFinished())
 		{
 			droneState = DroneBehaviours::IDLE;
+			componentAnimation->SetParameter("IsRunning", false);
+			pathScript->Disable();
 		}
 
 		break;

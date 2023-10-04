@@ -35,7 +35,7 @@ void AIMovement::Start()
 
 void AIMovement::Update(float deltaTime)
 {
-	if (agent && agent->IsEnabled())
+	if (agent && agent->GetAgentId() !=-1)
 	{
 		agent->SetMaxSpeed(movementSpeed);
 		agent->SetRotationSpeed(rotationSpeed);

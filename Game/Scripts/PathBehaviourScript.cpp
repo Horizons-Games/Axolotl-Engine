@@ -23,7 +23,7 @@ void PathBehaviourScript::Start()
 	agentComp = owner->GetComponent<ComponentAgent>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	rigidBody->SetIsKinematic(false);
-	agentComp->Disable();
+	//agentComp->Disable();
 	if (!waypointsPath.empty())
 	{
 		StartPath();
@@ -40,7 +40,9 @@ void PathBehaviourScript::Update(float deltaTime)
 		}
 		else
 		{
-			agentComp->Enable();
+			//agentComp->Enable();
+			agentComp->AddAgentToCrowd();
+			//aiMovement->SetTargetPosition(owner->GetComponent<ComponentTransform>()->GetGlobalPosition());
 			rigidBody->SetIsKinematic(true);
 			pathFinished = true;
 		}
@@ -51,6 +53,7 @@ void PathBehaviourScript::StartPath() const
 {
 	float3 target = waypointsPath[currentWayPoint]->GetGlobalPosition();
 
+	agentComp->RemoveAgentFromCrowd();
 	rigidBody->SetUpMobility();
 	aiMovement->SetTargetPosition(target);
 	aiMovement->SetRotationTargetPosition(target);
@@ -72,7 +75,7 @@ void PathBehaviourScript::ResetPath()
 	rigidBody->Enable();
 	rigidBody->SetIsKinematic(false);
 	rigidBody->SetUpMobility();
-	agentComp->Disable();
+	//agentComp->Disable();
 	currentWayPoint = 0;
 	StartPath();
 }

@@ -258,13 +258,26 @@ void EnemyVenomiteScript::UpdateBehaviour(float deltaTime)
 	case VenomiteBehaviours::INPATH:
 		if (pathScript->IsPathFinished())
 		{
-			//venomiteState = VenomiteBehaviours::IDLE;
-			//componentAnimation->SetParameter("IsRunning", false);
-			//pathScript->Disable();
-			pathScript->ResetPath();
+			venomiteState = VenomiteBehaviours::IDLE;
+			componentAnimation->SetParameter("IsRunning", false);
+			pathScript->Disable();
 		}
 		break;
 	}
+}
+
+void EnemyVenomiteScript::ParalyzeEnemy(bool nparalyzed)
+{
+	if (nparalyzed)
+	{
+		componentAnimation->SetParameter("IsRunning", false);
+	}
+	else
+	{
+		componentAnimation->SetParameter("IsRunning", true);
+	}
+
+	paralyzed = nparalyzed;
 }
 
 void EnemyVenomiteScript::SetReadyToDie()
@@ -295,20 +308,6 @@ void EnemyVenomiteScript::ResetValues()
 		pathScript->Enable();
 		pathScript->ResetPath();
 	}
-}
-
-void EnemyVenomiteScript::ParalyzeEnemy(bool nparalyzed) 
-{
-	if (nparalyzed)
-	{
-		componentAnimation->SetParameter("IsRunning", false);
-	}
-	else
-	{
-		componentAnimation->SetParameter("IsRunning", true);
-	}
-
-	paralyzed = nparalyzed;
 }
 
 void EnemyVenomiteScript::SetStunnedTime(float newTime)

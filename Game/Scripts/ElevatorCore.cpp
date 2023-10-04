@@ -284,7 +284,7 @@ void ElevatorCore::SetDisableInteractionsEnemies(const GameObject* enemy, bool i
 
 bool ElevatorCore::GetElevatorPos(const PositionState pos) const
 {
-	return ((positionState == pos) && (0.0f + coolDown/2 > currentTime));
+	return ((positionState == pos) && (0 > currentTime));
 }
 
 bool ElevatorCore::GetBooked() const
