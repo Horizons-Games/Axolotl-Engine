@@ -39,6 +39,17 @@ ComponentVideo::ComponentVideo(bool active, GameObject* owner) :
 
 ComponentVideo::~ComponentVideo()
 {
+	if (frameData)
+	{
+		delete[] frameData;
+		frameData = nullptr;
+	}
+
+	if (scalerCtx)
+	{
+		sws_freeContext(scalerCtx);
+		scalerCtx = nullptr;
+	}
 }
 
 ComponentVideo::ComponentVideo(const ComponentVideo& toCopy):
