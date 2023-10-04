@@ -271,7 +271,7 @@ UpdateStatus ModuleRender::Update()
 	Camera* engineCamera = App->GetModule<ModuleCamera>()->GetCamera();
 
 #ifdef ENGINE
-	if (App->GetPlayState() != Application::PlayState::STOPPED)
+	if (App->GetPlayState() != Application::PlayState::STOPPED && player)
 #else
 	if (player)
 #endif

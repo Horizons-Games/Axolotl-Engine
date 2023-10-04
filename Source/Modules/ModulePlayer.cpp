@@ -92,12 +92,12 @@ bool ModulePlayer::LoadNewPlayer()
 
 				return true;
 			}
-			LOG_ERROR("Not found Camera with MainCamera tag");
-			return false;
 		}
-		LOG_ERROR("Active Player not found");
+		LOG_ERROR("Not found Camera with MainCamera tag");
 		return false;
 	}
+	LOG_ERROR("Active Player not found");
+	return false;
 }
 
 void ModulePlayer::UnloadNewPlayer()
