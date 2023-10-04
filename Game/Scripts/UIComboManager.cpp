@@ -17,9 +17,7 @@ UIComboManager::UIComboManager() : Script(), clearComboTimer(0.0f), clearCombo(f
 	REGISTER_FIELD(inputPrefabSoft, GameObject*);
 	REGISTER_FIELD(inputPrefabHeavy, GameObject*);
 	REGISTER_FIELD(noFillBar, GameObject*);
-	REGISTER_FIELD(shinnyButton, GameObject*);
-	REGISTER_FIELD(shinnyButton1, GameObject*);
-	REGISTER_FIELD(shinnyButton2, GameObject*);
+	REGISTER_FIELD(comboButtons, std::vector<GameObject*>);
 }
 
 void UIComboManager::Init()
@@ -34,86 +32,56 @@ void UIComboManager::Init()
 	{
 		transparency = noFillBar->GetComponent<ComponentImage>()->GetColor().w / 255;
 	}
-
-	if (shinnyButton)
-	{
-		shinnyButton->GetComponent<ComponentImage>();
-	}
-
-	if (shinnyButton1)
-	{
-		shinnyButton1->GetComponent<ComponentImage>();
-	}
-
-	if (shinnyButton2)
-	{
-		shinnyButton2->GetComponent<ComponentImage>();
-	}
 }
 
 void UIComboManager::Update(float deltaTime)
 {
-	if (clearCombo)
+	if (!clearCombo)
+	{
+		return;
+	}
+
+	if (clearComboTimer <= 0.0f)
+	{
+		CleanInputVisuals();
+		clearCombo = false;
+
+		for (GameObject* comboButton : comboButtons)
+		{
+			if (comboButton)
+			{
+				comboButton->Disable();
+			}
+		}
+	}
+	else
 	{
 
-		if (clearComboTimer <= 0.0f)
+		if (clearComboTimer -= deltaTime)
 		{
-			//los borra
-			CleanInputVisuals();
-			clearCombo = false;
-
-			if (shinnyButton)
+			for (int i = 0; i < inputVisuals.size(); i++)
 			{
-				shinnyButton->Disable();
+				inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(370, 370));
 			}
 
-			if (shinnyButton1)
+			for (GameObject* comboButton : comboButtons)
 			{
-				shinnyButton1->Disable();
-			}
-
-			if (shinnyButton2)
-			{
-				shinnyButton2->Disable();
+				if (comboButton)
+				{
+					comboButton->Enable();
+				}
 			}
 		}
 		else
 		{
+			clearComboTimer += deltaTime;
 
-			if (clearComboTimer -= deltaTime)
+			for (int i = 0; i < inputVisuals.size(); i++)
 			{
-				for (int i = 0; i < inputVisuals.size(); i++)
-				{
-					inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(370, 370));
-				}
-
-				if (shinnyButton)
-				{
-					shinnyButton->Enable();
-				}
-
-				if (shinnyButton1)
-				{
-					shinnyButton1->Enable();
-				}
-
-				if (shinnyButton2)
-				{
-					shinnyButton2->Enable();
-				}
+				inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(350, 350));
 			}
-			else
-			{
-				clearComboTimer += deltaTime;
-
-				for (int i = 0; i < inputVisuals.size(); i++)
-				{
-					inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(350, 350));
-				}
-			}
-			clearComboTimer -= deltaTime;
-		
 		}
+		clearComboTimer -= deltaTime;
 	}
 
 	if (noFillBar && noFillBar->IsEnabled())
@@ -179,7 +147,6 @@ void UIComboManager::SetComboBarValue(float value)
 	{
 		noFillBar->Enable();
 	}
-
 }
 
 void UIComboManager::AddInputVisuals(InputVisualType type) 
@@ -195,12 +162,17 @@ void UIComboManager::AddInputVisuals(InputVisualType type)
 		case InputVisualType::HEAVY:
 			prefab = inputPrefabHeavy;
 			break;
-		default:
+		case InputVisualType::JUMP:
+			AXO_TODO("Add here the CORRECT input prefab for the jump");
+			prefab = inputPrefabSoft;
 			break;
+		default:
+			return;
 		}
-		
+
 		GameObject* newInput = 
-			App->GetModule<ModuleScene>()->GetLoadedScene()->DuplicateGameObject(prefab->GetName(), prefab, inputPositions[0]);
+			App->GetModule<ModuleScene>()->GetLoadedScene()->
+			DuplicateGameObject(prefab->GetName(), prefab, inputPositions[0]);
 		newInput->Enable();
 		inputVisuals.push_front(newInput);
 		for (int i = 1; i < inputVisuals.size(); i++)

@@ -3934,19 +3934,10 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "ShinnyButton",
-                                    "value": 14514958129010355912,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "ShinnyButton1",
-                                    "value": 9897356566033808082,
-                                    "type": 2
-                                },
-                                {
-                                    "name": "ShinnyButton2",
-                                    "value": 16100272335101245124,
-                                    "type": 2
+                                    "name": "ComboButtons",
+                                    "type": 4,
+                                    "vectorElements": null,
+                                    "innerType": 2
                                 }
                             ]
                         }
@@ -4531,7 +4522,7 @@
         },
         {
             "GameObject": {
-                "name": "new Image",
+                "name": "Glow",
                 "tag": "",
                 "uid": 15944798218334861275,
                 "parentUID": 3150622874253863938,

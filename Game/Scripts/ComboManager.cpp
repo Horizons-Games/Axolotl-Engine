@@ -152,7 +152,12 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 		uiComboManager->AddInputVisuals(InputVisualType::LIGHT);
 	}
 
-	if (comboCount == 3 || type == AttackType::JUMPNORMAL) 
+	else if (type == AttackType::JUMPNORMAL || type == AttackType::JUMPFINISHER)
+	{
+		uiComboManager->AddInputVisuals(InputVisualType::JUMP);
+	}
+
+	if (comboCount == 3) 
 	{
 		ClearCombo(true);
 	}

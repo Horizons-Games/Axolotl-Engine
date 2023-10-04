@@ -8,7 +8,8 @@ RUNTIME_MODIFIABLE_INCLUDE;
 enum class InputVisualType 
 {
 	LIGHT,
-	HEAVY
+	HEAVY,
+	JUMP
 };
 
 class GameObject;
@@ -40,10 +41,9 @@ public:
 private:
 	GameObject* inputPrefabSoft;
 	GameObject* inputPrefabHeavy;
+
 	GameObject* noFillBar;
-	GameObject* shinnyButton;
-	GameObject* shinnyButton1;
-	GameObject* shinnyButton2;
+	std::vector<GameObject*> comboButtons;
 
 	std::deque<GameObject*> inputVisuals;
 	std::vector<GameObject*> inputPositions;
