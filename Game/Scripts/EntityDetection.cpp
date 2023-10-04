@@ -44,6 +44,7 @@ void EntityDetection::Start()
 
 void EntityDetection::UpdateEnemyDetection(float distanceFilter)
 {
+	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	rigidBody->UpdateRigidBody();
 
 	vecForward = playerTransform->GetGlobalForward();

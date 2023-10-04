@@ -15,6 +15,8 @@ class ComponentRigidBody;
 class PlayerManagerScript;
 class ModuleInput;
 class ModulePlayer;
+class ComboManager;
+class UIComboManager;
 
 class SwitchPlayerManagerScript : public Script
 {
@@ -40,6 +42,9 @@ private:
 	ModulePlayer* modulePlayer;
 	Timer changePlayerTimer;
 	std::vector<float> changingPlayerTime;
+
+	UIComboManager* uiComboManager;
+	ComboManager* comboSystem;
 
 	GameObject* currentPlayerHealthBar;
 	GameObject* secondPlayerHealthBar;

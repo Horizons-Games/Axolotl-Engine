@@ -18,6 +18,8 @@
 #include "ParticleBillboardAssistance.h"
 
 #include "../Scripts/CameraControllerScript.h"
+#include "UIComboManager.h"
+#include "ComboManager.h"
 
 #include "Application.h"
 #include "Scene/Scene.h"
@@ -28,7 +30,7 @@ SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullpt
 	modulePlayer(nullptr), isSwitchAvailable(true), changingPlayerTime{200.f, 800.f, 1800.f},
 	currentPlayerHealthBar(nullptr), secondPlayerHealthBar(nullptr), currentHealthBarTransform(nullptr),
 	secondHealthBarTransform(nullptr), currentPlayerTransform(nullptr), secondPlayerTransform(nullptr),
-	particlesTransofrm(nullptr), isSecondJumpAvailable(true)
+	particlesTransofrm(nullptr), isSecondJumpAvailable(true), comboSystem(nullptr)
 {
 	REGISTER_FIELD(isSwitchAvailable, bool);
 	REGISTER_FIELD(currentPlayerHealthBar, GameObject*);
@@ -43,6 +45,9 @@ void SwitchPlayerManagerScript::Start()
 	modulePlayer = App->GetModule<ModulePlayer>();
 
 	currentPlayer = modulePlayer->GetPlayer();
+
+	comboSystem = currentPlayer->GetComponent<ComboManager>();
+	uiComboManager = comboSystem->GetUiComboManager();
 
 	currentHealthBarTransform = currentPlayerHealthBar->GetComponent<ComponentTransform2D>();
 	secondHealthBarTransform = secondPlayerHealthBar->GetComponent<ComponentTransform2D>();
@@ -190,6 +195,8 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		currentPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(false);
 		secondPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(false);
 
+		comboSystem = currentPlayer->GetComponent<ComboManager>();
+
 		// Finish Switch HealthBars
 		isSwitchingHealthBars = false;
 		currentHealthBarTransform->SetPosition(secondHealthBarPosition);
@@ -208,6 +215,9 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 
 		componentAnimation->SetParameter("IsFalling", true);
 		VisualSwitchEffect();
+		comboSystem->ClearCombo(true);
+		uiComboManager->SetComboBarValue(0);
+
 		currentPlayer->Disable();
 
 		// Change UI of the player here
