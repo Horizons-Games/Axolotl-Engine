@@ -40,10 +40,19 @@ void PathBehaviourScript::Update(float deltaTime)
 		}
 		else
 		{
+			rigidBody->SetIsKinematic(true);
+			rigidBody->SetUpMobility();
+
 			//agentComp->Enable();
 			agentComp->AddAgentToCrowd();
+			// The agent speed need to be alot less that the speed we use to move with rigidbody
+			aiMovement->SetMovementSpeed(5.0f);
+			aiMovement->SetMovementStatuses(true, true);
+
+			//agentComp->Enable();
+			//agentComp->AddAgentToCrowd();
 			//aiMovement->SetTargetPosition(owner->GetComponent<ComponentTransform>()->GetGlobalPosition());
-			rigidBody->SetIsKinematic(true);
+			//rigidBody->SetIsKinematic(true);
 			pathFinished = true;
 		}
 	}
