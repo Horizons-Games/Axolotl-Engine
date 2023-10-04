@@ -30,7 +30,7 @@ void UIComboManager::Init()
 	
 	if (noFillBar)
 	{
-		transparency = noFillBar->GetComponent<ComponentImage>()->GetColor().w / 255;
+		transparency = noFillBar->GetComponent<ComponentImage>()->GetColor().w;
 	}
 }
 
