@@ -69,7 +69,6 @@ void ComboManager::CheckSpecial(float deltaTime)
 		else if (specialCount > 0 && specialCount < maxSpecialCount)
 		{
 			specialCount = std::max(0.0f, specialCount - 5.0f * deltaTime);
-
 			uiComboManager->SetComboBarValue(specialCount);
 		}
 	}
@@ -77,10 +76,7 @@ void ComboManager::CheckSpecial(float deltaTime)
 	else
 	{
 		actualComboTimer -= deltaTime;
-		if (uiComboManager)
-		{
-			uiComboManager->UpdateFadeOut(actualComboTimer / comboTime);
-		}
+		uiComboManager->UpdateFadeOut(actualComboTimer / comboTime);
 	}
 }
 
