@@ -17,8 +17,6 @@ WindowComponentSkybox::~WindowComponentSkybox()
 {
 }
 
-
-
 void WindowComponentSkybox::DrawWindowContents()
 {
 	DrawEnableAndDeleteComponent();
@@ -31,6 +29,13 @@ void WindowComponentSkybox::DrawWindowContents()
 		ImGui::Text(sky->GetSkyboxResource()
 						->GetAssetsPath()
 						.c_str());
+	}
+	bool useCubemap = sky->GetUseCubeMap();
+	ImGui::Text("Use this as Cubemap: ");
+	ImGui::SameLine();
+	if (ImGui::Checkbox("##UseCubemap", &useCubemap))
+	{
+		sky->SetUseCubeMap(useCubemap);
 	}
 	skyboxInput->DrawWindowContents();
 }
