@@ -34,6 +34,7 @@ private:
 
 	float movementSpeed;
 	float rotationSpeed;
+	float agentVelocity;
 	float targetPositionOffset;
 	bool movementActivated;
 	bool rotationActivated;

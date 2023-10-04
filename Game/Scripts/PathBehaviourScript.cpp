@@ -12,9 +12,10 @@ REGISTERCLASS(PathBehaviourScript);
 
 PathBehaviourScript::PathBehaviourScript() : Script(),
 		aiMovement(nullptr), currentWayPoint(0), pathFinished(false),
-		agentComp(nullptr)
+		agentComp(nullptr), agentVelocity(300.0f)
 {
 	REGISTER_FIELD(waypointsPath, std::vector<ComponentTransform*>);
+	REGISTER_FIELD(agentVelocity, float);
 }
 
 void PathBehaviourScript::Start()
@@ -22,8 +23,6 @@ void PathBehaviourScript::Start()
 	aiMovement = owner->GetComponent<AIMovement>();
 	agentComp = owner->GetComponent<ComponentAgent>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
-	rigidBody->SetIsKinematic(false);
-	//agentComp->Disable();
 	if (!waypointsPath.empty())
 	{
 		StartPath();
@@ -42,17 +41,10 @@ void PathBehaviourScript::Update(float deltaTime)
 		{
 			rigidBody->SetIsKinematic(true);
 			rigidBody->SetUpMobility();
-
-			//agentComp->Enable();
 			agentComp->AddAgentToCrowd();
 			// The agent speed need to be alot less that the speed we use to move with rigidbody
 			aiMovement->SetMovementSpeed(5.0f);
 			aiMovement->SetMovementStatuses(true, true);
-
-			//agentComp->Enable();
-			//agentComp->AddAgentToCrowd();
-			//aiMovement->SetTargetPosition(owner->GetComponent<ComponentTransform>()->GetGlobalPosition());
-			//rigidBody->SetIsKinematic(true);
 			pathFinished = true;
 		}
 	}
@@ -62,10 +54,14 @@ void PathBehaviourScript::StartPath() const
 {
 	float3 target = waypointsPath[currentWayPoint]->GetGlobalPosition();
 
-	agentComp->RemoveAgentFromCrowd();
+	rigidBody->Enable();
 	rigidBody->SetUpMobility();
+	rigidBody->SetIsKinematic(false);
+	rigidBody->SetUpMobility();
+	agentComp->RemoveAgentFromCrowd();
 	aiMovement->SetTargetPosition(target);
 	aiMovement->SetRotationTargetPosition(target);
+	aiMovement->SetMovementSpeed(agentVelocity);
 	aiMovement->SetMovementStatuses(true, true);
 }
 
@@ -81,10 +77,6 @@ void PathBehaviourScript::NextPath()
 void PathBehaviourScript::ResetPath()
 {
 	pathFinished = false;
-	rigidBody->Enable();
-	rigidBody->SetIsKinematic(false);
-	rigidBody->SetUpMobility();
-	//agentComp->Disable();
 	currentWayPoint = 0;
 	StartPath();
 }

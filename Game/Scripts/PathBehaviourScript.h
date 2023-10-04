@@ -29,6 +29,7 @@ public:
 private:
 	unsigned int currentWayPoint;
 	bool pathFinished;
+	float agentVelocity;
 
 	AIMovement* aiMovement;
 	ComponentAgent* agentComp;

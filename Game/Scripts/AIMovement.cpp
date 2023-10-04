@@ -66,7 +66,6 @@ void AIMovement::MoveToTarget(float deltaTime)
 	btVector3 movement(0, 0, 0);
 
 	forwardVector = targetPosition - componentTransform->GetGlobalPosition();
-	
 	forwardVector.y = 0;
 	forwardVector = forwardVector.Normalized();
 
