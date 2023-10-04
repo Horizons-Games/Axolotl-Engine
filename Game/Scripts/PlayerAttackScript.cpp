@@ -437,10 +437,13 @@ void PlayerAttackScript::EndJumpNormalAttack()
 {
 	jumpFinisherScript->VisualLandingEffect();
 
-	std::vector<ComponentRigidBody*> enemiesToHit = enemyDetection->GetEnemiesInTheArea();
-	if (!isMelee)
+	std::vector<ComponentRigidBody*> enemiesToHit;
+	if (isMelee)
 	{
-		enemiesToHit.clear();
+		enemiesToHit = enemyDetection->GetEnemiesInTheArea();
+	}
+	else
+	{
 		enemiesToHit.reserve(enemyDetection->GetEnemiesInTheArea().size());
 		enemyDetection->FilterEnemiesByDistance(6.5f, enemiesToHit); // 6.5f like the size of Bix jump attack
 	}
@@ -456,12 +459,15 @@ void PlayerAttackScript::EndJumpFinisherAttack()
 {
 	jumpFinisherScript->VisualLandingEffect();
 
-	std::vector<ComponentRigidBody*> enemiesToHit = enemyDetection->GetEnemiesInTheArea();
-	if (!isMelee)
+	std::vector<ComponentRigidBody*> enemiesToHit;
+	if (isMelee)
 	{
-		enemiesToHit.clear();
+		enemiesToHit = enemyDetection->GetEnemiesInTheArea();
+	}
+	else
+	{
 		enemiesToHit.reserve(enemyDetection->GetEnemiesInTheArea().size());
-		enemyDetection->FilterEnemiesByDistance(6.5f, enemiesToHit); // 6.5f like the size of Bix jump finisher attack
+		enemyDetection->FilterEnemiesByDistance(6.5f, enemiesToHit); // 6.5f like the size of Bix jump attack
 	}
 
 	if (!enemiesToHit.empty())
