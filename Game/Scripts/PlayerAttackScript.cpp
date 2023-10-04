@@ -46,17 +46,13 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	animation(nullptr), transform(nullptr), isMelee(true),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), jumpFinisherScript(nullptr),
 	lightFinisherScript(nullptr), normalAttackDistance(0.0f), heavyFinisherAttack(nullptr), lightWeapon(nullptr),
-	comboCountHeavy(10.0f), comboCountLight(30.0f), comboCountJump(20.0f), triggerNextAttackDuration(0.5f), 
+	comboCountHeavy(3.0f), comboCountLight(7.0f), comboCountJump(5.0f), triggerNextAttackDuration(0.5f), 
 	triggerNextAttackTimer(0.0f), isNextAttackTriggered(false), currentAttackAnimation(""),
 	numAttackComboAnimation(0.0f), isHeavyFinisherReceivedAux(false), jumpAttackCooldown(0.8f), timeSinceLastJumpAttack(0.0f),
-	jumpBeforeJumpAttackCooldown(0.1f)
+	jumpBeforeJumpAttackCooldown(0.1f), attackSoftDamage(10.0f), attackHeavyDamage(20.0f)
 {
-	REGISTER_FIELD(comboCountHeavy, float);
-	REGISTER_FIELD(comboCountLight, float);
-	REGISTER_FIELD(comboCountJump, float);
-
-	REGISTER_FIELD(attackSoft, float);
-	REGISTER_FIELD(attackHeavy, float);
+	REGISTER_FIELD(attackSoftDamage, float);
+	REGISTER_FIELD(attackHeavyDamage, float);
 	REGISTER_FIELD(normalAttackDistance, float);
 
 	REGISTER_FIELD(isAttacking, bool);
@@ -316,8 +312,9 @@ void PlayerAttackScript::LightNormalAttack()
 		if (enemyAttacked != nullptr)
 		{
 			LOG_VERBOSE("Enemy hit with light attack");
-			comboSystem->SuccessfulAttack(comboCountLight, AttackType::LIGHTNORMAL);
-			DamageEnemy(enemyAttacked, attackSoft);
+			comboSystem->SuccessfulAttack(comboCountLight * 
+				(comboSystem->GetComboCount() + 1.f), AttackType::LIGHTNORMAL);
+			DamageEnemy(enemyAttacked, attackSoftDamage);
 		}
 		else
 		{
@@ -329,9 +326,10 @@ void PlayerAttackScript::LightNormalAttack()
 		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CANNON_SHOT);
 		if (enemyAttacked != nullptr)
 		{
-			comboSystem->SuccessfulAttack(comboCountLight, AttackType::LIGHTNORMAL);
+			comboSystem->SuccessfulAttack(comboCountLight * 
+				(comboSystem->GetComboCount() + 1.f), AttackType::LIGHTNORMAL);
 		}
-		ThrowBasicAttack(enemyAttacked, attackSoft);
+		ThrowBasicAttack(enemyAttacked, attackSoftDamage);
 	}
 	isAttacking = true;
 }
@@ -339,7 +337,7 @@ void PlayerAttackScript::LightNormalAttack()
 void PlayerAttackScript::HeavyNormalAttack()
 {
 	//Activate visuals and audios
-	animation->SetParameter("IsLightAttacking", true); //Change if new heavy animations are implemented
+	animation->SetParameter("IsLightAttacking", true); AXO_TODO("Change if new heavy animations are implemented")
 
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
@@ -350,8 +348,9 @@ void PlayerAttackScript::HeavyNormalAttack()
 		if (enemyAttacked != nullptr)
 		{
 			LOG_VERBOSE("Enemy hit with heavy attack");
-			comboSystem->SuccessfulAttack(comboCountHeavy, AttackType::HEAVYNORMAL);
-			DamageEnemy(enemyAttacked, attackHeavy);
+			comboSystem->SuccessfulAttack(comboCountHeavy * 
+				(comboSystem->GetComboCount() + 1.f), AttackType::HEAVYNORMAL);
+			DamageEnemy(enemyAttacked, attackHeavyDamage);
 		}
 		else
 		{
@@ -363,9 +362,10 @@ void PlayerAttackScript::HeavyNormalAttack()
 		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CHARGED_SHOT);
 		if (enemyAttacked != nullptr)
 		{
-			comboSystem->SuccessfulAttack(comboCountHeavy, AttackType::HEAVYNORMAL);
+			comboSystem->SuccessfulAttack(comboCountHeavy * 
+				(comboSystem->GetComboCount() + 1.f), AttackType::HEAVYNORMAL);
 		}
-		ThrowBasicAttack(enemyAttacked, attackHeavy);
+		ThrowBasicAttack(enemyAttacked, attackHeavyDamage);
 	}
 	
 	isAttacking = true;
@@ -437,7 +437,7 @@ void PlayerAttackScript::EndJumpNormalAttack()
 	if (enemyDetection->AreAnyEnemiesInTheArea())
 	{
 		jumpFinisherScript->PushEnemies(10.0f, 2.0f, enemyDetection->GetEnemiesInTheArea());
-		comboSystem->SuccessfulAttack(comboCountJump, currentAttack);
+		comboSystem->SuccessfulAttack(comboCountJump * (comboSystem->GetComboCount() + 1.f), currentAttack);
 	}
 }
 
@@ -447,7 +447,7 @@ void PlayerAttackScript::EndJumpFinisherAttack()
 	if (enemyDetection->AreAnyEnemiesInTheArea())
 	{
 		jumpFinisherScript->PushEnemies(15.0f, 4.0f, enemyDetection->GetEnemiesInTheArea());
-		comboSystem->SuccessfulAttack(-35.0f, currentAttack);
+		comboSystem->SuccessfulAttack(-comboCountJump * 10, currentAttack);
 	}
 }
 
@@ -468,7 +468,7 @@ void PlayerAttackScript::LightFinisher()
 	}
 	lightFinisherScript->ThrowStunItem();
 
-	comboSystem->SuccessfulAttack(-comboCountLight * 2, AttackType::LIGHTFINISHER);
+	comboSystem->SuccessfulAttack(-comboCountLight * 10, AttackType::LIGHTFINISHER);
 }
 
 void PlayerAttackScript::HeavyFinisher()
@@ -486,12 +486,12 @@ void PlayerAttackScript::HeavyFinisher()
 	{
 		heavyFinisherAttack->PerformHeavyFinisher(enemyAttacked->GetComponent<ComponentTransform>(), 
 			GetOwner()->GetComponent<ComponentTransform>());
-		comboSystem->SuccessfulAttack(-comboCountHeavy * 2, AttackType::HEAVYFINISHER);
+		comboSystem->SuccessfulAttack(-comboCountHeavy * 10, AttackType::HEAVYFINISHER);
 	}
 	else
 	{
 		heavyFinisherAttack->PerformEmptyHeavyFinisher(GetOwner()->GetComponent<ComponentTransform>());
-		comboSystem->SuccessfulAttack(-comboCountHeavy * 2, AttackType::HEAVYFINISHER);
+		comboSystem->SuccessfulAttack(-comboCountHeavy * 10, AttackType::HEAVYFINISHER);
 	}
 }
 
