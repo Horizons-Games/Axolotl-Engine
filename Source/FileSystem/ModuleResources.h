@@ -158,11 +158,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		std::string libraryPath = CreateLibraryPath(uid, type);
 
 		long long assetTime = fileSystem->GetModificationDate(assetPath.c_str());
-		std::string libExtension = GENERAL_BINARY_EXTENSION;
-		if (type == ResourceType::Video)
-		{
-			libExtension = extension;
-		}
+		std::string libExtension = type == ResourceType::Video ? extension : GENERAL_BINARY_EXTENSION;
 		long long libTime = fileSystem->GetModificationDate((libraryPath + extension).c_str());
 		if (assetTime <= libTime)
 		{
@@ -203,12 +199,7 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		std::string libraryPath = CreateLibraryPath(uid, type);
 
 		long long assetTime = fileSystem->GetModificationDate(assetPath.c_str());
-		std::string libExtension = GENERAL_BINARY_EXTENSION;
-		if (type == ResourceType::Video)
-		{
-			libExtension = extension;
-		}
-		
+		std::string libExtension = type == ResourceType::Video ? extension : GENERAL_BINARY_EXTENSION;
 		long long libTime = fileSystem->GetModificationDate((libraryPath + libExtension).c_str());
 		if (assetTime <= libTime)
 		{

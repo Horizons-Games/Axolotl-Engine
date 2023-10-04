@@ -119,7 +119,10 @@ void ComponentVideo::Draw() const
 		glTexImage2D(
 			GL_TEXTURE_2D, 0, GL_RGBA8, video->GetFrameWidth(), video->GetFrameHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, frameData);
 	}
-	else program->BindUniformInt("hasDiffuse", 0);
+	else
+	{
+		program->BindUniformInt("hasDiffuse", 0);
+	}
 
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 
