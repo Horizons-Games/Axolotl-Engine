@@ -587,12 +587,12 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 		case AttackType::JUMPNORMAL:
 		case AttackType::JUMPFINISHER:
 		{
-			std::string actualName = currentAttackAnimation;
+			std::string currentAnimationName = currentAttackAnimation;
 			if (isMelee)
 			{
-				actualName = "JumpAttackRecovery";
+				currentAnimationName = "JumpAttackRecovery";
 			}
-			if (animation->GetController()->GetStateName() != actualName)
+			if (animation->GetController()->GetStateName() != currentAnimationName)
 			{
 				playerManager->ParalyzePlayer(false);
 				animation->SetParameter("IsJumpAttacking", false);
