@@ -95,6 +95,10 @@ void ComponentVideo::Draw() const
 		float factor = canvas->GetScreenFactor();
 		view = view * float4x4::Scale(factor, factor, factor);
 	}
+	else
+	{
+		LOG_ERROR("{} Video element is not inside a canvas", GetOwner()->GetName());
+	}
 
 	glUniformMatrix4fv(2, 1, GL_TRUE, (const float*) &view);
 	glUniformMatrix4fv(1, 1, GL_TRUE, (const float*) &model);
