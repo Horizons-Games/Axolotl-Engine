@@ -54,5 +54,5 @@ private:
 	bool clearCombo;
 
 	float transparency;
-	bool alphaActivated;
+	bool alphaEnabled;
 };

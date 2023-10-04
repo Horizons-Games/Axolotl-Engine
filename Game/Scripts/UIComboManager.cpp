@@ -12,7 +12,7 @@
 
 REGISTERCLASS(UIComboManager);
 
-UIComboManager::UIComboManager() : Script(), clearComboTimer(0.0f), clearCombo(false), alphaActivated(false)
+UIComboManager::UIComboManager() : Script(), clearComboTimer(0.0f), clearCombo(false), alphaEnabled(false)
 {
 	REGISTER_FIELD(inputPrefabSoft, GameObject*);
 	REGISTER_FIELD(inputPrefabHeavy, GameObject*);
@@ -118,14 +118,14 @@ void UIComboManager::Update(float deltaTime)
 
 	if (noFillBar && noFillBar->IsEnabled())
 	{
-		if (alphaActivated)
+		if (alphaEnabled)
 		{
 			transparency -= deltaTime;
 
 			if (transparency <= 0.5)
 			{
 				transparency = 0.5;
-				alphaActivated = false;
+				alphaEnabled = false;
 			}
 		}
 		else
@@ -135,7 +135,7 @@ void UIComboManager::Update(float deltaTime)
 			if (transparency <= 1.0)
 			{
 				transparency = 1.0;
-				alphaActivated = true;
+				alphaEnabled = true;
 			}
 		}
 		
