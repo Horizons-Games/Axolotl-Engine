@@ -955,7 +955,7 @@ void ModuleRender::BindCubemapToProgram(Program* program)
 	ComponentSkybox* sky = App->GetModule<ModuleScene>()->GetLoadedScene()
 		->GetRoot()->GetComponentInternal<ComponentSkybox>();
 
-	if (sky->GetUseCubeMap())
+	if (sky && sky->GetUseCubeMap())
 	{
 		Cubemap* skyCubemap = sky->GetCubemap();
 		glActiveTexture(GL_TEXTURE8);
