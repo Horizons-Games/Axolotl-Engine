@@ -1,15 +1,10 @@
 #pragma once
 
-#include <exception>
+#include "Exceptions/AxoDefaultException.h"
 
-class ComponentNotFoundException : public std::exception
+class ComponentNotFoundException : public AxoDefaultException
 {
 public:
 	ComponentNotFoundException(const std::string& message);
 	~ComponentNotFoundException() override = default;
-
-	const char* what() const noexcept override;
-
-private:
-	std::string message;
 };

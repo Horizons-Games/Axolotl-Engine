@@ -27,21 +27,20 @@ public:
 	void SetCanJump(bool canJump);
 
 	bool IsGrounded() const;
-	bool IsJumping() const;
+
+	float GetTimeSinceLastJump() const;
 
 private:
 	void CheckGround(float deltaTime);
 	void Jump(float deltaTime);
 
+	bool isFalling;
 	bool isGrounded;
 	bool doubleJumpAvailable;
-	bool isJumping;
-	int groundedCount;
 	float coyoteTime;
 	float coyoteTimerCount;
-	float lastVerticalVelocity;
-
 	float jumpParameter;
+	float timeSinceLastJump;
 	bool canDoubleJump;
 	bool canJump;
 

@@ -60,6 +60,8 @@ private:
 
 	void SaveSceneToJson(Json& jsonScene);
 
+	void LoadScene(const std::string& name, bool mantainScene, bool scheduleLoad);
+
 private:
 	std::unique_ptr<Scene> loadedScene;
 	GameObject* selectedGameObject;
