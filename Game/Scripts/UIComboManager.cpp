@@ -61,7 +61,7 @@ void UIComboManager::Update(float deltaTime)
 		{
 			for (int i = 0; i < inputVisuals.size(); i++)
 			{
-				inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(370, 370));
+				inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(370.f, 370.f));
 			}
 
 			for (GameObject* comboButton : comboButtons)
@@ -78,7 +78,7 @@ void UIComboManager::Update(float deltaTime)
 
 			for (int i = 0; i < inputVisuals.size(); i++)
 			{
-				inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(350, 350));
+				inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(350.f, 350.f));
 			}
 		}
 		clearComboTimer -= deltaTime;
@@ -90,9 +90,9 @@ void UIComboManager::Update(float deltaTime)
 		{
 			transparency -= deltaTime;
 
-			if (transparency <= 0.5)
+			if (transparency <= 0.5f)
 			{
-				transparency = 0.5;
+				transparency = 0.5f;
 				alphaEnabled = false;
 			}
 		}
@@ -100,14 +100,14 @@ void UIComboManager::Update(float deltaTime)
 		{
 			transparency += deltaTime;
 
-			if (transparency <= 1.0)
+			if (transparency <= 1.0f)
 			{
-				transparency = 1.0;
+				transparency = 1.0f;
 				alphaEnabled = true;
 			}
 		}
 		
-		noFillBar->GetComponent<ComponentImage>()->SetColor(float4(1, 1, 1, transparency));
+		noFillBar->GetComponent<ComponentImage>()->SetColor(float4(1.f, 1.f, 1.f, transparency));
 	}
 }
 
@@ -120,13 +120,13 @@ void UIComboManager::SetActivateSpecial(bool activate)
 {
 	if (activate) 
 	{
-		comboBar->GetFill()->GetComponent<ComponentImage>()->SetColor(float4(1, 1, 1, 1));
-		comboBar->GetBackground()->GetComponent<ComponentImage>()->SetColor(float4(1, 1, 1, 1));
+		comboBar->GetFill()->GetComponent<ComponentImage>()->SetColor(float4::one);
+		comboBar->GetBackground()->GetComponent<ComponentImage>()->SetColor(float4::one);
 	}
 	else 
 	{
-		comboBar->GetFill()->GetComponent<ComponentImage>()->SetColor(float4(1, 1, 1, 1));
-		comboBar->GetBackground()->GetComponent<ComponentImage>()->SetColor(float4(1, 1, 1, 1));
+		comboBar->GetFill()->GetComponent<ComponentImage>()->SetColor(float4::one);
+		comboBar->GetBackground()->GetComponent<ComponentImage>()->SetColor(float4::one);
 	}
 }
 
@@ -212,6 +212,6 @@ void UIComboManager::UpdateFadeOut(float transparency)
 {
 	for (int i = 0; i < inputVisuals.size(); i++)
 	{
-		inputVisuals[i]->GetComponent<ComponentImage>()->SetColor(float4(1, 1, 1, transparency));
+		inputVisuals[i]->GetComponent<ComponentImage>()->SetColor(float4(1.f, 1.f, 1.f, transparency));
 	}
 }
