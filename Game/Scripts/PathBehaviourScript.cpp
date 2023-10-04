@@ -57,7 +57,6 @@ void PathBehaviourScript::StartPath() const
 	rigidBody->Enable();
 	rigidBody->SetUpMobility();
 	rigidBody->SetIsKinematic(false);
-	rigidBody->SetUpMobility();
 	agentComp->RemoveAgentFromCrowd();
 	aiMovement->SetTargetPosition(target);
 	aiMovement->SetRotationTargetPosition(target);

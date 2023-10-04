@@ -737,7 +737,7 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 
 	if (player && quadtree->IsLeaf() && quadtree->InQuadrant(player))
 	{
-		quadtree->GetParent()->AddRigidBodiesToSimulation();
+		quadtree->GetParent()->GetParent()->AddRigidBodiesToSimulation();
 	}
 
 	else
