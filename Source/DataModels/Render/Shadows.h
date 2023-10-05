@@ -39,7 +39,7 @@ public:
 
 private:
 	void PracticalPartition(Frustum* frustum, float lambda);
-	Frustum& ComputeLightFrustum(const GameObject* light, Frustum* cameraFrustum);
+	Frustum ComputeLightFrustum(const GameObject* light, Frustum* cameraFrustum);
 
 private:
 	struct LightSpaceMatrices
