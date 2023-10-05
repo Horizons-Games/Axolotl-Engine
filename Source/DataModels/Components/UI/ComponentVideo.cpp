@@ -330,7 +330,7 @@ bool ComponentVideo::isPlayAtStart()
 	return playAtStart;
 }
 
-bool ComponentVideo::GetCanBeRotate()
+bool ComponentVideo::CanBeRotate()
 {
 	return video ? video->GetCanRotate() : false;
 }

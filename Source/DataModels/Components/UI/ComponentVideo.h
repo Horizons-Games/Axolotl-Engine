@@ -12,10 +12,10 @@ public:
 	~ComponentVideo() override;
 	ComponentVideo(const ComponentVideo& toCopy);
 	void SetLoop(bool loop);
-	bool GetLoop();
-	bool GetCanBeRotate();
+	bool IsLooping();
+	bool CanBeRotate();
 	void SetRotateVertical(bool rotateVertical);
-	bool GetRotateVertical();
+	bool CanRotateVertical();
 	void SetVideo(const std::shared_ptr<ResourceVideo>& video);
 	void SetPlayAtStart(bool playAtStart);
 	bool GetPlayAtStart();
@@ -55,12 +55,12 @@ inline void ComponentVideo::SetRotateVertical(bool rotateVertical)
 	this->rotateVertical = rotateVertical;
 }
 
-inline bool ComponentVideo::GetRotateVertical()
+inline bool ComponentVideo::CanRotateVertical()
 {
 	return rotateVertical;
 }
 
-inline bool ComponentVideo::GetLoop()
+inline bool ComponentVideo::IsLooping()
 {
 	return this->loop;
 }
