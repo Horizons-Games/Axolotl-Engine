@@ -138,7 +138,7 @@ void Cubemap::GenerateMaps(bool hasSkybox)
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, cubemapRes->GetHDRTexture()->GetGlTexture());
 
-		RenderToCubeMap(cubemap, hdrToCubemapProgram, CUBEMAP_RESOLUTION);
+		RenderToCubemap(cubemap, hdrToCubemapProgram, CUBEMAP_RESOLUTION);
 		hdrToCubemapProgram->Deactivate();
 	}
 	

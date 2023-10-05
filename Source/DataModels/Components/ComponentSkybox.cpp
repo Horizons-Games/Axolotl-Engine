@@ -8,12 +8,9 @@
 #include "Filesystem/ModuleResources.h"
 #include "Resources/ResourceSkyBox.h"
 
-#include "Scene/Scene.h"
-#include "GameObject/GameObject.h"
 #include "DataModels/Program/Program.h"
 #include "Cubemap/Cubemap.h"
 
-#include "Camera/Camera.h"
 
 ComponentSkybox::ComponentSkybox(bool active, GameObject* owner) : 
 	Component(ComponentType::SKYBOX, active, owner, true), useCubemap(false)
