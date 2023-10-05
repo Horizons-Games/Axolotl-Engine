@@ -29833,6 +29833,120 @@
                     }
                 ]
             }
+        },
+        {
+            "GameObject": {
+                "name": "EndLevel",
+                "tag": "",
+                "uid": 13396305359692563729,
+                "parentUID": 4811276466569697195,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 1702.7144775390625,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 0.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 26.5,
+                            "boxSize_Y": 10.0,
+                            "boxSize_Z": 13.5,
+                            "radius": 1.7320507764816284,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 0.0,
+                            "rbPos_Z": 1702.7144775390625,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "UITrigger",
+                            "fields": [
+                                {
+                                    "name": "IsWinTrigger",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsLoseTrigger",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsNextSceneTrigger",
+                                    "value": true,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsLoseByDamage",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "SetGameStateObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SetPlayer",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "DamageTaken",
+                                    "value": 1.0,
+                                    "type": 0
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
         }
     ],
     "Quadtree": {

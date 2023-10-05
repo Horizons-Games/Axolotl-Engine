@@ -82,14 +82,21 @@ void UITrigger::Update(float deltaTime)
 		}
 		else if (isNextSceneTrigger)
 		{
-			App->GetModule<ModuleScene>()->LoadScene("Lib/Scenes/_LEVEL02_ALFA.axolotl");
+			if (App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot()->GetName() == "SpaceshipLevel")
+			{
+				App->GetModule<ModuleScene>()->LoadScene("Lib/Scenes/_LEVEL02_ALFA.axolotl");
+			}
+			else
+			{
+				App->GetModule<ModuleScene>()->LoadScene("Lib/Scenes/SpaceshipLevel.axolotl");
+			}
 		}
 	}
 }
 
 void UITrigger::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->CompareTag("Player"))
+	if (other->GetOwner()->CompareTag("Player") || other->GetOwner()->CompareTag("PlayerSpaceship"))
 	{
 		onTriggerState = true;
 	}
@@ -97,7 +104,7 @@ void UITrigger::OnCollisionEnter(ComponentRigidBody* other)
 
 void UITrigger::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->CompareTag("Player"))
+	if (other->GetOwner()->CompareTag("Player") || other->GetOwner()->CompareTag("PlayerSpaceship"))
 	{
 		onTriggerState = false;
 	}
