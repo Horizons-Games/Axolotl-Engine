@@ -41,6 +41,7 @@ public:
 
 	bool isTransitioning();
 	bool IsPlaying() const;
+	void ForceTransition();
 	std::string& GetActualStateName() const;
 
 private:
@@ -50,12 +51,16 @@ private:
 	void SaveModelTransform(GameObject* gameObject);
 	void LoadModelTransform(GameObject* gameObject);
 
+	void InitAnimation(State* newState, bool useTransitionDuration = false);
+	void ApplyTransform();
+	
 	std::unique_ptr<AnimationController> controller;
 	std::unique_ptr<StateMachine> stateMachineInstance;
 	std::unordered_map<GameObject*, float4x4> defaultPosition;
 
 	bool firstEntry;
 	bool drawBones;
+	bool initTransition;
 };
 
 inline void ComponentAnimation::ActivateDrawBones(bool drawBones)

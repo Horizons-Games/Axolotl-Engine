@@ -22,6 +22,7 @@ ComponentAnimation::ComponentAnimation(const bool active, GameObject* owner) :
 	Component(ComponentType::ANIMATION, active, owner, true),
 	drawBones(false),
 	firstEntry(true),
+	initTransition(false),
 	controller(std::make_unique<AnimationController>()),
 	stateMachineInstance(std::make_unique<StateMachine>())
 {
@@ -64,62 +65,88 @@ void ComponentAnimation::SetStateMachine(std::shared_ptr<ResourceStateMachine> s
 
 void ComponentAnimation::Update()
 {
-	if (stateMachineInstance->GetStateMachine())
+	if (!stateMachineInstance->GetStateMachine())
 	{
-		GameObject* owner = GetOwner();
+		return;
+	}
 
-		if (firstEntry) // Entry State
-		{
-			SaveModelTransform(owner);
-			firstEntry = false;
-		}
+	if (firstEntry) // Entry State
+	{
+		SaveModelTransform(GetOwner());
+		firstEntry = false;
+	}
 
-		controller->Update();
-		stateMachineInstance->Update(!controller->GetPlay());
-		if (!stateMachineInstance->IsTransitioning())
+	controller->Update();
+	stateMachineInstance->Update(!controller->GetPlay());
+	bool transitioning = stateMachineInstance->IsTransitioning();
+	if (controller->GetPlay() && (!transitioning || initTransition))
+	{
+		ApplyTransform();
+	}
+	else
+	{
+		if (transitioning)
 		{
-			State* state = stateMachineInstance->GetActualState();
-			if (state)
+			if (!initTransition && stateMachineInstance->GetActualTransitionDuration() > 0.0)
 			{
-				if (controller->GetPlay())
-				{
-					std::list<GameObject*> children = owner->GetAllDescendants();
-
-					for (auto child : children)
-					{
-						float3 pos;
-						Quat rot;
-
-						if (controller->GetTransform(&child->GetName()[0], pos, rot))
-						{
-							ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
-							transform->SetLocalPosition(pos);
-							transform->SetLocalRotation(rot);
-						}
-					}
-					owner->GetComponentInternal<ComponentTransform>()->UpdateTransformMatrices();
-				}
-				else if (state->resource && state->loop)
-				{
-					controller->Play(state, false);
-				}
-			}
-		}
-		else
-		{
-			State* state = stateMachineInstance->GetNextState();
-			if (state->resource)
-			{
-				controller->Play(state, false);
+				InitAnimation(stateMachineInstance->GetNextState(), true);
+				initTransition = true;
 			}
 			else
 			{
-				controller->Stop();
-				LoadModelTransform(owner);
-				owner->GetComponentInternal<ComponentTransform>()->UpdateTransformMatrices();
+				stateMachineInstance->FinishTransition();
+				initTransition = false;
+				InitAnimation(stateMachineInstance->GetActualState());
 			}
 		}
+		else if (stateMachineInstance->GetActualState()->resource && stateMachineInstance->GetActualState()->loop)
+		{
+			InitAnimation(stateMachineInstance->GetActualState());
+		}
 	}
+}
+
+void ComponentAnimation::InitAnimation(State* newState, bool useTransitionDuration)
+{
+	if (newState->resource)
+	{
+		if (useTransitionDuration)
+		{
+			controller->Play(newState, false, stateMachineInstance->GetActualTransitionDuration());
+		}
+		else
+		{
+			controller->Play(newState, false);
+		}
+	}
+	else
+	{
+		controller->Stop();
+		LoadModelTransform(GetOwner());
+		GetOwner()->GetComponentInternal<ComponentTransform>()->UpdateTransformMatrices();
+	}
+}
+
+void ComponentAnimation::ApplyTransform()
+{
+	GameObject* owner = GetOwner();
+
+	std::list<GameObject*> children = owner->GetAllDescendants();
+
+	for (auto child : children)
+	{
+		float3 pos;
+		Quat rot;
+
+		if (controller->GetTransform(&child->GetName()[0], pos, rot, initTransition))
+		{
+			ComponentTransform* transform = child->GetComponentInternal<ComponentTransform>();
+			transform->SetLocalPosition(pos);
+			transform->SetLocalRotation(rot);
+		}
+	}
+
+	owner->GetComponentInternal<ComponentTransform>()->UpdateTransformMatrices();
 }
 
 void ComponentAnimation::Draw() const
@@ -226,6 +253,16 @@ bool ComponentAnimation::isTransitioning()
 bool ComponentAnimation::IsPlaying() const
 {
 	return controller->GetPlay();
+}
+
+void ComponentAnimation::ForceTransition()
+{
+	if (initTransition)
+	{
+		stateMachineInstance->FinishTransition();
+		initTransition = false;
+		InitAnimation(stateMachineInstance->GetActualState());
+	}
 }
 
 std::string& ComponentAnimation::GetActualStateName() const

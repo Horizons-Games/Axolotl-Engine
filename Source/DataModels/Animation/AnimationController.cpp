@@ -19,10 +19,20 @@ AnimationController::~AnimationController()
 {
 }
 
-void AnimationController::Play(State* stateResource, bool loop)
+void AnimationController::Play(State* stateResource, bool loop, double duration)
 {
-	this->stateResource = stateResource;
-	resource = std::dynamic_pointer_cast<ResourceAnimation>(stateResource->resource);
+	if (duration == DEFAULT_DURATION)
+	{
+		this->stateResource = stateResource;
+		resource = std::dynamic_pointer_cast<ResourceAnimation>(stateResource->resource);
+		this->duration = resource->GetDuration();
+	}
+	else
+	{
+		nextResource = std::dynamic_pointer_cast<ResourceAnimation>(stateResource->resource);
+		lastSampleTime = (currentTime / this->duration);
+		this->duration = duration;
+	}
 	isLooping = loop;
 	isPlaying = true;
 	currentTime = 0;
@@ -38,7 +48,7 @@ void AnimationController::Update()
 {
 	if (isPlaying && resource)
 	{
-		float duration = static_cast<float>(resource->GetDuration());
+		float duration = static_cast<float>(this->duration);
 
 		currentTime += App->GetDeltaTime() * stateResource->speed * 10;
 		if (currentTime > duration)
@@ -55,27 +65,49 @@ void AnimationController::Update()
 	}
 }
 
-bool AnimationController::GetTransform(const std::string& name, float3& pos, Quat& rot)
+bool AnimationController::GetTransform(const std::string& name, float3& pos, Quat& rot, bool interpolateTransition)
 {
 	ResourceAnimation::Channel* channel = resource->GetChannel(name);
 
 	if (channel)
 	{
-		float currentSample =
-			static_cast<float>((currentTime * (channel->positions.size() - 1)) / resource->GetDuration());
+		float time = interpolateTransition? lastSampleTime : (currentTime / this->duration);
+		float currentSample = static_cast<float>(time * (channel->positions.size() - 1));
 
 		int first = static_cast<int>(floor(currentSample));
 		int second = static_cast<int>(ceil(currentSample));
 
 		float3 firstPos = channel->positions[first];
 		float3 secondPos = channel->positions[second];
-		;
+		
 		Quat firstQuat = channel->rotations[first];
 		Quat secondQuat = channel->rotations[second];
 		float lambda = currentSample - first;
 
 		pos = Interpolate(firstPos, secondPos, lambda);
 		rot = Interpolate(firstQuat, secondQuat, lambda);
+
+		if (interpolateTransition)
+		{
+			ResourceAnimation::Channel* nextChannel = nextResource->GetChannel(name);
+
+			if (!nextChannel)
+			{
+				return false;
+			}
+
+			currentSample = static_cast<float>((currentTime / this->duration));
+
+			first = static_cast<int>(floor(currentSample));
+
+			secondPos = nextChannel->positions[0];
+
+			secondQuat = nextChannel->rotations[0];
+			lambda = currentSample - first;
+
+			pos = Interpolate(firstPos, secondPos, lambda);
+			rot = Interpolate(firstQuat, secondQuat, lambda);
+		}
 
 		return true;
 	}
