@@ -213,7 +213,7 @@ void WindowInspector::InspectSelectedGameObject()
 			// This should be changed into a pop-up windows
 			if (ImGui::Checkbox("Static", &staticness))
 			{
-				lastSelectedGameObject->SetStatic(staticness);
+				lastSelectedGameObject->SetIsStatic(staticness);
 				lastSelectedGameObject->SpreadStatic();
 			}
 
