@@ -67,6 +67,25 @@ void ResourceVideo::InternalUnload()
 {
 	glDeleteTextures(1, &glFrameBuffer);
 	glFrameBuffer = 0;
+
+	if (formatCtx)
+	{
+		avformat_close_input(&formatCtx);
+	}
+	if (videoCodecCtx)
+	{
+		avcodec_close(videoCodecCtx);
+		av_free(videoCodecCtx);
+	}
+	if (avPacket)
+	{
+		av_packet_unref(avPacket);
+		av_packet_free(&avPacket);
+	}
+	if (avFrame)
+	{
+		av_frame_free(&avFrame);
+	}
 }
 
 void ResourceVideo::OpenVideo(const char* filePath)

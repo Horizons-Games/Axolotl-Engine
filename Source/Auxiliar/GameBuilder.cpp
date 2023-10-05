@@ -111,7 +111,7 @@ void CreateZip(const std::string& startingScene)
 {
 	CopyFolderInLib(SCENE_PATH, "Scenes/");
 	CopyFolderInLib("Source/Shaders/", "Shaders/");
-
+	CopyFolderInLib("Source/Videos/", "Videos/");
 	{
 		ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 		ConnectedCallback connectedCallback = fileSystem->RegisterFileZippedCallback(&OnFileZipped);
