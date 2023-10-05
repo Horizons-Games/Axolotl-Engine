@@ -187,6 +187,7 @@
     <ClCompile Include="..\Game\Scripts\BossShieldAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossShieldScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CombatTutorial.cpp" />
+    <ClCompile Include="..\Game\Scripts\CameraBossControllerScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ComboManager.cpp" />
     <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp" />
@@ -875,6 +876,7 @@
     <ClInclude Include="..\Game\Scripts\BossShieldAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\BossShieldScript.h" />
     <ClInclude Include="..\Game\Scripts\CombatTutorial.h" />
+    <ClInclude Include="..\Game\Scripts\CameraBossControllerScript.h" />
     <ClInclude Include="..\Game\Scripts\CombatZoneScript.h" />
     <ClInclude Include="..\Game\Scripts\ComboManager.h" />
     <ClInclude Include="..\Game\Scripts\ElevatorCore.h" />

@@ -789,6 +789,11 @@
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\CombatTutorial.cpp">
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CameraBossControllerScript.cpp">
+      <Filter>UserScripts\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
     <ClCompile Include="Enums\WritableEnum.cpp">
@@ -1650,6 +1655,11 @@
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\CombatTutorial.h">
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CameraBossControllerScript.h">
+      <Filter>UserScripts\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ElevatorCore.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
     <ClInclude Include="Enums\WritableEnum.h">
