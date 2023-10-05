@@ -18,6 +18,7 @@
 #include "ParticleBillboardAssistance.h"
 
 #include "../Scripts/CameraControllerScript.h"
+#include "../Scripts/CameraBossControllerScript.h"
 #include "UIComboManager.h"
 #include "ComboManager.h"
 
@@ -30,9 +31,11 @@ SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullpt
 	modulePlayer(nullptr), isSwitchAvailable(true), changingPlayerTime{200.f, 800.f, 1800.f},
 	currentPlayerHealthBar(nullptr), secondPlayerHealthBar(nullptr), currentHealthBarTransform(nullptr),
 	secondHealthBarTransform(nullptr), currentPlayerTransform(nullptr), secondPlayerTransform(nullptr),
-	particlesTransofrm(nullptr), isSecondJumpAvailable(true), comboSystem(nullptr)
+	particlesTransofrm(nullptr), isSecondJumpAvailable(true), comboSystem(nullptr),
+	cameraBoss(nullptr), bossScene(false)
 {
 	REGISTER_FIELD(isSwitchAvailable, bool);
+	REGISTER_FIELD(bossScene, bool);
 	REGISTER_FIELD(currentPlayerHealthBar, GameObject*);
 	REGISTER_FIELD(secondPlayerHealthBar, GameObject*);
 	REGISTER_FIELD(secondPlayer, GameObject*);
@@ -56,12 +59,18 @@ void SwitchPlayerManagerScript::Start()
 	
 	mainCamera = modulePlayer->GetCameraPlayerObject();
 
-	camera = mainCamera->GetComponent<CameraControllerScript>();
-	cameraTransform = mainCamera->GetComponent<ComponentTransform>();
+
+	if (bossScene)
+	{
+		cameraBoss = mainCamera->GetComponent<CameraBossControllerScript>();
+	}
+	else
+	{
+		camera = mainCamera->GetComponent<CameraControllerScript>();
+	}
 
 	playerManager = currentPlayer->GetComponent<PlayerManagerScript>();
 
-	camera->ChangeCurrentPlayer(currentPlayerTransform);
 
 	if (switchPlayersParticlesPrefab)
 	{
@@ -162,7 +171,14 @@ void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 {
 	componentAnimation = currentPlayer->GetComponent<ComponentAnimation>();
 	componentAnimation->SetParameter("IsJumping", true);
-	camera->ToggleCameraState();
+	if (camera)
+	{
+		camera->ToggleCameraState();
+	}
+	else
+	{
+		cameraBoss->ToggleCameraState();
+	}
 	currentPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(true);
 	playerManager->TriggerJump(true);
 
@@ -180,8 +196,15 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 {
 	if (changePlayerTimer.Read() >= changingPlayerTime[2])
 	{	
-		camera->ChangeCurrentPlayer(secondPlayerTransform);
-
+		if (camera)
+		{
+			camera->ChangeCurrentPlayer(secondPlayerTransform);
+		}
+		else
+		{
+			cameraBoss->ChangeCurrentPlayer(secondPlayerTransform);
+		}
+		
 		changePlayerTimer.Stop();
 		isChangingPlayer = false;
 		isNewPlayerEnabled = !isNewPlayerEnabled;

@@ -7,6 +7,7 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class CameraBossControllerScript;
 class CameraControllerScript;
 class ComponentAnimation;
 class ComponentTransform;
@@ -50,7 +51,7 @@ private:
 	GameObject* secondPlayerHealthBar;
 	GameObject* mainCamera;
 	CameraControllerScript* camera;
-	ComponentTransform* cameraTransform;
+	CameraBossControllerScript* cameraBoss;
 
 	ComponentTransform* currentPlayerTransform;
 	ComponentTransform* secondPlayerTransform;
@@ -80,6 +81,8 @@ private:
 	bool isSwitchingHealthBars;
 	bool isChangingPlayer;
 	bool isNewPlayerEnabled;
-	bool isSwitchAvailable;
 	bool isSecondJumpAvailable;
+
+	bool bossScene;
+	bool isSwitchAvailable;
 };
