@@ -38,4 +38,9 @@ private:
 	ComponentRigidBody* rigidBody;
 	HealthSystem* enemyHealth;
 	std::vector<ComponentTransform*> waypointsPath;
+
+	bool axisX;
+	bool axisZ;
+	float axisXMaxPos;
+	float axisZMaxPos;
 };

@@ -1,6 +1,9 @@
 #include "StdAfx.h"
 #include "PathBehaviourScript.h"
 
+#include "Application.h"
+#include "Modules/ModuleRandom.h"
+
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAgent.h"
@@ -18,6 +21,12 @@ PathBehaviourScript::PathBehaviourScript() : Script(),
 	REGISTER_FIELD(waypointsPath, std::vector<ComponentTransform*>);
 	REGISTER_FIELD(agentVelocity, float);
 	REGISTER_FIELD(isInmortal, bool);
+
+	//Init final pos for spwaned enemies
+	REGISTER_FIELD(axisX, bool);
+	REGISTER_FIELD(axisZ, bool);
+	REGISTER_FIELD(axisXMaxPos, float);
+	REGISTER_FIELD(axisZMaxPos, float);
 }
 
 void PathBehaviourScript::Start()
@@ -53,6 +62,8 @@ void PathBehaviourScript::Update(float deltaTime)
 			{
 				enemyHealth->SetIsImmortal(false);
 			}
+
+
 		}
 	}
 }
@@ -78,7 +89,35 @@ void PathBehaviourScript::StartPath() const
 void PathBehaviourScript::NextPath()
 {
 	currentWayPoint++;
-	float3 target = waypointsPath[currentWayPoint]->GetGlobalPosition();
+
+	float3 target;
+
+	if (currentWayPoint == waypointsPath.size() - 1)
+	{
+		if (axisX)
+		{
+			float newX = (App->GetModule<ModuleRandom>()->RandomNumberInRange(-axisXMaxPos, axisXMaxPos)
+				+ waypointsPath[currentWayPoint]->GetGlobalPosition().x);
+			
+			target = float3(newX,
+			waypointsPath[currentWayPoint]->GetGlobalPosition().y, 
+			waypointsPath[currentWayPoint]->GetGlobalPosition().z);
+		}
+
+		if (axisZ)
+		{
+			float newZ = (App->GetModule<ModuleRandom>()->RandomNumberInRange(-axisXMaxPos, axisXMaxPos)
+				+ waypointsPath[currentWayPoint]->GetGlobalPosition().x);
+
+			target = float3(waypointsPath[currentWayPoint]->GetGlobalPosition().x,
+				waypointsPath[currentWayPoint]->GetGlobalPosition().y,
+				newZ);
+		}
+	}
+	else
+	{
+		target = waypointsPath[currentWayPoint]->GetGlobalPosition();
+	}
 
 	aiMovement->SetTargetPosition(target);
 	aiMovement->SetRotationTargetPosition(target);
