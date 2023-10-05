@@ -17,6 +17,7 @@ class BossShieldAttackScript;
 class BossMissilesAttackScript;
 class ComponentAgent;
 class AIMovement;
+class ModulePlayer;
 
 enum class FinalBossPhases
 {
@@ -85,4 +86,5 @@ private:
 
 	// Modifiable values
 	GameObject* target;
+	ModulePlayer* modulePlayer;
 };

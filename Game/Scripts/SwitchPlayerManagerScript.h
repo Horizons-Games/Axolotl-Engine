@@ -17,7 +17,6 @@ class PlayerManagerScript;
 class ModuleInput;
 class ModulePlayer;
 class ComboManager;
-class UIComboManager;
 
 class SwitchPlayerManagerScript : public Script
 {
@@ -44,7 +43,6 @@ private:
 	Timer changePlayerTimer;
 	std::vector<float> changingPlayerTime;
 
-	UIComboManager* uiComboManager;
 	ComboManager* comboSystem;
 
 	GameObject* currentPlayerHealthBar;
@@ -59,7 +57,7 @@ private:
 	GameObject* switchPlayersParticlesPrefab;
 	GameObject* actualSwitchPlayersParticles;
 
-	ComponentTransform* particlesTransofrm;
+	ComponentTransform* particlesTransform;
 
 	GameObject* currentPlayer;
 	GameObject* secondPlayer;

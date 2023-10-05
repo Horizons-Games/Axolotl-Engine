@@ -40,6 +40,7 @@ public:
 	void FillComboBar();
 
 	void ClearCombo(bool finisher);
+	void ClearComboForSwitch(bool finisher);
 	UIComboManager* GetUiComboManager() const;
 
 private:

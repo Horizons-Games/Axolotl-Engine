@@ -27,13 +27,14 @@ void SeekBehaviourScript::Start()
 	{
 		targetTransform = target->GetComponent<ComponentTransform>();
 	}
+	modulePlayer = App->GetModule<ModulePlayer>();
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 	aiMovement = owner->GetComponent<AIMovement>();
 }
 
 void SeekBehaviourScript::Update(float deltaTime)
 {
-	if (target != App->GetModule<ModulePlayer>()->GetPlayer()) 
+	if (target != modulePlayer->GetPlayer())
 	{
 		target = App->GetModule<ModulePlayer>()->GetPlayer();
 	}

@@ -6,6 +6,7 @@
 
 class ComponentTransform;
 class AIMovement;
+class ModulePlayer;
 
 class SeekBehaviourScript : public Script
 {
@@ -25,6 +26,7 @@ public:
 
 private:
 	GameObject* target;
+	ModulePlayer* modulePlayer;
 
 	ComponentTransform* targetTransform;
 	ComponentTransform* ownerTransform;

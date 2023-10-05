@@ -7,6 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 enum class PowerUpType;
 class UIGameManager;
+class ModulePlayer;
 
 class PowerUpsManagerScript : public Script
 {
@@ -45,6 +46,7 @@ private:
 
 	GameObject* player;
 	GameObject* setUIManager;
+	ModulePlayer* modulePlayer;
 
 	// To be changed to Player Manager
 	PowerUpType activePowerUp;

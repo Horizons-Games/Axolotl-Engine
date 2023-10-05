@@ -43,6 +43,7 @@ UITrigger::~UITrigger()
 void UITrigger::Start()
 {
 	setPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
+	modulePlayer = App->GetModule<ModulePlayer>();
 	//componentAudio = static_cast<ComponentAudioSource*>(owner->GetComponent(ComponentType::AUDIOSOURCE));
 	//componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
 	componentRigidBody = owner->GetComponent<ComponentRigidBody>();
@@ -60,7 +61,7 @@ void UITrigger::Start()
 
 void UITrigger::Update(float deltaTime)
 {
-	if (setPlayer != App->GetModule<ModulePlayer>()->GetPlayer())
+	if (setPlayer != modulePlayer->GetPlayer())
 	{
 		setPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
 	}

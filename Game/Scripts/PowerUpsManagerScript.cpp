@@ -30,13 +30,14 @@ PowerUpsManagerScript::PowerUpsManagerScript() : Script(), amountHealed(20.f), a
 void PowerUpsManagerScript::Start()
 {
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
+	modulePlayer = App->GetModule<ModulePlayer>();
 	uiManagerScript = setUIManager->GetComponent<UIGameManager>();
 	uiManagerScript->SetMaxPowerUpTime(maxPowerUpTimer);
 }
 
 void PowerUpsManagerScript::Update(float deltaTime)
 {
-	if (player != App->GetModule<ModulePlayer>()->GetPlayer())
+	if (player != modulePlayer->GetPlayer())
 	{
 		currentPowerUpTimer = maxPowerUpTimer;
 		player = App->GetModule<ModulePlayer>()->GetPlayer();

@@ -11,6 +11,7 @@ class ComponentAudioSource;
 class ComponentRigidBody;
 class ComponentTransform;
 class GameObject;
+class ModulePlayer;
 
 class HealthSystem;
 
@@ -55,6 +56,7 @@ private:
 	PositionState positionState;
 
 	GameObject* currentPlayer;
+	ModulePlayer* modulePlayer;
 	ComponentTransform* playerTransform;
 
 	GameObject* elevator;
