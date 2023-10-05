@@ -126,6 +126,10 @@ void DebugGame::Update(float deltaTime)
 		Teleport();
 		playerOnLocation = false;
 	}
+	else if (input->GetKey(SDL_SCANCODE_F12) == KeyState::DOWN)
+	{
+		ToggleHUD();
+	}
 
 	// TELEPORT MOVEMENT
 	if (!playerOnLocation)
@@ -243,6 +247,21 @@ void DebugGame::DeathTouch() const
 	{
 		playerAttackScript->SetIsDeathTouched(false);
 		LOG_INFO("DEATH TOUCH DEACTIVATED");
+	}
+}
+
+void DebugGame::ToggleHUD()
+{
+	GameObject* HUD = App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot()->FindGameObject("HUD");
+	if (HUD->IsEnabled())
+	{
+		LOG_INFO("HUD DISABLED");
+		HUD->Disable();
+	}
+	else
+	{
+		LOG_INFO("HUD ENABLED");
+		HUD->Enable();
 	}
 }
 

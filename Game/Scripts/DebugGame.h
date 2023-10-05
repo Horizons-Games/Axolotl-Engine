@@ -33,6 +33,7 @@ public:
 	void PowerUpDrop() const;
 
 	void Teleport();
+	void ToggleHUD();
 	bool IsTeleporting() const;
 
 private:
