@@ -18,14 +18,14 @@ public:
 
 	void MoveImageToEndPosition();
 	void MoveImageToStarPosition();
-	bool GetIsMovingToEnd() const;
-	bool GetIsMoving() const;
+	bool IsMovingToEnd() const;
+	bool IsMoving() const;
 	void SetIsMoving(bool isMoving);
 	bool SetMovingToEnd(bool movingToEnd);
 
 private:
-	bool isMovingToEnd = false;
-	bool isMoving = false;
+	bool movingToEnd = false;
+	bool moving = false;
 
 	float3 startPosition;
 	float3 endPosition;
@@ -34,25 +34,25 @@ private:
 	ComponentTransform2D* imageTransform;
 };
 
-inline bool UIImageDisplacementControl::GetIsMovingToEnd() const
+inline bool UIImageDisplacementControl::IsMovingToEnd() const
 {
-	return isMovingToEnd;
+	return movingToEnd;
 }
 
 inline bool UIImageDisplacementControl::SetMovingToEnd(bool movingToEnd)
 {
-	return isMovingToEnd = movingToEnd;
+	return movingToEnd = movingToEnd;
 }
 
-inline bool UIImageDisplacementControl::GetIsMoving() const
+inline bool UIImageDisplacementControl::IsMoving() const
 {
-	return isMoving;
+	return moving;
 }
 
 inline void UIImageDisplacementControl::SetIsMoving(bool IsMoving) 
 {
 
-	this->isMoving = IsMoving;
+	this->moving = IsMoving;
 
 }
 

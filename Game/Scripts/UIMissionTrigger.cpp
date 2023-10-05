@@ -45,7 +45,7 @@ void UIMissionTrigger::Start()
 
 void UIMissionTrigger::Update(float deltaTime)
 {
-	if (missionImageDisplacementExit != nullptr && !missionImageDisplacementExit->GetIsMoving() && wasInside)
+	if (missionImageDisplacementExit != nullptr && !missionImageDisplacementExit->IsMoving() && wasInside)
 	{
 		missionImageDisplacement->SetMovingToEnd(true);
 		missionImageDisplacement->MoveImageToEndPosition();

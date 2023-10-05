@@ -18,9 +18,9 @@ void UIImageDisplacementControl::Start()
 
 void UIImageDisplacementControl::Update(float deltaTime)
 {
-	if (isMoving)
+	if (moving)
 	{
-		if (isMovingToEnd)
+		if (movingToEnd)
 		{
 			MoveImageToEndPosition();
 		}
@@ -36,7 +36,7 @@ void UIImageDisplacementControl::MoveImageToEndPosition()
 {
 	if (imageTransform->GetPosition().Distance(endPosition) >=  10.0f)
 	{
-		isMoving = true;
+		moving = true;
 		resultPositon = endPosition - startPosition;
 		resultPositon.Normalize();
 		imageTransform->SetPosition(imageTransform->GetPosition() + resultPositon * 15.0f);
@@ -46,7 +46,7 @@ void UIImageDisplacementControl::MoveImageToEndPosition()
 	{
 		imageTransform->SetPosition(endPosition);
 		imageTransform->CalculateMatrices();
-		isMoving = false;
+		moving = false;
 	}
 }
 
@@ -54,7 +54,7 @@ void UIImageDisplacementControl::MoveImageToStarPosition()
 {
 	if (imageTransform->GetPosition().Distance(startPosition) >= 10.0f)
 	{
-		isMoving = true;
+		moving = true;
 		resultPositon = startPosition - endPosition;
 		resultPositon.Normalize();
 		imageTransform->SetPosition(imageTransform->GetPosition() + resultPositon * 15.0f);
@@ -64,6 +64,6 @@ void UIImageDisplacementControl::MoveImageToStarPosition()
 	{
 		imageTransform->SetPosition(startPosition);
 		imageTransform->CalculateMatrices();
-		isMoving = false;
+		moving = false;
 	}
 }

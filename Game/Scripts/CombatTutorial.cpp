@@ -60,7 +60,7 @@ void CombatTutorial::Start()
 void CombatTutorial::Update(float deltaTime)
 {
 	//Normal Attacks XXX - XXY
-	if (tutorialActivable && userControllable && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN && !tutorialUI->GetDisplacementControl()->GetIsMoving())
+	if (tutorialActivable && userControllable && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN && !tutorialUI->GetDisplacementControl()->IsMoving())
 	{
 		
 		tutorialUI->UnDeployUI();
