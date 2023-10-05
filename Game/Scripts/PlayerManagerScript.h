@@ -2,9 +2,13 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
+#include "ModuleInput.h"
+#include "Bullet\LinearMath\btVector3.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class HealthSystem;
+class PlayerAttackScript;
 class PlayerJumpScript;
 class PlayerMoveScript;
 class PlayerAttackScript;
@@ -36,18 +40,25 @@ public:
 	void IncreasePlayerDefense(float defenseIncrease);
 	void IncreasePlayerSpeed(float speedIncrease);
 
+	void ParalyzePlayer(bool paralyzed);
+	void PausePlayer(bool paused);
+	void TriggerJump(bool forcedJump);
+
 	bool IsGrounded() const;
 	bool IsTeleporting() const;
 	PlayerJumpScript* GetJumpManager() const;
 	PlayerMoveScript* GetMovementManager() const;
 	PlayerAttackScript* GetAttackManager() const;
-	void ParalyzePlayer(bool paralyzed);
 	void SetPlayerSpeed(float playerSpeed);
 	PlayerActions GetPlayerState() const;
 	void SetPlayerState(PlayerActions playerState);
 
 private:
 	void Start() override;
+
+	bool isActivePlayer;
+
+	ModuleInput* input;
 
 	PlayerActions playerState;
 	float playerAttack;
@@ -56,9 +67,11 @@ private:
 	float playerRotationSpeed;
 
 	// All Main PlayerManagers
+	HealthSystem* healthManager;
 	PlayerMoveScript* movementManager;
 	PlayerJumpScript* jumpManager;
 	PlayerAttackScript* attackManager;
 	DebugGame* debugManager;
 	PlayerRotationScript* rotationManager;
+	btVector3 rigidBodyManager;
 };

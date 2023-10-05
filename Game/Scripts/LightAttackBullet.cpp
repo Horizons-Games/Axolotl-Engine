@@ -51,10 +51,10 @@ void LightAttackBullet::Start()
 	rigidBody->SetUseRotationController(true);
 
 	defaultTargetPos = parentTransform->GetGlobalForward();
+	defaultTargetPos.y = 0;
 	defaultTargetPos.Normalize();
 	defaultTargetPos = defaultTargetPos * maxDistanceBullet;
 	defaultTargetPos += parentTransform->GetGlobalPosition();	
-	defaultTargetPos.y = 0;
 
 	particleSystem = owner->GetComponent<ComponentParticleSystem>();
 
@@ -76,7 +76,6 @@ void LightAttackBullet::Update(float deltaTime)
 
 	else
 	{
-		defaultTargetPos.y -= 0.1f;
 		rigidBody->SetKpForce(2.0f);
 
 		rigidBody->SetPositionTarget(defaultTargetPos);

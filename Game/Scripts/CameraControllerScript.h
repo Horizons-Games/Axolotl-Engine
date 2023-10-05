@@ -13,9 +13,11 @@ public:
 	void Start() override;
     void PreUpdate(float deltaTime) override;
 
-	void SetVerticalSensitivity(float newVerticalSensibility);
 	void SetInCombat(bool newCombat);
 	bool IsInCombat();
+
+	void ToggleCameraState();
+	void ChangeCurrentPlayer(ComponentTransform* currentPlayer);
 
 private:
 	void CalculateOffsetVector();
@@ -26,7 +28,6 @@ private:
 	ComponentCameraSample* FindClosestSample(float3 position);
 
 private: 
-
 	float3 finalTargetPosition;
 	Quat finalTargetOrientation;
 
@@ -39,7 +40,6 @@ private:
 	ComponentTransform* transform;
 	ComponentCamera* camera;
 
-	GameObject* player;
 	ComponentTransform* playerTransform;
 
 	float xOffset;
@@ -50,6 +50,7 @@ private:
 	float yFocusOffset;
 
 	bool inCombat;
+	bool stopped;
 };
 
 inline void CameraControllerScript::SetInCombat(bool newmode)
