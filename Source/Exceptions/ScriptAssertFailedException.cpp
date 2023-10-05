@@ -2,11 +2,6 @@
 
 #include "Exceptions/ScriptAssertFailedException.h"
 
- ScriptAssertFailedException::ScriptAssertFailedException(const std::string& message) : message(message)
+ScriptAssertFailedException::ScriptAssertFailedException(const std::string& message) : AxoDefaultException(message)
 {
-}
-
-const char* ScriptAssertFailedException::what() const noexcept
-{
-	return message.c_str();
 }

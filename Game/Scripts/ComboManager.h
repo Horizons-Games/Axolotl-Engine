@@ -39,8 +39,11 @@ public:
 
 	void FillComboBar();
 
-private:
 	void ClearCombo(bool finisher);
+	void ClearComboForSwitch(bool finisher);
+	UIComboManager* GetUiComboManager() const;
+
+private:
 
 	UIComboManager* uiComboManager;
 

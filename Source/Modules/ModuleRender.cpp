@@ -282,7 +282,7 @@ UpdateStatus ModuleRender::Update()
 	Camera* engineCamera = App->GetModule<ModuleCamera>()->GetCamera();
 
 #ifdef ENGINE
-	if (App->IsOnPlayMode())
+	if (App->GetPlayState() != Application::PlayState::STOPPED && player)
 #else
 	if (player)
 #endif
@@ -331,7 +331,7 @@ UpdateStatus ModuleRender::Update()
 
 	// Draw opaque objects
 	batchManager->DrawOpaque(false);
-	if (!App->IsOnPlayMode() && !isRoot)
+	if (!isRoot && App->GetPlayState() == Application::PlayState::STOPPED)
 	{
 		// Draw selected opaque
 		glEnable(GL_STENCIL_TEST);
@@ -455,7 +455,7 @@ UpdateStatus ModuleRender::Update()
 
 	batchManager->DrawTransparent(false);
 
-	if (!App->IsOnPlayMode() && !isRoot)
+	if (!isRoot && App->GetPlayState() == Application::PlayState::STOPPED)
 	{
 		// Draw selected transparent
 		glEnable(GL_STENCIL_TEST);
@@ -1081,10 +1081,25 @@ void ModuleRender::BindCubemapToProgram(Program* program)
 
 	program->Activate();
 
-	glActiveTexture(GL_TEXTURE8);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
-	glActiveTexture(GL_TEXTURE9);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetPrefiltered());
+	ComponentSkybox* sky = App->GetModule<ModuleScene>()->GetLoadedScene()
+		->GetRoot()->GetComponentInternal<ComponentSkybox>();
+
+	if (sky && sky->GetUseCubeMap())
+	{
+		Cubemap* skyCubemap = sky->GetCubemap();
+		glActiveTexture(GL_TEXTURE8);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, skyCubemap->GetIrradiance());
+		glActiveTexture(GL_TEXTURE9);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, skyCubemap->GetPrefiltered());
+	}
+	else
+	{
+		glActiveTexture(GL_TEXTURE8);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
+		glActiveTexture(GL_TEXTURE9);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetPrefiltered());
+		
+	}
 	glActiveTexture(GL_TEXTURE10);
 	glBindTexture(GL_TEXTURE_2D, cubemap->GetEnvironmentBRDF());
 
