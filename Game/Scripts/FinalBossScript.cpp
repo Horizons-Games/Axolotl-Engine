@@ -18,8 +18,6 @@
 #include "../Scripts/BossMissilesAttackScript.h"
 #include "../Scripts/AIMovement.h"
 
-#include "Application.h"
-
 REGISTERCLASS(FinalBossScript);
 
 FinalBossScript::FinalBossScript() : bossPhase(FinalBossPhases::NEUTRAL), patrolScript(nullptr), 
