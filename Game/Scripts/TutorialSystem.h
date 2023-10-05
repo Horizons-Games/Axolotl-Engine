@@ -37,6 +37,8 @@ public:
 	int GetTutorialSlideSize() const;
 	void SetTutorialSlideSize(int tutorialTotalStates);
 
+	UIImageDisplacementControl* GetDisplacementControl();
+
 private:
 	int tutorialCurrentState;
 	int tutorialTotalStates;

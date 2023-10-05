@@ -21,7 +21,7 @@
 
 #include "..\Game\Scripts\HealthSystem.h"
 #include "..\Game\Scripts\PlayerManagerScript.h"
-#include "..\Game\Scripts\PlayerManagerScript.h"
+#include "..\Game\Scripts\UIImageDisplacementControl.h"
 #include "../Scripts/PowerUpLogicScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
@@ -60,7 +60,7 @@ void CombatTutorial::Start()
 void CombatTutorial::Update(float deltaTime)
 {
 	//Normal Attacks XXX - XXY
-	if (tutorialActivable && userControllable && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
+	if (tutorialActivable && userControllable && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN && !tutorialUI->GetDisplacementControl()->GetIsMoving())
 	{
 		
 		tutorialUI->UnDeployUI();

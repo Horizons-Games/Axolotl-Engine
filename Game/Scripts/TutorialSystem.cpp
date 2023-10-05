@@ -144,6 +144,7 @@ void TutorialSystem::UnDeployUI()
 		tutorialCurrentState++;
 		currentTutorialUI = tutorialUI[tutorialCurrentState];
 		displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
+		displacementControl->SetIsMoving(true);
 		//tutorialUI[tutorialCurrentState - 1]->Disable();
 		dummyHealthSystem->SetIsImmortal(true);
 
@@ -190,4 +191,10 @@ int TutorialSystem::GetTutorialSlideSize() const
 void TutorialSystem::SetTutorialSlideSize(int tutorialTotalStates)
 {
 	this->tutorialTotalStates = tutorialTotalStates;
+}
+
+
+UIImageDisplacementControl* TutorialSystem::GetDisplacementControl()
+{
+	return displacementControl;
 }
