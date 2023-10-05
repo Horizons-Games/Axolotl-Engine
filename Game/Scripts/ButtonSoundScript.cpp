@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "ButtonSoundScript.h"
 
 #include "Components/ComponentAudioSource.h"

@@ -2,6 +2,8 @@
 #include "../Component.h"
 #include "Math/float4.h"
 
+class ConnectedCallback;
+
 class ComponentButton : public Component
 {
 public:
@@ -23,6 +25,8 @@ public:
 
 	const char* GetSceneName() const;
 
+	std::unique_ptr<ConnectedCallback> SetOnClickedCallback(std::function<void(void)>&& callback);
+
 private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
@@ -36,6 +40,7 @@ private:
 	float4 colorHovered;
 
 	std::string sceneName;
+	std::optional<std::function<void(void)>> onClickedCallback;
 };
 
 inline bool ComponentButton::IsClicked() const

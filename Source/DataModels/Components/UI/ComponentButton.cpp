@@ -5,6 +5,8 @@
 #include "FileSystem/Json.h"
 #include "ModuleScene.h"
 
+#include "Auxiliar/ConnectedCallback.h"
+
 ComponentButton::ComponentButton(bool active, GameObject* owner) :
 	Component(ComponentType::BUTTON, active, owner, true),
 	colorClicked(0.5f, 0.5f, 0.5f, 1.0f),
@@ -59,6 +61,36 @@ void ComponentButton::OnClicked()
 {
 	if (!sceneName.empty())
 	{
+		LOG_WARNING("Loading scenes through buttons is deprecated, please update your scripts so they use "
+					"SetOnClickedCallback instead");
 		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
 	}
+	if (onClickedCallback.has_value())
+	{
+		// invoke the callback
+		onClickedCallback.value()();
+	}
+}
+
+std::unique_ptr<ConnectedCallback> ComponentButton::SetOnClickedCallback(std::function<void(void)>&& callback)
+{
+	if (onClickedCallback.has_value())
+	{
+		LOG_WARNING("Overriding OnClickedCallback for component button owned by {}", GetOwner());
+	}
+	onClickedCallback = std::move(callback);
+	return std::make_unique<ConnectedCallback>(
+		[this]()
+		{
+			if (this != nullptr)
+			{
+				onClickedCallback = std::nullopt;
+				LOG_VERBOSE("Disconnected callback from button owned by {}", GetOwner());
+			}
+			else
+			{
+				// Should never happen
+				LOG_ERROR("Callback lifetime exceeded lifetime of component button, please review your usage");
+			}
+		});
 }

@@ -1,3 +1,5 @@
+#include "StdAfx.h"
+
 #include "UIButtonControl.h"
 
 #include "Components/ComponentScript.h"
@@ -7,6 +9,8 @@
 #include "SceneLoadingScript.h"
 
 #include "Application.h"
+
+#include "Auxiliar/ConnectedCallback.h"
 
 
 REGISTERCLASS(UIButtonControl);
@@ -29,48 +33,17 @@ void UIButtonControl::Start()
 	
 	if (isGameResume != false)
 	{
-		std::vector<ComponentScript*> gameObjectScripts = setUiGameManagerObject->GetComponents<ComponentScript>();
-		for (int i = 0; i < gameObjectScripts.size(); ++i)
-		{
-			if (gameObjectScripts[i]->GetConstructName() == "UIGameManager")
-			{
-				UIGameManagerClass = static_cast<UIGameManager*>(gameObjectScripts[i]->GetScript());
-				break;
-			}
-		}
+		Assert(setUiGameManagerObject != nullptr, axo::Format("No 'setUiGameManagerObject' set in script owned by {}", owner));
+		UIGameManagerClass = setUiGameManagerObject->GetComponent<UIGameManager>();
 	}
+
+	connectedButtonCallback = buttonComponent->SetOnClickedCallback(std::bind(&UIButtonControl::OnClickedCallback, this));
 }
 
 void UIButtonControl::Update(float deltaTime)
 {
-
-	if (isGameExit != false)
-	{
-		if (buttonComponent->IsClicked())
-		{
-			App->SetCloseGame(true);
-		}		
-	}
-	else if (enableObject != nullptr && disableObject != nullptr)
-	{
-		if (buttonComponent->IsClicked())
-		{
-			enableObject->Enable();
-			disableObject->Disable();
-
-			if (isGameResume != false)
-			{
-				UIGameManagerClass->SetMenuIsOpen(false);
-				UIGameManagerClass->MenuIsOpen();
-			}
-		}
-	}
 	if (buttonHover != nullptr)
 	{
-		if (loadingScreenScript != nullptr && buttonComponent->IsClicked())
-		{
-			loadingScreenScript->StartLoad();
-		}
 		if (buttonComponent->IsHovered())
 		{
 			buttonHover->Enable();
@@ -80,5 +53,32 @@ void UIButtonControl::Update(float deltaTime)
 			buttonHover->Disable();
 		}
 	}
+}
 
+void UIButtonControl::CleanUp()
+{
+	connectedButtonCallback.reset();
+}
+
+void UIButtonControl::OnClickedCallback()
+{
+	if (isGameExit != false)
+	{
+		App->SetCloseGame(true);
+	}
+	else if (enableObject != nullptr && disableObject != nullptr)
+	{
+		enableObject->Enable();
+		disableObject->Disable();
+
+		if (isGameResume != false)
+		{
+			UIGameManagerClass->SetMenuIsOpen(false);
+			UIGameManagerClass->MenuIsOpen();
+		}
+	}
+	else if (loadingScreenScript != nullptr)
+	{
+		loadingScreenScript->StartLoad();
+	}
 }
