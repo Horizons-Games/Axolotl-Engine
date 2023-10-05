@@ -19,7 +19,6 @@
 
 #include "../Scripts/CameraControllerScript.h"
 #include "../Scripts/CameraBossControllerScript.h"
-#include "UIComboManager.h"
 #include "ComboManager.h"
 
 #include "Application.h"
@@ -31,7 +30,7 @@ SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullpt
 	modulePlayer(nullptr), isSwitchAvailable(true), changingPlayerTime{200.f, 800.f, 1800.f},
 	currentPlayerHealthBar(nullptr), secondPlayerHealthBar(nullptr), currentHealthBarTransform(nullptr),
 	secondHealthBarTransform(nullptr), currentPlayerTransform(nullptr), secondPlayerTransform(nullptr),
-	particlesTransofrm(nullptr), isSecondJumpAvailable(true), comboSystem(nullptr),
+	particlesTransform(nullptr), isSecondJumpAvailable(true), comboSystem(nullptr),
 	cameraBoss(nullptr), bossScene(false)
 {
 	REGISTER_FIELD(isSwitchAvailable, bool);
@@ -50,7 +49,6 @@ void SwitchPlayerManagerScript::Start()
 	currentPlayer = modulePlayer->GetPlayer();
 
 	comboSystem = currentPlayer->GetComponent<ComboManager>();
-	uiComboManager = comboSystem->GetUiComboManager();
 
 	currentHealthBarTransform = currentPlayerHealthBar->GetComponent<ComponentTransform2D>();
 	secondHealthBarTransform = secondPlayerHealthBar->GetComponent<ComponentTransform2D>();
@@ -156,12 +154,12 @@ void SwitchPlayerManagerScript::VisualSwitchEffect()
 
 	actualSwitchPlayersParticles = loadScene->DuplicateGameObject(switchPlayersParticlesPrefab->GetName(),
 		switchPlayersParticlesPrefab, loadScene->GetRoot());
-	particlesTransofrm = actualSwitchPlayersParticles->GetComponent<ComponentTransform>();
+	particlesTransform = actualSwitchPlayersParticles->GetComponent<ComponentTransform>();
 
-	particlesTransofrm->SetGlobalPosition(float3 (currentPlayerTransform->GetGlobalPosition().x,
+	particlesTransform->SetGlobalPosition(float3 (currentPlayerTransform->GetGlobalPosition().x,
 		currentPlayerTransform->GetGlobalPosition().y + 0.9f, currentPlayerTransform->GetGlobalPosition().z));
-	particlesTransofrm->RecalculateLocalMatrix();
-	particlesTransofrm->UpdateTransformMatrices();
+	particlesTransform->RecalculateLocalMatrix();
+	particlesTransform->UpdateTransformMatrices();
 	actualSwitchPlayersParticles->GetComponent<ParticleBillboardAssistance>()->UpdateTransform();
 	actualSwitchPlayersParticles->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Enable();
 	actualSwitchPlayersParticles->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
@@ -238,8 +236,7 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 
 		componentAnimation->SetParameter("IsFalling", true);
 		VisualSwitchEffect();
-		comboSystem->ClearCombo(true);
-		uiComboManager->SetComboBarValue(0);
+		comboSystem->ClearComboForSwitch(true);
 
 		currentPlayer->Disable();
 
