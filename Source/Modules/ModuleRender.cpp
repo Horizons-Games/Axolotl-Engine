@@ -283,7 +283,7 @@ UpdateStatus ModuleRender::Update()
 	Frustum frustum = *engineCamera->GetFrustum();
 
 #ifdef ENGINE
-	if (App->IsOnPlayMode())
+	if (App->GetPlayState() != Application::PlayState::STOPPED && player)
 #else
 	if (player)
 #endif
@@ -334,7 +334,7 @@ UpdateStatus ModuleRender::Update()
 
 	// Draw opaque objects
 	batchManager->DrawOpaque(false);
-	if (!App->IsOnPlayMode() && !isRoot)
+	if (!isRoot && App->GetPlayState() == Application::PlayState::STOPPED)
 	{
 		// Draw selected opaque
 		glEnable(GL_STENCIL_TEST);
@@ -455,7 +455,7 @@ UpdateStatus ModuleRender::Update()
 
 	batchManager->DrawTransparent(false);
 
-	if (!App->IsOnPlayMode() && !isRoot)
+	if (!isRoot && App->GetPlayState() == Application::PlayState::STOPPED)
 	{
 		// Draw selected transparent
 		glEnable(GL_STENCIL_TEST);
@@ -480,6 +480,7 @@ UpdateStatus ModuleRender::Update()
 		glStencilMask(0x00); // disable writing to the stencil buffer 
 		glDisable(GL_STENCIL_TEST);
 	}
+
 	glDisable(GL_CULL_FACE);
 	glPolygonMode(GL_BACK, GL_FILL);
 
@@ -514,6 +515,12 @@ UpdateStatus ModuleRender::Update()
 	for (const GameObject* go : gameObjectsInFrustrum)
 	{
 		go->Render();
+	}
+
+	// ----- DRAW NAVMESH -----
+	if (navigation->GetNavMesh() != nullptr && navigation->GetDrawNavMesh())
+	{
+		navigation->DrawGizmos();
 	}
 
 	// -------- POST EFFECTS ---------------------
@@ -560,12 +567,6 @@ UpdateStatus ModuleRender::Update()
 		frustumCheckedCamera->Draw();
 	}
 #endif // ENGINE
-
-
-	if (navigation->GetNavMesh() != nullptr && navigation->GetDrawNavMesh())
-	{
-		navigation->DrawGizmos();
-	}
 
 #ifndef ENGINE
 	if (!App->IsDebuggingGame())
@@ -1169,10 +1170,25 @@ void ModuleRender::BindCubemapToProgram(Program* program)
 
 	program->Activate();
 
-	glActiveTexture(GL_TEXTURE8);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
-	glActiveTexture(GL_TEXTURE9);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetPrefiltered());
+	ComponentSkybox* sky = App->GetModule<ModuleScene>()->GetLoadedScene()
+		->GetRoot()->GetComponentInternal<ComponentSkybox>();
+
+	if (sky && sky->GetUseCubeMap())
+	{
+		Cubemap* skyCubemap = sky->GetCubemap();
+		glActiveTexture(GL_TEXTURE8);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, skyCubemap->GetIrradiance());
+		glActiveTexture(GL_TEXTURE9);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, skyCubemap->GetPrefiltered());
+	}
+	else
+	{
+		glActiveTexture(GL_TEXTURE8);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
+		glActiveTexture(GL_TEXTURE9);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetPrefiltered());
+		
+	}
 	glActiveTexture(GL_TEXTURE10);
 	glBindTexture(GL_TEXTURE_2D, cubemap->GetEnvironmentBRDF());
 

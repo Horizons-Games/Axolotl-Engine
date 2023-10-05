@@ -135,7 +135,7 @@ void ComponentParticleSystem::Draw() const
 	for (EmitterInstance* instance : emitters)
 	{
 #ifdef ENGINE
-		if (!App->IsOnPlayMode())
+		if (App->GetPlayState() == Application::PlayState::RUNNING)
 		{
 			instance->DrawDD();
 			//instance->SimulateParticles();

@@ -18,6 +18,7 @@
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/PlayerMoveScript.h"
+#include "../Scripts/PlayerJumpScript.h"
 #include "../Scripts/EntityDetection.h"
 #include "../Scripts/JumpFinisherAttack.h"
 #include "../Scripts/JumpFinisherArea.h"
@@ -41,13 +42,14 @@
 REGISTERCLASS(PlayerAttackScript);
 
 PlayerAttackScript::PlayerAttackScript() : Script(), 
-	canAttack(true), isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.f), audioSource(nullptr),
+	canAttack(true), isAttacking(false), attackCooldown(0.6f), attackCooldownCounter(0.0f), audioSource(nullptr),
 	animation(nullptr), transform(nullptr), isMelee(true),
 	playerManager(nullptr), attackComboPhase(AttackCombo::IDLE), enemyDetection(nullptr), jumpFinisherScript(nullptr),
-	lightFinisherScript(nullptr), normalAttackDistance(0), heavyFinisherAttack(nullptr), lightWeapon(nullptr),
+	lightFinisherScript(nullptr), normalAttackDistance(0.0f), heavyFinisherAttack(nullptr), lightWeapon(nullptr),
 	comboCountHeavy(10.0f), comboCountLight(30.0f), comboCountJump(20.0f), triggerNextAttackDuration(0.5f), 
 	triggerNextAttackTimer(0.0f), isNextAttackTriggered(false), currentAttackAnimation(""),
-	numAttackComboAnimation(0.0f), isHeavyFinisherReceivedAux(false)
+	numAttackComboAnimation(0.0f), isHeavyFinisherReceivedAux(false), jumpAttackCooldown(0.8f), timeSinceLastJumpAttack(0.0f),
+	jumpBeforeJumpAttackCooldown(0.1f), isGroundParalyzed(false)
 {
 	REGISTER_FIELD(comboCountHeavy, float);
 	REGISTER_FIELD(comboCountLight, float);
@@ -70,6 +72,8 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	REGISTER_FIELD(pistolGameObject, GameObject*);
 
 	REGISTER_FIELD(triggerNextAttackDuration, float);
+	REGISTER_FIELD(jumpAttackCooldown, float);
+	REGISTER_FIELD(jumpBeforeJumpAttackCooldown, float);
 }
 
 void PlayerAttackScript::Start()
@@ -97,36 +101,58 @@ void PlayerAttackScript::Start()
 		pistolGameObject->Disable();
 	}
 
+	timeSinceLastJumpAttack = jumpAttackCooldown;
 	triggerNextAttackTimer = triggerNextAttackDuration;
 }
 
 void PlayerAttackScript::Update(float deltaTime)
 {
+	if (isMelee && timeSinceLastJumpAttack < jumpAttackCooldown)
+	{
+		playerManager->ParalyzePlayer(true);
+		isGroundParalyzed = true;
+	}
+	else if(isGroundParalyzed)
+	{
+		playerManager->ParalyzePlayer(false);
+		isGroundParalyzed = false;
+	}
+
+	timeSinceLastJumpAttack += deltaTime;
+
+
+	// Mark the enemy that is going to be attacked
+	UpdateEnemyDetection();
 
 	if (!canAttack)
 	{
 		return;
 	}
 
-	// Mark the enemy that is going to be attacked
-	UpdateEnemyDetection();
-
 	// Check if the special was activated
 	comboSystem->CheckSpecial(deltaTime);
 
-	if (!IsAttackAvailable())
+	if ((lastAttack == AttackType::LIGHTNORMAL || lastAttack == AttackType::HEAVYNORMAL)
+		&& !isNextAttackTriggered) //Reset attack combo animation
+	{
+		animation->SetParameter("IsLightAttacking", false);
+	}
+
+	if (!IsAttackAvailable() && canAttack)
 	{
 		if (jumpFinisherScript->IsActive())
 		{
 			UpdateJumpAttack();
 		}
-		else 
+		else
 		{
 			ResetAttackAnimations(deltaTime);
 		}
 	}
-
-	PerformCombos();
+	if (canAttack) 
+	{
+		PerformCombos();
+	}
 }
 
 void PlayerAttackScript::UpdateEnemyDetection()
@@ -135,7 +161,6 @@ void PlayerAttackScript::UpdateEnemyDetection()
 	{
 		enemyDetection->UpdateEnemyDetection();
 	}
-
 	else
 	{
 		enemyDetection->UpdateEnemyDetection(normalAttackDistance);
@@ -144,18 +169,19 @@ void PlayerAttackScript::UpdateEnemyDetection()
 
 void PlayerAttackScript::PerformCombos()
 {
-	if ((lastAttack == AttackType::LIGHTNORMAL || lastAttack == AttackType::HEAVYNORMAL)
-		&& !isNextAttackTriggered) //Reset attack combo animation
-	{
-		animation->SetParameter("IsLightAttacking", false);
-	}
+	bool isJumping = playerManager->GetPlayerState() == PlayerActions::JUMPING ||
+		playerManager->GetPlayerState() == PlayerActions::DOUBLEJUMPING;
 
 	//Check input
-	currentAttack = comboSystem->CheckAttackInput(!playerManager->IsGrounded());
+	if (!IsPerformingJumpAttack() && (!isJumping || isJumping &&
+		playerManager->GetJumpManager()->GetTimeSinceLastJump() > jumpBeforeJumpAttackCooldown))
+	{
+		currentAttack = comboSystem->CheckAttackInput(!playerManager->IsGrounded());
+	}
 
 	if (!IsAttackAvailable()) //Stack next attack if attack input called when it's currently in an attack animation
 	{
-		if (!isNextAttackTriggered)
+		if (!isNextAttackTriggered && !playerManager->GetMovementManager()->IsTriggeringStoredDash())
 		{
 			switch (currentAttack)
 			{
@@ -176,6 +202,19 @@ void PlayerAttackScript::PerformCombos()
 					}
 					animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
 					animation->SetParameter("IsLightAttacking", true);
+				}
+				else if (playerManager->GetPlayerState() == PlayerActions::DASHING)
+				{
+					lastAttack = currentAttack;
+					if (numAttackComboAnimation == 2.0f) //Move between three attack animations
+					{
+						numAttackComboAnimation = 0.0f;
+					}
+					else
+					{
+						numAttackComboAnimation += 1.0f;
+					}
+					animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
 				}
 				break;
 
@@ -203,8 +242,8 @@ void PlayerAttackScript::PerformCombos()
 			}
 		}
 	}
-	
-	if (IsAttackAvailable())
+
+	if (IsAttackAvailable() && playerManager->GetPlayerState() != PlayerActions::DASHING)
 	{
 		switch (currentAttack)
 		{
@@ -220,6 +259,7 @@ void PlayerAttackScript::PerformCombos()
 					currentAttackAnimation = "LightAttack";
 				}
 				break;
+
 			case AttackType::HEAVYNORMAL:
 				if (!isNextAttackTriggered) //Calling only when is not currently attacking
 				{
@@ -274,7 +314,6 @@ void PlayerAttackScript::LightNormalAttack()
 
 	//Check collisions and Apply Effects
 	GameObject* enemyAttacked = enemyDetection->GetEnemySelected();
-
 
 	if (isMelee)
 	{
@@ -353,10 +392,13 @@ void PlayerAttackScript::InitJumpAttack()
 {
 	animation->SetParameter("IsJumpAttacking", true);
 	isAttacking = true;
+	playerManager->GetMovementManager()->SetIsTriggeringStoredDash(false);
 	playerManager->ParalyzePlayer(true);
+
 	if (isMelee)
 	{
 		jumpFinisherScript->PerformGroundSmash(); // Bix jumping attack
+		timeSinceLastJumpAttack = 0.0f;
 	}
 	else
 	{
@@ -368,12 +410,12 @@ void PlayerAttackScript::UpdateJumpAttack()
 {
 	bool landed = false;
 	//if (isMelee) landing is player grounded if not then is the projectile detection for the moment I only put this
-	if(isMelee) 
+
+	if (isMelee)
 	{
 		landed = playerManager->IsGrounded();
-
 	}
-	else 
+	else
 	{
 		AXO_TODO("Add Allura Checks")
 		landed = true;
@@ -390,6 +432,7 @@ void PlayerAttackScript::UpdateJumpAttack()
 		{
 			EndJumpFinisherAttack();
 		}
+		currentAttack = AttackType::NONE;
 	}
 }
 
@@ -480,6 +523,7 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 	{
 		case AttackType::LIGHTNORMAL:
 		case AttackType::HEAVYNORMAL:
+		{
 			if (animation->GetController()->GetStateName() != currentAttackAnimation)
 			{
 				if (isNextAttackTriggered)
@@ -502,8 +546,8 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 				else //Called when next attack input is not called
 				{
 					triggerNextAttackTimer -= deltaTime;
-					if (triggerNextAttackTimer <= 0.0f) //Wait to reset the offset time, to give the player the chance to
-						//trigger the next attack even if the animatinon has finished (due to some animations are very short)
+					if (triggerNextAttackTimer <= 0.0f || playerManager->GetMovementManager()->IsTriggeringStoredDash()) //Wait to reset the offset time, to give the player the chance to
+						//trigger the next attack even if the animation has finished (due to some animations are very short)
 					{
 						triggerNextAttackTimer = triggerNextAttackDuration;
 						currentAttackAnimation = animation->GetController()->GetStateName();
@@ -516,7 +560,8 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 					}
 				}
 			}
-			break;	
+			break;
+		}
 
 		case AttackType::JUMPNORMAL:
 		case AttackType::JUMPFINISHER:
@@ -531,6 +576,7 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 				playerManager->ParalyzePlayer(false);
 				animation->SetParameter("IsJumpAttacking", false);
 				isAttacking = false;
+				currentAttack = AttackType::NONE;
 				lastAttack = AttackType::NONE;
 			}
 
@@ -544,6 +590,7 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 			}*/
 			break;
 		}
+
 		case AttackType::LIGHTFINISHER:	
 			if (animation->GetController()->GetStateName() != currentAttackAnimation)
 			{
@@ -601,7 +648,12 @@ void PlayerAttackScript::DamageEnemy(GameObject* enemyAttacked, float damageAtta
 
 bool PlayerAttackScript::IsAttackAvailable() const
 {
-	return !isAttacking && playerManager->GetPlayerState() != PlayerActions::DASHING;
+	return !isAttacking;
+}
+
+void PlayerAttackScript::SetCanAttack(bool canAttack)
+{
+	this->canAttack = canAttack;
 }
 
 bool PlayerAttackScript::IsMeleeAvailable() const
@@ -609,7 +661,7 @@ bool PlayerAttackScript::IsMeleeAvailable() const
 	return isMelee;
 }
 
-bool PlayerAttackScript::IsPerfomingJumpAttack() const
+bool PlayerAttackScript::IsPerformingJumpAttack() const
 {
 	return (currentAttack == AttackType::JUMPFINISHER || currentAttack == AttackType::JUMPNORMAL);
 }
@@ -617,12 +669,6 @@ bool PlayerAttackScript::IsPerfomingJumpAttack() const
 bool PlayerAttackScript::CanAttack() const
 {
 	return canAttack;
-}
-
-void PlayerAttackScript::SetCanAttack(bool canAttack)
-{
-
-	this->canAttack = canAttack;
 }
 
 bool PlayerAttackScript::IsDeathTouched() const
@@ -649,4 +695,13 @@ bool PlayerAttackScript::IsInAttackAnimation() const
 GameObject* PlayerAttackScript::GetEnemyDetected() const
 {
 	return enemyDetection->GetEnemySelected();
+}
+
+void PlayerAttackScript::PlayWeaponSounds() const
+{
+	if (isMelee)
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_OPEN);
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);
+	}
 }

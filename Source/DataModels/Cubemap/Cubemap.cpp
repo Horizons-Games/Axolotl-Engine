@@ -29,9 +29,21 @@ Cubemap::Cubemap() :
 	environmentBRDF(0),
 	cubeVAO(0),
 	cubeVBO(0),
-	numMipMaps(0)
+	numMipMaps(0),
+	intensity(1.f)
 {
-	intensity = 1.0f;
+}
+
+Cubemap::Cubemap(std::shared_ptr<ResourceCubemap> cubemapRes) : cubemapRes(cubemapRes),
+intensity(1.f)
+{
+	GenerateMaps(false);
+}
+
+Cubemap::Cubemap(GLuint skyboxId) : intensity(1.f)
+{
+	cubemap = skyboxId;
+	GenerateMaps(true);
 }
 
 Cubemap::~Cubemap()
@@ -43,12 +55,6 @@ Cubemap::~Cubemap()
 	glDeleteTextures(1, &environmentBRDF);
 	glDeleteVertexArrays(1, &cubeVAO);
 	glDeleteBuffers(1, &cubeVBO);
-}
-
-Cubemap::Cubemap(std::shared_ptr<ResourceCubemap> cubemapRes) : cubemapRes(cubemapRes)
-{
-	GenerateMaps();
-	intensity = 1.0f;
 }
 
 void Cubemap::SaveOptions(Json& json) const
@@ -71,7 +77,7 @@ void Cubemap::LoadOptions(Json& json)
 #else
 	cubemapRes = App->GetModule<ModuleResources>()->SearchResource<ResourceCubemap>(resUID);
 #endif // ENGINE
-	GenerateMaps();
+	GenerateMaps(false);
 }
 
 std::shared_ptr<ResourceCubemap> Cubemap::GetCubemapResource() const
@@ -91,14 +97,11 @@ void Cubemap::DebugNSight()
 #endif
 }
 
-void Cubemap::GenerateMaps()
+void Cubemap::GenerateMaps(bool hasSkybox)
 {
 	glCullFace(GL_BACK); // Show back faces	 
 	glFrontFace(GL_CCW); // Front faces will be counter clockwise
 
-	assert(cubemapRes);
-
-	cubemapRes->Load();
 	CreateVAO();
 
 	// Generate framebuffer & renderBuffer
@@ -109,38 +112,36 @@ void Cubemap::GenerateMaps()
 	// Disable depth testing
 	glDisable(GL_DEPTH_TEST);
 
-	// from hdr to Cubemap
-	glGenTextures(1, &cubemap);
-
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
-	for (unsigned int i = 0; i < 6; ++i)
+	if (!hasSkybox)
 	{
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-					 0,
-					 GL_RGB16F,
-					 CUBEMAP_RESOLUTION,
-					 CUBEMAP_RESOLUTION,
-					 0,
-					 GL_RGB,
-					 GL_FLOAT,
-					 nullptr);
+		assert(cubemapRes);
+		cubemapRes->Load();
+		// from hdr to Cubemap
+		glGenTextures(1, &cubemap);
+
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
+		for (unsigned int i = 0; i < 6; ++i)
+		{
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, CUBEMAP_RESOLUTION, CUBEMAP_RESOLUTION, 0, GL_RGB,
+				GL_FLOAT, nullptr);
+		}
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		Program* hdrToCubemapProgram = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::HDR_TO_CUBEMAP);
+		hdrToCubemapProgram->Activate();
+
+		hdrToCubemapProgram->BindUniformInt("hdr", 0);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, cubemapRes->GetHDRTexture()->GetGlTexture());
+
+		RenderToCubeMap(cubemap, hdrToCubemapProgram, CUBEMAP_RESOLUTION);
+		hdrToCubemapProgram->Deactivate();
 	}
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	Program* hdrToCubemapProgram = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::HDR_TO_CUBEMAP);
-	hdrToCubemapProgram->Activate();
-
-	hdrToCubemapProgram->BindUniformInt("hdr", 0);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, cubemapRes->GetHDRTexture()->GetGlTexture());
-
-	RenderToCubemap(cubemap, hdrToCubemapProgram, CUBEMAP_RESOLUTION);
-	hdrToCubemapProgram->Deactivate();
-
+	
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
 	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 
@@ -150,15 +151,8 @@ void Cubemap::GenerateMaps()
 	glBindTexture(GL_TEXTURE_CUBE_MAP, irradiance);
 	for (unsigned int i = 0; i < 6; ++i)
 	{
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-					 0,
-					 GL_RGB16F,
-					 IRRADIANCE_MAP_RESOLUTION,
-					 IRRADIANCE_MAP_RESOLUTION,
-					 0,
-					 GL_RGB,
-					 GL_FLOAT,
-					 nullptr);
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, IRRADIANCE_MAP_RESOLUTION, IRRADIANCE_MAP_RESOLUTION,
+			0, GL_RGB, GL_FLOAT, nullptr);
 	}
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -175,21 +169,15 @@ void Cubemap::GenerateMaps()
 
 	RenderToCubemap(irradiance, irradianceProgram, IRRADIANCE_MAP_RESOLUTION);
 	irradianceProgram->Deactivate();
+	
 	// pre-filtered map
 	glGenTextures(1, &preFiltered);
 
 	glBindTexture(GL_TEXTURE_CUBE_MAP, preFiltered);
 	for (unsigned int i = 0; i < 6; ++i)
 	{
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-					 0,
-					 GL_RGB16F,
-					 PRE_FILTERED_MAP_RESOLUTION,
-					 PRE_FILTERED_MAP_RESOLUTION,
-					 0,
-					 GL_RGB,
-					 GL_FLOAT,
-					 nullptr);
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F, PRE_FILTERED_MAP_RESOLUTION,
+			PRE_FILTERED_MAP_RESOLUTION, 0, GL_RGB, GL_FLOAT, nullptr);
 	}
 
 	numMipMaps = static_cast<int>(log(static_cast<float>(PRE_FILTERED_MAP_RESOLUTION)) / log(2));
@@ -225,15 +213,8 @@ void Cubemap::GenerateMaps()
 	glGenTextures(1, &environmentBRDF);
 
 	glBindTexture(GL_TEXTURE_2D, environmentBRDF);
-	glTexImage2D(GL_TEXTURE_2D,
-				 0,
-				 GL_RG16F,
-				 ENVIRONMENT_BRDF_RESOLUTION,
-				 ENVIRONMENT_BRDF_RESOLUTION,
-				 0,
-				 GL_RG,
-				 GL_FLOAT,
-				 nullptr);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, ENVIRONMENT_BRDF_RESOLUTION, ENVIRONMENT_BRDF_RESOLUTION, 0, GL_RG, 
+		GL_FLOAT, nullptr);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

@@ -47,7 +47,6 @@ void BoostOfEnergy::Start()
 {
 	transform = owner->GetComponent<ComponentTransform>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
-	target = owner->GetParent()->GetComponent<SeekBehaviourScript>()->GetTarget();
 
 	mesh->GetOwner()->Disable();
 	light->Disable();
@@ -61,6 +60,7 @@ void BoostOfEnergy::Start()
 
 void BoostOfEnergy::Update(float deltaTime)
 {
+	target = owner->GetParent()->GetComponent<SeekBehaviourScript>()->GetTarget();
 
 	damageZone->UpdateRigidBody();
 	transform->SetGlobalPosition(shootingPosition->GetGlobalPosition());

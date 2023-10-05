@@ -34,6 +34,8 @@ public:
 
 	void SetOwner(GameObject* owner) override;
 
+	bool HasFailed() const;
+
 private:
 	bool ScriptCanBeCalled() const;
 
@@ -43,7 +45,8 @@ private:
 	void SignalEnable() override;
 
 public:
-	// When loading a Script, it's possible that it expects to find one in a given game object (when it has that Script as a Field)
+	// When loading a Script, it's possible that it expects to find one in a given game object
+	// (when it has that Script as a Field)
 	// thats why we need to instantiate them all before loading
 	void InstantiateScript(const Json& jsonComponent);
 
@@ -72,4 +75,9 @@ inline IScript* ComponentScript::GetScript() const
 inline void ComponentScript::SetConstuctor(const std::string& constructor)
 {
 	constructName = constructor;
+}
+
+inline bool ComponentScript::HasFailed() const
+{
+	return failed;
 }

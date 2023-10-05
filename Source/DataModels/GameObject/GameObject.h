@@ -110,7 +110,7 @@ public:
 	void SetRootGO(GameObject* newRootGO);
 
 	bool IsStatic() const;
-	void SetStatic(bool newStatic);
+	void SetIsStatic(bool isStatic);
 	void SpreadStatic();
 
 	void MoveUpChild(const GameObject* childToMove);

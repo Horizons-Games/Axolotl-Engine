@@ -991,14 +991,14 @@ void GameObject::SpreadStatic()
 {
 	for (const std::unique_ptr<GameObject>& child : children)
 	{
-		child->SetStatic(staticObject);
+		child->SetIsStatic(staticObject);
 		child->SpreadStatic();
 	}
 }
 
-void GameObject::SetStatic(bool newStatic)
+void GameObject::SetIsStatic(bool isStatic)
 {
-	staticObject = newStatic;
+	staticObject = isStatic;
 	std::vector<ComponentRigidBody*> rigids = GetComponents<ComponentRigidBody>();
 
 	for (ComponentRigidBody* rigid : rigids)

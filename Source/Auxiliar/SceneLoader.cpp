@@ -239,7 +239,7 @@ void OnHierarchyLoaded()
 			if (currentLoadingConfig->mantainCurrentScene)
 			{
 				loadedScene->GetRoot()->LinkChild(gameObject);
-				gameObject->SetStatic(true);
+				gameObject->SetIsStatic(true);
 			}
 			else
 			{
