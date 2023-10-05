@@ -64,13 +64,14 @@ void ElevatorCore::Start()
 	triggerEntrance = owner->GetComponent<ComponentRigidBody>();
 	finalUpPos = 0.0f;
 	currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
+	modulePlayer = App->GetModule<ModulePlayer>();
 	playerTransform = currentPlayer->GetComponent<ComponentTransform>();
 	currentTime = 0.0f;
 }
 
 void ElevatorCore::Update(float deltaTime)
 {
-	if (currentPlayer != App->GetModule<ModulePlayer>()->GetPlayer())
+	if (currentPlayer != modulePlayer->GetPlayer())
 	{
 		currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
 		playerTransform = currentPlayer->GetComponent<ComponentTransform>();

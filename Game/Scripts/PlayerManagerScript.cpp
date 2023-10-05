@@ -115,17 +115,17 @@ void PlayerManagerScript::TriggerJump(bool forcedJump)
 
 void PlayerManagerScript::PausePlayer(bool paused)
 {
+	btVector3 linearVelocityPlayer(0.f, 0.f, 0.f);
 	ParalyzePlayer(paused);
 	healthManager->SetIsImmortal(paused);
 	attackManager->SetCanAttack(!paused);
-	if (paused)
+
+	if (!paused)
 	{
-		owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(btVector3(0.f, 0.f, 0.f));
+		linearVelocityPlayer = rigidBodyManager;
 	}
-	else
-	{
-		owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(rigidBodyManager);
-	}
+
+	owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(linearVelocityPlayer);
 }
 PlayerAttackScript* PlayerManagerScript::GetAttackManager() const
 {

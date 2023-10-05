@@ -37,6 +37,7 @@ void FinalBossScript::Start()
 	transform = owner->GetComponent<ComponentTransform>();
 
 	target = App->GetModule<ModulePlayer>()->GetPlayer();
+	modulePlayer = App->GetModule<ModulePlayer>();
 	targetTransform = target->GetComponent<ComponentTransform>();
 
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
@@ -58,7 +59,7 @@ void FinalBossScript::Update(float deltaTime)
 		return;
 	}
 
-	if (target != App->GetModule<ModulePlayer>()->GetPlayer())
+	if (target != modulePlayer->GetPlayer())
 	{
 		target = App->GetModule<ModulePlayer>()->GetPlayer();
 		targetTransform = target->GetComponent<ComponentTransform>();

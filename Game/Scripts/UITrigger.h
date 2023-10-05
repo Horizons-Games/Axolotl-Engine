@@ -13,6 +13,7 @@ class ComponentRigidBody;
 class ComponentScript;
 class UIGameManager;
 class HealthSystem;
+class ModulePlayer;
 
 // Little fix until we could check if an audio is being reproduced
 enum class ActiveActions
@@ -51,4 +52,5 @@ private:
 	HealthSystem* playerHealthSystem;
 	GameObject* setGameStateObject;
 	GameObject* setPlayer;
+	ModulePlayer* modulePlayer;
 };
