@@ -205,13 +205,13 @@ void PlayerHackingUseScript::RestartHack()
 void PlayerHackingUseScript::DisableAllInteractions()
 {
 	playerManager->SetPlayerState(PlayerActions::IDLE);
-	playerManager->ParalyzePlayer(true);
+	playerManager->PausePlayer(true);
 }
 
 void PlayerHackingUseScript::EnableAllInteractions()
 {
 	playerManager->SetPlayerState(PlayerActions::IDLE);
-	playerManager->ParalyzePlayer(false);
+	playerManager->PausePlayer(false);
 }
 
 void PlayerHackingUseScript::FindHackZone(const std::string& tag)

@@ -54,48 +54,61 @@ void CameraBossControllerScript::Start()
 
 void CameraBossControllerScript::PreUpdate(float deltaTime)
 {
-
-	if (boss)
+	if (!stopped)
 	{
-		CalculateCameraPositionByBoss();
+		if (boss)
+		{
+			CalculateCameraPositionByBoss();
+		}
+		else
+		{
+			CalculateOffsetVector();
+		}
+
+		CalculateFocusOffsetVector();
+		camera->RestoreKpPosition();
+		camera->RestoreKpRotation();
+
+		float3 sourceDirection = camera->GetCamera()->GetFrustum()->Front().Normalized();
+		float3 targetDirection = (playerTransform->GetGlobalPosition()
+			+ defaultFocusOffsetVector
+			- camera->GetCamera()->GetPosition()).Normalized();
+
+		Quat orientationOffset = Quat::identity;
+
+		if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.001f))
+		{
+			Quat rot = Quat::RotateFromTo(sourceDirection, targetDirection);
+			orientationOffset = rot * camera->GetCamera()->GetRotation();
+		}
+		else
+		{
+			orientationOffset = camera->GetCamera()->GetRotation();
+		}
+
+		finalTargetPosition = playerTransform->GetGlobalPosition() + defaultOffsetVector;
+		finalTargetOrientation = orientationOffset;
+
+		transform->SetGlobalPosition(finalTargetPosition);
+		transform->SetGlobalRotation(finalTargetOrientation);
+		transform->RecalculateLocalMatrix();
+
+		for (Component* components : owner->GetComponents())
+		{
+			components->OnTransformChanged();
+		}
 	}
-	else
-	{
-		CalculateOffsetVector();
-	}
+}
 
-	CalculateFocusOffsetVector();
-	camera->RestoreKpPosition();
-	camera->RestoreKpRotation();
+void CameraBossControllerScript::ToggleCameraState()
+{
+	stopped = !stopped;
+}
 
-	float3 sourceDirection = camera->GetCamera()->GetFrustum()->Front().Normalized();
-	float3 targetDirection = (playerTransform->GetGlobalPosition()
-		+ defaultFocusOffsetVector
-		- camera->GetCamera()->GetPosition()).Normalized();
-
-	Quat orientationOffset = Quat::identity;
-
-	if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.001f))
-	{
-		Quat rot = Quat::RotateFromTo(sourceDirection, targetDirection);
-		orientationOffset = rot * camera->GetCamera()->GetRotation();
-	}
-	else
-	{
-		orientationOffset = camera->GetCamera()->GetRotation();
-	}
-
-	finalTargetPosition = playerTransform->GetGlobalPosition() + defaultOffsetVector;
-	finalTargetOrientation = orientationOffset;
-
-	transform->SetGlobalPosition(finalTargetPosition);
-	transform->SetGlobalRotation(finalTargetOrientation);
-	transform->RecalculateLocalMatrix();
-
-	for (Component* components : owner->GetComponents())
-	{
-		components->OnTransformChanged();
-	}
+void CameraBossControllerScript::ChangeCurrentPlayer(ComponentTransform* currentPlayer)
+{
+	playerTransform = currentPlayer;
+	stopped = false;
 }
 
 void CameraBossControllerScript::CalculateOffsetVector()
@@ -109,6 +122,7 @@ void CameraBossControllerScript::CalculateOffsetVector(float3 offset)
 {
 	defaultOffsetVector = offset;
 }
+
 
 void CameraBossControllerScript::CalculateFocusOffsetVector()
 {

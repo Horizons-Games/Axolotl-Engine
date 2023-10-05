@@ -49,7 +49,7 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	comboCountHeavy(3.0f), comboCountLight(7.0f), comboCountJump(5.0f), triggerNextAttackDuration(0.5f), 
 	triggerNextAttackTimer(0.0f), isNextAttackTriggered(false), currentAttackAnimation(""),
 	numAttackComboAnimation(0.0f), isHeavyFinisherReceivedAux(false), jumpAttackCooldown(0.8f), timeSinceLastJumpAttack(0.0f),
-	jumpBeforeJumpAttackCooldown(0.1f), attackSoftDamage(10.0f), attackHeavyDamage(20.0f)
+	jumpBeforeJumpAttackCooldown(0.1f), isGroundParalyzed(false), attackSoftDamage(10.0f), attackHeavyDamage(20.0f)
 {
 	REGISTER_FIELD(attackSoftDamage, float);
 	REGISTER_FIELD(attackHeavyDamage, float);
@@ -106,21 +106,24 @@ void PlayerAttackScript::Update(float deltaTime)
 	if (isMelee && timeSinceLastJumpAttack < jumpAttackCooldown)
 	{
 		playerManager->ParalyzePlayer(true);
+		isGroundParalyzed = true;
 	}
-	else
+	else if(isGroundParalyzed)
 	{
 		playerManager->ParalyzePlayer(false);
+		isGroundParalyzed = false;
 	}
 
 	timeSinceLastJumpAttack += deltaTime;
+
+
+	// Mark the enemy that is going to be attacked
+	UpdateEnemyDetection();
 
 	if (!canAttack)
 	{
 		return;
 	}
-
-	// Mark the enemy that is going to be attacked
-	UpdateEnemyDetection();
 
 	// Check if the special was activated
 	comboSystem->CheckSpecial(deltaTime);
@@ -131,7 +134,7 @@ void PlayerAttackScript::Update(float deltaTime)
 		animation->SetParameter("IsLightAttacking", false);
 	}
 
-	if (!IsAttackAvailable())
+	if (!IsAttackAvailable() && canAttack)
 	{
 		if (jumpFinisherScript->IsActive())
 		{
@@ -142,8 +145,10 @@ void PlayerAttackScript::Update(float deltaTime)
 			ResetAttackAnimations(deltaTime);
 		}
 	}
-	
-	PerformCombos();
+	if (canAttack) 
+	{
+		PerformCombos();
+	}
 }
 
 void PlayerAttackScript::UpdateEnemyDetection()
@@ -646,6 +651,11 @@ bool PlayerAttackScript::IsAttackAvailable() const
 	return !isAttacking;
 }
 
+void PlayerAttackScript::SetCanAttack(bool canAttack)
+{
+	this->canAttack = canAttack;
+}
+
 bool PlayerAttackScript::IsMeleeAvailable() const
 {
 	return isMelee;
@@ -659,12 +669,6 @@ bool PlayerAttackScript::IsPerformingJumpAttack() const
 bool PlayerAttackScript::CanAttack() const
 {
 	return canAttack;
-}
-
-void PlayerAttackScript::SetCanAttack(bool canAttack)
-{
-
-	this->canAttack = canAttack;
 }
 
 bool PlayerAttackScript::IsDeathTouched() const
@@ -691,4 +695,13 @@ bool PlayerAttackScript::IsInAttackAnimation() const
 GameObject* PlayerAttackScript::GetEnemyDetected() const
 {
 	return enemyDetection->GetEnemySelected();
+}
+
+void PlayerAttackScript::PlayWeaponSounds() const
+{
+	if (isMelee)
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_OPEN);
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);
+	}
 }
