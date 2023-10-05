@@ -41,6 +41,12 @@ void SceneLoadingScript::Init()
 
 void SceneLoadingScript::StartLoad() const
 {
+	// if the script is set through the UI, we cannot check this, so check manually here
+	// can't think of a way to automatize this because the member access operator overload (->) can't be virtual :/
+	if (container->HasFailed())
+	{
+		throw AccessingFailedScriptException(axo::Format("Calling SceneLoadingScript after the script raised an exception!"));
+	}
 	App->GetModule<ModuleScene>()->LoadSceneAsync(loadingScreenScene,
 												  std::bind(&SceneLoadingScript::OnLoadingScreenLoaded, this));
 }
