@@ -9,6 +9,7 @@ class ComponentTransform;
 class ComponentAgent;
 class ComponentRigidBody;
 class AIMovement;
+class HealthSystem;
 
 class PathBehaviourScript : public Script
 {
@@ -29,10 +30,12 @@ public:
 private:
 	unsigned int currentWayPoint;
 	bool pathFinished;
+	bool isInmortal;
 	float agentVelocity;
 
 	AIMovement* aiMovement;
 	ComponentAgent* agentComp;
 	ComponentRigidBody* rigidBody;
+	HealthSystem* enemyHealth;
 	std::vector<ComponentTransform*> waypointsPath;
 };

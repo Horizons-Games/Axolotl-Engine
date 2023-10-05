@@ -7,15 +7,17 @@
 #include "Components/ComponentRigidBody.h"
 
 #include "../Game/Scripts/AIMovement.h"
+#include "../Game/Scripts/HealthSystem.h"
 
 REGISTERCLASS(PathBehaviourScript);
 
 PathBehaviourScript::PathBehaviourScript() : Script(),
 		aiMovement(nullptr), currentWayPoint(0), pathFinished(false),
-		agentComp(nullptr), agentVelocity(300.0f)
+		agentComp(nullptr), agentVelocity(300.0f), isInmortal(true)
 {
 	REGISTER_FIELD(waypointsPath, std::vector<ComponentTransform*>);
 	REGISTER_FIELD(agentVelocity, float);
+	REGISTER_FIELD(isInmortal, bool);
 }
 
 void PathBehaviourScript::Start()
@@ -23,6 +25,7 @@ void PathBehaviourScript::Start()
 	aiMovement = owner->GetComponent<AIMovement>();
 	agentComp = owner->GetComponent<ComponentAgent>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	enemyHealth = owner->GetComponent<HealthSystem>();
 	if (!waypointsPath.empty())
 	{
 		StartPath();
@@ -46,6 +49,10 @@ void PathBehaviourScript::Update(float deltaTime)
 			aiMovement->SetMovementSpeed(5.0f);
 			aiMovement->SetMovementStatuses(true, true);
 			pathFinished = true;
+			if (isInmortal)
+			{
+				enemyHealth->SetIsImmortal(false);
+			}
 		}
 	}
 }
@@ -54,6 +61,10 @@ void PathBehaviourScript::StartPath() const
 {
 	float3 target = waypointsPath[currentWayPoint]->GetGlobalPosition();
 
+	if (isInmortal)
+	{
+		enemyHealth->SetIsImmortal(true);
+	}
 	rigidBody->Enable();
 	rigidBody->SetUpMobility();
 	rigidBody->SetIsKinematic(false);
