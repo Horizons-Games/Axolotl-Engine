@@ -155,18 +155,11 @@ UpdateStatus ModuleUI::PostUpdate()
 	for (Component* interactable : App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneInteractable())
 	{
 		ComponentButton* button = static_cast<ComponentButton*>(interactable);
-		ModuleInput* input = App->GetModule<ModuleInput>();
 
-		if (button->IsClicked())
+		if (button->IsClicked() && App->GetModule<ModuleInput>()->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::UP)
 		{
-			if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::UP)
-			{
-#ifndef ENGINE
-				button->OnClicked();
-#endif // ENGINE
-	   // button->SetHovered(false);
-				button->SetClicked(false);
-			}
+			button->OnClicked();
+			button->SetClicked(false);
 		}
 	}
 	return UpdateStatus::UPDATE_CONTINUE;

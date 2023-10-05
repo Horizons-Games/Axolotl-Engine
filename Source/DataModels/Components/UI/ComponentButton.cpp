@@ -63,7 +63,11 @@ void ComponentButton::OnClicked()
 	{
 		LOG_WARNING("Loading scenes through buttons is deprecated, please update your scripts so they use "
 					"SetOnClickedCallback instead");
+#ifdef ENGINE
+		LOG_VERBOSE("Cannot load scenes in Engine mode, ignoring");
+#else
 		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + sceneName + ".axolotl");
+#endif // ENGINE
 	}
 	if (onClickedCallback.has_value())
 	{
