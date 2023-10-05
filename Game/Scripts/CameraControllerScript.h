@@ -13,7 +13,6 @@ public:
 	void Start() override;
     void PreUpdate(float deltaTime) override;
 
-	void SetVerticalSensitivity(float newVerticalSensibility);
 	void SetInCombat(bool newCombat);
 	bool IsInCombat();
 

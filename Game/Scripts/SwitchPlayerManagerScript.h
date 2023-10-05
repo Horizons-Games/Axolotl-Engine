@@ -7,6 +7,7 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class CameraBossControllerScript;
 class CameraControllerScript;
 class ComponentAnimation;
 class ComponentTransform;
@@ -15,6 +16,8 @@ class ComponentRigidBody;
 class PlayerManagerScript;
 class ModuleInput;
 class ModulePlayer;
+class ComboManager;
+class UIComboManager;
 
 class SwitchPlayerManagerScript : public Script
 {
@@ -41,11 +44,14 @@ private:
 	Timer changePlayerTimer;
 	std::vector<float> changingPlayerTime;
 
+	UIComboManager* uiComboManager;
+	ComboManager* comboSystem;
+
 	GameObject* currentPlayerHealthBar;
 	GameObject* secondPlayerHealthBar;
 	GameObject* mainCamera;
 	CameraControllerScript* camera;
-	ComponentTransform* cameraTransform;
+	CameraBossControllerScript* cameraBoss;
 
 	ComponentTransform* currentPlayerTransform;
 	ComponentTransform* secondPlayerTransform;
@@ -75,6 +81,8 @@ private:
 	bool isSwitchingHealthBars;
 	bool isChangingPlayer;
 	bool isNewPlayerEnabled;
-	bool isSwitchAvailable;
 	bool isSecondJumpAvailable;
+
+	bool bossScene;
+	bool isSwitchAvailable;
 };

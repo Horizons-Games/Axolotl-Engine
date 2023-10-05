@@ -84,6 +84,7 @@ void ComboManager::ClearCombo(bool finisher)
 {
 	uiComboManager->ClearCombo(finisher);
 	comboCount = 0;
+	specialCount = 0.f;
 }
 
 AttackType ComboManager::CheckAttackInput(bool jumping)
@@ -167,4 +168,9 @@ void ComboManager::FillComboBar()
 {
 	specialCount = maxSpecialCount;
 	uiComboManager->SetComboBarValue(specialCount);
+}
+
+UIComboManager* ComboManager::GetUiComboManager() const
+{
+	return uiComboManager;
 }

@@ -33,12 +33,10 @@ LightAttackBullet::LightAttackBullet() :
 	particleSystem(nullptr), 
 	particleSystemTimer(1.0f), 
 	triggerParticleSystemTimer(false), 
-	particleSystemCurrentTimer(0.0f),
-	bulletGravity(0.1f)
+	particleSystemCurrentTimer(0.0f)
 {
 	REGISTER_FIELD(particleSystemTimer, float);
 	REGISTER_FIELD(maxDistanceBullet, float);
-	REGISTER_FIELD(bulletGravity, float);
 }
 
 void LightAttackBullet::Start()
@@ -53,10 +51,10 @@ void LightAttackBullet::Start()
 	rigidBody->SetUseRotationController(true);
 
 	defaultTargetPos = parentTransform->GetGlobalForward();
+	defaultTargetPos.y = 0;
 	defaultTargetPos.Normalize();
 	defaultTargetPos = defaultTargetPos * maxDistanceBullet;
 	defaultTargetPos += parentTransform->GetGlobalPosition();	
-	defaultTargetPos.y = 0;
 
 	particleSystem = owner->GetComponent<ComponentParticleSystem>();
 	particleSystem->Enable();
@@ -74,7 +72,6 @@ void LightAttackBullet::Update(float deltaTime)
 
 	else
 	{
-		defaultTargetPos.y -= bulletGravity;
 		rigidBody->SetKpForce(2.0f);
 
 		rigidBody->SetPositionTarget(defaultTargetPos);

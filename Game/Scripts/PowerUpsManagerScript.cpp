@@ -36,6 +36,12 @@ void PowerUpsManagerScript::Start()
 
 void PowerUpsManagerScript::Update(float deltaTime)
 {
+	if (player != App->GetModule<ModulePlayer>()->GetPlayer())
+	{
+		currentPowerUpTimer = maxPowerUpTimer;
+		player = App->GetModule<ModulePlayer>()->GetPlayer();
+	}
+
 	if (activePowerUp != PowerUpType::NONE)
 	{
 		currentPowerUpTimer += deltaTime;
@@ -69,6 +75,7 @@ void PowerUpsManagerScript::UseSavedPowerUp()
 
 	activePowerUp = savedPowerUp;
 	savedPowerUp = PowerUpType::NONE;
+	currentPowerUpTimer = 0;
 
 	uiManagerScript->ActiveUIPwrUP(maxPowerUpTimer);
 

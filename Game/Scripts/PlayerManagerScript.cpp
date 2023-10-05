@@ -143,10 +143,6 @@ void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 	movementManager->SetIsParalyzed(paralyzed);
 	jumpManager->SetCanJump(!paralyzed);
 	rotationManager->SetCanRotate(!paralyzed);
-	if (attackManager->IsAttackAvailable())
-	{
-		attackManager->SetCanAttack(!paralyzed);
-	}
 }
 
 void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)
