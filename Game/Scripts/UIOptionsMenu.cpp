@@ -66,6 +66,7 @@ void UIOptionsMenu::Start()
 	LoadOptions();
 	//InitOptionMenu();
 	IsSizeOptionEnable();
+	IsFpsEnable();
 }
 
 void UIOptionsMenu::Update(float deltaTime)
@@ -348,6 +349,7 @@ void UIOptionsMenu::LoadOptions()
 		actualConfig.push_back(canvasInfo);
 	}
 
+	// THE CANVAS CONTROLLER ONLY HAVE IMG INSIDE AND DONT SAVE BUTTONS - MADE AN ERROR ON THE SAVE AND LOAD.
 	CanvasOptionInfo controller;
 	actualConfig.push_back(controller);
 
@@ -553,7 +555,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 			window->SetWindowSize(2560, 1440);
 			break;
 		case 4:
-			window->SetWindowSize(38240, 2160);
+			window->SetWindowSize(3840, 2160);
 			break;
 		default:
 			break;
@@ -576,6 +578,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 			break;
 		case 3:
 			window->SetResizable(true);
+			LOG_INFO("Windows Mode: Border");
 			break;
 		default:
 			break;
