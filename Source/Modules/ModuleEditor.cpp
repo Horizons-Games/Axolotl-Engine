@@ -358,7 +358,10 @@ void ModuleEditor::SetStateMachineWindowEditor(StateMachine* resourceInstance, c
 {
 #ifdef ENGINE
 	this->stateMachineEditor->SetStateMachine(resourceInstance, instanceName);
-	stateMachineWindowEnable = true;
+	if (resourceInstance) // Only draw the window if there's an actual instance to show
+	{
+		stateMachineWindowEnable = true;
+	}
 #endif
 }
 

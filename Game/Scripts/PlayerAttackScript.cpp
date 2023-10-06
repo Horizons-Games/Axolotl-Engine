@@ -408,29 +408,31 @@ void PlayerAttackScript::InitJumpAttack()
 
 void PlayerAttackScript::UpdateJumpAttack()
 {
-	bool landed = false;
-	//if (isMelee) landing is player grounded if not then is the projectile detection for the moment I only put this
-
-	if (isMelee)
+	bool successfulAttack = false;
+	if (isMelee) 
 	{
-		landed = playerManager->IsGrounded();
+		successfulAttack = playerManager->IsGrounded();
 	}
 	else
 	{
-		AXO_TODO("Add Allura Checks")
-		landed = true;
+		successfulAttack = jumpFinisherScript->GetBulletHitTheFloor();
 	}
 
-	if (landed)
+	if (successfulAttack)
 	{
 		animation->SetParameter("IsJumpAttacking", false);
-		if (currentAttack == AttackType::JUMPNORMAL)
+		if (!comboSystem->NextIsSpecialAttack())
 		{
 			EndJumpNormalAttack();
 		}
 		else
 		{
 			EndJumpFinisherAttack();
+		}
+
+		if (!isMelee)
+		{
+			jumpFinisherScript->SetBulletHitTheFloor(false);
 		}
 		currentAttack = AttackType::NONE;
 	}
@@ -440,9 +442,21 @@ void PlayerAttackScript::EndJumpNormalAttack()
 {
 	input->Rumble();
 	jumpFinisherScript->VisualLandingEffect();
-	if (enemyDetection->AreAnyEnemiesInTheArea())
+
+	std::vector<ComponentRigidBody*> enemiesToHit;
+	if (isMelee)
 	{
-		jumpFinisherScript->PushEnemies(10.0f, 2.0f, enemyDetection->GetEnemiesInTheArea());
+		enemiesToHit = enemyDetection->GetEnemiesInTheArea();
+	}
+	else
+	{
+		enemiesToHit.reserve(enemyDetection->GetEnemiesInTheArea().size());
+		enemyDetection->FilterEnemiesByDistance(6.5f, enemiesToHit); // 6.5f like the size of Bix jump attack
+	}
+	
+	if (!enemiesToHit.empty())
+	{
+		jumpFinisherScript->PushEnemies(10.0f, 2.0f, enemiesToHit);
 		comboSystem->SuccessfulAttack(comboCountJump, currentAttack);
 	}
 }
@@ -451,9 +465,21 @@ void PlayerAttackScript::EndJumpFinisherAttack()
 {
 	input->Rumble();
 	jumpFinisherScript->VisualLandingEffect();
-	if (enemyDetection->AreAnyEnemiesInTheArea())
+
+	std::vector<ComponentRigidBody*> enemiesToHit;
+	if (isMelee)
 	{
-		jumpFinisherScript->PushEnemies(15.0f, 4.0f, enemyDetection->GetEnemiesInTheArea());
+		enemiesToHit = enemyDetection->GetEnemiesInTheArea();
+	}
+	else
+	{
+		enemiesToHit.reserve(enemyDetection->GetEnemiesInTheArea().size());
+		enemyDetection->FilterEnemiesByDistance(6.5f, enemiesToHit); // 6.5f like the size of Bix jump attack
+	}
+
+	if (!enemiesToHit.empty())
+	{
+		jumpFinisherScript->PushEnemies(15.0f, 4.0f, enemiesToHit);
 		comboSystem->SuccessfulAttack(-35.0f, currentAttack);
 	}
 }
@@ -568,12 +594,12 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 		case AttackType::JUMPNORMAL:
 		case AttackType::JUMPFINISHER:
 		{
-			std::string actualName = currentAttackAnimation;
+			std::string currentAnimationName = currentAttackAnimation;
 			if (isMelee)
 			{
-				actualName = "JumpAttackRecovery";
+				currentAnimationName = "JumpAttackRecovery";
 			}
-			if (animation->GetController()->GetStateName() != currentAttackAnimation)
+			if (animation->GetController()->GetStateName() != currentAnimationName)
 			{
 				playerManager->ParalyzePlayer(false);
 				animation->SetParameter("IsJumpAttacking", false);

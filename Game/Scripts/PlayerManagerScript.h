@@ -11,7 +11,6 @@ class HealthSystem;
 class PlayerAttackScript;
 class PlayerJumpScript;
 class PlayerMoveScript;
-class PlayerAttackScript;
 class DebugGame;
 class PlayerRotationScript;
 
@@ -30,6 +29,8 @@ class PlayerManagerScript : public Script
 public:
 	PlayerManagerScript();
 	~PlayerManagerScript() override = default;
+
+	void Start() override;
 
 	float GetPlayerAttack() const;
 	float GetPlayerDefense() const;
@@ -54,8 +55,6 @@ public:
 	void SetPlayerState(PlayerActions playerState);
 
 private:
-	void Start() override;
-
 	bool isActivePlayer;
 
 	ModuleInput* input;
