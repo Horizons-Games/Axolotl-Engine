@@ -80,7 +80,8 @@ void ComponentVideo::Draw() const
 
 	if (!GetOwner()->HasComponent<ComponentTransform2D>())
 	{
-		throw ComponentNotFoundException("Owner does not have ComponentTrasnform2D");
+		LOG_ERROR("Owner does not have ComponentTrasnform2D");
+		return;
 	}
 	ComponentTransform2D* transform = GetOwner()->GetComponentInternal<ComponentTransform2D>();
 
