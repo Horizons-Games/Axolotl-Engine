@@ -138,7 +138,6 @@ void ComponentVideo::Draw() const
 void ComponentVideo::InternalSave(Json& meta)
 {
 	UID uidVideo = 0;
-	std::string assetPath = "";
 	if (video)
 	{
 		meta["videoUID"] = video->GetUID();
@@ -291,6 +290,7 @@ void ComponentVideo::ReadVideoFrame()
 				  video->GetFrameHeight(),
 				  dest,
 				  linSize);
+		delete dest[];
 	}
 }
 
@@ -301,8 +301,18 @@ void ComponentVideo::SetNativeVideoFrameSize()
 
 void ComponentVideo::SetVideoFrameSize(int width, int height)
 {
-	ComponentTransform2D* transform = GetOwner()->GetComponentInternal<ComponentTransform2D>();
-	transform->SetSize(float2((float) width, (float) height));
+	
+	if (GetOwner()->HasComponent<ComponentTransform2D>())
+	{
+		ComponentTransform2D* transform = GetOwner()->GetComponentInternal<ComponentTransform2D>();
+		transform->SetSize(float2((float) width, (float) height));
+	}
+	else
+	{
+		LOG_ERROR("{} Video element does not have transform2D component ", GetOwner()->GetName());
+	}
+	
+	
 }
 
 void ComponentVideo::Stop()
@@ -317,6 +327,7 @@ void ComponentVideo::RestartVideo()
 	avio_seek(video->GetFormat()->pb, 0, SEEK_SET);
 	if (av_seek_frame(video->GetFormat(), video->GetVideoStream(), -1, 0) >= 0)
 	{
+		LOG_ERROR("Fail in video {} restart", video->GetFileName());
 	}
 }
 
