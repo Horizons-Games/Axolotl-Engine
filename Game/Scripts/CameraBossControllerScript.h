@@ -16,6 +16,9 @@ public:
 	void SetInCombat(bool newCombat);
 	bool IsInCombat();
 
+	void ToggleCameraState();
+	void ChangeCurrentPlayer(ComponentTransform* currentPlayer);
+
 private:
 	void CalculateOffsetVector();
 	void CalculateOffsetVector(float3 offset);
@@ -55,4 +58,6 @@ private:
 	float HeightDistance;
 	float Heightmultiplier;
 	float multiplierWithHeight;
+
+	bool stopped;
 };

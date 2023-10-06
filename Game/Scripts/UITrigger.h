@@ -13,6 +13,7 @@ class ComponentRigidBody;
 class ComponentScript;
 class UIGameManager;
 class HealthSystem;
+class ModulePlayer;
 class SceneLoadingScript;
 
 // Little fix until we could check if an audio is being reproduced
@@ -54,5 +55,6 @@ private:
 	HealthSystem* playerHealthSystem;
 	GameObject* setGameStateObject;
 	GameObject* setPlayer;
+	ModulePlayer* modulePlayer;
 	SceneLoadingScript* loadingScreenScript;
 };

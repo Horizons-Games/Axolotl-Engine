@@ -123,7 +123,7 @@ void PlayerJumpScript::Jump(float deltaTime)
 		btVector3 movement(0, 1, 0);
 		float3 direction = float3::zero;
 
-		if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN &&
+		if ((input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN || isChangingPlayer) &&
 			(isGrounded || (!isGrounded && coyoteTimerCount > 0.0f) ||
 				(canDoubleJump && playerManager->GetPlayerState() == PlayerActions::JUMPING)))
 		{
@@ -151,13 +151,24 @@ void PlayerJumpScript::Jump(float deltaTime)
 			componentAnimation->SetParameter("IsGrounded", false);
 			isFalling = false;
 			isGrounded = false;
+			isChangingPlayer = false;
 		}
 	}
+}
+
+void PlayerJumpScript::ToggleIsChangingPlayer()
+{
+	isChangingPlayer = !isChangingPlayer;
 }
 
 bool PlayerJumpScript::IsGrounded() const
 {
 	return isGrounded;
+}
+
+void PlayerJumpScript::SetIsGrounded(bool isGrounded)
+{
+	this->isGrounded = isGrounded;
 }
 
 bool PlayerJumpScript::CanJump() const

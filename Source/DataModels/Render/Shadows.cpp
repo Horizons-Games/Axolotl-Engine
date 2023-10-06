@@ -509,7 +509,7 @@ void Shadows::PracticalPartition(Frustum* frustum, float lambda)
 	cascadeDistances.farDistances[FRUSTUM_PARTITIONS].x = farPlane;
 }
 
-Frustum& Shadows::ComputeLightFrustum(const GameObject* light, Frustum* cameraFrustum)
+Frustum Shadows::ComputeLightFrustum(const GameObject* light, Frustum* cameraFrustum)
 {
 	float3 corners[8];
 	cameraFrustum->GetCornerPoints(corners);

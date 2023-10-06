@@ -16,6 +16,9 @@ public:
 	void SetInCombat(bool newCombat);
 	bool IsInCombat();
 
+	void ToggleCameraState();
+	void ChangeCurrentPlayer(ComponentTransform* currentPlayer);
+
 private:
 	void CalculateOffsetVector();
 	void CalculateOffsetVector(float3 offset);
@@ -25,7 +28,6 @@ private:
 	ComponentCameraSample* FindClosestSample(float3 position);
 
 private: 
-
 	float3 finalTargetPosition;
 	Quat finalTargetOrientation;
 
@@ -38,7 +40,6 @@ private:
 	ComponentTransform* transform;
 	ComponentCamera* camera;
 
-	GameObject* player;
 	ComponentTransform* playerTransform;
 
 	float xOffset;
@@ -49,6 +50,7 @@ private:
 	float yFocusOffset;
 
 	bool inCombat;
+	bool stopped;
 };
 
 inline void CameraControllerScript::SetInCombat(bool newmode)
