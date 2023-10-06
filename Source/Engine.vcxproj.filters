@@ -769,6 +769,9 @@
     <ClCompile Include="..\Game\Scripts\Rotator.cpp">
       <Filter>UserScripts\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SwitchPlayerManagerScript.cpp">
+      <Filter>UserScripts\Gameplay</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\HackingCommand.cpp">
       <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
     </ClCompile>
@@ -784,12 +787,20 @@
     <ClCompile Include="DataModels\Render\Shadows.cpp">
       <Filter>DataModels\Render</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp" />
     <ClCompile Include="..\Game\Scripts\UIText.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CameraBossControllerScript.cpp">
+      <Filter>UserScripts\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
     <ClCompile Include="Enums\WritableEnum.cpp">
       <Filter>Enums</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ParticleBillboardAssistance.cpp">
+      <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="DataModels\Schedulable\Schedulable.cpp">
       <Filter>DataModels\Schedulable</Filter>
@@ -1627,6 +1638,9 @@
     <ClInclude Include="..\Game\Scripts\Rotator.h">
       <Filter>UserScripts\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SwitchPlayerManagerScript.h">
+      <Filter>UserScripts\Gameplay</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\HackingCommand.h">
       <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
     </ClInclude>
@@ -1642,12 +1656,20 @@
     <ClInclude Include="DataModels\Render\Shadows.h">
       <Filter>DataModels\Render</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\ElevatorCore.h" />
     <ClInclude Include="..\Game\Scripts\UIText.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CameraBossControllerScript.h">
+      <Filter>UserScripts\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ElevatorCore.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
     <ClInclude Include="Enums\WritableEnum.h">
       <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ParticleBillboardAssistance.h">
+      <Filter>UserScripts\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="DataModels\Schedulable\Schedulable.h">
       <Filter>DataModels\Schedulable</Filter>
