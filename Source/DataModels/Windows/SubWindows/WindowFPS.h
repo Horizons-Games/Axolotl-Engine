@@ -5,10 +5,9 @@
 class WindowFPS : public SubWindow
 {
 public:
+
 	WindowFPS();
 	~WindowFPS() override;
-	
-	int GetFps() const;
 
 protected:
 	void DrawWindowContents() override;
@@ -22,7 +21,4 @@ private:
 	std::vector<float> timeHist;
 };
 
-inline int WindowFPS::GetFps() const
-{
-	return currentFpsIndex;
-};
+

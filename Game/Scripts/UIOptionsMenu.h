@@ -42,11 +42,16 @@ public:
 	UIOptionsMenu();
 	~UIOptionsMenu() override = default;
 
+	void Init();
 	void Start() override;
 	void Update(float deltaTime) override;
 
 	void ControlEnable();
 	//void KeyboardEnable();
+	void LoadOptions();
+	
+	void SetLoadFromMainMenu(bool fromMainMenu);
+	bool IsLoadFromMainMenu() const;
 
 private:
 
@@ -75,7 +80,6 @@ private:
 	int newHeaderMenuPosition;
 	int selectedOption;
 	int actualButton;
-	int previousButton;
 	int actualButtonHover;
 	int maxButtonsOptions;
 	int maxOptions;
@@ -83,9 +87,9 @@ private:
 	float valueSlider;
 
 	bool isSlider;
-	bool windowSize;
 	bool optionSizeLock;
 	bool resettButtonIndex;
+	bool loadFromMainMenu;
 
 	ModuleInput* input;
 	ModuleUI* ui;
@@ -120,7 +124,6 @@ private:
 	void UpdateChanges();
 	void ApplyChanges(int headerMenuPosition, int actualButton, int newSelectedOption);
 	void InitOptionMenu();
-	void LoadOptions();
 	void SaveOptions();
 	void LoadDefaultOptions();
 
@@ -136,6 +139,15 @@ private:
 
 };
 
+inline void UIOptionsMenu::SetLoadFromMainMenu(bool fromMainMenu)
+{
+	loadFromMainMenu = fromMainMenu;
+}
+
+inline bool UIOptionsMenu::IsLoadFromMainMenu() const
+{
+	return loadFromMainMenu;
+}
 
 
 
