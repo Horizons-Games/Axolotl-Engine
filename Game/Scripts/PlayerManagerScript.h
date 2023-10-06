@@ -11,7 +11,6 @@ class HealthSystem;
 class PlayerAttackScript;
 class PlayerJumpScript;
 class PlayerMoveScript;
-class PlayerAttackScript;
 class DebugGame;
 class PlayerRotationScript;
 
