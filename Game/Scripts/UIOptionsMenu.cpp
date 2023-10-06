@@ -163,7 +163,7 @@ void UIOptionsMenu::ControlEnable()
 		}
 	}
 
-
+	// IF THE BUTTON IS LOCKED BLOCK THE OPTIONS SELECCTION
 	if (actualConfig[headerMenuPosition].options.size() == 0 || actualConfig[headerMenuPosition].options[actualButton].locked)
 	{
 		return;
