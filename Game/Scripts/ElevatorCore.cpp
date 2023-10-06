@@ -247,7 +247,7 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 
 void ElevatorCore::SetDisableInteractions(bool interactions)
 {
-	go->GetComponentInternal<ComponentRigidBody>()->SetStatic(interactions);
+	go->GetComponentInternal<ComponentRigidBody>()->SetIsStatic(interactions);
 
 	PlayerManagerScript* manager = go->GetComponentInternal<PlayerManagerScript>();
 	manager->ParalyzePlayer(interactions);
@@ -267,7 +267,7 @@ void ElevatorCore::SetDisableInteractionsEnemies(const GameObject* enemy, bool i
 		{
 			activeState = ActiveActionsElevator::ACTIVE;
 		}
-		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(setStaticRigidBody);
+		enemy->GetComponentInternal<ComponentRigidBody>()->SetIsStatic(setStaticRigidBody);
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 		enemy->GetComponent<EnemyVenomiteScript>()->ParalyzeEnemy(interactions);
 	}
@@ -277,7 +277,7 @@ void ElevatorCore::SetDisableInteractionsEnemies(const GameObject* enemy, bool i
 		{
 			activeState = ActiveActionsElevator::ACTIVE;
 		}		
-		enemy->GetComponentInternal<ComponentRigidBody>()->SetStatic(setStaticRigidBody);
+		enemy->GetComponentInternal<ComponentRigidBody>()->SetIsStatic(setStaticRigidBody);
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 		enemy->GetComponent<EnemyDroneScript>()->ParalyzeEnemy(interactions);
 	}

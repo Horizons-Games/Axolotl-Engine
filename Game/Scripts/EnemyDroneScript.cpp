@@ -68,9 +68,6 @@ void EnemyDroneScript::Start()
 		droneState = DroneBehaviours::INPATH;
 	}
 
-	seekTarget = seekScript->GetTarget();
-	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
-
 	playerManager = seekTarget->GetComponent<PlayerManagerScript>();
 	enemyDetectionTime = 0.0f;
 }
