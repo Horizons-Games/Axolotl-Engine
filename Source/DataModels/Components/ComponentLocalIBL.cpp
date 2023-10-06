@@ -49,7 +49,6 @@ ComponentLocalIBL::ComponentLocalIBL(const ComponentLocalIBL& componentLocalIBL)
 	influenceAABB(componentLocalIBL.influenceAABB), originCenterInfluence(componentLocalIBL.originCenterInfluence)
 {
 	Initialize();
-	GenerateMaps();
 }
 
 ComponentLocalIBL::~ComponentLocalIBL()
