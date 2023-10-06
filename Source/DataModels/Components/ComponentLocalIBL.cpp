@@ -127,9 +127,6 @@ void ComponentLocalIBL::GenerateMaps()
 	glEnable(GL_DEPTH_TEST);
 	glCullFace(GL_FRONT); // Show front faces
 	glFrontFace(GL_CW); // Clockwise
-
-	App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneLocalIBL(this);
-	App->GetModule<ModuleScene>()->GetLoadedScene()->RenderLocalIBL(this);
 }
 
 void ComponentLocalIBL::Draw() const
