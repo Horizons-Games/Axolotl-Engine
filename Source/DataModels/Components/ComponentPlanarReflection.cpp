@@ -272,6 +272,22 @@ void ComponentPlanarReflection::InternalLoad(const Json& meta)
 	distortionAmount = static_cast<float>(meta["distortion_amount"]);
 }
 
+void ComponentPlanarReflection::SignalEnable()
+{
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	currentScene->UpdateScenePlanarReflections();
+	currentScene->RenderPlanarReflections();
+}
+
+void ComponentPlanarReflection::SignalDisable()
+{
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	currentScene->UpdateScenePlanarReflections();
+	currentScene->RenderPlanarReflections();
+}
+
 void ComponentPlanarReflection::BlurReflection()
 {
 	ModuleWindow* window = App->GetModule<ModuleWindow>();

@@ -56,8 +56,12 @@ public:
 	
 	const float3 GetPlaneNormal() const;
 
+private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
+
+	void SignalEnable() override;
+	void SignalDisable() override;
 
 private:
 	void BlurReflection();
