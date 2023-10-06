@@ -34,7 +34,7 @@ void VideoImporter::Import(const char* filePath, std::shared_ptr<ResourceVideo> 
 {
 	std::filesystem::path fs_path(resource->GetAssetsPath());
 	resource->SetExtension(fs_path.extension().string());
-	//App->GetModule<ModuleFileSystem>()->Copy(resource->GetAssetsPath(), resource->GetLibraryPath() + resource->GetExtension());
+	App->GetModule<ModuleFileSystem>()->Copy(resource->GetAssetsPath(), resource->GetLibraryPath() + resource->GetExtension());
 }
 
 void VideoImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceVideo> resource)

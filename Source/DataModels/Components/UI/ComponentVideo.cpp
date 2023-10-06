@@ -192,10 +192,10 @@ void ComponentVideo::ReadVideoFrame()
 	{
 		video->Load();
 		int response = -1;
-		int error = 0;
-		while (error >= 0)
+		int result = 0;
+		while (result >= 0)
 		{
-			error = av_read_frame(video->GetFormat(), video->GetAvPacket());
+			result = av_read_frame(video->GetFormat(), video->GetAvPacket());
 
 			if (video->GetAvPacket()->stream_index != video->GetVideoStream())
 			{
@@ -204,7 +204,7 @@ void ComponentVideo::ReadVideoFrame()
 			}
 
 			// SEEK to frame 0 -> Restart the video timestamp
-			if (error == AVERROR_EOF)
+			if (result == AVERROR_EOF)
 			{
 				finished = true;
 				if (loop)
@@ -320,20 +320,6 @@ void ComponentVideo::RestartVideo()
 	}
 }
 
-bool ComponentVideo::isPlayed()
-{
-	return played;
-}
-
-bool ComponentVideo::isPlayAtStart()
-{
-	return playAtStart;
-}
-
-bool ComponentVideo::CanBeRotate()
-{
-	return video ? video->GetCanRotate() : false;
-}
 
 void ComponentVideo::SetVideo(const std::shared_ptr<ResourceVideo>& newVideo)
 {

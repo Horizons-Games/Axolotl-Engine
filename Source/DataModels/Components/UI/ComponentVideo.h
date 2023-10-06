@@ -95,3 +95,18 @@ inline void ComponentVideo::Pause()
 {
 	this->played = false;
 }
+
+inline bool ComponentVideo::isPlayed()
+{
+	return played;
+}
+
+inline bool ComponentVideo::isPlayAtStart()
+{
+	return playAtStart;
+}
+
+inline bool ComponentVideo::CanBeRotate()
+{
+	return video ? video->GetCanRotate() : false;
+}

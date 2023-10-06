@@ -201,6 +201,8 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		long long assetTime = fileSystem->GetModificationDate(assetPath.c_str());
 		std::string libExtension = type == ResourceType::Video ? extension : GENERAL_BINARY_EXTENSION;
 		long long libTime = fileSystem->GetModificationDate((libraryPath + libExtension).c_str());
+		LOG_DEBUG("Asset: {} AssetTime {}", assetPath, std::to_string(assetTime));
+		LOG_DEBUG("LibAsset: {} LibTime {}", (libraryPath + libExtension), std::to_string(libTime));
 		if (assetTime <= libTime)
 		{
 			std::string fileName = fileSystem->GetFileName(libraryPath + libExtension);
