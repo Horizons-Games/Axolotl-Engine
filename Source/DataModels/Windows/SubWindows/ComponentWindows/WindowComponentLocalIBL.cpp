@@ -34,47 +34,158 @@ void WindowComponentLocalIBL::DrawWindowContents()
 
 		if (ImGui::BeginTable("##localIBLTable", 2))
 		{
-			ImGui::TableNextColumn();
 			AABB parallax = local->GetParallaxAABB();
-			ImGui::Text("Parallax min");
-			ImGui::TableNextColumn();
-			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
-			ImGui::SetNextItemWidth(150.0f);
-			if (ImGui::DragFloat3("##ParallaxMin", (float*)&parallax.minPoint, 0.01f))
-			{
-				local->SetParallaxAABB(parallax);
-			}
 
 			ImGui::TableNextColumn();
-			ImGui::Text("Parallax max");
+			ImGui::Text("Parallax Max");
+			ImGui::SameLine();
+
 			ImGui::TableNextColumn();
-			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
-			ImGui::SetNextItemWidth(150.0f);
-			if (ImGui::DragFloat3("##ParallaxMax", (float*)&parallax.maxPoint, 0.01f))
+			ImGui::Text("x:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			if (ImGui::DragFloat("##XParallaxMax", &parallax.maxPoint.x, 0.01f, std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%.2f"))
 			{
 				local->SetParallaxAABB(parallax);
 			}
+			ImGui::PopStyleVar();
+			ImGui::SameLine();
+
+			ImGui::Text("y:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			if (ImGui::DragFloat("##YParallaxMax", &parallax.maxPoint.y, 0.01f, std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%.2f"))
+			{
+				local->SetParallaxAABB(parallax);
+			}
+			ImGui::PopStyleVar();
+			ImGui::SameLine();
+
+			ImGui::Text("z:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			if (ImGui::DragFloat("##ZParallaxMax", &parallax.maxPoint.z, 0.01f, std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%.2f"))
+			{
+				local->SetParallaxAABB(parallax);
+			}
+			ImGui::PopStyleVar();
+
+			ImGui::TableNextColumn();
+			ImGui::Text("Parallax Min");
+			ImGui::SameLine();
+
+			ImGui::TableNextColumn();
+			ImGui::Text("x:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			if (ImGui::DragFloat("##XParallaxMin", &parallax.minPoint.x, 0.01f, std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%.2f"))
+			{
+				local->SetParallaxAABB(parallax);
+			}
+			ImGui::PopStyleVar();
+			ImGui::SameLine();
+
+			ImGui::Text("y:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			if (ImGui::DragFloat("##YParallaxMin", &parallax.minPoint.y, 0.01f, std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%.2f"))
+			{
+				local->SetParallaxAABB(parallax);
+			}
+			ImGui::PopStyleVar();
+			ImGui::SameLine();
+
+			ImGui::Text("z:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			if (ImGui::DragFloat("##ZParallaxMin", &parallax.minPoint.z, 0.01f, std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%.2f"))
+			{
+				local->SetParallaxAABB(parallax);
+			}
+			ImGui::PopStyleVar();
 
 			AABB influence = local->GetInfluenceAABB();
-			ImGui::TableNextColumn();
-			ImGui::Text("Influence min");
-			ImGui::TableNextColumn();
-			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
-			ImGui::SetNextItemWidth(150.0f);
-			if (ImGui::DragFloat3("##InfluenceMin", (float*)&influence.minPoint, 0.01f))
-			{
-				local->SetInfluenceAABB(influence);
-			}
 
 			ImGui::TableNextColumn();
-			ImGui::Text("Influence max");
+			ImGui::Text("Influence Max");
+			ImGui::SameLine();
+
 			ImGui::TableNextColumn();
-			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
-			ImGui::SetNextItemWidth(150.0f);
-			if (ImGui::DragFloat3("##InfluenceMax", (float*)&influence.maxPoint, 0.01f))
+			ImGui::Text("x:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			if (ImGui::DragFloat("##XInfluenceMax", &influence.maxPoint.x, 0.01f, std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%.2f"))
 			{
 				local->SetInfluenceAABB(influence);
 			}
+			ImGui::PopStyleVar();
+			ImGui::SameLine();
+
+			ImGui::Text("y:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			if (ImGui::DragFloat("##YInfluenceMax", &influence.maxPoint.y, 0.01f, std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%.2f"))
+			{
+				local->SetInfluenceAABB(influence);
+			}
+			ImGui::PopStyleVar();
+			ImGui::SameLine();
+
+			ImGui::Text("z:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			if (ImGui::DragFloat("##ZInfluenceMax", &influence.maxPoint.z, 0.01f, std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%.2f"))
+			{
+				local->SetInfluenceAABB(influence);
+			}
+			ImGui::PopStyleVar();
+
+			ImGui::TableNextColumn();
+			ImGui::Text("Influence Min");
+			ImGui::SameLine();
+
+			ImGui::TableNextColumn();
+			ImGui::Text("x:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			if (ImGui::DragFloat("##XInfluenceMin", &influence.minPoint.x, 0.01f, std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%.2f"))
+			{
+				local->SetInfluenceAABB(influence);
+			}
+			ImGui::PopStyleVar();
+			ImGui::SameLine();
+
+			ImGui::Text("y:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			if (ImGui::DragFloat("##YInfluenceMin", &influence.minPoint.y, 0.01f, std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%.2f"))
+			{
+				local->SetInfluenceAABB(influence);
+			}
+			ImGui::PopStyleVar();
+			ImGui::SameLine();
+
+			ImGui::Text("z:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			if (ImGui::DragFloat("##ZInfluenceMin", &influence.minPoint.z, 0.01f, std::numeric_limits<float>::min(), std::numeric_limits<float>::min(), "%.2f"))
+			{
+				local->SetInfluenceAABB(influence);
+			}
+			ImGui::PopStyleVar();
+			
 			ImGui::EndTable();
 		}
 	}
