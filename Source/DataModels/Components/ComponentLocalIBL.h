@@ -49,10 +49,15 @@ public:
 	const float3& GetPosition();
 	const Quat& GetRotation();
 
+private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
+	void SignalEnable() override;
+	void SignalDisable() override;
+
 private:
+
 	void Initialize();
 	void CreateCubemap();
 	void RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel = 0);

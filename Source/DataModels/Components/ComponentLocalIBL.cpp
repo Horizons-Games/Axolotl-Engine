@@ -265,6 +265,22 @@ void ComponentLocalIBL::InternalLoad(const Json& meta)
 	originCenterInfluence = influenceAABB.CenterPoint();
 }
 
+void ComponentLocalIBL::SignalEnable()
+{
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	currentScene->UpdateSceneLocalIBLs();
+	currentScene->RenderLocalIBLs();
+}
+
+void ComponentLocalIBL::SignalDisable()
+{
+	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+	currentScene->UpdateSceneLocalIBLs();
+	currentScene->RenderLocalIBLs();
+}
+
 void ComponentLocalIBL::Initialize()
 {
 	CreateVAO();
