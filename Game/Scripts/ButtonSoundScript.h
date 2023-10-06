@@ -7,6 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAudioSource;
 class ComponentButton;
+class ConnectedCallback;
 
 enum class ButtonStates
 {
@@ -25,8 +26,13 @@ public:
 	void Update(float deltaTime) override;
 
 private:
+	void OnClickedCallback();
+
+private:
 	ComponentAudioSource* buttonAudio;
 	ComponentButton* buttonComponent;
 
 	ButtonStates buttonState;
+
+	std::unique_ptr<ConnectedCallback> connectedCallback;
 };

@@ -6,6 +6,7 @@
 #include "Components/UI/ComponentButton.h"
 
 #include "Auxiliar/Audio/AudioData.h"
+#include "Auxiliar/ConnectedCallback.h"
 
 REGISTERCLASS(ButtonSoundScript);
 
@@ -19,6 +20,8 @@ void ButtonSoundScript::Start()
 {
 	buttonComponent = owner->GetComponent<ComponentButton>();
 	buttonAudio = owner->GetComponent<ComponentAudioSource>();
+
+	connectedCallback = buttonComponent->SetOnClickedCallback(std::bind(&ButtonSoundScript::OnClickedCallback, this));
 }
 
 void ButtonSoundScript::Update(float deltaTime)
@@ -28,7 +31,14 @@ void ButtonSoundScript::Update(float deltaTime)
 		buttonAudio->PostEvent(AUDIO::SFX::UI::BUTTON_HOVER);
 		buttonState = ButtonStates::HOVER;
 	}
+	else if (!buttonComponent->IsHovered())
+	{
+		buttonState = ButtonStates::OUTSIDE;
+	}
+}
 
+void ButtonSoundScript::OnClickedCallback()
+{
 	if (buttonComponent->IsClicked() && buttonState == ButtonStates::HOVER)
 	{
 		buttonAudio->PostEvent(AUDIO::SFX::UI::BUTTON_PRESS);
@@ -38,10 +48,5 @@ void ButtonSoundScript::Update(float deltaTime)
 	if (!buttonComponent->IsClicked())
 	{
 		buttonState = ButtonStates::HOVER;
-	}
-
-	if (!buttonComponent->IsHovered())
-	{
-		buttonState = ButtonStates::OUTSIDE;
 	}
 }
