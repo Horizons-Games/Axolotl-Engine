@@ -87,7 +87,7 @@ void JumpFinisherAttack::ShootForceBullet(float pushForce, float stunTime)
 
 	btRigidBody* bulletRigidBody = rigidBody->GetRigidBody();
 	bulletRigidBody->applyCentralImpulse(btVector3(0.f, 1.f, 0.f).normalized() * 
-											(playerManager->GetJumpManager()->GetJumpForce() / 1.5f));
+											(playerManager->GetJumpManager()->GetJumpForce() / 10.f));
 }
 
 bool JumpFinisherAttack::IsActive() const
