@@ -338,6 +338,14 @@ void ComponentVideo::SetVideo(const std::shared_ptr<ResourceVideo>& newVideo)
 	if (video)
 	{
 		video->Load();
+
+		if (frameData)
+		{
+			delete[] frameData;
+			frameData = nullptr;
+		}
+
+
 		frameData = new uint8_t[video->GetFrameWidth() * video->GetFrameHeight() * 4];
 		memset(frameData, 0, video->GetFrameWidth() * video->GetFrameHeight() * 4);
 		ReadVideoFrame();

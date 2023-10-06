@@ -12,13 +12,13 @@ public:
 	~ComponentVideo() override;
 	ComponentVideo(const ComponentVideo& toCopy);
 	void SetLoop(bool loop);
-	bool IsLooping();
-	bool CanBeRotate();
+	bool IsLooping() const;
+	bool CanBeRotate() const;
 	void SetRotateVertical(bool rotateVertical);
-	bool CanRotateVertical();
+	bool CanRotateVertical() const;
 	void SetVideo(const std::shared_ptr<ResourceVideo>& video);
 	void SetPlayAtStart(bool playAtStart);
-	bool GetPlayAtStart();
+	bool GetPlayAtStart() const;
 	std::shared_ptr<ResourceVideo> GetVideo() const;
 	void SetNativeVideoFrameSize();
 	void UpdateVideoFrame();
@@ -27,8 +27,8 @@ public:
 	void Pause();
 	void Stop();
 	void RestartVideo();
-	bool isPlayed();
-	bool isPlayAtStart();
+	bool isPlayed() const;
+	bool isPlayAtStart() const;
 
 private:
 	void ReadVideoFrame();
@@ -55,12 +55,12 @@ inline void ComponentVideo::SetRotateVertical(bool rotateVertical)
 	this->rotateVertical = rotateVertical;
 }
 
-inline bool ComponentVideo::CanRotateVertical()
+inline bool ComponentVideo::CanRotateVertical() const
 {
 	return rotateVertical;
 }
 
-inline bool ComponentVideo::IsLooping()
+inline bool ComponentVideo::IsLooping() const
 {
 	return this->loop;
 }
@@ -76,7 +76,7 @@ inline void ComponentVideo::SetPlayAtStart(bool playAtStart)
 	this->playAtStart = playAtStart;
 }
 
-inline bool ComponentVideo::GetPlayAtStart()
+inline bool ComponentVideo::GetPlayAtStart() const
 {
 	return playAtStart;
 }
@@ -96,17 +96,17 @@ inline void ComponentVideo::Pause()
 	this->played = false;
 }
 
-inline bool ComponentVideo::isPlayed()
+inline bool ComponentVideo::isPlayed() const
 {
 	return played;
 }
 
-inline bool ComponentVideo::isPlayAtStart()
+inline bool ComponentVideo::isPlayAtStart() const
 {
 	return playAtStart;
 }
 
-inline bool ComponentVideo::CanBeRotate()
+inline bool ComponentVideo::CanBeRotate() const
 {
 	return video ? video->GetCanRotate() : false;
 }
