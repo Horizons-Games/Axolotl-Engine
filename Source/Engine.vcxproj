@@ -410,6 +410,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UILoadSavedSettings.cpp" />
     <ClCompile Include="..\Game\Scripts\UIMissionTrigger.cpp" />
     <ClCompile Include="..\Game\Scripts\UIOptionsMenu.cpp" />
     <ClCompile Include="..\Game\Scripts\UIText.cpp" />
@@ -936,6 +937,7 @@
     <ClInclude Include="..\Game\Scripts\UIGameManager.h" />
     <ClInclude Include="..\Game\Scripts\UIHackingManager.h" />
     <ClInclude Include="..\Game\Scripts\UIImageDisplacementControl.h" />
+    <ClInclude Include="..\Game\Scripts\UILoadSavedSettings.h" />
     <ClInclude Include="..\Game\Scripts\UIMissionTrigger.h" />
     <ClInclude Include="..\Game\Scripts\UIOptionsMenu.h" />
     <ClInclude Include="..\Game\Scripts\UIText.h" />

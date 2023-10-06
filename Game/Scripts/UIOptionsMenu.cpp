@@ -18,8 +18,8 @@ UIOptionsMenu::UIOptionsMenu() : Script(), gameOptionButton(nullptr), videoOptio
 controlOptionButton(nullptr), gameOptionCanvas(nullptr), videoOptionCanvas(nullptr), audioOptionCanvas(nullptr),
 gameOptionHover(nullptr), videoOptionHover(nullptr), audioOptionHover(nullptr), controlOptionHover(nullptr),
 padTriggersIMG(nullptr), headerMenuPosition(0), newHeaderMenuPosition(-1), selectedOption(-1), actualButton(-1),
-actualButtonHover(-1), maxButtonsOptions(-1), maxOptions(-1), newSelectedOption(-1),
-previousButton(-1), valueSlider(-1), optionSizeLock(false), resettButtonIndex(true)
+actualButtonHover(-1), maxButtonsOptions(-1), maxOptions(-1), newSelectedOption(-1), loadFromMainMenu(false),
+valueSlider(-1), resettButtonIndex(true)
 {
 	REGISTER_FIELD(gameOptionButton, GameObject*);
 	REGISTER_FIELD(videoOptionButton, GameObject*);
@@ -39,32 +39,39 @@ previousButton(-1), valueSlider(-1), optionSizeLock(false), resettButtonIndex(tr
 	REGISTER_FIELD(padTriggersIMG, GameObject*);
 }
 
-void UIOptionsMenu::Start()
+void UIOptionsMenu::Init()
 {
 	input = App->GetModule<ModuleInput>();
 	window = App->GetModule<ModuleWindow>();
 	ui = App->GetModule<ModuleUI>();
 	render = App->GetModule<ModuleRender>();
 	audio = App->GetModule<ModuleAudio>();
+	LoadOptions();
+	//InitOptionMenu();
+}
 
-	Assert(gameOptionButton != nullptr, axo::Format("Script owned by {} is fucked!!", owner));
-
+void UIOptionsMenu::Start()
+{
 	gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
 	videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
 	audioOptionComponentButton = audioOptionButton->GetComponent<ComponentButton>();
 	controlOptionComponentButton = controlOptionButton->GetComponent<ComponentButton>();
+
 	buttonsAndCanvas.push_back(HeaderOptionsButton{ gameOptionComponentButton, gameOptionCanvas, gameOptionHover });
 	buttonsAndCanvas.push_back(HeaderOptionsButton{ videoOptionComponentButton, videoOptionCanvas, videoOptionHover });
 	buttonsAndCanvas.push_back(HeaderOptionsButton{ audioOptionComponentButton, audioOptionCanvas, audioOptionHover });
 	buttonsAndCanvas.push_back(HeaderOptionsButton{ controlOptionComponentButton, controlOptionCanvas, controlOptionHover });
+
 	gameOptionComponentButton->Disable();
 	videoOptionComponentButton->Disable();
 	audioOptionComponentButton->Disable();
 	controlOptionComponentButton->Disable();
+
 	buttonsAndCanvas[0].canvas->Enable();
 	buttonsAndCanvas[0].hovered->Enable();
+	
+	SetLoadFromMainMenu(false);
 	LoadOptions();
-	//InitOptionMenu();
 	IsSizeOptionEnable();
 	IsFpsEnable();
 }
@@ -225,18 +232,11 @@ void UIOptionsMenu::ControlEnable()
 				}
 
 				//.ACTUAL CANVAS -> HOVERED BUTTON -> ALWAYS SECOND CHILDREN -> SELECTED OPTION
+				// THINK THE IF IS USELESS BUT ITS WORKING GOOD SO DONT DELETE
 				if (newSelectedOption != -1 && newSelectedOption != selectedOption)
 				{
-					if (headerMenuPosition == 0 && optionSizeLock == true && actualButton == 3)
-					{
-						// SIZE BUTTON IS DISABLE WJEN FULLSCREEN
-					}
-					else
-					{
-						buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->GetChildren()[selectedOption]->Disable();
-						buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->GetChildren()[newSelectedOption]->Enable();
-					}
-
+					buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->GetChildren()[selectedOption]->Disable();
+					buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->GetChildren()[newSelectedOption]->Enable();
 				}
 			}
 		}
@@ -331,16 +331,19 @@ void UIOptionsMenu::LoadOptions()
 			buttonInfo.defaultOption = canvas[b]["Default_Option"];
 			buttonInfo.locked = canvas[b]["Locked_Option"];
 			canvasInfo.options.push_back(buttonInfo);
-			if (!IsSlider(a, b, 0))
+			if (loadFromMainMenu == false)
 			{
-				buttonsAndCanvas[a].canvas->GetChildren()[b]->GetChildren()[1]->GetChildren()[buttonInfo.actualOption]->Enable();
-			}
-			else
-			{
-				ComponentSlider* sliderLoad;
-				sliderLoad = buttonsAndCanvas[a].canvas->GetChildren()[b]->
-					GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentSlider>();
-				sliderLoad->ModifyCurrentValue(buttonInfo.actualOption);
+				if (!IsSlider(a, b, 0))
+				{
+					buttonsAndCanvas[a].canvas->GetChildren()[b]->GetChildren()[1]->GetChildren()[buttonInfo.actualOption]->Enable();
+				}
+				else
+				{
+					ComponentSlider* sliderLoad;
+					sliderLoad = buttonsAndCanvas[a].canvas->GetChildren()[b]->
+						GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentSlider>();
+					sliderLoad->ModifyCurrentValue(buttonInfo.actualOption);
+				}
 			}
 		}
 		actualConfig.push_back(canvasInfo);
@@ -530,7 +533,10 @@ void UIOptionsMenu::GameOption(int button, int option)
 		default:
 			break;
 		}
-		IsFpsEnable();
+		if (loadFromMainMenu == false)
+		{
+			IsFpsEnable();
+		}
 		break;
 	case 2: //BRIGHTNESS
 		brightnessToShow = option;
@@ -582,7 +588,10 @@ void UIOptionsMenu::GameOption(int button, int option)
 		default:
 			break;
 		}
-		IsSizeOptionEnable();
+		if (loadFromMainMenu == false)
+		{
+			IsSizeOptionEnable();
+		}
 		break;
 	default:
 		break;
