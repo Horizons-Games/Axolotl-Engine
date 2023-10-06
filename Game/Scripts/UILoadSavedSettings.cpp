@@ -9,25 +9,14 @@ REGISTERCLASS(UILoadSavedSettings);
 
 UILoadSavedSettings::UILoadSavedSettings() : Script(), optionsMenu(nullptr)
 {
-	REGISTER_FIELD(optionsMenu, GameObject*);
+	REGISTER_FIELD(optionsMenu, UIOptionsMenu*);
 }
 
 void UILoadSavedSettings::Start()
 {
-	if (optionsMenu != nullptr)
-	{
-		UIOptionsMenu* optionMenuScript = optionsMenu->GetComponent<UIOptionsMenu>();
-		
-		optionMenuScript->SetLoadFromMainMenu(true);
-		optionMenuScript->Init();
-	}
-	else
-	{
-		LOG_INFO("OptionsMenu register field its empty");
-	}
-}
+	Assert(optionsMenu != nullptr, "Options Menu is not set");
 
-void UILoadSavedSettings::Update(float deltaTime)
-{
+	optionsMenu->SetLoadFromMainMenu(true);
+	optionsMenu->Init();
 
 }

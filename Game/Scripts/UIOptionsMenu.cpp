@@ -46,8 +46,8 @@ void UIOptionsMenu::Init()
 	ui = App->GetModule<ModuleUI>();
 	render = App->GetModule<ModuleRender>();
 	audio = App->GetModule<ModuleAudio>();
+	
 	LoadOptions();
-	//InitOptionMenu();
 }
 
 void UIOptionsMenu::Start()
@@ -72,6 +72,7 @@ void UIOptionsMenu::Start()
 	
 	SetLoadFromMainMenu(false);
 	LoadOptions();
+	//InitOptionMenu();
 	IsSizeOptionEnable();
 	IsFpsEnable();
 }
