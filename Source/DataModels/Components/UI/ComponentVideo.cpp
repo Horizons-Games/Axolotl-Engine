@@ -290,7 +290,6 @@ void ComponentVideo::ReadVideoFrame()
 				  video->GetFrameHeight(),
 				  dest,
 				  linSize);
-		delete dest[];
 	}
 }
 
