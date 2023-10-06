@@ -563,7 +563,8 @@ void UIOptionsMenu::GameOption(int button, int option)
 		{
 		case 0:
 
-			window->SetFullscreen(true);
+			window->SetDesktopFullscreen(true);
+			//window->SetFullscreen(true); // NOT WORKING PROPRETLY
 			LOG_INFO("Windows Mode: Fullscreen");
 			break;
 		case 1:
