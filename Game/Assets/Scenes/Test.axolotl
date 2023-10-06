@@ -1,0 +1,282 @@
+{
+    "GameObjects": [
+        {
+            "GameObject": {
+                "name": "Test",
+                "tag": "",
+                "uid": 55458121923658829,
+                "parentUID": 0,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Skybox",
+                            "active": true,
+                            "removed": true,
+                            "Skybox": {
+                                "enable": true,
+                                "skyboxUID": 4377575066284441384,
+                                "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
+                            }
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Render",
+                            "active": true,
+                            "removed": false,
+                            "bloom_intensity": 1.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Cubemap",
+                            "active": true,
+                            "removed": false,
+                            "intensity": 1.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Directional_Light",
+                "tag": "",
+                "uid": 3433605999297590398,
+                "parentUID": 55458121923658829,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Light",
+                            "active": true,
+                            "removed": false,
+                            "color_light_X": 1.0,
+                            "color_light_Y": 1.0,
+                            "color_light_Z": 1.0,
+                            "intensity": 1.0,
+                            "lightType": "LightType_Directional",
+                            "shadow_bias_X": 0.09989999979734421,
+                            "shadow_bias_Y": 0.004999999888241291,
+                            "z_near_offset": -50.0,
+                            "bleeding_amount": 0.41499999165534973,
+                            "lambda": 0.8500000238418579
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Character",
+                "tag": "",
+                "uid": 12109462772619434428,
+                "parentUID": 55458121923658829,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 17111265744902053557,
+                            "assetPathMesh": "Assets/Meshes/David.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ParticleBillboardAsistance",
+                            "fields": null
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Player",
+                "tag": "",
+                "uid": 8578821416622756177,
+                "parentUID": 55458121923658829,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.032804012298584,
+                            "localPos_Y": 1.7753084897994995,
+                            "localPos_Z": 1.6603789329528809,
+                            "localRot_X": 145.27113342285156,
+                            "localRot_Y": 26.21360969543457,
+                            "localRot_Z": -162.9758758544922,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Player",
+                            "active": true,
+                            "removed": true,
+                            "static": false,
+                            "mouse": false,
+                            "actualPlayer": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Basic Camera",
+                "tag": "MainCamera",
+                "uid": 11667696357500259697,
+                "parentUID": 8578821416622756177,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Camera",
+                            "active": true,
+                            "removed": false,
+                            "frustumOfset": 1.0,
+                            "drawFrustum": true,
+                            "kpPosition": 5.0,
+                            "kpRotation": 5.0
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "Quadtree": {
+        "BoundingBox": {
+            "MinPoint": {
+                "x": -25.0,
+                "y": -10.0,
+                "z": -25.0
+            },
+            "MaxPoint": {
+                "x": 25.0,
+                "y": 10.0,
+                "z": 25.0
+            }
+        }
+    },
+    "Cubemap": {
+        "cubemapUID": 992078593789236745,
+        "cubemapAssetPath": "Assets/Cubemaps/sunsetSkybox.cube"
+    },
+    "NavMesh": {
+        "navMeshUID": 0,
+        "assetPathNavMesh": ""
+    }
+}

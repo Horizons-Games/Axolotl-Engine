@@ -181,6 +181,16 @@ UpdateStatus ModuleAudio::PostUpdate()
 	return UpdateStatus::UPDATE_CONTINUE;
 }
 
+void ModuleAudio::Suspend() const
+{
+	AK::SoundEngine::Suspend(false, false);
+}
+
+void ModuleAudio::WakeUp() const
+{
+	AK::SoundEngine::WakeupFromSuspend();
+}
+
 bool ModuleAudio::InitializeBanks()
 {
 	// Setup banks path

@@ -21,9 +21,11 @@
 
 ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player(nullptr), componentPlayer(nullptr)
 {
-};
+}
 
-ModulePlayer::~ModulePlayer(){};
+ModulePlayer::~ModulePlayer()
+{
+}
 
 bool ModulePlayer::Start()
 {
@@ -46,7 +48,10 @@ void ModulePlayer::SetPlayer(GameObject* newPlayer)
 		componentPlayer->SetActualPlayer(false);
 	}
 	player = newPlayer;
-	if (player) componentPlayer = player->GetComponentInternal<ComponentPlayer>();
+	if (player)
+	{
+		componentPlayer = player->GetComponentInternal<ComponentPlayer>();
+	}
 }
 
 Camera* ModulePlayer::GetCameraPlayer()
@@ -115,5 +120,4 @@ void ModulePlayer::CheckIfActivateMouse()
 	{
 		App->GetModule<ModuleInput>()->SetShowCursor(false);
 	}
-
 }

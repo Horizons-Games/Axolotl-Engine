@@ -11,6 +11,7 @@ class ComponentAudioSource;
 class ComponentRigidBody;
 class ComponentTransform;
 class GameObject;
+class ModulePlayer;
 
 class HealthSystem;
 

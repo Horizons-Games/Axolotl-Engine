@@ -63,6 +63,7 @@ void ElevatorCore::Start()
 	triggerEntrance = owner->GetComponent<ComponentRigidBody>();
 	finalUpPos = transform->GetGlobalPosition().y;
 	finalPos = finalUpPos + finalPos;
+
 	currentTime = 0.0f;
 }
 
@@ -154,8 +155,8 @@ void ElevatorCore::MoveUpElevator(bool isGOInside, float deltaTime)
 		goTransform->SetGlobalPosition(goPos);
 		goTransform->RecalculateLocalMatrix();
 		goTransform->UpdateTransformMatrices();
-
 		go->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
+
 	}
 
 }
@@ -204,7 +205,6 @@ void ElevatorCore::MoveDownElevator(bool isGOInside, float deltaTime)
 		goTransform->SetGlobalPosition(goPos);
 		goTransform->RecalculateLocalMatrix();
 		goTransform->UpdateTransformMatrices();
-
 		go->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
 	}
 }
@@ -220,6 +220,7 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 			go = other->GetOwner();
 			goTransform = go->GetComponentInternal<ComponentTransform>();
 			PlayerActions currentAction = go->GetComponent<PlayerManagerScript>()->GetPlayerState();
+
 			bool isJumping = currentAction == PlayerActions::JUMPING ||
 				currentAction == PlayerActions::DOUBLEJUMPING ||
 				currentAction == PlayerActions::FALLING;
