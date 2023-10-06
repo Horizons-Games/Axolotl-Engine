@@ -53,7 +53,7 @@
                             "active": true,
                             "removed": true,
                             "Skybox": {
-                                "enable": true,
+                                "useCubemap": false,
                                 "skyboxUID": 4377575066284441384,
                                 "skyboxAssetPath": "Assets/SkyBox/skybox.sky"
                             }
@@ -547,12 +547,17 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "IsGameExit",
+                                    "name": "IsBackButton",
                                     "value": false,
                                     "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
                                     "value": false,
                                     "type": 5
                                 }
@@ -778,12 +783,17 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "IsGameExit",
+                                    "name": "IsBackButton",
                                     "value": false,
                                     "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
                                     "value": false,
                                     "type": 5
                                 }
@@ -903,12 +913,17 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "IsGameExit",
+                                    "name": "IsBackButton",
                                     "value": false,
                                     "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
                                     "value": false,
                                     "type": 5
                                 }
@@ -1028,13 +1043,18 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "IsGameExit",
-                                    "value": true,
+                                    "name": "IsBackButton",
+                                    "value": false,
                                     "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
                                     "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
+                                    "value": true,
                                     "type": 5
                                 }
                             ]
@@ -1512,7 +1532,7 @@
                     {
                         "Component": {
                             "type": "Component_Button",
-                            "active": true,
+                            "active": false,
                             "removed": true,
                             "colorHovered_x": 0.8235294222831726,
                             "colorHovered_y": 0.19607843458652496,
@@ -1550,12 +1570,12 @@
                             "fields": [
                                 {
                                     "name": "EnableObject",
-                                    "value": 0,
+                                    "value": 13392629973447689559,
                                     "type": 2
                                 },
                                 {
                                     "name": "DisableObject",
-                                    "value": 0,
+                                    "value": 15910537669949415466,
                                     "type": 2
                                 },
                                 {
@@ -1569,12 +1589,17 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "IsGameExit",
-                                    "value": false,
+                                    "name": "IsBackButton",
+                                    "value": true,
                                     "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
                                     "value": false,
                                     "type": 5
                                 }
@@ -2606,12 +2631,17 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "IsGameExit",
+                                    "name": "IsBackButton",
                                     "value": false,
                                     "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
                                     "value": false,
                                     "type": 5
                                 }
@@ -2747,12 +2777,17 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "IsGameExit",
+                                    "name": "IsBackButton",
                                     "value": false,
                                     "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
                                     "value": false,
                                     "type": 5
                                 }
@@ -5144,12 +5179,17 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "IsGameExit",
+                                    "name": "IsBackButton",
                                     "value": false,
                                     "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
                                     "value": false,
                                     "type": 5
                                 }
@@ -5681,12 +5721,17 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "IsGameExit",
+                                    "name": "IsBackButton",
                                     "value": false,
                                     "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
                                     "value": false,
                                     "type": 5
                                 }
@@ -6451,12 +6496,17 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "IsGameExit",
+                                    "name": "IsBackButton",
                                     "value": false,
                                     "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
                                     "value": false,
                                     "type": 5
                                 }
@@ -7222,12 +7272,17 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "IsGameExit",
+                                    "name": "IsBackButton",
                                     "value": false,
                                     "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
                                     "value": false,
                                     "type": 5
                                 }
@@ -7759,12 +7814,17 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "IsGameExit",
+                                    "name": "IsBackButton",
                                     "value": false,
                                     "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
                                     "value": false,
                                     "type": 5
                                 }
@@ -8264,12 +8324,17 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "IsGameExit",
+                                    "name": "IsBackButton",
                                     "value": false,
                                     "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
                                     "value": false,
                                     "type": 5
                                 }
@@ -9466,12 +9531,17 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "IsGameExit",
+                                    "name": "IsBackButton",
                                     "value": false,
                                     "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
                                     "value": false,
                                     "type": 5
                                 }
@@ -10109,12 +10179,17 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "IsGameExit",
+                                    "name": "IsBackButton",
                                     "value": false,
                                     "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
                                     "value": false,
                                     "type": 5
                                 }
@@ -10720,12 +10795,17 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "IsGameExit",
+                                    "name": "IsBackButton",
                                     "value": false,
                                     "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
                                     "value": false,
                                     "type": 5
                                 }
@@ -11257,12 +11337,17 @@
                                     "type": 2
                                 },
                                 {
-                                    "name": "IsGameExit",
+                                    "name": "IsBackButton",
                                     "value": false,
                                     "type": 5
                                 },
                                 {
                                     "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
                                     "value": false,
                                     "type": 5
                                 }

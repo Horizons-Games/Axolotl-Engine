@@ -2,6 +2,8 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
+#include "ModuleInput.h"
+#include "ModuleUI.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -19,11 +21,14 @@ public:
 	void Update(float deltaTime) override;
 
 private:
+	ModuleInput* input;
+	ModuleUI* ui;
 	ComponentButton* buttonComponent;
 	UIGameManager* UIGameManagerClass;
 
 	bool isGameExit;
 	bool isGameResume;
+	bool isBackButton;
 
 	GameObject* disableObject;
 	GameObject* enableObject;

@@ -86,9 +86,6 @@ void UIOptionsMenu::ControlEnable()
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
 	{
 		SaveOptions();
-		owner->GetParent()->GetChildren()[3]->Enable();
-		owner->Disable();
-		ui->ResetCurrentButtonIndex();
 		resettButtonIndex = true;
 		return;
 	}
@@ -565,6 +562,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 		switch (option)
 		{
 		case 0:
+
 			window->SetFullscreen(true);
 			LOG_INFO("Windows Mode: Fullscreen");
 			break;
