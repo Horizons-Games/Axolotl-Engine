@@ -11,6 +11,7 @@ class ComponentAudioSource;
 class ComponentRigidBody;
 class ComponentTransform;
 class GameObject;
+class ModulePlayer;
 
 class HealthSystem;
 
@@ -54,7 +55,8 @@ private:
 	ActiveActions activeState;
 	PositionState positionState;
 
-	GameObject* bixPrefab;
+	GameObject* currentPlayer;
+	ModulePlayer* modulePlayer;
 	ComponentTransform* playerTransform;
 
 	GameObject* elevator;

@@ -80,7 +80,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 				distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hit.hitPoint);
 				ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 				objectStaticness = rigidBody->IsStatic();
-				rigidBody->SetStatic(false);
+				rigidBody->SetIsStatic(false);
 				offsetFromPickedPoint = hittedTransform->GetGlobalPosition() - hit.hitPoint;
 				pickedRotation = hittedTransform->GetGlobalRotation();
 				pickedPlayerPosition = owner->GetComponent<ComponentTransform>()->GetGlobalPosition();
@@ -137,7 +137,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 		gameObjectAttached = nullptr;
 		rigidBody->DisablePositionController();
 		rigidBody->DisableRotationController();
-		rigidBody->SetStatic(objectStaticness);
+		rigidBody->SetIsStatic(objectStaticness);
 
 		/*
 		if (rotationHorizontalScript)

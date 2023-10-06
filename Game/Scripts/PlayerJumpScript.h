@@ -27,8 +27,12 @@ public:
 	void SetCanJump(bool canJump);
 
 	bool IsGrounded() const;
+	void SetIsGrounded(bool isGrounded);
 
 	float GetTimeSinceLastJump() const;
+
+	float GetJumpForce() const;
+	void ToggleIsChangingPlayer();
 
 private:
 	void CheckGround(float deltaTime);
@@ -43,6 +47,7 @@ private:
 	float timeSinceLastJump;
 	bool canDoubleJump;
 	bool canJump;
+	bool isChangingPlayer;
 
 	ComponentRigidBody* rigidbody;
 	ComponentAnimation* componentAnimation;

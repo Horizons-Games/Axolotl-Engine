@@ -9,6 +9,7 @@ class ModuleInput;
 
 class JumpFinisherArea;
 class JumpFinisherAttackBullet;
+class PlayerManagerScript;
 
 class ComponentRigidBody;
 
@@ -27,11 +28,18 @@ public:
 
 	bool IsActive() const;
 
+	void SetBulletHitTheFloor(bool bulletHitTheFloor);
+	bool GetBulletHitTheFloor() const;
+
 private:
 	ModuleInput* input;
 
 	JumpFinisherArea* forceArea;
 	GameObject* forceAttackBullet;
 
+	ComponentRigidBody* rigidBody;
+	PlayerManagerScript* playerManager;
+
 	bool activated;
+	bool bulletHitTheFloor;
 };
