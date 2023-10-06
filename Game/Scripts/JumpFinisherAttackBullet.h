@@ -24,9 +24,6 @@ public:
 
 	void SetBulletVelocity(float velocity);
 
-	void SetForceArea(JumpFinisherArea* newForceArea);
-	JumpFinisherArea* GetForceArea() const;
-
 	void SetAreaPushForce(float newAreaPushForce);
 	void SetAreaStunTime(float newAreaStunTime);
 
@@ -34,12 +31,9 @@ private:
 	void InitializeBullet();
 	void ThrowBulletToTheFloor() const;
 	void DestroyBullet() const;
-	void DestroyArea() const;
 
 	ComponentTransform* parentTransform;
 	ComponentRigidBody* rigidBody;
-
-	JumpFinisherArea* forceArea;
 
 	float bulletVelocity;
 	float bulletFallForce;

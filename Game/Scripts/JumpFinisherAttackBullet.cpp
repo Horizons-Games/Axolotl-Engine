@@ -19,11 +19,10 @@
 
 REGISTERCLASS(JumpFinisherAttackBullet);
 
-JumpFinisherAttackBullet::JumpFinisherAttackBullet() : Script(), forceArea(nullptr), bulletLifeTime(5.0f), 
+JumpFinisherAttackBullet::JumpFinisherAttackBullet() : Script(), bulletLifeTime(5.0f), 
 	originTime(0.0f), rigidBody(nullptr), parentTransform(nullptr), bulletVelocity(5.0f), bulletFallForce(-1.5f),
 	areaPushForce(0.0f), areaStunTime(0.0f), enemyDetection(nullptr)
 {
-	REGISTER_FIELD(forceArea, JumpFinisherArea*);
 	REGISTER_FIELD(bulletVelocity, float);
 	REGISTER_FIELD(bulletFallForce, float); // Note that this will be multiplied by the bulletVelocity when launched
 
@@ -52,10 +51,6 @@ void JumpFinisherAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 
 	if (!other->GetOwner()->CompareTag("Player"))
 	{
-		ComponentRigidBody* forceAreaRigidBody = forceArea->GetOwner()->GetComponent<ComponentRigidBody>();
-		forceAreaRigidBody->SetIsKinematic(true);
-		forceAreaRigidBody->SetUpMobility();
-
 		GameObject* AlluraGameObject = enemyDetection->GetOwner()->GetParent();
 		AlluraGameObject->GetComponent<JumpFinisherAttack>()->SetBulletHitTheFloor(true);
 
@@ -89,28 +84,12 @@ void JumpFinisherAttackBullet::ThrowBulletToTheFloor() const
 void JumpFinisherAttackBullet::DestroyBullet() const
 {
 	// Erase the bullet but leave the force area so the particles can keep playing
-	forceArea->GetOwner()->SetParent(owner->GetParent());
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
-}
-
-void JumpFinisherAttackBullet::DestroyArea() const
-{
-	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(forceArea->GetOwner());
 }
 
 void JumpFinisherAttackBullet::SetBulletVelocity(float nVelocity)
 {
 	bulletVelocity = nVelocity;
-}
-
-void JumpFinisherAttackBullet::SetForceArea(JumpFinisherArea* newForceArea)
-{
-	forceArea = newForceArea;
-}
-
-JumpFinisherArea* JumpFinisherAttackBullet::GetForceArea() const
-{
-	return forceArea;
 }
 
 void JumpFinisherAttackBullet::SetAreaPushForce(float newAreaPushForce)

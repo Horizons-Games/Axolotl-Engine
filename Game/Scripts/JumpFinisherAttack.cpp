@@ -61,18 +61,8 @@ void JumpFinisherAttack::ShootForceBullet(float pushForce, float stunTime)
 	GameObject* newForceBullet = App->GetModule<ModuleScene>()->GetLoadedScene()->
 		DuplicateGameObject(forceAttackBullet->GetName(), forceAttackBullet, forceAttackBullet->GetParent());
 
-	// Get and duplicate force area
-	JumpFinisherAttackBullet* newForceBulletScript = newForceBullet->GetComponent<JumpFinisherAttackBullet>();
-	JumpFinisherArea* newForceBulletAreaScript = newForceBulletScript->GetForceArea();
-
-	GameObject* forceAreaGameObject = newForceBulletAreaScript->GetOwner();
-	GameObject* newForceAreaGameObject = App->GetModule<ModuleScene>()->GetLoadedScene()->
-		DuplicateGameObject(forceAreaGameObject->GetName(), forceAreaGameObject, newForceBullet);
-
-	// Set up new force area in the new bullet script field
-	newForceBulletScript->SetForceArea(newForceAreaGameObject->GetComponent<JumpFinisherArea>());
-
 	// Set up values for the bullet effect
+	JumpFinisherAttackBullet* newForceBulletScript = newForceBullet->GetComponent<JumpFinisherAttackBullet>();
 	newForceBulletScript->SetAreaPushForce(pushForce);
 	newForceBulletScript->SetAreaStunTime(stunTime);
 
