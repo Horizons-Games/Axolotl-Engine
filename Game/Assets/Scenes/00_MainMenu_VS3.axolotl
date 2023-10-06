@@ -2239,24 +2239,24 @@
                             "active": true,
                             "removed": true,
                             "localPositionX": -40.0,
-                            "localPositionY": 100.0,
+                            "localPositionY": -20.0,
                             "localPositionZ": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localScaleX": 0.5,
-                            "localScaleY": 0.5,
-                            "localScaleZ": 0.5,
-                            "sizeX": 3840.0,
-                            "sizeY": 2168.0,
+                            "localScaleX": 0.75,
+                            "localScaleY": 0.75,
+                            "localScaleZ": 0.75,
+                            "sizeX": 1000.0,
+                            "sizeY": 1000.0,
                             "localAABB_min_x": -0.5,
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -8.77777099609375,
-                            "worldAABB_min_y": -92.08334350585938,
-                            "worldAABB_max_x": 1724.5556640625,
-                            "worldAABB_max_y": 886.52783203125
+                            "worldAABB_min_x": 519.3472900390625,
+                            "worldAABB_min_y": 167.01388549804688,
+                            "worldAABB_max_x": 1196.4305419921875,
+                            "worldAABB_max_y": 844.09716796875
                         }
                     },
                     {
@@ -2264,8 +2264,8 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 0,
-                            "assetPathImage": "",
+                            "imageUID": 6138727921356930555,
+                            "assetPathImage": "Assets/Textures/UI_HUD_BETA_Controller_White.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
@@ -4365,6 +4365,51 @@
                             "colorClicked_z": 0.5,
                             "colorClicked_w": 1.0,
                             "sceneName": ""
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "UIButtonControl",
+                            "fields": [
+                                {
+                                    "name": "EnableObject",
+                                    "value": 13392629973447689559,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "DisableObject",
+                                    "value": 18146638544442064004,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "ButtonHover",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "SetUiGameManagerObject",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "IsBackButton",
+                                    "value": true,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameResume",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsGameExit",
+                                    "value": false,
+                                    "type": 5
+                                }
+                            ]
                         }
                     }
                 ]
