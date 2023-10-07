@@ -48,7 +48,7 @@ public:
 
 	bool IsGrounded() const;
 	bool IsTeleporting() const;
-	bool IsParalyzed() const;
+
 	PlayerJumpScript* GetJumpManager() const;
 	PlayerMoveScript* GetMovementManager() const;
 	PlayerAttackScript* GetAttackManager() const;

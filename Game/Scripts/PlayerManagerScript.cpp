@@ -138,11 +138,6 @@ PlayerAttackScript* PlayerManagerScript::GetAttackManager() const
 	return attackManager;
 }
 
-bool PlayerManagerScript::IsParalyzed() const
-{
-	return isParalyzed;
-}
-
 void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 {
 	movementManager->SetIsParalyzed(paralyzed);
