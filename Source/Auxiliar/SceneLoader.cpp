@@ -382,36 +382,22 @@ void StartJsonLoad(Json&& sceneJson)
 		App->GetModule<ModuleNavigation>()->LoadOptions(sceneJson);
 	}
 
-	auto createCubemap = [sceneJson]() mutable
+	if (!currentLoadingConfig->mantainCurrentScene)
 	{
-		Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+		loadedScene->SetCubemap(std::make_unique<Cubemap>());
+		Cubemap* cubemap = loadedScene->GetCubemap();
+		cubemap->LoadOptions(sceneJson);
+	}
 
-		if (!currentLoadingConfig->mantainCurrentScene)
-		{
-			loadedScene->SetCubemap(std::make_unique<Cubemap>());
-			Cubemap* cubemap = loadedScene->GetCubemap();
-			cubemap->LoadOptions(sceneJson);
-		}
-
-		Json gameObjects = sceneJson["GameObjects"];
-		if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
-		{
-			std::thread hierarchyLoadThread = std::thread(&StartHierarchyLoad, std::move(gameObjects));
-			hierarchyLoadThread.detach();
-		}
-		else
-		{
-			StartHierarchyLoad(std::move(gameObjects));
-		}
-	};
-
+	Json gameObjects = sceneJson["GameObjects"];
 	if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
 	{
-		App->ScheduleTask(createCubemap);
+		std::thread hierarchyLoadThread = std::thread(&StartHierarchyLoad, std::move(gameObjects));
+		hierarchyLoadThread.detach();
 	}
 	else
 	{
-		createCubemap();
+		StartHierarchyLoad(std::move(gameObjects));
 	}
 }
 
@@ -466,7 +452,11 @@ void StartLoadScene()
 	sceneJson.fromBuffer(buffer);
 	delete buffer;
 
-	StartJsonLoad(std::move(sceneJson));
+	App->ScheduleTask(
+		[sceneJson]() mutable
+		{
+			StartJsonLoad(std::move(sceneJson));
+		});
 }
 
 //////////////////////////////////////////////////////////////////
