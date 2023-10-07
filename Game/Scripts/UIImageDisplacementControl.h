@@ -20,8 +20,8 @@ public:
 	void MoveImageToStarPosition();
 	bool IsMovingToEnd() const;
 	bool IsMoving() const;
-	void SetIsMoving(bool isMoving);
-	bool SetMovingToEnd(bool movingToEnd);
+	void SetIsMoving(bool moving);
+	void SetMovingToEnd(bool movingToEnd);
 
 private:
 	bool movingToEnd = false;

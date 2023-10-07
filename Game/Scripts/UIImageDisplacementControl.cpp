@@ -73,9 +73,9 @@ bool UIImageDisplacementControl::IsMovingToEnd() const
 	return movingToEnd;
 }
 
-bool UIImageDisplacementControl::SetMovingToEnd(bool movingToEnd)
+void UIImageDisplacementControl::SetMovingToEnd(bool movingToEnd)
 {
-	return movingToEnd = movingToEnd;
+	this->movingToEnd = movingToEnd;
 }
 
 bool UIImageDisplacementControl::IsMoving() const
@@ -83,9 +83,7 @@ bool UIImageDisplacementControl::IsMoving() const
 	return moving;
 }
 
-void UIImageDisplacementControl::SetIsMoving(bool IsMoving)
+void UIImageDisplacementControl::SetIsMoving(bool moving)
 {
-
-	this->moving = IsMoving;
-
+	this->moving = moving;
 }
