@@ -54,6 +54,7 @@ public:
 
 	void FillResourceBin(std::shared_ptr<Resource> sharedResource);
 	void CleanResourceBin();
+	void CleanResources();
 
 private:
 	// resource creation and deletition
@@ -215,13 +216,6 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		}
 	}
 	return nullptr;
-}
-
-inline void ModuleResources::CleanResourceBin()
-{
-#ifndef ENGINE
-	resourcesBin.clear();
-#endif //! ENGINE
 }
 
 template<class R>

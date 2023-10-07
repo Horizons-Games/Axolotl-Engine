@@ -3,7 +3,10 @@
 #include "SceneLoader.h"
 
 #include "Application.h"
+
 #include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/ModuleResources.h"
+
 #include "Modules/ModuleEditor.h"
 #include "Modules/ModulePlayer.h"
 #include "Modules/ModuleRender.h"
@@ -416,7 +419,6 @@ void StartJsonLoad(Json&& sceneJson)
 
 void StartLoadScene()
 {
-	
 	ModuleRender* moduleRender = App->GetModule<ModuleRender>();
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	ModuleUI* ui = App->GetModule<ModuleUI>();
@@ -492,20 +494,20 @@ void LoadScene(std::variant<std::string, std::reference_wrapper<rapidjson::Docum
 		currentLoadingConfig->doc = std::get<std::reference_wrapper<rapidjson::Document>>(sceneNameOrDocument);
 	}
 
-	if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
-	{
-		// Make sure the load starts at the end of the frame
-		App->ScheduleTask(
-			[]
-			{
-				std::thread startLoadThread = std::thread(&StartLoadScene);
-				startLoadThread.detach();
-			});
-	}
-	else
-	{
-		StartLoadScene();
-	}
+	//if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
+	//{
+	//	// Make sure the load starts at the end of the frame
+	//	App->ScheduleTask(
+	//		[]
+	//		{
+	//			std::thread startLoadThread = std::thread(&StartLoadScene);
+	//			startLoadThread.detach();
+	//		});
+	//}
+	//else
+	//{
+	StartLoadScene();
+	//}
 }
 
 bool IsLoading()
