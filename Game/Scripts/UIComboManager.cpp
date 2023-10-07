@@ -36,52 +36,50 @@ void UIComboManager::Init()
 
 void UIComboManager::Update(float deltaTime)
 {
-	if (!clearCombo)
+	if (clearCombo)
 	{
-		return;
-	}
-
-	if (clearComboTimer <= 0.0f)
-	{
-		CleanInputVisuals();
-		clearCombo = false;
-
-		for (GameObject* comboButton : comboButtons)
+		if (clearComboTimer <= 0.0f)
 		{
-			if (comboButton)
-			{
-				comboButton->Disable();
-			}
-		}
-	}
-	else
-	{
-
-		if (clearComboTimer -= deltaTime)
-		{
-			for (int i = 0; i < inputVisuals.size(); i++)
-			{
-				inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(370.f, 370.f));
-			}
+			CleanInputVisuals();
+			clearCombo = false;
 
 			for (GameObject* comboButton : comboButtons)
 			{
 				if (comboButton)
 				{
-					comboButton->Enable();
+					comboButton->Disable();
 				}
 			}
 		}
 		else
 		{
-			clearComboTimer += deltaTime;
 
-			for (int i = 0; i < inputVisuals.size(); i++)
+			if (clearComboTimer -= deltaTime)
 			{
-				inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(350.f, 350.f));
+				for (int i = 0; i < inputVisuals.size(); i++)
+				{
+					inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(370.f, 370.f));
+				}
+
+				for (GameObject* comboButton : comboButtons)
+				{
+					if (comboButton)
+					{
+						comboButton->Enable();
+					}
+				}
 			}
+			else
+			{
+				clearComboTimer += deltaTime;
+
+				for (int i = 0; i < inputVisuals.size(); i++)
+				{
+					inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(350.f, 350.f));
+				}
+			}
+			clearComboTimer -= deltaTime;
 		}
-		clearComboTimer -= deltaTime;
 	}
 
 	if (noFillBar && noFillBar->IsEnabled())
