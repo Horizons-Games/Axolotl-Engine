@@ -1438,7 +1438,8 @@ void Scene::UpdateSceneLocalIBLs()
 				localIBL.maxParallax = float4(parallax.maxPoint, 0.f);
 				localIBL.minParallax = float4(parallax.minPoint, 0.f);
 				float4x4 toLocal = local->GetTransform();
-				localIBL.toLocal = toLocal.Transposed();
+				toLocal.InverseOrthonormal();
+				localIBL.toLocal = toLocal;
 				AABB influence = local->GetInfluenceAABB();
 				localIBL.maxInfluence = float4(influence.maxPoint, 0.f);
 				localIBL.minInfluence = float4(influence.minPoint, 0.f);
