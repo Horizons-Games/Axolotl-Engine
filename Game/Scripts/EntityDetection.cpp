@@ -229,3 +229,23 @@ std::vector<ComponentRigidBody*>& EntityDetection::GetEnemiesInTheArea()
 {
 	return enemiesInTheArea;
 }
+
+void EntityDetection::FilterEnemiesByDistance(float distanceFilter, 
+											std::vector<ComponentRigidBody*>& enemiesInTheAreaFiltered)
+{
+	if (distanceFilter > rigidBody->GetRadius())
+	{
+		distanceFilter = rigidBody->GetRadius();
+	}
+
+	std::for_each(enemiesInTheArea.begin(), enemiesInTheArea.end(),
+		[&distanceFilter, &enemiesInTheAreaFiltered, this](ComponentRigidBody* enemy)
+		{
+			float3 enemyPosition = enemy->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
+			enemyPosition.y = originPosition.y;
+			if (originPosition.Distance(enemyPosition) <= distanceFilter)
+			{
+				enemiesInTheAreaFiltered.emplace_back(enemy);
+			}
+		});
+}
