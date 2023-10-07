@@ -55,6 +55,11 @@ bool PlayerManagerScript::IsTeleporting() const
 	return false; // If no debug, then no tp is possible
 }
 
+bool PlayerManagerScript::IsParalyzed() const
+{
+	return movementManager->IsParalyzed();
+}
+
 float PlayerManagerScript::GetPlayerAttack() const
 {
 	return playerAttack;

@@ -9,6 +9,7 @@ class ComponentRigidBody;
 class ComponentTransform;
 
 class JumpFinisherArea;
+class EntityDetection;
 
 class JumpFinisherAttackBullet : public Script
 {
@@ -23,26 +24,24 @@ public:
 
 	void SetBulletVelocity(float velocity);
 
-	void SetForceArea(JumpFinisherArea* newForceArea);
-	JumpFinisherArea* GetForceArea() const;
-
 	void SetAreaPushForce(float newAreaPushForce);
 	void SetAreaStunTime(float newAreaStunTime);
 
 private:
 	void InitializeBullet();
+	void ThrowBulletToTheFloor() const;
 	void DestroyBullet() const;
 
 	ComponentTransform* parentTransform;
 	ComponentRigidBody* rigidBody;
 
-	JumpFinisherArea* forceArea;
-
 	float bulletVelocity;
-	float bulletHeightForce;
+	float bulletFallForce;
 	float originTime;
 	float bulletLifeTime;
 
 	float areaPushForce;
 	float areaStunTime;
+
+	EntityDetection* enemyDetection;
 };

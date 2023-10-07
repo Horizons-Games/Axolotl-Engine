@@ -1,8 +1,6 @@
 #pragma once
 #include "Module.h"
 
-#pragma message(__FILE__ " TODO: Delete this module")
-
 class GameObject;
 class Camera;
 class ComponentPlayer;
