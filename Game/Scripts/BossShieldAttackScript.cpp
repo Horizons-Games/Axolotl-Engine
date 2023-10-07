@@ -137,6 +137,8 @@ void BossShieldAttackScript::ManageEnemiesSpawning(float deltaTime)
 
 		if (selectedEnemy != nullptr)
 		{
+			LOG_INFO("Enemy: {}", selectedEnemy->GetName());
+			LOG_INFO("In pos: {}, {}, {}", selectedPosition.x, selectedPosition.y , selectedPosition.z);
 			SpawnEnemyInPosition(selectedEnemy, selectedPosition);
 		}
 		else
@@ -153,7 +155,7 @@ void BossShieldAttackScript::ManageRespawnOfEnemies()
 	for (int i = 0; i < enemiesNotReadyToSpawn.size(); ++i)
 	{
 		GameObject* enemy = enemiesNotReadyToSpawn[i];
-		if (enemy->IsEnabled())
+		if (enemy->GetComponent<HealthSystem>()->EntityIsAlive())
 		{
 			continue;
 		}
@@ -161,8 +163,8 @@ void BossShieldAttackScript::ManageRespawnOfEnemies()
 		EnemyClass* enemyClass = enemy->GetComponent<EnemyClass>();
 		enemyClass->ActivateNeedsToBeReset();
 
-		enemiesNotReadyToSpawn.erase(enemiesNotReadyToSpawn.begin() + i);
 		enemiesReadyToSpawn.push_back(enemy);
+		enemiesNotReadyToSpawn.erase(enemiesNotReadyToSpawn.begin() + i);
 	}
 }
 
@@ -207,6 +209,7 @@ GameObject* BossShieldAttackScript::SelectEnemyToSpawn()
 	}
 
 	enemiesReadyToSpawn.erase(enemiesReadyToSpawn.begin() + randomEnemyIndex);
+
 	enemiesNotReadyToSpawn.push_back(selectedEnemy);
 
 	if (!initsPaths.empty())
@@ -229,7 +232,7 @@ float3 BossShieldAttackScript::SelectSpawnPosition() const
 		+ (App->GetModule<ModuleRandom>()->RandomNumberInRange(100.0f) * 0.01f);
 	float3 selectedSpawningPosition =
 		float3(randomXPos,
-			0.0f,			/* The height will not be modified, we'll only have one height in the arena */
+			enemiesToSpawnParent->GetComponent<ComponentTransform>()->GetGlobalPosition().y,
 			randomZPos);
 	selectedSpawningPosition += battleArenaAreaSize->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
@@ -240,7 +243,7 @@ void BossShieldAttackScript::SpawnEnemyInPosition(GameObject* selectedEnemy, con
 {
 	ComponentTransform* selectedEnemyTransform = selectedEnemy->GetComponent<ComponentTransform>();
 	selectedEnemyTransform->SetGlobalPosition(float3(selectedSpawningPosition.x,
-		selectedEnemyTransform->GetGlobalPosition().y,
+		selectedSpawningPosition.y,
 		selectedSpawningPosition.z));
 	selectedEnemyTransform->RecalculateLocalMatrix();
 
