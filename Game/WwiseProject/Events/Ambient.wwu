@@ -5,10 +5,10 @@
 			<ChildrenList>
 				<Event Name="cantina_music" ID="{CB9B8F6D-4D5A-4D0B-95B3-0F5FD4E5F4ED}">
 					<ChildrenList>
-						<Action Name="" ID="{AD6A228B-0BF1-4730-B08C-846A21F22760}" ShortID="96327179">
+						<Action Name="" ID="{A0A575E6-AB84-45DC-867E-49BBCA534F1E}" ShortID="875899502">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="cantina_music" ID="{A5FAF598-563A-4CFF-AB49-086C32DF5CE2}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+									<ObjectRef Name="Canteen" ID="{3F377179-0876-4206-9739-CF1EBD29ADB5}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -38,16 +38,6 @@
 				</Event>
 				<Event Name="ambient_cantina_stop" ID="{AFFBD876-E50B-4AA1-8239-FBBCEFD9A81C}">
 					<ChildrenList>
-						<Action Name="" ID="{15C5CAAF-EC02-40F2-B247-366BEBB3CE1E}" ShortID="984803577">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="cantina_music" ID="{A5FAF598-563A-4CFF-AB49-086C32DF5CE2}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 						<Action Name="" ID="{0FDBACC6-8071-40A8-9509-67AD0A981012}" ShortID="505223356">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
@@ -55,6 +45,16 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="sfx_ambient_crowd_talking_01" ID="{BB9C59FB-7F07-418F-8020-2840DA77F0B3}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{26CD55FE-7789-4C57-B13E-E27AEDDC5F62}" ShortID="866463325">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Canteen" ID="{3F377179-0876-4206-9739-CF1EBD29ADB5}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

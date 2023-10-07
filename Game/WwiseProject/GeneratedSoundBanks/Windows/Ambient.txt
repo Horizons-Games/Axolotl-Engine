@@ -15,8 +15,11 @@ Effect plug-ins	ID	Name	Type				Notes
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	106158711	cantina_music	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\cantina_music_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaAmbient\cantina_music		29636192
-	397861920	ambient_sewers	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\182680-amb-doomdrones-ripley-hall_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\2DAmbient\ambient_sewers		5710084
+	263142635	sfx_ambient_water_falling	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ambient_water_falling_7A8F70FB.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\3DAmbient\sfx_ambient_water_falling		2811776
+	397861920	sfx_ambient_sewers_001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\182680-amb-doomdrones-ripley-hall_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\2DAmbient\sfx_ambient_sewers_001		5710084
 	649108800	sfx_bigDoor_close-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_bigDoor_close-001_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\3DAmbient\sfx_bigDoor_close-001		957624
 	652056130	sfx_ambient_crowd_talking_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ambient_crowd_talking_01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaAmbient\sfx_ambient_crowd_talking_01		5539784
+	699998174	sfx_ambient_sewers_002	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ambient_sewers_002_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\2DAmbient\sfx_ambient_sewers_002		10451796
+	739829471	sfx_ambient_turbine	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ambient_turbine_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\3DAmbient\sfx_ambient_turbine		412788
 	789177941	sfx_bigDoor_open-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_bigDoor_open-001_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\3DAmbient\sfx_bigDoor_open-001		980520
 
