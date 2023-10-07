@@ -122,9 +122,9 @@ inline void Application::SetCloseGame(bool closeGameStatus)
 inline Application::PlayState Application::GetPlayState() const
 {
 	// See comment in the enum class
-#ifdef GAME
-	return PlayState::RUNNING;
-#else
+#ifdef ENGINE
 	return editorPlayState;
-#endif // GAME
+#else
+	return PlayState::RUNNING;
+#endif // ENGINE
 }
