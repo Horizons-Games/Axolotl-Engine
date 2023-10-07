@@ -61,13 +61,20 @@ void ActivationLogic::Start()
 
 void ActivationLogic::Update(float deltaTime)
 {
-	if (!componentRigidBody->IsEnabled() && App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat())
+	if (!componentRigidBody->IsEnabled() 
+		&& App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat())
 	{
 		componentAnimation->SetParameter("IsActive", false);
 		componentRigidBody->Enable();
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
 	}
 
+	if ( interactWithEnemies
+		&& !App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat() 
+		&& !elevator->GetBooked())
+	{
+		elevator->SetBooked(false);
+	}
 	if (!enemisWating.empty()) 
 	{
 		if (elevator->GetElevatorPos(PositionState::DOWN))

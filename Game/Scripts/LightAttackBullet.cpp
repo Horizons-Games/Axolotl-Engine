@@ -69,7 +69,7 @@ void LightAttackBullet::Update(float deltaTime)
 	{
 		defaultTargetPos = enemy->GetComponent<ComponentTransform>()->GetGlobalPosition();
 		defaultTargetPos.y = parentTransform->GetGlobalPosition().y;
-		rigidBody->SetPositionTarget(enemy->GetComponent<ComponentTransform>()->GetGlobalPosition());
+		rigidBody->SetPositionTarget(defaultTargetPos);
 	}
 
 	else

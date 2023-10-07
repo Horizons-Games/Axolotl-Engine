@@ -16,7 +16,8 @@ REGISTERCLASS(PathBehaviourScript);
 
 PathBehaviourScript::PathBehaviourScript() : Script(),
 		aiMovement(nullptr), currentWayPoint(0), pathFinished(false),
-		agentComp(nullptr), agentVelocity(300.0f), isInmortal(true)
+		agentComp(nullptr), agentVelocity(300.0f), isInmortal(true),
+		axisX(false), axisZ(false), axisXMaxPos(0.f), axisZMaxPos(0.f)
 {
 	REGISTER_FIELD(waypointsPath, std::vector<ComponentTransform*>);
 	REGISTER_FIELD(agentVelocity, float);
@@ -92,7 +93,7 @@ void PathBehaviourScript::NextPath()
 
 	float3 target;
 
-	if (currentWayPoint == waypointsPath.size() - 1)
+	if (currentWayPoint == (waypointsPath.size() - 1) && (axisX || axisZ))
 	{
 		if (axisX)
 		{
