@@ -195,9 +195,6 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 		loadedScene->InitRender();
 		loadedScene->InitCubemap();
 
-		ComponentTransform* mainTransform = loadedScene->GetRoot()->GetComponentInternal<ComponentTransform>();
-		mainTransform->UpdateTransformMatrices();
-
 		// if no document was set, the user is creating a new scene. finish the process
 		if (!currentLoadingConfig->doc.has_value())
 		{
@@ -215,6 +212,10 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 	{
 		initLightsAndFinishSceneLoad();
 	}
+
+	// Update matrices once all the scene is loaded
+	ComponentTransform* mainTransform = loadedScene->GetRoot()->GetComponentInternal<ComponentTransform>();
+	mainTransform->UpdateTransformMatrices();
 }
 
 //////////////////////////////////////////////////////////////////
