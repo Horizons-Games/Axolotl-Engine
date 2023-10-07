@@ -50,7 +50,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingActive && !isJumping && !isAttacking)
 	{
 		FindHackZone(hackingTag);
-		if (hackZone && !hackZone->IsCompleted())
+		if (hackZone && !hackZone->IsCompleted() && !playerManager->IsParalyzed())
 		{
 			InitHack();
 			isHackingButtonPressed = true;
