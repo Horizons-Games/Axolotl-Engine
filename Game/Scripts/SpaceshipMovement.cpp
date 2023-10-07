@@ -56,9 +56,29 @@ void SpaceshipMovement::Move(float deltaTime)
 
 		movement = btVector3(newMovement.getX(), newMovement.getY(), movement.getZ());
 	}
-	
+	//Up
+	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
+	{
+		movement.setY(32000.0f * deltaTime * XYSpeed);
+	}
+	// Down
+	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
+	{
+		movement.setY(-32000.0f * deltaTime * XYSpeed);
+	}
+	// Right
+	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
+	{
+		movement.setX(-32000.0f * deltaTime * XYSpeed);
+	}
+	// Left
+	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
+	{
+		movement.setX(32000.0f * deltaTime * XYSpeed);
+	}
+
 	btRigidbody->setLinearVelocity(movement);
-	
+
 	ownerRigidbody->GetRigidBody()->setLinearVelocity(btVector3(0, 0, forwardSpeed));
 }
 
@@ -68,52 +88,82 @@ void SpaceshipMovement::Rotate(float deltaTime)
 	float3 newRotation = float3::zero;
 	float3 currentRotation = math::RadToDeg(rotation.ToEulerXYZ());
 
+	float xRotation = 0.0f;
+	float yRotation = 0.0f;
+
+	//Get sign to rotate right/up or left/down
+	float xSign = 0.0f;
+	float ySign = 0.0f;
+
+	//Controller
 	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD &&
 		(horizontalDirection != JoystickHorizontalDirection::NONE ||
 			verticalDirection != JoystickVerticalDirection::NONE))
 	{
-		float xRotation = 0.0f;
-		float yRotation = 0.0f;
-
-		float xSign = math::Sign(input->GetLeftJoystickMovement().horizontalMovement);
-		float ySign = math::Sign(input->GetLeftJoystickMovement().verticalMovement);
-
-		if (currentRotation.z <= XrotationLimit && xSign == 1.0f)
-		{
-			if (currentRotation.z < 0.0f)
-			{
-				newRotation = float3(newRotation.x, newRotation.y, xSign * deltaTime * XrotationSpeed * offsetSpeed);
-			}
-			newRotation = float3(newRotation.x, newRotation.y, xSign * deltaTime * XrotationSpeed);
-		}
-		if (currentRotation.z >= -XrotationLimit && xSign == -1.0f)
-		{
-			if (currentRotation.z > 0.0f)
-			{
-				newRotation = float3(newRotation.x, newRotation.y, xSign * deltaTime * XrotationSpeed * offsetSpeed);
-			}
-			newRotation = float3(newRotation.x, newRotation.y, xSign * deltaTime * XrotationSpeed);
-		}
-		if (currentRotation.x <= YrotationLimit && ySign == 1.0f)
-		{
-			if (currentRotation.x < 0.0f)
-			{
-				newRotation = float3(ySign * deltaTime * YrotationSpeed * offsetSpeed, newRotation.y, newRotation.z);
-			}
-			newRotation = float3(ySign * deltaTime * YrotationSpeed, newRotation.y, newRotation.z);
-		}
-		if (currentRotation.x >= -YrotationLimit && ySign == -1.0f)
-		{
-			if (currentRotation.x > 0.0f)
-			{
-				newRotation = float3(ySign * deltaTime * YrotationSpeed * offsetSpeed, newRotation.y, newRotation.z);
-			}
-			newRotation = float3(ySign * deltaTime * YrotationSpeed, newRotation.y, newRotation.z);
-		}
-
-
+		xSign = math::Sign(input->GetLeftJoystickMovement().horizontalMovement);
+		ySign = math::Sign(input->GetLeftJoystickMovement().verticalMovement);
 	}
-	else
+
+	//Up
+	if (input->GetKey(SDL_SCANCODE_W) != KeyState::IDLE)
+	{
+		ySign = -1.0f;
+	}
+	// Down
+	if (input->GetKey(SDL_SCANCODE_S) != KeyState::IDLE)
+	{
+		ySign = 1.0f;
+	}
+	// Right
+	if (input->GetKey(SDL_SCANCODE_D) != KeyState::IDLE)
+	{
+		xSign = 1.0f;
+	}
+	// Left
+	if (input->GetKey(SDL_SCANCODE_A) != KeyState::IDLE)
+	{
+		xSign = -1.0f;
+	}
+
+	if (currentRotation.z <= XrotationLimit && xSign == 1.0f)
+	{
+		if (currentRotation.z < 0.0f)
+		{
+			newRotation = float3(newRotation.x, newRotation.y, xSign * deltaTime * XrotationSpeed * offsetSpeed);
+		}
+		newRotation = float3(newRotation.x, newRotation.y, xSign * deltaTime * XrotationSpeed);
+	}
+	if (currentRotation.z >= -XrotationLimit && xSign == -1.0f)
+	{
+		if (currentRotation.z > 0.0f)
+		{
+			newRotation = float3(newRotation.x, newRotation.y, xSign * deltaTime * XrotationSpeed * offsetSpeed);
+		}
+		newRotation = float3(newRotation.x, newRotation.y, xSign * deltaTime * XrotationSpeed);
+	}
+	if (currentRotation.x <= YrotationLimit && ySign == 1.0f)
+	{
+		if (currentRotation.x < 0.0f)
+		{
+			newRotation = float3(ySign * deltaTime * YrotationSpeed * offsetSpeed, newRotation.y, newRotation.z);
+		}
+		newRotation = float3(ySign * deltaTime * YrotationSpeed, newRotation.y, newRotation.z);
+	}
+	if (currentRotation.x >= -YrotationLimit && ySign == -1.0f)
+	{
+		if (currentRotation.x > 0.0f)
+		{
+			newRotation = float3(ySign * deltaTime * YrotationSpeed * offsetSpeed, newRotation.y, newRotation.z);
+		}
+		newRotation = float3(ySign * deltaTime * YrotationSpeed, newRotation.y, newRotation.z);
+	}
+
+	if (horizontalDirection == JoystickHorizontalDirection::NONE &&
+			verticalDirection == JoystickVerticalDirection::NONE &&
+		input->GetKey(SDL_SCANCODE_W) == KeyState::IDLE &&
+		input->GetKey(SDL_SCANCODE_S) == KeyState::IDLE &&
+		input->GetKey(SDL_SCANCODE_A) == KeyState::IDLE &&
+		input->GetKey(SDL_SCANCODE_D) == KeyState::IDLE)
 	{
 		if (currentRotation.z >= 1.0)
 		{
