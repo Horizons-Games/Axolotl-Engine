@@ -34,27 +34,7 @@ private:
 	ComponentTransform2D* imageTransform;
 };
 
-inline bool UIImageDisplacementControl::IsMovingToEnd() const
-{
-	return movingToEnd;
-}
 
-inline bool UIImageDisplacementControl::SetMovingToEnd(bool movingToEnd)
-{
-	return movingToEnd = movingToEnd;
-}
-
-inline bool UIImageDisplacementControl::IsMoving() const
-{
-	return moving;
-}
-
-inline void UIImageDisplacementControl::SetIsMoving(bool IsMoving) 
-{
-
-	this->moving = IsMoving;
-
-}
 
 
 

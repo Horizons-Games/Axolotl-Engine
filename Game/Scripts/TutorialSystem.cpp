@@ -28,18 +28,13 @@
 REGISTERCLASS(TutorialSystem);
 
 TutorialSystem::TutorialSystem() :
-	Script(), userControllable(false), tutorialCurrentState(0), tutorialTotalStates(0), stateWaitTime(0.0f), 
+	Script(), tutorialCurrentState(0), tutorialTotalStates(0), stateWaitTime(0.0f), 
 	totalStateWaitTime(0.0f), dummy(nullptr), numNotControllableStates(0.0f), initialPos(45.0f, -195.0f, 0.0f)
 {
-
-	REGISTER_FIELD(userControllable, bool);
 	REGISTER_FIELD(totalStateWaitTime, float);
 	REGISTER_FIELD(stateWaitTime, float);
 
 	REGISTER_FIELD(numNotControllableStates, float);
-
-	/*REGISTER_FIELD(tutorialCurrentState, float);
-	REGISTER_FIELD(tutorialTotalStates, float);*/
 
 	REGISTER_FIELD(tutorialUI, std::vector<GameObject*>);
 	REGISTER_FIELD(dummy, GameObject*);
@@ -57,7 +52,6 @@ void TutorialSystem::Start()
 	stateWaitTime = totalStateWaitTime;
 	dummyHealthSystem = dummy->GetComponent<HealthSystem>();
 	
-	
 }
 
 void TutorialSystem::Update(float deltaTime)
@@ -72,41 +66,19 @@ void TutorialSystem::Update(float deltaTime)
 		isWaiting = false;
 		stateWaitTime = totalStateWaitTime;
 		DeployUI();
-		
-		
 	}
-
 }
 
 void TutorialSystem::TutorialStart()
 {
-	
 	tutorialCurrentState = 0;
-	tutorialTotalStates =  tutorialUI.size() - 1;
+	tutorialTotalStates = tutorialUI.size() - 1;
 	currentTutorialUI->Enable();
 	transform2D->SetPosition(initialPos);
 	transform2D->CalculateMatrices();
 	displacementControl->SetMovingToEnd(true);
 	displacementControl->MoveImageToEndPosition();
-	//transform2D = currentTutorialUI->GetComponent<ComponentTransform2D>();
 }
-
-//void TutorialSystem::NextState()
-//{
-//	if (tutorialCurrentState < tutorialTotalStates)
-//	{
-//		UnDeployUI();
-//		
-//	}
-//
-//	else if (tutorialCurrentState >= tutorialTotalStates)
-//	{
-//		TutorialEnd();
-//
-//	}
-//	
-//
-//}
 
 void TutorialSystem::DeployUI()
 {
@@ -120,15 +92,11 @@ void TutorialSystem::DeployUI()
 	if (tutorialCurrentState == int(numNotControllableStates))
 	{
 		dummyHealthSystem->SetIsImmortal(false);
-
 	}	
-	
 }
 
 void TutorialSystem::UnDeployUI()
 {
-
-
 	if (tutorialCurrentState < tutorialTotalStates)
 	{
 		isWaiting = true;
@@ -147,14 +115,12 @@ void TutorialSystem::UnDeployUI()
 		displacementControl->SetIsMoving(true);
 		//tutorialUI[tutorialCurrentState - 1]->Disable();
 		dummyHealthSystem->SetIsImmortal(true);
-
 	}
 
 
 	else
 	{
 		TutorialEnd();
-
 	}
 	
 }
@@ -166,21 +132,16 @@ void TutorialSystem::TutorialEnd()
 	//currentTutorialUI->Disable();
 	tutorialCurrentState = 0;
 	currentTutorialUI = tutorialUI.front();
-	
 }
 
 int TutorialSystem::GetTutorialCurrentState() const
 {
-
 	return tutorialCurrentState;
-
 }
 
 float TutorialSystem::GetNumControllableState() const
 {
-
 	return numNotControllableStates;
-
 }
 
 int TutorialSystem::GetTutorialSlideSize() const

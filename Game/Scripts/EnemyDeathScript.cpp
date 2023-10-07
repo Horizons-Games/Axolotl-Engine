@@ -24,7 +24,6 @@ EnemyDeathScript::EnemyDeathScript() : Script(), despawnTimer(5.0f), startDespaw
 particleSystem(nullptr), chanceToGivePowerUp(false)
 {
 	REGISTER_FIELD(chanceToGivePowerUp, bool);
-	REGISTER_FIELD(despawnTimer, float);
 	REGISTER_FIELD(powerUpParent, GameObject*);
 	REGISTER_FIELD(particleSystem, ComponentParticleSystem*);
 }
