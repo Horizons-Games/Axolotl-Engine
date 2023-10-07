@@ -74,6 +74,7 @@ GeometryBatch::~GeometryBatch()
 		}
 	}
 	componentsInBatch.clear();
+	resourcesMaterial.clear();
 
 	objectIndexes.clear();
 	instanceData.clear();
