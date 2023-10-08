@@ -132,7 +132,7 @@ void CombatTutorial::Update(float deltaTime)
 
 	}
 
-	if (tutorialFinished && !nextStateActive && finalWaitTime <= 0)
+	if (tutorialFinished && !nextStateActive && finalWaitTime <= 0.0f)
 	{
 		
 		tutorialUI->UnDeployUI();
