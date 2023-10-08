@@ -66,7 +66,7 @@ void CombatTutorial::Update(float deltaTime)
 		}
 	}
 	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.75f 
-		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.50 && !nextStateActive)
+		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.50f && !nextStateActive)
 		 {
 		//JumpAttack
 		LOG_INFO("Tutorial:JumpAttack");
