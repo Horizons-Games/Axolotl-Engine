@@ -100,11 +100,13 @@ vec3 calculateAmbientIBL(vec3 N, vec3 R, float NdotV, vec3 Cd, vec3 f0, float ro
 {
     vec3 color = vec3(0.0);
     float totalWeight = 0.0;
+    
     if (num_samplers == 0)
     {
         return GetAmbientLight(N, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
-                environmentBRDF, numLevels_IBL) * cubemap_intensity;
+                environmentBRDF, numLevels_IBL, planarColor) * cubemap_intensity;
     }
+
     for (int i = 0; i < num_samplers; ++i)
     {
         samplerCube diffuse = localIBL[i].diffuse;
@@ -117,25 +119,25 @@ vec3 calculateAmbientIBL(vec3 N, vec3 R, float NdotV, vec3 Cd, vec3 f0, float ro
         vec3 maxInfluence = localIBL[i].maxInfluence.rgb;
         
         vec3 localPos = (toLocal * vec4(fragPos, 1.0)).xyz; // convert fragment pos to ibl local space
-        if(InsideBox(localPos, minInfluence, maxInfluence)) 
+        if (InsideBox(localPos, minInfluence, maxInfluence))
         {
             vec3 closer = min(localPos - minInfluence.xyz, maxInfluence.xyz - localPos);
             float weight = min(closer.x, min(closer.y, closer.z));
             weight = weight * weight; // smoother than linear
             // evaluates diffuse and specular ibl and returns an ambient colour
             vec3 newR = ParallaxCorrection(localPos, mat3(toLocal) * R, maxParallax, minParallax) - position;
-            color += GetAmbientLight(N, newR, NdotV, roughness, Cd, f0, diffuse, prefiltered, environmentBRDF, 
+            color += GetAmbientLight(N, newR, NdotV, roughness, Cd, f0, diffuse, prefiltered, environmentBRDF,
                 numLevels_IBL, planarColor) * weight;
             totalWeight += weight;
         }
     }
     // if totalWeight == 0 use skybox as fallback
-    if(totalWeight == 0.0) 
+    if (totalWeight == 0.0)
     {
-        color = GetAmbientLight(N, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
+        color = GetAmbientLight(N, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL,
                 environmentBRDF, numLevels_IBL, planarColor) * cubemap_intensity;
     }
-    else 
+    else
     {
         color = color * cubemap_intensity / totalWeight;
     }
