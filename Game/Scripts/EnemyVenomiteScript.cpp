@@ -22,7 +22,7 @@ EnemyVenomiteScript::EnemyVenomiteScript() : venomiteState(VenomiteBehaviours::I
 	seekScript(nullptr), rangedAttackDistance(10.0f), meleeAttackDistance(1.5f), seekAlertDistance(15.0f),
 	meleeAttackScript(nullptr), healthScript(nullptr), ownerTransform(nullptr), componentAnimation(nullptr), 
 	componentAudioSource(nullptr), batonGameObject(nullptr), blasterGameObject(nullptr), aiMovement(nullptr),
-	seekTargetTransform(nullptr), deathScript(nullptr), enemyDetectionDuration(0.0f), enemyDetectionTime(0.0f),
+	deathScript(nullptr), enemyDetectionDuration(0.0f), enemyDetectionTime(0.0f),
 	exclamationParticle(nullptr)
 {
 	REGISTER_FIELD(rangedAttackDistance, float);
@@ -53,13 +53,14 @@ void EnemyVenomiteScript::Start()
 	aiMovement = owner->GetComponent<AIMovement>();
 	deathScript = owner->GetComponent<EnemyDeathScript>();
 
-	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
 
 	enemyDetectionTime = 0.0f;
 }
 
 void EnemyVenomiteScript::Update(float deltaTime)
 {
+	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
+
 	if (stunned)
 	{
 		if (timeStunned < 0)

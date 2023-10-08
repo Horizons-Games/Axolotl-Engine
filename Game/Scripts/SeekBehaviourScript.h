@@ -6,6 +6,7 @@
 
 class ComponentTransform;
 class AIMovement;
+class ModulePlayer;
 
 class SeekBehaviourScript : public Script
 {
@@ -14,6 +15,7 @@ public:
 	~SeekBehaviourScript() override = default;
 
 	void Start() override;
+	void Update(float deltaTime) override;
 
 	void Seeking();
 	void DisableMovement();
@@ -24,6 +26,7 @@ public:
 
 private:
 	GameObject* target;
+	ModulePlayer* modulePlayer;
 
 	ComponentTransform* targetTransform;
 	ComponentTransform* ownerTransform;

@@ -49,6 +49,8 @@ public:
 	bool IsInAttackAnimation() const;
 	GameObject* GetEnemyDetected() const;
 
+	void PlayWeaponSounds() const;
+
 private:
 	void Start() override;
 	void Update(float deltaTime) override;
@@ -72,9 +74,10 @@ private:
 	void ThrowBasicAttack(GameObject* enemyAttacked, float nDamage);
 
 	bool canAttack;
-
 	bool isAttacking;
 	bool isMelee;
+	bool isGroundParalyzed;
+
 	float attackCooldown;
 	float attackCooldownCounter;
 	float comboInitTimer;
@@ -84,6 +87,11 @@ private:
 	bool isNextAttackTriggered;
 	std::string currentAttackAnimation;
 	float numAttackComboAnimation;
+
+	float jumpAttackCooldown;
+	float timeSinceLastJumpAttack;
+
+	float jumpBeforeJumpAttackCooldown;
 
 	bool isHeavyFinisherReceivedAux;
 

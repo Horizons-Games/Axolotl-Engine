@@ -30,6 +30,8 @@ protected:
 private:
 	void InspectSelectedGameObject();
 
+	void DrawAddComponentActions();
+
 	void InspectSelectedResource();
 	void InitTextureImportOptions();
 	void InitTextureLoadOptions();

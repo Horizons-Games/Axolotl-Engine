@@ -186,6 +186,7 @@
     <ClCompile Include="..\Game\Scripts\BossMissilesMissileScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossShieldAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossShieldScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\CameraBossControllerScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ComboManager.cpp" />
     <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp" />
@@ -235,6 +236,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\MinMaxForce.cpp" />
+    <ClCompile Include="..\Game\Scripts\ParticleBillboardAssistance.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerAttackScript.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -314,6 +316,7 @@
     <ClCompile Include="..\Game\Scripts\SendTriggerCollision.cpp" />
     <ClCompile Include="..\Game\Scripts\ShockWaveAttackAreaScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ShockWaveAttackScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\SwitchPlayerManagerScript.cpp" />
     <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -442,6 +445,7 @@
     <ClCompile Include="DataModels\Components\ComponentAreaLight.cpp" />
     <ClCompile Include="DataModels\Components\ComponentSkybox.cpp" />
     <ClCompile Include="DataModels\Components\UI\ComponentSlider.cpp" />
+    <ClCompile Include="DataModels\Schedulable\Schedulable.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowCubemapInput.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -527,8 +531,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Exceptions\AccessingFailedScriptException.cpp" />
+    <ClCompile Include="Exceptions\AxoDefaultException.cpp" />
     <ClCompile Include="Exceptions\ComponentNotFoundException.cpp" />
     <ClCompile Include="Exceptions\ScriptAssertFailedException.cpp" />
+    <ClCompile Include="Enums\WritableEnum.cpp" />
     <ClCompile Include="FileSystem\Importers\CubemapImporter.cpp" />
     <ClCompile Include="DataModels\Cubemap\Cubemap.cpp" />
     <ClCompile Include="DataModels\Animation\AnimationController.cpp" />
@@ -868,6 +875,7 @@
     <ClInclude Include="..\Game\Scripts\BossMissilesMissileScript.h" />
     <ClInclude Include="..\Game\Scripts\BossShieldAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\BossShieldScript.h" />
+    <ClInclude Include="..\Game\Scripts\CameraBossControllerScript.h" />
     <ClInclude Include="..\Game\Scripts\CombatZoneScript.h" />
     <ClInclude Include="..\Game\Scripts\ComboManager.h" />
     <ClInclude Include="..\Game\Scripts\ElevatorCore.h" />
@@ -887,6 +895,7 @@
     <ClInclude Include="..\Game\Scripts\EnemyVenomiteScript.h" />
     <ClInclude Include="..\Game\Scripts\CameraControllerScript.h" />
     <ClInclude Include="..\Game\Scripts\MinMaxForce.h" />
+    <ClInclude Include="..\Game\Scripts\ParticleBillboardAssistance.h" />
     <ClInclude Include="..\Game\Scripts\PlayerAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h" />
@@ -908,6 +917,7 @@
     <ClInclude Include="..\Game\Scripts\SendTriggerCollision.h" />
     <ClInclude Include="..\Game\Scripts\ShockWaveAttackAreaScript.h" />
     <ClInclude Include="..\Game\Scripts\ShockWaveAttackScript.h" />
+    <ClInclude Include="..\Game\Scripts\SwitchPlayerManagerScript.h" />
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h" />
     <ClInclude Include="..\Game\Scripts\RangedFastAttackBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\RangedFastAttackBullet.h" />
@@ -966,6 +976,7 @@
     <ClInclude Include="DataModels\Components\ComponentTrail.h" />
     <ClInclude Include="DataModels\PostProcess\SSAO.h" />
     <ClInclude Include="DataModels\Render\Shadows.h" />
+    <ClInclude Include="DataModels\Schedulable\Schedulable.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -974,7 +985,7 @@
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowCubemapInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
-     </ClInclude>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowNavMeshInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -1054,9 +1065,12 @@
     <ClInclude Include="Enums\EFrustumMode.h" />
     <ClInclude Include="Enums\TextureType.h" />
     <ClInclude Include="Enums\UpdateStatus.h" />
+    <ClInclude Include="Exceptions\AccessingFailedScriptException.h" />
+    <ClInclude Include="Exceptions\AxoDefaultException.h" />
     <ClInclude Include="FileSystem\FileZippedData.h" />
     <ClInclude Include="Exceptions\ComponentNotFoundException.h" />
     <ClInclude Include="Exceptions\ScriptAssertFailedException.h" />
+    <ClInclude Include="Enums\WritableEnum.h" />
     <ClInclude Include="FileSystem\Importers\CubemapImporter.h" />
     <ClInclude Include="DataModels\Cubemap\Cubemap.h" />
     <ClInclude Include="DataModels\Camera\Camera.h" />

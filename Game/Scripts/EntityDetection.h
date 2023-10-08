@@ -20,6 +20,7 @@ public:
 	void Start() override;
 
 	void UpdateEnemyDetection(float distanceFilter = 0.0f);
+	void FilterEnemiesByDistance(float distanceFilter, std::vector<ComponentRigidBody*>& enemiesInTheAreaFiltered);
 
 	virtual void OnCollisionEnter(ComponentRigidBody* other) override;
 	virtual void OnCollisionExit(ComponentRigidBody* other) override;
