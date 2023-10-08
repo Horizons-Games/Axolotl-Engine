@@ -66,11 +66,11 @@ void FinalBossScript::Update(float deltaTime)
 	}
 
 	// Uncomment this line to check the attacks individually (you have to activate each one of them below)
-	//TryAttacksIndividually();
+	TryAttacksIndividually();
 	
 	// Comment these lines if you uncomment the one above and vice versa
-	ChangeBossPhase();
-	ManageActualPhase(bossPhase);
+	/*ChangeBossPhase();
+	ManageActualPhase(bossPhase);*/
 }
 
 void FinalBossScript::ChangeBossPhase()
@@ -155,14 +155,14 @@ void FinalBossScript::TryAttacksIndividually()
 	*/
 
 	// Uncomment this to check the brutal charge attack ------------------------------
-	/*
+	
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		chargeAttackScript->CanPerformChargeAttack() && !isPerformingAnAttack)
 	{
 		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
-	*/
+	
 
 	// Uncomment this to check the energy shield attack ------------------------------
 	/*
