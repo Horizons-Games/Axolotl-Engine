@@ -18,9 +18,9 @@ void UIImageDisplacementControl::Start()
 
 void UIImageDisplacementControl::Update(float deltaTime)
 {
-	if (moving)
+	if (isMoving)
 	{
-		if (movingToEnd)
+		if (isMovingToEnd)
 		{
 			MoveImageToEndPosition();
 		}
@@ -36,7 +36,7 @@ void UIImageDisplacementControl::MoveImageToEndPosition()
 {
 	if (imageTransform->GetPosition().Distance(endPosition) >=  10.0f)
 	{
-		moving = true;
+		isMoving = true;
 		resultPositon = endPosition - startPosition;
 		resultPositon.Normalize();
 		imageTransform->SetPosition(imageTransform->GetPosition() + resultPositon * 15.0f);
@@ -46,7 +46,7 @@ void UIImageDisplacementControl::MoveImageToEndPosition()
 	{
 		imageTransform->SetPosition(endPosition);
 		imageTransform->CalculateMatrices();
-		moving = false;
+		isMoving = false;
 	}
 }
 
@@ -54,7 +54,7 @@ void UIImageDisplacementControl::MoveImageToStarPosition()
 {
 	if (imageTransform->GetPosition().Distance(startPosition) >= 10.0f)
 	{
-		moving = true;
+		isMoving = true;
 		resultPositon = startPosition - endPosition;
 		resultPositon.Normalize();
 		imageTransform->SetPosition(imageTransform->GetPosition() + resultPositon * 15.0f);
@@ -64,26 +64,26 @@ void UIImageDisplacementControl::MoveImageToStarPosition()
 	{
 		imageTransform->SetPosition(startPosition);
 		imageTransform->CalculateMatrices();
-		moving = false;
+		isMoving = false;
 	}
 }
 
 bool UIImageDisplacementControl::IsMovingToEnd() const
 {
-	return movingToEnd;
+	return isMovingToEnd;
 }
 
 void UIImageDisplacementControl::SetMovingToEnd(bool movingToEnd)
 {
-	this->movingToEnd = movingToEnd;
+	this->isMovingToEnd = movingToEnd;
 }
 
 bool UIImageDisplacementControl::IsMoving() const
 {
-	return moving;
+	return isMoving;
 }
 
 void UIImageDisplacementControl::SetIsMoving(bool moving)
 {
-	this->moving = moving;
+	this->isMoving = moving;
 }

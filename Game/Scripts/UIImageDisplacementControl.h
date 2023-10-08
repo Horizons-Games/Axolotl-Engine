@@ -24,8 +24,8 @@ public:
 	void SetMovingToEnd(bool movingToEnd);
 
 private:
-	bool movingToEnd = false;
-	bool moving = false;
+	bool isMovingToEnd = false;
+	bool isMoving = false;
 
 	float3 startPosition;
 	float3 endPosition;

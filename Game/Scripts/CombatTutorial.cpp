@@ -90,8 +90,8 @@ void CombatTutorial::Update(float deltaTime)
 		
 
 		 }
-	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.25 
-		&& dummyHealthSystem->GetCurrentHealth() > 0 && !nextStateActive)
+	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.25f 
+		&& dummyHealthSystem->GetCurrentHealth() > 0.0f && !nextStateActive)
 		 {
 		//SpecialHeavyAttack
 		LOG_INFO("Tutorial:SpecialHeavyAttack");
