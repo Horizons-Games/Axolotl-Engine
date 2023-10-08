@@ -35,18 +35,24 @@ public:
 private:
 	void MoveDown(float deltaTime);
 	void MoveUp(float deltaTime);
+	void MoveFences(float deltaTime);
+	void ResetElevator();
 
-	float distanceToMove;
 	float moveSpeed;
 	float cooldownTime;
+	float currentTime;
+	bool fencesDown;
 
 	float initialPos;
 	float finalPos;
-	float currentTime;
+	float fencesInitialPos;
+	float fencesFinalPos;
+
 
 	ElevatorState elevatorState;
 	PositionState positionState;
 
 	ComponentTransform* transform;
 	ComponentRigidBody* platformRigidBody;
+	ComponentTransform* fencesTransform;
 };
