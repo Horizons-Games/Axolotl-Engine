@@ -818,6 +818,12 @@
     <ClCompile Include="Exceptions\AccessingFailedScriptException.cpp">
       <Filter>Exceptions</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossLevelElevator.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossShieldEnemiesSpawner.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1681,6 +1687,12 @@
     </ClInclude>
     <ClInclude Include="Exceptions\AxoDefaultException.h">
       <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossLevelElevator.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossShieldEnemiesSpawner.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

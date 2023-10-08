@@ -62,7 +62,7 @@ private:
 	bool isFirstAdded = true;
 
 	ComponentTransform* transform;
-
+	ComponentRigidBody* rb;
 };
 
 inline float ComponentAgent::GetMaxSpeed() const
