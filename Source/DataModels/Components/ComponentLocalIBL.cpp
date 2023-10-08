@@ -180,6 +180,10 @@ void ComponentLocalIBL::OnTransformChanged()
 
 const uint64_t& ComponentLocalIBL::GetHandleIrradiance()
 {
+	if (diffuse == 0)
+	{
+		Initialize();
+	}
 	if (handleIrradiance == 0)
 	{
 		handleIrradiance = glGetTextureHandleARB(diffuse);
@@ -190,6 +194,10 @@ const uint64_t& ComponentLocalIBL::GetHandleIrradiance()
 
 const uint64_t& ComponentLocalIBL::GetHandlePreFiltered()
 {
+	if (preFiltered == 0)
+	{
+		Initialize();
+	}
 	if (handlePreFiltered == 0)
 	{
 		handlePreFiltered = glGetTextureHandleARB(preFiltered);
@@ -315,84 +323,99 @@ void ComponentLocalIBL::Initialize()
 	CreateVAO();
 
 	// Generate framebuffer & renderBuffer
-	glGenFramebuffers(1, &frameBuffer);
+	if (frameBuffer == 0)
+	{
+		glGenFramebuffers(1, &frameBuffer);
+	}
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
-	glGenRenderbuffers(1, &depth);
-	glBindRenderbuffer(GL_RENDERBUFFER, depth);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 512, 512);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depth);
-
-	// cubemap
-	glGenTextures(1, &cubemap);
-
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
-	for (unsigned int i = 0; i < 6; ++i)
+	if (depth == 0)
 	{
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-			0,
-			GL_RGB16F,
-			CUBEMAP_RESOLUTION,
-			CUBEMAP_RESOLUTION,
-			0,
-			GL_RGB,
-			GL_FLOAT,
-			nullptr);
+		glGenRenderbuffers(1, &depth);
+		glBindRenderbuffer(GL_RENDERBUFFER, depth);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 512, 512);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depth);
 	}
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	
+	// cubemap
+	if (cubemap == 0)
+	{
+		glGenTextures(1, &cubemap);
+
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
+		for (unsigned int i = 0; i < 6; ++i)
+		{
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+				0,
+				GL_RGB16F,
+				CUBEMAP_RESOLUTION,
+				CUBEMAP_RESOLUTION,
+				0,
+				GL_RGB,
+				GL_FLOAT,
+				nullptr);
+		}
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
 
 	// irradianceMap
-	glGenTextures(1, &diffuse);
-
-	glBindTexture(GL_TEXTURE_CUBE_MAP, diffuse);
-	for (unsigned int i = 0; i < 6; ++i)
+	if (diffuse == 0)
 	{
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-			0,
-			GL_RGB16F,
-			DIFFUSE_RESOLUTION,
-			DIFFUSE_RESOLUTION,
-			0,
-			GL_RGB,
-			GL_FLOAT,
-			nullptr);
-	}
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glGenTextures(1, &diffuse);
 
+		glBindTexture(GL_TEXTURE_CUBE_MAP, diffuse);
+		for (unsigned int i = 0; i < 6; ++i)
+		{
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+				0,
+				GL_RGB16F,
+				DIFFUSE_RESOLUTION,
+				DIFFUSE_RESOLUTION,
+				0,
+				GL_RGB,
+				GL_FLOAT,
+				nullptr);
+		}
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
+	
 	// pre-filtered map
-	glGenTextures(1, &preFiltered);
-
-	glBindTexture(GL_TEXTURE_CUBE_MAP, preFiltered);
-	for (unsigned int i = 0; i < 6; ++i)
+	if (preFiltered == 0)
 	{
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-			0,
-			GL_RGB16F,
-			SPECULAR_RESOLUTION,
-			SPECULAR_RESOLUTION,
-			0,
-			GL_RGB,
-			GL_FLOAT,
-			nullptr);
-	}
+		glGenTextures(1, &preFiltered);
+		
+		glBindTexture(GL_TEXTURE_CUBE_MAP, preFiltered);
+		for (unsigned int i = 0; i < 6; ++i)
+		{
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+				0,
+				GL_RGB16F,
+				SPECULAR_RESOLUTION,
+				SPECULAR_RESOLUTION,
+				0,
+				GL_RGB,
+				GL_FLOAT,
+				nullptr);
+		}
 
-	numMipMaps = static_cast<int>(log(static_cast<float>(SPECULAR_RESOLUTION)) / log(2));
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_BASE_LEVEL, 0);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAX_LEVEL, numMipMaps);
-	glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+		numMipMaps = static_cast<int>(log(static_cast<float>(SPECULAR_RESOLUTION)) / log(2));
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_BASE_LEVEL, 0);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAX_LEVEL, numMipMaps);
+		glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+	}
 	
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
