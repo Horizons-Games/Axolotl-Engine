@@ -91,6 +91,7 @@ Scene::~Scene()
 	glDeleteBuffers(1, &ssboSphere);
 	glDeleteBuffers(1, &ssboTube);
 	glDeleteBuffers(1, &ssboLocalIBL);
+	glDeleteBuffers(1, &ssboPlanarReflection);
 }
 
 void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
