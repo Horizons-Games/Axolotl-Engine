@@ -10,7 +10,8 @@ enum class LightType
 	DIRECTIONAL, 
 	POINT, 
 	SPOT,
-	AREA
+	AREA,
+	LOCAL_IBL
 };
 
 enum class AreaType
@@ -118,6 +119,8 @@ inline const std::string GetNameByLightType(LightType type)
 			return "LightType_Spot";
 		case LightType::AREA:
 			return "LightType_Area";
+		case LightType::LOCAL_IBL:
+			return "LightType_Local_IBL";
 		default:
 			assert(false && "Wrong light type introduced");
 			return std::string();
@@ -144,6 +147,11 @@ inline const LightType GetLightTypeByName(const std::string& typeName)
 	if (typeName == "LightType_Area")
 	{
 		return LightType::AREA;
+	}
+
+	if (typeName == "LightType_Local_IBL")
+	{
+		return LightType::LOCAL_IBL;
 	}
 	return LightType::UNKNOWN;
 }

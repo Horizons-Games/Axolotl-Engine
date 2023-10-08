@@ -1,10 +1,15 @@
 #version 460
 
+#extension GL_ARB_bindless_texture : require
 #extension GL_ARB_shading_language_include : require
 
 #include "/Common/Functions/pbr_functions.glsl"
 
+#include "/Common/Functions/common_functions.glsl"
+
 #include "/Common/Structs/lights.glsl"
+
+#include "/Common/Structs/local_IBL.glsl"
 
 #define CASCADES 3
 
@@ -37,6 +42,12 @@ layout(std140, row_major, binding = 2) uniform LightSpaceMatrices
 layout(std140, binding = 3) uniform CascadePlaneDistances 
 {
     float cascadePlaneDistances[CASCADES];
+};
+
+readonly layout(std430, binding=14) buffer LocalIBLs
+{
+	uint num_samplers;
+	LocalIBL localIBL[];
 };
 
 // IBL
@@ -78,6 +89,52 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
     return (Cd*(1-f0)+0.25*FS*SV*GGXND)*directionalColor.rgb*directionalColor.a*dotNL;
 }
 
+
+vec3 calculateLocalIBLs(vec3 N, vec3 R, float NdotV, vec3 Cd, vec3 f0, float roughness, vec3 fragPos)
+{
+    vec3 color = vec3(0.0);
+    float totalWeight = 0.0;
+    if (num_samplers == 0)
+    {
+        return GetAmbientLight(N, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
+                environmentBRDF, numLevels_IBL) * cubemap_intensity;
+    }
+    for (int i = 0; i < num_samplers; ++i)
+    {
+        samplerCube diffuse = localIBL[i].diffuse;
+	    samplerCube prefiltered = localIBL[i].prefiltered;
+	    vec3 position = localIBL[i].position.rgb;
+    	vec3 minParallax = localIBL[i].minParallax.rgb;
+        vec3 maxParallax = localIBL[i].maxParallax.rgb;
+        mat4 toLocal = localIBL[i].toLocal;
+        vec3 minInfluence = localIBL[i].minInfluence.rgb;
+        vec3 maxInfluence = localIBL[i].maxInfluence.rgb;
+        
+        vec3 localPos = (toLocal * vec4(fragPos, 1.0)).xyz; // convert fragment pos to ibl local space
+        if(InsideBox(localPos, minInfluence, maxInfluence)) 
+        {
+            vec3 closer = min(localPos - minInfluence.xyz, maxInfluence.xyz - localPos);
+            float weight = min(closer.x, min(closer.y, closer.z));
+            weight = weight * weight; // smoother than linear
+            // evaluates diffuse and specular ibl and returns an ambient colour
+            vec3 newR = ParallaxCorrection(localPos, mat3(toLocal) * R, maxParallax, minParallax) - position;
+            color += GetAmbientLight(N, newR, NdotV, roughness, Cd, f0, diffuse, prefiltered, environmentBRDF, 
+                numLevels_IBL) * weight;
+            totalWeight += weight;
+        }
+    }
+    // if totalWeight == 0 use skybox as fallback
+    if(totalWeight == 0.0) 
+    {
+        color = GetAmbientLight(N, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
+                environmentBRDF, numLevels_IBL) * cubemap_intensity;
+    }
+    else 
+    {
+        color = color * cubemap_intensity / totalWeight;
+    }
+    return color;
+}
 
 float ShadowCalculation(vec4 posFromLight, vec3 normal, int layer)
 {
@@ -204,8 +261,7 @@ void main()
 
         vec3 R = reflect(-viewDir, norm);
         float NdotV = max(dot(norm, viewDir), EPSILON);
-        vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
-            environmentBRDF, numLevels_IBL) * cubemap_intensity;
+        vec3 ambient = calculateLocalIBLs(norm, R, NdotV, Cd, f0, roughness, fragPos);
 
         vec3 color = ambient + Lo + emissiveMat.rgb;
         color += toggleCSMDebug == 1 ? layerColor : vec3(0.0, 0.0, 0.0);

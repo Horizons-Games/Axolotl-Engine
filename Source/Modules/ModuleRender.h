@@ -29,6 +29,8 @@ class BatchManager;
 class ComponentMeshRenderer;
 class GBuffer;
 
+enum class ProgramType;
+
 class ModuleRender : public Module
 {
 public:
@@ -60,6 +62,7 @@ public:
 
 	GLuint GetCameraUBO() const;
 	GLuint GetRenderedTexture() const;
+	GLuint GetUboCamera() const;
 	float GetObjectDistance(const GameObject* gameObject);
 	Shadows* GetShadows() const;
 	LightPass* GetLightProxy() const;
@@ -78,6 +81,13 @@ public:
 
 	void FillCharactersBatches();
 	void RelocateGOInBatches(GameObject* go);
+
+	void DrawMeshesByFilter(std::vector<GameObject*>& objects, ProgramType type, bool normalBehaviour = true);
+
+	void SortOpaques(std::vector<GameObject*>& sceneGameObjects, const float3& pos);
+	void SortTransparents(std::vector<GameObject*>& sceneGameObjects, const float3& pos);
+	
+	void BindCameraToProgram(Program* program, Frustum& frustum);
 
 private:
 
@@ -102,7 +112,6 @@ private:
 
 	void DrawHighlight(GameObject* gameObject);
 
-	void BindCameraToProgram(Program* program, Camera* camera);
 	void BindCubemapToProgram(Program* program);
 
 	void KawaseDualFiltering();
@@ -211,6 +220,11 @@ inline GLuint ModuleRender::GetCameraUBO() const
 inline GLuint ModuleRender::GetRenderedTexture() const
 {
 	return renderedTexture[1];
+}
+
+inline GLuint ModuleRender::GetUboCamera() const
+{
+	return uboCamera;
 }
 
 inline BatchManager* ModuleRender::GetBatchManager() const

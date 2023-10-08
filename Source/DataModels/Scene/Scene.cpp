@@ -48,7 +48,6 @@
 #include "Scripting/IScript.h"
 
 #include <GL/glew.h>
-#include <stack>
 
 Scene::Scene() :
 	root(nullptr),
@@ -69,16 +68,26 @@ Scene::~Scene()
 	sceneGameObjects.clear();
 	sceneCameras.clear();
 	sceneParticleSystems.clear();
+	sceneComponentLines.clear();
+	nonStaticObjects.clear();
 
 	pointLights.clear();
 	spotLights.clear();
 	sphereLights.clear();
 	tubeLights.clear();
+	localIBLs.clear();
 
 	cachedPoints.clear();
 	cachedSpots.clear();
 	cachedSpheres.clear();
 	cachedTubes.clear();
+	cachedLocalIBLs.clear();
+
+	glDeleteBuffers(1, &ssboPoint);
+	glDeleteBuffers(1, &ssboSpot);
+	glDeleteBuffers(1, &ssboSphere);
+	glDeleteBuffers(1, &ssboTube);
+	glDeleteBuffers(1, &ssboLocalIBL);
 }
 
 void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
@@ -134,6 +143,21 @@ std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frus
 	return objectsInFrustum;
 }
 
+std::vector<GameObject*> Scene::ObtainStaticObjectsInFrustum(const math::Frustum* frustum)
+{
+	std::vector<GameObject*> objectsInFrustum;
+
+	CalculateObjectsInFrustum(frustum, rootQuadtree.get(), objectsInFrustum);
+
+#ifdef ENGINE
+	GameObject* selected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum);
+
+#endif
+
+	return objectsInFrustum;
+}
+
 void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad, 
 									  std::vector<GameObject*>& gos)
 {
@@ -148,9 +172,14 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
 					ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
+
 					if (ObjectInFrustum(frustum, transform->GetEncapsuledAABB()))
 					{
-						gos.push_back(gameObject);
+						ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
+						if (mesh != nullptr && mesh->IsEnabled())
+						{
+							gos.push_back(gameObject);
+						}
 					}
 				}
 			}
@@ -162,9 +191,14 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
 					ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
+
 					if (ObjectInFrustum(frustum, transform->GetEncapsuledAABB()))
 					{
-						gos.push_back(gameObject);
+						ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
+						if (mesh != nullptr && mesh->IsEnabled())
+						{
+							gos.push_back(gameObject);
+						}
 					}
 				}
 			}
@@ -324,9 +358,11 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 			transform2D->CalculateMatrices();
 		}
 	}
+	int filter = 0;
 
-	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject, is3D);
-
+	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject, is3D, filter);
+	UpdateLightsFromCopiedGameObjects(filter);
+	
 	return gameObject;
 }
 
@@ -721,6 +757,14 @@ void Scene::RemoveFatherAndChildren(const GameObject* gameObject)
 									 }),
 							   std::end(sceneParticleSystems));
 
+	sceneComponentLines.erase(std::remove_if(std::begin(sceneComponentLines),
+		std::end(sceneComponentLines),
+		[gameObject](const ComponentLine* componentLine)
+		{
+			return componentLine->GetOwner() == gameObject;
+		}),
+		std::end(sceneComponentLines));
+
 	sceneInteractableComponents.erase(std::remove_if(std::begin(sceneInteractableComponents),
 													 std::end(sceneInteractableComponents),
 													 [gameObject](const Component* interactible)
@@ -887,6 +931,22 @@ void Scene::GenerateLights()
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingTube, ssboTube);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	// Local IBL
+
+	size_t numLocalIBL = localIBLs.size();
+
+	if (ssboLocalIBL == 0)
+	{
+		glGenBuffers(1, &ssboLocalIBL);
+	}
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLocalIBL);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(LocalIBL) * numLocalIBL, nullptr, GL_DYNAMIC_DRAW);
+
+	const unsigned bindingLocalIBL = 14;
+
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingLocalIBL, ssboLocalIBL);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void Scene::RenderDirectionalLight() const
@@ -1010,6 +1070,23 @@ void Scene::RenderAreaTubes() const
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
+void Scene::RenderLocalIBLs() const
+{
+	// LocalIBL
+	size_t numLocalIBL = localIBLs.size();
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLocalIBL);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(LocalIBL) * numLocalIBL, nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numLocalIBL);
+
+	if (numLocalIBL > 0)
+	{
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(LocalIBL) * numLocalIBL, &localIBLs[0]);
+	}
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+}
+
 void Scene::RenderPointLight(const ComponentPointLight* compPoint)
 {	
 	if (pointLights.empty())
@@ -1064,6 +1141,26 @@ void Scene::RenderAreaTube(const ComponentAreaLight* compTube)
 	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightTube) * pos, sizeof(AreaLightTube),
 		&tubeLights[pos]);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+}
+
+void Scene::RenderLocalIBL(const ComponentLocalIBL* compLocal) const
+{
+	bool found = false;
+
+	for (int i = 0; !found && i < cachedLocalIBLs.size(); ++i)
+	{
+		if (cachedLocalIBLs[i].first == compLocal)
+		{
+			found = true;
+
+			unsigned int pos = cachedLocalIBLs[i].second;
+
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLocalIBL);
+			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(LocalIBL) * pos, sizeof(LocalIBL),
+				&localIBLs[pos]);
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		}
+	}
 }
 
 void Scene::UpdateScenePointLights()
@@ -1325,6 +1422,47 @@ void Scene::UpdateSceneAreaTubes()
 	}
 }
 
+void Scene::UpdateSceneLocalIBLs()
+{
+	localIBLs.clear();
+	cachedLocalIBLs.clear();
+
+	unsigned int pos = 0;
+
+	for (GameObject* child : sceneGameObjects)
+	{
+		if (child && child->IsActive())
+		{
+			ComponentLight* component = child->GetComponentInternal<ComponentLight>();
+			if (component && component->GetLightType() == LightType::LOCAL_IBL && component->IsEnabled()
+				&& !component->IsDeleting())
+			{
+				ComponentLocalIBL* local = static_cast<ComponentLocalIBL*>(component);
+
+				LocalIBL localIBL;
+				localIBL.diffuse = local->GetHandleIrradiance();
+				localIBL.prefiltered = local->GetHandlePreFiltered();
+				localIBL.position = float4(local->GetPosition(), 0.f);
+				AABB parallax = local->GetParallaxAABB();
+				localIBL.maxParallax = float4(parallax.maxPoint, 0.f);
+				localIBL.minParallax = float4(parallax.minPoint, 0.f);
+				float4x4 toLocal = local->GetTransform();
+				toLocal.InverseOrthonormal();
+				localIBL.toLocal = toLocal;
+				AABB influence = local->GetInfluenceAABB();
+				localIBL.maxInfluence = float4(influence.maxPoint, 0.f);
+				localIBL.minInfluence = float4(influence.minPoint, 0.f);
+
+				localIBLs.push_back(localIBL);
+				cachedLocalIBLs.push_back(std::make_pair(local, pos));
+
+				++pos;
+			}
+		}
+
+	}
+}
+
 void Scene::UpdateScenePointLight(const ComponentPointLight* compPoint)
 {
 	if (pointLights.empty())
@@ -1414,6 +1552,37 @@ void Scene::UpdateSceneAreaTube(const ComponentAreaLight* compTube)
 	tubeLights[cachedTubes[compTube]] = tl;
 }
 
+void Scene::UpdateSceneLocalIBL(ComponentLocalIBL* compLocal)
+{
+	bool found = false;
+	const GameObject* go = compLocal->GetOwner();
+
+	for (int i = 0; !found && i < cachedLocalIBLs.size(); ++i)
+	{
+		if (cachedLocalIBLs[i].first == compLocal)
+		{
+			found = true;
+
+			LocalIBL localIBL;
+
+			localIBL.diffuse = compLocal->GetHandleIrradiance();
+			localIBL.prefiltered = compLocal->GetHandlePreFiltered();
+			localIBL.position = float4(compLocal->GetPosition(), 0);
+			AABB parallax = compLocal->GetParallaxAABB();
+			localIBL.maxParallax = float4(parallax.maxPoint, 0);
+			localIBL.minParallax = float4(parallax.minPoint, 0);
+			float4x4 toLocal = compLocal->GetTransform();
+			toLocal.InverseOrthonormal();
+			localIBL.toLocal = toLocal;
+			AABB influence = compLocal->GetInfluenceAABB();
+			localIBL.maxInfluence = float4(influence.maxPoint, 0);
+			localIBL.minInfluence = float4(influence.minPoint, 0);
+
+			localIBLs[cachedLocalIBLs[i].second] = localIBL;
+		}
+	}
+}
+
 void Scene::InitNewEmptyScene()
 {
 	App->GetModule<ModuleRender>()->GetBatchManager()->CleanBatches();
@@ -1460,11 +1629,13 @@ void Scene::InitLights()
 	UpdateScenePointLights();
 	UpdateSceneSpotLights();
 	UpdateSceneAreaLights();
+	UpdateSceneLocalIBLs();
 
 	RenderDirectionalLight();
 	RenderPointLights();
 	RenderSpotLights();
 	RenderAreaLights();
+	RenderLocalIBLs();
 
 	App->GetModule<ModuleRender>()->GetLightProxy()->CleanUp();
 }
@@ -1489,7 +1660,7 @@ void Scene::SetRoot(GameObject* newRoot)
 	root = std::unique_ptr<GameObject>(newRoot);
 }
 
-void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D)
+void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D, int& filter)
 {
 	sceneGameObjects.push_back(gameObject);
 
@@ -1513,10 +1684,86 @@ void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObje
 			App->GetModule<ModuleScene>()->GetLoadedScene()->AddNonStaticObject(gameObject);
 		}
 	}
+	filter |= SearchForLights(gameObject);
+
 	for (GameObject* children : gameObject->GetChildren())
 	{
-		InsertGameObjectAndChildrenIntoSceneGameObjects(children, is3D);
+		InsertGameObjectAndChildrenIntoSceneGameObjects(children, is3D, filter);
 	}
+}
+
+void Scene::UpdateLightsFromCopiedGameObjects(const int& filter)
+{
+	if (filter & HAS_SPOT)
+	{
+		UpdateSceneSpotLights();
+		RenderSpotLights();
+	}
+
+	if (filter & HAS_POINT)
+	{
+		UpdateScenePointLights();
+		RenderPointLights();
+	}
+
+	if (filter & HAS_AREA_TUBE)
+	{
+		UpdateSceneAreaTubes();
+		RenderAreaTubes();
+	}
+	
+	if (filter & HAS_AREA_SPHERE)
+	{
+		UpdateSceneAreaSpheres();
+		RenderAreaSpheres();
+	}
+
+	if (filter & HAS_LOCAL_IBL)
+	{
+		UpdateSceneLocalIBLs();
+		RenderLocalIBLs();
+	}
+}
+
+int& Scene::SearchForLights(GameObject* gameObject)
+{
+	int filter = 0;
+	
+	ComponentLight* light = gameObject->GetComponentInternal<ComponentLight>();
+
+	if (light)
+	{
+		switch (light->GetLightType())
+		{
+		case LightType::SPOT:
+			filter = HAS_SPOT;
+			break;
+
+		case LightType::POINT:
+			filter = HAS_POINT;
+			break;
+
+		case LightType::AREA:
+		{
+			ComponentAreaLight* areaLight = static_cast<ComponentAreaLight*>(light);
+			switch (areaLight->GetAreaType())
+			{
+			case AreaType::TUBE:
+				filter = HAS_AREA_TUBE;
+				break;
+			
+			case AreaType::SPHERE:
+				filter = HAS_AREA_SPHERE;
+				break;
+			}
+			break;
+		}
+		case LightType::LOCAL_IBL:
+			filter = HAS_LOCAL_IBL;
+			break;
+		}
+	}
+	return filter;
 }
 
 void Scene::AddStaticObject(GameObject* gameObject)
@@ -1609,6 +1856,19 @@ void Scene::InitCubemap()
 		root->CreateComponent<ComponentCubemap>();
 	}
 }
+
+void Scene::InitLocalsIBL()
+{
+	for (GameObject* child : sceneGameObjects)
+	{
+		ComponentLight* component = child->GetComponentInternal<ComponentLight>();
+		if (component && component->GetLightType() == LightType::LOCAL_IBL)
+		{
+			static_cast<ComponentLocalIBL*>(component)->GenerateMaps();
+		}
+	}
+}
+
 std::vector<float> Scene::GetVertices()
 {
 	std::vector<float> result;

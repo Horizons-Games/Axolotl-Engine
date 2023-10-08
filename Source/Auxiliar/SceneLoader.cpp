@@ -193,10 +193,16 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 
 	auto initLightsAndFinishSceneLoad = []()
 	{
-		Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-		loadedScene->InitLights();
-		loadedScene->InitRender();
-		loadedScene->InitCubemap();
+		// By scheduling these calls, we make sure all light components are initialized before these are ran
+		App->ScheduleTask(
+			[]()
+			{
+				Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+				loadedScene->InitLights();
+				loadedScene->InitRender();
+				loadedScene->InitCubemap();
+				loadedScene->InitLocalsIBL();
+			});
 
 		// if no document was set, the user is creating a new scene. finish the process
 		if (!currentLoadingConfig->doc.has_value())
@@ -268,11 +274,11 @@ void OnHierarchyLoaded()
 
 		if (value.enabled)
 		{
-			gameObject->Enable();
+			gameObject->Enable(true);
 		}
 		else
 		{
-			gameObject->Disable();
+			gameObject->Disable(true);
 		}
 	}
 
