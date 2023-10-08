@@ -32,7 +32,7 @@ const std::unordered_map<SDL_GameControllerButton, std::variant<SDL_Scancode, Ui
 	{ SDL_CONTROLLER_BUTTON_LEFTSHOULDER, SDL_SCANCODE_LSHIFT },
 	{ SDL_CONTROLLER_BUTTON_RIGHTSHOULDER, SDL_SCANCODE_Z },
 	{ SDL_CONTROLLER_BUTTON_DPAD_UP, SDL_SCANCODE_TAB },
-	{ SDL_CONTROLLER_BUTTON_DPAD_DOWN, SDL_SCANCODE_UNKNOWN },
+	{ SDL_CONTROLLER_BUTTON_DPAD_DOWN, SDL_SCANCODE_C },
 	{ SDL_CONTROLLER_BUTTON_DPAD_LEFT, SDL_SCANCODE_UNKNOWN },
 	{ SDL_CONTROLLER_BUTTON_DPAD_RIGHT, SDL_SCANCODE_UNKNOWN },
 	{ SDL_CONTROLLER_BUTTON_MISC1, SDL_SCANCODE_UNKNOWN },
@@ -390,28 +390,13 @@ UpdateStatus ModuleInput::Update()
 	}
 
 #ifdef ENGINE
-	if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN) &&
-		keysState[SDL_SCANCODE_Q] == KeyState::DOWN)
-	{
-		if (App->IsOnPlayMode())
-		{
-			App->OnStop();
-		}
-	}
-
-	if ((keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT || keysState[SDL_SCANCODE_LCTRL] == KeyState::DOWN) &&
-		keysState[SDL_SCANCODE_A] == KeyState::DOWN)
-	{
-		if (App->IsOnPlayMode())
-		{
-			SDL_ShowCursor(SDL_QUERY) ? SetShowCursor(false) : SetShowCursor(true);
-		}
-	}
-
 	if (keysState[SDL_SCANCODE_LCTRL] == KeyState::REPEAT && keysState[SDL_SCANCODE_S] == KeyState::DOWN &&
 		SDL_ShowCursor(SDL_QUERY))
 	{
-		App->GetModule<ModuleEditor>()->GetMainMenu()->ShortcutSave();
+		if (App->GetPlayState() == Application::PlayState::STOPPED)
+		{
+			App->GetModule<ModuleEditor>()->GetMainMenu()->ShortcutSave();
+		}
 	}
 
 	if (keysState[SDL_SCANCODE_F1] == KeyState::DOWN && SDL_ShowCursor(SDL_QUERY))
@@ -465,7 +450,7 @@ bool ModuleInput::CleanUp()
 
 void ModuleInput::MapControllerInput()
 {
-	if (!App->IsOnPlayMode())
+	if (App->GetPlayState() != Application::PlayState::RUNNING)
 	{
 		return;
 	}

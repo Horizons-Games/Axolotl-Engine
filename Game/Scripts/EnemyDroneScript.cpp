@@ -61,10 +61,6 @@ void EnemyDroneScript::Start()
 	healthScript = owner->GetComponent<HealthSystem>();
 	aiMovement = owner->GetComponent<AIMovement>();
 
-	seekTarget = seekScript->GetTarget();
-	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
-
-	playerManager = seekTarget->GetComponent<PlayerManagerScript>();
 
 	enemyDetectionTime = 0.0f;
 
@@ -73,6 +69,10 @@ void EnemyDroneScript::Start()
 
 void EnemyDroneScript::Update(float deltaTime)
 {
+	seekTarget = seekScript->GetTarget();
+	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
+	playerManager = seekTarget->GetComponent<PlayerManagerScript>();
+
 	if (stunned && droneState != DroneBehaviours::READYTOEXPLODE && droneState != DroneBehaviours::EXPLOSIONATTACK)
 	{
 		if (timeStunned < 0)

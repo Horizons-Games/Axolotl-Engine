@@ -49,10 +49,15 @@ public:
 	const float3& GetPosition();
 	const Quat& GetRotation();
 
+private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
+	void SignalEnable(bool isSceneLoading) override;
+	void SignalDisable(bool isSceneLoading) override;
+
 private:
+
 	void Initialize();
 	void CreateCubemap();
 	void RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel = 0);
@@ -93,11 +98,6 @@ inline const GLuint ComponentLocalIBL::GetIrradiance()
 inline const GLuint ComponentLocalIBL::GetPreFiltered()
 {
 	return preFiltered;
-}
-
-inline const float4x4 ComponentLocalIBL::GetTransform()
-{
-	return float4x4(GetRotation(), GetPosition());
 }
 
 inline const AABB& ComponentLocalIBL::GetParallaxAABB()

@@ -194,8 +194,13 @@ ComponentAreaLight::~ComponentAreaLight()
 	}
 }
 
-void ComponentAreaLight::SignalEnable()
+void ComponentAreaLight::SignalEnable(bool isSceneLoading)
 {
+	if (isSceneLoading)
+	{
+		return;
+	}
+
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	if (areaType == AreaType::SPHERE)
@@ -210,8 +215,13 @@ void ComponentAreaLight::SignalEnable()
 	}
 }
 
-void ComponentAreaLight::SignalDisable()
+void ComponentAreaLight::SignalDisable(bool isSceneLoading)
 {
+	if (isSceneLoading)
+	{
+		return;
+	}
+
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	if (areaType == AreaType::SPHERE)
@@ -230,7 +240,8 @@ void ComponentAreaLight::Draw() const
 {
 	bool canDrawLight =
 #ifdef ENGINE
-		IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+		IsEnabled() && App->GetPlayState() != Application::PlayState::RUNNING &&
+		GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 #else
 		IsEnabled() && App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawAreaLight();
 #endif // ENGINE

@@ -85,6 +85,12 @@ Scene::~Scene()
 	cachedTubes.clear();
 	cachedLocalIBLs.clear();
 	cachedPlanarReflections.clear();
+
+	glDeleteBuffers(1, &ssboPoint);
+	glDeleteBuffers(1, &ssboSpot);
+	glDeleteBuffers(1, &ssboSphere);
+	glDeleteBuffers(1, &ssboTube);
+	glDeleteBuffers(1, &ssboLocalIBL);
 }
 
 void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
@@ -970,7 +976,10 @@ void Scene::GenerateLights()
 
 	size_t numLocalIBL = localIBLs.size();
 
-	glGenBuffers(1, &ssboLocalIBL);
+	if (ssboLocalIBL == 0)
+	{
+		glGenBuffers(1, &ssboLocalIBL);
+	}
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLocalIBL);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(LocalIBL) * numLocalIBL, nullptr, GL_DYNAMIC_DRAW);
 
@@ -1523,16 +1532,16 @@ void Scene::UpdateSceneLocalIBLs()
 				LocalIBL localIBL;
 				localIBL.diffuse = local->GetHandleIrradiance();
 				localIBL.prefiltered = local->GetHandlePreFiltered();
-				localIBL.position = float4(local->GetPosition(), 0);
+				localIBL.position = float4(local->GetPosition(), 0.f);
 				AABB parallax = local->GetParallaxAABB();
-				localIBL.maxParallax = float4(parallax.maxPoint, 0);
-				localIBL.minParallax = float4(parallax.minPoint, 0);
+				localIBL.maxParallax = float4(parallax.maxPoint, 0.f);
+				localIBL.minParallax = float4(parallax.minPoint, 0.f);
 				float4x4 toLocal = local->GetTransform();
 				toLocal.InverseOrthonormal();
 				localIBL.toLocal = toLocal;
 				AABB influence = local->GetInfluenceAABB();
-				localIBL.maxInfluence = float4(influence.maxPoint, 0);
-				localIBL.minInfluence = float4(influence.minPoint, 0);
+				localIBL.maxInfluence = float4(influence.maxPoint, 0.f);
+				localIBL.minInfluence = float4(influence.minPoint, 0.f);
 
 				localIBLs.push_back(localIBL);
 				cachedLocalIBLs.push_back(std::make_pair(local, pos));

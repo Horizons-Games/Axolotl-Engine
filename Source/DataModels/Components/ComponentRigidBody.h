@@ -52,7 +52,7 @@ public:
 	void SetIsKinematic(bool isKinematic);
 	bool GetIsKinematic() const;
 
-	void SetStatic(bool isStatic);
+	void SetIsStatic(bool isStatic);
 	bool IsStatic() const;
 
 	void SetIsTrigger(bool isTrigger);
@@ -168,8 +168,8 @@ private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
-	void SignalEnable() override;
-	void SignalDisable() override;
+	void SignalEnable(bool isSceneLoading) override;
+	void SignalDisable(bool isSceneLoading) override;
 
 private:
 	int GenerateId() const;

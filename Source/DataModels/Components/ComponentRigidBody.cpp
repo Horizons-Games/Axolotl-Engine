@@ -137,7 +137,7 @@ void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 void ComponentRigidBody::OnTransformChanged()
 {
 #ifdef ENGINE
-	if (!App->IsOnPlayMode())
+	if (App->GetPlayState() == Application::PlayState::STOPPED)
 	{
 		UpdateRigidBody();
 	}
@@ -196,21 +196,21 @@ void ComponentRigidBody::SetOwner(GameObject* owner)
 void ComponentRigidBody::UpdateRigidBody()
 {
 	btTransform worldTransform = rigidBody->getWorldTransform();
-	float3 transPos = transform->GetGlobalPosition();
-	btVector3 transPosBt = btVector3(transPos.x, transPos.y, transPos.z);
-	worldTransform.setOrigin(transPosBt + translation);
+	float3 position = transform->GetGlobalPosition();
+	btVector3 btPosition = btVector3(position.x, position.y, position.z);
+	worldTransform.setOrigin(btPosition + translation);
 	Quat rot = transform->GetGlobalRotation();
 	worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
 	rigidBody->setWorldTransform(worldTransform);
 	motionState->setWorldTransform(worldTransform);
 }
+
 int ComponentRigidBody::GenerateId() const
 {
 	static uint32_t nextId = 1;
 
 	assert(nextId != 0); // if this assert triggers, we have reached the maximum number of rigidbodies 2^32 - 1. This is
 						 // a very unlikely scenario.
-
 	return nextId++;
 }
 
@@ -223,10 +223,10 @@ void ComponentRigidBody::SetRigidBodyOrigin(btVector3 origin)
 
 void ComponentRigidBody::UpdateRigidBodyTranslation()
 {
-	float3 transPos = transform->GetGlobalPosition();
-	btVector3 transPosBt = btVector3(transPos.x, transPos.y, transPos.z);
+	float3 position = transform->GetGlobalPosition();
+	btVector3 btPosition = btVector3(position.x, position.y, position.z);
 
-	translation = (rigidBody->getWorldTransform().getOrigin() - transPosBt);
+	translation = (rigidBody->getWorldTransform().getOrigin() - btPosition);
 }
 
 void ComponentRigidBody::SetUpMobility()
@@ -238,7 +238,10 @@ void ComponentRigidBody::SetUpMobility()
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_STATIC_OBJECT);
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 		rigidBody->setActivationState(DISABLE_DEACTIVATION);
-		rigidBody->setMassProps(0, { 0, 0, 0 }); // Toreview: is this necessary here?
+
+		rigidBody->setMassProps(0, { 0, 0, 0 }); 
+		AXO_TODO("Is this necessary here?");
+		
 	}
 	else if (IsStatic())
 	{
@@ -373,13 +376,13 @@ void ComponentRigidBody::InternalLoad(const Json& meta)
 	SetZRotationAxisBlocked(static_cast<bool>(meta["zRotationAxisBlocked"]));
 }
 
-void ComponentRigidBody::SignalEnable()
+void ComponentRigidBody::SignalEnable(bool isSceneLoading)
 {
 	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	rigidBody->setGravity(gravity);
 }
 
-void ComponentRigidBody::SignalDisable()
+void ComponentRigidBody::SignalDisable(bool isSceneLoading)
 {
 	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
 }
@@ -479,9 +482,9 @@ bool ComponentRigidBody::IsStatic() const
 	return GetOwner()->IsStatic();
 }
 
-void ComponentRigidBody::SetStatic(bool newStatic)
+void ComponentRigidBody::SetIsStatic(bool isStatic)
 {
-	GetOwner()->SetStatic(newStatic);
+	GetOwner()->SetIsStatic(isStatic);
 }
 
 void ComponentRigidBody::UpdateBlockedAxis()

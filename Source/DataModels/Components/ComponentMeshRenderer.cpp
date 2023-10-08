@@ -92,7 +92,7 @@ void ComponentMeshRenderer::UpdatePalette()
 			{
 				const GameObject* boneNode = root->FindGameObject(bindBones[i].name);
 
-				if (boneNode && App->IsOnPlayMode())
+				if (boneNode && App->GetPlayState() == Application::PlayState::RUNNING)
 				{
 					skinPalette[i] = boneNode->GetComponentInternal<ComponentTransform>()->CalculatePaletteGlobalMatrix() *
 									 bindBones[i].transform;

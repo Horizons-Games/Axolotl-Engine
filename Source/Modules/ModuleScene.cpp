@@ -90,7 +90,7 @@ bool ModuleScene::Start()
 		std::string startingScene = startConfig["StartingScene"];
 		std::string scenePath = LIB_PATH "Scenes/" + startingScene;
 		assert(fileSystem->Exists(scenePath.c_str()));
-		LoadScene(scenePath, false);
+		LoadScene(scenePath, false, false);
 #endif
 	}
 	selectedGameObject = loadedScene->GetRoot();
@@ -123,7 +123,7 @@ UpdateStatus ModuleScene::PreUpdate()
 		App->GetScriptFactory()->UpdateNotifier();
 	}
 
-	if (App->IsOnPlayMode())
+	if (App->GetPlayState() == Application::PlayState::RUNNING)
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
@@ -147,7 +147,7 @@ UpdateStatus ModuleScene::Update()
 	OPTICK_CATEGORY("UpdateScene", Optick::Category::Scene);
 #endif // DEBUG
 
-	if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
+	if (App->GetPlayState() == Application::PlayState::RUNNING && !App->GetScriptFactory()->IsCompiling())
 	{
 		for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 		{
@@ -158,10 +158,13 @@ UpdateStatus ModuleScene::Update()
 		}
 	}
 
-	// Particles need to be updated
-	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
+	if (App->GetPlayState() == Application::PlayState::RUNNING)
 	{
-		particle->Update();
+		// Particles need to be updated
+		for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
+		{
+			particle->Update();
+		}
 	}
 
 	// Planar reflection need to be updated
@@ -175,9 +178,9 @@ UpdateStatus ModuleScene::Update()
 
 UpdateStatus ModuleScene::PostUpdate()
 {
-	if (IsLoading())
+	if (App->GetPlayState() == Application::PlayState::RUNNING && IsLoading())
 	{
-		if (App->IsOnPlayMode() && !App->GetScriptFactory()->IsCompiling())
+		if (!App->GetScriptFactory()->IsCompiling())
 		{
 			for (Updatable* updatable : loadedScene->GetSceneUpdatable())
 			{
@@ -345,16 +348,32 @@ void ModuleScene::SaveSceneToJson(Json& jsonScene)
 
 }
 
-void ModuleScene::LoadScene(const std::string& filePath, bool mantainActualScene)
+void ModuleScene::LoadScene(const std::string& name, bool mantainScene /*= false*/)
 {
-	loader::LoadScene(
-		filePath,
-		[]
-		{
-			// empty callback
-		},
-		mantainActualScene,
-		loader::LoadMode::BLOCKING);
+	LoadScene(name, mantainScene, true);
+}
+
+void ModuleScene::LoadScene(const std::string& name, bool mantainScene, bool scheduleLoad)
+{
+	auto loadLambda = [=]()
+	{
+		loader::LoadScene(
+			name,
+			[]
+			{
+				// empty callback
+			},
+			mantainScene,
+			loader::LoadMode::BLOCKING);
+	};
+	if (scheduleLoad)
+	{
+		App->ScheduleTask(std::move(loadLambda));
+	}
+	else
+	{
+		loadLambda();
+	}
 }
 
 void ModuleScene::LoadSceneAsync(const std::string& name, std::function<void(void)>&& callback, bool mantainCurrentScene)

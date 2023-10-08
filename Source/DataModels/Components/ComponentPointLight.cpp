@@ -64,7 +64,8 @@ void ComponentPointLight::Draw() const
 {
 	bool canDrawLight =
 #ifdef ENGINE
-		IsEnabled() && !App->IsOnPlayMode() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+		IsEnabled() && App->GetPlayState() != Application::PlayState::RUNNING &&
+		GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 #else
 		IsEnabled() && App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawPointLight();
 #endif // ENGINE
@@ -114,16 +115,26 @@ void ComponentPointLight::OnTransformChanged()
 	transform->ScaleLocalAABB(scale);
 }
 
-void ComponentPointLight::SignalEnable()
+void ComponentPointLight::SignalEnable(bool isSceneLoading)
 {
+	if (isSceneLoading)
+	{
+		return;
+	}
+
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	currentScene->UpdateScenePointLights();
 	currentScene->RenderPointLights();
 }
 
-void ComponentPointLight::SignalDisable()
+void ComponentPointLight::SignalDisable(bool isSceneLoading)
 {
+	if (isSceneLoading)
+	{
+		return;
+	}
+
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	
 	currentScene->UpdateScenePointLights();

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Exceptions/AccessingFailedScriptException.h"
 #include "Exceptions/ComponentNotFoundException.h"
 #include "Formatter.h"
 
@@ -61,16 +62,25 @@ template<typename C>
 C* GameObject::GetComponent() const
 {
 	ASSERT_TYPE_COMPLETE(C);
+	const char* typeName = typeid(C).name();
 	C* internalResult = GetComponentInternal<C>();
 	if (internalResult == nullptr)
 	{
 		if constexpr (axo::detail::IsScript<C>)
 		{
-			throw ComponentNotFoundException(axo::Format("Script of type {} not found", std::string(typeid(C).name())));
+			throw ComponentNotFoundException(axo::Format("Script of type {} not found", typeName));
 		}
 		else
 		{
-			throw ComponentNotFoundException(axo::Format("Component of type {} not found", std::string(typeid(C).name())));
+			throw ComponentNotFoundException(axo::Format("Component of type {} not found", typeName));
+		}
+	}
+	if constexpr (axo::detail::IsScript<C>)
+	{
+		if (internalResult->GetContainer()->HasFailed())
+		{
+			throw AccessingFailedScriptException(axo::Format(
+				"Trying to access a script of type {} that has raised an exception during its execution!", typeName));
 		}
 	}
 	return internalResult;
