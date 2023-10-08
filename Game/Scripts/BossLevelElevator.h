@@ -7,6 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform;
 class ComponentRigidBody;
+class ComponentAudioSource;
 
 enum class ElevatorState
 {
@@ -31,6 +32,9 @@ public:
 	void Update(float deltaTime) override;
 
 	void ChangeMovementState(ElevatorState newState);
+	void AttachEnemies(GameObject* enemyOne, GameObject* enemyTwo);
+	void SetDisableInteractionsEnemies(const GameObject* enemy, bool interactions,
+		bool setStaticRigidBody);
 
 private:
 	void MoveDown(float deltaTime);
@@ -42,6 +46,7 @@ private:
 	float cooldownTime;
 	float currentTime;
 	bool fencesDown;
+	bool hasEnemies;
 
 	float initialPos;
 	float finalPos;
@@ -52,7 +57,10 @@ private:
 	ElevatorState elevatorState;
 	PositionState positionState;
 
+	ComponentAudioSource* componentAudio;
 	ComponentTransform* transform;
 	ComponentRigidBody* platformRigidBody;
 	ComponentTransform* fencesTransform;
+	ComponentTransform* enemyOnePosition;
+	ComponentTransform* enemyTwoPosition;
 };

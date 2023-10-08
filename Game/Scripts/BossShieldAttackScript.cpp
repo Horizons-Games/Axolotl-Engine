@@ -12,6 +12,7 @@
 
 #include "../Scripts/EnemyClass.h"
 #include "../Scripts/BossShieldScript.h"
+#include "../Scripts/BossShieldEnemiesSpawner.h"
 #include "../Scripts/EnemyDroneScript.h"
 #include "../Scripts/EnemyVenomiteScript.h"
 #include "../Scripts/HealthSystem.h"
@@ -37,6 +38,8 @@ BossShieldAttackScript::BossShieldAttackScript() : Script(), bossShieldObject(nu
 	REGISTER_FIELD(battleArenaAreaSize, ComponentRigidBody*);
 
 	REGISTER_FIELD(initsPaths, std::vector<GameObject*>);
+
+	REGISTER_FIELD(manageEnemySpawner, bool);
 }
 
 void BossShieldAttackScript::Init()
@@ -58,6 +61,7 @@ void BossShieldAttackScript::Start()
 	}
 
 	healthSystemScript = owner->GetComponent<HealthSystem>();
+	bossShieldEnemiesSpawner = owner->GetComponent<BossShieldEnemiesSpawner>();
 }
 
 void BossShieldAttackScript::Update(float deltaTime)
@@ -80,6 +84,7 @@ void BossShieldAttackScript::TriggerShieldAttack()
 
 	bossShieldObject->ActivateShield();
 	healthSystemScript->SetIsImmortal(true);
+	bossShieldEnemiesSpawner->StartSpawner();
 
 	isShielding = true;
 	shieldAttackCooldown = shieldAttackMaxCooldown;
@@ -122,6 +127,12 @@ void BossShieldAttackScript::ManageShield(float deltaTime)
 void BossShieldAttackScript::ManageEnemiesSpawning(float deltaTime)
 {
 	if (!triggerEnemySpawning)
+	{
+		return;
+	}
+
+	// The final boss has a script that manage the spawning
+	if (!manageEnemySpawner)
 	{
 		return;
 	}
@@ -176,6 +187,7 @@ void BossShieldAttackScript::DisableShielding()
 	bossShieldObject->DeactivateShield();
 
 	healthSystemScript->SetIsImmortal(false);
+	bossShieldEnemiesSpawner->StopSpawner();
 
 	triggerShieldAttackCooldown = true;
 	triggerEnemySpawning = false;

@@ -5,6 +5,8 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class BossLevelElevator;
+
 class BossShieldEnemiesSpawner : public Script
 {
 public:
@@ -14,9 +16,16 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
+	void StartSpawner();
+	void StopSpawner();
+
 private:
+	GameObject* SelectRandomEnemy();
 
 	GameObject* enemiesToSpawnParent;
 	std::vector<GameObject*> enemiesReadyToSpawn;
 	std::vector<GameObject*> enemiesNotReadyToSpawn;
+
+	BossLevelElevator* elevatorOne;
+	BossLevelElevator* elevatorTwo;
 };

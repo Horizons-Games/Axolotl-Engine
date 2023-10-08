@@ -4,19 +4,26 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentAudioSource.h"
+
+#include "EnemyDroneScript.h"
+#include "EnemyVenomiteScript.h"
+
+#include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(BossLevelElevator);
 
 BossLevelElevator::BossLevelElevator() : Script(),
-elevatorState(ElevatorState::ACTIVE), positionState(PositionState::DOWN)
+componentAudio(nullptr), elevatorState(ElevatorState::INACTIVE), positionState(PositionState::DOWN)
 {
-	//REGISTER_FIELD(enemiesToSpawnParent, GameObject*);
 	REGISTER_FIELD(finalPos, float);
 	REGISTER_FIELD(fencesFinalPos, float);
 	REGISTER_FIELD(moveSpeed, float);
 	REGISTER_FIELD(cooldownTime, float);
 	REGISTER_FIELD(platformRigidBody, ComponentRigidBody*);
 	REGISTER_FIELD(fencesTransform, ComponentTransform*);
+	REGISTER_FIELD(enemyOnePosition, ComponentTransform*);
+	REGISTER_FIELD(enemyTwoPosition, ComponentTransform*);
 }
 
 void BossLevelElevator::Start()
@@ -30,6 +37,8 @@ void BossLevelElevator::Start()
 	}
 
 	currentTime = 0.0f;
+
+	componentAudio = owner->GetComponent<ComponentAudioSource>();
 }
 
 void BossLevelElevator::Update(float deltaTime)
@@ -160,4 +169,36 @@ void BossLevelElevator::ResetElevator()
 	transform->RecalculateLocalMatrix();
 	transform->UpdateTransformMatrices();
 	platformRigidBody->UpdateRigidBody();
+}
+
+
+void BossLevelElevator::AttachEnemies(GameObject* enemyOne, GameObject* enemyTwo)
+{
+	ComponentTransform* enemyOneTransform = enemyOne->GetComponent<ComponentTransform>();
+	ComponentTransform* enemyTwoTransform = enemyTwo->GetComponent<ComponentTransform>();
+
+	enemyOneTransform->SetGlobalPosition(enemyOnePosition->GetGlobalPosition());
+	enemyTwoTransform->SetGlobalPosition(enemyTwoPosition->GetGlobalPosition());
+
+	SetDisableInteractionsEnemies(enemyOne, false, false);
+	SetDisableInteractionsEnemies(enemyTwo, false, false);
+
+	hasEnemies = true;
+}
+
+void BossLevelElevator::SetDisableInteractionsEnemies(const GameObject* enemy, bool interactions,
+	bool setStaticRigidBody)
+{
+	if (enemy->HasComponent<EnemyVenomiteScript>())
+	{
+		enemy->GetComponentInternal<ComponentRigidBody>()->SetIsStatic(setStaticRigidBody);
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
+		enemy->GetComponent<EnemyVenomiteScript>()->ParalyzeEnemy(interactions);
+	}
+	else if (enemy->HasComponent<EnemyDroneScript>())
+	{
+		enemy->GetComponentInternal<ComponentRigidBody>()->SetIsStatic(setStaticRigidBody);
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
+		enemy->GetComponent<EnemyDroneScript>()->ParalyzeEnemy(interactions);
+	}
 }
