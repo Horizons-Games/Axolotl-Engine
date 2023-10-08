@@ -16,7 +16,8 @@ REGISTERCLASS(PathBehaviourScript);
 
 PathBehaviourScript::PathBehaviourScript() : Script(),
 		aiMovement(nullptr), currentWayPoint(0), pathFinished(false),
-		agentComp(nullptr), agentVelocity(300.0f), isInmortal(true)
+		agentComp(nullptr), agentVelocity(300.0f), isInmortal(true),
+		axisX(false), axisZ(false), axisXMaxPos(0.f), axisZMaxPos(0.f)
 {
 	REGISTER_FIELD(waypointsPath, std::vector<ComponentTransform*>);
 	REGISTER_FIELD(agentVelocity, float);
@@ -54,6 +55,7 @@ void PathBehaviourScript::Update(float deltaTime)
 			rigidBody->SetIsKinematic(true);
 			rigidBody->SetUpMobility();
 			agentComp->AddAgentToCrowd();
+			agentComp->Enable();
 			// The agent speed need to be alot less that the speed we use to move with rigidbody
 			aiMovement->SetMovementSpeed(5.0f);
 			aiMovement->SetMovementStatuses(true, true);
@@ -71,7 +73,6 @@ void PathBehaviourScript::Update(float deltaTime)
 void PathBehaviourScript::StartPath() const
 {
 	float3 target = waypointsPath[currentWayPoint]->GetGlobalPosition();
-
 	if (isInmortal)
 	{
 		enemyHealth->SetIsImmortal(true);
@@ -79,11 +80,12 @@ void PathBehaviourScript::StartPath() const
 	rigidBody->Enable();
 	rigidBody->SetUpMobility();
 	rigidBody->SetIsKinematic(false);
+	agentComp->Disable();
 	agentComp->RemoveAgentFromCrowd();
-	aiMovement->SetTargetPosition(target);
-	aiMovement->SetRotationTargetPosition(target);
 	aiMovement->SetMovementSpeed(agentVelocity);
 	aiMovement->SetMovementStatuses(true, true);
+	aiMovement->SetTargetPosition(target);
+	aiMovement->SetRotationTargetPosition(target);
 }
 
 void PathBehaviourScript::NextPath()
@@ -92,7 +94,7 @@ void PathBehaviourScript::NextPath()
 
 	float3 target;
 
-	if (currentWayPoint == waypointsPath.size() - 1)
+	if (currentWayPoint == (waypointsPath.size() - 1) && (axisX || axisZ))
 	{
 		if (axisX)
 		{
@@ -118,7 +120,6 @@ void PathBehaviourScript::NextPath()
 	{
 		target = waypointsPath[currentWayPoint]->GetGlobalPosition();
 	}
-
 	aiMovement->SetTargetPosition(target);
 	aiMovement->SetRotationTargetPosition(target);
 }
@@ -138,7 +139,6 @@ bool PathBehaviourScript::IsPathFinished() const
 void PathBehaviourScript::SetNewPath(GameObject* nPath)
 {
 	std::list<GameObject*> nPathChildren = nPath->GetAllDescendants();
-
 	waypointsPath.clear();
 	waypointsPath.reserve(nPathChildren.size()-1);
 	nPathChildren.erase(nPathChildren.begin());

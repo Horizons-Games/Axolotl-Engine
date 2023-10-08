@@ -148,8 +148,6 @@ void BossShieldAttackScript::ManageEnemiesSpawning(float deltaTime)
 
 		if (selectedEnemy != nullptr)
 		{
-			LOG_INFO("Enemy: {}", selectedEnemy->GetName());
-			LOG_INFO("In pos: {}, {}, {}", selectedPosition.x, selectedPosition.y , selectedPosition.z);
 			SpawnEnemyInPosition(selectedEnemy, selectedPosition);
 		}
 		else
@@ -206,6 +204,12 @@ GameObject* BossShieldAttackScript::SelectEnemyToSpawn()
 
 	EnemyClass* enemyClass = selectedEnemy->GetComponent<EnemyClass>();
 
+	if (!initsPaths.empty())
+	{
+		selectedEnemy->GetComponent<PathBehaviourScript>()->SetNewPath(initsPaths[currentPath]);
+		currentPath = (currentPath + 1) % initsPaths.size();
+	}
+
 	if (enemyClass->NeedsToBeReset())
 	{
 		if (enemyClass->GetEnemyType() == EnemyTypes::DRONE)
@@ -223,12 +227,6 @@ GameObject* BossShieldAttackScript::SelectEnemyToSpawn()
 	enemiesReadyToSpawn.erase(enemiesReadyToSpawn.begin() + randomEnemyIndex);
 
 	enemiesNotReadyToSpawn.push_back(selectedEnemy);
-
-	if (!initsPaths.empty())
-	{
-		selectedEnemy->GetComponent<PathBehaviourScript>()->SetNewPath(initsPaths[currentPath]);
-		currentPath = (currentPath + 1) % initsPaths.size();
-	}
 
 	return selectedEnemy;
 }

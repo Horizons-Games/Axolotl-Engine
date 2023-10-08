@@ -58,7 +58,7 @@ void AIMovement::Update(float deltaTime)
 
 	//RotateToTarget(deltaTime);
 
-	CheckIfHasArrived();
+	//CheckIfHasArrived();
 }
 
 void AIMovement::MoveToTarget(float deltaTime)
@@ -199,7 +199,10 @@ void AIMovement::SetMovementStatuses(bool activateMovement, bool activateRotatio
 
 bool AIMovement::GetIsAtDestiny()
 {
-	return isAtDestiny;
+	float2 currentPos = float2(componentTransform->GetGlobalPosition().x, componentTransform->GetGlobalPosition().z);
+	float2 destinyPos = float2(targetPosition.x, targetPosition.z);
+
+	return currentPos.Distance(destinyPos) < targetPositionOffset;
 }
 
 void AIMovement::CheckIfHasArrived()
