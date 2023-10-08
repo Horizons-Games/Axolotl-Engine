@@ -232,7 +232,7 @@ void ComponentRigidBody::UpdateRigidBodyTranslation()
 
 void ComponentRigidBody::SetUpMobility()
 {
-	RemoveRigidBodyFromSimulation();
+	RemoveRigidBodyFromDynamics();
 	if (isKinematic)
 	{
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DYNAMIC_OBJECT);
@@ -263,7 +263,7 @@ void ComponentRigidBody::SetUpMobility()
 		rigidBody->getCollisionShape()->calculateLocalInertia(mass, localInertia);
 		rigidBody->setMassProps(mass, localInertia);
 	}
-	AddRigidBodyToSimulation();
+	AddRigidBodyToDynamics();
 }
 
 void ComponentRigidBody::SetCollisionShape(Shape newShape)
@@ -379,27 +379,32 @@ void ComponentRigidBody::InternalLoad(const Json& meta)
 
 void ComponentRigidBody::SignalEnable()
 {
-	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
-	rigidBody->setGravity(gravity);
+	AddRigidBodyToDynamics();
 }
 
 void ComponentRigidBody::SignalDisable()
 {
+	RemoveRigidBodyFromDynamics();
+}
+
+void ComponentRigidBody::RemoveRigidBodyFromDynamics()
+{
 	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
+}
+
+void ComponentRigidBody::AddRigidBodyToDynamics()
+{
+	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
+	rigidBody->setGravity(gravity);
 }
 
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 {
-	//App->GetModule<ModulePhysics>()->RemoveRigidBodyFromSimulation(rigidBody.get());
-	//App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
 	isInCollisionWorld = false;
 }
 
 void ComponentRigidBody::AddRigidBodyToSimulation()
 {
-	//App->GetModule<ModulePhysics>()->AddRigidBodyToSimulation(rigidBody.get());
-	//App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
-	//rigidBody->setGravity(gravity);
 	isInCollisionWorld = true;
 }
 
