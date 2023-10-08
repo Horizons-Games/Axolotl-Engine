@@ -40,7 +40,7 @@ public:
 
 	bool IsAttackAvailable() const;
 	bool IsMelee() const;
-	bool IsPerfomingJumpAttack() const;
+	bool IsPerformingJumpAttack() const;
 
 	bool CanAttack() const;
 	void SetCanAttack(bool canAttack);
