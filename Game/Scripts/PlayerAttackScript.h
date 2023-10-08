@@ -39,7 +39,7 @@ public:
 	void SetIsDeathTouched(bool isDeathTouch);
 
 	bool IsAttackAvailable() const;
-	bool IsMeleeAvailable() const;
+	bool IsMelee() const;
 	bool IsPerfomingJumpAttack() const;
 
 	bool CanAttack() const;

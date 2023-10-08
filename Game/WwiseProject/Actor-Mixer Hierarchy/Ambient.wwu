@@ -18,7 +18,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-26</Value>
+										<Value>-18</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -45,9 +45,10 @@
 						</Sound>
 						<Sound Name="sfx_ambient_sewers_002" ID="{74226EE3-00E2-4D87-ABC8-32B41B5F7C9F}" ShortID="1016498957">
 							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-14</Value>
+										<Value>-10</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -217,15 +218,19 @@
 						<Sound Name="Canteen" ID="{3F377179-0876-4206-9739-CF1EBD29ADB5}" ShortID="919563779">
 							<PropertyList>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverrideEffect" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-9</Value>
+										<Value>-7</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="Effect0" PluginName="Wwise Matrix Reverb" CompanyID="0" PluginID="115" PluginType="3">
+									<ObjectRef Name="Medium_Room1" ID="{71B802A7-03E2-4998-B241-B2B84FE9DDFF}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
 								</Reference>
 								<Reference Name="OutputBus">
 									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
@@ -343,7 +348,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>-7</Value>
 									</ValueList>
 									<ModifierList>
 										<ModifierInfo>
@@ -376,11 +381,6 @@
 						<Sound Name="sfx_ambient_water_falling" ID="{D6903838-2624-410D-AAAA-BA42F370F95E}" ShortID="931862167">
 							<PropertyList>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-4</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">

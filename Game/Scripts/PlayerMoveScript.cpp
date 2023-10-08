@@ -196,7 +196,14 @@ void PlayerMoveScript::Move(float deltaTime)
 	}
 	else if (playerManager->GetPlayerState() == PlayerActions::IDLE && !totalDirection.IsZero())
 	{
-		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK);
+		if (playerAttackScript->IsMelee())
+		{
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_BIX_METAL);
+		}
+		else
+		{
+			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_ALLURA_METAL);
+		}
 		componentAnimation->SetParameter("IsRunning", true);
 		playerManager->SetPlayerState(PlayerActions::WALKING);
 	}
@@ -312,7 +319,7 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 
 		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 
-		if (playerAttackScript->IsMeleeAvailable())
+		if (playerAttackScript->IsMelee())
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DASH);
 		}

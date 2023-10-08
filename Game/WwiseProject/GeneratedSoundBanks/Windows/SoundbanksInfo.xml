@@ -9,10 +9,14 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{1B4C5242-A338-D5F2-4352-8D1E82A1B9D2}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{CBEB31D9-88CE-9C6A-EDC7-4A4AE39E1DD0}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
+				<File Id="68185993" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Canteen.wav</ShortName>
+					<CachePath>SFX/Canteen_4B134FD5.wem</CachePath>
+				</File>
 				<File Id="106158711" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>cantina_music.wav</ShortName>
 					<CachePath>SFX/cantina_music_D79FB2B7.wem</CachePath>
@@ -35,7 +39,7 @@
 				</File>
 				<File Id="699998174" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_ambient_sewers_002.wav</ShortName>
-					<CachePath>SFX/sfx_ambient_sewers_002_10C4C929.wem</CachePath>
+					<CachePath>SFX/sfx_ambient_sewers_002_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="739829471" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_ambient_turbine.wav</ShortName>
@@ -50,27 +54,30 @@
 				<Custom>
 					<Plugin Id="829913711" Name="Matrix Reverb (Custom)" LibName="Wwise Matrix Reverb" LibId="7536643"/>
 				</Custom>
+				<ShareSets>
+					<Plugin Id="1904434771" Name="Medium_Room1" LibName="Wwise Matrix Reverb" LibId="7536643"/>
+				</ShareSets>
 			</Plugins>
 			<Events>
 				<Event Id="3747747529" Name="ambient_cantina_stop">
 					<MediaRefs>
-						<MediaRef Id="106158711"/>
+						<MediaRef Id="68185993"/>
 						<MediaRef Id="652056130"/>
 					</MediaRefs>
 					<PluginRefs>
-						<Custom>
-							<PluginRef Id="829913711"/>
-						</Custom>
+						<ShareSets>
+							<PluginRef Id="1904434771"/>
+						</ShareSets>
 					</PluginRefs>
 				</Event>
 				<Event Id="2455846751" Name="cantina_music">
 					<MediaRefs>
-						<MediaRef Id="106158711"/>
+						<MediaRef Id="68185993"/>
 					</MediaRefs>
 					<PluginRefs>
-						<Custom>
-							<PluginRef Id="829913711"/>
-						</Custom>
+						<ShareSets>
+							<PluginRef Id="1904434771"/>
+						</ShareSets>
 					</PluginRefs>
 				</Event>
 				<Event Id="3718347529" Name="sewers_ambient">
@@ -96,6 +103,28 @@
 				<Event Id="3108491752" Name="sfx_bigDoor_open">
 					<MediaRefs>
 						<MediaRef Id="789177941"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3620056585" Name="sfx_sewers_ambient">
+					<MediaRefs>
+						<MediaRef Id="397861920"/>
+						<MediaRef Id="699998174"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3476965308" Name="sfx_sewers_ambient_stop">
+					<MediaRefs>
+						<MediaRef Id="397861920"/>
+						<MediaRef Id="699998174"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="109215266" Name="sfx_turbine">
+					<MediaRefs>
+						<MediaRef Id="739829471"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4023591154" Name="sfx_water_falling">
+					<MediaRefs>
+						<MediaRef Id="263142635"/>
 					</MediaRefs>
 				</Event>
 			</Events>
@@ -259,7 +288,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{244BFCA4-7DA9-3941-5F17-10230DF8BFB4}">
+		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{853C53E4-B4AF-C743-C3D2-DEAAF55C39C8}">
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
 			<Media>
@@ -335,10 +364,6 @@
 					<ShortName>sfx_character_bix_attack_5.wav</ShortName>
 					<CachePath>SFX/sfx_character_bix_attack_5_10C4C929.wem</CachePath>
 				</File>
-				<File Id="268604586" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_footsteps_run_01.wav</ShortName>
-					<CachePath>SFX/sfx_footsteps_run_01_D79FB2B7.wem</CachePath>
-				</File>
 				<File Id="273760872" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_character_walk_on_water_6.wav</ShortName>
 					<CachePath>SFX/sfx_character_walk_on_water_6_770B041C.wem</CachePath>
@@ -402,10 +427,6 @@
 				<File Id="543603444" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_character_allura_damage_2.wav</ShortName>
 					<CachePath>SFX/sfx_character_allura_damage_2_10C4C929.wem</CachePath>
-				</File>
-				<File Id="545082851" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_footsteps_walk_01.wav</ShortName>
-					<CachePath>SFX/sfx_footsteps_walk_01_C5579977.wem</CachePath>
 				</File>
 				<File Id="547008502" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_character_walk_on_water_3.wav</ShortName>
@@ -523,10 +544,6 @@
 					<ShortName>sfx_character_allura_damage_3.wav</ShortName>
 					<CachePath>SFX/sfx_character_allura_damage_3_10C4C929.wem</CachePath>
 				</File>
-				<File Id="984190717" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_footsteps_crouch_01.wav</ShortName>
-					<CachePath>SFX/sfx_footsteps_crouch_01_D79FB2B7.wem</CachePath>
-				</File>
 				<File Id="1004966524" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>512818-Alien-Game-Weapon-Electric-Pistol-Shot-2-Glitchy-SciFi-Impact-Hit-Hard.wav</ShortName>
 					<CachePath>SFX/512818-Alien-Game-Weapon-Electric-Pistol-Shot-2-Glitchy-SciFi-Impact-Hit-Hard_10C4C929.wem</CachePath>
@@ -556,12 +573,24 @@
 			<Events>
 				<Event Id="2024131708" Name="sfx_cannonShot_01">
 					<MediaRefs>
+						<MediaRef Id="48642924"/>
+						<MediaRef Id="199686780"/>
+						<MediaRef Id="352955650"/>
+						<MediaRef Id="428153373"/>
 						<MediaRef Id="434555254"/>
+						<MediaRef Id="744647046"/>
+						<MediaRef Id="749840917"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="485375983" Name="sfx_chargedShot_01">
 					<MediaRefs>
+						<MediaRef Id="48642924"/>
+						<MediaRef Id="199686780"/>
+						<MediaRef Id="352955650"/>
+						<MediaRef Id="428153373"/>
 						<MediaRef Id="653886955"/>
+						<MediaRef Id="744647046"/>
+						<MediaRef Id="749840917"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="1494651949" Name="sfx_dash_01">
@@ -581,38 +610,92 @@
 				</Event>
 				<Event Id="647605479" Name="sfx_electricShot_shot_01">
 					<MediaRefs>
+						<MediaRef Id="48642924"/>
+						<MediaRef Id="199686780"/>
+						<MediaRef Id="352955650"/>
+						<MediaRef Id="428153373"/>
 						<MediaRef Id="727797297"/>
+						<MediaRef Id="744647046"/>
+						<MediaRef Id="749840917"/>
 						<MediaRef Id="1004966524"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="4185882835" Name="sfx_footsteps_crouch_01">
+				<Event Id="4168143638" Name="sfx_falling_metal">
 					<MediaRefs>
-						<MediaRef Id="984190717"/>
+						<MediaRef Id="2888985"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3824416186" Name="sfx_footsteps_crouch_stop">
+				<Event Id="959569938" Name="sfx_falling_water">
 					<MediaRefs>
-						<MediaRef Id="984190717"/>
+						<MediaRef Id="311306785"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2355582310" Name="sfx_footsteps_run_01">
+				<Event Id="3223239512" Name="sfx_footsteps_walk_Allura_metal">
 					<MediaRefs>
-						<MediaRef Id="268604586"/>
+						<MediaRef Id="72572141"/>
+						<MediaRef Id="141647910"/>
+						<MediaRef Id="586915511"/>
+						<MediaRef Id="660867367"/>
+						<MediaRef Id="713684130"/>
+						<MediaRef Id="1026398387"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3050257279" Name="sfx_footsteps_run_stop">
+				<Event Id="3739079964" Name="sfx_footsteps_walk_Allura_water">
 					<MediaRefs>
-						<MediaRef Id="268604586"/>
+						<MediaRef Id="141902627"/>
+						<MediaRef Id="173667425"/>
+						<MediaRef Id="181365515"/>
+						<MediaRef Id="273760872"/>
+						<MediaRef Id="864397673"/>
+						<MediaRef Id="931459480"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="4171386676" Name="sfx_footsteps_walk_01">
+				<Event Id="1295294498" Name="sfx_footsteps_walk_Bix_metal">
 					<MediaRefs>
-						<MediaRef Id="545082851"/>
+						<MediaRef Id="71884831"/>
+						<MediaRef Id="297084385"/>
+						<MediaRef Id="434205961"/>
+						<MediaRef Id="440364367"/>
+						<MediaRef Id="898493754"/>
+						<MediaRef Id="1029106852"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2019303910" Name="sfx_footsteps_walk_Bix_water">
+					<MediaRefs>
+						<MediaRef Id="241835723"/>
+						<MediaRef Id="476744453"/>
+						<MediaRef Id="547008502"/>
+						<MediaRef Id="632838757"/>
+						<MediaRef Id="858141546"/>
+						<MediaRef Id="905786169"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="1430818805" Name="sfx_footsteps_walk_stop">
 					<MediaRefs>
-						<MediaRef Id="545082851"/>
+						<MediaRef Id="71884831"/>
+						<MediaRef Id="72572141"/>
+						<MediaRef Id="141647910"/>
+						<MediaRef Id="141902627"/>
+						<MediaRef Id="173667425"/>
+						<MediaRef Id="181365515"/>
+						<MediaRef Id="241835723"/>
+						<MediaRef Id="273760872"/>
+						<MediaRef Id="297084385"/>
+						<MediaRef Id="434205961"/>
+						<MediaRef Id="440364367"/>
+						<MediaRef Id="476744453"/>
+						<MediaRef Id="547008502"/>
+						<MediaRef Id="586915511"/>
+						<MediaRef Id="632838757"/>
+						<MediaRef Id="660867367"/>
+						<MediaRef Id="713684130"/>
+						<MediaRef Id="858141546"/>
+						<MediaRef Id="864397673"/>
+						<MediaRef Id="898493754"/>
+						<MediaRef Id="905786169"/>
+						<MediaRef Id="931459480"/>
+						<MediaRef Id="1026398387"/>
+						<MediaRef Id="1029106852"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="4238120494" Name="sfx_force">
@@ -669,7 +752,32 @@
 				<Event Id="3335399033" Name="sfx_lightsaber_swing">
 					<MediaRefs>
 						<MediaRef Id="205229415"/>
+						<MediaRef Id="223336796"/>
+						<MediaRef Id="259480324"/>
+						<MediaRef Id="666783808"/>
+						<MediaRef Id="690894541"/>
+						<MediaRef Id="767837564"/>
 						<MediaRef Id="1036642653"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1358380602" Name="sfx_receiveDamage_voice_Allura">
+					<MediaRefs>
+						<MediaRef Id="25846802"/>
+						<MediaRef Id="63167548"/>
+						<MediaRef Id="370158117"/>
+						<MediaRef Id="379312885"/>
+						<MediaRef Id="410799572"/>
+						<MediaRef Id="875997144"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2767282372" Name="sfx_receiveDamage_voice_Bix">
+					<MediaRefs>
+						<MediaRef Id="25846802"/>
+						<MediaRef Id="63167548"/>
+						<MediaRef Id="370158117"/>
+						<MediaRef Id="379312885"/>
+						<MediaRef Id="410799572"/>
+						<MediaRef Id="875997144"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="3980201878" Name="sfx_roll_01">
@@ -1197,5 +1305,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{E47A6977-A63A-BDBA-91FA-329C0CC301E9}</FileHash>
+	<FileHash>{06FF2D02-5F67-89B5-5930-919D2D36129B}</FileHash>
 </SoundBanksInfo>

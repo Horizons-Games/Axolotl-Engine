@@ -22,96 +22,6 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<Sound Name="sfx_footsteps_run_01" ID="{F5722570-3AB5-4992-A0D6-7BCDF37A3232}" ShortID="592427598">
-							<PropertyList>
-								<Property Name="3DSpatialization" Type="int16" Value="2"/>
-								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-								<Property Name="Pitch" Type="int32">
-									<ModifierList>
-										<ModifierInfo>
-											<Modifier Name="" ID="{7B840423-BE57-4709-B803-9CE335EADD37}"/>
-										</ModifierInfo>
-									</ModifierList>
-								</Property>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-8</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Attenuation">
-									<ObjectRef Name="3D Volume and Filter Attenuation" ID="{64885BBF-8496-42B3-BFF8-4DCB335E76FB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
-								</Reference>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="sfx_footsteps_run_01" ID="{E2AFB129-FED9-4A99-AB08-024AE2ABCC2D}">
-									<Language>SFX</Language>
-									<AudioFile>sfx_footsteps_run_01.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="268604586"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="sfx_footsteps_run_01" ID="{E2AFB129-FED9-4A99-AB08-024AE2ABCC2D}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="sfx_footsteps_walk_01" ID="{E834357C-45EF-456E-8D45-5866BDF807B7}" ShortID="272206565">
-							<PropertyList>
-								<Property Name="3DSpatialization" Type="int16" Value="2"/>
-								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-								<Property Name="Pitch" Type="int32">
-									<ModifierList>
-										<ModifierInfo>
-											<Modifier Name="" ID="{11DD5F58-03FB-416C-B4A1-70503B4A99FA}">
-												<PropertyList>
-													<Property Name="Max" Type="Real64" Value="1160"/>
-													<Property Name="Min" Type="Real64" Value="-1109"/>
-												</PropertyList>
-											</Modifier>
-										</ModifierInfo>
-									</ModifierList>
-								</Property>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-8</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Attenuation">
-									<ObjectRef Name="3D Volume and Filter Attenuation" ID="{64885BBF-8496-42B3-BFF8-4DCB335E76FB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
-								</Reference>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="sfx_footsteps_walk_01" ID="{62687DA4-6181-499D-9E07-FE682AD3E1A4}">
-									<PropertyList>
-										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-									</PropertyList>
-									<Language>SFX</Language>
-									<AudioFile>sfx_footsteps_walk_01.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="545082851"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="sfx_footsteps_walk_01" ID="{62687DA4-6181-499D-9E07-FE682AD3E1A4}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
 						<Sound Name="sfx_doubleJump_whoosh-001" ID="{78D28486-0A38-4D4D-9365-4A7B3421397E}" ShortID="96484205">
 							<PropertyList>
 								<Property Name="Pitch" Type="int32">
@@ -129,7 +39,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-10</Value>
+										<Value>-14</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -171,7 +81,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-6</Value>
+										<Value>-8</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -215,7 +125,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-8</Value>
+										<Value>-11</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -238,36 +148,6 @@
 							</ChildrenList>
 							<ActiveSourceList>
 								<ActiveSource Name="sfx_dash_whoosh-001" ID="{30580A0D-7331-4C72-8100-33BB14FD4872}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="sfx_footsteps_crouch_01" ID="{7E1C081E-DCB6-488C-A07C-C6BA7C2819D4}" ShortID="554793709">
-							<PropertyList>
-								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-3</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="sfx_footsteps_crouch_01" ID="{9D2917F4-4AA3-4FC4-B39F-572F241DEC7D}">
-									<Language>SFX</Language>
-									<AudioFile>sfx_footsteps_crouch_01.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="984190717"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="sfx_footsteps_crouch_01" ID="{9D2917F4-4AA3-4FC4-B39F-572F241DEC7D}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 						<RandomSequenceContainer Name="sfx_dash_roll-001" ID="{26BABE3F-E7D4-4E2B-B3B8-F975481BC600}" ShortID="437426474">
@@ -377,6 +257,11 @@
 								</Property>
 								<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
 								<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-7</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -555,7 +440,7 @@
 								</Sound>
 							</ChildrenList>
 						</RandomSequenceContainer>
-						<RandomSequenceContainer Name="sfx_footsteps_Allura_walk_metal_01" ID="{91A29D3B-D6ED-4A57-B037-35FD2C644FAC}" ShortID="167583330">
+						<RandomSequenceContainer Name="sfx_footsteps_Allura_walk_metal" ID="{91A29D3B-D6ED-4A57-B037-35FD2C644FAC}" ShortID="167583330">
 							<PropertyList>
 								<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
 								<Property Name="Pitch" Type="int32">
@@ -572,6 +457,11 @@
 								</Property>
 								<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
 								<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-7</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -807,6 +697,11 @@
 								</Property>
 								<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
 								<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-7</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -998,6 +893,11 @@
 								</Property>
 								<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
 								<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-7</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1187,6 +1087,11 @@
 										</ModifierInfo>
 									</ModifierList>
 								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-7</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1223,6 +1128,11 @@
 											</Modifier>
 										</ModifierInfo>
 									</ModifierList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-7</Value>
+									</ValueList>
 								</Property>
 							</PropertyList>
 							<ReferenceList>
@@ -1486,7 +1396,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-21</Value>
+										<Value>-36</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1539,7 +1449,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-20</Value>
+										<Value>-23</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1956,6 +1866,11 @@
 						<RandomSequenceContainer Name="sfx_attack_voice_allura" ID="{715F733C-1E5E-4A12-BE39-0B3D5311A0AD}" ShortID="946285658">
 							<PropertyList>
 								<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-7</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -2103,6 +2018,11 @@
 						<RandomSequenceContainer Name="sfx_attack_voice_bix" ID="{8A3D40DA-67EA-441C-B0E9-645C48895EC9}" ShortID="88306711">
 							<PropertyList>
 								<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-8</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -2228,6 +2148,11 @@
 						<RandomSequenceContainer Name="sfx_receiveDamage_voice_allura" ID="{2098AB34-416B-41DC-A220-3BD1EA974524}" ShortID="895513572">
 							<PropertyList>
 								<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-4</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -2375,6 +2300,11 @@
 						<RandomSequenceContainer Name="sfx_receiveDamage_voice_bix" ID="{77B407EF-1895-4311-995A-A1114B2FD4FA}" ShortID="814799748">
 							<PropertyList>
 								<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-5</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
