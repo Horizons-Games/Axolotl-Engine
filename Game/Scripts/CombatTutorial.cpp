@@ -58,7 +58,7 @@ void CombatTutorial::Update(float deltaTime)
 		tutorialUI->UnDeployUI();
 		dummyHealthSystem->SetIsImmortal(true);
 		
-		if (tutorialUI->GetTutorialCurrentState() == int(tutorialUI->GetNumControllableState()))
+		if (tutorialUI->GetTutorialCurrentState() == static_cast<int>(tutorialUI->GetNumControllableState()))
 		{
 			dummyHealthSystem->SetIsImmortal(false);
 			userControllable = false;
