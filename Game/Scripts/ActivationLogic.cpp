@@ -145,7 +145,6 @@ void ActivationLogic::NextInTheList()
 {
 	elevator->SetBooked(true);
 	elevator->SetDisableInteractionsEnemies(enemisWating[0],false, false, false);
-	LOG_DEBUG("entro {}", enemisWating[0]->GetName());
 	enemisWating.erase(enemisWating.begin());
 	componentAnimation->SetParameter("IsActive", true);
 	componentRigidBody->Disable();

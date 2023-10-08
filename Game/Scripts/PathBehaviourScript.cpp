@@ -72,7 +72,6 @@ void PathBehaviourScript::Update(float deltaTime)
 void PathBehaviourScript::StartPath() const
 {
 	float3 target = waypointsPath[currentWayPoint]->GetGlobalPosition();
-
 	if (isInmortal)
 	{
 		enemyHealth->SetIsImmortal(true);
@@ -81,10 +80,10 @@ void PathBehaviourScript::StartPath() const
 	rigidBody->SetUpMobility();
 	rigidBody->SetIsKinematic(false);
 	agentComp->RemoveAgentFromCrowd();
-	aiMovement->SetTargetPosition(target);
-	aiMovement->SetRotationTargetPosition(target);
 	aiMovement->SetMovementSpeed(agentVelocity);
 	aiMovement->SetMovementStatuses(true, true);
+	aiMovement->SetTargetPosition(target);
+	aiMovement->SetRotationTargetPosition(target);
 }
 
 void PathBehaviourScript::NextPath()
@@ -119,7 +118,6 @@ void PathBehaviourScript::NextPath()
 	{
 		target = waypointsPath[currentWayPoint]->GetGlobalPosition();
 	}
-
 	aiMovement->SetTargetPosition(target);
 	aiMovement->SetRotationTargetPosition(target);
 }
@@ -139,7 +137,6 @@ bool PathBehaviourScript::IsPathFinished() const
 void PathBehaviourScript::SetNewPath(GameObject* nPath)
 {
 	std::list<GameObject*> nPathChildren = nPath->GetAllDescendants();
-
 	waypointsPath.clear();
 	waypointsPath.reserve(nPathChildren.size()-1);
 	nPathChildren.erase(nPathChildren.begin());

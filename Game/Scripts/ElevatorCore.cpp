@@ -43,7 +43,6 @@ goTransform(nullptr), go(nullptr)
 
 void ElevatorCore::Start()
 {
-	LOG_DEBUG("Name of object {}", owner->GetName());
 	componentAudio = owner->GetComponent<ComponentAudioSource>();
 	GameObject::GameObjectView children = owner->GetChildren();
 	auto childWithRigid = std::find_if(std::begin(children),
@@ -211,7 +210,6 @@ void ElevatorCore::MoveDownElevator(bool isGOInside, float deltaTime)
 
 void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 {
-	LOG_DEBUG("{} enters in CollisionEnter of ElevatorCore", other->GetOwner());
 	if (!App->GetModule<ModuleScene>()->GetLoadedScene()->GetCombatMode() 
 		&& activeState == ActiveActionsElevator::INACTIVE)
 	{
