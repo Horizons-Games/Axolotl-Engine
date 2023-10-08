@@ -55,6 +55,7 @@ void PathBehaviourScript::Update(float deltaTime)
 			rigidBody->SetIsKinematic(true);
 			rigidBody->SetUpMobility();
 			agentComp->AddAgentToCrowd();
+			agentComp->Enable();
 			// The agent speed need to be alot less that the speed we use to move with rigidbody
 			aiMovement->SetMovementSpeed(5.0f);
 			aiMovement->SetMovementStatuses(true, true);
@@ -79,6 +80,7 @@ void PathBehaviourScript::StartPath() const
 	rigidBody->Enable();
 	rigidBody->SetUpMobility();
 	rigidBody->SetIsKinematic(false);
+	agentComp->Disable();
 	agentComp->RemoveAgentFromCrowd();
 	aiMovement->SetMovementSpeed(agentVelocity);
 	aiMovement->SetMovementStatuses(true, true);
