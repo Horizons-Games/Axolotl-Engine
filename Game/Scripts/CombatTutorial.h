@@ -35,10 +35,12 @@ private:
 	bool nextStateActive;
 	bool tutorialFinished;
 	float finalWaitTime;
+	float finalTotalWaitTime;
 
 	GameObject* player;
 	GameObject* combatTutorialUI;
 	GameObject* debugPowerUp;
+	
 
 	ModuleInput* input;
 	ComponentAudioSource* componentAudio;

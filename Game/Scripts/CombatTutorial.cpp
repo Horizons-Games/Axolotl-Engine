@@ -30,12 +30,15 @@
 REGISTERCLASS(CombatTutorial);
 
 CombatTutorial::CombatTutorial() : Script(), combatDummy(nullptr), userControllable(false), combatTutorialUI(nullptr), 
-debugPowerUp(nullptr), finalWaitTime(2.0f), tutorialActivable(false), nextStateActive(true)
+debugPowerUp(nullptr), finalWaitTime(5.0f), finalTotalWaitTime(5.0f),tutorialActivable(false), nextStateActive(true)
 {
 	REGISTER_FIELD(combatDummy, GameObject*);
 	REGISTER_FIELD(userControllable, bool);
 	REGISTER_FIELD(combatTutorialUI, GameObject*);
 	REGISTER_FIELD(debugPowerUp, GameObject*);
+	REGISTER_FIELD(finalWaitTime, float);
+	REGISTER_FIELD(finalTotalWaitTime, float);
+
 }
 
 void CombatTutorial::Start()
@@ -108,11 +111,11 @@ void CombatTutorial::Update(float deltaTime)
 	else if (dummyHealthSystem->GetCurrentHealth() <= 0.0f && nextStateActive)
 	{
 		//SpecialHeavyAttack
-		LOG_INFO("Tutorial:END");
+		
 
 		tutorialUI->UnDeployUI();
 		dummyHealthSystem->SetIsImmortal(false);
-		nextStateActive = false;
+		
 
 		if (debugPowerUp != nullptr)
 		{
@@ -124,6 +127,7 @@ void CombatTutorial::Update(float deltaTime)
 
 		userControllable = true;
 		tutorialFinished = true;
+		nextStateActive = false;
 	}
 
 	if (tutorialFinished && !nextStateActive)
@@ -138,7 +142,8 @@ void CombatTutorial::Update(float deltaTime)
 		tutorialUI->UnDeployUI();
 		tutorialFinished = false;
 		tutorialActivable = false;
-		finalWaitTime = 2.0f;
+		finalWaitTime = finalTotalWaitTime;
+		LOG_INFO("Tutorial:END");
 	}
 
 }
