@@ -82,6 +82,12 @@ Scene::~Scene()
 	cachedSpheres.clear();
 	cachedTubes.clear();
 	cachedLocalIBLs.clear();
+
+	glDeleteBuffers(1, &ssboPoint);
+	glDeleteBuffers(1, &ssboSpot);
+	glDeleteBuffers(1, &ssboSphere);
+	glDeleteBuffers(1, &ssboTube);
+	glDeleteBuffers(1, &ssboLocalIBL);
 }
 
 void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
@@ -930,7 +936,10 @@ void Scene::GenerateLights()
 
 	size_t numLocalIBL = localIBLs.size();
 
-	glGenBuffers(1, &ssboLocalIBL);
+	if (ssboLocalIBL == 0)
+	{
+		glGenBuffers(1, &ssboLocalIBL);
+	}
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLocalIBL);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(LocalIBL) * numLocalIBL, nullptr, GL_DYNAMIC_DRAW);
 
