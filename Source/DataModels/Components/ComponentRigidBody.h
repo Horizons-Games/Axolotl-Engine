@@ -147,6 +147,9 @@ public:
 	void UpdateBlockedRotationAxis();
 	void SetAngularFactor(btVector3 rotation);
 
+	void RemoveRigidBodyFromDynamics();
+	void AddRigidBodyToDynamics();
+
 	void RemoveRigidBodyFromSimulation();
 	void AddRigidBodyToSimulation();
 
