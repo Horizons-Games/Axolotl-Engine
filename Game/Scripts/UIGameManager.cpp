@@ -98,14 +98,14 @@ void UIGameManager::MenuIsOpen()
 		manager->GetComponent<EnemiesManager>()->PauseEnemies(true);
 		mainMenuObject->Enable();
 		hudCanvasObject->Disable();
-		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->PausePlayer(true);
+		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->FullPausePlayer(true);
 	}
 	else
 	{
 		manager->GetComponent<EnemiesManager>()->PauseEnemies(false);
 		mainMenuObject->Disable();
 		hudCanvasObject->Enable();
-		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->PausePlayer(false);
+		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->FullPausePlayer(false);
 	}
 	player->SetMouse(menuIsOpen);
 }

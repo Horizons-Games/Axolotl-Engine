@@ -43,6 +43,7 @@ public:
 
 	void ParalyzePlayer(bool paralyzed);
 	void PausePlayer(bool paused);
+	void FullPausePlayer(bool paused);
 	void TriggerJump(bool forcedJump);
 	bool IsParalyzed() const;
 
@@ -76,5 +77,6 @@ private:
 	PlayerAttackScript* attackManager;
 	DebugGame* debugManager;
 	PlayerRotationScript* rotationManager;
-	btVector3 rigidBodyManager;
+	btVector3 rigidBodyLinearVelocity;
+	btVector3 rigidBodyGravity;
 };

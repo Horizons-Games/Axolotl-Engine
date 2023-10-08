@@ -3,6 +3,7 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentAnimation.h"
 
 #include "PlayerJumpScript.h"
 #include "PlayerRotationScript.h"
@@ -31,7 +32,8 @@ void PlayerManagerScript::Start()
 {
 	input = App->GetModule<ModuleInput>();
 
-	rigidBodyManager = owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->getLinearVelocity();
+	rigidBodyLinearVelocity = owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->getLinearVelocity();
+	rigidBodyGravity = owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->getGravity();
 	jumpManager = owner->GetComponent<PlayerJumpScript>();
 	healthManager = owner->GetComponent<HealthSystem>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
@@ -119,20 +121,34 @@ void PlayerManagerScript::TriggerJump(bool forcedJump)
 	jumpManager->SetCanJump(forcedJump);
 }
 
-void PlayerManagerScript::PausePlayer(bool paused)
+void PlayerManagerScript::FullPausePlayer(bool paused)
 {
 	btVector3 linearVelocityPlayer(0.f, 0.f, 0.f);
+	btVector3 gravityPlayer(0.f, 0.f, 0.f);
+	if (!paused)
+	{
+		linearVelocityPlayer = rigidBodyLinearVelocity;
+		gravityPlayer = rigidBodyGravity;
+		owner->GetComponent<ComponentAnimation>()->Enable();
+	}
+	else
+	{
+		rigidBodyLinearVelocity = owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->getLinearVelocity();
+		owner->GetComponent<ComponentAnimation>()->Disable();
+	}
+
+	owner->GetComponent<ComponentRigidBody>()->SetGravity(gravityPlayer);
+	owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(linearVelocityPlayer);
+	owner->GetComponent<ComponentRigidBody>()->UpdateRigidBody();
+}
+
+void PlayerManagerScript::PausePlayer(bool paused)
+{
 	ParalyzePlayer(paused);
 	healthManager->SetIsImmortal(paused);
 	attackManager->SetCanAttack(!paused);
-
-	if (!paused)
-	{
-		linearVelocityPlayer = rigidBodyManager;
-	}
-
-	owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(linearVelocityPlayer);
 }
+
 PlayerAttackScript* PlayerManagerScript::GetAttackManager() const
 {
 	return attackManager;
