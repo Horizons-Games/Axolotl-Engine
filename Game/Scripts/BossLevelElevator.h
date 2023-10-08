@@ -32,9 +32,13 @@ public:
 	void Update(float deltaTime) override;
 
 	void ChangeMovementState(ElevatorState newState);
-	void AttachEnemies(GameObject* enemyOne, GameObject* enemyTwo);
+	void AttachEnemies(GameObject* enemyOneGO, GameObject* enemyTwoGO);
 	void SetDisableInteractionsEnemies(GameObject* enemy, bool interactions,
-		bool setStaticRigidBody, bool setKinematicRigidBody);
+		bool setStaticRigidBody, bool setKinematicRigidBody, bool setTriggerRigidBody);
+	void ReleaseEnemies();
+
+	bool GetHasEnemies() const;
+	PositionState GetPositionState() const;
 
 private:
 	void MoveDown(float deltaTime);
@@ -58,9 +62,21 @@ private:
 	PositionState positionState;
 
 	ComponentAudioSource* componentAudio;
-	ComponentTransform* transform;
 	ComponentRigidBody* platformRigidBody;
+	ComponentTransform* transform;
 	ComponentTransform* fencesTransform;
 	ComponentTransform* enemyOnePosition;
 	ComponentTransform* enemyTwoPosition;
+	GameObject* enemyOne;
+	GameObject* enemyTwo;
 };
+
+inline bool BossLevelElevator::GetHasEnemies() const
+{
+	return hasEnemies;
+}
+
+inline PositionState BossLevelElevator::GetPositionState() const
+{
+	return positionState;
+}

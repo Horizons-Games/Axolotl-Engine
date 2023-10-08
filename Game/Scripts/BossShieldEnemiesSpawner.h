@@ -6,6 +6,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class BossLevelElevator;
+class BossShieldAttackScript;
 
 class BossShieldEnemiesSpawner : public Script
 {
@@ -28,4 +29,5 @@ private:
 
 	BossLevelElevator* elevatorOne;
 	BossLevelElevator* elevatorTwo;
+	BossShieldAttackScript* bossShieldAttackScript;
 };

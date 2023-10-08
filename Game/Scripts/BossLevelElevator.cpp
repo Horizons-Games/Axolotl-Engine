@@ -172,30 +172,45 @@ void BossLevelElevator::ResetElevator()
 }
 
 
-void BossLevelElevator::AttachEnemies(GameObject* enemyOne, GameObject* enemyTwo)
+void BossLevelElevator::AttachEnemies(GameObject* enemyOneGO, GameObject* enemyTwoGO)
 {
+	enemyOne = enemyOneGO;
+	enemyTwo = enemyTwoGO;
+
 	ComponentTransform* enemyOneTransform = enemyOne->GetComponent<ComponentTransform>();
 	ComponentTransform* enemyTwoTransform = enemyTwo->GetComponent<ComponentTransform>();
 
 	enemyOneTransform->SetGlobalPosition(enemyOnePosition->GetGlobalPosition());
 	enemyTwoTransform->SetGlobalPosition(enemyTwoPosition->GetGlobalPosition());
 
-	SetDisableInteractionsEnemies(enemyOne, true, true, true);
-	SetDisableInteractionsEnemies(enemyTwo, true, true, true);
+	SetDisableInteractionsEnemies(enemyOne, true, true, true, true);
+	SetDisableInteractionsEnemies(enemyTwo, true, true, true, true);
 
 	hasEnemies = true;
 }
 
+void BossLevelElevator::ReleaseEnemies()
+{
+	SetDisableInteractionsEnemies(enemyOne, false, false, true, true);
+	SetDisableInteractionsEnemies(enemyTwo, false, false, true, true);
+
+	// WIP: Move enemies with Path and activate Agent
+
+
+	hasEnemies = false;
+}
+
 void BossLevelElevator::SetDisableInteractionsEnemies(GameObject* enemy, bool interactions,
-	bool setStaticRigidBody, bool setKinematicRigidBody)
+	bool setStaticRigidBody, bool setKinematicRigidBody, bool setTriggerRigidBody)
 {
 	if (enemy->HasComponent<EnemyVenomiteScript>())
 	{
 		ComponentRigidBody* rb = enemy->GetComponentInternal<ComponentRigidBody>();
 		rb->SetIsStatic(setStaticRigidBody);
 		rb->SetIsKinematic(setKinematicRigidBody);
+		rb->SetIsTrigger(setTriggerRigidBody);
 		rb->UpdateRigidBody();
-		//enemy->Enable();
+		enemy->Enable();
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 		//enemy->GetComponent<EnemyVenomiteScript>()->ParalyzeEnemy(interactions);
 	}
@@ -205,7 +220,7 @@ void BossLevelElevator::SetDisableInteractionsEnemies(GameObject* enemy, bool in
 		rb->SetIsStatic(setStaticRigidBody);
 		rb->SetIsKinematic(setKinematicRigidBody);
 		rb->UpdateRigidBody();
-		//enemy->Enable();
+		enemy->Enable();
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 		//enemy->GetComponent<EnemyDroneScript>()->ParalyzeEnemy(interactions);
 	}

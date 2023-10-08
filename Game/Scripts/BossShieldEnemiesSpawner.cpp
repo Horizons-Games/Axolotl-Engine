@@ -7,6 +7,7 @@
 #include "Components/ComponentScript.h"
 
 #include "../Scripts/BossLevelElevator.h"
+#include "../Scripts/BossShieldAttackScript.h"
 #include "../Scripts/EnemyClass.h"
 #include "../Scripts/EnemyDroneScript.h"
 #include "../Scripts/EnemyVenomiteScript.h"
@@ -29,10 +30,30 @@ void BossShieldEnemiesSpawner::Start()
 	{
 		enemiesReadyToSpawn.push_back(enemyToSpawn);
 	}
+
+	bossShieldAttackScript = owner->GetComponent<BossShieldAttackScript>();
 }
 
 void BossShieldEnemiesSpawner::Update(float deltaTime)
 {
+	if (elevatorOne->GetHasEnemies() && elevatorOne->GetPositionState() == PositionState::UP)
+	{
+		elevatorOne->ReleaseEnemies();
+	}
+	
+	if (elevatorTwo->GetHasEnemies() && elevatorTwo->GetPositionState() == PositionState::UP)
+	{
+		elevatorTwo->ReleaseEnemies();
+	}
+
+	/*if (bossShieldAttackScript->IsAttacking())
+	{
+		if (!elevatorOne->GetHasEnemies() && !elevatorTwo->GetHasEnemies() &&
+			elevatorOne->GetPositionState() == PositionState::DOWN && elevatorTwo->GetPositionState() == PositionState::DOWN)
+		{
+			StartSpawner();
+		}
+	}*/
 }
 
 void BossShieldEnemiesSpawner::StartSpawner()
