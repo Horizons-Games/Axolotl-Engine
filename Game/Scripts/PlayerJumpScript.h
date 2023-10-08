@@ -13,6 +13,7 @@ class ComponentRigidBody;
 
 class PlayerAttackScript;
 class PlayerManagerScript;
+class PlayerMoveScript;
 
 class PlayerJumpScript : public Script
 {
@@ -51,4 +52,5 @@ private:
 
 	PlayerAttackScript* attackScript;
 	PlayerManagerScript* playerManager;
+	PlayerMoveScript* playerMove;
 };

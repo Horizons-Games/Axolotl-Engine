@@ -37,11 +37,16 @@ public:
 	void Start() override;
 	void PreUpdate(float deltaTime) override;
 
+	void OnCollisionEnter(ComponentRigidBody* other) override;
+	void OnCollisionExit(ComponentRigidBody* other) override;
+
 	void Move(float deltaTime);
 	void MoveRotate(float deltaTime);
 
 	bool IsParalyzed() const;
 	void SetIsParalyzed(bool isParalyzed);
+
+	bool IsOnWater() const;
 
 	PlayerJumpScript* GetJumpScript() const;
 
@@ -78,6 +83,8 @@ private:
 	int currentMovements;
 
 	float3 desiredRotation;
+
+	bool isOnWater;
 
 	void DashRoll(float deltaTime);
 };

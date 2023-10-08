@@ -24,9 +24,9 @@
 REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
-componentAudio(nullptr), componentAnimation(nullptr), dashForce(30.0f), 
-playerManager(nullptr), isParalyzed(false), desiredRotation(float3::zero), 
-lightAttacksMoveFactor(2.0f), heavyAttacksMoveFactor(3.0f), dashRollTime(0.0f), 
+componentAudio(nullptr), componentAnimation(nullptr), dashForce(30.0f),
+playerManager(nullptr), isParalyzed(false), desiredRotation(float3::zero), isOnWater(false),
+lightAttacksMoveFactor(2.0f), heavyAttacksMoveFactor(3.0f), dashRollTime(0.0f),
 dashRollCooldown(0.1f), timeSinceLastDash(0.0f), dashRollDuration(0.2f), totalDirection(float3::zero)
 {
 	REGISTER_FIELD(dashForce, float);
@@ -104,12 +104,12 @@ void PlayerMoveScript::Move(float deltaTime)
 
 	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD &&
 		(horizontalDirection != JoystickHorizontalDirection::NONE ||
-		verticalDirection != JoystickVerticalDirection::NONE))
+			verticalDirection != JoystickVerticalDirection::NONE))
 	{
 		cameraFrustum = *camera->GetFrustum();
 		float3 front =
 			float3(cameraFrustum.Front().Normalized().x, 0, cameraFrustum.Front().Normalized().z);
-		
+
 		float3 joystickDirection = float3(input->GetLeftJoystickMovement().horizontalMovement, 0.0f, input->GetLeftJoystickMovement().verticalMovement).Normalized();
 
 		float angle = math::Acos(joystickDirection.Dot(float3(0, 0, -1)));
@@ -172,7 +172,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		{
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			componentAnimation->SetParameter("IsRunning", false);
-			
+
 			if (playerManager->GetPlayerState() == PlayerActions::WALKING)
 			{
 				playerManager->SetPlayerState(PlayerActions::IDLE);
@@ -198,11 +198,25 @@ void PlayerMoveScript::Move(float deltaTime)
 	{
 		if (playerAttackScript->IsMelee())
 		{
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_BIX_METAL);
+			if (isOnWater)
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_BIX_WATER);
+			}
+			else
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_BIX_METAL);
+			}
 		}
 		else
 		{
-			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_ALLURA_METAL);
+			if (isOnWater)
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_ALLURA_WATER);
+			}
+			else
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_ALLURA_METAL);
+			}
 		}
 		componentAnimation->SetParameter("IsRunning", true);
 		playerManager->SetPlayerState(PlayerActions::WALKING);
@@ -307,7 +321,7 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 		JoystickVerticalDirection verticalDirection = input->GetLeftJoystickDirection().verticalDirection;
 
 		if (horizontalDirection == JoystickHorizontalDirection::NONE &&
-			verticalDirection == JoystickVerticalDirection::NONE) 
+			verticalDirection == JoystickVerticalDirection::NONE)
 		{
 			totalDirection += componentTransform->GetGlobalForward();
 		}
@@ -350,6 +364,48 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 	}
 }
 
+void PlayerMoveScript::OnCollisionEnter(ComponentRigidBody* other)
+{
+	if (other->GetOwner()->CompareTag("Water"))
+	{
+		isOnWater = true;
+		if (playerManager->GetPlayerState() == PlayerActions::WALKING)
+		{
+			if (playerAttackScript->IsMelee())
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_BIX_WATER);
+			}
+			else
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_ALLURA_WATER);
+			}
+		}
+	}
+}
+
+void PlayerMoveScript::OnCollisionExit(ComponentRigidBody* other)
+{
+	if (other->GetOwner()->CompareTag("Water"))
+	{
+		isOnWater = false;
+		if (playerManager->GetPlayerState() == PlayerActions::WALKING)
+		{
+			if (playerAttackScript->IsMelee())
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_BIX_METAL);
+			}
+			else
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_ALLURA_METAL);
+			}
+		}
+	}
+}
+
 bool PlayerMoveScript::IsParalyzed() const
 {
 	return isParalyzed;
@@ -358,6 +414,11 @@ bool PlayerMoveScript::IsParalyzed() const
 void PlayerMoveScript::SetIsParalyzed(bool isParalyzed)
 {
 	this->isParalyzed = isParalyzed;
+}
+
+bool PlayerMoveScript::IsOnWater() const
+{
+	return isOnWater;
 }
 
 PlayerJumpScript* PlayerMoveScript::GetJumpScript() const

@@ -12,6 +12,7 @@
 
 #include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/PlayerManagerScript.h"
+#include "../Scripts/PlayerMoveScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 #include "MathGeoLib/Include/Geometry/Ray.h"
@@ -26,7 +27,7 @@ REGISTERCLASS(PlayerJumpScript);
 PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(500.0f), canDoubleJump(false),
 componentAnimation(nullptr), componentAudio(nullptr), canJump(true), rigidbody(nullptr),
 coyoteTime(0.4f), groundedCount(0), isGrounded(false), attackScript(nullptr), playerManager(nullptr), 
-lastVerticalVelocity(0.0f)
+lastVerticalVelocity(0.0f), playerMove(nullptr)
 {
 	REGISTER_FIELD(coyoteTime, float);
 	REGISTER_FIELD(isGrounded, bool);
@@ -47,6 +48,7 @@ void PlayerJumpScript::Start()
 
 	attackScript = owner->GetComponent<PlayerAttackScript>();
 	playerManager = owner->GetComponent<PlayerManagerScript>();
+	playerMove = owner->GetComponent<PlayerMoveScript>();
 }
 
 void PlayerJumpScript::PreUpdate(float deltaTime)
@@ -98,6 +100,14 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 			
 			if (playerManager->GetPlayerState() == PlayerActions::FALLING)
 			{
+				if (playerMove->IsOnWater())
+				{
+					componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FALLING_WATER);
+				}
+				else
+				{
+					componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FALLING_METAL);
+				}
 				playerManager->SetPlayerState(PlayerActions::IDLE);
 			}
 		}
