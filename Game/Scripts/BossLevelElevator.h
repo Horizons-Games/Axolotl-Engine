@@ -33,8 +33,8 @@ public:
 
 	void ChangeMovementState(ElevatorState newState);
 	void AttachEnemies(GameObject* enemyOne, GameObject* enemyTwo);
-	void SetDisableInteractionsEnemies(const GameObject* enemy, bool interactions,
-		bool setStaticRigidBody);
+	void SetDisableInteractionsEnemies(GameObject* enemy, bool interactions,
+		bool setStaticRigidBody, bool setKinematicRigidBody);
 
 private:
 	void MoveDown(float deltaTime);
