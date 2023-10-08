@@ -59,13 +59,12 @@ void TutorialSystem::Update(float deltaTime)
 	if (isWaiting)
 	{
 		stateWaitTime-= deltaTime;
-	}
-
-	if (stateWaitTime <= 0)
-	{
-		isWaiting = false;
-		stateWaitTime = totalStateWaitTime;
-		DeployUI();
+		if (stateWaitTime <= 0)
+	        {
+		     isWaiting = false;
+		     stateWaitTime = totalStateWaitTime;
+		     DeployUI();
+	        }
 	}
 }
 
