@@ -78,7 +78,7 @@ void CombatTutorial::Update(float deltaTime)
 		 }
 
 	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.50f 
-		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.25 && nextStateActive)
+		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.25f && nextStateActive)
 		 {
 		//SpecialLightAttack
 		LOG_INFO("Tutorial:SpecialLightAttack");
