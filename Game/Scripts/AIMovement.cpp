@@ -42,7 +42,7 @@ void AIMovement::Update(float deltaTime)
 
 		AgentMoveToTarget();
 	}
-	else
+	else if (rotationActivated && movementActivated)
 	{
 		MoveToTarget(deltaTime);
 
