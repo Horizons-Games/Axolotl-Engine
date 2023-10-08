@@ -100,11 +100,6 @@ inline const GLuint ComponentLocalIBL::GetPreFiltered()
 	return preFiltered;
 }
 
-inline const float4x4 ComponentLocalIBL::GetTransform()
-{
-	return float4x4(GetRotation(), GetPosition());
-}
-
 inline const AABB& ComponentLocalIBL::GetParallaxAABB()
 {
 	return parallaxAABB;

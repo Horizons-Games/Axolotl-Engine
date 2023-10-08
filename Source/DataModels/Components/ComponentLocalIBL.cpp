@@ -200,12 +200,20 @@ const uint64_t& ComponentLocalIBL::GetHandlePreFiltered()
 
 const float3& ComponentLocalIBL::GetPosition()
 {
-	return GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
+	if (GetOwner()->HasComponent<ComponentTransform>())
+	{
+		return GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
+	}
+	return float3::one;
 }
 
 const Quat& ComponentLocalIBL::GetRotation()
 {
-	return GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalRotation();
+	if (GetOwner()->HasComponent<ComponentTransform>())
+	{
+		return GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalRotation();
+	}
+	return Quat::identity;
 }
 
 void ComponentLocalIBL::SetParallaxAABB(AABB& aabb)
@@ -213,6 +221,15 @@ void ComponentLocalIBL::SetParallaxAABB(AABB& aabb)
 	parallaxAABB = aabb;
 	App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneLocalIBL(this);
 	App->GetModule<ModuleScene>()->GetLoadedScene()->RenderLocalIBL(this);
+}
+
+const float4x4 ComponentLocalIBL::GetTransform()
+{
+	if (GetOwner()->HasComponent<ComponentTransform>())
+	{
+		return float4x4(GetRotation(), GetPosition());
+	}
+	return float4x4::identity;
 }
 
 void ComponentLocalIBL::SetInfluenceAABB(AABB& aabb)
