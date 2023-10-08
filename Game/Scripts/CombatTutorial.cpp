@@ -105,7 +105,7 @@ void CombatTutorial::Update(float deltaTime)
 
 		 }
 
-	else if (dummyHealthSystem->GetCurrentHealth() <= 0 && nextStateActive)
+	else if (dummyHealthSystem->GetCurrentHealth() <= 0.0f && nextStateActive)
 	{
 		//SpecialHeavyAttack
 		LOG_INFO("Tutorial:END");
