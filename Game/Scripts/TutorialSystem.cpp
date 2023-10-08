@@ -29,10 +29,10 @@ REGISTERCLASS(TutorialSystem);
 
 TutorialSystem::TutorialSystem() :
 	Script(), tutorialCurrentState(0), tutorialTotalStates(0), stateWaitTime(0.0f), 
-	totalStateWaitTime(0.0f), dummy(nullptr), numNotControllableStates(0.0f), initialPos(45.0f, -195.0f, 0.0f)
+	totalStateWaitTime(0.0f), dummy(nullptr), numNotControllableStates(0.0f), initialPos(45.0f, -195.0f, 0.0f), isWaiting(false)
 {
 	REGISTER_FIELD(totalStateWaitTime, float);
-	REGISTER_FIELD(stateWaitTime, float);
+	REGISTER_FIELD(stateWaitTime, float); 
 
 	REGISTER_FIELD(numNotControllableStates, float);
 
@@ -48,7 +48,6 @@ void TutorialSystem::Start()
 	currentTutorialUI = tutorialUI.front();
 	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
 	transform2D = currentTutorialUI->GetComponent<ComponentTransform2D>();
-	isWaiting = false;
 	stateWaitTime = totalStateWaitTime;
 	dummyHealthSystem = dummy->GetComponent<HealthSystem>();
 	
@@ -99,20 +98,16 @@ void TutorialSystem::UnDeployUI()
 	if (tutorialCurrentState < tutorialTotalStates)
 	{
 		isWaiting = true;
-		//displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
 		currentTutorialUI->Enable();
 		displacementControl->SetMovingToEnd(false);
 		displacementControl->MoveImageToStarPosition();
 
 		displacementControl->SetIsMoving(true);
 
-		//currentTutorialUI->Disable();
-		//NextTutorialUI->Enable();
 		tutorialCurrentState++;
 		currentTutorialUI = tutorialUI[tutorialCurrentState];
 		displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
 		displacementControl->SetIsMoving(true);
-		//tutorialUI[tutorialCurrentState - 1]->Disable();
 		dummyHealthSystem->SetIsImmortal(true);
 	}
 
