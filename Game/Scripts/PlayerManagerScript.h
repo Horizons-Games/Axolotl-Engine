@@ -46,6 +46,7 @@ public:
 	void FullPausePlayer(bool paused);
 	void TriggerJump(bool forcedJump);
 	bool IsParalyzed() const;
+	bool GetIsPaused() const;
 
 	bool IsGrounded() const;
 	bool IsTeleporting() const;
@@ -59,7 +60,7 @@ public:
 
 private:
 	bool isActivePlayer;
-	bool isParalyzed;
+	bool isPaused;
 
 	ModuleInput* input;
 

@@ -2,7 +2,7 @@
 
 #include "Timer.h"
 
-Timer::Timer() : startTick(0), stopTick(0), stopped(false)
+Timer::Timer() : startTick(0), pauseTick(0), stopTick(0), stopped(false)
 {
 }
 
@@ -17,12 +17,23 @@ float Timer::Read()
 		return static_cast<float>(startTick - stopTick);
 	}
 
-	return static_cast<float>(SDL_GetTicks() - startTick);
+	return static_cast<float>(SDL_GetTicks() - startTick + pauseTick);
+}
+
+void Timer::Pause()
+{
+	pauseTick = Read();
+}
+
+void Timer::Play()
+{
+	startTick = SDL_GetTicks();
 }
 
 float Timer::Stop()
 {
 	stopped = true;
+	pauseTick = 0;
 	stopTick = SDL_GetTicks();
 
 	return static_cast<float>(SDL_GetTicks() - startTick);

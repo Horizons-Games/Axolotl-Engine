@@ -41,6 +41,7 @@ private:
 	ModuleInput* input;
 	ModulePlayer* modulePlayer;
 	Timer changePlayerTimer;
+	float currentChangePlayerTime;
 	std::vector<float> changingPlayerTime;
 
 	ComboManager* comboSystem;
@@ -83,4 +84,5 @@ private:
 
 	bool bossScene;
 	bool isSwitchAvailable;
+	bool isPaused;
 };

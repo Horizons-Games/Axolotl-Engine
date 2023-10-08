@@ -31,7 +31,7 @@ SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullpt
 	currentPlayerHealthBar(nullptr), secondPlayerHealthBar(nullptr), currentHealthBarTransform(nullptr),
 	secondHealthBarTransform(nullptr), currentPlayerTransform(nullptr), secondPlayerTransform(nullptr),
 	particlesTransform(nullptr), isSecondJumpAvailable(true), comboSystem(nullptr),
-	cameraBoss(nullptr), bossScene(false)
+	cameraBoss(nullptr), bossScene(false), currentChangePlayerTime(0)
 {
 	REGISTER_FIELD(isSwitchAvailable, bool);
 	REGISTER_FIELD(bossScene, bool);
@@ -78,6 +78,21 @@ void SwitchPlayerManagerScript::Start()
 
 void SwitchPlayerManagerScript::Update(float deltaTime)
 {
+	if (playerManager->GetIsPaused())
+	{
+		if (!isPaused)
+		{
+			changePlayerTimer.Pause();
+		}
+		isPaused = true;
+		return;
+	}
+	if (isPaused)
+	{
+		changePlayerTimer.Play();
+	}
+	
+	isPaused = false;
 	if (!isChangingPlayer)
 	{
 		if (input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE && secondPlayer 
@@ -131,6 +146,7 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 			secondHealthBarTransform->CalculateMatrices();
 
 		}
+		currentChangePlayerTime = changePlayerTimer.Read();
 	}
 	if (actualSwitchPlayersParticles && 
 		actualSwitchPlayersParticles->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->IsFinished())
@@ -138,6 +154,7 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualSwitchPlayersParticles);
 		actualSwitchPlayersParticles = nullptr;
 	}
+
 }
 
 void SwitchPlayerManagerScript::SetIsSwitchAvailable(bool available)
@@ -218,6 +235,8 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		secondPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(false);
 
 		comboSystem = currentPlayer->GetComponent<ComboManager>();
+
+		currentChangePlayerTime = 0;
 
 		// Finish Switch HealthBars
 		isSwitchingHealthBars = false;

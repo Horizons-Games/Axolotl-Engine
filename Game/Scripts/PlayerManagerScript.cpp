@@ -62,6 +62,11 @@ bool PlayerManagerScript::IsParalyzed() const
 	return movementManager->IsParalyzed();
 }
 
+bool PlayerManagerScript::GetIsPaused() const
+{
+	return isPaused;
+}
+
 float PlayerManagerScript::GetPlayerAttack() const
 {
 	return playerAttack;
@@ -125,6 +130,8 @@ void PlayerManagerScript::FullPausePlayer(bool paused)
 {
 	btVector3 linearVelocityPlayer(0.f, 0.f, 0.f);
 	btVector3 gravityPlayer(0.f, 0.f, 0.f);
+	isPaused = paused;
+	PausePlayer(paused);
 	if (!paused)
 	{
 		linearVelocityPlayer = rigidBodyLinearVelocity;
