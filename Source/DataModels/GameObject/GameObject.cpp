@@ -505,25 +505,25 @@ void GameObject::CopyComponentLight(LightType type, Component* component)
 	}
 }
 
-void GameObject::Enable()
+void GameObject::Enable(bool isSceneLoading)
 {
 	assert(parent != nullptr);
 
 	enabled = true;
 
-	this->Activate();
+	this->Activate(isSceneLoading);
 }
 
-void GameObject::Disable()
+void GameObject::Disable(bool isSceneLoading)
 {
 	assert(parent != nullptr);
 
 	enabled = false;
 
-	this->Deactivate();
+	this->Deactivate(isSceneLoading);
 }
 
-void GameObject::Activate()
+void GameObject::Activate(bool isSceneLoading)
 {
 	active = parent->IsActive();
 
@@ -534,7 +534,7 @@ void GameObject::Activate()
 
 	for (std::unique_ptr<GameObject>& child : children)
 	{
-		child->Activate();
+		child->Activate(isSceneLoading);
 	}
 
 	for (std::unique_ptr<Component>& component : components)
@@ -542,24 +542,24 @@ void GameObject::Activate()
 		// If the Component is currently disabled itself, avoid sending the signal
 		if (component->IsEnabled())
 		{
-			component->SignalEnable();
+			component->SignalEnable(isSceneLoading);
 		}
 	}
 }
 
-void GameObject::Deactivate()
+void GameObject::Deactivate(bool isSceneLoading)
 {
 	active = false;
 
 	for (std::unique_ptr<GameObject>& child : children)
 	{
-		child->Deactivate();
+		child->Deactivate(isSceneLoading);
 	}
 
 	for (std::unique_ptr<Component>& component : components)
 	{
 		// No need to check, we know component->IsEnabled will return false
-		component->SignalDisable();
+		component->SignalDisable(isSceneLoading);
 	}
 }
 

@@ -171,16 +171,26 @@ void ComponentSpotLight::OnTransformChanged()
 	transform->ScaleLocalAABB(scale);
 }
 
-void ComponentSpotLight::SignalEnable()
+void ComponentSpotLight::SignalEnable(bool isSceneLoading)
 {
+	if (isSceneLoading)
+	{
+		return;
+	}
+
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	currentScene->UpdateSceneSpotLights();
 	currentScene->RenderSpotLights();
 }
 
-void ComponentSpotLight::SignalDisable()
+void ComponentSpotLight::SignalDisable(bool isSceneLoading)
 {
+	if (isSceneLoading)
+	{
+		return;
+	}
+
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	currentScene->UpdateSceneSpotLights();

@@ -274,11 +274,11 @@ void OnHierarchyLoaded()
 
 		if (value.enabled)
 		{
-			gameObject->Enable();
+			gameObject->Enable(true);
 		}
 		else
 		{
-			gameObject->Disable();
+			gameObject->Disable(true);
 		}
 	}
 

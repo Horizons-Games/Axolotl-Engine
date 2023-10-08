@@ -97,8 +97,8 @@ public:
 
 	// This method returns true if and only if the GameObject is currently enabled
 	bool IsEnabled() const;
-	void Enable();
-	void Disable();
+	void Enable(bool isSceneLoading = false);
+	void Disable(bool isSceneLoading = false);
 
 	// This method returns true if IsEnabled returns true for this GameObject and for all its "ancestors" in the
 	// hierarchy
@@ -135,8 +135,8 @@ private:
 
 	Component* CreateComponent(ComponentType type);
 
-	void Activate();
-	void Deactivate();
+	void Activate(bool isSceneLoading = false);
+	void Deactivate(bool isSceneLoading = false);
 	bool IsAChild(const GameObject* child);
 
 	enum class HierarchyDirection
