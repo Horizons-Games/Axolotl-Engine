@@ -49,6 +49,8 @@ public:
 	bool IsInAttackAnimation() const;
 	GameObject* GetEnemyDetected() const;
 
+	void PlayWeaponSounds() const;
+
 private:
 	void Start() override;
 	void Update(float deltaTime) override;
@@ -74,6 +76,8 @@ private:
 	bool canAttack;
 	bool isAttacking;
 	bool isMelee;
+	bool isGroundParalyzed;
+
 	float attackCooldown;
 	float attackCooldownCounter;
 	float comboInitTimer;
@@ -104,11 +108,13 @@ private:
 
 	EntityDetection* enemyDetection;
 	ComboManager* comboSystem;
+
 	float comboCountLight;
 	float comboCountHeavy;
 	float comboCountJump;
-	float attackSoft;
-	float attackHeavy;
+
+	float attackSoftDamage;
+	float attackHeavyDamage;
 	float bulletVelocity;
 
 	float normalAttackDistance;

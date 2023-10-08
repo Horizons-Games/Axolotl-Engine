@@ -86,6 +86,14 @@ void ComboManager::ClearCombo(bool finisher)
 	comboCount = 0;
 }
 
+void ComboManager::ClearComboForSwitch(bool finisher) 
+{
+	uiComboManager->ClearCombo(finisher);
+	uiComboManager->SetComboBarValue(0);
+	comboCount = 0;
+	specialCount = 0.f;
+}
+
 AttackType ComboManager::CheckAttackInput(bool jumping)
 {
 	bool leftClick = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
@@ -167,4 +175,9 @@ void ComboManager::FillComboBar()
 {
 	specialCount = maxSpecialCount;
 	uiComboManager->SetComboBarValue(specialCount);
+}
+
+UIComboManager* ComboManager::GetUiComboManager() const
+{
+	return uiComboManager;
 }

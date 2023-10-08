@@ -63,13 +63,20 @@ void ElevatorCore::Start()
 	transform = elevator->GetComponentInternal<ComponentTransform>();
 	triggerEntrance = owner->GetComponent<ComponentRigidBody>();
 	finalUpPos = 0.0f;
-	bixPrefab = App->GetModule<ModulePlayer>()->GetPlayer();
-	playerTransform = bixPrefab->GetComponent<ComponentTransform>();
+	currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
+	modulePlayer = App->GetModule<ModulePlayer>();
+	playerTransform = currentPlayer->GetComponent<ComponentTransform>();
 	currentTime = 0.0f;
 }
 
 void ElevatorCore::Update(float deltaTime)
 {
+	if (currentPlayer != modulePlayer->GetPlayer())
+	{
+		currentPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
+		playerTransform = currentPlayer->GetComponent<ComponentTransform>();
+	}
+
 	float3 playerPos = playerTransform->GetGlobalPosition();
 
 	if (activeState == ActiveActions::ACTIVE_PLAYER) 
@@ -152,7 +159,7 @@ void ElevatorCore::MoveUpElevator(bool isPlayerInside, float deltaTime)
 		playerTransform->RecalculateLocalMatrix();
 		playerTransform->UpdateTransformMatrices();
 
-		bixPrefab->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
+		currentPlayer->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
 	}
 
 }
@@ -194,7 +201,7 @@ void ElevatorCore::MoveDownElevator(bool isPlayerInside, float deltaTime)
 		playerTransform->RecalculateLocalMatrix();
 		playerTransform->UpdateTransformMatrices();
 
-		bixPrefab->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
+		currentPlayer->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
 	}
 }
 
@@ -207,7 +214,7 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 		if (other->GetOwner()->CompareTag("Player"))
 		{
 
-			PlayerActions currentAction = bixPrefab->GetComponent<PlayerManagerScript>()->GetPlayerState();
+			PlayerActions currentAction = currentPlayer->GetComponent<PlayerManagerScript>()->GetPlayerState();
 			bool isJumping = currentAction == PlayerActions::JUMPING ||
 				currentAction == PlayerActions::DOUBLEJUMPING ||
 				currentAction == PlayerActions::FALLING;
@@ -241,18 +248,18 @@ void ElevatorCore::OnCollisionExit(ComponentRigidBody* other)
 
 void ElevatorCore::DisableAllInteractions()
 {
-	//bixPrefab->SetParent(elevator);
-	bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(true);
+	//currentPlayer->SetParent(elevator);
+	currentPlayer->GetComponentInternal<ComponentRigidBody>()->SetIsStatic(true);
 
-	PlayerManagerScript* manager = bixPrefab->GetComponentInternal<PlayerManagerScript>();
+	PlayerManagerScript* manager = currentPlayer->GetComponentInternal<PlayerManagerScript>();
 	manager->ParalyzePlayer(true);
 }
 
 void ElevatorCore::EnableAllInteractions()
 {
-	//bixPrefab->SetParent(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
-	bixPrefab->GetComponentInternal<ComponentRigidBody>()->SetStatic(false);
+	//currentPlayer->SetParent(App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot());
+	currentPlayer->GetComponentInternal<ComponentRigidBody>()->SetIsStatic(false);
 
-	PlayerManagerScript* manager = bixPrefab->GetComponentInternal<PlayerManagerScript>();
+	PlayerManagerScript* manager = currentPlayer->GetComponentInternal<PlayerManagerScript>();
 	manager->ParalyzePlayer(false);
 }
