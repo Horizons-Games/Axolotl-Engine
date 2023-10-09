@@ -68,7 +68,7 @@ void LightAttackBullet::Update(float deltaTime)
 	if (enemy != nullptr)
 	{
 		defaultTargetPos = enemy->GetComponent<ComponentTransform>()->GetGlobalPosition();
-		defaultTargetPos.y = parentTransform->GetGlobalPosition().y;
+		defaultTargetPos.y += 1;
 		rigidBody->SetPositionTarget(defaultTargetPos);
 	}
 

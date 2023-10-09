@@ -46,8 +46,8 @@ public:
 	void OnTransformChanged() override;
 
 private:
-	void SignalEnable() override;
-	void SignalDisable() override;
+	void SignalEnable(bool isSceneLoading) override;
+	void SignalDisable(bool isSceneLoading) override;
 
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
@@ -85,21 +85,6 @@ inline const float ComponentAreaLight::GetAttRadius() const
 inline void ComponentAreaLight::SetAreaType(AreaType newType)
 {
 	areaType = newType;
-}
-
-inline void ComponentAreaLight::SetShapeRadius(float newRadius)
-{
-	shapeRadius = newRadius;
-}
-
-inline void ComponentAreaLight::SetHeight(float newHeight)
-{
-	height = newHeight;
-}
-
-inline void ComponentAreaLight::SetLightRadius(float newRadius)
-{
-	attRadius = newRadius;
 }
 
 inline const std::string ComponentAreaLight::GetNameByAreaType(AreaType type)

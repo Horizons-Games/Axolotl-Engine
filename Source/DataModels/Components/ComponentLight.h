@@ -10,7 +10,8 @@ enum class LightType
 	DIRECTIONAL, 
 	POINT, 
 	SPOT,
-	AREA
+	AREA,
+	LOCAL_IBL
 };
 
 enum class AreaType
@@ -49,17 +50,19 @@ public:
 	const float3& GetColor() const;
 	float GetIntensity() const;
 	LightType GetLightType() const;
+	const bool IsDeleting() const;
+	const bool IsDirty() const;
 
 	void SetColor(const float3& color);
 	void SetIntensity(float intensity);
-
-	const bool IsDeleting() const;
+	void SetDirty(bool dirty);
 
 protected:
 	float3 color;
 	float intensity;
 	
 	bool deleting;
+	bool isDirty;
 
 	LightType lightType;
 };
@@ -79,6 +82,11 @@ inline LightType ComponentLight::GetLightType() const
 	return lightType;
 }
 
+inline const bool ComponentLight::IsDirty() const
+{
+	return isDirty;
+}
+
 inline void ComponentLight::SetColor(const float3& color)
 {
 	this->color = color;
@@ -94,6 +102,11 @@ inline const bool ComponentLight::IsDeleting() const
 	return deleting;
 }
 
+inline void ComponentLight::SetDirty(bool dirty)
+{
+	isDirty = dirty;
+}
+
 inline const std::string GetNameByLightType(LightType type)
 {
 	switch (type)
@@ -106,6 +119,8 @@ inline const std::string GetNameByLightType(LightType type)
 			return "LightType_Spot";
 		case LightType::AREA:
 			return "LightType_Area";
+		case LightType::LOCAL_IBL:
+			return "LightType_Local_IBL";
 		default:
 			assert(false && "Wrong light type introduced");
 			return std::string();
@@ -132,6 +147,11 @@ inline const LightType GetLightTypeByName(const std::string& typeName)
 	if (typeName == "LightType_Area")
 	{
 		return LightType::AREA;
+	}
+
+	if (typeName == "LightType_Local_IBL")
+	{
+		return LightType::LOCAL_IBL;
 	}
 	return LightType::UNKNOWN;
 }
