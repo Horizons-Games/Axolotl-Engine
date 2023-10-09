@@ -152,6 +152,10 @@ WindowHierarchy::DrawHierarchyResultCode WindowHierarchy::DrawRecursiveHierarchy
 					}
 					ImGui::EndMenu();
 				}
+				if (ImGui::MenuItem("Local IBL"))
+				{
+					loadedScene->CreateLightGameObject("Local IBL", gameObject, LightType::LOCAL_IBL);
+				}
 				ImGui::EndMenu();
 			}
 
