@@ -24,6 +24,9 @@
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
+
+#include "Components/UI/ComponentVideo.h"
+
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentTransform2D.h"
 
@@ -361,10 +364,18 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 		case ComponentType::IMAGE:
 			gameObject->CreateComponent<ComponentImage>();
 			break;
+		case ComponentType::VIDEO:
+		{
+			ComponentVideo* video = gameObject->CreateComponent<ComponentVideo>();
+			sceneVideos.push_back(video);
+			break;
+		}
 		case ComponentType::BUTTON:
+		{
 			gameObject->CreateComponent<ComponentImage>();
 			sceneInteractableComponents.push_back(gameObject->CreateComponent<ComponentButton>());
 			break;
+		}
 		case ComponentType::SLIDER:
 		{
 			ComponentSlider* slider = gameObject->CreateComponent<ComponentSlider>();
@@ -373,7 +384,7 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 			ComponentTransform2D* backgroundTransform = background->GetComponentInternal<ComponentTransform2D>();
 			backgroundTransform->SetSize(float2(400, 50));
 			backgroundTransform->CalculateMatrices();
-			background->GetComponentInternal<ComponentImage>()->SetColor(float4(1.0f,0.0f,0.0f,1.0f));
+			background->GetComponentInternal<ComponentImage>()->SetColor(float4(1.0f, 0.0f, 0.0f, 1.0f));
 			slider->SetBackground(background);
 
 			GameObject* fill = CreateUIGameObject("Fill", gameObject, ComponentType::IMAGE);
