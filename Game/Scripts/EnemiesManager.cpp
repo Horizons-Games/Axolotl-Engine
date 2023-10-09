@@ -25,7 +25,6 @@ void EnemiesManager::Start()
 {
 	scene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	enemiesGameObjects = scene->SearchGameObjectByTag(enemyTag);
-
 }
 
 void EnemiesManager::PauseEnemies(bool paused)
@@ -59,14 +58,4 @@ void EnemiesManager::PauseEnemies(bool paused)
 		alluraBulletGameObjects[i]->GetComponent<LightAttackBullet>()->SetPauseBullet(paused);
 		
 	}
-}
-
-const std::vector<GameObject*>& EnemiesManager::GetVectorEnemiesGameObjects() const
-{
-	return enemiesGameObjects;
-}
-
-void EnemiesManager::SetVectorEnemiesGameObjects(const std::vector<GameObject*>& enemiesGameObjects)
-{
-	this->enemiesGameObjects = enemiesGameObjects;
 }

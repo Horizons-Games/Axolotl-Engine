@@ -16,9 +16,6 @@ public:
 
 	void PauseEnemies(bool paused);
 
-	const std::vector<GameObject*>& GetVectorEnemiesGameObjects() const;
-	void SetVectorEnemiesGameObjects(const std::vector<GameObject*>& enemiesGameObjects);
-
 private:
 	void Start() override;
 
