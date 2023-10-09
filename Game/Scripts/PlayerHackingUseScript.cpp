@@ -38,8 +38,8 @@ void PlayerHackingUseScript::Start()
 
 void PlayerHackingUseScript::Update(float deltaTime)
 {
-
 	currentTime += deltaTime;
+	hackingManager->SetHackingTimerValue(maxHackTime, currentTime);
 
 	PlayerActions currentAction = playerManager->GetPlayerState();
 	bool isJumping = currentAction == PlayerActions::JUMPING ||
@@ -140,8 +140,8 @@ void PlayerHackingUseScript::PrintCombination()
 		default: 
 			break;
 		}
+
 		combination += c;
-		
 	}
 
 	LOG_DEBUG(combination);
@@ -163,7 +163,9 @@ void PlayerHackingUseScript::InitHack()
 		hackingManager->AddInputVisuals(command);
 	}
 
-	PrintCombination();
+	hackingManager->EnableHackingTimer();
+
+	//PrintCombination();
 	LOG_DEBUG("Hacking is active");
 }
 
@@ -176,6 +178,7 @@ void PlayerHackingUseScript::FinishHack()
 	userCommandInputs.clear();
 
 	hackingManager->CleanInputVisuals();
+	hackingManager->DisableHackingTimer();
 
 	LOG_DEBUG("Hacking is finished");
 }
@@ -184,6 +187,7 @@ void PlayerHackingUseScript::RestartHack()
 {
 	userCommandInputs.clear();
 	hackingManager->CleanInputVisuals();
+	hackingManager->DisableHackingTimer();
 
 	currentTime = App->GetDeltaTime();
 	maxHackTime = hackZone->GetMaxTime();
@@ -197,7 +201,9 @@ void PlayerHackingUseScript::RestartHack()
 		hackingManager->AddInputVisuals(command);
 	}
 
-	PrintCombination();
+	hackingManager->EnableHackingTimer();
+
+	//PrintCombination();
 	input->Rumble();
 	LOG_DEBUG("Hacking is restarted");
 }
