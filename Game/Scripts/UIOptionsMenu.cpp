@@ -379,8 +379,10 @@ void UIOptionsMenu::LoadDefaultOptions()
 		{
 			if (!IsSlider(a, b, 0))
 			{
-				buttonsAndCanvas[a].canvas->GetChildren()[b]->GetChildren()[1]->GetChildren()[actualConfig[a].options[b].actualOption]->Disable();
-				buttonsAndCanvas[a].canvas->GetChildren()[b]->GetChildren()[1]->GetChildren()[actualConfig[a].options[b].defaultOption]->Enable();
+				buttonsAndCanvas[a].canvas->GetChildren()[b]->GetChildren()[1]->
+					GetChildren()[actualConfig[a].options[b].actualOption]->Disable();
+				buttonsAndCanvas[a].canvas->GetChildren()[b]->GetChildren()[1]->
+					GetChildren()[actualConfig[a].options[b].defaultOption]->Enable();
 			}
 			else
 			{
