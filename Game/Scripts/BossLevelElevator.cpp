@@ -185,10 +185,10 @@ void BossLevelElevator::AttachEnemies(GameObject* enemyOneGO, GameObject* enemyT
 	enemyTwo = enemyTwoGO;
 
 	MoveEnemyToElevatorPoint(enemyOne, enemyOnePosition);
-	ToggleEnemyInteractions(enemyOne, true, true);
+	ToggleEnemyInteractions(enemyOne, true);
 
 	MoveEnemyToElevatorPoint(enemyTwo, enemyTwoPosition);
-	ToggleEnemyInteractions(enemyTwo, true, true);
+	ToggleEnemyInteractions(enemyTwo, true);
 
 	enemyOneParalized = true;
 	enemyTwoParalized = true;
@@ -224,8 +224,7 @@ void BossLevelElevator::ReleaseEnemies()
 	hasEnemies = false;
 }
 
-void BossLevelElevator::ToggleEnemyInteractions(GameObject* enemy, bool interactions,
-	bool setStaticRigidBody)
+void BossLevelElevator::ToggleEnemyInteractions(GameObject* enemy, bool interactions)
 {
 	ToggleParalizeDependingOfEnemyType(enemy, interactions);
 	enemy->Enable();

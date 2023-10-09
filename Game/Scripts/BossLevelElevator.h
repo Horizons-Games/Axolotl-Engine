@@ -33,8 +33,7 @@ public:
 
 	void ChangeMovementState(ElevatorState newState);
 	void AttachEnemies(GameObject* enemyOneGO, GameObject* enemyTwoGO);
-	void ToggleEnemyInteractions(GameObject* enemy, bool interactions,
-		bool setStaticRigidBody);
+	void ToggleEnemyInteractions(GameObject* enemy, bool interactions);
 	void MoveEnemyToElevatorPoint(GameObject* enemy, ComponentTransform* elevatorPosition);
 	void ReleaseEnemies();
 	void MoveEnemiesToArena(GameObject* enemyOne, ComponentTransform* targetPosition);
