@@ -12,6 +12,9 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentRigidBody.h"
 
+#include "../Scripts/MeshEffect.h"
+#include "../Scripts/HealthSystem.h"
+
 #include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(PlayerDeathScript);
@@ -48,6 +51,9 @@ void PlayerDeathScript::ManagePlayerDeath() const
 
 void PlayerDeathScript::DisablePlayerActions() const
 {
+	MeshEffect* meshEffectScript = owner->GetComponent<HealthSystem>()->GetMeshEffect();
+	meshEffectScript->ClearEffect();
+
 	// Once the player is dead, disable its scripts
 	std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
 

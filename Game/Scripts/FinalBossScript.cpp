@@ -3,6 +3,7 @@
 
 #include "Application.h"
 #include "Modules/ModuleRandom.h"
+#include "Modules/ModulePlayer.h"
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
@@ -20,11 +21,11 @@
 REGISTERCLASS(FinalBossScript);
 
 FinalBossScript::FinalBossScript() : bossPhase(FinalBossPhases::NEUTRAL), patrolScript(nullptr), 
-	bossHealthSystem(nullptr), rigidBody(nullptr), target(nullptr), chargeAttackScript(nullptr),
+	bossHealthSystem(nullptr), rigidBody(nullptr), chargeAttackScript(nullptr),
 	transform(nullptr), targetTransform(nullptr), shockWaveAttackScript(nullptr), bossState(FinalBossStates::IDLE),
 	shieldAttackScript(nullptr), missilesAttackScript(nullptr)
 {
-	REGISTER_FIELD(target, GameObject*);
+
 }
 
 void FinalBossScript::Start()
@@ -34,6 +35,9 @@ void FinalBossScript::Start()
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	rigidBody->SetKpForce(0.25f);
 	transform = owner->GetComponent<ComponentTransform>();
+
+	target = App->GetModule<ModulePlayer>()->GetPlayer();
+	modulePlayer = App->GetModule<ModulePlayer>();
 	targetTransform = target->GetComponent<ComponentTransform>();
 
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
@@ -53,6 +57,12 @@ void FinalBossScript::Update(float deltaTime)
 	if (!target)
 	{
 		return;
+	}
+
+	if (target != modulePlayer->GetPlayer())
+	{
+		target = App->GetModule<ModulePlayer>()->GetPlayer();
+		targetTransform = target->GetComponent<ComponentTransform>();
 	}
 
 	// Uncomment this line to check the attacks individually (you have to activate each one of them below)

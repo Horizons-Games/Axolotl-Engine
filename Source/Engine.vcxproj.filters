@@ -750,12 +750,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="Exceptions\ComponentNotFoundException.cpp">
-      <Filter>Exceptions</Filter>
-    </ClCompile>
-    <ClCompile Include="Exceptions\ScriptAssertFailedException.cpp">
-      <Filter>Exceptions</Filter>
-    </ClCompile>
     <ClCompile Include="Formatter.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowNavMeshInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
@@ -775,6 +769,9 @@
     <ClCompile Include="..\Game\Scripts\Rotator.cpp">
       <Filter>UserScripts\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SwitchPlayerManagerScript.cpp">
+      <Filter>UserScripts\Gameplay</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\HackingCommand.cpp">
       <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
     </ClCompile>
@@ -790,8 +787,38 @@
     <ClCompile Include="DataModels\Render\Shadows.cpp">
       <Filter>DataModels\Render</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp" />
+    <ClCompile Include="..\Game\Scripts\TutorialSystem.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CombatTutorial.cpp">
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CameraBossControllerScript.cpp">
+      <Filter>UserScripts\Camera</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp">
       <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Enums\WritableEnum.cpp">
+      <Filter>Enums</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ParticleBillboardAssistance.cpp">
+      <Filter>UserScripts\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Schedulable\Schedulable.cpp">
+      <Filter>DataModels\Schedulable</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions\AxoDefaultException.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions\ComponentNotFoundException.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions\ScriptAssertFailedException.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Exceptions\AccessingFailedScriptException.cpp">
+      <Filter>Exceptions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1614,6 +1641,9 @@
     <ClInclude Include="..\Game\Scripts\Rotator.h">
       <Filter>UserScripts\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SwitchPlayerManagerScript.h">
+      <Filter>UserScripts\Gameplay</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\HackingCommand.h">
       <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
     </ClInclude>
@@ -1629,8 +1659,32 @@
     <ClInclude Include="DataModels\Render\Shadows.h">
       <Filter>DataModels\Render</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ElevatorCore.h" />
+    <ClInclude Include="..\Game\Scripts\TutorialSystem.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CombatTutorial.h">
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CameraBossControllerScript.h">
+      <Filter>UserScripts\Camera</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\ElevatorCore.h">
       <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums\WritableEnum.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ParticleBillboardAssistance.h">
+      <Filter>UserScripts\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Schedulable\Schedulable.h">
+      <Filter>DataModels\Schedulable</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\AccessingFailedScriptException.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\AxoDefaultException.h">
+      <Filter>Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1843,6 +1897,9 @@
     </Filter>
     <Filter Include="DataModels\Render">
       <UniqueIdentifier>{701145da-de98-4a67-be5b-f78bd0c29386}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModels\Schedulable">
+      <UniqueIdentifier>{aebeccfc-924c-4feb-a954-996d552b513f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

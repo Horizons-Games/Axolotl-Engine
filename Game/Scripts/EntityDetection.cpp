@@ -12,6 +12,8 @@
 #include "GameObject/GameObject.h"
 #include "../Scripts/EnemyClass.h"
 
+#include "ModulePlayer.h"
+
 #include "../Scripts/HealthSystem.h"
 
 #include "debugdraw.h"
@@ -26,7 +28,6 @@ EntityDetection::EntityDetection() : Script(), input(nullptr), rigidBody(nullptr
 interactionAngle(50.0f), playerTransform(nullptr), enemySelected(nullptr), interactionOffset(1.0f),
 angleThresholdEnemyIntersection(1.0f)
 {
-	REGISTER_FIELD(player, GameObject*);
 	REGISTER_FIELD(interactionAngle, float);
 	REGISTER_FIELD(interactionOffset, float);
 	REGISTER_FIELD(angleThresholdEnemyIntersection, float);
@@ -34,6 +35,7 @@ angleThresholdEnemyIntersection(1.0f)
 
 void EntityDetection::Start()
 {
+	player = App->GetModule<ModulePlayer>()->GetPlayer();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	playerTransform = player->GetComponent<ComponentTransform>();
 
@@ -226,4 +228,24 @@ bool EntityDetection::AreAnyEnemiesInTheArea() const
 std::vector<ComponentRigidBody*>& EntityDetection::GetEnemiesInTheArea()
 {
 	return enemiesInTheArea;
+}
+
+void EntityDetection::FilterEnemiesByDistance(float distanceFilter, 
+											std::vector<ComponentRigidBody*>& enemiesInTheAreaFiltered)
+{
+	if (distanceFilter > rigidBody->GetRadius())
+	{
+		distanceFilter = rigidBody->GetRadius();
+	}
+
+	std::for_each(enemiesInTheArea.begin(), enemiesInTheArea.end(),
+		[&distanceFilter, &enemiesInTheAreaFiltered, this](ComponentRigidBody* enemy)
+		{
+			float3 enemyPosition = enemy->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
+			enemyPosition.y = originPosition.y;
+			if (originPosition.Distance(enemyPosition) <= distanceFilter)
+			{
+				enemiesInTheAreaFiltered.emplace_back(enemy);
+			}
+		});
 }

@@ -52,7 +52,7 @@ public:
 	void SetIsKinematic(bool isKinematic);
 	bool GetIsKinematic() const;
 
-	void SetStatic(bool isStatic);
+	void SetIsStatic(bool isStatic);
 	bool IsStatic() const;
 
 	void SetIsTrigger(bool isTrigger);
@@ -146,6 +146,9 @@ public:
 
 	void UpdateBlockedRotationAxis();
 	void SetAngularFactor(btVector3 rotation);
+
+	void RemoveRigidBodyFromDynamics();
+	void AddRigidBodyToDynamics();
 
 	void RemoveRigidBodyFromSimulation();
 	void AddRigidBodyToSimulation();

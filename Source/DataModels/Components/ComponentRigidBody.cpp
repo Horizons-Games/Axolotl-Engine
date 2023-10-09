@@ -137,7 +137,7 @@ void ComponentRigidBody::OnCollisionExit(ComponentRigidBody* other)
 void ComponentRigidBody::OnTransformChanged()
 {
 #ifdef ENGINE
-	if (!App->IsOnPlayMode())
+	if (App->GetPlayState() == Application::PlayState::STOPPED)
 	{
 		UpdateRigidBody();
 	}
@@ -196,21 +196,21 @@ void ComponentRigidBody::SetOwner(GameObject* owner)
 void ComponentRigidBody::UpdateRigidBody()
 {
 	btTransform worldTransform = rigidBody->getWorldTransform();
-	float3 transPos = transform->GetGlobalPosition();
-	btVector3 transPosBt = btVector3(transPos.x, transPos.y, transPos.z);
-	worldTransform.setOrigin(transPosBt + translation);
+	float3 position = transform->GetGlobalPosition();
+	btVector3 btPosition = btVector3(position.x, position.y, position.z);
+	worldTransform.setOrigin(btPosition + translation);
 	Quat rot = transform->GetGlobalRotation();
 	worldTransform.setRotation({ rot.x, rot.y, rot.z, rot.w });
 	rigidBody->setWorldTransform(worldTransform);
 	motionState->setWorldTransform(worldTransform);
 }
+
 int ComponentRigidBody::GenerateId() const
 {
 	static uint32_t nextId = 1;
 
 	assert(nextId != 0); // if this assert triggers, we have reached the maximum number of rigidbodies 2^32 - 1. This is
 						 // a very unlikely scenario.
-
 	return nextId++;
 }
 
@@ -223,22 +223,25 @@ void ComponentRigidBody::SetRigidBodyOrigin(btVector3 origin)
 
 void ComponentRigidBody::UpdateRigidBodyTranslation()
 {
-	float3 transPos = transform->GetGlobalPosition();
-	btVector3 transPosBt = btVector3(transPos.x, transPos.y, transPos.z);
+	float3 position = transform->GetGlobalPosition();
+	btVector3 btPosition = btVector3(position.x, position.y, position.z);
 
-	translation = (rigidBody->getWorldTransform().getOrigin() - transPosBt);
+	translation = (rigidBody->getWorldTransform().getOrigin() - btPosition);
 }
 
 void ComponentRigidBody::SetUpMobility()
 {
-	RemoveRigidBodyFromSimulation();
+	RemoveRigidBodyFromDynamics();
 	if (isKinematic)
 	{
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_DYNAMIC_OBJECT);
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() & ~btCollisionObject::CF_STATIC_OBJECT);
 		rigidBody->setCollisionFlags(rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 		rigidBody->setActivationState(DISABLE_DEACTIVATION);
-		rigidBody->setMassProps(0, { 0, 0, 0 }); // Toreview: is this necessary here?
+
+		rigidBody->setMassProps(0, { 0, 0, 0 }); 
+		AXO_TODO("Is this necessary here?");
+		
 	}
 	else if (IsStatic())
 	{
@@ -259,7 +262,7 @@ void ComponentRigidBody::SetUpMobility()
 		rigidBody->getCollisionShape()->calculateLocalInertia(mass, localInertia);
 		rigidBody->setMassProps(mass, localInertia);
 	}
-	AddRigidBodyToSimulation();
+	AddRigidBodyToDynamics();
 }
 
 void ComponentRigidBody::SetCollisionShape(Shape newShape)
@@ -375,27 +378,32 @@ void ComponentRigidBody::InternalLoad(const Json& meta)
 
 void ComponentRigidBody::SignalEnable()
 {
-	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
-	rigidBody->setGravity(gravity);
+	AddRigidBodyToDynamics();
 }
 
 void ComponentRigidBody::SignalDisable()
 {
+	RemoveRigidBodyFromDynamics();
+}
+
+void ComponentRigidBody::RemoveRigidBodyFromDynamics()
+{
 	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
+}
+
+void ComponentRigidBody::AddRigidBodyToDynamics()
+{
+	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
+	rigidBody->setGravity(gravity);
 }
 
 void ComponentRigidBody::RemoveRigidBodyFromSimulation()
 {
-	//App->GetModule<ModulePhysics>()->RemoveRigidBodyFromSimulation(rigidBody.get());
-	//App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
 	isInCollisionWorld = false;
 }
 
 void ComponentRigidBody::AddRigidBodyToSimulation()
 {
-	//App->GetModule<ModulePhysics>()->AddRigidBodyToSimulation(rigidBody.get());
-	//App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
-	//rigidBody->setGravity(gravity);
 	isInCollisionWorld = true;
 }
 
@@ -479,9 +487,9 @@ bool ComponentRigidBody::IsStatic() const
 	return GetOwner()->IsStatic();
 }
 
-void ComponentRigidBody::SetStatic(bool newStatic)
+void ComponentRigidBody::SetIsStatic(bool isStatic)
 {
-	GetOwner()->SetStatic(newStatic);
+	GetOwner()->SetIsStatic(isStatic);
 }
 
 void ComponentRigidBody::UpdateBlockedAxis()
