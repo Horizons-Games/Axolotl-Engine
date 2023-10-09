@@ -200,6 +200,7 @@
     <ClCompile Include="..\Game\Scripts\EnemyMiniBossTwo.cpp" />
     <ClCompile Include="..\Game\Scripts\EntityDetection.cpp" />
     <ClCompile Include="..\Game\Scripts\FinalBossScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\FireMovingObstacle.cpp" />
     <ClCompile Include="..\Game\Scripts\HackingCommand.cpp" />
     <ClCompile Include="..\Game\Scripts\HackZoneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp" />
@@ -237,6 +238,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\MinMaxForce.cpp" />
+    <ClCompile Include="..\Game\Scripts\MultipleFireObstacle.cpp" />
     <ClCompile Include="..\Game\Scripts\ParticleBillboardAssistance.cpp" />
     <ClCompile Include="..\Game\Scripts\PathBehaviourScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerAttackScript.cpp">
@@ -318,6 +320,10 @@
     <ClCompile Include="..\Game\Scripts\SendTriggerCollision.cpp" />
     <ClCompile Include="..\Game\Scripts\ShockWaveAttackAreaScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ShockWaveAttackScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\SpaceshipDeathManager.cpp" />
+    <ClCompile Include="..\Game\Scripts\SpaceshipMovement.cpp" />
+    <ClCompile Include="..\Game\Scripts\SpaceshipObstacle.cpp" />
+    <ClCompile Include="..\Game\Scripts\TurbineObstacle.cpp" />
     <ClCompile Include="..\Game\Scripts\TutorialSystem.cpp" />
     <ClCompile Include="..\Game\Scripts\SwitchPlayerManagerScript.cpp" />
     <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp">
@@ -406,6 +412,7 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIComboManager.cpp" />
     <ClCompile Include="..\Game\Scripts\UIGameManager.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIGameManagerSpaceship.cpp" />
     <ClCompile Include="..\Game\Scripts\UIHackingManager.cpp" />
     <ClCompile Include="..\Game\Scripts\UIImageDisplacementControl.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
@@ -893,6 +900,7 @@
     <ClInclude Include="..\Game\Scripts\EnemyMiniBossTwo.h" />
     <ClInclude Include="..\Game\Scripts\EntityDetection.h" />
     <ClInclude Include="..\Game\Scripts\FinalBossScript.h" />
+    <ClInclude Include="..\Game\Scripts\FireMovingObstacle.h" />
     <ClInclude Include="..\Game\Scripts\HackingCommand.h" />
     <ClInclude Include="..\Game\Scripts\HackZoneScript.h" />
     <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h" />
@@ -905,6 +913,7 @@
     <ClInclude Include="..\Game\Scripts\EnemyVenomiteScript.h" />
     <ClInclude Include="..\Game\Scripts\CameraControllerScript.h" />
     <ClInclude Include="..\Game\Scripts\MinMaxForce.h" />
+    <ClInclude Include="..\Game\Scripts\MultipleFireObstacle.h" />
     <ClInclude Include="..\Game\Scripts\ParticleBillboardAssistance.h" />
     <ClInclude Include="..\Game\Scripts\PathBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerAttackScript.h" />
@@ -928,6 +937,10 @@
     <ClInclude Include="..\Game\Scripts\SendTriggerCollision.h" />
     <ClInclude Include="..\Game\Scripts\ShockWaveAttackAreaScript.h" />
     <ClInclude Include="..\Game\Scripts\ShockWaveAttackScript.h" />
+    <ClInclude Include="..\Game\Scripts\SpaceshipDeathManager.h" />
+    <ClInclude Include="..\Game\Scripts\SpaceshipMovement.h" />
+    <ClInclude Include="..\Game\Scripts\SpaceshipObstacle.h" />
+    <ClInclude Include="..\Game\Scripts\TurbineObstacle.h" />
     <ClInclude Include="..\Game\Scripts\TutorialSystem.h" />
     <ClInclude Include="..\Game\Scripts\SwitchPlayerManagerScript.h" />
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h" />
@@ -945,6 +958,7 @@
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\UIComboManager.h" />
     <ClInclude Include="..\Game\Scripts\UIGameManager.h" />
+    <ClInclude Include="..\Game\Scripts\UIGameManagerSpaceship.h" />
     <ClInclude Include="..\Game\Scripts\UIHackingManager.h" />
     <ClInclude Include="..\Game\Scripts\UIImageDisplacementControl.h" />
     <ClInclude Include="..\Game\Scripts\UIMissionTrigger.h" />
