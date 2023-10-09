@@ -47,11 +47,6 @@ void UIOptionsMenu::Init()
 	render = App->GetModule<ModuleRender>();
 	audio = App->GetModule<ModuleAudio>();
 	
-	LoadOptions();
-}
-
-void UIOptionsMenu::Start()
-{
 	gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
 	videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
 	audioOptionComponentButton = audioOptionButton->GetComponent<ComponentButton>();
@@ -62,6 +57,13 @@ void UIOptionsMenu::Start()
 	buttonsAndCanvas.push_back(HeaderOptionsButton{ audioOptionComponentButton, audioOptionCanvas, audioOptionHover });
 	buttonsAndCanvas.push_back(HeaderOptionsButton{ controlOptionComponentButton, controlOptionCanvas, controlOptionHover });
 
+	LoadOptions();
+}
+
+void UIOptionsMenu::Start()
+{
+
+
 	gameOptionComponentButton->Disable();
 	videoOptionComponentButton->Disable();
 	audioOptionComponentButton->Disable();
@@ -70,8 +72,6 @@ void UIOptionsMenu::Start()
 	buttonsAndCanvas[0].canvas->Enable();
 	buttonsAndCanvas[0].hovered->Enable();
 	
-	SetLoadFromMainMenu(false);
-	LoadOptions();
 	//InitOptionMenu();
 	IsSizeOptionEnable();
 	IsFpsEnable();
@@ -101,7 +101,10 @@ void UIOptionsMenu::ControlEnable()
 
 	if (input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::DOWN)
 	{
+		BackToLastSavedOption();
 		LoadDefaultOptions();
+		resetButtonIndex = true;
+		return;
 	}
 
 	// MOVE THE HEADER OF THE OPTIONS
@@ -327,6 +330,7 @@ void UIOptionsMenu::InitOptionMenu()
 
 void UIOptionsMenu::LoadOptions()
 {
+	actualConfig.clear();
 	std::string optionMenuPath = "Settings/OptionsConfig.txt";
 	rapidjson::Document doc;
 	Json optionsMenu(doc, doc);
@@ -348,8 +352,7 @@ void UIOptionsMenu::LoadOptions()
 			buttonInfo.defaultOption = canvas[b]["Default_Option"];
 			buttonInfo.locked = canvas[b]["Locked_Option"];
 			canvasInfo.options.push_back(buttonInfo);
-			if (loadFromMainMenu == false)
-			{
+			
 				if (!IsSlider(a, b, 0))
 				{
 					buttonsAndCanvas[a].canvas->GetChildren()[b]->GetChildren()[1]->
@@ -362,7 +365,7 @@ void UIOptionsMenu::LoadOptions()
 						GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentSlider>();
 					sliderLoad->ModifyCurrentValue(buttonInfo.actualOption);
 				}
-			}
+			
 		}
 		actualConfig.push_back(canvasInfo);
 	}
@@ -382,7 +385,7 @@ void UIOptionsMenu::LoadOptions()
 
 void UIOptionsMenu::LoadDefaultOptions()
 {
-	for (int a = 0; a < buttonsAndCanvas.size()-1; a++)
+	for (int a = 0; a < actualConfig.size(); a++)
 	{
 		for (int b = 0; b < actualConfig[a].options.size(); b++)
 		{
