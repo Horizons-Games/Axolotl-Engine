@@ -5,9 +5,11 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentAudioSource.h"
+#include "Components/ComponentAgent.h"
 
 #include "EnemyDroneScript.h"
 #include "EnemyVenomiteScript.h"
+#include "../Scripts/AIMovement.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -20,15 +22,17 @@ componentAudio(nullptr), elevatorState(ElevatorState::INACTIVE), positionState(P
 	REGISTER_FIELD(fencesFinalPos, float);
 	REGISTER_FIELD(moveSpeed, float);
 	REGISTER_FIELD(cooldownTime, float);
-	REGISTER_FIELD(platformRigidBody, ComponentRigidBody*);
 	REGISTER_FIELD(fencesTransform, ComponentTransform*);
 	REGISTER_FIELD(enemyOnePosition, ComponentTransform*);
 	REGISTER_FIELD(enemyTwoPosition, ComponentTransform*);
+	REGISTER_FIELD(enemyOneArenaPosition, ComponentTransform*);
+	REGISTER_FIELD(enemyTwoArenaPosition, ComponentTransform*);
 }
 
 void BossLevelElevator::Start()
 {
 	transform = owner->GetComponent<ComponentTransform>();
+	platformRigidBody = owner->GetComponent<ComponentRigidBody>();
 	initialPos = transform->GetGlobalPosition().y;
 
 	if (fencesTransform != nullptr)
@@ -73,6 +77,8 @@ void BossLevelElevator::Update(float deltaTime)
 	{
 		MoveDown(deltaTime);
 	}
+
+	CheckIfEnemiesAreInTarget();
 }
 
 void BossLevelElevator::ChangeMovementState(ElevatorState newState)
@@ -169,6 +175,7 @@ void BossLevelElevator::ResetElevator()
 	transform->RecalculateLocalMatrix();
 	transform->UpdateTransformMatrices();
 	platformRigidBody->UpdateRigidBody();
+	componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 }
 
 
@@ -177,51 +184,109 @@ void BossLevelElevator::AttachEnemies(GameObject* enemyOneGO, GameObject* enemyT
 	enemyOne = enemyOneGO;
 	enemyTwo = enemyTwoGO;
 
-	ComponentTransform* enemyOneTransform = enemyOne->GetComponent<ComponentTransform>();
-	ComponentTransform* enemyTwoTransform = enemyTwo->GetComponent<ComponentTransform>();
+	MoveEnemyToElevatorPoint(enemyOne, enemyOnePosition);
+	ToggleEnemyInteractions(enemyOne, true, true);
 
-	enemyOneTransform->SetGlobalPosition(enemyOnePosition->GetGlobalPosition());
-	enemyTwoTransform->SetGlobalPosition(enemyTwoPosition->GetGlobalPosition());
+	MoveEnemyToElevatorPoint(enemyTwo, enemyTwoPosition);
+	ToggleEnemyInteractions(enemyTwo, true, true);
 
-	SetDisableInteractionsEnemies(enemyOne, true, true, true, true);
-	SetDisableInteractionsEnemies(enemyTwo, true, true, true, true);
-
+	enemyOneParalized = true;
+	enemyTwoParalized = true;
 	hasEnemies = true;
+}
+
+void BossLevelElevator::MoveEnemiesToArena(GameObject* enemy, ComponentTransform* targetPosition)
+{
+	ComponentRigidBody* rb = enemy->GetComponentInternal<ComponentRigidBody>();
+	rb->SetIsKinematic(true);
+	rb->SetIsTrigger(true);
+	rb->SetUpMobility();
+	rb->SetXRotationAxisBlocked(false);
+	rb->SetYRotationAxisBlocked(false);
+	rb->SetZRotationAxisBlocked(false);
+
+	AIMovement* aiMovement = enemy->GetComponentInternal<AIMovement>();
+	aiMovement->SetMovementSpeed(5.0f);
+	aiMovement->SetMovementStatuses(true, true);
+	aiMovement->SetTargetPosition(targetPosition->GetGlobalPosition());
+	aiMovement->SetRotationTargetPosition(targetPosition->GetGlobalPosition());
+
+	ComponentAgent* agent = enemy->GetComponentInternal<ComponentAgent>();
+	agent->Enable();
+	agent->AddAgentToCrowd();
 }
 
 void BossLevelElevator::ReleaseEnemies()
 {
-	SetDisableInteractionsEnemies(enemyOne, false, false, true, true);
-	SetDisableInteractionsEnemies(enemyTwo, false, false, true, true);
-
-	// WIP: Move enemies with Path and activate Agent
-
+	MoveEnemiesToArena(enemyOne, enemyOneArenaPosition);
+	MoveEnemiesToArena(enemyTwo, enemyTwoArenaPosition);
 
 	hasEnemies = false;
 }
 
-void BossLevelElevator::SetDisableInteractionsEnemies(GameObject* enemy, bool interactions,
-	bool setStaticRigidBody, bool setKinematicRigidBody, bool setTriggerRigidBody)
+void BossLevelElevator::ToggleEnemyInteractions(GameObject* enemy, bool interactions,
+	bool setStaticRigidBody)
+{
+	ToggleParalizeDependingOfEnemyType(enemy, interactions);
+	enemy->Enable();
+	componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
+}
+
+void BossLevelElevator::MoveEnemyToElevatorPoint(GameObject* enemy, ComponentTransform* elevatorPosition)
+{
+	ComponentAgent* agent = enemy->GetComponentInternal<ComponentAgent>();
+	agent->RemoveAgentFromCrowd();
+	agent->Disable();
+
+	AIMovement* aiMovement = enemy->GetComponentInternal<AIMovement>();
+	aiMovement->SetMovementStatuses(false, false);
+
+	ComponentTransform* enemyTransform = enemy->GetComponent<ComponentTransform>();
+	enemyTransform->SetGlobalPosition(elevatorPosition->GetGlobalPosition());
+	enemyTransform->RecalculateLocalMatrix();
+	enemyTransform->UpdateTransformMatrices();
+
+	ComponentRigidBody* rb = enemy->GetComponentInternal<ComponentRigidBody>();
+	rb->UpdateRigidBody();
+	rb->SetIsKinematic(false);
+	rb->SetUpMobility();
+	rb->SetXRotationAxisBlocked(true);
+	rb->SetYRotationAxisBlocked(true);
+	rb->SetZRotationAxisBlocked(true);
+}
+
+
+void BossLevelElevator::CheckIfEnemiesAreInTarget()
+{
+	if (enemyOneParalized && enemyOne->GetComponent<AIMovement>()->GetIsAtDestiny())
+	{
+		ToggleParalizeDependingOfEnemyType(enemyOne, false);
+
+		ComponentRigidBody* rb = enemyOne->GetComponentInternal<ComponentRigidBody>();
+		rb->SetIsTrigger(false);
+		rb->SetUpMobility();
+		enemyOneParalized = false;
+	}
+
+	if (enemyTwoParalized && enemyTwo->GetComponent<AIMovement>()->GetIsAtDestiny())
+	{
+		ToggleParalizeDependingOfEnemyType(enemyTwo, false);
+
+		ComponentRigidBody* rb = enemyTwo->GetComponentInternal<ComponentRigidBody>();
+		rb->SetIsTrigger(false);
+		rb->SetUpMobility();
+		enemyTwoParalized = false;
+	}
+}
+
+void BossLevelElevator::ToggleParalizeDependingOfEnemyType(GameObject* enemy, bool paralize)
 {
 	if (enemy->HasComponent<EnemyVenomiteScript>())
 	{
-		ComponentRigidBody* rb = enemy->GetComponentInternal<ComponentRigidBody>();
-		rb->SetIsStatic(setStaticRigidBody);
-		rb->SetIsKinematic(setKinematicRigidBody);
-		rb->SetIsTrigger(setTriggerRigidBody);
-		rb->UpdateRigidBody();
-		enemy->Enable();
-		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
-		//enemy->GetComponent<EnemyVenomiteScript>()->ParalyzeEnemy(interactions);
+		enemy->GetComponent<EnemyVenomiteScript>()->ParalyzeEnemy(paralize);
 	}
 	else if (enemy->HasComponent<EnemyDroneScript>())
 	{
-		ComponentRigidBody* rb = enemy->GetComponentInternal<ComponentRigidBody>();
-		rb->SetIsStatic(setStaticRigidBody);
-		rb->SetIsKinematic(setKinematicRigidBody);
-		rb->UpdateRigidBody();
-		enemy->Enable();
-		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
-		//enemy->GetComponent<EnemyDroneScript>()->ParalyzeEnemy(interactions);
+		enemy->GetComponent<EnemyDroneScript>()->ParalyzeEnemy(paralize);
 	}
 }

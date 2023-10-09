@@ -33,9 +33,13 @@ public:
 
 	void ChangeMovementState(ElevatorState newState);
 	void AttachEnemies(GameObject* enemyOneGO, GameObject* enemyTwoGO);
-	void SetDisableInteractionsEnemies(GameObject* enemy, bool interactions,
-		bool setStaticRigidBody, bool setKinematicRigidBody, bool setTriggerRigidBody);
+	void ToggleEnemyInteractions(GameObject* enemy, bool interactions,
+		bool setStaticRigidBody);
+	void MoveEnemyToElevatorPoint(GameObject* enemy, ComponentTransform* elevatorPosition);
 	void ReleaseEnemies();
+	void MoveEnemiesToArena(GameObject* enemyOne, ComponentTransform* targetPosition);
+	void CheckIfEnemiesAreInTarget();
+	void ToggleParalizeDependingOfEnemyType(GameObject* enemy, bool paralize);
 
 	bool GetHasEnemies() const;
 	PositionState GetPositionState() const;
@@ -51,6 +55,8 @@ private:
 	float currentTime;
 	bool fencesDown;
 	bool hasEnemies;
+	bool enemyOneParalized;
+	bool enemyTwoParalized;
 
 	float initialPos;
 	float finalPos;
@@ -67,6 +73,8 @@ private:
 	ComponentTransform* fencesTransform;
 	ComponentTransform* enemyOnePosition;
 	ComponentTransform* enemyTwoPosition;
+	ComponentTransform* enemyOneArenaPosition;
+	ComponentTransform* enemyTwoArenaPosition;
 	GameObject* enemyOne;
 	GameObject* enemyTwo;
 };
