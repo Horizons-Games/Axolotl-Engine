@@ -118,6 +118,10 @@ ModuleRenderer::ModuleRenderer(ParticleEmitter* emitter, ModuleRenderer* rendere
 
 ModuleRenderer::~ModuleRenderer()
 {
+#ifdef ENGINE
+	delete windowTexture;
+#endif // ENGINE
+
 	// Buffer cleanup
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);

@@ -138,7 +138,7 @@ void Cubemap::GenerateMaps(bool hasSkybox)
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, cubemapRes->GetHDRTexture()->GetGlTexture());
 
-		RenderToCubeMap(cubemap, hdrToCubemapProgram, CUBEMAP_RESOLUTION);
+		RenderToCubemap(cubemap, hdrToCubemapProgram, CUBEMAP_RESOLUTION);
 		hdrToCubemapProgram->Deactivate();
 	}
 	
@@ -167,7 +167,7 @@ void Cubemap::GenerateMaps(bool hasSkybox)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap);
 
-	RenderToCubeMap(irradiance, irradianceProgram, IRRADIANCE_MAP_RESOLUTION);
+	RenderToCubemap(irradiance, irradianceProgram, IRRADIANCE_MAP_RESOLUTION);
 	irradianceProgram->Deactivate();
 	
 	// pre-filtered map
@@ -205,7 +205,7 @@ void Cubemap::GenerateMaps(bool hasSkybox)
 		preFilteredProgram->BindUniformFloat(4, roughness);
 
 		unsigned int mipResolution = static_cast<unsigned int>(PRE_FILTERED_MAP_RESOLUTION * std::pow(0.5, mipMap));
-		RenderToCubeMap(preFiltered, preFilteredProgram, mipResolution, mipMap);
+		RenderToCubemap(preFiltered, preFilteredProgram, mipResolution, mipMap);
 	}
 	preFilteredProgram->Deactivate();
 
@@ -233,7 +233,7 @@ void Cubemap::GenerateMaps(bool hasSkybox)
 	glFrontFace(GL_CW); // Clockwise
 }
 
-void Cubemap::RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel)
+void Cubemap::RenderToCubemap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel)
 {
 	const float3 front[6] = { float3::unitX,  -float3::unitX, float3::unitY,
 							  -float3::unitY, float3::unitZ,  -float3::unitZ };

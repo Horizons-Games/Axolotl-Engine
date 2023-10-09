@@ -27,7 +27,7 @@ private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
-	void SignalDisable() override;
+	void SignalDisable(bool isSceneLoading) override;
 
 private:
 	bool clicked;

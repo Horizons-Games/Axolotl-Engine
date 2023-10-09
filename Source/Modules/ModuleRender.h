@@ -8,6 +8,7 @@
 #include "FileSystem/UID.h"
 
 #include "PostProcess/SSAO.h"
+#include "DataModels/Render/LightPass.h"
 
 #include "Render/Shadows.h"
 
@@ -27,6 +28,8 @@ class GeometryBatch;
 class BatchManager;
 class ComponentMeshRenderer;
 class GBuffer;
+
+enum class ProgramType;
 
 class ModuleRender : public Module
 {
@@ -59,12 +62,14 @@ public:
 
 	GLuint GetCameraUBO() const;
 	GLuint GetRenderedTexture() const;
+	GLuint GetUboCamera() const;
 	float GetObjectDistance(const GameObject* gameObject);
 	Shadows* GetShadows() const;
 	bool IsShadowsEnabled() const;
 	bool IsVSMEnabled() const;
 	bool IsSsaoEnabled() const;
 	bool IsBloomEnabled() const;
+	LightPass* GetLightProxy() const;
 
 	void SetBloomIntensity(float color);
 	float GetBloomIntensity() const;
@@ -80,6 +85,13 @@ public:
 
 	void FillCharactersBatches();
 	void RelocateGOInBatches(GameObject* go);
+
+	void DrawMeshesByFilter(std::vector<GameObject*>& objects, ProgramType type, bool normalBehaviour = true);
+
+	void SortOpaques(std::vector<GameObject*>& sceneGameObjects, const float3& pos);
+	void SortTransparents(std::vector<GameObject*>& sceneGameObjects, const float3& pos);
+	
+	void BindCameraToProgram(Program* program, Frustum& frustum);
 
 private:
 
@@ -104,7 +116,6 @@ private:
 
 	void DrawHighlight(GameObject* gameObject);
 
-	void BindCameraToProgram(Program* program, Camera* camera);
 	void BindCubemapToProgram(Program* program);
 
 	void KawaseDualFiltering();
@@ -124,6 +135,7 @@ private:
 	GBuffer* gBuffer;
 	Shadows* shadows;
 	SSAO* ssao;
+	LightPass* lightPass;
 
 	unsigned uboCamera;
 
@@ -135,6 +147,11 @@ private:
 	
 	std::unordered_set<const GameObject*> gameObjectsInFrustrum;
 	std::unordered_map<const GameObject*, float> objectsInFrustrumDistances;
+
+	std::vector<ComponentPointLight*> points;
+	std::vector<ComponentSpotLight*> spots;
+	std::vector<ComponentAreaLight*> spheres;
+	std::vector<ComponentAreaLight*> tubes;
 
 	// 0: used in game and engine 
 	// 1: only in engine, stores the final result, to avoid writing and reading at the same time
@@ -150,7 +167,6 @@ private:
 	
 	//GLuint bloomFramebuffer;
 	//GLuint bloomTexture;
-	
 
 	friend class ModuleEditor;
 };
@@ -210,6 +226,11 @@ inline GLuint ModuleRender::GetRenderedTexture() const
 	return renderedTexture[1];
 }
 
+inline GLuint ModuleRender::GetUboCamera() const
+{
+	return uboCamera;
+}
+
 inline BatchManager* ModuleRender::GetBatchManager() const
 {
 	return batchManager;
@@ -228,6 +249,11 @@ inline float ModuleRender::GetObjectDistance(const GameObject* gameObject)
 inline Shadows* ModuleRender::GetShadows() const
 {
 	return shadows;
+}
+
+inline LightPass* ModuleRender::GetLightProxy() const
+{
+	return lightPass;
 }
 
 inline void ModuleRender::SetBloomIntensity(float intensity)

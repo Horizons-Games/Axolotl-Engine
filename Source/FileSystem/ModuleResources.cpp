@@ -37,6 +37,7 @@ ModuleResources::ModuleResources() : monitorResources(false)
 
 ModuleResources::~ModuleResources()
 {
+	CleanUp();
 }
 
 bool ModuleResources::Init()
@@ -65,12 +66,28 @@ bool ModuleResources::CleanUp()
 {
 #ifdef ENGINE
 	monitorResources = false;
-	monitorThread.join();
+
+	if (monitorThread.joinable())
+	{
+		monitorThread.join();
+	}
 #else
 	resourcesBin.clear();
 #endif
 	resources.clear();
 	return true;
+}
+
+void ModuleResources::CleanResourceBin()
+{
+#ifndef ENGINE
+	resourcesBin.clear();
+#endif //! ENGINE
+}
+
+void ModuleResources::CleanResources()
+{
+	resources.clear();
 }
 
 void ModuleResources::CreateDefaultResource(ResourceType type, const std::string& fileName)
