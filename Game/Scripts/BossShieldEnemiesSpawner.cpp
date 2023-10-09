@@ -46,14 +46,14 @@ void BossShieldEnemiesSpawner::Update(float deltaTime)
 		elevatorTwo->ReleaseEnemies();
 	}
 
-	/*if (bossShieldAttackScript->IsAttacking())
+	if (bossShieldAttackScript->IsAttacking())
 	{
 		if (!elevatorOne->GetHasEnemies() && !elevatorTwo->GetHasEnemies() &&
 			elevatorOne->GetPositionState() == PositionState::DOWN && elevatorTwo->GetPositionState() == PositionState::DOWN)
 		{
 			StartSpawner();
 		}
-	}*/
+	}
 }
 
 void BossShieldEnemiesSpawner::StartSpawner()
