@@ -45,6 +45,7 @@ private:
 
 	std::vector<GameObject*> enemiesReadyToSpawn;
 	std::vector<GameObject*> enemiesNotReadyToSpawn;
+	std::vector<GameObject*> initsPaths;
 
 	HealthSystem* healthSystemScript;
 
@@ -55,6 +56,7 @@ private:
 	BossShieldScript* bossShieldObject;
 
 	float enemyMaxSpawnTime;
+	unsigned int currentPath;
 
 	GameObject* enemiesToSpawnParent;
 

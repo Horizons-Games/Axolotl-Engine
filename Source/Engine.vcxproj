@@ -184,7 +184,6 @@
     <ClCompile Include="..\Game\Scripts\BossChargeRockScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossMissilesAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossMissilesMissileScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\BossMusic.cpp" />
     <ClCompile Include="..\Game\Scripts\BossShieldAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossShieldScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CombatTutorial.cpp" />
@@ -239,6 +238,7 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\MinMaxForce.cpp" />
     <ClCompile Include="..\Game\Scripts\ParticleBillboardAssistance.cpp" />
+    <ClCompile Include="..\Game\Scripts\PathBehaviourScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerAttackScript.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -318,9 +318,6 @@
     <ClCompile Include="..\Game\Scripts\SendTriggerCollision.cpp" />
     <ClCompile Include="..\Game\Scripts\ShockWaveAttackAreaScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ShockWaveAttackScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\SpaceshipEscapeMusic.cpp" />
-    <ClCompile Include="..\Game\Scripts\SpaceStationMusic.cpp" />
-    <ClCompile Include="..\Game\Scripts\TurbineSewersAudio.cpp" />
     <ClCompile Include="..\Game\Scripts\TutorialSystem.cpp" />
     <ClCompile Include="..\Game\Scripts\SwitchPlayerManagerScript.cpp" />
     <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp">
@@ -437,7 +434,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\WaterfallAudio.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAgent.cpp" />
     <ClCompile Include="DataModels\Components\ComponentObstacle.cpp" />
@@ -886,7 +882,6 @@
     <ClInclude Include="..\Game\Scripts\BossChargeRockScript.h" />
     <ClInclude Include="..\Game\Scripts\BossMissilesAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\BossMissilesMissileScript.h" />
-    <ClInclude Include="..\Game\Scripts\BossMusic.h" />
     <ClInclude Include="..\Game\Scripts\BossShieldAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\BossShieldScript.h" />
     <ClInclude Include="..\Game\Scripts\CombatTutorial.h" />
@@ -911,6 +906,7 @@
     <ClInclude Include="..\Game\Scripts\CameraControllerScript.h" />
     <ClInclude Include="..\Game\Scripts\MinMaxForce.h" />
     <ClInclude Include="..\Game\Scripts\ParticleBillboardAssistance.h" />
+    <ClInclude Include="..\Game\Scripts\PathBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h" />
@@ -932,9 +928,6 @@
     <ClInclude Include="..\Game\Scripts\SendTriggerCollision.h" />
     <ClInclude Include="..\Game\Scripts\ShockWaveAttackAreaScript.h" />
     <ClInclude Include="..\Game\Scripts\ShockWaveAttackScript.h" />
-    <ClInclude Include="..\Game\Scripts\SpaceshipEscapeMusic.h" />
-    <ClInclude Include="..\Game\Scripts\SpaceStationMusic.h" />
-    <ClInclude Include="..\Game\Scripts\TurbineSewersAudio.h" />
     <ClInclude Include="..\Game\Scripts\TutorialSystem.h" />
     <ClInclude Include="..\Game\Scripts\SwitchPlayerManagerScript.h" />
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h" />
@@ -960,7 +953,6 @@
     <ClInclude Include="..\Game\Scripts\UITrigger.h" />
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusic.h" />
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusicExit.h" />
-    <ClInclude Include="..\Game\Scripts\WaterfallAudio.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\AddComponentAction.h" />
     <ClInclude Include="Auxiliar\SceneLoader.h" />

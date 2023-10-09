@@ -12,6 +12,7 @@ class ComponentAnimation;
 class ComponentRigidBody;
 
 class HackZoneScript;
+class ElevatorCore;
 
 // Little fix until we could check if an audio is being reproduced
 enum class ActiveActions
@@ -34,10 +35,17 @@ public:
 
 private:
 
+	void NextInTheList();
+
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;
 	ActiveActions activeState;
 	ComponentRigidBody* componentRigidBody;
 
+	GameObject* enemisToSpawn;
+	ElevatorCore* elevator;
+	std::vector<GameObject*> enemisWating;
+
 	HackZoneScript* linkedHackZone;
+	bool interactWithEnemies;
 };
