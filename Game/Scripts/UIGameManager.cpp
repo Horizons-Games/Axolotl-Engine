@@ -17,12 +17,12 @@ UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), manager(null
 hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr),
 speedPwrUpObject(nullptr), pwrUpActive(false), savePwrUp(PowerUpType::NONE), sliderHudHealthBixFront(nullptr), 
 sliderHudHealthBixBack(nullptr), sliderHudHealthAlluraFront(nullptr), sliderHudHealthAlluraBack(nullptr),
-debbugModeObject(nullptr), imgMouse(nullptr), imgController(nullptr),inputMethod(true), prevInputMetod(nullptr)
+debugModeObject(nullptr), imgMouse(nullptr), imgController(nullptr),inputMethod(true), prevInputMethod(true)
 {
 	REGISTER_FIELD(manager, GameObject*);
 	REGISTER_FIELD(mainMenuObject, GameObject*);
 	REGISTER_FIELD(hudCanvasObject, GameObject*);
-	REGISTER_FIELD(debbugModeObject, GameObject*);
+	REGISTER_FIELD(debugModeObject, GameObject*);
 	REGISTER_FIELD(imgMouse, GameObject*);
 	REGISTER_FIELD(imgController, GameObject*);
 
@@ -76,15 +76,15 @@ void UIGameManager::Update(float deltaTime)
 	}
 
 	// DEBBUG MODE
-	if (input->GetKey(SDL_SCANCODE_B) == KeyState::DOWN && debbugModeObject != nullptr)
+	if (input->GetKey(SDL_SCANCODE_B) == KeyState::DOWN && debugModeObject != nullptr)
 	{
-		if (!debbugModeObject->IsEnabled())
+		if (!debugModeObject->IsEnabled())
 		{
-			debbugModeObject->Enable();
+			debugModeObject->Enable();
 		}
 		else
 		{
-			debbugModeObject->Disable();
+			debugModeObject->Disable();
 		}
 	}
 
@@ -266,18 +266,18 @@ void UIGameManager::SetMaxPowerUpTime(float maxPowerUpTime)
 
 void UIGameManager::InputMethodImg(bool input)
 {
-	if (currentInputTime == 0.0f && prevInputMetod != inputMethod )
+	if (currentInputTime == 0.0f && prevInputMethod != inputMethod )
 	{
 		if (input)
 		{
-			prevInputMetod = input;
+			prevInputMethod = input;
 			imgMouse->Disable();
 			imgController->Enable();
 			currentInputTime++;
 		}
 		else
 		{
-			prevInputMetod = input;
+			prevInputMethod = input;
 			imgController->Disable();
 			imgMouse->Enable();
 			currentInputTime++;
@@ -299,3 +299,8 @@ void UIGameManager::InputMethodImg(bool input)
 
 }
 
+void UIGameManager::SetMenuIsOpen(bool menuState)
+{
+	menuIsOpen = menuState;
+	MenuIsOpen();
+}

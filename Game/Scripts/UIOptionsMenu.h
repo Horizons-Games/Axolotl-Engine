@@ -88,7 +88,7 @@ private:
 
 	bool isSlider;
 	bool optionSizeLock;
-	bool resettButtonIndex;
+	bool resetButtonIndex;
 	bool loadFromMainMenu;
 
 	ModuleInput* input;
@@ -138,17 +138,6 @@ private:
 	void IsFpsEnable();
 
 };
-
-inline void UIOptionsMenu::SetLoadFromMainMenu(bool fromMainMenu)
-{
-	loadFromMainMenu = fromMainMenu;
-}
-
-inline bool UIOptionsMenu::IsLoadFromMainMenu() const
-{
-	return loadFromMainMenu;
-}
-
 
 
 

@@ -41,7 +41,7 @@ private:
 	bool menuIsOpen;
 	bool pwrUpActive;
 	bool inputMethod;
-	bool prevInputMetod;
+	bool prevInputMethod;
 
 	float damage = 0.0f;
 	float damageBack = 0.0f;
@@ -56,7 +56,7 @@ private:
 
 	GameObject* mainMenuObject;
 	GameObject* hudCanvasObject;
-	GameObject* debbugModeObject;
+	GameObject* debugModeObject;
 	GameObject* imgMouse;
 	GameObject* imgController;
 
@@ -86,12 +86,6 @@ private:
 	HealthSystem* healthSystemClassAllura;
 
 };
-
-inline void UIGameManager::SetMenuIsOpen(bool menuState)
-{
-	menuIsOpen = menuState;
-	MenuIsOpen();
-}
 
 
 
