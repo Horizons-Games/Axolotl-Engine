@@ -14,12 +14,12 @@
 
 REGISTERCLASS(UIOptionsMenu);
 
-UIOptionsMenu::UIOptionsMenu() : Script(), gameOptionButton(nullptr), videoOptionButton(nullptr), audioOptionButton(nullptr),
-controlOptionButton(nullptr), gameOptionCanvas(nullptr), videoOptionCanvas(nullptr), audioOptionCanvas(nullptr),
-gameOptionHover(nullptr), videoOptionHover(nullptr), audioOptionHover(nullptr), controlOptionHover(nullptr),
-padTriggersIMG(nullptr), headerMenuPosition(0), newHeaderMenuPosition(-1), selectedOption(-1), actualButton(-1),
-actualButtonHover(-1), maxButtonsOptions(-1), maxOptions(-1), newSelectedOption(-1), loadFromMainMenu(false),
-valueSlider(-1), resettButtonIndex(true)
+UIOptionsMenu::UIOptionsMenu() : Script(), gameOptionButton(nullptr), videoOptionButton(nullptr), 
+audioOptionButton(nullptr), controlOptionButton(nullptr), gameOptionCanvas(nullptr), videoOptionCanvas(nullptr), 
+audioOptionCanvas(nullptr), gameOptionHover(nullptr), videoOptionHover(nullptr), audioOptionHover(nullptr), 
+controlOptionHover(nullptr), padTriggersIMG(nullptr), headerMenuPosition(0), newHeaderMenuPosition(-1), 
+selectedOption(-1), actualButton(-1), actualButtonHover(-1), maxButtonsOptions(-1), maxOptions(-1), 
+newSelectedOption(-1), loadFromMainMenu(false), valueSlider(-1), resetButtonIndex(true)
 {
 	REGISTER_FIELD(gameOptionButton, GameObject*);
 	REGISTER_FIELD(videoOptionButton, GameObject*);
@@ -84,17 +84,17 @@ void UIOptionsMenu::Update(float deltaTime)
 
 void UIOptionsMenu::ControlEnable()
 {
-	if (resettButtonIndex == true)
+	if (resetButtonIndex == true)
 	{
 		ui->ResetCurrentButtonIndex();
-		resettButtonIndex = false;
+		resetButtonIndex = false;
 	}
 
 	//BACK TO MAIN MENU
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
 	{
 		SaveOptions();
-		resettButtonIndex = true;
+		resetButtonIndex = true;
 		return;
 	}
 
@@ -146,7 +146,8 @@ void UIOptionsMenu::ControlEnable()
 
 	//IF YOU DONT SAVE ANY OPTIONS THIS GO BACK TO THE LAST SAVED OPTION
 	verticalDirection = input->GetLeftJoystickDirection().verticalDirection;
-	if (verticalDirection == JoystickVerticalDirection::FORWARD || verticalDirection == JoystickVerticalDirection::BACK)
+	if (verticalDirection == JoystickVerticalDirection::FORWARD || 
+		verticalDirection == JoystickVerticalDirection::BACK)
 	{
 		BackToLastSavedOption();
 		newSelectedOption = -1;
@@ -157,14 +158,16 @@ void UIOptionsMenu::ControlEnable()
 	//LOOK FOR THE current SELECTED BUTTON
 	for (actualButton = 0; actualButton < maxButtonsOptions; actualButton++)
 	{
-		if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[0]->GetChildren()[0]->GetComponent<ComponentButton>()->IsHovered())
+		if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[0]->
+			GetChildren()[0]->GetComponent<ComponentButton>()->IsHovered())
 		{
 			break;
 		}
 	}
 
 	// IF THE BUTTON IS LOCKED BLOCK THE OPTIONS SELECCTION
-	if (actualConfig[headerMenuPosition].options.size() == 0 || actualConfig[headerMenuPosition].options[actualButton].locked)
+	if (actualConfig[headerMenuPosition].options.size() == 0 || 
+		actualConfig[headerMenuPosition].options[actualButton].locked)
 	{
 		return;
 	}
@@ -172,13 +175,15 @@ void UIOptionsMenu::ControlEnable()
 	// MOVE LEFT OR RIGHT THE OPTIONS
 	if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::DOWN)
 	{
-		maxOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->GetChildren().size() - 1;
+		maxOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->
+			GetChildren()[1]->GetChildren().size() - 1;
 
 		if (maxOptions >= 0)
 		{
 			for (selectedOption = 0; selectedOption < maxOptions; selectedOption++)
 			{
-				if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->GetChildren()[selectedOption]->IsEnabled())
+				if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->
+					GetChildren()[1]->GetChildren()[selectedOption]->IsEnabled())
 				{
 					break;
 				}
@@ -236,8 +241,10 @@ void UIOptionsMenu::ControlEnable()
 				// THINK THE IF IS USELESS BUT ITS WORKING GOOD SO DONT DELETE
 				if (newSelectedOption != -1 && newSelectedOption != selectedOption)
 				{
-					buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->GetChildren()[selectedOption]->Disable();
-					buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->GetChildren()[newSelectedOption]->Enable();
+					buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->
+						GetChildren()[1]->GetChildren()[selectedOption]->Disable();
+					buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->
+						GetChildren()[1]->GetChildren()[newSelectedOption]->Enable();
 				}
 			}
 		}
@@ -336,7 +343,8 @@ void UIOptionsMenu::LoadOptions()
 			{
 				if (!IsSlider(a, b, 0))
 				{
-					buttonsAndCanvas[a].canvas->GetChildren()[b]->GetChildren()[1]->GetChildren()[buttonInfo.actualOption]->Enable();
+					buttonsAndCanvas[a].canvas->GetChildren()[b]->GetChildren()[1]->
+						GetChildren()[buttonInfo.actualOption]->Enable();
 				}
 				else
 				{
@@ -365,14 +373,16 @@ void UIOptionsMenu::LoadOptions()
 
 void UIOptionsMenu::LoadDefaultOptions()
 {
-	for (int a = 0; a < actualConfig.size(); a++)
+	for (int a = 0; a < buttonsAndCanvas.size()-1; a++)
 	{
 		for (int b = 0; b < actualConfig[a].options.size(); b++)
 		{
 			if (!IsSlider(a, b, 0))
 			{
-				buttonsAndCanvas[a].canvas->GetChildren()[b]->GetChildren()[1]->GetChildren()[actualConfig[a].options[b].actualOption]->Disable();
-				buttonsAndCanvas[a].canvas->GetChildren()[b]->GetChildren()[1]->GetChildren()[actualConfig[a].options[b].defaultOption]->Enable();
+				buttonsAndCanvas[a].canvas->GetChildren()[b]->GetChildren()[1]->
+					GetChildren()[actualConfig[a].options[b].actualOption]->Disable();
+				buttonsAndCanvas[a].canvas->GetChildren()[b]->GetChildren()[1]->
+					GetChildren()[actualConfig[a].options[b].defaultOption]->Enable();
 			}
 			else
 			{
@@ -428,14 +438,17 @@ void UIOptionsMenu::BackToLastSavedOption()
 	}
 	else
 	{
-		buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->GetChildren()[newSelectedOption]->Disable();
-		buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->GetChildren()[saveSelectedOption]->Enable();
+		buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->
+			GetChildren()[newSelectedOption]->Disable();
+		buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->
+			GetChildren()[saveSelectedOption]->Enable();
 	}
 }
 
 bool UIOptionsMenu::IsSlider(int header, int button, int option)
 {
-	if (buttonsAndCanvas[header].canvas->GetChildren()[button]->GetChildren()[1]->GetChildren()[option]->HasComponent<ComponentSlider>())
+	if (buttonsAndCanvas[header].canvas->GetChildren()[button]->GetChildren()[1]->GetChildren()[option]->
+		HasComponent<ComponentSlider>())
 	{
 		return true;
 	}
@@ -448,48 +461,58 @@ bool UIOptionsMenu::IsSlider(int header, int button, int option)
 void UIOptionsMenu::IsSizeOptionEnable()
 {
 	float4 colorSet;
-	if (actualConfig[(int)Canvas::GAME_CANVAS].options[(int)Button::WINDOWSMODE].actualOption == 0 || 
-		actualConfig[(int)Canvas::GAME_CANVAS].options[(int)Button::WINDOWSMODE].actualOption == 1)
+	if (actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[static_cast<int>(Button::WINDOWSMODE)].actualOption == 0 ||
+		actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[static_cast<int>(Button::WINDOWSMODE)].actualOption == 1)
 	{
 		colorSet = { 0.5f, 0.5f, 0.5f, 1.0f };
-		buttonsAndCanvas[(int)Canvas::GAME_CANVAS].canvas->GetChildren()[(int)Button::RESOLUTION]->GetChildren()[1]->GetChildren()[1]->Disable();
-		buttonsAndCanvas[(int)Canvas::GAME_CANVAS].canvas->GetChildren()[(int)Button::RESOLUTION]->GetChildren()[1]->GetChildren()[2]->Disable();
-		buttonsAndCanvas[(int)Canvas::GAME_CANVAS].canvas->GetChildren()[(int)Button::RESOLUTION]->GetChildren()[1]->GetChildren()[3]->Disable();
-		buttonsAndCanvas[(int)Canvas::GAME_CANVAS].canvas->GetChildren()[(int)Button::RESOLUTION]->GetChildren()[1]->GetChildren()[4]->Disable();
-		buttonsAndCanvas[(int)Canvas::GAME_CANVAS].canvas->GetChildren()[(int)Button::RESOLUTION]->GetChildren()[1]->GetChildren()[0]->Enable();
-		actualConfig[(int)Canvas::GAME_CANVAS].options[(int)Button::RESOLUTION].locked = true;
+		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->
+			GetChildren()[static_cast<int>(Button::RESOLUTION)]->GetChildren()[1]->GetChildren()[1]->Disable();
+		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->
+			GetChildren()[static_cast<int>(Button::RESOLUTION)]->GetChildren()[1]->GetChildren()[2]->Disable();
+		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->
+			GetChildren()[static_cast<int>(Button::RESOLUTION)]->GetChildren()[1]->GetChildren()[3]->Disable();
+		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->
+			GetChildren()[static_cast<int>(Button::RESOLUTION)]->GetChildren()[1]->GetChildren()[4]->Disable();
+		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->
+			GetChildren()[static_cast<int>(Button::RESOLUTION)]->GetChildren()[1]->GetChildren()[0]->Enable();
+		actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[static_cast<int>(Button::RESOLUTION)].locked = true;
 	}
 	else
 	{
 		colorSet = { 1.0f, 1.0f, 1.0f, 1.0f };
-		actualConfig[(int)Canvas::GAME_CANVAS].options[(int)Button::RESOLUTION].locked = false;
+		actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[static_cast<int>(Button::RESOLUTION)].locked = false;
 
 	}
 
-	buttonsAndCanvas[(int)Canvas::GAME_CANVAS].canvas->GetChildren()[(int)Button::RESOLUTION]->
+	buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->GetChildren()[static_cast<int>(Button::RESOLUTION)]->
 		GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(colorSet);
 }
 
 void UIOptionsMenu::IsFpsEnable()
 {
 	float4 colorSet;
-	if (actualConfig[(int)Canvas::GAME_CANVAS].options[(int)Button::VSYNC].actualOption == 1)
+	if (actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[(int)Button::VSYNC].actualOption == 1)
 	{
 		colorSet = { 0.5f, 0.5f, 0.5f, 1.0f };
-		buttonsAndCanvas[(int)Canvas::GAME_CANVAS].canvas->GetChildren()[(int)Button::FPS]->GetChildren()[1]->GetChildren()[1]->Disable();
-		buttonsAndCanvas[(int)Canvas::GAME_CANVAS].canvas->GetChildren()[(int)Button::FPS]->GetChildren()[1]->GetChildren()[2]->Disable();
-		buttonsAndCanvas[(int)Canvas::GAME_CANVAS].canvas->GetChildren()[(int)Button::FPS]->GetChildren()[1]->GetChildren()[3]->Disable();
-		buttonsAndCanvas[(int)Canvas::GAME_CANVAS].canvas->GetChildren()[(int)Button::FPS]->GetChildren()[1]->GetChildren()[0]->Enable();
-		actualConfig[(int)Canvas::GAME_CANVAS].options[(int)Button::FPS].locked = true;
+		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->GetChildren()[static_cast<int>(Button::FPS)]->
+			GetChildren()[1]->GetChildren()[1]->Disable();
+		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->GetChildren()[static_cast<int>(Button::FPS)]->
+			GetChildren()[1]->GetChildren()[2]->Disable();
+		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->GetChildren()[static_cast<int>(Button::FPS)]->
+			GetChildren()[1]->GetChildren()[3]->Disable();
+		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->GetChildren()[static_cast<int>(Button::FPS)]->
+			GetChildren()[1]->GetChildren()[0]->Enable();
+		actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[static_cast<int>(Button::FPS)].locked = true;
 	}
 	else
 	{
 		colorSet = { 1.0f, 1.0f, 1.0f, 1.0f };
-		actualConfig[(int)Canvas::GAME_CANVAS].options[(int)Button::FPS].locked = false;
+		actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[static_cast<int>(Button::FPS)].locked = false;
 
 	}
 
-	buttonsAndCanvas[(int)Canvas::GAME_CANVAS].canvas->GetChildren()[(int)Button::FPS]->GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(colorSet);
+	buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->GetChildren()[static_cast<int>(Button::FPS)]->
+		GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(colorSet);
 }
 
 void UIOptionsMenu::GameOption(int button, int option)
@@ -571,7 +594,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 		case 0:
 
 			window->SetDesktopFullscreen(true);
-			//window->SetFullscreen(true); // NOT WORKING PROPRETLY
+			//window->SetFullscreen(true); // NOT WORKING PROPRETLY WE NEED FIX IT
 			LOG_INFO("Windows Mode: Fullscreen");
 			break;
 		case 1:
@@ -638,8 +661,20 @@ void UIOptionsMenu::AudioOption(int button, int option)
 }
 void UIOptionsMenu::ControlOption()
 {
-
+	//Function reserved to the control canvas options
 }
+
+void UIOptionsMenu::SetLoadFromMainMenu(bool fromMainMenu)
+{
+	loadFromMainMenu = fromMainMenu;
+}
+
+bool UIOptionsMenu::IsLoadFromMainMenu() const
+{
+	return loadFromMainMenu;
+}
+
+
 /*
 void UIOptionsMenu::KeyboardEnable()
 {

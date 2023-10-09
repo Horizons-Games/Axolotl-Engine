@@ -11,7 +11,7 @@
 
 REGISTERCLASS(UIText);
 
-UIText::UIText() : Script(), actualNumber(0.0f), prevNumber(0.1f)
+UIText::UIText() : Script(), actualNumber(0.0f), prevNumber(0.0f)
 {
 	REGISTER_FIELD(numbersIMG, std::vector<GameObject*>);
 	REGISTER_FIELD(actualNumber, float);
@@ -36,24 +36,25 @@ void UIText::Update(float deltaTime)
 
 void UIText::AddInputVisuals(float numFrom)
 {
-		int num = static_cast<int>(numFrom);
+		int number = static_cast<int>(numFrom);
 		int digit = 0;
-		int numShow[3];
+		int maxNumberToShow = inputPositions.size();
 		GameObject* prefab = nullptr;
 
 		CleanInputVisuals();
-
-		for (int a=0; a < 3; a++)
+		
+		for (int currentNumToShow=0; currentNumToShow < maxNumberToShow; ++currentNumToShow)
 		{
-			digit = num % 10;
+			digit = number % 10;
 			
-			if (num !=0)
+			if (number !=0)
 			{
-				num /= 10;
+				number /= 10;
 				prefab = numbersIMG[digit];
 
 				GameObject* newInput =
-					App->GetModule<ModuleScene>()->GetLoadedScene()->DuplicateGameObject(prefab->GetName(), prefab, inputPositions[a]);
+					App->GetModule<ModuleScene>()->GetLoadedScene()->
+					DuplicateGameObject(prefab->GetName(), prefab, inputPositions[currentNumToShow]);
 				newInput->Enable();
 				inputVisuals.push_front(newInput);
 			}
