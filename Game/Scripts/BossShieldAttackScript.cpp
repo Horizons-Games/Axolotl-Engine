@@ -84,7 +84,7 @@ void BossShieldAttackScript::TriggerShieldAttack()
 
 	bossShieldObject->ActivateShield();
 	healthSystemScript->SetIsImmortal(true);
-	bossShieldEnemiesSpawner->StartSpawner();
+	//bossShieldEnemiesSpawner->StartSpawner();
 
 	isShielding = true;
 	shieldAttackCooldown = shieldAttackMaxCooldown;
