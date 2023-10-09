@@ -29,8 +29,6 @@ enum class ComponentType
 	AGENT,
 	OBSTACLE,
 	PARTICLE,
-	VIDEO,
-	PLAYERINPUT
 };
 
 class ComponentAnimation;
@@ -57,7 +55,6 @@ class ComponentObstacle;
 class ComponentButton;
 class ComponentCanvas;
 class ComponentImage;
-class ComponentVideo;
 class ComponentTransform2D;
 class ComponentSlider;
 
@@ -184,12 +181,6 @@ template<>
 struct ComponentToEnum<ComponentImage>
 {
 	const static ComponentType value = ComponentType::IMAGE;
-};
-
-template<>
-struct ComponentToEnum<ComponentVideo>
-{
-	const static ComponentType value = ComponentType::VIDEO;
 };
 
 template<>

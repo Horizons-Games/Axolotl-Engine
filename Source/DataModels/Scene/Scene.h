@@ -104,7 +104,6 @@ public:
 	const std::vector<ComponentCanvas*>& GetSceneCanvas() const;
 	const std::vector<Component*>& GetSceneInteractable() const;
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
-	const std::vector<ComponentVideo*>& GetSceneVideos() const;
 	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
 	const std::vector<ComponentLine*>& GetSceneComponentLines() const;
 	std::unique_ptr<Quadtree> GiveOwnershipOfQuadtree();
@@ -170,7 +169,6 @@ private:
 	std::vector<GameObject*> sceneGameObjects;
 	std::vector<ComponentCamera*> sceneCameras;
 	std::vector<ComponentCanvas*> sceneCanvas;
-	std::vector<ComponentVideo*> sceneVideos;
 	std::vector<Component*> sceneInteractableComponents;
 	std::vector<Updatable*> sceneUpdatableObjects;
 
@@ -253,12 +251,6 @@ inline const std::vector<ComponentParticleSystem*>& Scene::GetSceneParticleSyste
 {
 	return sceneParticleSystems;
 }
-
-inline const std::vector<ComponentVideo*>& Scene::GetSceneVideos() const
-{
-	return sceneVideos;
-}
-
 
 inline const std::vector<ComponentLine*>& Scene::GetSceneComponentLines() const
 {

@@ -18,7 +18,6 @@
 #include "Components/ComponentTransform.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
-#include "Components/UI/ComponentVideo.h"
 
 
 #include "DataModels/Resources/ResourceSkyBox.h"
@@ -232,7 +231,6 @@ void ModuleScene::OnPlay()
 
 	InitAndStartScriptingComponents();
 	InitParticlesComponents();
-	InitVideoComponents();
 }
 
 void ModuleScene::OnStop()
@@ -295,17 +293,6 @@ void ModuleScene::InitParticlesComponents()
 		if (componentParticle->GetOwner()->IsActive() && componentParticle->GetPlayAtStart())
 		{
 			componentParticle->Play();
-		}
-	}
-}
-
-void ModuleScene::InitVideoComponents()
-{
-	for (ComponentVideo* componentVideo : loadedScene->GetSceneVideos())
-	{
-		if (componentVideo->GetOwner()->IsActive() && componentVideo->GetPlayAtStart())
-		{
-			componentVideo->Play();
 		}
 	}
 }
