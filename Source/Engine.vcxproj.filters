@@ -788,6 +788,11 @@
       <Filter>DataModels\Render</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp" />
+    <ClCompile Include="..\Game\Scripts\TutorialSystem.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CombatTutorial.cpp">
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\CameraBossControllerScript.cpp">
       <Filter>UserScripts\Camera</Filter>
     </ClCompile>
@@ -1655,6 +1660,11 @@
       <Filter>DataModels\Render</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\ElevatorCore.h" />
+    <ClInclude Include="..\Game\Scripts\TutorialSystem.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CombatTutorial.h">
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\CameraBossControllerScript.h">
       <Filter>UserScripts\Camera</Filter>
     </ClInclude>

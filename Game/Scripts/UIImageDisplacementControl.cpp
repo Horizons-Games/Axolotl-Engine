@@ -67,3 +67,23 @@ void UIImageDisplacementControl::MoveImageToStarPosition()
 		isMoving = false;
 	}
 }
+
+bool UIImageDisplacementControl::IsMovingToEnd() const
+{
+	return isMovingToEnd;
+}
+
+void UIImageDisplacementControl::SetMovingToEnd(bool movingToEnd)
+{
+	this->isMovingToEnd = movingToEnd;
+}
+
+bool UIImageDisplacementControl::IsMoving() const
+{
+	return isMoving;
+}
+
+void UIImageDisplacementControl::SetIsMoving(bool moving)
+{
+	this->isMoving = moving;
+}
