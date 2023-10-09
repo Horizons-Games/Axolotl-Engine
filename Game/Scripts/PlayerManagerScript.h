@@ -46,7 +46,7 @@ public:
 	void FullPausePlayer(bool paused);
 	void TriggerJump(bool forcedJump);
 	bool IsParalyzed() const;
-	bool GetIsPaused() const;
+	bool IsPaused() const;
 
 	bool IsGrounded() const;
 	bool IsTeleporting() const;

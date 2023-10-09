@@ -78,7 +78,7 @@ void SwitchPlayerManagerScript::Start()
 
 void SwitchPlayerManagerScript::Update(float deltaTime)
 {
-	if (playerManager->GetIsPaused())
+	if (playerManager->IsPaused())
 	{
 		if (!isPaused)
 		{

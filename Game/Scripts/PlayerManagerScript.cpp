@@ -62,7 +62,7 @@ bool PlayerManagerScript::IsParalyzed() const
 	return movementManager->IsParalyzed();
 }
 
-bool PlayerManagerScript::GetIsPaused() const
+bool PlayerManagerScript::IsPaused() const
 {
 	return isPaused;
 }
