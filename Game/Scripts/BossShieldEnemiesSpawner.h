@@ -19,6 +19,7 @@ public:
 
 	void StartSpawner();
 	void StopSpawner();
+	void ReactivateEnemies();
 
 private:
 	GameObject* SelectRandomEnemy();
