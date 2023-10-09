@@ -376,13 +376,13 @@ void ComponentRigidBody::InternalLoad(const Json& meta)
 	SetZRotationAxisBlocked(static_cast<bool>(meta["zRotationAxisBlocked"]));
 }
 
-void ComponentRigidBody::SignalEnable(bool isSceneLoading)
+void ComponentRigidBody::SignalEnable()
 {
 	App->GetModule<ModulePhysics>()->AddRigidBody(this, rigidBody.get());
 	rigidBody->setGravity(gravity);
 }
 
-void ComponentRigidBody::SignalDisable(bool isSceneLoading)
+void ComponentRigidBody::SignalDisable()
 {
 	App->GetModule<ModulePhysics>()->RemoveRigidBody(this, rigidBody.get());
 }

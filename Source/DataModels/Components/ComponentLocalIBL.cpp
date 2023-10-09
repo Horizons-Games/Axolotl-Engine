@@ -293,27 +293,18 @@ void ComponentLocalIBL::InternalLoad(const Json& meta)
 	originCenterInfluence = influenceAABB.CenterPoint();
 }
 
-void ComponentLocalIBL::SignalEnable(bool isSceneLoading)
+void ComponentLocalIBL::SignalEnable()
 {
-	if (isSceneLoading)
-	{
-		return;
-	}
-
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	currentScene->UpdateSceneLocalIBLs();
 	currentScene->RenderLocalIBLs();
 }
 
-void ComponentLocalIBL::SignalDisable(bool isSceneLoading)
+void ComponentLocalIBL::SignalDisable()
 {
-	if (isSceneLoading)
-	{
-		return;
-	}
-
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
 	currentScene->UpdateSceneLocalIBLs();
 	currentScene->RenderLocalIBLs();
 }

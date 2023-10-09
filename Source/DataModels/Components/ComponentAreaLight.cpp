@@ -194,13 +194,8 @@ ComponentAreaLight::~ComponentAreaLight()
 	}
 }
 
-void ComponentAreaLight::SignalEnable(bool isSceneLoading)
+void ComponentAreaLight::SignalEnable()
 {
-	if (isSceneLoading)
-	{
-		return;
-	}
-
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	if (areaType == AreaType::SPHERE)
@@ -215,13 +210,8 @@ void ComponentAreaLight::SignalEnable(bool isSceneLoading)
 	}
 }
 
-void ComponentAreaLight::SignalDisable(bool isSceneLoading)
+void ComponentAreaLight::SignalDisable()
 {
-	if (isSceneLoading)
-	{
-		return;
-	}
-
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	if (areaType == AreaType::SPHERE)
