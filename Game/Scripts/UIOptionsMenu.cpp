@@ -174,7 +174,7 @@ void UIOptionsMenu::ControlEnable()
 	}
 
 	// MOVE LEFT OR RIGHT THE OPTIONS
-	if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
 	{
 		maxOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->
 			GetChildren()[1]->GetChildren().size() - 1;
@@ -206,7 +206,7 @@ void UIOptionsMenu::ControlEnable()
 						valueSlider -= 10.0f;
 					}
 				}
-				else if (input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::DOWN)
+				else if (input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
 				{
 					if (valueSlider < 100.0f)
 					{
@@ -239,7 +239,7 @@ void UIOptionsMenu::ControlEnable()
 						newSelectedOption--;
 					}
 				}
-				else if (input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::DOWN)
+				else if (input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
 				{
 					if (newSelectedOption < maxOptions)
 					{
@@ -565,10 +565,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 		default:
 			break;
 		}
-		if (!loadFromMainMenu)
-		{
 			IsFpsEnabled();
-		}
 		break;
 	case 2: //BRIGHTNESS
 		brightnessToShow = option;
@@ -627,10 +624,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 		default:
 			break;
 		}
-		if (!loadFromMainMenu)
-		{
-			IsSizeOptionEnabled();
-		}
+		IsSizeOptionEnabled();
 		break;
 	default:
 		break;
