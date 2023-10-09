@@ -61,7 +61,11 @@ void BossShieldAttackScript::Start()
 	}
 
 	healthSystemScript = owner->GetComponent<HealthSystem>();
-	bossShieldEnemiesSpawner = owner->GetComponent<BossShieldEnemiesSpawner>();
+
+	if (!manageEnemySpawner)
+	{
+		bossShieldEnemiesSpawner = owner->GetComponent<BossShieldEnemiesSpawner>();
+	}
 }
 
 void BossShieldAttackScript::Update(float deltaTime)
@@ -185,7 +189,10 @@ void BossShieldAttackScript::DisableShielding()
 	bossShieldObject->DeactivateShield();
 
 	healthSystemScript->SetIsImmortal(false);
-	bossShieldEnemiesSpawner->StopSpawner();
+	if (!manageEnemySpawner)
+	{
+		bossShieldEnemiesSpawner->StopSpawner();
+	}
 
 	triggerShieldAttackCooldown = true;
 	triggerEnemySpawning = false;
