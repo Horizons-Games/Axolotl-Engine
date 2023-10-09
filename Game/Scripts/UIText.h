@@ -26,7 +26,7 @@ private:
 
 	std::deque<GameObject*> inputVisuals;
 	std::vector<GameObject*> inputPositions;
-	std::vector<GameObject*> numbersIMG;
+	std::vector<GameObject*> numbersImg;
 
 	float actualNumber;
 	float prevNumber;
