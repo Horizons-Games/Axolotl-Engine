@@ -93,6 +93,7 @@ void UIOptionsMenu::ControlEnable()
 	//BACK TO MAIN MENU
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
 	{
+		BackToLastSavedOption();
 		SaveOptions();
 		resetButtonIndex = true;
 		return;
@@ -150,7 +151,6 @@ void UIOptionsMenu::ControlEnable()
 		verticalDirection == JoystickVerticalDirection::BACK)
 	{
 		BackToLastSavedOption();
-		newSelectedOption = -1;
 	}
 
 	maxButtonsOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren().size() - 1;
@@ -214,8 +214,17 @@ void UIOptionsMenu::ControlEnable()
 				}
 				if (valueSlider >= 0.0f && valueSlider <= 100.0f)
 				{
-					slider->ModifyCurrentValue(valueSlider);
-					newSelectedOption = valueSlider;
+					if (valueSlider < 30.0f)
+					{
+						slider->ModifyCurrentValue(0.0f);
+						newSelectedOption = valueSlider;
+					}
+					else
+					{
+						slider->ModifyCurrentValue(valueSlider);
+						newSelectedOption = valueSlider;
+					}
+					LOG_INFO("SLIDER {}", valueSlider);
 				}
 			}
 			else // CAMBIA OPCIONES CUANDO NO ES UN SLIDER
@@ -260,7 +269,7 @@ void UIOptionsMenu::ControlEnable()
 
 void UIOptionsMenu::UpdateChanges()
 {
-	if (actualConfig[headerMenuPosition].options[actualButton].actualOption == newSelectedOption)
+	if (actualConfig[headerMenuPosition].options[actualButton].actualOption == newSelectedOption || newSelectedOption == -1)
 	{
 		return;
 	}
@@ -443,6 +452,8 @@ void UIOptionsMenu::BackToLastSavedOption()
 		buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->
 			GetChildren()[saveSelectedOption]->Enable();
 	}
+
+	newSelectedOption = -1;
 }
 
 bool UIOptionsMenu::IsSlider(int header, int button, int option)
@@ -564,7 +575,14 @@ void UIOptionsMenu::GameOption(int button, int option)
 		break;
 	case 2: //BRIGHTNESS
 		brightnessToShow = option;
-		window->SetBrightness(brightnessToShow * 0.01f);
+		if (brightnessToShow * 0.01f < 0.3f)
+		{
+			window->SetBrightness(0.3f);
+		}
+		else
+		{
+			window->SetBrightness(brightnessToShow * 0.01f);
+		}
 		LOG_INFO("BRIGHTNESS {}", brightnessToShow * 0.01f);
 		break;
 	case 3: //RESOLUTION
