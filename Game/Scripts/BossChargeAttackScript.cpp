@@ -54,7 +54,11 @@ void BossChargeAttackScript::Update(float deltaTime)
 
 void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (chargeState == ChargeState::CHARGING &&
+	if (chargeState == ChargeState::PREPARING_CHARGE && other->GetOwner()->CompareTag("Floor"))
+	{
+		prepareChargeTime = 0.0f;
+	}
+	else if (chargeState == ChargeState::CHARGING &&
 		(other->GetOwner()->CompareTag("Wall") || other->GetOwner()->CompareTag("Rock")))
 	{
 		chargeState = ChargeState::BOUNCING_WALL;
@@ -66,12 +70,12 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 			MakeRocksFall();
 		}
 	}
-	else if (other->GetOwner()->CompareTag("Player") && !chargeHitPlayer && chargeState == ChargeState::CHARGING)
+	else if (chargeState == ChargeState::CHARGING && !chargeHitPlayer && other->GetOwner()->CompareTag("Player"))
 	{
 		other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(chargeDamage);
 		chargeHitPlayer = true;
 	}
-	else if (other->GetOwner()->CompareTag("Floor") && chargeState == ChargeState::BOUNCING_WALL)
+	else if (chargeState == ChargeState::BOUNCING_WALL && other->GetOwner()->CompareTag("Floor"))
 	{
 		/*rigidBody->SetIsKinematic(true);
 		rigidBody->SetUpMobility();*/
