@@ -33,6 +33,8 @@ public:
 	void AddComponent(ComponentMeshRenderer* newComponent);
 
 	void DrawMeshes(std::vector<GameObject*>& objects, const float3& pos);
+	// First call sort functions
+	void DrawMeshesByFilters(std::vector<GameObject*>& objects, int filters);
 	void DrawOpaque(bool selected);
 	void DrawTransparent(bool selected);
 	void DrawBatch(GeometryBatch* batch, bool selected);

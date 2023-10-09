@@ -6,10 +6,11 @@
 #include "FileSystem/Json.h"
 
 #include "Modules/ModuleScene.h"
+#include "Modules/ModuleDebugDraw.h"
+
 #include "Scene/Scene.h"
 
 #ifndef ENGINE
-	#include "Modules/ModuleDebugDraw.h"
 	#include "Modules/ModuleEditor.h"
 
 	#include "Windows/WindowDebug.h"
@@ -78,6 +79,24 @@ void ComponentPointLight::Draw() const
 	float3 position = transform->GetGlobalPosition();
 
 	dd::sphere(position, dd::colors::White, radius);
+
+
+#ifdef ENGINE
+	if (transform->IsDrawBoundingBoxes())
+	{
+		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
+	}
+#endif
+}
+
+void ComponentPointLight::SetRadius(float radius)
+{
+	isDirty = true;
+	this->radius = radius;
+
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float3 scale = float3(radius * 2);
+	transform->ScaleLocalAABB(scale);
 }
 
 void ComponentPointLight::OnTransformChanged()
@@ -86,18 +105,36 @@ void ComponentPointLight::OnTransformChanged()
 
 	currentScene->UpdateScenePointLight(this);
 	currentScene->RenderPointLight(this);
+
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	
+	float3 translation = float3(-0.5f);
+	float3 scale = float3(radius * 2.0f);
+
+	transform->TranslateLocalAABB(translation);
+	transform->ScaleLocalAABB(scale);
 }
 
-void ComponentPointLight::SignalEnable()
+void ComponentPointLight::SignalEnable(bool isSceneLoading)
 {
+	if (isSceneLoading)
+	{
+		return;
+	}
+
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	currentScene->UpdateScenePointLights();
 	currentScene->RenderPointLights();
 }
 
-void ComponentPointLight::SignalDisable()
+void ComponentPointLight::SignalDisable(bool isSceneLoading)
 {
+	if (isSceneLoading)
+	{
+		return;
+	}
+
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	
 	currentScene->UpdateScenePointLights();

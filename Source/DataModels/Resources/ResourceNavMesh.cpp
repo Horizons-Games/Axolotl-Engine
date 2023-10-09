@@ -815,7 +815,6 @@ bool ResourceNavMesh::Build(Scene* scene)
 
  void ResourceNavMesh::DrawGizmos(Scene* scene)
 {
-	DebugDrawGL dds;
 	Camera* camera = App->GetModule<ModuleCamera>()->GetCamera();
 
 	glUseProgram(0);

@@ -23,7 +23,6 @@ protected:
 private:
 	void DrawTransformTable();
 	void UpdateComponentTransform();
-	void UpdateLights();
 
 	float3 currentTranslation;
 	float3 currentRotation;
