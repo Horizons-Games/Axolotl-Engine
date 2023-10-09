@@ -22,7 +22,7 @@ float Timer::Read()
 
 void Timer::Pause()
 {
-	pauseTick = Read();
+	pauseTick = static_cast<Uint32>(Read());
 }
 
 void Timer::Play()
