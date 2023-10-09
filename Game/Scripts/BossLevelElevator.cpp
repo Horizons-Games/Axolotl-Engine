@@ -128,6 +128,9 @@ void BossLevelElevator::MoveUp(float deltaTime)
 	transform->UpdateTransformMatrices();
 	platformRigidBody->UpdateRigidBody();
 
+	MoveEnemy(enemyOne, deltaTime);
+	MoveEnemy(enemyTwo, deltaTime);
+
 	if (pos.y >= finalPos)
 	{
 		positionState = PositionState::UP;
@@ -170,6 +173,20 @@ void BossLevelElevator::MoveFences(float deltaTime)
 	}
 }
 
+void BossLevelElevator::MoveEnemy(GameObject* enemy, float deltaTime)
+{
+	// The enemy is moved this way to avoid problems with the collisions when going up
+	ComponentTransform* enemyTransform = enemy->GetComponent<ComponentTransform>();
+	float3 currentPosition = enemyTransform->GetGlobalPosition();
+
+	currentPosition.y += deltaTime * moveSpeed;
+
+	enemyTransform->SetGlobalPosition(currentPosition);
+	enemyTransform->RecalculateLocalMatrix();
+	enemyTransform->UpdateTransformMatrices();
+	enemy->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
+}
+
 void BossLevelElevator::ResetElevator()
 {
 	float3 pos = transform->GetGlobalPosition();
@@ -180,6 +197,7 @@ void BossLevelElevator::ResetElevator()
 	transform->RecalculateLocalMatrix();
 	transform->UpdateTransformMatrices();
 	platformRigidBody->UpdateRigidBody();
+	positionState = PositionState::DOWN;
 }
 
 
@@ -201,13 +219,19 @@ void BossLevelElevator::AttachEnemies(GameObject* enemyOneGO, GameObject* enemyT
 
 void BossLevelElevator::MoveEnemiesToArena(GameObject* enemy, ComponentTransform* targetPosition)
 {
+	ComponentTransform* transform = enemy->GetComponentInternal<ComponentTransform>();
+	float3 currentPos = transform->GetGlobalPosition();
+	currentPos.y = targetPosition->GetGlobalPosition().y;
+	transform->SetGlobalPosition(currentPos);
+	transform->RecalculateLocalMatrix();
+	transform->UpdateTransformMatrices();
+
 	ComponentRigidBody* rb = enemy->GetComponentInternal<ComponentRigidBody>();
+	rb->UpdateRigidBody();
+	rb->SetIsStatic(false);
 	rb->SetIsKinematic(true);
 	rb->SetIsTrigger(true);
 	rb->SetUpMobility();
-	rb->SetXRotationAxisBlocked(false);
-	rb->SetYRotationAxisBlocked(false);
-	rb->SetZRotationAxisBlocked(false);
 
 	AIMovement* aiMovement = enemy->GetComponentInternal<AIMovement>();
 	aiMovement->SetMovementSpeed(5.0f);
@@ -250,11 +274,7 @@ void BossLevelElevator::MoveEnemyToElevatorPoint(GameObject* enemy, ComponentTra
 
 	ComponentRigidBody* rb = enemy->GetComponentInternal<ComponentRigidBody>();
 	rb->UpdateRigidBody();
-	rb->SetIsKinematic(false);
-	rb->SetUpMobility();
-	rb->SetXRotationAxisBlocked(true);
-	rb->SetYRotationAxisBlocked(true);
-	rb->SetZRotationAxisBlocked(true);
+	rb->SetIsStatic(true);
 }
 
 

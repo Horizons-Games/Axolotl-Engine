@@ -48,6 +48,7 @@ private:
 	void MoveUp(float deltaTime);
 	void MoveFences(float deltaTime);
 	void ResetElevator();
+	void MoveEnemy(GameObject* enemy, float deltaTime);
 
 	float moveSpeed;
 	float cooldownTime;
