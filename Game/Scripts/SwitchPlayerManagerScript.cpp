@@ -204,6 +204,7 @@ void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 	// The position where the newCurrentPlayer will appear
 	playerPosition = currentPlayerTransform->GetGlobalPosition();
 
+	changePlayerTimer.Stop();
 	changePlayerTimer.Start();
 	isChangingPlayer = true;
 }
