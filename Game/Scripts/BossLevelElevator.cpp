@@ -254,8 +254,8 @@ void BossLevelElevator::ReleaseEnemies()
 
 void BossLevelElevator::ToggleEnemyInteractions(GameObject* enemy, bool interactions)
 {
-	ToggleParalizeDependingOfEnemyType(enemy, interactions);
 	enemy->Enable();
+	ToggleParalizeDependingOfEnemyType(enemy, interactions);
 }
 
 void BossLevelElevator::MoveEnemyToElevatorPoint(GameObject* enemy, ComponentTransform* elevatorPosition)
