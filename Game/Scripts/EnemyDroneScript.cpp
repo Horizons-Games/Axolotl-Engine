@@ -75,6 +75,9 @@ void EnemyDroneScript::Update(float deltaTime)
 
 	if (isPaused) 
 	{
+		seekScript->DisableMovement();
+		fastAttackScript->InterruptAttack();
+		droneState = DroneBehaviours::SEEK;
 		return;
 	}
 

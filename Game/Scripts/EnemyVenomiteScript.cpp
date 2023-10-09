@@ -4,6 +4,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentRigidBody.h"
 #include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/PatrolBehaviourScript.h"
@@ -59,6 +60,13 @@ void EnemyVenomiteScript::Start()
 
 void EnemyVenomiteScript::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		seekScript->DisableMovement();
+		rangedAttackScript->InterruptAttack();
+		venomiteState = VenomiteBehaviours::SEEK;
+		return;
+	}
 	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
 
 	if (stunned)
@@ -75,7 +83,8 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		}
 	}
 
-	if (healthScript && !healthScript->EntityIsAlive() || isPaused)
+	
+	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;
 	}

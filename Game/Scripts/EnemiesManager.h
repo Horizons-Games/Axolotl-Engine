@@ -2,8 +2,11 @@
 
 #include "RuntimeInclude.h"
 #include "Scripting\Script.h"
+#include "Bullet\LinearMath\btVector3.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
+
+class Scene;
 
 class EnemiesManager : public Script
 {
@@ -19,6 +22,11 @@ public:
 private:
 	void Start() override;
 
-	std::string tag;
+	Scene* scene;
+
+	std::string enemyTag;
+	std::string bulletTag;
 	std::vector<GameObject*> enemiesGameObjects;
+	std::vector<GameObject*> bulletGameObjects;
+	float bulletVelocity;
 };

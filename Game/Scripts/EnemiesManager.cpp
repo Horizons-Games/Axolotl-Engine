@@ -3,29 +3,51 @@
 
 #include "EnemyClass.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentAnimation.h"
+#include "../Scripts/RangedFastAttackBullet.h"
+
 #include "ModuleScene.h"
 #include "Scene/Scene.h"
 #include "Application.h"
 
 REGISTERCLASS(EnemiesManager);
 
-EnemiesManager::EnemiesManager() : Script(), enemiesGameObjects{}, tag("Enemy")
+EnemiesManager::EnemiesManager() : Script(), enemiesGameObjects{}, enemyTag("Enemy"),
+	bulletTag("Bullet"), bulletGameObjects{}, bulletVelocity(0.2f)
 {
-	REGISTER_FIELD(tag, std::string);
+	REGISTER_FIELD(enemyTag, std::string);
+	REGISTER_FIELD(bulletTag, std::string);
 }
 
 void EnemiesManager::Start()
 {
-	Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
-	enemiesGameObjects = scene->SearchGameObjectByTag(tag);
+	scene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	enemiesGameObjects = scene->SearchGameObjectByTag(enemyTag);
 
 }
 
 void EnemiesManager::PauseEnemies(bool paused)
 {
+	bulletGameObjects = scene->SearchGameObjectByTag(bulletTag);
+
 	for (int i = 0; i < enemiesGameObjects.size(); i++)
 	{
 		enemiesGameObjects[i]->GetComponent<EnemyClass>()->PauseEnemy(paused);
+		if (paused)
+		{
+			enemiesGameObjects[i]->GetComponent<ComponentAnimation>()->Disable();
+		}
+		else
+		{
+			enemiesGameObjects[i]->GetComponent<ComponentAnimation>()->Enable();
+		}
+	}
+	
+	for (int i = 0; i < bulletGameObjects.size(); i++)
+	{
+
+		bulletGameObjects[i]->GetComponent<RangedFastAttackBullet>()->SetPauseBullet(paused);
+		
 	}
 }
 

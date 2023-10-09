@@ -54,6 +54,10 @@ void FinalBossScript::Start()
 
 void FinalBossScript::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		return;
+	}
 	if (!target)
 	{
 		return;

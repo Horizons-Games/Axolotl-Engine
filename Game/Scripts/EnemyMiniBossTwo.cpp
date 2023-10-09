@@ -46,7 +46,13 @@ void EnemyMiniBossTwo::Update(float deltaTime)
 {
 	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
 
-	if (healthScript && !healthScript->EntityIsAlive() || isPaused)
+	if (isPaused)
+	{
+		seekScript->DisableMovement();
+		bossState = MiniBossTwoBehaviours::SEEK;
+		return;
+	}
+	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;
 	}
