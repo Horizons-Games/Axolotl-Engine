@@ -29,7 +29,7 @@
 					<ChildrenList>
 						<Action Name="" ID="{0FDBACC6-8071-40A8-9509-67AD0A981012}" ShortID="505223356">
 							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="ActionType" Type="int16" Value="7"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -39,7 +39,7 @@
 						</Action>
 						<Action Name="" ID="{26CD55FE-7789-4C57-B13E-E27AEDDC5F62}" ShortID="866463325">
 							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="ActionType" Type="int16" Value="7"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">

@@ -85,6 +85,14 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 			isGrounded = true;
 			componentAnimation->SetParameter("IsGrounded", true);
 			playerManager->SetPlayerState(PlayerActions::IDLE);
+			if (playerMove->IsOnWater())
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FALLING_WATER);
+			}
+			else
+			{
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FALLING_METAL);
+			}
 		}
 
 		isFalling = false;
@@ -99,22 +107,6 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 		if (isGrounded)
 		{
 			coyoteTimerCount = coyoteTime;
-			componentAnimation->SetParameter("IsJumping", false);
-			componentAnimation->SetParameter("IsDoubleJumping", false);
-			componentAnimation->SetParameter("IsGrounded", true);
-			
-			if (playerManager->GetPlayerState() == PlayerActions::FALLING)
-			{
-				if (playerMove->IsOnWater())
-				{
-					componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FALLING_WATER);
-				}
-				else
-				{
-					componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FALLING_METAL);
-				}
-				playerManager->SetPlayerState(PlayerActions::IDLE);
-			}
 		}
 		else
 		{

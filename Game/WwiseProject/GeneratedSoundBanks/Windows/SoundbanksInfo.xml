@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{CBEB31D9-88CE-9C6A-EDC7-4A4AE39E1DD0}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{8C8704F5-FE69-E710-FA0F-055089DF3F44}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
@@ -1039,13 +1039,17 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{F64B0FE0-CDCD-7BED-AA25-C9B022308D94}">
+		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{73CF3E3B-E18A-1C78-380A-FEE986BE27CA}">
 			<ShortName>Music</ShortName>
 			<Path>Music.bnk</Path>
 			<Media>
 				<File Id="253185104" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Sewers-B-A-Trasition.wav</ShortName>
 					<CachePath>SFX/Sewers-B-A-Trasition_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="366633545" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>silence.wav</ShortName>
+					<CachePath>SFX/silence_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="504765323" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>1M3-Hangar-A_140bpm1-4_L109B-POB.wav</ShortName>
@@ -1191,24 +1195,6 @@
 							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
 							<Children>
 								<SwitchContainer>
-									<SwitchValue GroupType="State" GroupId="832057375" Id="3434002879"/>
-									<Children/>
-								</SwitchContainer>
-							</Children>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
-							<Children>
-								<SwitchContainer>
-									<SwitchValue GroupType="State" GroupId="832057375" Id="3434002879"/>
-									<Children/>
-								</SwitchContainer>
-							</Children>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
-							<Children>
-								<SwitchContainer>
 									<SwitchValue GroupType="State" GroupId="832057375" Id="425131515"/>
 									<Children>
 										<SwitchContainer>
@@ -1269,6 +1255,38 @@
 								</SwitchContainer>
 							</Children>
 						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="3434002879"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2582085496"/>
+											<MediaRefs>
+												<MediaRef Id="366633545"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="3434002879"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2764240573"/>
+											<MediaRefs>
+												<MediaRef Id="366633545"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
 				<Event Id="1917263390" Name="StopMusic"/>
@@ -1305,5 +1323,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{06FF2D02-5F67-89B5-5930-919D2D36129B}</FileHash>
+	<FileHash>{25E9B820-E1D9-357D-4DA3-D9C649C563AB}</FileHash>
 </SoundBanksInfo>

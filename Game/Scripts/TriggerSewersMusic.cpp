@@ -8,9 +8,10 @@
 
 REGISTERCLASS(TriggerSewersMusic);
 
-TriggerSewersMusic::TriggerSewersMusic() : Script(), componentAudio(nullptr), isMusicTriggered(false)
+TriggerSewersMusic::TriggerSewersMusic() : Script(), componentAudio(nullptr), isMusicTriggered(false),
+audioSourceCantina(nullptr)
 {
-
+	REGISTER_FIELD(audioSourceCantina, ComponentAudioSource*);
 }
 
 void TriggerSewersMusic::Start()
@@ -26,9 +27,13 @@ void TriggerSewersMusic::OnCollisionEnter(ComponentRigidBody* other)
 		AK::SoundEngine::SetState(AUDIO::STATES::GROUP::ZONE, AUDIO::STATES::ID::ZONE::SEWERS);
 		AK::SoundEngine::SetState(AUDIO::STATES::GROUP::LIFE, AUDIO::STATES::ID::PLAYERLIFE::ALIVE);
 		componentAudio->SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY,
-								  AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
+			AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
 
 		componentAudio->PostEvent(AUDIO::MUSIC::PLAY_MUSIC);
+		if (!isMusicTriggered)
+		{
+			audioSourceCantina->PostEvent(AUDIO::SFX::AMBIENT::CANTINA::STOP_AMBIENT_CANTINA);
+		}
 		isMusicTriggered = true;
 	}
 }
