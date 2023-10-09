@@ -615,9 +615,9 @@ std::vector<GameObject*> Scene::SearchGameObjectByTag(const std::string& gameObj
 			tagGameObjects.push_back(gameObject);
 		}
 	}
-	if (tagGameObjects.size() == 0)
+	if (tagGameObjects.empty())
 	{
-		assert(false && "Wrong GameObjectID introduced, GameObject not found");
+		assert(false && "Wrong Tag introduced, GameObject not found");
 	}
 	return tagGameObjects;
 }
