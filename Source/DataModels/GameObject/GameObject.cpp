@@ -31,6 +31,7 @@
 #include "DataModels/Components/UI/ComponentButton.h"
 #include "DataModels/Components/UI/ComponentCanvas.h"
 #include "DataModels/Components/UI/ComponentImage.h"
+#include "DataModels/Components/UI/ComponentVideo.h"
 #include "DataModels/Components/UI/ComponentTransform2D.h"
 #include "DataModels/Components/UI/ComponentSlider.h"
 
@@ -377,6 +378,12 @@ void GameObject::CopyComponent(Component* component)
 			newComponent = std::make_unique<ComponentImage>(*static_cast<ComponentImage*>(component));
 			break;
 		}
+		 
+		case ComponentType::VIDEO:
+		{
+			newComponent = std::make_unique<ComponentVideo>(*static_cast<ComponentVideo*>(component));
+			break;
+		}
 
 		case ComponentType::BUTTON:
 		{
@@ -640,11 +647,19 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::VIDEO:
+		{
+			newComponent = std::make_unique<ComponentVideo>(true, this);
+			break;
+		}
+
 		case ComponentType::BUTTON:
 		{
 			newComponent = std::make_unique<ComponentButton>(true, this);
 			break;
 		}
+
+
 
 		case ComponentType::SLIDER:
 		{
