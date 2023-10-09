@@ -97,6 +97,7 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 	{
 		if (input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE && secondPlayer 
 			&& currentPlayer->GetComponent<PlayerManagerScript>()->IsGrounded()
+			&& currentPlayer->GetComponent<PlayerManagerScript>()->GetPlayerState() != PlayerActions::DASHING
 			&& currentPlayer->GetComponent<PlayerManagerScript>()->GetAttackManager()->IsAttackAvailable()
 			&& isSwitchAvailable)
 		{

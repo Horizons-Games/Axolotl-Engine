@@ -128,32 +128,39 @@ void PlayerManagerScript::TriggerJump(bool forcedJump)
 
 void PlayerManagerScript::FullPausePlayer(bool paused)
 {
-	btVector3 linearVelocityPlayer(0.f, 0.f, 0.f);
 	btVector3 gravityPlayer(0.f, 0.f, 0.f);
 	isPaused = paused;
 	PausePlayer(paused);
 	if (!paused)
 	{
-		linearVelocityPlayer = rigidBodyLinearVelocity;
 		gravityPlayer = rigidBodyGravity;
 		owner->GetComponent<ComponentAnimation>()->Enable();
 	}
 	else
 	{
-		rigidBodyLinearVelocity = owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->getLinearVelocity();
 		owner->GetComponent<ComponentAnimation>()->Disable();
 	}
 
 	owner->GetComponent<ComponentRigidBody>()->SetGravity(gravityPlayer);
-	owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(linearVelocityPlayer);
 	owner->GetComponent<ComponentRigidBody>()->UpdateRigidBody();
 }
 
 void PlayerManagerScript::PausePlayer(bool paused)
 {
+	btVector3 linearVelocityPlayer(0.f, 0.f, 0.f);
 	ParalyzePlayer(paused);
 	healthManager->SetIsImmortal(paused);
 	attackManager->SetCanAttack(!paused);
+
+	if (!paused)
+	{
+		linearVelocityPlayer = rigidBodyLinearVelocity;
+	}
+	else
+	{
+		rigidBodyLinearVelocity = owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->getLinearVelocity();
+	}
+	owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(linearVelocityPlayer);
 }
 
 PlayerAttackScript* PlayerManagerScript::GetAttackManager() const
