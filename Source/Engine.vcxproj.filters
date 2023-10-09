@@ -829,6 +829,9 @@
     <ClCompile Include="Exceptions\AccessingFailedScriptException.cpp">
       <Filter>Exceptions</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PathBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1700,6 +1703,9 @@
     </ClInclude>
     <ClInclude Include="Exceptions\AxoDefaultException.h">
       <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PathBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

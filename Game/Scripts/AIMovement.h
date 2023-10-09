@@ -18,6 +18,7 @@ public:
 	void SetTargetPosition(float3 targetPos); //Automatically moves and rotates
 	void SetRotationTargetPosition(float3 rotationTargetPos);
 	void SetMovementStatuses(bool activateMovement, bool activateRotation);
+	void SetMovementSpeed(float newMovementSpeed);
 	
 	bool GetIsAtDestiny();
 
@@ -33,6 +34,7 @@ private:
 
 	float movementSpeed;
 	float rotationSpeed;
+	float agentVelocity;
 	float targetPositionOffset;
 	bool movementActivated;
 	bool rotationActivated;
@@ -43,3 +45,8 @@ private:
 	void RotateToTarget(float deltaTime);
 	void CheckIfHasArrived();
 };
+
+inline void AIMovement::SetMovementSpeed(float newMovementSpeed)
+{
+	movementSpeed = newMovementSpeed;
+}
