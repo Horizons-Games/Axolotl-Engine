@@ -173,7 +173,14 @@ void ComponentSpotLight::OnTransformChanged()
 
 void ComponentSpotLight::SignalEnable()
 {
-	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	ModuleScene* moduleScene = App->GetModule<ModuleScene>();
+
+	if (moduleScene->IsLoading())
+	{
+		return;
+	}
+
+	Scene* currentScene = moduleScene->GetLoadedScene();
 
 	currentScene->UpdateSceneSpotLights();
 	currentScene->RenderSpotLights();
@@ -181,7 +188,14 @@ void ComponentSpotLight::SignalEnable()
 
 void ComponentSpotLight::SignalDisable()
 {
-	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	ModuleScene* moduleScene = App->GetModule<ModuleScene>();
+
+	if (moduleScene->IsLoading())
+	{
+		return;
+	}
+
+	Scene* currentScene = moduleScene->GetLoadedScene();
 
 	currentScene->UpdateSceneSpotLights();
 	currentScene->RenderSpotLights();

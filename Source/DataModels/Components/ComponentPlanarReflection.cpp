@@ -112,29 +112,38 @@ void ComponentPlanarReflection::OnTransformChanged()
 
 void ComponentPlanarReflection::InitBuffer()
 {
-	glGenFramebuffers(1, &frameBuffer);
+	if (frameBuffer == 0)
+	{
+		glGenFramebuffers(1, &frameBuffer);
+	}
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
 	std::pair<int, int> windowSize = App->GetModule<ModuleWindow>()->GetWindowSize();
 
-	glGenRenderbuffers(1, &depth);
-	glBindRenderbuffer(GL_RENDERBUFFER, depth);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, windowSize.first, windowSize.second);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depth);
+	if (depth == 0)
+	{
+		glGenRenderbuffers(1, &depth);
+		glBindRenderbuffer(GL_RENDERBUFFER, depth);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, windowSize.first, windowSize.second);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depth);
+	}
+	
+	if (reflectionTex == 0)
+	{
+		glGenTextures(1, &reflectionTex);
+		glBindTexture(GL_TEXTURE_2D, reflectionTex);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, windowSize.first, windowSize.second, 0, GL_RGBA, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, numMipMaps);
+		glGenerateMipmap(GL_TEXTURE_2D);
 
-	glGenTextures(1, &reflectionTex);
-	glBindTexture(GL_TEXTURE_2D, reflectionTex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, windowSize.first, windowSize.second, 0, GL_RGBA, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, numMipMaps);
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, reflectionTex, 0);
-
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, reflectionTex, 0);
+	}
+	
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
 		LOG_ERROR("ERROR::FRAMEBUFFER:: Framebuffer Planar Reflection is not complete!");
@@ -218,6 +227,10 @@ void ComponentPlanarReflection::ScaleInfluenceAABB(float3& scaling)
 
 const uint64_t& ComponentPlanarReflection::GetHandleReflection()
 {
+	if (reflectionTex == 0)
+	{
+		InitBuffer();
+	}
 	if (handle == 0)
 	{
 		handle = glGetTextureHandleARB(reflectionTex);
@@ -272,28 +285,31 @@ void ComponentPlanarReflection::InternalLoad(const Json& meta)
 	distortionAmount = static_cast<float>(meta["distortion_amount"]);
 }
 
-void ComponentPlanarReflection::SignalEnable(bool isSceneLoading)
+void ComponentPlanarReflection::SignalEnable()
 {
-	if (isSceneLoading)
+	ModuleScene* moduleScene = App->GetModule<ModuleScene>();
+
+	if (moduleScene->IsLoading())
 	{
 		return;
 	}
 
-	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	Scene* currentScene = moduleScene->GetLoadedScene();
 
 	currentScene->UpdateScenePlanarReflections();
 	currentScene->RenderPlanarReflections();
 }
 
-void ComponentPlanarReflection::SignalDisable(bool isSceneLoading)
+void ComponentPlanarReflection::SignalDisable()
 {
-	if (isSceneLoading)
+	ModuleScene* moduleScene = App->GetModule<ModuleScene>();
+
+	if (moduleScene->IsLoading())
 	{
 		return;
 	}
 
-	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-
+	Scene* currentScene = moduleScene->GetLoadedScene();
 	currentScene->UpdateScenePlanarReflections();
 	currentScene->RenderPlanarReflections();
 }

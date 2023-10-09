@@ -117,7 +117,14 @@ void ComponentPointLight::OnTransformChanged()
 
 void ComponentPointLight::SignalEnable()
 {
-	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	ModuleScene* moduleScene = App->GetModule<ModuleScene>();
+
+	if (moduleScene->IsLoading())
+	{
+		return;
+	}
+
+	Scene* currentScene = moduleScene->GetLoadedScene();
 
 	currentScene->UpdateScenePointLights();
 	currentScene->RenderPointLights();
@@ -125,7 +132,14 @@ void ComponentPointLight::SignalEnable()
 
 void ComponentPointLight::SignalDisable()
 {
-	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	ModuleScene* moduleScene = App->GetModule<ModuleScene>();
+
+	if (moduleScene->IsLoading())
+	{
+		return;
+	}
+
+	Scene* currentScene = moduleScene->GetLoadedScene();
 	
 	currentScene->UpdateScenePointLights();
 	currentScene->RenderPointLights();

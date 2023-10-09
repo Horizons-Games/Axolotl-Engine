@@ -295,7 +295,14 @@ void ComponentLocalIBL::InternalLoad(const Json& meta)
 
 void ComponentLocalIBL::SignalEnable()
 {
-	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	ModuleScene* moduleScene = App->GetModule<ModuleScene>();
+
+	if (moduleScene->IsLoading())
+	{
+		return;
+	}
+
+	Scene* currentScene = moduleScene->GetLoadedScene();
 
 	currentScene->UpdateSceneLocalIBLs();
 	currentScene->RenderLocalIBLs();
@@ -303,7 +310,14 @@ void ComponentLocalIBL::SignalEnable()
 
 void ComponentLocalIBL::SignalDisable()
 {
-	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	ModuleScene* moduleScene = App->GetModule<ModuleScene>();
+
+	if (moduleScene->IsLoading())
+	{
+		return;
+	}
+
+	Scene* currentScene = moduleScene->GetLoadedScene();
 
 	currentScene->UpdateSceneLocalIBLs();
 	currentScene->RenderLocalIBLs();
