@@ -12,7 +12,6 @@
 
 class ModelImporter;
 class TextureImporter;
-class VideoImporter;
 class MeshImporter;
 class NavMeshImporter;
 class MaterialImporter;
@@ -99,7 +98,6 @@ private:
 	std::map<UID, std::weak_ptr<Resource>> resources;
 
 	std::unique_ptr<ModelImporter> modelImporter;
-	std::unique_ptr<VideoImporter> videoImporter;
 	std::unique_ptr<TextureImporter> textureImporter;
 	std::unique_ptr<MeshImporter> meshImporter;
 	std::unique_ptr<NavMeshImporter> navMeshImporter;
@@ -158,13 +156,12 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		std::string libraryPath = CreateLibraryPath(uid, type);
 
 		long long assetTime = fileSystem->GetModificationDate(assetPath.c_str());
-		std::string libExtension = type == ResourceType::Video ? extension : GENERAL_BINARY_EXTENSION;
-		long long libTime = fileSystem->GetModificationDate((libraryPath + extension).c_str());
+		long long libTime = fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
 		if (assetTime <= libTime)
 		{
-			std::string fileName = fileSystem->GetFileName(libraryPath + extension);
+			std::string fileName = fileSystem->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
 			UID uid = std::stoull(fileName.c_str(), NULL, 0);
-			ResourceType type = FindTypeByFolder(libraryPath + extension);
+			ResourceType type = FindTypeByFolder(libraryPath + GENERAL_BINARY_EXTENSION);
 			std::shared_ptr<Resource> resource =
 				CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
 			resource->LoadImporterOptions(meta);
@@ -199,15 +196,12 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 		std::string libraryPath = CreateLibraryPath(uid, type);
 
 		long long assetTime = fileSystem->GetModificationDate(assetPath.c_str());
-		std::string libExtension = type == ResourceType::Video ? extension : GENERAL_BINARY_EXTENSION;
-		long long libTime = fileSystem->GetModificationDate((libraryPath + libExtension).c_str());
-		LOG_DEBUG("Asset: {} AssetTime {}", assetPath, std::to_string(assetTime));
-		LOG_DEBUG("LibAsset: {} LibTime {}", (libraryPath + libExtension), std::to_string(libTime));
+		long long libTime = fileSystem->GetModificationDate((libraryPath + GENERAL_BINARY_EXTENSION).c_str());
 		if (assetTime <= libTime)
 		{
-			std::string fileName = fileSystem->GetFileName(libraryPath + libExtension);
+			std::string fileName = fileSystem->GetFileName(libraryPath + GENERAL_BINARY_EXTENSION);
 			UID uid = std::stoull(fileName.c_str(), NULL, 0);
-			ResourceType type = FindTypeByFolder(libraryPath + libExtension);
+			ResourceType type = FindTypeByFolder(libraryPath + GENERAL_BINARY_EXTENSION);
 			std::shared_ptr<Resource> resource =
 				CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
 			resource->LoadImporterOptions(meta);

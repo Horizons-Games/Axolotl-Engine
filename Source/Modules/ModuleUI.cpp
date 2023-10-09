@@ -13,7 +13,6 @@
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
-#include "Components/UI/ComponentVideo.h"
 #include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentSlider.h"
 #include "GL/glew.h"
@@ -327,15 +326,6 @@ void ModuleUI::Draw2DGameObject(const GameObject* gameObject)
 			if (image->IsEnabled())
 			{
 				image->Draw();
-			}
-		}
-
-		for (ComponentVideo* video : gameObject->GetComponents<ComponentVideo>())
-		{
-			if (video->IsEnabled())
-			{
-				video->Draw();
-				video->UpdateVideoFrame();
 			}
 		}
 

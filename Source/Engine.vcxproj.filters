@@ -734,21 +734,6 @@
     <ClCompile Include="Auxiliar\SceneLoader.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
-    <ClCompile Include="DataModels\Resources\ResourceVideo.cpp">
-      <Filter>DataModels\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Components\UI\ComponentVideo.cpp">
-      <Filter>DataModels\Components\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentVideo.cpp">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowVideoInput.cpp">
-      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClCompile>
-    <ClCompile Include="FileSystem\Importers\VideoImporter.cpp">
-      <Filter>FileSystem\Importers</Filter>
-    </ClCompile>
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="Auxiliar\ConnectedCallback.cpp">
       <Filter>Auxiliar</Filter>
@@ -1608,22 +1593,6 @@
     </ClInclude>
     <ClInclude Include="Auxiliar\SceneLoader.h">
       <Filter>Auxiliar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
-    <ClInclude Include="DataModels\Resources\ResourceVideo.h">
-      <Filter>DataModels\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Components\UI\ComponentVideo.h">
-      <Filter>DataModels\Components\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentVideo.h">
-      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowVideoInput.h">
-      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
-    </ClInclude>
-    <ClInclude Include="FileSystem\Importers\VideoImporter.h">
-      <Filter>FileSystem\Importers</Filter>
     </ClInclude>
     <ClInclude Include="Scheduler.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
