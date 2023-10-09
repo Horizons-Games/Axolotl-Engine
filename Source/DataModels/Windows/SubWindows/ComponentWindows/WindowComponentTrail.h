@@ -2,7 +2,7 @@
 #include "Windows/SubWindows/ComponentWindows/ComponentWindow.h"
 
 class ComponentTrail;
-class ImGradientMark;
+struct ImGradientMark;
 class ResourceTexture;
 class WindowTrailTexture;
 

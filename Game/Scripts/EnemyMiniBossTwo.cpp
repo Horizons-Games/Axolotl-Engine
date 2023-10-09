@@ -40,11 +40,12 @@ void EnemyMiniBossTwo::Start()
 	shield = owner->GetComponent<BossShieldAttackScript>();
 	deathScript = owner->GetComponent<EnemyDeathScript>();
 
-	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
 }
 
 void EnemyMiniBossTwo::Update(float deltaTime)
 {
+	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
+
 	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;

@@ -34,6 +34,7 @@ ModuleBase::ModuleBase(ParticleEmitter* emitter, ModuleBase* base) : ParticleMod
 	originTransform = float4x4::FromTRS(originLocation, originRotation, float3::one);
 
 	allPartsDead = false;
+	followTransform = base->IsFollowingTransform();
 }
 
 ModuleBase::~ModuleBase()

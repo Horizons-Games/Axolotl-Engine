@@ -50,7 +50,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingActive && !isJumping && !isAttacking)
 	{
 		FindHackZone(hackingTag);
-		if (hackZone && !hackZone->IsCompleted())
+		if (hackZone && !hackZone->IsCompleted() && !playerManager->IsParalyzed())
 		{
 			InitHack();
 			isHackingButtonPressed = true;
@@ -211,13 +211,13 @@ void PlayerHackingUseScript::RestartHack()
 void PlayerHackingUseScript::DisableAllInteractions()
 {
 	playerManager->SetPlayerState(PlayerActions::IDLE);
-	playerManager->ParalyzePlayer(true);
+	playerManager->PausePlayer(true);
 }
 
 void PlayerHackingUseScript::EnableAllInteractions()
 {
 	playerManager->SetPlayerState(PlayerActions::IDLE);
-	playerManager->ParalyzePlayer(false);
+	playerManager->PausePlayer(false);
 }
 
 void PlayerHackingUseScript::FindHackZone(const std::string& tag)
