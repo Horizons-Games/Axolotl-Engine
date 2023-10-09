@@ -365,6 +365,11 @@ void WindowHierarchy::Create2DObjectMenu(GameObject* gameObject)
 		loadedScene->CreateUIGameObject("new Image", gameObject, ComponentType::IMAGE);
 	}
 
+	if (ImGui::MenuItem("Create Video"))
+	{
+		loadedScene->CreateUIGameObject("new Video", gameObject, ComponentType::VIDEO);
+	}
+
 	if (ImGui::MenuItem("Create Button"))
 	{
 		loadedScene->CreateUIGameObject("new Button", gameObject, ComponentType::BUTTON);
