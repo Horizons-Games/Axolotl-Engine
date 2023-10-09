@@ -1296,7 +1296,7 @@
                 "tag": "",
                 "uid": 18146638544442064004,
                 "parentUID": 13045427081882602319,
-                "enabled": true,
+                "enabled": false,
                 "static": true,
                 "Components": [
                     {
@@ -1481,8 +1481,8 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 9039671893483305980,
-                            "assetPathImage": "Assets/Textures/UI_CREDITS_BETA_TEMPLATE.png",
+                            "imageUID": 15224610763783592359,
+                            "assetPathImage": "Assets/Textures/UI_BETA_CREDITS_TEMPLATE.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
@@ -1496,7 +1496,7 @@
         },
         {
             "GameObject": {
-                "name": "Credits Menu Back",
+                "name": "Credits Menu Back BUTTON",
                 "tag": "",
                 "uid": 1189160000597148760,
                 "parentUID": 15910537669949415466,
@@ -1630,7 +1630,7 @@
                 "tag": "",
                 "uid": 13392629973447689559,
                 "parentUID": 13045427081882602319,
-                "enabled": false,
+                "enabled": true,
                 "static": true,
                 "Components": [
                     {
@@ -3684,7 +3684,7 @@
                 "tag": "",
                 "uid": 13498222081256399708,
                 "parentUID": 15985950191869998733,
-                "enabled": true,
+                "enabled": false,
                 "static": true,
                 "Components": [
                     {
@@ -3797,7 +3797,7 @@
                             "background": 4013327219497764921,
                             "fill": 18300225792889393494,
                             "handle": 10023679540278260963,
-                            "minValue": 0.0,
+                            "minValue": 30.0,
                             "maxValue": 100.0,
                             "currentValue": 100.0,
                             "direction": 0
@@ -3926,7 +3926,7 @@
                             "type": "Component_Transform2D",
                             "active": true,
                             "removed": true,
-                            "localPositionX": 373.253662109375,
+                            "localPositionX": 373.98681640625,
                             "localPositionY": 0.0,
                             "localPositionZ": 0.0,
                             "localRot_X": 0.0,
@@ -3941,9 +3941,9 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1566.396240234375,
+                            "worldAABB_min_x": 1567.031982421875,
                             "worldAABB_min_y": 510.072265625,
-                            "worldAABB_max_x": 1588.075927734375,
+                            "worldAABB_max_x": 1588.711669921875,
                             "worldAABB_max_y": 562.103515625
                         }
                     },
@@ -8763,16 +8763,16 @@
                             "localScaleX": 0.5,
                             "localScaleY": 0.5,
                             "localScaleZ": 0.5,
-                            "sizeX": 98.0,
-                            "sizeY": 40.0,
+                            "sizeX": 92.0,
+                            "sizeY": 41.0,
                             "localAABB_min_x": -0.5,
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 162.16583251953125,
-                            "worldAABB_min_y": 530.4849853515625,
-                            "worldAABB_max_x": 204.65802001953125,
-                            "worldAABB_max_y": 547.8287353515625
+                            "worldAABB_min_x": 163.46661376953125,
+                            "worldAABB_min_y": 530.2681884765625,
+                            "worldAABB_max_x": 203.35723876953125,
+                            "worldAABB_max_y": 548.0455322265625
                         }
                     },
                     {
@@ -8780,8 +8780,8 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 13565028329418817204,
-                            "assetPathImage": "Assets/Textures/UI_OPTIONSMENU_BETA_TEXT_AUDIO_VFX.png",
+                            "imageUID": 12179468213343398580,
+                            "assetPathImage": "Assets/Textures/UI_OPTIONSMENU_BETA_TEXT_AUDIO_SFX.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,
@@ -9345,9 +9345,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 929.2269287109375,
-                            "worldAABB_min_y": 409.7718505859375,
+                            "worldAABB_min_y": 409.76641845703125,
                             "worldAABB_max_x": 1577.8831787109375,
-                            "worldAABB_max_y": 442.280517578125
+                            "worldAABB_max_y": 442.28594970703125
                         }
                     },
                     {
@@ -11964,7 +11964,7 @@
                             "active": true,
                             "removed": true,
                             "localPositionX": 0.0,
-                            "localPositionY": 26.274999618530273,
+                            "localPositionY": 0.0,
                             "localPositionZ": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -11972,16 +11972,16 @@
                             "localScaleX": 0.5,
                             "localScaleY": 0.5,
                             "localScaleZ": 0.5,
-                            "sizeX": 1749.0,
-                            "sizeY": 1330.0,
+                            "sizeX": 3840.0,
+                            "sizeY": 2160.0,
                             "localAABB_min_x": -0.5,
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 453.322265625,
-                            "worldAABB_min_y": 187.87481689453125,
-                            "worldAABB_max_x": 1211.677734375,
-                            "worldAABB_max_y": 764.5545043945313
+                            "worldAABB_min_x": 0.0,
+                            "worldAABB_min_y": 30.71875,
+                            "worldAABB_max_x": 1665.0,
+                            "worldAABB_max_y": 967.28125
                         }
                     },
                     {
@@ -11989,8 +11989,8 @@
                             "type": "Component_Image",
                             "active": true,
                             "removed": true,
-                            "imageUID": 8461021954468749661,
-                            "assetPathImage": "Assets/Textures/UI_CREDITS_BETA_CREDITS.png",
+                            "imageUID": 597619752713745675,
+                            "assetPathImage": "Assets/Textures/UI_BETA_CREDITS_CREDITS.png",
                             "color_x": 1.0,
                             "color_y": 1.0,
                             "color_z": 1.0,

@@ -215,16 +215,8 @@ void UIOptionsMenu::ControlEnable()
 				}
 				if (valueSlider >= 0.0f && valueSlider <= 100.0f)
 				{
-					if (valueSlider < 30.0f)
-					{
-						slider->ModifyCurrentValue(0.0f);
-						newSelectedOption = valueSlider;
-					}
-					else
-					{
-						slider->ModifyCurrentValue(valueSlider);
-						newSelectedOption = valueSlider;
-					}
+					slider->ModifyCurrentValue(valueSlider);
+					newSelectedOption = valueSlider;
 					LOG_INFO("SLIDER {}", valueSlider);
 				}
 			}
