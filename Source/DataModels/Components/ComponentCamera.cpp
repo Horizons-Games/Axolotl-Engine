@@ -69,7 +69,7 @@ void ComponentCamera::Draw() const
 void ComponentCamera::OnTransformChanged()
 {
 #ifdef ENGINE
-	if (!App->IsOnPlayMode())
+	if (App->GetPlayState() != Application::PlayState::RUNNING)
 	{
 		ComponentTransform* trans = GetOwner()->GetComponentInternal<ComponentTransform>();
 

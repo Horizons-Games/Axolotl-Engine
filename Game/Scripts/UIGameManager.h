@@ -28,7 +28,7 @@ public:
 	void ActiveSliderUIPwrUP(float time);
 	void DisableUIPwrUP();
 
-	void ModifySliderHealthValue();
+	void ModifySliderHealthValue(HealthSystem* healthSystemClass, ComponentSlider* componentSliderFront, ComponentSlider* componentSliderBack);
 
 	void SetMaxPowerUpTime(float maxPowerUpTime);
 
@@ -52,6 +52,9 @@ protected:
 	GameObject* hudCanvasObject;
 	GameObject* sliderHudHealthBixFront;
 	GameObject* sliderHudHealthBixBack;
+	GameObject* sliderHudHealthAlluraFront;
+	GameObject* sliderHudHealthAlluraBack;
+	GameObject* manager;
 
 	GameObject* healPwrUpObject;
 	GameObject* attackPwrUpObject;
@@ -59,16 +62,18 @@ protected:
 	GameObject* speedPwrUpObject;
 
 	ComponentPlayer* player;
+	ComponentPlayer* secondPlayer;
 	ModuleInput* input;
-	ComponentSlider* componentSliderBixFront;
-	ComponentSlider* componentSliderBixBack;
-	ComponentSlider* componentSliderAlluraFront;
-	ComponentSlider* componentSliderAlluraBack;
+	ComponentSlider* componentSliderPlayerFront;
+	ComponentSlider* componentSliderPlayerBack;
+	ComponentSlider* componentSliderSecondPlayerFront;
+	ComponentSlider* componentSliderSecondPlayerBack;
 	ComponentSlider* componentSliderHealPwrUp;
 	ComponentSlider* componentSliderAttackPwrUp;
 	ComponentSlider* componentSliderDefensePwrUp;
 	ComponentSlider* componentSliderSpeedPwrUp;
-	HealthSystem* healthSystemClass;
+	HealthSystem* healthSystemClassBix;
+	HealthSystem* healthSystemClassAllura;
 
 };
 

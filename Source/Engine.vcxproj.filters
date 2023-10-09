@@ -671,6 +671,12 @@
     <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentLocalIBL.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLocalIBL.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerHackingUseScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
     </ClCompile>
@@ -750,12 +756,6 @@
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowLineTexture.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
     </ClCompile>
-    <ClCompile Include="Exceptions\ComponentNotFoundException.cpp">
-      <Filter>Exceptions</Filter>
-    </ClCompile>
-    <ClCompile Include="Exceptions\ScriptAssertFailedException.cpp">
-      <Filter>Exceptions</Filter>
-    </ClCompile>
     <ClCompile Include="Formatter.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowNavMeshInput.cpp">
       <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
@@ -775,8 +775,14 @@
     <ClCompile Include="..\Game\Scripts\Rotator.cpp">
       <Filter>UserScripts\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SwitchPlayerManagerScript.cpp">
+      <Filter>UserScripts\Gameplay</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\HackingCommand.cpp">
       <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Render\LightPass.cpp">
+      <Filter>DataModels\Render</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIHackingManager.cpp">
       <Filter>UserScripts\UI</Filter>
@@ -790,29 +796,41 @@
     <ClCompile Include="DataModels\Render\Shadows.cpp">
       <Filter>DataModels\Render</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp" />
+    <ClCompile Include="..\Game\Scripts\TutorialSystem.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CombatTutorial.cpp">
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CameraBossControllerScript.cpp">
+      <Filter>UserScripts\Camera</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\SpaceshipMovement.cpp">
-      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    <ClCompile Include="Enums\WritableEnum.cpp">
+      <Filter>Enums</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\TurbineObstacle.cpp">
-      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    <ClCompile Include="..\Game\Scripts\ParticleBillboardAssistance.cpp">
+      <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\SpaceshipObstacle.cpp">
-      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    <ClCompile Include="DataModels\Schedulable\Schedulable.cpp">
+      <Filter>DataModels\Schedulable</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\SpaceshipDeathManager.cpp">
-      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    <ClCompile Include="Exceptions\AxoDefaultException.cpp">
+      <Filter>Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\FireMovingObstacle.cpp">
-      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    <ClCompile Include="Exceptions\ComponentNotFoundException.cpp">
+      <Filter>Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\MultipleFireObstacle.cpp">
-      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    <ClCompile Include="Exceptions\ScriptAssertFailedException.cpp">
+      <Filter>Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\UIGameManagerSpaceship.cpp">
-      <Filter>UserScripts\UI</Filter>
+    <ClCompile Include="Exceptions\AccessingFailedScriptException.cpp">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PathBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1198,9 +1216,6 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentAreaLight.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
-    <ClInclude Include="Auxiliar\Test\par_shapes.h">
-      <Filter>Auxiliar\Test</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\HealthSystem.h">
       <Filter>UserScripts\Gameplay\Health System</Filter>
     </ClInclude>
@@ -1524,6 +1539,12 @@
     <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h">
       <Filter>UserScripts\Gameplay\Player\Attack\Finishers\Heavy Finisher</Filter>
     </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentLocalIBL.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentLocalIBL.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerHackingUseScript.h">
       <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
     </ClInclude>
@@ -1635,8 +1656,14 @@
     <ClInclude Include="..\Game\Scripts\Rotator.h">
       <Filter>UserScripts\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SwitchPlayerManagerScript.h">
+      <Filter>UserScripts\Gameplay</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\HackingCommand.h">
       <Filter>UserScripts\Gameplay\Player\Abilities\Hacking</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Render\LightPass.h">
+      <Filter>DataModels\Render</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIHackingManager.h">
       <Filter>UserScripts\UI</Filter>
@@ -1650,29 +1677,35 @@
     <ClInclude Include="DataModels\Render\Shadows.h">
       <Filter>DataModels\Render</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ElevatorCore.h" />
+    <ClInclude Include="..\Game\Scripts\TutorialSystem.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CombatTutorial.h">
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CameraBossControllerScript.h">
+      <Filter>UserScripts\Camera</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\ElevatorCore.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\SpaceshipMovement.h">
-      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    <ClInclude Include="Enums\WritableEnum.h">
+      <Filter>Enums</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\TurbineObstacle.h">
-      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    <ClInclude Include="..\Game\Scripts\ParticleBillboardAssistance.h">
+      <Filter>UserScripts\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\SpaceshipObstacle.h">
-      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    <ClInclude Include="DataModels\Schedulable\Schedulable.h">
+      <Filter>DataModels\Schedulable</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\SpaceshipDeathManager.h">
-      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    <ClInclude Include="Exceptions\AccessingFailedScriptException.h">
+      <Filter>Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\FireMovingObstacle.h">
-      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    <ClInclude Include="Exceptions\AxoDefaultException.h">
+      <Filter>Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\MultipleFireObstacle.h">
-      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\UIGameManagerSpaceship.h">
-      <Filter>UserScripts\UI</Filter>
+    <ClInclude Include="..\Game\Scripts\PathBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1753,9 +1786,6 @@
     </Filter>
     <Filter Include="DataModels\ParticleSystem">
       <UniqueIdentifier>{1426e775-b621-433b-b6cf-306a93828634}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Auxiliar\Test">
-      <UniqueIdentifier>{ca480dbf-737f-4123-a23a-ee424eba9c66}</UniqueIdentifier>
     </Filter>
     <Filter Include="DataModels\Windows\PopUpWindows">
       <UniqueIdentifier>{8d04ed3e-dea2-465d-937a-8270c4b45db1}</UniqueIdentifier>
@@ -1886,11 +1916,8 @@
     <Filter Include="DataModels\Render">
       <UniqueIdentifier>{701145da-de98-4a67-be5b-f78bd0c29386}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Gameplay\Spaceship">
-      <UniqueIdentifier>{06069472-a0b5-4bc1-b30e-7d275a0df5b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserScripts\Gameplay\Spaceship\Obstacles">
-      <UniqueIdentifier>{52911ff2-a8af-4267-b3e7-7d92cae8e7f3}</UniqueIdentifier>
+    <Filter Include="DataModels\Schedulable">
+      <UniqueIdentifier>{aebeccfc-924c-4feb-a954-996d552b513f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
