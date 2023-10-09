@@ -458,11 +458,20 @@ void StartLoadScene()
 	sceneJson.fromBuffer(buffer);
 	delete buffer;
 
-	App->ScheduleTask(
-		[sceneJson]() mutable
-		{
-			StartJsonLoad(std::move(sceneJson));
-		});
+	if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
+	{
+		// don't launch a thread, schedule it so it runs on the main thread with the OpenGL context
+		// to properly free graphic resources
+		App->ScheduleTask(
+			[sceneJson]() mutable
+			{
+				StartJsonLoad(std::move(sceneJson));
+			});
+	}
+	else
+	{
+		StartJsonLoad(std::move(sceneJson));
+	}
 }
 
 //////////////////////////////////////////////////////////////////
