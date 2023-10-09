@@ -135,16 +135,13 @@ void ComponentParticleSystem::Draw() const
 	for (EmitterInstance* instance : emitters)
 	{
 #ifdef ENGINE
-		if (App->GetPlayState() == Application::PlayState::RUNNING)
+		instance->DrawDD();
+		//instance->SimulateParticles();
+		//Draw the BoundingBox of ComponentParticle
+		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+		if (transform->IsDrawBoundingBoxes())
 		{
-			instance->DrawDD();
-			//instance->SimulateParticles();
-			//Draw the BoundingBox of ComponentParticle
-			ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
-			if (transform->IsDrawBoundingBoxes())
-			{
-				App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
-			}
+			App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
 		}
 #endif //ENGINE
 	}
