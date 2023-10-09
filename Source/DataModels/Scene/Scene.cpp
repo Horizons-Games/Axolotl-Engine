@@ -608,13 +608,12 @@ GameObject* Scene::SearchGameObjectByID(UID gameObjectID) const
 std::vector<GameObject*> Scene::SearchGameObjectByTag(const std::string& gameObjectTag) const
 {
 	std::vector<GameObject*> tagGameObjects;
-	for (int i = 0; GameObject* gameObject : sceneGameObjects)
+	for (GameObject* gameObject : sceneGameObjects)
 	{
 		if (gameObject && gameObject->CompareTag(gameObjectTag))
 		{
 			tagGameObjects.push_back(gameObject);
 		}
-		i = i + 1;
 	}
 	if (tagGameObjects.size() == 0)
 	{
