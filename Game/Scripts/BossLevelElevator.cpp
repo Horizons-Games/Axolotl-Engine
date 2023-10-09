@@ -88,6 +88,11 @@ void BossLevelElevator::ChangeMovementState(ElevatorState newState)
 	if (newState == ElevatorState::INACTIVE)
 	{
 		ResetElevator();
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
+	}
+	else if (newState == ElevatorState::ACTIVE)
+	{
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 	}
 }
 
@@ -175,7 +180,6 @@ void BossLevelElevator::ResetElevator()
 	transform->RecalculateLocalMatrix();
 	transform->UpdateTransformMatrices();
 	platformRigidBody->UpdateRigidBody();
-	componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 }
 
 
@@ -228,7 +232,6 @@ void BossLevelElevator::ToggleEnemyInteractions(GameObject* enemy, bool interact
 {
 	ToggleParalizeDependingOfEnemyType(enemy, interactions);
 	enemy->Enable();
-	componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 }
 
 void BossLevelElevator::MoveEnemyToElevatorPoint(GameObject* enemy, ComponentTransform* elevatorPosition)
