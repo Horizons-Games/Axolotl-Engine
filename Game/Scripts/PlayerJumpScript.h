@@ -31,6 +31,7 @@ public:
 
 	float GetTimeSinceLastJump() const;
 
+	float GetJumpForce() const;
 	void ToggleIsChangingPlayer();
 
 private:

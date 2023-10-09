@@ -158,13 +158,10 @@ UpdateStatus ModuleScene::Update()
 		}
 	}
 
-	if (App->GetPlayState() == Application::PlayState::RUNNING)
+	// Particles need to be updated
+	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
 	{
-		// Particles need to be updated
-		for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
-		{
-			particle->Update();
-		}
+		particle->Update();
 	}
 
 	// Planar reflection need to be updated

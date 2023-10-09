@@ -466,7 +466,7 @@ void Shadows::PracticalPartition(Frustum* frustum, float lambda)
 	float farPlane = frustum->FarPlaneDistance();
 	float lastFarPlane = nearPlane;
 
-	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::LOG_SPLIT);
+	/*Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::LOG_SPLIT);
 	program->Activate();
 
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("logarithmic Split")), 
@@ -491,11 +491,14 @@ void Shadows::PracticalPartition(Frustum* frustum, float lambda)
 
 	glPopDebugGroup();
 
-	program->Deactivate();
+	program->Deactivate();*/
 
 	for (unsigned i = 0; i < FRUSTUM_PARTITIONS; ++i)
 	{
-		float splitPosition = splitPositions[i];
+		//float splitPosition = splitPositions[i];
+		float logarithmicSplit = nearPlane * pow(farPlane / nearPlane, float(i + 1) / float(FRUSTUM_PARTITIONS + 1));
+		float uniformSplit = nearPlane + (farPlane - nearPlane) * (float(i + 1) / float(FRUSTUM_PARTITIONS + 1));
+		float splitPosition = lambda * logarithmicSplit + (1.0 - lambda) * uniformSplit;
 
 		*frustums[i] = *frustum;
 		frustums[i]->SetViewPlaneDistances(lastFarPlane, splitPosition);
