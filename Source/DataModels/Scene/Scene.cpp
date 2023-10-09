@@ -24,9 +24,6 @@
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
-
-#include "Components/UI/ComponentVideo.h"
-
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentTransform2D.h"
 
@@ -51,7 +48,6 @@
 #include "Scripting/IScript.h"
 
 #include <GL/glew.h>
-#include <stack>
 
 Scene::Scene() :
 	root(nullptr),
@@ -72,16 +68,26 @@ Scene::~Scene()
 	sceneGameObjects.clear();
 	sceneCameras.clear();
 	sceneParticleSystems.clear();
+	sceneComponentLines.clear();
+	nonStaticObjects.clear();
 
 	pointLights.clear();
 	spotLights.clear();
 	sphereLights.clear();
 	tubeLights.clear();
+	localIBLs.clear();
 
 	cachedPoints.clear();
 	cachedSpots.clear();
 	cachedSpheres.clear();
 	cachedTubes.clear();
+	cachedLocalIBLs.clear();
+
+	glDeleteBuffers(1, &ssboPoint);
+	glDeleteBuffers(1, &ssboSpot);
+	glDeleteBuffers(1, &ssboSphere);
+	glDeleteBuffers(1, &ssboTube);
+	glDeleteBuffers(1, &ssboLocalIBL);
 }
 
 void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
@@ -137,6 +143,21 @@ std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frus
 	return objectsInFrustum;
 }
 
+std::vector<GameObject*> Scene::ObtainStaticObjectsInFrustum(const math::Frustum* frustum)
+{
+	std::vector<GameObject*> objectsInFrustum;
+
+	CalculateObjectsInFrustum(frustum, rootQuadtree.get(), objectsInFrustum);
+
+#ifdef ENGINE
+	GameObject* selected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum);
+
+#endif
+
+	return objectsInFrustum;
+}
+
 void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad, 
 									  std::vector<GameObject*>& gos)
 {
@@ -151,9 +172,14 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
 					ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
+
 					if (ObjectInFrustum(frustum, transform->GetEncapsuledAABB()))
 					{
-						gos.push_back(gameObject);
+						ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
+						if (mesh != nullptr && mesh->IsEnabled())
+						{
+							gos.push_back(gameObject);
+						}
 					}
 				}
 			}
@@ -165,9 +191,14 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 				if (gameObject->IsActive() && gameObject->IsEnabled())
 				{
 					ComponentTransform* transform = gameObject->GetComponentInternal<ComponentTransform>();
+
 					if (ObjectInFrustum(frustum, transform->GetEncapsuledAABB()))
 					{
-						gos.push_back(gameObject);
+						ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
+						if (mesh != nullptr && mesh->IsEnabled())
+						{
+							gos.push_back(gameObject);
+						}
 					}
 				}
 			}
@@ -327,9 +358,11 @@ GameObject* Scene::DuplicateGameObject(const std::string& name, GameObject* newO
 			transform2D->CalculateMatrices();
 		}
 	}
+	int filter = 0;
 
-	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject, is3D);
-
+	InsertGameObjectAndChildrenIntoSceneGameObjects(gameObject, is3D, filter);
+	UpdateLightsFromCopiedGameObjects(filter);
+	
 	return gameObject;
 }
 
@@ -364,18 +397,10 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 		case ComponentType::IMAGE:
 			gameObject->CreateComponent<ComponentImage>();
 			break;
-		case ComponentType::VIDEO:
-		{
-			ComponentVideo* video = gameObject->CreateComponent<ComponentVideo>();
-			sceneVideos.push_back(video);
-			break;
-		}
 		case ComponentType::BUTTON:
-		{
 			gameObject->CreateComponent<ComponentImage>();
 			sceneInteractableComponents.push_back(gameObject->CreateComponent<ComponentButton>());
 			break;
-		}
 		case ComponentType::SLIDER:
 		{
 			ComponentSlider* slider = gameObject->CreateComponent<ComponentSlider>();
@@ -384,7 +409,7 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 			ComponentTransform2D* backgroundTransform = background->GetComponentInternal<ComponentTransform2D>();
 			backgroundTransform->SetSize(float2(400, 50));
 			backgroundTransform->CalculateMatrices();
-			background->GetComponentInternal<ComponentImage>()->SetColor(float4(1.0f, 0.0f, 0.0f, 1.0f));
+			background->GetComponentInternal<ComponentImage>()->SetColor(float4(1.0f,0.0f,0.0f,1.0f));
 			slider->SetBackground(background);
 
 			GameObject* fill = CreateUIGameObject("Fill", gameObject, ComponentType::IMAGE);
@@ -732,6 +757,14 @@ void Scene::RemoveFatherAndChildren(const GameObject* gameObject)
 									 }),
 							   std::end(sceneParticleSystems));
 
+	sceneComponentLines.erase(std::remove_if(std::begin(sceneComponentLines),
+		std::end(sceneComponentLines),
+		[gameObject](const ComponentLine* componentLine)
+		{
+			return componentLine->GetOwner() == gameObject;
+		}),
+		std::end(sceneComponentLines));
+
 	sceneInteractableComponents.erase(std::remove_if(std::begin(sceneInteractableComponents),
 													 std::end(sceneInteractableComponents),
 													 [gameObject](const Component* interactible)
@@ -823,7 +856,10 @@ void Scene::GenerateLights()
 {
 	// Directional
 
-	glGenBuffers(1, &uboDirectional);
+	if (uboDirectional == 0)
+	{
+		glGenBuffers(1, &uboDirectional);
+	}
 	glBindBuffer(GL_UNIFORM_BUFFER, uboDirectional);
 	glBufferData(GL_UNIFORM_BUFFER, 32, nullptr, GL_STATIC_DRAW);
 
@@ -836,7 +872,10 @@ void Scene::GenerateLights()
 
 	size_t numPoint = pointLights.size();
 
-	glGenBuffers(1, &ssboPoint);
+	if (ssboPoint == 0)
+	{
+		glGenBuffers(1, &ssboPoint);
+	}
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * numPoint, nullptr, GL_DYNAMIC_DRAW);
 
@@ -849,7 +888,10 @@ void Scene::GenerateLights()
 
 	size_t numSpot = spotLights.size();
 
-	glGenBuffers(1, &ssboSpot);
+	if (ssboSpot == 0)
+	{
+		glGenBuffers(1, &ssboSpot);
+	}
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * numSpot, nullptr, GL_DYNAMIC_DRAW);
 
@@ -862,7 +904,10 @@ void Scene::GenerateLights()
 
 	size_t numSphere = sphereLights.size();
 
-	glGenBuffers(1, &ssboSphere);
+	if (ssboSphere == 0)
+	{
+		glGenBuffers(1, &ssboSphere);
+	}
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSphere);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightSphere) * numSphere, nullptr, GL_DYNAMIC_DRAW);
 
@@ -875,13 +920,32 @@ void Scene::GenerateLights()
 
 	size_t numTube = tubeLights.size();
 
-	glGenBuffers(1, &ssboTube);
+	if (ssboTube == 0)
+	{
+		glGenBuffers(1, &ssboTube);
+	}
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboTube);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightTube) * numTube, nullptr, GL_DYNAMIC_DRAW);
 
 	const unsigned bindingTube = 5;
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingTube, ssboTube);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	// Local IBL
+
+	size_t numLocalIBL = localIBLs.size();
+
+	if (ssboLocalIBL == 0)
+	{
+		glGenBuffers(1, &ssboLocalIBL);
+	}
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLocalIBL);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(LocalIBL) * numLocalIBL, nullptr, GL_DYNAMIC_DRAW);
+
+	const unsigned bindingLocalIBL = 14;
+
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingLocalIBL, ssboLocalIBL);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
@@ -1006,81 +1070,94 @@ void Scene::RenderAreaTubes() const
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-void Scene::RenderPointLight(const ComponentPointLight* compPoint) const
+void Scene::RenderLocalIBLs() const
 {
-	bool found = false;
-	
-	for (int i = 0; !found && i < cachedPoints.size(); ++i)
+	// LocalIBL
+	size_t numLocalIBL = localIBLs.size();
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLocalIBL);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(LocalIBL) * numLocalIBL, nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numLocalIBL);
+
+	if (numLocalIBL > 0)
 	{
-		if (cachedPoints[i].first == compPoint)
-		{
-			found = true;
-
-			unsigned int pos = cachedPoints[i].second;
-
-			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
-			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pos, sizeof(PointLight),
-							&pointLights[pos]);
-			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-		}
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(LocalIBL) * numLocalIBL, &localIBLs[0]);
 	}
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-void Scene::RenderSpotLight(const ComponentSpotLight* compSpot) const
-{
-	bool found = false;
-
-	for (int i = 0; !found && i < cachedSpots.size(); ++i)
+void Scene::RenderPointLight(const ComponentPointLight* compPoint)
+{	
+	if (pointLights.empty())
 	{
-		if (cachedSpots[i].first == compSpot)
-		{
-			found = true;
-
-			unsigned int pos = cachedSpots[i].second;
-
-			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
-			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * pos, sizeof(SpotLight),
-							&spotLights[pos]);
-			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-		}
+		return;
 	}
+	unsigned int pos = cachedPoints[compPoint];
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPoint);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PointLight) * pos, sizeof(PointLight),
+		&pointLights[pos]);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-void Scene::RenderAreaSphere(const ComponentAreaLight* compSphere) const
+void Scene::RenderSpotLight(const ComponentSpotLight* compSpot)
 {
-	bool found = false;
-
-	for (int i = 0; !found && i < cachedSpheres.size(); ++i)
+	if (spotLights.empty())
 	{
-		if (cachedSpheres[i].first == compSphere)
-		{
-			found = true;
-
-			unsigned int pos = cachedSpheres[i].second;
-
-			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSphere);
-			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightSphere)*pos, sizeof(AreaLightSphere), 
-							&sphereLights[pos]);
-			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-		}
+		return;
 	}
+	unsigned int pos = cachedSpots[compSpot];
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSpot);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(SpotLight) * pos, sizeof(SpotLight),
+		&spotLights[pos]);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-void Scene::RenderAreaTube(const ComponentAreaLight* compTube) const
+void Scene::RenderAreaSphere(const ComponentAreaLight* compSphere)
+{
+	if (sphereLights.empty())
+	{
+		return;
+	}
+	unsigned int pos = cachedSpheres[compSphere];
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboSphere);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightSphere) * pos, sizeof(AreaLightSphere),
+		&sphereLights[pos]);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+}
+
+void Scene::RenderAreaTube(const ComponentAreaLight* compTube)
+{
+	if (tubeLights.empty())
+	{
+		return;
+	}
+	unsigned int pos = cachedTubes[compTube];
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboTube);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightTube) * pos, sizeof(AreaLightTube),
+		&tubeLights[pos]);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+}
+
+void Scene::RenderLocalIBL(const ComponentLocalIBL* compLocal) const
 {
 	bool found = false;
 
-	for (int i = 0; !found && i < cachedTubes.size(); ++i)
+	for (int i = 0; !found && i < cachedLocalIBLs.size(); ++i)
 	{
-		if (cachedTubes[i].first == compTube)
+		if (cachedLocalIBLs[i].first == compLocal)
 		{
 			found = true;
 
-			unsigned int pos = cachedTubes[i].second;
+			unsigned int pos = cachedLocalIBLs[i].second;
 
-			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboTube);
-			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(AreaLightTube) * pos, sizeof(AreaLightTube),
-							&tubeLights[pos]);
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLocalIBL);
+			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(LocalIBL) * pos, sizeof(LocalIBL),
+				&localIBLs[pos]);
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 		}
 	}
@@ -1109,7 +1186,7 @@ void Scene::UpdateScenePointLights()
 				pl.color = float4(pointLightComp->GetColor(), pointLightComp->GetIntensity());
 
 				pointLights.push_back(pl);
-				cachedPoints.push_back(std::make_pair(pointLightComp, pos));
+				cachedPoints[pointLightComp] = pos;
 
 				++pos;
 			}
@@ -1143,7 +1220,7 @@ void Scene::UpdateSceneSpotLights()
 				sl.outAngle = spotLightComp->GetOuterAngle();
 
 				spotLights.push_back(sl);
-				cachedSpots.push_back(std::make_pair(spotLightComp, pos));
+				cachedSpots[spotLightComp] = pos;
 
 				++pos;
 			}
@@ -1181,7 +1258,7 @@ void Scene::UpdateSceneAreaLights()
 					sl.attRadius = areaLightComp->GetAttRadius();
 
 					sphereLights.push_back(sl);
-					cachedSpheres.push_back(std::make_pair(areaLightComp, posSpheres));
+					cachedSpheres[areaLightComp] = posSpheres;
 
 					++posSpheres;
 				}
@@ -1203,7 +1280,7 @@ void Scene::UpdateSceneAreaLights()
 					tl.attRadius = areaLightComp->GetAttRadius();
 
 					tubeLights.push_back(tl);
-					cachedTubes.push_back(std::make_pair(areaLightComp, posTubes));
+					cachedTubes[areaLightComp] = posTubes;
 
 					++posTubes;
 				}
@@ -1292,7 +1369,7 @@ void Scene::UpdateSceneAreaSpheres()
 					sl.attRadius = areaLightComp->GetAttRadius();
 
 					sphereLights.push_back(sl);
-					cachedSpheres.push_back(std::make_pair(areaLightComp, pos));
+					cachedSpheres[areaLightComp] = pos;
 
 					++pos;
 				}
@@ -1336,7 +1413,7 @@ void Scene::UpdateSceneAreaTubes()
 					tl.attRadius = areaLightComp->GetAttRadius();
 
 					tubeLights.push_back(tl);
-					cachedTubes.push_back(std::make_pair(areaLightComp, pos));
+					cachedTubes[areaLightComp] = pos;
 
 					++pos;
 				}
@@ -1345,107 +1422,163 @@ void Scene::UpdateSceneAreaTubes()
 	}
 }
 
+void Scene::UpdateSceneLocalIBLs()
+{
+	localIBLs.clear();
+	cachedLocalIBLs.clear();
+
+	unsigned int pos = 0;
+
+	for (GameObject* child : sceneGameObjects)
+	{
+		if (child && child->IsActive())
+		{
+			ComponentLight* component = child->GetComponentInternal<ComponentLight>();
+			if (component && component->GetLightType() == LightType::LOCAL_IBL && component->IsEnabled()
+				&& !component->IsDeleting())
+			{
+				ComponentLocalIBL* local = static_cast<ComponentLocalIBL*>(component);
+
+				LocalIBL localIBL;
+				localIBL.diffuse = local->GetHandleIrradiance();
+				localIBL.prefiltered = local->GetHandlePreFiltered();
+				localIBL.position = float4(local->GetPosition(), 0.f);
+				AABB parallax = local->GetParallaxAABB();
+				localIBL.maxParallax = float4(parallax.maxPoint, 0.f);
+				localIBL.minParallax = float4(parallax.minPoint, 0.f);
+				float4x4 toLocal = local->GetTransform();
+				toLocal.InverseOrthonormal();
+				localIBL.toLocal = toLocal;
+				AABB influence = local->GetInfluenceAABB();
+				localIBL.maxInfluence = float4(influence.maxPoint, 0.f);
+				localIBL.minInfluence = float4(influence.minPoint, 0.f);
+
+				localIBLs.push_back(localIBL);
+				cachedLocalIBLs.push_back(std::make_pair(local, pos));
+
+				++pos;
+			}
+		}
+
+	}
+}
+
 void Scene::UpdateScenePointLight(const ComponentPointLight* compPoint)
 {
-	bool found = false;
+	if (pointLights.empty())
+	{
+		return;
+	}
+	
 	const GameObject* go = compPoint->GetOwner();
 
-	for (int i = 0; !found && i < cachedPoints.size(); ++i)
-	{
-		if (cachedPoints[i].first == compPoint)
-		{
-			found = true;
+	ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
 
-			ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
-			
-			PointLight pl;
-			pl.position = float4(transform->GetGlobalPosition(), compPoint->GetRadius());
-			pl.color = float4(compPoint->GetColor(), compPoint->GetIntensity());
+	PointLight pl;
+	pl.position = float4(transform->GetGlobalPosition(), compPoint->GetRadius());
+	pl.color = float4(compPoint->GetColor(), compPoint->GetIntensity());
 
-			pointLights[cachedPoints[i].second] = pl;
-		}
-	}
+	pointLights[cachedPoints[compPoint]] = pl;
 }
 
 void Scene::UpdateSceneSpotLight(const ComponentSpotLight* compSpot)
 {
-	bool found = false;
+	if (spotLights.empty())
+	{
+		return;
+	}
+
 	const GameObject* go = compSpot->GetOwner();
 
-	for (int i = 0; !found && i < cachedSpots.size(); ++i)
-	{
-		if (cachedSpots[i].first == compSpot)
-		{
-			found = true;
+	ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
 
-			ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
+	SpotLight sl;
+	sl.position = float4(transform->GetGlobalPosition(), compSpot->GetRadius());
+	sl.color = float4(compSpot->GetColor(), compSpot->GetIntensity());
+	sl.aim = transform->GetGlobalForward().Normalized();
+	sl.innerAngle = compSpot->GetInnerAngle();
+	sl.outAngle = compSpot->GetOuterAngle();
 
-			SpotLight sl;
-			sl.position = float4(transform->GetGlobalPosition(), compSpot->GetRadius());
-			sl.color = float4(compSpot->GetColor(), compSpot->GetIntensity());
-			sl.aim = transform->GetGlobalForward().Normalized();
-			sl.innerAngle = compSpot->GetInnerAngle();
-			sl.outAngle = compSpot->GetOuterAngle();
-
-			spotLights[cachedSpots[i].second] = sl;
-		}
-	}
+	spotLights[cachedSpots[compSpot]] = sl;
 }
 
 void Scene::UpdateSceneAreaSphere(const ComponentAreaLight* compSphere)
 {
-	bool found = false;
+	if (sphereLights.empty())
+	{
+		return;
+	}
+	
 	const GameObject* go = compSphere->GetOwner();
 	
-	for (int i = 0; !found && i < cachedSpheres.size(); ++i)
-	{
-		if (cachedSpheres[i].first == compSphere)
-		{
-			found = true;
+	ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
+	float3 center = transform->GetGlobalPosition();
+	float radius = compSphere->GetShapeRadius();
 
-			ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
-			float3 center = transform->GetGlobalPosition();
-			float radius = compSphere->GetShapeRadius();
+	AreaLightSphere sl;
+	sl.position = float4(center, radius);
+	sl.color = float4(compSphere->GetColor(), compSphere->GetIntensity());
+	sl.attRadius = compSphere->GetAttRadius();
 
-			AreaLightSphere sl;
-			sl.position = float4(center, radius);
-			sl.color = float4(compSphere->GetColor(), compSphere->GetIntensity());
-			sl.attRadius = compSphere->GetAttRadius();
-
-			sphereLights[cachedSpheres[i].second] = sl;
-		}
-	}
+	sphereLights[cachedSpheres[compSphere]] = sl;
 }
 
 void Scene::UpdateSceneAreaTube(const ComponentAreaLight* compTube)
 {
-	bool found = false;
+	if (tubeLights.empty())
+	{
+		return;
+	}
+	
 	const GameObject* go = compTube->GetOwner();
 
-	for (int i = 0; !found && i < cachedTubes.size(); ++i)
+	ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
+
+	Quat matrixRotation = transform->GetGlobalRotation();
+	float3 translation = transform->GetGlobalPosition();
+	float3 pointA = float3(0, 0.5f, 0) * compTube->GetHeight();
+	float3 pointB = float3(0, -0.5f, 0) * compTube->GetHeight();
+
+	// Apply rotation & translation
+	pointA = (matrixRotation * pointA) + translation;
+	pointB = (matrixRotation * pointB) + translation;
+
+	AreaLightTube tl;
+	tl.positionA = float4(pointA, compTube->GetShapeRadius());
+	tl.positionB = float4(pointB, compTube->GetShapeRadius());
+	tl.color = float4(compTube->GetColor(), compTube->GetIntensity());
+	tl.attRadius = compTube->GetAttRadius();
+
+	tubeLights[cachedTubes[compTube]] = tl;
+}
+
+void Scene::UpdateSceneLocalIBL(ComponentLocalIBL* compLocal)
+{
+	bool found = false;
+	const GameObject* go = compLocal->GetOwner();
+
+	for (int i = 0; !found && i < cachedLocalIBLs.size(); ++i)
 	{
-		if (cachedTubes[i].first == compTube)
+		if (cachedLocalIBLs[i].first == compLocal)
 		{
 			found = true;
 
-			ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
+			LocalIBL localIBL;
 
-			Quat matrixRotation = transform->GetGlobalRotation();
-			float3 translation = transform->GetGlobalPosition();
-			float3 pointA = float3(0, 0.5f, 0) * compTube->GetHeight();
-			float3 pointB = float3(0, -0.5f, 0) * compTube->GetHeight();
+			localIBL.diffuse = compLocal->GetHandleIrradiance();
+			localIBL.prefiltered = compLocal->GetHandlePreFiltered();
+			localIBL.position = float4(compLocal->GetPosition(), 0);
+			AABB parallax = compLocal->GetParallaxAABB();
+			localIBL.maxParallax = float4(parallax.maxPoint, 0);
+			localIBL.minParallax = float4(parallax.minPoint, 0);
+			float4x4 toLocal = compLocal->GetTransform();
+			toLocal.InverseOrthonormal();
+			localIBL.toLocal = toLocal;
+			AABB influence = compLocal->GetInfluenceAABB();
+			localIBL.maxInfluence = float4(influence.maxPoint, 0);
+			localIBL.minInfluence = float4(influence.minPoint, 0);
 
-			// Apply rotation & translation
-			pointA = (matrixRotation * pointA) + translation;
-			pointB = (matrixRotation * pointB) + translation;
-
-			AreaLightTube tl;
-			tl.positionA = float4(pointA, compTube->GetShapeRadius());
-			tl.positionB = float4(pointB, compTube->GetShapeRadius());
-			tl.color = float4(compTube->GetColor(), compTube->GetIntensity());
-			tl.attRadius = compTube->GetAttRadius();
-
-			tubeLights[cachedTubes[i].second] = tl;
+			localIBLs[cachedLocalIBLs[i].second] = localIBL;
 		}
 	}
 }
@@ -1496,11 +1629,15 @@ void Scene::InitLights()
 	UpdateScenePointLights();
 	UpdateSceneSpotLights();
 	UpdateSceneAreaLights();
+	UpdateSceneLocalIBLs();
 
 	RenderDirectionalLight();
 	RenderPointLights();
 	RenderSpotLights();
 	RenderAreaLights();
+	RenderLocalIBLs();
+
+	App->GetModule<ModuleRender>()->GetLightProxy()->CleanUp();
 }
 
 void Scene::SetRootQuadtree(std::unique_ptr<Quadtree> quadtree)
@@ -1523,7 +1660,7 @@ void Scene::SetRoot(GameObject* newRoot)
 	root = std::unique_ptr<GameObject>(newRoot);
 }
 
-void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D)
+void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObject, bool is3D, int& filter)
 {
 	sceneGameObjects.push_back(gameObject);
 
@@ -1547,10 +1684,86 @@ void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObje
 			App->GetModule<ModuleScene>()->GetLoadedScene()->AddNonStaticObject(gameObject);
 		}
 	}
+	filter |= SearchForLights(gameObject);
+
 	for (GameObject* children : gameObject->GetChildren())
 	{
-		InsertGameObjectAndChildrenIntoSceneGameObjects(children, is3D);
+		InsertGameObjectAndChildrenIntoSceneGameObjects(children, is3D, filter);
 	}
+}
+
+void Scene::UpdateLightsFromCopiedGameObjects(const int& filter)
+{
+	if (filter & HAS_SPOT)
+	{
+		UpdateSceneSpotLights();
+		RenderSpotLights();
+	}
+
+	if (filter & HAS_POINT)
+	{
+		UpdateScenePointLights();
+		RenderPointLights();
+	}
+
+	if (filter & HAS_AREA_TUBE)
+	{
+		UpdateSceneAreaTubes();
+		RenderAreaTubes();
+	}
+	
+	if (filter & HAS_AREA_SPHERE)
+	{
+		UpdateSceneAreaSpheres();
+		RenderAreaSpheres();
+	}
+
+	if (filter & HAS_LOCAL_IBL)
+	{
+		UpdateSceneLocalIBLs();
+		RenderLocalIBLs();
+	}
+}
+
+int& Scene::SearchForLights(GameObject* gameObject)
+{
+	int filter = 0;
+	
+	ComponentLight* light = gameObject->GetComponentInternal<ComponentLight>();
+
+	if (light)
+	{
+		switch (light->GetLightType())
+		{
+		case LightType::SPOT:
+			filter = HAS_SPOT;
+			break;
+
+		case LightType::POINT:
+			filter = HAS_POINT;
+			break;
+
+		case LightType::AREA:
+		{
+			ComponentAreaLight* areaLight = static_cast<ComponentAreaLight*>(light);
+			switch (areaLight->GetAreaType())
+			{
+			case AreaType::TUBE:
+				filter = HAS_AREA_TUBE;
+				break;
+			
+			case AreaType::SPHERE:
+				filter = HAS_AREA_SPHERE;
+				break;
+			}
+			break;
+		}
+		case LightType::LOCAL_IBL:
+			filter = HAS_LOCAL_IBL;
+			break;
+		}
+	}
+	return filter;
 }
 
 void Scene::AddStaticObject(GameObject* gameObject)
@@ -1643,6 +1856,19 @@ void Scene::InitCubemap()
 		root->CreateComponent<ComponentCubemap>();
 	}
 }
+
+void Scene::InitLocalsIBL()
+{
+	for (GameObject* child : sceneGameObjects)
+	{
+		ComponentLight* component = child->GetComponentInternal<ComponentLight>();
+		if (component && component->GetLightType() == LightType::LOCAL_IBL)
+		{
+			static_cast<ComponentLocalIBL*>(component)->GenerateMaps();
+		}
+	}
+}
+
 std::vector<float> Scene::GetVertices()
 {
 	std::vector<float> result;
@@ -1747,4 +1973,30 @@ void Scene::SetEnemiesToDefeat(float newEnemiesToDefeat)
 	enemiesToDefeat = newEnemiesToDefeat;
 	if (newEnemiesToDefeat <= 0.0)
 		SetCombatMode(false);
+}
+
+const SpotLight& Scene::GetSpotLightsStruct(int index) const
+{
+	if (index >= 0 && index < spotLights.size())
+	{
+		return spotLights[index];
+	}
+	else
+	{
+		SpotLight defaultSpotlight;
+		return defaultSpotlight;
+	}
+}
+
+const PointLight& Scene::GetPointLightsStruct(int index) const
+{
+	if (index >= 0 && index < pointLights.size())
+	{
+		return pointLights[index];
+	}
+	else
+	{
+		PointLight defaultPointlight;
+		return defaultPointlight;
+	}
 }

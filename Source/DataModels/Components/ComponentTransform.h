@@ -69,10 +69,6 @@ public:
 	const float4x4 CalculatePaletteGlobalMatrix();
 	void UpdateTransformMatrices(bool notifyChanges = true);
 
-	void CalculateLightTransformed(const ComponentLight* lightComponent,
-								   bool translationModified,
-								   bool rotationModified);
-
 	void CalculateBoundingBoxes();
 	void Encapsule(const vec* vertices, unsigned numVertices);
 

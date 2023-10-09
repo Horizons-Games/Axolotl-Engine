@@ -18,7 +18,6 @@
 #include "Components/ComponentTransform.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
-#include "Components/UI/ComponentVideo.h"
 
 
 #include "DataModels/Resources/ResourceSkyBox.h"
@@ -159,13 +158,10 @@ UpdateStatus ModuleScene::Update()
 		}
 	}
 
-	if (App->GetPlayState() == Application::PlayState::RUNNING)
+	// Particles need to be updated
+	for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
 	{
-		// Particles need to be updated
-		for (ComponentParticleSystem* particle : loadedScene->GetSceneParticleSystems())
-		{
-			particle->Update();
-		}
+		particle->Update();
 	}
 
 	return UpdateStatus::UPDATE_CONTINUE;
@@ -232,7 +228,6 @@ void ModuleScene::OnPlay()
 
 	InitAndStartScriptingComponents();
 	InitParticlesComponents();
-	InitVideoComponents();
 }
 
 void ModuleScene::OnStop()
@@ -295,17 +290,6 @@ void ModuleScene::InitParticlesComponents()
 		if (componentParticle->GetOwner()->IsActive() && componentParticle->GetPlayAtStart())
 		{
 			componentParticle->Play();
-		}
-	}
-}
-
-void ModuleScene::InitVideoComponents()
-{
-	for (ComponentVideo* componentVideo : loadedScene->GetSceneVideos())
-	{
-		if (componentVideo->GetOwner()->IsActive() && componentVideo->GetPlayAtStart())
-		{
-			componentVideo->Play();
 		}
 	}
 }

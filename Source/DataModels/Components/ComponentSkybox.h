@@ -11,7 +11,8 @@ public:
 	ComponentSkybox(bool active, GameObject* owner);
 	~ComponentSkybox() override;
 	
-	void Draw();
+	
+	void Draw(float4x4 view, float4x4 proj) const;
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
