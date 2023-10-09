@@ -26,7 +26,8 @@ private:
 
 	std::string enemyTag;
 	std::string bulletTag;
+	std::string alluraBulletTag;
 	std::vector<GameObject*> enemiesGameObjects;
 	std::vector<GameObject*> bulletGameObjects;
-	float bulletVelocity;
+	std::vector<GameObject*> alluraBulletGameObjects;
 };

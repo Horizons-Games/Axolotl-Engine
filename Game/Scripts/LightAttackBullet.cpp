@@ -65,6 +65,10 @@ void LightAttackBullet::Start()
 
 void LightAttackBullet::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		return;
+	}
 	if (enemy != nullptr)
 	{
 		rigidBody->SetPositionTarget(enemy->GetComponent<ComponentTransform>()->GetGlobalPosition());
@@ -91,6 +95,21 @@ void LightAttackBullet::Update(float deltaTime)
 		particleSystem->Stop();
 
 		DestroyBullet();
+	}
+}
+
+void LightAttackBullet::SetPauseBullet(bool isPaused)
+{
+	this->isPaused = isPaused;
+	float3 forward = parentTransform->GetGlobalForward();
+	forward.Normalize();
+	if (isPaused)
+	{
+		rigidBody->SetKpForce(0);
+	}
+	else
+	{
+		rigidBody->SetKpForce(velocity);
 	}
 }
 
