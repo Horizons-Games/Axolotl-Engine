@@ -105,8 +105,8 @@ public:
 	Cubemap* GetCubemap() const;
 	const bool GetCombatMode() const;
 	const float GetEnemiesToDefeat() const;
-	const int GetSizeSpotLights() const;
-	const int GetSizePointLights() const;
+	const size_t GetSizeSpotLights() const;
+	const size_t GetSizePointLights() const;
 	const int GetPointIndex(const ComponentPointLight* point);
 	const int GetSphereIndex(const ComponentAreaLight* sphere);
 	const int GetSpotIndex(const ComponentSpotLight* spot);
@@ -401,12 +401,12 @@ inline const float Scene::GetEnemiesToDefeat() const
 	return enemiesToDefeat;
 }
 
-inline const int Scene::GetSizeSpotLights() const
+inline const size_t Scene::GetSizeSpotLights() const
 {
 	return spotLights.size();
 }
 
-inline const int Scene::GetSizePointLights() const
+inline const size_t Scene::GetSizePointLights() const
 {
 	return pointLights.size();
 }
