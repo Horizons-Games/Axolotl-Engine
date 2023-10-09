@@ -42,5 +42,7 @@ void TriggerSewersMusicExit::OnCollisionEnter(ComponentRigidBody* other)
 		componentAudio->SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY,
 			AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
 
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::AMBIENT_STOP);
+
 	}
 }

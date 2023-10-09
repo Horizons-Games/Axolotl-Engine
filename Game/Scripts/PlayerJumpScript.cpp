@@ -99,7 +99,6 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 		componentAnimation->SetParameter("IsFalling", false);
 		componentAnimation->SetParameter("IsJumping", false);
 		componentAnimation->SetParameter("IsDoubleJumping", false);
-		componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 		coyoteTimerCount = 0.0f;
 	}
 	else

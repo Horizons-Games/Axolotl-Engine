@@ -3176,6 +3176,40 @@
 										</SourceFadeOut>
 									</TransitionInfo>
 								</MusicTransition>
+								<MusicTransition Name="Transition" ID="{9066FBAB-4871-45D9-AEC3-D6F9833DDB8F}">
+									<PropertyList>
+										<Property Name="DestinationContextType" Type="int16" Value="2"/>
+										<Property Name="ExitSourceAt" Type="int16" Value="3"/>
+										<Property Name="PlaySourcePostExit" Type="bool" Value="False"/>
+										<Property Name="SourceContextType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="DestinationContextObject">
+											<ObjectRef Name="1M7-Station_Interior_170bpm1-4_L154M" ID="{089CD438-AAE9-44DB-9A22-9CCDF761200D}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}"/>
+										</Reference>
+										<Reference Name="SourceContextObject">
+											<ObjectRef Name="1M1-Sewers-A_150bpm1-4_L94B" ID="{53E865AE-B4BF-4E66-B834-3BEFCEE9A04E}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}"/>
+										</Reference>
+									</ReferenceList>
+									<TransitionInfo/>
+								</MusicTransition>
+								<MusicTransition Name="Transition" ID="{42EC7CC2-EAB3-47DF-9E9C-425FBAF616AC}">
+									<PropertyList>
+										<Property Name="DestinationContextType" Type="int16" Value="2"/>
+										<Property Name="ExitSourceAt" Type="int16" Value="3"/>
+										<Property Name="PlaySourcePostExit" Type="bool" Value="False"/>
+										<Property Name="SourceContextType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="DestinationContextObject">
+											<ObjectRef Name="1M8-Boss_190bpm1-4_LxM-PxB_Fight" ID="{ECB51207-7053-4D37-A058-EC0134D02F52}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}"/>
+										</Reference>
+										<Reference Name="SourceContextObject">
+											<ObjectRef Name="1M7-Station_Interior_170bpm1-4_L154M" ID="{089CD438-AAE9-44DB-9A22-9CCDF761200D}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}"/>
+										</Reference>
+									</ReferenceList>
+									<TransitionInfo/>
+								</MusicTransition>
 							</ChildrenList>
 							<TransitionInfo/>
 						</MusicTransition>

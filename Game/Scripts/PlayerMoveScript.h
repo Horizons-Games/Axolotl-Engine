@@ -88,7 +88,7 @@ private:
 
 	float3 desiredRotation;
 
-	bool isOnWater;
+	int waterCounter;
 
 	void DashRoll(float deltaTime);
 };

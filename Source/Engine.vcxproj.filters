@@ -829,6 +829,12 @@
     <ClCompile Include="Exceptions\AccessingFailedScriptException.cpp">
       <Filter>Exceptions</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\WaterfallAudio.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\TurbineSewersAudio.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1700,6 +1706,12 @@
     </ClInclude>
     <ClInclude Include="Exceptions\AxoDefaultException.h">
       <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\WaterfallAudio.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\TurbineSewersAudio.h">
+      <Filter>UserScripts\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

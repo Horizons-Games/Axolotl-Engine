@@ -29,10 +29,11 @@ void TriggerSewersMusic::OnCollisionEnter(ComponentRigidBody* other)
 		componentAudio->SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY,
 			AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
 
-		componentAudio->PostEvent(AUDIO::MUSIC::PLAY_MUSIC);
 		if (!isMusicTriggered)
 		{
+			componentAudio->PostEvent(AUDIO::MUSIC::PLAY_MUSIC);
 			audioSourceCantina->PostEvent(AUDIO::SFX::AMBIENT::CANTINA::STOP_AMBIENT_CANTINA);
+			componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::AMBIENT);
 		}
 		isMusicTriggered = true;
 	}

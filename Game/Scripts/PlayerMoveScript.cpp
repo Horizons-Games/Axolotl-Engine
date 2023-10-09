@@ -25,7 +25,7 @@ REGISTERCLASS(PlayerMoveScript);
 
 PlayerMoveScript::PlayerMoveScript() : Script(), componentTransform(nullptr),
 componentAudio(nullptr), componentAnimation(nullptr), dashForce(30.0f), 
-playerManager(nullptr), isParalyzed(false), desiredRotation(float3::zero), isOnWater(false),
+playerManager(nullptr), isParalyzed(false), desiredRotation(float3::zero), waterCounter(0),
 lightAttacksMoveFactor(2.0f), heavyAttacksMoveFactor(3.0f), dashRollTime(0.0f), 
 dashRollCooldown(0.1f), timeSinceLastDash(0.0f), dashRollDuration(0.2f), totalDirection(float3::zero),
 isTriggeringStoredDash(false)
@@ -202,7 +202,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	{
 		if (playerAttackScript->IsMelee())
 		{
-			if (isOnWater)
+			if (IsOnWater())
 			{
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_BIX_WATER);
 			}
@@ -213,7 +213,7 @@ void PlayerMoveScript::Move(float deltaTime)
 		}
 		else
 		{
-			if (isOnWater)
+			if (IsOnWater())
 			{
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_ALLURA_WATER);
 			}
@@ -388,8 +388,8 @@ void PlayerMoveScript::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->CompareTag("Water"))
 	{
-		isOnWater = true;
-		if (playerManager->GetPlayerState() == PlayerActions::WALKING)
+		waterCounter++;
+		if (IsOnWater() && playerManager->GetPlayerState() == PlayerActions::WALKING)
 		{
 			if (playerAttackScript->IsMelee())
 			{
@@ -409,8 +409,8 @@ void PlayerMoveScript::OnCollisionExit(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->CompareTag("Water"))
 	{
-		isOnWater = false;
-		if (playerManager->GetPlayerState() == PlayerActions::WALKING)
+		waterCounter--;
+		if (!IsOnWater() && playerManager->GetPlayerState() == PlayerActions::WALKING)
 		{
 			if (playerAttackScript->IsMelee())
 			{
@@ -438,7 +438,7 @@ void PlayerMoveScript::SetIsParalyzed(bool isParalyzed)
 
 bool PlayerMoveScript::IsOnWater() const
 {
-	return isOnWater;
+	return waterCounter > 0;
 }
 
 PlayerJumpScript* PlayerMoveScript::GetJumpScript() const
