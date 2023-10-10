@@ -830,11 +830,14 @@
     <ClCompile Include="..\Game\Scripts\CombatTutorial.cpp">
       <Filter>UserScripts\Gameplay\Tutorials</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\SwitchTutorial.cpp">
-      <Filter>UserScripts\Gameplay\Tutorials</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PathBehaviourScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossShieldEnemiesSpawner.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossLevelElevator.cpp">
+      <Filter>UserScripts\Level</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\BossMusic.cpp">
       <Filter>UserScripts\Audio</Filter>
@@ -853,6 +856,9 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UILoadSavedSettings.cpp">
       <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SwitchTutorial.cpp">
+      <Filter>UserScripts\Gameplay\Tutorials</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIText.cpp">
       <Filter>UserScripts\UI</Filter>
@@ -1730,11 +1736,14 @@
     <ClInclude Include="..\Game\Scripts\CombatTutorial.h">
       <Filter>UserScripts\Gameplay\Tutorials</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\SwitchTutorial.h">
-      <Filter>UserScripts\Gameplay\Tutorials</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PathBehaviourScript.h">
       <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossShieldEnemiesSpawner.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossLevelElevator.h">
+      <Filter>UserScripts\Level</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\BossMusic.h">
       <Filter>UserScripts\Audio</Filter>
@@ -1753,6 +1762,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UILoadSavedSettings.h">
       <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SwitchTutorial.h">
+      <Filter>UserScripts\Gameplay\Tutorials</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIText.h">
       <Filter>UserScripts\UI</Filter>
