@@ -46,10 +46,13 @@ public:
 
 	uint32_t GetID() const;
 
+	void SetIsInCollisionWorld(bool isInCollisionWorld);
+	bool GetIsInCollisionWorld() const;
+
 	void SetIsKinematic(bool isKinematic);
 	bool GetIsKinematic() const;
 
-	void SetStatic(bool isStatic);
+	void SetIsStatic(bool isStatic);
 	bool IsStatic() const;
 
 	void SetIsTrigger(bool isTrigger);
@@ -144,6 +147,9 @@ public:
 	void UpdateBlockedRotationAxis();
 	void SetAngularFactor(btVector3 rotation);
 
+	void RemoveRigidBodyFromDynamics();
+	void AddRigidBodyToDynamics();
+
 	void RemoveRigidBodyFromSimulation();
 	void AddRigidBodyToSimulation();
 
@@ -165,8 +171,8 @@ private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
-	void SignalEnable() override;
-	void SignalDisable() override;
+	void SignalEnable(bool isSceneLoading) override;
+	void SignalDisable(bool isSceneLoading) override;
 
 private:
 	int GenerateId() const;
@@ -186,6 +192,7 @@ private:
 	float factor;
 	float height;
 
+	bool isInCollisionWorld = true;
 	bool isKinematic = false;
 	bool drawCollider = false;
 	bool isTrigger = false;
@@ -220,6 +227,17 @@ inline uint32_t ComponentRigidBody::GetID() const
 {
 	return id;
 }
+
+inline bool ComponentRigidBody::GetIsInCollisionWorld() const
+{
+	return isInCollisionWorld;
+}
+
+inline void ComponentRigidBody::SetIsInCollisionWorld(bool newIsInCollisionWorld)
+{
+	isInCollisionWorld = newIsInCollisionWorld;
+}
+
 
 inline bool ComponentRigidBody::GetIsKinematic() const
 {

@@ -47,61 +47,54 @@ void JumpFinisherArea::Update(float deltaTime)
 {
 	rigidBody->UpdateRigidBody();
 
-	if (actualLandingParticleSystem && actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->IsFinished())
+	if (actualLandingParticleSystem && 
+		actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->IsFinished())
 	{
  		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualLandingParticleSystem);
 		actualLandingParticleSystem = nullptr;
 	}
 }
 
-void JumpFinisherArea::OnCollisionEnter(ComponentRigidBody* other)
-{
-	if (other->GetOwner()->GetTag() == "Enemy" && other->GetOwner()->IsEnabled())
-	{
-		enemiesInTheArea.push_back(other);
-	}
-}
-
-void JumpFinisherArea::OnCollisionExit(ComponentRigidBody* other)
-{
-	enemiesInTheArea.erase(
-		std::remove_if(
-			std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const ComponentRigidBody* componentRigidBody)
-			{
-				return componentRigidBody == other;
-			}
-		),
-		std::end(enemiesInTheArea));
-}
-
 void JumpFinisherArea::VisualStartEffect() 
 {
-	initVisuals->Enable();
+	if (initVisuals)
+	{
+		initVisuals->Enable();
+	}
 }
 
 void JumpFinisherArea::VisualLandingEffect() 
 {
-	initVisuals->Disable();
-	Scene* loadScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-	if (actualLandingParticleSystem) 
+	if (initVisuals)
+	{
+		initVisuals->Disable();
+	}
+
+	if (actualLandingParticleSystem)
 	{
 		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(actualLandingParticleSystem);
 	}
 
-	actualLandingParticleSystem = loadScene->DuplicateGameObject(landingParticleSystemPrefab->GetName(), landingParticleSystemPrefab, loadScene->GetRoot());
-	actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->Enable();
+	if (landingParticleSystemPrefab)
+	{
+		Scene* loadScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
-	actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->Play();
+		actualLandingParticleSystem = loadScene->DuplicateGameObject(landingParticleSystemPrefab->GetName(),
+			landingParticleSystemPrefab, loadScene->GetRoot());
+
+		actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->Enable();
+		actualLandingParticleSystem->GetComponent<ComponentParticleSystem>()->Play();
+	}
+}
+
+GameObject* JumpFinisherArea::GetVisualStartEffect()
+{
+	return initVisuals;
 }
 
 void JumpFinisherArea::PushEnemies(float pushForce, float stunTime, std::vector<ComponentRigidBody*>* enemies)
 {
 	const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
-
-	if (enemies == nullptr) 
-	{
-		enemies = &enemiesInTheArea;
-	}
 
 	for (std::vector<ComponentRigidBody*>::iterator it = (*enemies).begin(); it < (*enemies).end();
 		it++)
@@ -109,7 +102,7 @@ void JumpFinisherArea::PushEnemies(float pushForce, float stunTime, std::vector<
 		GameObject* ownerEnemy = (*it)->GetOwner();
 		// If you think about a better way to identify the bosses lmk, tags are already in use
 		// and as there will only be three bosses, this is a "not so bad" approach I guess
-		AXO_TODO("Add here miniboss 1 script if finally developed, so no boss gets pushed back by this attack");
+		AXO_TODO("Add here miniboss 1's script if finally developed, so no boss gets pushed back by this attack")
 		if (ownerEnemy->HasComponent<EnemyMiniBossTwo>() || ownerEnemy->HasComponent<FinalBossScript>())
 		{
 			continue;

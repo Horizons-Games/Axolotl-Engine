@@ -10,6 +10,7 @@ class ComponentParticleSystem;
 
 class PlayerAttackScript;
 class MeshEffect;
+class PlayerManagerScript;
 
 class HealthSystem : public Script
 {
@@ -33,6 +34,8 @@ public:
 	
 	void SetDeathCallback(std::function<void(void)>&& callDeath);
 
+	MeshEffect* GetMeshEffect() const;
+
 private:
 
 	float currentHealth;
@@ -46,6 +49,7 @@ private:
 
 	PlayerAttackScript* attackScript;
 	MeshEffect* meshEffect;
+	PlayerManagerScript* playerManager;
 
 	std::function<void(void)> deathCallback;
 };

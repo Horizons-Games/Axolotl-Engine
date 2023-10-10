@@ -74,6 +74,7 @@ GeometryBatch::~GeometryBatch()
 		}
 	}
 	componentsInBatch.clear();
+	resourcesMaterial.clear();
 
 	objectIndexes.clear();
 	instanceData.clear();
@@ -723,7 +724,7 @@ void GeometryBatch::BindBatch(bool selected)
 #ifdef ENGINE
 			bool draw = false;
 
-			if (selectedGo != nullptr && !App->IsOnPlayMode() && !isRoot)
+			if (selectedGo != nullptr && App->GetPlayState() == Application::PlayState::STOPPED && !isRoot)
 			{
 				if (!selected)
 				{
@@ -774,7 +775,7 @@ void GeometryBatch::BindBatch(bool selected)
 					memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 				}
 
-				Effect effect(component->GetEffectColor(), static_cast<int>(component->IsDiscarded())); //TODO change
+				Effect effect(component->GetEffectColor(), static_cast<int>(component->IsDiscarded())); AXO_TODO("Change")
 				memcpy(&effectData[paletteIndex], &effect, sizeof(Effect));
 
 				//do a for for all the instaces existing
@@ -936,6 +937,10 @@ void GeometryBatch::BindBatch(std::vector<GameObject*>& objects)
 		component->UpdatePalette();
 
 		ResourceInfo* resourceInfo = FindResourceInfo(component->GetMesh());
+		if (resourceInfo == nullptr)
+		{
+			continue;
+		}
 		std::shared_ptr<ResourceMesh> resource = resourceInfo->resourceMesh;
 
 		// find position in components vector

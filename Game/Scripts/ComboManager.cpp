@@ -49,11 +49,7 @@ bool ComboManager::NextIsSpecialAttack() const
 
 void ComboManager::CheckSpecial(float deltaTime)
 {
-	// THIS IS A PROVISIONAL WAY TO SOLVE AN ISSUE WITH THE CONTROLLER COMPONENT
-	// THE STATE GOES FROM IDLE TO REPEAT, SO WE CONVERTED REPEAT TO DOWN FOR THIS
-	// ACTION USING LOGIC COMBINATIONS AND AN AUXILIAR VARIABLE 
-	if (input->GetKey(SDL_SCANCODE_TAB) != keyState &&
-		input->GetKey(SDL_SCANCODE_TAB) == KeyState::REPEAT && specialCount == maxSpecialCount)
+	if (input->GetKey(SDL_SCANCODE_TAB) == KeyState::DOWN && specialCount == maxSpecialCount)
 	{
 		specialActivated = true;
 
@@ -73,13 +69,13 @@ void ComboManager::CheckSpecial(float deltaTime)
 		else if (specialCount > 0 && specialCount < maxSpecialCount)
 		{
 			specialCount = std::max(0.0f, specialCount - 5.0f * deltaTime);
-
 			uiComboManager->SetComboBarValue(specialCount);
 		}
 	}
-
-	else
+	else if (comboCount > 0)
 	{
+		
+		uiComboManager->UpdateFadeOut(actualComboTimer / comboTime);
 		actualComboTimer -= deltaTime;
 	}
 }
@@ -90,18 +86,18 @@ void ComboManager::ClearCombo(bool finisher)
 	comboCount = 0;
 }
 
+void ComboManager::ClearComboForSwitch(bool finisher) 
+{
+	uiComboManager->ClearCombo(finisher);
+	uiComboManager->SetComboBarValue(0);
+	comboCount = 0;
+	specialCount = 0.f;
+}
+
 AttackType ComboManager::CheckAttackInput(bool jumping)
 {
-	// THIS IS A PROVISIONAL WAY TO SOLVE AN ISSUE WITH THE CONTROLLER COMPONENT
-	// THE STATE GOES FROM IDLE TO REPEAT, SO WE CONVERTED REPEAT TO DOWN FOR THIS
-	// ACTION USING LOGIC COMBINATIONS AND AN AUXILIAR VARIABLE 
-	bool leftClick = input->GetMouseButton(SDL_BUTTON_LEFT) != mouseLeftButtonState &&
-		input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::REPEAT;
-	mouseLeftButtonState = input->GetMouseButton(SDL_BUTTON_LEFT);
-
-	bool rightClick = input->GetMouseButton(SDL_BUTTON_RIGHT) != mouseRightButtonState &&
-		input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::REPEAT;
-	mouseRightButtonState = input->GetMouseButton(SDL_BUTTON_RIGHT);
+	bool leftClick = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
+	bool rightClick = input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::DOWN;
 
 	if (jumping && (leftClick || rightClick))
 	{
@@ -138,6 +134,7 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 
 void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 {
+	uiComboManager->UpdateFadeOut(1.0f);
 	if (specialCount < 0 || !specialActivated)
 	{
 		this->specialCount = 
@@ -164,8 +161,14 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 		uiComboManager->AddInputVisuals(InputVisualType::LIGHT);
 	}
 
-	if (comboCount == 3 || type == AttackType::JUMPNORMAL) 
+	else if (type == AttackType::JUMPNORMAL || type == AttackType::JUMPFINISHER)
 	{
+		uiComboManager->AddInputVisuals(InputVisualType::JUMP);
+	}
+
+	if (comboCount == 3) 
+	{
+		uiComboManager->SetEffectEnable(true);
 		ClearCombo(true);
 	}
 }
@@ -179,4 +182,9 @@ void ComboManager::FillComboBar()
 {
 	specialCount = maxSpecialCount;
 	uiComboManager->SetComboBarValue(specialCount);
+}
+
+UIComboManager* ComboManager::GetUiComboManager() const
+{
+	return uiComboManager;
 }

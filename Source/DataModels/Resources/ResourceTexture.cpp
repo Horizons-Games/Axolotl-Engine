@@ -29,7 +29,15 @@ ResourceTexture::~ResourceTexture()
 
 void ResourceTexture::InternalUnload()
 {
+	glMakeTextureHandleNonResidentARB(handle);
 	glDeleteTextures(1, &glTexture);
+
+	// check OpenGL error
+	GLenum error = glGetError();
+	if (error != GL_NO_ERROR) {
+		SDL_assert(SDL_FALSE && "Problem with texture delete");
+	}
+
 	glTexture = 0;
 }
 
@@ -65,6 +73,11 @@ void ResourceTexture::LoadLoadOptions(Json& meta)
 
 void ResourceTexture::CreateTexture()
 {
+	if (glTexture != 0)
+	{
+		return;
+	}
+
 	glGenTextures(1, &glTexture);
 	glBindTexture(GL_TEXTURE_2D, glTexture);
 

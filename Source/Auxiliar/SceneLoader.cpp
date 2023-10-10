@@ -3,7 +3,10 @@
 #include "SceneLoader.h"
 
 #include "Application.h"
+
 #include "FileSystem/ModuleFileSystem.h"
+#include "FileSystem/ModuleResources.h"
+
 #include "Modules/ModuleEditor.h"
 #include "Modules/ModulePlayer.h"
 #include "Modules/ModuleRender.h"
@@ -168,9 +171,6 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 		}
 	}
 
-	ComponentTransform* mainTransform = loadedScene->GetRoot()->GetComponentInternal<ComponentTransform>();
-	mainTransform->UpdateTransformMatrices();
-
 	moduleScene->SetSceneRootAnimObjects(loadedObjects);
 	moduleScene->SetSelectedGameObject(loadedScene->GetRoot());
 
@@ -193,10 +193,16 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 
 	auto initLightsAndFinishSceneLoad = []()
 	{
-		Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-		loadedScene->InitLights();
-		loadedScene->InitRender();
-		loadedScene->InitCubemap();
+		// By scheduling these calls, we make sure all light components are initialized before these are ran
+		App->ScheduleTask(
+			[]()
+			{
+				Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+				loadedScene->InitLights();
+				loadedScene->InitRender();
+				loadedScene->InitCubemap();
+				loadedScene->InitLocalsIBL();
+			});
 
 		// if no document was set, the user is creating a new scene. finish the process
 		if (!currentLoadingConfig->doc.has_value())
@@ -215,6 +221,10 @@ void OnJsonLoaded(std::vector<GameObject*>&& loadedObjects)
 	{
 		initLightsAndFinishSceneLoad();
 	}
+
+	// Update matrices once all the scene is loaded
+	ComponentTransform* mainTransform = loadedScene->GetRoot()->GetComponentInternal<ComponentTransform>();
+	mainTransform->UpdateTransformMatrices();
 }
 
 //////////////////////////////////////////////////////////////////
@@ -233,7 +243,7 @@ void OnHierarchyLoaded()
 			if (currentLoadingConfig->mantainCurrentScene)
 			{
 				loadedScene->GetRoot()->LinkChild(gameObject);
-				gameObject->SetStatic(true);
+				gameObject->SetIsStatic(true);
 			}
 			else
 			{
@@ -264,11 +274,11 @@ void OnHierarchyLoaded()
 
 		if (value.enabled)
 		{
-			gameObject->Enable();
+			gameObject->Enable(true);
 		}
 		else
 		{
-			gameObject->Disable();
+			gameObject->Disable(true);
 		}
 	}
 
@@ -378,36 +388,22 @@ void StartJsonLoad(Json&& sceneJson)
 		App->GetModule<ModuleNavigation>()->LoadOptions(sceneJson);
 	}
 
-	auto createCubemap = [sceneJson]() mutable
+	if (!currentLoadingConfig->mantainCurrentScene)
 	{
-		Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+		loadedScene->SetCubemap(std::make_unique<Cubemap>());
+		Cubemap* cubemap = loadedScene->GetCubemap();
+		cubemap->LoadOptions(sceneJson);
+	}
 
-		if (!currentLoadingConfig->mantainCurrentScene)
-		{
-			loadedScene->SetCubemap(std::make_unique<Cubemap>());
-			Cubemap* cubemap = loadedScene->GetCubemap();
-			cubemap->LoadOptions(sceneJson);
-		}
-
-		Json gameObjects = sceneJson["GameObjects"];
-		if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
-		{
-			std::thread hierarchyLoadThread = std::thread(&StartHierarchyLoad, std::move(gameObjects));
-			hierarchyLoadThread.detach();
-		}
-		else
-		{
-			StartHierarchyLoad(std::move(gameObjects));
-		}
-	};
-
+	Json gameObjects = sceneJson["GameObjects"];
 	if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
 	{
-		App->ScheduleTask(createCubemap);
+		std::thread hierarchyLoadThread = std::thread(&StartHierarchyLoad, std::move(gameObjects));
+		hierarchyLoadThread.detach();
 	}
 	else
 	{
-		createCubemap();
+		StartHierarchyLoad(std::move(gameObjects));
 	}
 }
 
@@ -415,7 +411,6 @@ void StartJsonLoad(Json&& sceneJson)
 
 void StartLoadScene()
 {
-	
 	ModuleRender* moduleRender = App->GetModule<ModuleRender>();
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	ModuleUI* ui = App->GetModule<ModuleUI>();
@@ -463,7 +458,20 @@ void StartLoadScene()
 	sceneJson.fromBuffer(buffer);
 	delete buffer;
 
-	StartJsonLoad(std::move(sceneJson));
+	if (currentLoadingConfig->loadMode == LoadMode::ASYNCHRONOUS)
+	{
+		// don't launch a thread, schedule it so it runs on the main thread with the OpenGL context
+		// to properly free graphic resources
+		App->ScheduleTask(
+			[sceneJson]() mutable
+			{
+				StartJsonLoad(std::move(sceneJson));
+			});
+	}
+	else
+	{
+		StartJsonLoad(std::move(sceneJson));
+	}
 }
 
 //////////////////////////////////////////////////////////////////

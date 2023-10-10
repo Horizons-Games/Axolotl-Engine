@@ -7,20 +7,29 @@
 #include "Components/ComponentScript.h"
 #include "Components/UI/ComponentSlider.h"
 #include "ModulePlayer.h"
+#include "SwitchPlayerManagerScript.h"
 #include "UIImageDisplacementControl.h"
 #include "HealthSystem.h"
 
 REGISTERCLASS(UIGameManager);
 
-UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), player(nullptr), menuIsOpen(false),
+UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), manager(nullptr), menuIsOpen(false),
 hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr),
 speedPwrUpObject(nullptr), pwrUpActive(false), savePwrUp(PowerUpType::NONE), sliderHudHealthBixFront(nullptr), 
-sliderHudHealthBixBack(nullptr), keyState(KeyState::IDLE)
+sliderHudHealthBixBack(nullptr), sliderHudHealthAlluraFront(nullptr), sliderHudHealthAlluraBack(nullptr),
+debugModeObject(nullptr), imgMouse(nullptr), imgController(nullptr), inputMethod(true), prevInputMethod(true)
 {
+	REGISTER_FIELD(manager, GameObject*);
 	REGISTER_FIELD(mainMenuObject, GameObject*);
 	REGISTER_FIELD(hudCanvasObject, GameObject*);
+	REGISTER_FIELD(debugModeObject, GameObject*);
+	REGISTER_FIELD(imgMouse, GameObject*);
+	REGISTER_FIELD(imgController, GameObject*);
+
 	REGISTER_FIELD(sliderHudHealthBixFront, GameObject*);
 	REGISTER_FIELD(sliderHudHealthBixBack, GameObject*);
+	REGISTER_FIELD(sliderHudHealthAlluraFront, GameObject*);
+	REGISTER_FIELD(sliderHudHealthAlluraBack, GameObject*);
 
 	REGISTER_FIELD(healPwrUpObject, GameObject*);
 	REGISTER_FIELD(attackPwrUpObject, GameObject*);
@@ -32,38 +41,80 @@ void UIGameManager::Start()
 {
 	player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();
 	
-	healthSystemClass = player->GetOwner()->GetComponent<HealthSystem>();
+	healthSystemClassBix = player->GetOwner()->GetComponent<HealthSystem>();
 
-	componentSliderBixFront = sliderHudHealthBixFront->GetComponent<ComponentSlider>();
-	componentSliderBixBack = sliderHudHealthBixBack->GetComponent<ComponentSlider>();
-	componentSliderBixFront->SetMaxValue(healthSystemClass->GetMaxHealth());
-	componentSliderBixBack->SetMaxValue(healthSystemClass->GetMaxHealth());
+	componentSliderPlayerFront = sliderHudHealthBixFront->GetComponent<ComponentSlider>();
+	componentSliderPlayerBack = sliderHudHealthBixBack->GetComponent<ComponentSlider>();
+	componentSliderPlayerFront->SetMaxValue(healthSystemClassBix->GetMaxHealth());
+	componentSliderPlayerBack->SetMaxValue(healthSystemClassBix->GetMaxHealth());
 
+	if (manager) 
+	{
+		SwitchPlayerManagerScript* SwitchPlayer = manager->GetComponent<SwitchPlayerManagerScript>();
+		secondPlayer = SwitchPlayer->GetSecondPlayer()->GetComponent<ComponentPlayer>();
 
+		healthSystemClassAllura = secondPlayer->GetOwner()->GetComponent<HealthSystem>();
+
+		componentSliderSecondPlayerFront = sliderHudHealthAlluraFront->GetComponent<ComponentSlider>();
+		componentSliderSecondPlayerBack = sliderHudHealthAlluraBack->GetComponent<ComponentSlider>();
+		componentSliderSecondPlayerFront->SetMaxValue(healthSystemClassAllura->GetMaxHealth());
+		componentSliderSecondPlayerBack->SetMaxValue(healthSystemClassAllura->GetMaxHealth());
+	}
 }
 
 void UIGameManager::Update(float deltaTime)
 {
-	ModuleInput* input = App->GetModule<ModuleInput>();
+	uiTime += deltaTime;
 
-	// THIS IS A PROVISIONAL WAY TO SOLVE AN ISSUE WITH THE CONTROLLER COMPONENT
-	// THE STATE GOES FROM IDLE TO REPEAT, SO WE CONVERTED REPEAT TO DOWN FOR THIS
-	// ACTION USING LOGIC COMBINATIONS AND AN AUXILIAR VARIABLE 
-	if (input->GetKey(SDL_SCANCODE_ESCAPE) != keyState && 
-		input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::REPEAT)
+	input = App->GetModule<ModuleInput>();
+
+	//IN-GAME MENU
+	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::DOWN)
 	{
 		menuIsOpen = !menuIsOpen;
 		MenuIsOpen();
 	}
 
-	keyState = input->GetKey(SDL_SCANCODE_ESCAPE);
-
-	if (healthSystemClass->GetCurrentHealth()!= componentSliderBixBack->GetCurrentValue() 
-		|| healthSystemClass->GetCurrentHealth() != componentSliderBixFront->GetCurrentValue())
+	// DEBUG MODE
+	if (input->GetKey(SDL_SCANCODE_B) == KeyState::DOWN && debugModeObject != nullptr)
 	{
-		ModifySliderHealthValue();
+		if (!debugModeObject->IsEnabled())
+		{
+			debugModeObject->Enable();
+		}
+		else
+		{
+			debugModeObject->Disable();
+		}
 	}
 
+	// Player input method true=GAMEPAD false=KEYBOARD
+	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD)
+	{
+		inputMethod = true;
+	}
+	else if (input->GetCurrentInputMethod() == InputMethod::KEYBOARD)
+	{
+		inputMethod = false;
+	}
+
+	InputMethodImg(inputMethod);
+
+	if (healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerBack->GetCurrentValue()
+		|| healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerFront->GetCurrentValue())
+	{
+		ModifySliderHealthValue(healthSystemClassBix, componentSliderPlayerBack, componentSliderPlayerFront);
+	}
+	if (manager)
+	{
+		if (healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerBack->GetCurrentValue()
+			|| healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerFront->GetCurrentValue())
+		{
+			ModifySliderHealthValue(healthSystemClassAllura, componentSliderSecondPlayerBack, componentSliderSecondPlayerFront);
+		}
+	}
+
+	// POWER UP SYSTEM
 	if (pwrUpActive)
 	{
 		ActiveSliderUIPwrUP(deltaTime);
@@ -72,24 +123,22 @@ void UIGameManager::Update(float deltaTime)
 
 void UIGameManager::MenuIsOpen()
 {
-	if (menuIsOpen == false)
-	{
-		mainMenuObject->Disable();
-		hudCanvasObject->Enable();
-		player->SetMouse(false);
-	}
-
-	if (menuIsOpen == true)
+	if (menuIsOpen)
 	{
 		mainMenuObject->Enable();
 		hudCanvasObject->Disable();
-		player->SetMouse(true);
 	}
+	else
+	{
+		mainMenuObject->Disable();
+		hudCanvasObject->Enable();
+	}
+	player->SetMouse(menuIsOpen);
 }
 
 void UIGameManager::EnableUIPwrUp(enum class PowerUpType pwrUp)
 {
-	if (pwrUpActive != true)
+	if (!pwrUpActive)
 	{
 		switch (pwrUp)
 		{
@@ -184,21 +233,21 @@ void UIGameManager::DisableUIPwrUP()
 	EnableUIPwrUp(savePwrUp);
 }
 
-void UIGameManager::ModifySliderHealthValue()
+void UIGameManager::ModifySliderHealthValue(HealthSystem* healthSystemClass, ComponentSlider* componentSliderBack, ComponentSlider* componentSliderFront)
 {
 	// We use 2 slider to do a effect in the health bar
-	damage = healthSystemClass->GetCurrentHealth() - componentSliderBixFront->GetCurrentValue();
-	damageBack = healthSystemClass->GetCurrentHealth() - componentSliderBixBack->GetCurrentValue();
+	damage = healthSystemClass->GetCurrentHealth() - componentSliderFront->GetCurrentValue();
+	damageBack = healthSystemClass->GetCurrentHealth() - componentSliderBack->GetCurrentValue();
 
 	if (damageBack <= 0.0f && damage <= 0.0f)
 	{
-		componentSliderBixBack->ModifyCurrentValue(componentSliderBixBack->GetCurrentValue() + std::max(damageBack, -0.1f));
-		componentSliderBixFront->ModifyCurrentValue(componentSliderBixFront->GetCurrentValue() + std::max(damage, -0.4f));
+		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + std::max(damageBack, -0.1f));
+		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + std::max(damage, -0.4f));
 	}
 	else
 	{
-		componentSliderBixBack->ModifyCurrentValue(componentSliderBixBack->GetCurrentValue() + std::min(damageBack, 0.4f));
-		componentSliderBixFront->ModifyCurrentValue(componentSliderBixFront->GetCurrentValue() + std::min(damage, 0.2f));
+		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + std::min(damageBack, 0.4f));
+		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + std::min(damage, 0.2f));
 	}
 }
 
@@ -213,4 +262,56 @@ void UIGameManager::SetMaxPowerUpTime(float maxPowerUpTime)
 	componentSliderAttackPwrUp->SetMaxValue(maxPowerUpTime);
 	componentSliderDefensePwrUp->SetMaxValue(maxPowerUpTime);
 	componentSliderSpeedPwrUp->SetMaxValue(maxPowerUpTime);
+}
+
+void UIGameManager::InputMethodImg(bool input)
+{
+	if (currentInputTime == 0.0f && prevInputMethod != inputMethod)
+	{
+		if (input)
+		{
+			prevInputMethod = input;
+
+			if (imgMouse && imgController)
+			{
+				imgMouse->Disable();
+				imgController->Enable();
+			}
+		}
+		else
+		{
+			prevInputMethod = input;
+
+			if (imgMouse && imgController)
+			{
+				imgMouse->Enable();
+				imgController->Disable();
+			}
+		}
+		currentInputTime++;
+	}
+	else
+	{
+		if (currentInputTime >= 10.0f)
+		{
+			if (imgMouse && imgController)
+			{
+				imgController->Disable();
+				imgMouse->Disable();
+			}
+
+			currentInputTime = 0.0f;
+		}
+		else
+		{
+			currentInputTime++;
+		}
+	}
+
+}
+
+void UIGameManager::SetMenuIsOpen(bool menuState)
+{
+	menuIsOpen = menuState;
+	MenuIsOpen();
 }

@@ -24,7 +24,7 @@ HackZoneScript::HackZoneScript()
 
 void HackZoneScript::Start()
 {
-	commandCombination.reserve(sequenceSize);
+	commandCombination.reserve(static_cast<size_t>(sequenceSize));
 	position = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
 }
 
@@ -40,7 +40,7 @@ void HackZoneScript::GenerateCombination()
 	HackingCommandType allCommands[] = //Auxiliar array until we place all the images in UI
 	{ 
 		COMMAND_A,
-		COMMAND_B, 
+		COMMAND_X, 
 		COMMAND_Y 
 	};
 	size_t allCommandsSize = sizeof(allCommands) / sizeof(allCommands[0]);

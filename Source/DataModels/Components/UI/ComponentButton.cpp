@@ -49,7 +49,7 @@ void ComponentButton::InternalLoad(const Json& meta)
 	sceneName = meta["sceneName"];
 }
 
-void ComponentButton::SignalDisable()
+void ComponentButton::SignalDisable(bool isSceneLoading)
 {
 	clicked = false;
 	hovered = false;

@@ -8,8 +8,8 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "GameObject/GameObject.h"
-#include "debugdraw.h"
 #include "Modules/ModuleDebugDraw.h"
+#include "debugdraw.h"
 
 #ifndef ENGINE
 	#include "Modules/ModuleEditor.h"
@@ -77,7 +77,7 @@ void ModulePhysics::Reset()
 UpdateStatus ModulePhysics::PreUpdate()
 {
 #ifdef ENGINE
-	if (App->IsOnPlayMode())
+	if (App->GetPlayState() == Application::PlayState::RUNNING)
 	{
 		dynamicsWorld->stepSimulation(App->GetDeltaTime());
 		ManageCollisions();
@@ -89,8 +89,8 @@ UpdateStatus ModulePhysics::PreUpdate()
 	}
 
 #else
-    dynamicsWorld->stepSimulation(App->GetDeltaTime());
-    ManageCollisions();
+	dynamicsWorld->stepSimulation(App->GetDeltaTime());
+	ManageCollisions();
 
 	if (App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawPhysics())
 	{
@@ -110,13 +110,27 @@ struct ContactResultCallback : public btCollisionWorld::ContactResultCallback
 	{
 	}
 
+	virtual bool needsCollision(btBroadphaseProxy* proxy0) const override
+	{
+		const btCollisionObject* colObj0 = static_cast<const btCollisionObject*>(proxy0->m_clientObject);
+
+		ComponentRigidBody* rb = static_cast<ComponentRigidBody*>(colObj0->getUserPointer());
+
+		if (rb && !rb->GetIsInCollisionWorld())
+		{
+			return false;
+		}
+
+		return btCollisionWorld::ContactResultCallback::needsCollision(proxy0);
+	}
+
 	virtual btScalar addSingleResult(btManifoldPoint& cp,
 									 const btCollisionObjectWrapper* colObj0Wrap,
 									 int partId0,
 									 int index0,
 									 const btCollisionObjectWrapper* colObj1Wrap,
 									 int partId1,
-									 int index1)
+									 int index1) override
 	{
 		collisionDetected = true;
 		othersRigidBody.push_back(colObj1Wrap->getCollisionObject());
@@ -126,45 +140,49 @@ struct ContactResultCallback : public btCollisionWorld::ContactResultCallback
 
 void ModulePhysics::ManageCollisions()
 {
-
 	btCollisionObjectArray collisionArray = dynamicsWorld->getCollisionObjectArray();
 	for (int i = 0; i < collisionArray.size(); i++)
 	{
 		btCollisionObject* obj = collisionArray[i];
 
+		if (obj->getUserPointer() == nullptr)
+		{
+			continue;
+		}
+
+		ComponentRigidBody* rb = static_cast<ComponentRigidBody*>(obj->getUserPointer());
+		if (rb == nullptr || (rb->IsStatic() && !rb->IsTrigger()) || !rb->GetIsInCollisionWorld())
+		{
+			continue;
+		}
+
 		ContactResultCallback result;
+
 		dynamicsWorld->contactTest(obj, result);
 
 		if (result.collisionDetected)
 		{
-			if (obj->getUserPointer() != nullptr)
+			for (int j = 0; j < result.othersRigidBody.size(); j++)
 			{
-				ComponentRigidBody* rb = static_cast<ComponentRigidBody*>(obj->getUserPointer());
-				if (rb != nullptr && (!rb->IsStatic() || rb->IsTrigger()))
+				ComponentRigidBody* other =
+					static_cast<ComponentRigidBody*>(result.othersRigidBody[j]->getUserPointer());
+				assert(rb && other);
+				uint64_t i1 = rb->GetID();
+				i1 = i1 << 32;
+				uint64_t i2 = other->GetID();
+				// key is the combination of the two indexes in the high 32 bits store the first index and in
+				// the low 32 bits store the second index
+				uint64_t key = i1 | i2;
+				if (collisions.find(key) == collisions.end())
 				{
-					for (int j = 0; j < result.othersRigidBody.size(); j++)
-					{
-						ComponentRigidBody* other =
-							static_cast<ComponentRigidBody*>(result.othersRigidBody[j]->getUserPointer());
-						assert(rb && other);
-						uint64_t i1 = rb->GetID();
-						i1 = i1 << 32;
-						uint64_t i2 = other->GetID();
-						// key is the combination of the two indexes in the high 32 bits store the first index and in
-						// the low 32 bits store the second index
-						uint64_t key = i1 | i2;
-						if (collisions.find(key) == collisions.end())
-						{
-							rb->OnCollisionEnter(other);
-							//other->OnCollisionEnter(rb);
-						}
-						else
-						{
-							rb->OnCollisionStay(other);
-						}
-						collisions.insert(key);
-					}
+					rb->OnCollisionEnter(other);
+					// other->OnCollisionEnter(rb);
 				}
+				else
+				{
+					rb->OnCollisionStay(other);
+				}
+				collisions.insert(key);
 			}
 		}
 	}
@@ -201,7 +219,7 @@ void ModulePhysics::AddRigidBody(ComponentRigidBody* rb, btRigidBody* body)
 {
 	if (rigidBodyComponents[rb->GetID()] != nullptr)
 	{
-		//LOG_WARNING("Trying to add rigidbody twice! Owner: {}", rb->GetOwner());
+		// LOG_WARNING("Trying to add rigidbody twice! Owner: {}", rb->GetOwner());
 		return;
 	}
 	dynamicsWorld->addRigidBody(body);

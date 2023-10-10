@@ -189,6 +189,13 @@ bool Quadtree::EntireInQuadrant(const GameObject* gameObject) const
 		   objectAABB.maxPoint.y <= boundingBox.maxPoint.y && objectAABB.maxPoint.z <= boundingBox.maxPoint.z;
 }
 
+bool Quadtree::HasGameObject(GameObject* gameObject) const
+{
+	return gameObjects.find(gameObject) != gameObjects.end();
+}
+
+
+
 void Quadtree::Subdivide()
 {
 	// Subdivision part
@@ -437,25 +444,45 @@ std::list<GameObject*> Quadtree::GetAllGameObjects(GameObject* gameObject)
 
 void Quadtree::AddRigidBodiesToSimulation() const
 {
-	for (GameObject* child: gameObjects)
+	if (IsLeaf())
 	{
-		ComponentRigidBody* rb = child->GetComponentInternal<ComponentRigidBody>();
-		if (rb)
+		for (GameObject* child: gameObjects)
 		{
-			rb->AddRigidBodyToSimulation();
+			ComponentRigidBody* rb = child->GetComponentInternal<ComponentRigidBody>();
+			if (rb)
+			{
+				rb->AddRigidBodyToSimulation();
+			}
 		}
+	}
+	else
+	{
+		frontRightNode->AddRigidBodiesToSimulation();
+		frontLeftNode->AddRigidBodiesToSimulation();
+		backRightNode->AddRigidBodiesToSimulation();
+		backLeftNode->AddRigidBodiesToSimulation();
 	}
 }
 
 void Quadtree::RemoveRigidBodiesFromSimulation() const
 {
-	for (GameObject* child : gameObjects)
+	if (IsLeaf())
 	{
-		ComponentRigidBody* rb = child->GetComponentInternal<ComponentRigidBody>();
-		if (rb)
+		for (GameObject* child : gameObjects)
 		{
-			rb->RemoveRigidBodyFromSimulation();
+			ComponentRigidBody* rb = child->GetComponentInternal<ComponentRigidBody>();
+			if (rb)
+			{
+				rb->RemoveRigidBodyFromSimulation();
+			}
 		}
+	}
+	else
+	{
+		frontRightNode->RemoveRigidBodiesFromSimulation();
+		frontLeftNode->RemoveRigidBodiesFromSimulation();
+		backRightNode->RemoveRigidBodiesFromSimulation();
+		backLeftNode->RemoveRigidBodiesFromSimulation();
 	}
 }
 

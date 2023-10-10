@@ -1,21 +1,25 @@
 #include "CameraControllerScript.h"
 
 #include "ModuleInput.h"
+#include "ModulePlayer.h"
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentCameraSample.h"
+#include "Components/ComponentAudioSource.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "Camera/CameraGameObject.h"
+
+#include "Application.h"
 
 REGISTERCLASS(CameraControllerScript);
 
 CameraControllerScript::CameraControllerScript() : Script(),
-		samplePointsObject(nullptr), transform(nullptr), player(nullptr)
+		samplePointsObject(nullptr), transform(nullptr)
 {
 	REGISTER_FIELD(samplePointsObject, GameObject*);
-	REGISTER_FIELD(player, GameObject*);
 	REGISTER_FIELD(xOffset, float);
 	REGISTER_FIELD(yOffset, float);
 	REGISTER_FIELD(zOffset, float);
@@ -40,7 +44,8 @@ void CameraControllerScript::Start()
 	}
 	transform = owner->GetComponent<ComponentTransform>();
 	camera = GetOwner()->GetComponentInternal<ComponentCamera>();
-	playerTransform = player->GetComponent<ComponentTransform>();
+
+	playerTransform = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentTransform>(); 
 
 	finalTargetPosition = transform->GetGlobalPosition();
 	finalTargetOrientation = transform->GetGlobalRotation();
@@ -50,84 +55,98 @@ void CameraControllerScript::Start()
 
 void CameraControllerScript::PreUpdate(float deltaTime)
 {
-
-	ComponentCameraSample* closestSample = FindClosestSample(playerTransform->GetGlobalPosition());
-
-	if (closestSample)
+	if (!stopped)
 	{
-		if (closestSample->GetFixedOffsetEnabled())
-		{
-			CalculateOffsetVector(closestSample->GetFixedOffset() - playerTransform->GetGlobalPosition());
-		}
-		else
-		{
-			CalculateOffsetVector(closestSample->GetOffset());
-		}
-		
-		if (closestSample->GetFocusOffsetEnabled())
-		{
-			CalculateFocusOffsetVector(closestSample->GetFocusOffset());
-		}
-		else
-		{
-			CalculateFocusOffsetVector();
-		}
+		ComponentCameraSample* closestSample = FindClosestSample(playerTransform->GetGlobalPosition());
 
-		if (closestSample->GetKpPositionEnabled())
+		if (closestSample)
 		{
-			camera->SetSampleKpPosition(closestSample->GetKpPosition());
-			
+			if (closestSample->GetFixedOffsetEnabled())
+			{
+				CalculateOffsetVector(closestSample->GetFixedOffset() - playerTransform->GetGlobalPosition());
+			}
+			else
+			{
+				CalculateOffsetVector(closestSample->GetOffset());
+			}
+
+			if (closestSample->GetFocusOffsetEnabled())
+			{
+				CalculateFocusOffsetVector(closestSample->GetFocusOffset());
+			}
+			else
+			{
+				CalculateFocusOffsetVector();
+			}
+
+			if (closestSample->GetKpPositionEnabled())
+			{
+				camera->SetSampleKpPosition(closestSample->GetKpPosition());
+
+			}
+			else
+			{
+				camera->RestoreKpPosition();
+			}
+
+			if (closestSample->GetKpRotationEnabled())
+			{
+				camera->SetSampleKpRotation(closestSample->GetKpRotation());
+			}
+			else
+			{
+				camera->RestoreKpRotation();
+			}
 		}
 		else
 		{
+			CalculateOffsetVector();
+			CalculateFocusOffsetVector();
 			camera->RestoreKpPosition();
-		}
-		
-		if (closestSample->GetKpRotationEnabled())
-		{
-			camera->SetSampleKpRotation(closestSample->GetKpRotation());
-		}
-		else
-		{
 			camera->RestoreKpRotation();
 		}
+
+		float3 sourceDirection = camera->GetCamera()->GetFrustum()->Front().Normalized();
+		float3 targetDirection = (playerTransform->GetGlobalPosition()
+			+ defaultFocusOffsetVector
+			- camera->GetCamera()->GetPosition()).Normalized();
+
+		Quat orientationOffset = Quat::identity;
+
+		if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.001f))
+		{
+			Quat rot = Quat::RotateFromTo(sourceDirection, targetDirection);
+			orientationOffset = rot * camera->GetCamera()->GetRotation();
+		}
+		else
+		{
+			orientationOffset = camera->GetCamera()->GetRotation();
+		}
+
+		finalTargetPosition = playerTransform->GetGlobalPosition() + defaultOffsetVector;
+		finalTargetOrientation = orientationOffset;
+
+		transform->SetGlobalPosition(finalTargetPosition);
+		transform->SetGlobalRotation(finalTargetOrientation);
+		transform->RecalculateLocalMatrix();
 	}
-	else
-	{
-		CalculateOffsetVector();
-		CalculateFocusOffsetVector();
-		camera->RestoreKpPosition();
-		camera->RestoreKpRotation();
-	}
-
-	float3 sourceDirection = camera->GetCamera()->GetFrustum()->Front().Normalized();
-	float3 targetDirection = (playerTransform->GetGlobalPosition()
-		+ defaultFocusOffsetVector
-		- camera->GetCamera()->GetPosition()).Normalized();
-
-	Quat orientationOffset = Quat::identity;
-
-	if (!sourceDirection.Cross(targetDirection).Equals(float3::zero, 0.001f))
-	{
-		Quat rot = Quat::RotateFromTo(sourceDirection, targetDirection);
-		orientationOffset = rot * camera->GetCamera()->GetRotation();
-	}
-	else
-	{
-		orientationOffset = camera->GetCamera()->GetRotation();
-	}
-
-	finalTargetPosition = playerTransform->GetGlobalPosition() + defaultOffsetVector;
-	finalTargetOrientation = orientationOffset;
-
-	transform->SetGlobalPosition(finalTargetPosition);
-	transform->SetGlobalRotation(finalTargetOrientation);
-	transform->RecalculateLocalMatrix();
 
 	for (Component* components : owner->GetComponents())
 	{
 		components->OnTransformChanged();
 	}
+
+}
+
+void CameraControllerScript::ToggleCameraState()
+{
+	stopped = !stopped;
+}
+
+void CameraControllerScript::ChangeCurrentPlayer(ComponentTransform* currentPlayer) 
+{
+	playerTransform = currentPlayer;
+	stopped = false;
 }
 
 void CameraControllerScript::CalculateOffsetVector()
@@ -197,3 +216,17 @@ ComponentCameraSample* CameraControllerScript::FindClosestSample(float3 position
 
 }
 
+void CameraControllerScript::SetInCombat(bool newmode)
+{
+	inCombat = newmode;
+	if (inCombat)
+	{
+		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentAudioSource>()->
+			SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::COMBAT);
+	}
+	else
+	{
+		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentAudioSource>()->
+			SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
+	}
+}

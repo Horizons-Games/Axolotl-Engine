@@ -57,6 +57,7 @@ public:
 	void ManageCollisions();
 
 	void AddRigidBody(ComponentRigidBody* rb, btRigidBody* body);
+
 	void RemoveRigidBody(ComponentRigidBody* rb, btRigidBody* body);
 
 	uint64_t GetAmountOfRigidBodies() const
