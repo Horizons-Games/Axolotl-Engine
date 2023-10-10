@@ -13,8 +13,8 @@ class ComponentRigidBody;
 class TutorialSystem;
 class HealthSystem;
 class ModuleInput;
-	
-
+class PlayerManagerScript;
+class SwitchPlayerManagerScript;
 
 class SwitchTutorial : public Script
 {
@@ -25,30 +25,26 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 	void OnCollisionEnter(ComponentRigidBody* other) override;
-	void OnCollisionExit(ComponentRigidBody* other) override;
-	
 
 private:
 
-	bool userControllable;
 	bool tutorialActivable;
-	bool nextStateActive;
 	bool tutorialFinished;
 	float finalWaitTime;
 	float finalTotalWaitTime;
 
+	GameObject* manager;
 	GameObject* player;
 	GameObject* combatTutorialUI;
-	GameObject* debugPowerUp;
+	PlayerManagerScript* playerManager;
+	SwitchPlayerManagerScript* switchManager;
 	
-
 	ModuleInput* input;
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;
 	ComponentRigidBody* componentRigidBody;
 
 	TutorialSystem* tutorialUI;
-	HealthSystem* dummyHealthSystem;
 
-	GameObject* combatDummy;
+	GameObject* allura;
 };

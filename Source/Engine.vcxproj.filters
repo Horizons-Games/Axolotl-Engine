@@ -830,6 +830,9 @@
     <ClCompile Include="..\Game\Scripts\CombatTutorial.cpp">
       <Filter>UserScripts\Gameplay\Tutorials</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SwitchTutorial.cpp">
+      <Filter>UserScripts\Gameplay\Tutorials</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1701,6 +1704,9 @@
       <Filter>Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\CombatTutorial.h">
+      <Filter>UserScripts\Gameplay\Tutorials</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SwitchTutorial.h">
       <Filter>UserScripts\Gameplay\Tutorials</Filter>
     </ClInclude>
   </ItemGroup>

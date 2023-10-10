@@ -317,6 +317,7 @@
     <ClCompile Include="..\Game\Scripts\SendTriggerCollision.cpp" />
     <ClCompile Include="..\Game\Scripts\ShockWaveAttackAreaScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ShockWaveAttackScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\SwitchTutorial.cpp" />
     <ClCompile Include="..\Game\Scripts\TutorialSystem.cpp" />
     <ClCompile Include="..\Game\Scripts\SwitchPlayerManagerScript.cpp" />
     <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp">
@@ -926,6 +927,7 @@
     <ClInclude Include="..\Game\Scripts\SendTriggerCollision.h" />
     <ClInclude Include="..\Game\Scripts\ShockWaveAttackAreaScript.h" />
     <ClInclude Include="..\Game\Scripts\ShockWaveAttackScript.h" />
+    <ClInclude Include="..\Game\Scripts\SwitchTutorial.h" />
     <ClInclude Include="..\Game\Scripts\TutorialSystem.h" />
     <ClInclude Include="..\Game\Scripts\SwitchPlayerManagerScript.h" />
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h" />

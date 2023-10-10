@@ -1,6 +1,7 @@
 #include "StdAfx.h"
-#include "..\Game\Scripts\TutorialSystem.h"
-#include "..\Game\Scripts\SwitchTutorial.h"
+#include "TutorialSystem.h"
+#include "SwitchTutorial.h"
+#include "SwitchPlayerManagerScript.h"
 
 
 #include "Application.h"
@@ -29,114 +30,46 @@
 
 REGISTERCLASS(SwitchTutorial);
 
-SwitchTutorial::SwitchTutorial() : Script(), combatDummy(nullptr), userControllable(false), combatTutorialUI(nullptr),
-debugPowerUp(nullptr), finalWaitTime(5.0f), finalTotalWaitTime(5.0f),tutorialActivable(false), nextStateActive(true)
+SwitchTutorial::SwitchTutorial() : Script(), allura(nullptr), combatTutorialUI(nullptr),
+finalWaitTime(5.0f), finalTotalWaitTime(5.0f),tutorialActivable(false), manager(nullptr)
 {
-	REGISTER_FIELD(combatDummy, GameObject*);
-	REGISTER_FIELD(userControllable, bool);
+	REGISTER_FIELD(allura, GameObject*);
+	REGISTER_FIELD(manager, GameObject*);
 	REGISTER_FIELD(combatTutorialUI, GameObject*);
-	REGISTER_FIELD(debugPowerUp, GameObject*);
 	REGISTER_FIELD(finalWaitTime, float);
 	REGISTER_FIELD(finalTotalWaitTime, float);
-
 }
 
 void SwitchTutorial::Start()
 {
 	input = App->GetModule<ModuleInput>();
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
+	playerManager = player->GetComponent<PlayerManagerScript>();
 	
 	tutorialUI = combatTutorialUI->GetComponent<TutorialSystem>();
-	dummyHealthSystem = combatDummy->GetComponent<HealthSystem>();
-
-	dummyHealthSystem->SetIsImmortal(true);
 }
 
 void SwitchTutorial::Update(float deltaTime)
 {
-	//Normal Attacks XXX - XXY
-	if (tutorialActivable && userControllable && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN && !tutorialUI->GetDisplacementControl()->IsMoving())
-	{
-		
+	if (tutorialActivable && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN && !tutorialUI->GetDisplacementControl()->IsMoving())
+	{	
 		tutorialUI->UnDeployUI();
-		dummyHealthSystem->SetIsImmortal(true);
 		
-		if (tutorialUI->GetTutorialCurrentState() == static_cast<int>(tutorialUI->GetNumControllableState()))
+		if (tutorialUI->GetTutorialCurrentState() == tutorialUI->GetTutorialSlideSize())
 		{
-			dummyHealthSystem->SetIsImmortal(false);
-			userControllable = false;
-			nextStateActive = false;	
+			manager->GetComponent<SwitchPlayerManagerScript>()->SetIsSwitchAvailable(true);
+			tutorialFinished = true;
+			playerManager->PausePlayer(false);
 		}
 	}
-	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.75f 
-		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.50f && !nextStateActive)
-		 {
-		//JumpAttack
-		LOG_INFO("Tutorial:JumpAttack");
-			
-			tutorialUI->UnDeployUI();
-			dummyHealthSystem->SetIsImmortal(false);
-			
-			nextStateActive = true;
-		 }
 
-	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.50f 
-		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.25f && nextStateActive)
-		 {
-		//SpecialLightAttack
-		LOG_INFO("Tutorial:SpecialLightAttack");
-		
-		tutorialUI->UnDeployUI();
-		dummyHealthSystem->SetIsImmortal(false);
-		
-			nextStateActive = false;
-		
-
-		 }
-	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.25f 
-		&& dummyHealthSystem->GetCurrentHealth() > 0.0f && !nextStateActive)
-		 {
-		//SpecialHeavyAttack
-		LOG_INFO("Tutorial:SpecialHeavyAttack");
-		
-		tutorialUI->UnDeployUI();
-		dummyHealthSystem->SetIsImmortal(false);
-	
-			//tutorialUI->NextState();
-			nextStateActive = true;
-		
-
-		 }
-
-	else if (dummyHealthSystem->GetCurrentHealth() <= 0.0f && nextStateActive)
-	{
-		//SpecialHeavyAttack
-		
-
-		tutorialUI->UnDeployUI();
-		dummyHealthSystem->SetIsImmortal(false);
-		
-
-		if (debugPowerUp != nullptr)
-		{
-			PowerUpLogicScript* newPowerUpLogic = debugPowerUp->GetComponent<PowerUpLogicScript>();
-			ComponentTransform* ownerTransform = player->GetComponent<ComponentTransform>();
-
-			newPowerUpLogic->ActivatePowerUp(ownerTransform->GetOwner());
-		}
-
-		userControllable = true;
-		tutorialFinished = true;
-		nextStateActive = false;
-	}
-
-	if (tutorialFinished && !nextStateActive)
+	if (tutorialFinished)
 	{
 		finalWaitTime -= deltaTime;
 
 	}
 
-	if (tutorialFinished && !nextStateActive && finalWaitTime <= 0.0f)
+	if (tutorialFinished && finalWaitTime <= 0.0f)
 	{
 		
 		tutorialUI->UnDeployUI();
@@ -144,31 +77,20 @@ void SwitchTutorial::Update(float deltaTime)
 		tutorialActivable = false;
 		finalWaitTime = finalTotalWaitTime;
 		LOG_INFO("Tutorial:END");
+		owner->Disable();
 	}
 
 }
 
 void SwitchTutorial::OnCollisionEnter(ComponentRigidBody* other)
 {
-
-		if (other->GetOwner()->CompareTag("Player"))
-		{
-			PlayerManagerScript* playerManager = other->GetOwner()->GetComponent<PlayerManagerScript>();
-			tutorialActivable = true;
-			userControllable = true;
-			//Launches intro
-			tutorialUI->TutorialStart();
-			LOG_INFO("TutorialEntered");
-		}
-}
-
-void SwitchTutorial::OnCollisionExit(ComponentRigidBody* other)
-{
-	if (other->GetOwner()->CompareTag("Player") && !tutorialFinished)
+	if (other->GetOwner()->CompareTag("Player"))
 	{
-		tutorialUI->TutorialEnd();
-		LOG_INFO("TutorialExit");
-		
+		playerManager->PausePlayer(true);
+		tutorialActivable = true;
+		//Launches intro
+		tutorialUI->TutorialStart();
+		LOG_INFO("TutorialEntered");
 	}
 }
 
