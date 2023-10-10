@@ -54,7 +54,7 @@ void UIButtonControl::Update(float deltaTime)
 	}
 	else if (enableObject != nullptr && disableObject != nullptr)
 	{
-		if (!isBackButton && input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
+		if (isBackButton && input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
 		{
 			buttonComponent->SetClicked(true);
 			ui->ResetCurrentButtonIndex();
