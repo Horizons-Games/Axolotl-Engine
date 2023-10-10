@@ -11,6 +11,7 @@ class ComponentRigidBody;
 class HackZoneScript;
 class UIHackingManager;
 class PlayerManagerScript;
+class SwitchPlayerManagerScript;
 
 class PlayerHackingUseScript : public Script
 {
@@ -42,6 +43,7 @@ private:
 	std::string hackingTag;
 	HackZoneScript* hackZone;
 	UIHackingManager* hackingManager;
+	SwitchPlayerManagerScript* switchPlayerManager;
 	PlayerManagerScript* playerManager;
 
 	float currentTime;

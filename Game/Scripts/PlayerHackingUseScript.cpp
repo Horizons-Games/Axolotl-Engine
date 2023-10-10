@@ -3,6 +3,7 @@
 
 #include "HackZoneScript.h"
 #include "UIHackingManager.h"
+#include "SwitchPlayerManagerScript.h"
 #include "PlayerManagerScript.h"
 #include "PlayerJumpScript.h"
 #include "PlayerMoveScript.h"
@@ -23,6 +24,7 @@ PlayerHackingUseScript::PlayerHackingUseScript()
 	: Script(), isHackingActive(false), hackingTag("Hackeable")
 {
 	REGISTER_FIELD(hackingManager, UIHackingManager*);
+	REGISTER_FIELD(switchPlayerManager, SwitchPlayerManagerScript*);
 }
 
 void PlayerHackingUseScript::Start()
@@ -34,7 +36,6 @@ void PlayerHackingUseScript::Start()
 	playerManager = GetOwner()->GetComponent<PlayerManagerScript>();
 	isHackingButtonPressed = false;
 }
-
 
 void PlayerHackingUseScript::Update(float deltaTime)
 {
@@ -154,6 +155,7 @@ void PlayerHackingUseScript::InitHack()
 	currentTime = App->GetDeltaTime();
 	maxHackTime = hackZone->GetMaxTime();
 	hackZone->GenerateCombination();
+	switchPlayerManager->SetIsSwitchAvailable(false);
 
 	userCommandInputs.reserve(static_cast<size_t>(hackZone->GetSequenceSize()));
 
@@ -174,6 +176,7 @@ void PlayerHackingUseScript::FinishHack()
 	EnableAllInteractions();
 	isHackingActive = false;
 	hackZone = nullptr;
+	switchPlayerManager->SetIsSwitchAvailable(true);
 
 	userCommandInputs.clear();
 
