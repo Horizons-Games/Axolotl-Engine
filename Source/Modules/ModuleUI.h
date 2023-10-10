@@ -24,8 +24,10 @@ public:
 	unsigned int GetQuadVAO() const;
 
 	void SetUpButtons();
-
+	void ResetCurrentButtonIndex();
 	void ClearButtons();
+
+	std::size_t GetCurrentButtonIndex() const;
 
 private:
 	void DetectInteractionWithGameObject(const GameObject* gameObject,
@@ -51,4 +53,9 @@ inline unsigned int ModuleUI::GetQuadVAO() const
 inline void ModuleUI::ClearButtons()
 {
 	sortedButtonsIds.clear();
+}
+
+inline std::size_t ModuleUI::GetCurrentButtonIndex() const
+{
+	return currentButtonIndex;
 }
