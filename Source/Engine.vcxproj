@@ -238,6 +238,7 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\MinMaxForce.cpp" />
     <ClCompile Include="..\Game\Scripts\ParticleBillboardAssistance.cpp" />
+    <ClCompile Include="..\Game\Scripts\PathBehaviourScript.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerAttackScript.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -413,8 +414,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UILoadSavedSettings.cpp" />
     <ClCompile Include="..\Game\Scripts\UIMissionTrigger.cpp" />
     <ClCompile Include="..\Game\Scripts\UIOptionsMenu.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIText.cpp" />
     <ClCompile Include="..\Game\Scripts\UITextTrigger.cpp" />
     <ClCompile Include="..\Game\Scripts\UITrigger.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
@@ -906,6 +909,7 @@
     <ClInclude Include="..\Game\Scripts\CameraControllerScript.h" />
     <ClInclude Include="..\Game\Scripts\MinMaxForce.h" />
     <ClInclude Include="..\Game\Scripts\ParticleBillboardAssistance.h" />
+    <ClInclude Include="..\Game\Scripts\PathBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h" />
@@ -947,8 +951,10 @@
     <ClInclude Include="..\Game\Scripts\UIGameManager.h" />
     <ClInclude Include="..\Game\Scripts\UIHackingManager.h" />
     <ClInclude Include="..\Game\Scripts\UIImageDisplacementControl.h" />
+    <ClInclude Include="..\Game\Scripts\UILoadSavedSettings.h" />
     <ClInclude Include="..\Game\Scripts\UIMissionTrigger.h" />
     <ClInclude Include="..\Game\Scripts\UIOptionsMenu.h" />
+    <ClInclude Include="..\Game\Scripts\UIText.h" />
     <ClInclude Include="..\Game\Scripts\UITextTrigger.h" />
     <ClInclude Include="..\Game\Scripts\UITrigger.h" />
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusic.h" />

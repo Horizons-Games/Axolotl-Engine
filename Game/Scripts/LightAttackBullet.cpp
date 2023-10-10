@@ -57,8 +57,12 @@ void LightAttackBullet::Start()
 	defaultTargetPos += parentTransform->GetGlobalPosition();	
 
 	particleSystem = owner->GetComponent<ComponentParticleSystem>();
-	particleSystem->Enable();
-	particleSystemCurrentTimer = particleSystemTimer;
+
+	if (particleSystem)
+	{
+		particleSystem->Enable();
+		particleSystemCurrentTimer = particleSystemTimer;
+	}
 
 	playerAttackScript = owner->GetParent()->GetComponent<PlayerAttackScript>();
 }
@@ -67,7 +71,9 @@ void LightAttackBullet::Update(float deltaTime)
 {
 	if (enemy != nullptr)
 	{
-		rigidBody->SetPositionTarget(enemy->GetComponent<ComponentTransform>()->GetGlobalPosition());
+		defaultTargetPos = enemy->GetComponent<ComponentTransform>()->GetGlobalPosition();
+		defaultTargetPos.y += 1;
+		rigidBody->SetPositionTarget(defaultTargetPos);
 	}
 
 	else
@@ -88,7 +94,11 @@ void LightAttackBullet::Update(float deltaTime)
 	{
 		particleSystemCurrentTimer = particleSystemTimer;
 		triggerParticleSystemTimer = false;
-		particleSystem->Stop();
+
+		if (particleSystem)
+		{
+			particleSystem->Stop();
+		}
 
 		DestroyBullet();
 	}
@@ -133,7 +143,11 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 		// Disable the visuals and the rigidbody while the particles are being played
 		rigidBody->SetIsTrigger(true);
 		owner->GetComponent<ComponentMeshRenderer>()->Disable();
-		particleSystem->Play();
+
+		if (particleSystem)
+		{
+			particleSystem->Play();
+		}
 		triggerParticleSystemTimer = true;
 	}
 

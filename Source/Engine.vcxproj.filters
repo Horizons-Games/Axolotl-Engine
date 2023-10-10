@@ -833,6 +833,15 @@
     <ClCompile Include="..\Game\Scripts\SwitchTutorial.cpp">
       <Filter>UserScripts\Gameplay\Tutorials</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PathBehaviourScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UILoadSavedSettings.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIText.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1708,6 +1717,15 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\SwitchTutorial.h">
       <Filter>UserScripts\Gameplay\Tutorials</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PathBehaviourScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UILoadSavedSettings.h">
+      <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIText.h">
+      <Filter>UserScripts\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
