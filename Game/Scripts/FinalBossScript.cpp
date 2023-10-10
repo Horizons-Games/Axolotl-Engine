@@ -148,24 +148,24 @@ void FinalBossScript::TryAttacksIndividually()
 	*/
 
 	// Uncomment this to check the plasma hammer attack (SEEKING shockwave) ----------
-	
+	/*
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 20.0f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack() && !isPerformingAnAttack)
 	{
 		shockWaveAttackScript->TriggerSeekingShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
-	
+	*/
 
 	// Uncomment this to check the brutal charge attack ------------------------------
-	/*
+	
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		chargeAttackScript->CanPerformChargeAttack() && !isPerformingAnAttack)
 	{
 		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
-	*/
+	
 
 	// Uncomment this to check the energy shield attack ------------------------------
 	/*

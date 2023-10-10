@@ -10,6 +10,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidbody.h"
+#include "Components/ComponentAnimation.h"
 
 #include "../Scripts/EnemyClass.h"
 #include "../Scripts/HealthSystem.h"
@@ -22,7 +23,7 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NONE),
 	chargeHitPlayer(false), bounceBackForce(5.0f), prepareChargeMaxTime(2.0f), chargeMaxCooldown(5.0f),
 	attackStunTime(4.0f), chargeDamage(20.0f), rockPrefab(nullptr), spawningRockChance(5.0f), rockSpawningHeight(7.0f),
-	isRockAttackVariant(false)
+	isRockAttackVariant(false), animator(nullptr)
 {
 	REGISTER_FIELD(bounceBackForce, float);
 	REGISTER_FIELD(prepareChargeMaxTime, float);
@@ -44,6 +45,8 @@ void BossChargeAttackScript::Start()
 
 	transform = owner->GetComponent<ComponentTransform>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	animator = owner->GetComponent<ComponentAnimation>();
+
 	finalBossScript = owner->GetComponent<FinalBossScript>();
 }
 
@@ -54,7 +57,7 @@ void BossChargeAttackScript::Update(float deltaTime)
 
 void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (chargeState == ChargeState::PREPARING_CHARGE && other->GetOwner()->CompareTag("Floor"))
+	if (chargeState == ChargeState::PREPARING_CHARGE && other->GetOwner()->CompareTag("Wall"))
 	{
 		prepareChargeTime = 0.0f;
 	}
@@ -62,6 +65,8 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 			(other->GetOwner()->CompareTag("Wall") || other->GetOwner()->CompareTag("Rock")))
 	{
 		chargeState = ChargeState::BOUNCING_WALL;
+		animator->SetParameter("IsCharging", false);
+		animator->SetParameter("IsChargingHitWall", true);
 
 		WallHitAfterCharge();
 
@@ -88,6 +93,8 @@ void BossChargeAttackScript::TriggerChargeAttack(ComponentTransform* targetPosit
 	finalBossScript->RemoveAgent();
 
 	chargeState = ChargeState::PREPARING_CHARGE;
+	animator->SetParameter("IsChargingHitWall", false);
+	animator->SetParameter("IsPreparingChargeAttack", true);
 	chargeCooldown = chargeMaxCooldown;
 
 	chargeThroughPosition = targetPosition;
@@ -113,6 +120,9 @@ void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
 
 	if (chargeState == ChargeState::CHARGING)
 	{
+		rigidBody->SetIsTrigger(true);
+		rigidBody->SetYAxisBlocked(true);
+		rigidBody->SetUpMobility();
 		if (isRockAttackVariant)
 		{
 			float spawnRockActualChange = App->GetModule<ModuleRandom>()->RandomNumberInRange(100.0f);
@@ -137,6 +147,10 @@ void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
 
 	if (chargeState == ChargeState::BOUNCING_WALL)
 	{
+		rigidBody->SetIsTrigger(false);
+		rigidBody->SetYAxisBlocked(false);
+		rigidBody->SetUpMobility();
+
 		EnemyClass* enemyScript = owner->GetComponent<EnemyClass>();
 		if (enemyScript->GetStunnedTime() <= 0.0f)
 		{
@@ -185,6 +199,8 @@ void BossChargeAttackScript::PerformChargeAttack()
 
 	prepareChargeTime = prepareChargeMaxTime;
 	chargeState = ChargeState::CHARGING;
+	animator->SetParameter("IsPreparingChargeAttack", false);
+	animator->SetParameter("IsCharging", true);
 }
 
 void BossChargeAttackScript::WallHitAfterCharge() const
