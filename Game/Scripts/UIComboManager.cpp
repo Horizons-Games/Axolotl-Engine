@@ -15,7 +15,7 @@
 
 REGISTERCLASS(UIComboManager);
 
-UIComboManager::UIComboManager() : Script(), clearComboTimer(0.0f), clearCombo(false), alphaEnabled(false), isEffectEnabled(-1)
+UIComboManager::UIComboManager() : Script(), clearComboTimer(0.0f), clearCombo(false), alphaEnabled(false), isEffectEnabled(false)
 {
 	REGISTER_FIELD(inputPrefabSoft, GameObject*);
 	REGISTER_FIELD(inputPrefabHeavy, GameObject*);
@@ -66,9 +66,9 @@ void UIComboManager::Update(float deltaTime)
 		{
 			CleanInputVisuals();
 			clearCombo = false;
-			isEffectEnabled = -1;
+			isEffectEnabled = true;
 		}
-		else if (isEffectEnabled != -1)
+		else
 		{
 			if (isEffectEnabled)
 			{

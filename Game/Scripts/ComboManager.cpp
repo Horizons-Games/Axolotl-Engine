@@ -56,6 +56,7 @@ void ComboManager::CheckSpecial(float deltaTime)
 		uiComboManager->SetComboBarValue(0);
 		comboCount = 0;
 		specialCount = 0.f;
+		return;
 	}
 
 	if (input->GetKey(SDL_SCANCODE_TAB) == KeyState::DOWN && specialCount == maxSpecialCount)

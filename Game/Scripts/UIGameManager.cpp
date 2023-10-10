@@ -78,10 +78,20 @@ void UIGameManager::Update(float deltaTime)
 	// Player input method true=GAMEPAD false=KEYBOARD
 	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD)
 	{
+		if (menuIsOpen)
+		{
+			player->SetMouse(menuIsOpen);
+		}
+
 		inputMethod = true;
 	}
 	else if (input->GetCurrentInputMethod() == InputMethod::KEYBOARD)
 	{
+		if (menuIsOpen)
+		{
+			player->SetMouse(menuIsOpen);
+		}
+
 		inputMethod = false;
 	}
 	InputMethodImg(inputMethod);
@@ -154,7 +164,6 @@ void UIGameManager::MenuIsOpen()
 		mainMenuObject->Disable();
 		hudCanvasObject->Enable();
 	}
-	player->SetMouse(menuIsOpen);
 }
 
 //Power Ups Secction
