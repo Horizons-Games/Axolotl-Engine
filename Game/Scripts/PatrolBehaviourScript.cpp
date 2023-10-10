@@ -115,7 +115,13 @@ void PatrolBehaviourScript::RandomPatrolling(bool isFirstPatrolling)
 	}
 	else if (ownerTransform->GetGlobalPosition().Equals(waypointsPatrol[currentWayPoint]->GetGlobalPosition(), 2.0f))
 	{
-		int randomWaypointSelected = rand() % static_cast<int>(waypointsPatrol.size());
+
+		int randomWaypointSelected = currentWayPoint;
+		
+		while (currentWayPoint == randomWaypointSelected)
+		{
+			randomWaypointSelected = rand() % static_cast<int>(waypointsPatrol.size());
+		}
 
 		currentWayPoint = randomWaypointSelected;
 	}
