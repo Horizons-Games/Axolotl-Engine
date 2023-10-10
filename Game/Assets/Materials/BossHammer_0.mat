@@ -1,7 +1,7 @@
 {
-    "DiffuseAssetPath": "Assets/Textures/BossV5_Hammer_AlbedoTransparency.png",
-    "NormalAssetPath": "Assets/Textures/BossV5_Hammer_Normal.png",
+    "DiffuseAssetPath": "",
+    "NormalAssetPath": "",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/BossV5_Hammer_MetallicSmoothness.png",
-    "EmissiveAssetPath": "Assets/Textures/BossV5_Hammer_Emission.png"
+    "MetalicAssetPath": "",
+    "EmissiveAssetPath": ""
 }
