@@ -1,5 +1,25 @@
 {
     "UID": 17020565249624065476,
     "Type": "StateMachine",
-    "ResourcesAssetPaths": null
+    "ResourcesAssetPaths": [
+        "Assets/Animation/Boss.Armature_BossIdle.anim",
+        "Assets/Animation/Boss.Armature_BossRun.anim",
+        "Assets/Animation/Boss.Armature_BossReceiveDamage.anim",
+        "Assets/Animation/Boss.Armature_BossDeath.anim",
+        "Assets/Animation/Boss.Armature_BossRun.anim",
+        "Assets/Animation/Boss.Armature_BossShockWaveAttackInit.anim",
+        "Assets/Animation/Boss.Armature_BossShockWaveAttackRecover.anim",
+        "Assets/Animation/Boss.Armature_BossIdle.anim",
+        "Assets/Animation/Boss.Armature_BossInvoke.anim",
+        "Assets/Animation/Boss.Armature_BossCharge_Init.anim",
+        "Assets/Animation/Boss.Armature_BossCharge.anim",
+        "Assets/Animation/Boss.Armature_BossHitWall.anim",
+        "Assets/Animation/Boss.Armature_BossJump_Jump.anim",
+        "Assets/Animation/Boss.Armature_BossJump_Falling.anim",
+        "Assets/Animation/Boss.Armature_BossJump_Landing.anim",
+        "Assets/Animation/Boss.Armature_Boss_RocketAttack.anim",
+        "Assets/Animation/Boss.Armature_BossIdle.anim",
+        "Assets/Animation/Boss.Armature_Boss_RocketAttackRafaga.anim",
+        "Assets/Animation/Boss.Armature_Boss_RocketAttackRecover.anim"
+    ]
 }
