@@ -800,8 +800,6 @@
     <ClCompile Include="..\Game\Scripts\TutorialSystem.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\CombatTutorial.cpp">
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\CameraBossControllerScript.cpp">
       <Filter>UserScripts\Camera</Filter>
     </ClCompile>
@@ -829,8 +827,29 @@
     <ClCompile Include="Exceptions\AccessingFailedScriptException.cpp">
       <Filter>Exceptions</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CombatTutorial.cpp">
+      <Filter>UserScripts\Gameplay\Tutorials</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SwitchTutorial.cpp">
+      <Filter>UserScripts\Gameplay\Tutorials</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PathBehaviourScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossMusic.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SpaceshipEscapeMusic.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SpaceStationMusic.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\TurbineSewersAudio.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\WaterfallAudio.cpp">
+      <Filter>UserScripts\Audio</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UILoadSavedSettings.cpp">
       <Filter>UserScripts\UI</Filter>
@@ -1687,8 +1706,6 @@
     <ClInclude Include="..\Game\Scripts\TutorialSystem.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CombatTutorial.h">
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\CameraBossControllerScript.h">
       <Filter>UserScripts\Camera</Filter>
     </ClInclude>
@@ -1710,8 +1727,29 @@
     <ClInclude Include="Exceptions\AxoDefaultException.h">
       <Filter>Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CombatTutorial.h">
+      <Filter>UserScripts\Gameplay\Tutorials</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SwitchTutorial.h">
+      <Filter>UserScripts\Gameplay\Tutorials</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PathBehaviourScript.h">
       <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossMusic.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SpaceshipEscapeMusic.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SpaceStationMusic.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\TurbineSewersAudio.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\WaterfallAudio.h">
+      <Filter>UserScripts\Audio</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UILoadSavedSettings.h">
       <Filter>UserScripts\UI</Filter>
@@ -1930,6 +1968,9 @@
     </Filter>
     <Filter Include="DataModels\Schedulable">
       <UniqueIdentifier>{aebeccfc-924c-4feb-a954-996d552b513f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Tutorials">
+      <UniqueIdentifier>{bbb763f3-1b50-4a0f-a40f-2147fb2cf1c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

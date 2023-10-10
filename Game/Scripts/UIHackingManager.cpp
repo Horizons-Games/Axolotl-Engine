@@ -1,8 +1,7 @@
 #include "StdAfx.h"
 #include "UIHackingManager.h"
 
-#include "Components/ComponentScript.h"
-#include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentSlider.h"
 
 #include "Application.h"
 #include "ModuleScene.h"
@@ -15,6 +14,7 @@ UIHackingManager::UIHackingManager() : Script()
 	REGISTER_FIELD(command_A, GameObject*);
 	REGISTER_FIELD(command_X, GameObject*);
 	REGISTER_FIELD(command_Y, GameObject*);
+	REGISTER_FIELD(hackingTimer, GameObject*);
 }
 
 void UIHackingManager::Init()
@@ -47,9 +47,11 @@ void UIHackingManager::AddInputVisuals(HackingCommandType type)
 			break;
 		}
 		
-		GameObject* newInput = 
-			App->GetModule<ModuleScene>()->GetLoadedScene()->DuplicateGameObject(prefab->GetName(), prefab, inputPositions[0]);
+		Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+
+		GameObject* newInput = loadedScene->DuplicateGameObject(prefab->GetName(), prefab, inputPositions[0]);
 		newInput->Enable();
+
 		inputVisuals.push_front(newInput);
 		for (int i = 1; i < inputVisuals.size(); i++)
 		{
@@ -65,7 +67,6 @@ void UIHackingManager::RemoveInputVisuals()
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(inputDeleted);
 }
 
-
 void UIHackingManager::CleanInputVisuals()
 {
 	for (GameObject* input : inputVisuals) 
@@ -73,4 +74,20 @@ void UIHackingManager::CleanInputVisuals()
 		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(input);
 	}
 	inputVisuals.clear();
+}
+
+void UIHackingManager::EnableHackingTimer()
+{
+	hackingTimer->Enable();
+}
+
+void UIHackingManager::DisableHackingTimer()
+{
+	hackingTimer->Disable();
+}
+
+void UIHackingManager::SetHackingTimerValue(float maxHackTime, float currentTime)
+{
+	ComponentSlider* hackingTimerSlider = hackingTimer->GetComponent<ComponentSlider>();
+	hackingTimerSlider->ModifyCurrentValue((maxHackTime - currentTime) / maxHackTime * 100.f);
 }

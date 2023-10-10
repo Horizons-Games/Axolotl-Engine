@@ -3,6 +3,7 @@
 
 #include "HackZoneScript.h"
 #include "UIHackingManager.h"
+#include "SwitchPlayerManagerScript.h"
 #include "PlayerManagerScript.h"
 #include "PlayerJumpScript.h"
 #include "PlayerMoveScript.h"
@@ -23,6 +24,7 @@ PlayerHackingUseScript::PlayerHackingUseScript()
 	: Script(), isHackingActive(false), hackingTag("Hackeable")
 {
 	REGISTER_FIELD(hackingManager, UIHackingManager*);
+	REGISTER_FIELD(switchPlayerManager, SwitchPlayerManagerScript*);
 }
 
 void PlayerHackingUseScript::Start()
@@ -35,11 +37,10 @@ void PlayerHackingUseScript::Start()
 	isHackingButtonPressed = false;
 }
 
-
 void PlayerHackingUseScript::Update(float deltaTime)
 {
-
 	currentTime += deltaTime;
+	hackingManager->SetHackingTimerValue(maxHackTime, currentTime);
 
 	PlayerActions currentAction = playerManager->GetPlayerState();
 	bool isJumping = currentAction == PlayerActions::JUMPING ||
@@ -140,8 +141,8 @@ void PlayerHackingUseScript::PrintCombination()
 		default: 
 			break;
 		}
+
 		combination += c;
-		
 	}
 
 	LOG_DEBUG(combination);
@@ -154,6 +155,7 @@ void PlayerHackingUseScript::InitHack()
 	currentTime = App->GetDeltaTime();
 	maxHackTime = hackZone->GetMaxTime();
 	hackZone->GenerateCombination();
+	switchPlayerManager->SetIsSwitchAvailable(false);
 
 	userCommandInputs.reserve(static_cast<size_t>(hackZone->GetSequenceSize()));
 
@@ -163,7 +165,9 @@ void PlayerHackingUseScript::InitHack()
 		hackingManager->AddInputVisuals(command);
 	}
 
-	PrintCombination();
+	hackingManager->EnableHackingTimer();
+
+	//PrintCombination();
 	LOG_DEBUG("Hacking is active");
 }
 
@@ -172,10 +176,12 @@ void PlayerHackingUseScript::FinishHack()
 	EnableAllInteractions();
 	isHackingActive = false;
 	hackZone = nullptr;
+	switchPlayerManager->SetIsSwitchAvailable(true);
 
 	userCommandInputs.clear();
 
 	hackingManager->CleanInputVisuals();
+	hackingManager->DisableHackingTimer();
 
 	LOG_DEBUG("Hacking is finished");
 }
@@ -184,6 +190,7 @@ void PlayerHackingUseScript::RestartHack()
 {
 	userCommandInputs.clear();
 	hackingManager->CleanInputVisuals();
+	hackingManager->DisableHackingTimer();
 
 	currentTime = App->GetDeltaTime();
 	maxHackTime = hackZone->GetMaxTime();
@@ -197,7 +204,9 @@ void PlayerHackingUseScript::RestartHack()
 		hackingManager->AddInputVisuals(command);
 	}
 
-	PrintCombination();
+	hackingManager->EnableHackingTimer();
+
+	//PrintCombination();
 	input->Rumble();
 	LOG_DEBUG("Hacking is restarted");
 }
