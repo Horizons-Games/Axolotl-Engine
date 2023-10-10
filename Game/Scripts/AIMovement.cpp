@@ -219,3 +219,8 @@ void AIMovement::CheckIfHasArrived()
 		isAtDestiny = false;
 	}
 }
+
+void AIMovement::SetMovementSpeed(float newMovementSpeed)
+{
+	movementSpeed = newMovementSpeed;
+}

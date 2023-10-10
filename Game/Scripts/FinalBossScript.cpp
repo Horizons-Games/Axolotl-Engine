@@ -124,7 +124,7 @@ void FinalBossScript::TryAttacksIndividually()
 {
 	bool isPerformingAnAttack = shockWaveAttackScript->IsAttacking() || chargeAttackScript->IsAttacking() ||
 		shieldAttackScript->IsAttacking() || missilesAttackScript->IsAttacking();
-	/*
+	
 	if (!isPerformingAnAttack)
 	{
 		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
@@ -135,19 +135,21 @@ void FinalBossScript::TryAttacksIndividually()
 		}
 		bossState = FinalBossStates::WALKING;
 	}
-	*/
+	
 
 	// Uncomment this to check the plasma hammer attack (NORMAL shockwave) -----------
-	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
+	/*
+	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 10.0f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack() && !isPerformingAnAttack)
 	{
 		shockWaveAttackScript->PrepareShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
+	*/
 
 	// Uncomment this to check the plasma hammer attack (SEEKING shockwave) ----------
 	/*
-	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 15.0f) &&
+	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 20.0f) &&
 		shockWaveAttackScript->CanPerformShockWaveAttack() && !isPerformingAnAttack)
 	{
 		shockWaveAttackScript->TriggerSeekingShockWaveAttack(targetTransform);
@@ -157,7 +159,7 @@ void FinalBossScript::TryAttacksIndividually()
 
 	// Uncomment this to check the brutal charge attack ------------------------------
 	/*
-	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
+	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 10.0f) &&
 		chargeAttackScript->CanPerformChargeAttack() && !isPerformingAnAttack)
 	{
 		chargeAttackScript->TriggerChargeAttack(targetTransform);
@@ -167,7 +169,7 @@ void FinalBossScript::TryAttacksIndividually()
 
 	// Uncomment this to check the energy shield attack ------------------------------
 	/*
-	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
+	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 10.0f) &&
 		shieldAttackScript->CanPerformShieldAttack() && !isPerformingAnAttack)
 	{
 		shieldAttackScript->TriggerShieldAttack();
@@ -177,7 +179,7 @@ void FinalBossScript::TryAttacksIndividually()
 
 	// Uncomment this to check the last wish missiles attack -------------------------
 	/*
-	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
+	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 10.0f) &&
 		missilesAttackScript->CanPerformMissilesAttack() && !isPerformingAnAttack)
 	{
 		missilesAttackScript->TriggerMissilesAttack();

@@ -97,7 +97,7 @@ bool ShockWaveAttackScript::IsAttacking() const
 
 void ShockWaveAttackScript::ManageAreaBehaviour(float deltaTime)
 {
-	if (isSeeking)
+	if (isSeeking && CanPerformShockWaveAttack())
 	{
 		SeekTowardsTarget();
 	}
@@ -123,11 +123,11 @@ void ShockWaveAttackScript::SeekTowardsTarget()
 {
 	RotateToTarget(targetPosition);
 	aiMovement->SetTargetPosition(targetPosition->GetGlobalPosition());
-	agent->SetMaxAcceleration(agent->GetInitialMaxAcceleration() * 2.0f);
+	agent->SetMaxAcceleration(agent->GetInitialMaxAcceleration() * 3.0f);
 	/*rigidBody->SetPositionTarget(targetPosition->GetGlobalPosition());
 	rigidBody->SetKpForce(2.0f);*/
 
-	if (transform->GetGlobalPosition().Equals(targetPosition->GetGlobalPosition(), 5.0f))
+	if (transform->GetGlobalPosition().Equals(targetPosition->GetGlobalPosition(), 10.0f))
 	{
 		isSeeking = false;
 		PrepareShockWaveAttack(targetPosition);
