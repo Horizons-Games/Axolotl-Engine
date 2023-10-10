@@ -685,9 +685,13 @@ void ModuleResources::MonitorResources()
 				// these type's assets are binary files changed in runtime
 				else if (resource->GetType() != ResourceType::Mesh && resource->GetType() != ResourceType::Material)
 				{
+					std::string extension = GENERAL_BINARY_EXTENSION;
+					if (resource->GetType() == ResourceType::Video)
+					{
+						extension = fileSystem->GetFileExtension(resource->GetAssetsPath());
+					}
 					long long assetTimestamp = fileSystem->GetModificationDate(resource->GetAssetsPath().c_str());
-					long long libTimestamp = fileSystem->GetModificationDate(
-						(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str());
+					long long libTimestamp = fileSystem->GetModificationDate((resource->GetLibraryPath() + extension).c_str());
 					if (assetTimestamp > libTimestamp)
 					{
 						toImport.push_back(resource);
