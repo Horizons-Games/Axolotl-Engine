@@ -31,7 +31,8 @@
 REGISTERCLASS(SwitchTutorial);
 
 SwitchTutorial::SwitchTutorial() : Script(), allura(nullptr), combatTutorialUI(nullptr),
-finalWaitTime(5.0f), finalTotalWaitTime(5.0f),tutorialActivable(false), manager(nullptr)
+finalWaitTime(5.0f), finalTotalWaitTime(5.0f), tutorialActivable(false), manager(nullptr),
+tutorialFinished(false)
 {
 	REGISTER_FIELD(allura, GameObject*);
 	REGISTER_FIELD(manager, GameObject*);
@@ -58,6 +59,7 @@ void SwitchTutorial::Update(float deltaTime)
 		if (tutorialUI->GetTutorialCurrentState() == tutorialUI->GetTutorialSlideSize())
 		{
 			manager->GetComponent<SwitchPlayerManagerScript>()->SetIsSwitchAvailable(true);
+			allura->Disable();
 			tutorialFinished = true;
 			playerManager->PausePlayer(false);
 		}
@@ -84,7 +86,7 @@ void SwitchTutorial::Update(float deltaTime)
 
 void SwitchTutorial::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->CompareTag("Player"))
+	if (other->GetOwner()->CompareTag("Player") && !tutorialFinished)
 	{
 		playerManager->PausePlayer(true);
 		tutorialActivable = true;
