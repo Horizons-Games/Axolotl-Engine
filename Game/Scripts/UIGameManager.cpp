@@ -169,6 +169,7 @@ void UIGameManager::MenuIsOpen()
 	}
 	else
 	{
+		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->ParalyzePlayer(false);
 		mainMenuObject->Disable();
 		hudCanvasObject->Enable();
 	}

@@ -267,3 +267,8 @@ void UIComboManager::FinishComboButtonsEffect() //Make a VFX when you get a full
 		}
 	}
 }
+
+bool UIComboManager::IsCombatActive()
+{
+	return forceEnableComboBar;
+}

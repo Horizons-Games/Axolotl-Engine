@@ -39,6 +39,7 @@ public:
 
 	void FinishComboButtonsEffect();
 	void SetEffectEnable(bool effectEnabled);
+	bool IsCombatActive();
 
 
 private:
