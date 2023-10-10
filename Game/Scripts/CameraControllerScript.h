@@ -53,11 +53,6 @@ private:
 	bool stopped;
 };
 
-inline void CameraControllerScript::SetInCombat(bool newmode)
-{
-	inCombat = newmode;
-}
-
 inline bool CameraControllerScript::IsInCombat()
 {
 	return inCombat;

@@ -153,6 +153,7 @@ void ComponentRigidBody::Update()
 {
 	float deltaTime = App->GetDeltaTime();
 
+	
 	if (!rigidBody->isStaticOrKinematicObject())
 	{
 		rigidBody->setCcdMotionThreshold(0.1f);
@@ -376,12 +377,12 @@ void ComponentRigidBody::InternalLoad(const Json& meta)
 	SetZRotationAxisBlocked(static_cast<bool>(meta["zRotationAxisBlocked"]));
 }
 
-void ComponentRigidBody::SignalEnable()
+void ComponentRigidBody::SignalEnable(bool isSceneLoading)
 {
 	AddRigidBodyToDynamics();
 }
 
-void ComponentRigidBody::SignalDisable()
+void ComponentRigidBody::SignalDisable(bool isSceneLoading)
 {
 	RemoveRigidBodyFromDynamics();
 }
