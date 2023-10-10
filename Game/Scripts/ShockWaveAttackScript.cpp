@@ -122,15 +122,17 @@ void ShockWaveAttackScript::ManageAreaBehaviour(float deltaTime)
 void ShockWaveAttackScript::SeekTowardsTarget()
 {
 	RotateToTarget(targetPosition);
+	aiMovement->SetMovementStatuses(true, true);
 	aiMovement->SetTargetPosition(targetPosition->GetGlobalPosition());
 	agent->SetMaxAcceleration(agent->GetInitialMaxAcceleration() * 3.0f);
 	/*rigidBody->SetPositionTarget(targetPosition->GetGlobalPosition());
 	rigidBody->SetKpForce(2.0f);*/
 
-	if (transform->GetGlobalPosition().Equals(targetPosition->GetGlobalPosition(), 10.0f))
+	if (transform->GetGlobalPosition().Equals(targetPosition->GetGlobalPosition(), 5.0f))
 	{
 		isSeeking = false;
 		PrepareShockWaveAttack(targetPosition);
+		aiMovement->SetMovementStatuses(false, false);
 	}
 }
 
