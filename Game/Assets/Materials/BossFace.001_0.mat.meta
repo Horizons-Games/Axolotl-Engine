@@ -1,10 +1,10 @@
 {
     "UID": 5598571012071664923,
     "Type": "Materials",
-    "DiffuseAssetPath": "Assets/Textures/AlluraControllerV1_Face.001_AlbedoTransparency.png",
-    "NormalAssetPath": "Assets/Textures/AlluraControllerV1_Face.001_Normal.png",
+    "DiffuseAssetPath": "Assets/Textures/BossV5_Face.001_AlbedoTransparency.png",
+    "NormalAssetPath": "Assets/Textures/BossV5_Face.001_Normal.png",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/AlluraControllerV1_Face.001_MetallicSmoothness.png",
+    "MetalicAssetPath": "Assets/Textures/BossV5_Face.001_MetallicSmoothness.png",
     "EmissiveAssetPath": "",
     "shaderType": 0,
     "diffuseColor_x": 1.0,

@@ -65,11 +65,11 @@ void FinalBossScript::Update(float deltaTime)
 	}
 
 	// Uncomment this line to check the attacks individually (you have to activate each one of them below)
-	TryAttacksIndividually();
+	//TryAttacksIndividually();
 	
 	// Comment these lines if you uncomment the one above and vice versa
-	//ChangeBossPhase();
-	//ManageActualPhase(bossPhase);
+	ChangeBossPhase();
+	ManageActualPhase(bossPhase);
 }
 
 void FinalBossScript::ChangeBossPhase()
@@ -123,7 +123,7 @@ void FinalBossScript::TryAttacksIndividually()
 {
 	bool isPerformingAnAttack = shockWaveAttackScript->IsAttacking() || chargeAttackScript->IsAttacking() ||
 		shieldAttackScript->IsAttacking() || missilesAttackScript->IsAttacking();
-	/*
+	
 	if (!isPerformingAnAttack)
 	{
 		patrolScript->RandomPatrolling(bossState != FinalBossStates::WALKING);
@@ -134,7 +134,6 @@ void FinalBossScript::TryAttacksIndividually()
 		}
 		bossState = FinalBossStates::WALKING;
 	}
-	*/
 
 	// Uncomment this to check the plasma hammer attack (NORMAL shockwave) -----------
 	/*
@@ -167,14 +166,14 @@ void FinalBossScript::TryAttacksIndividually()
 	*/
 
 	// Uncomment this to check the energy shield attack ------------------------------
-	
+	/*
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		shieldAttackScript->CanPerformShieldAttack() && !isPerformingAnAttack)
 	{
 		shieldAttackScript->TriggerShieldAttack();
 		bossState = FinalBossStates::DEFENDING;
 	}
-	
+	*/
 
 	// Uncomment this to check the last wish missiles attack -------------------------
 	/*
