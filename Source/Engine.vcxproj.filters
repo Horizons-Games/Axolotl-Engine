@@ -857,6 +857,27 @@
     <ClCompile Include="..\Game\Scripts\UIText.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SpaceshipMovement.cpp">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SpaceshipDeathManager.cpp">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\FireMovingObstacle.cpp">
+      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\MultipleFireObstacle.cpp">
+      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SpaceshipObstacle.cpp">
+      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\TurbineObstacle.cpp">
+      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIGameManagerSpaceship.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1757,6 +1778,27 @@
     <ClInclude Include="..\Game\Scripts\UIText.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SpaceshipDeathManager.h">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SpaceshipMovement.h">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\FireMovingObstacle.h">
+      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\MultipleFireObstacle.h">
+      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SpaceshipObstacle.h">
+      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\TurbineObstacle.h">
+      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIGameManagerSpaceship.h">
+      <Filter>UserScripts\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1971,6 +2013,12 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Tutorials">
       <UniqueIdentifier>{bbb763f3-1b50-4a0f-a40f-2147fb2cf1c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Spaceship">
+      <UniqueIdentifier>{38fc498b-29ed-407a-9327-265fc43194b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Spaceship\Obstacles">
+      <UniqueIdentifier>{ed42bdf9-c2d4-4e8d-b5d2-8e82b4905eec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
