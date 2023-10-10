@@ -769,6 +769,10 @@ Component* GameObject::CreateComponent(ComponentType type)
 					AddComponentLines(static_cast<ComponentLine*>(referenceBeforeMove));
 				break;
 
+			case ComponentType::VIDEO:
+				App->GetModule<ModuleScene>()->GetLoadedScene()->AddVideoComponent(
+					static_cast<ComponentVideo*>(referenceBeforeMove));
+				break;
 			default:
 				break;
 			}

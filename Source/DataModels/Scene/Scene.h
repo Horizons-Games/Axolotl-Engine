@@ -161,6 +161,7 @@ public:
 	void RemoveNonStaticObject(const GameObject* gameObject);
 	void AddUpdatableObject(Updatable* updatable);
 	
+	void AddVideoComponent(ComponentVideo* componentVideo);
 	void AddParticleSystem(ComponentParticleSystem* particleSystem);
 	void AddComponentLines(ComponentLine* componentLine);
 	
@@ -372,6 +373,11 @@ inline void Scene::AddParticleSystem(ComponentParticleSystem* particleSystem)
 inline void Scene::AddComponentLines(ComponentLine* componentLine)
 {
 	sceneComponentLines.push_back(componentLine);
+}
+
+inline void Scene::AddVideoComponent(ComponentVideo* componentVideo)
+{
+	sceneVideos.push_back(componentVideo);
 }
 
 inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleSystem)
