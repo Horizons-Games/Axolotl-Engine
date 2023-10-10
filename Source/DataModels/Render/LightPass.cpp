@@ -32,6 +32,8 @@
 
 #include "ParShapes/par_shapes.h"
 
+#pragma warning(pop)
+
 
 LightPass::LightPass() : numLights(0)
 {
@@ -492,5 +494,3 @@ void LightPass::ReloadTubeShape(ResourceMesh* tube, float height, float radius, 
 		par_shapes_free_mesh(mesh);
 	}
 }
-
-#pragma warning(pop)
