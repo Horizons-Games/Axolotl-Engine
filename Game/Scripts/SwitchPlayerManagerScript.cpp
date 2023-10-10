@@ -74,6 +74,11 @@ void SwitchPlayerManagerScript::Start()
 	{
 		switchPlayersParticlesPrefab->Disable();
 	}
+
+	if (!isSwitchAvailable)
+	{
+		secondPlayerHealthBar->Disable();
+	}
 }
 
 void SwitchPlayerManagerScript::Update(float deltaTime)
@@ -143,6 +148,7 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 void SwitchPlayerManagerScript::SetIsSwitchAvailable(bool available)
 {
 	isSwitchAvailable = available;
+	secondPlayerHealthBar->Enable();
 }
 
 void SwitchPlayerManagerScript::VisualSwitchEffect()

@@ -18,6 +18,7 @@ State	ID	Name	State Group			Notes
 	655265632	Alive	PlayerLife			
 	748895195	None	PlayerLife			
 	2791675679	Defeated	PlayerLife			
+	58265312	BossIntro	Zone			
 	425131515	SpaceStation	Zone			
 	554650843	Spaceship	Zone			
 	748895195	None	Zone			
@@ -27,10 +28,15 @@ State	ID	Name	State Group			Notes
 	3434002879	Cantina	Zone			
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	381488682	Hangar_combat_v6	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Hangar_combat_v6_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\HangarCombat\Hangar_combat_v6		17354344
-	524503712	Sewers_combat_150BPM_V05	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Sewers_combat_150BPM_V05 (1)_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\SewersCombat\Sewers_combat_150BPM_V05		15000096
-	856126812	Hangar_A_140	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Hangar_A_140_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\HangarExploration\Hangar_A_140		17354344
-	954958858	sewersExploration	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\First_Level_Sewers__v1_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\SewersExploration\sewersExploration		7690336
-	1007663920	silence	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\silence_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\Cantina\silence		652316
-	1053497374	Defeated	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\273567-Game-Over-Robot-Hit-8_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\Defeated\Defeated		662084
+	253185104	Sewers-B-A-Trasition	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Sewers-B-A-Trasition_D79FB2B7.wem		\Interactive Music Hierarchy\Music\Transitions\Sewers-B-A-Transition\Sewers-B-A-Trasition		1146696
+	366633545	silence	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\silence_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\Cantina\silence\silence		652316
+	504765323	1M3-Hangar-A_140bpm1-4_L109B-POB	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\1M3-Hangar-A_140bpm1-4_L109B-POB_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\1M3-Hangar-A_140bpm1-4_L109B\1M3-Hangar-A_140bpm1-4_L109B-POB\1M3-Hangar-A_140bpm1-4_L109B-POB		9963860
+	577099420	1M1-Sewers-A_150bpm1-4_L94B-POB	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\1M1-Sewers-A_150bpm1-4_L94B-POB_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\1M1-Sewers-A_150bpm1-4_L94B\1M1-Sewers-A_150bpm1-4_L94B-POB\1M1-Sewers-A_150bpm1-4_L94B-POB		8390992
+	643041354	1M5-Spaceship_Escape_165bpm1-4_L109M-P0B	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\1M5-Spaceship_Escape_165bpm1-4_L109M-P0B_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\1M5-Spaceship_Escape_165bpm1-4_L109M\1M5-Spaceship_Escape_165bpm1-4_L109M-P0B_Intro\1M5-Spaceship_Escape_165bpm1-4_L109M-P0B		9177424
+	646900479	Sewers-A-B-Trasition	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Sewers-A-B-Trasition_D79FB2B7.wem		\Interactive Music Hierarchy\Music\Transitions\Sewers-A-B-Transition\Sewers-A-B-Trasition		617496
+	704529736	1M4-Hangar-B_140bpm1-4_L109B-POB	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\1M4-Hangar-B_140bpm1-4_L109B-POB_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\1M4-Hangar-B_140bpm1-4_L109B\1M4-Hangar-B_140bpm1-4_L109B-POB\1M4-Hangar-B_140bpm1-4_L109B-POB		10226004
+	757900444	1M8-Boss_190bpm1-4_LxM-PxB	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\1M8-Boss_190bpm1-4_LxM-PxB_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\1M8-Boss_190bpm1-4_LxM-PxB_Fight\1M8-Boss_190bpm1-4_LxM-PxB_Trigger\1M8-Boss_190bpm1-4_LxM-PxB		10881360
+	798973767	1M2-Sewers-B_150bpm1-4_L94B-POB	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\1M2-Sewers-B_150bpm1-4_L94B-POB_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\1M2-Sewers-B_150bpm1-4_L94B\1M2-Sewers-B_150bpm1-4_L94B-POB\1M2-Sewers-B_150bpm1-4_L94B-POB		9308496
+	957325397	1M7-Station_Interior_170bpm1-4_L154M-P0B	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\1M7-Station_Interior_170bpm1-4_L154M-P0B_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\1M7-Station_Interior_170bpm1-4_L154M\1M7-Station_Interior_170bpm1-4_L154M-A\1M7-Station_Interior_170bpm1-4_L154M-P0B		12454224
+	1053497374	Defeated	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\273567-Game-Over-Robot-Hit-8_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\Defeated\Defeated\Defeated		662084
 
