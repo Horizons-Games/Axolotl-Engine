@@ -1,0 +1,68 @@
+[
+    [
+        {
+            "Actual_Option": 0,
+            "Default_Option": 0,
+            "Locked_Option": false
+        },
+        {
+            "Actual_Option": 0,
+            "Default_Option": 0,
+            "Locked_Option": false
+        },
+        {
+            "Actual_Option": 100,
+            "Default_Option": 100,
+            "Locked_Option": false
+        },
+        {
+            "Actual_Option": 0,
+            "Default_Option": 0,
+            "Locked_Option": true
+        },
+        {
+            "Actual_Option": 1,
+            "Default_Option": 1,
+            "Locked_Option": false
+        }
+    ],
+    [
+        {
+            "Actual_Option": 1,
+            "Default_Option": 1,
+            "Locked_Option": false
+        },
+        {
+            "Actual_Option": 1,
+            "Default_Option": 1,
+            "Locked_Option": false
+        },
+        {
+            "Actual_Option": 1,
+            "Default_Option": 1,
+            "Locked_Option": false
+        },
+        {
+            "Actual_Option": 1,
+            "Default_Option": 1,
+            "Locked_Option": false
+        }
+    ],
+    [
+        {
+            "Actual_Option": 100,
+            "Default_Option": 100,
+            "Locked_Option": false
+        },
+        {
+            "Actual_Option": 100,
+            "Default_Option": 100,
+            "Locked_Option": false
+        },
+        {
+            "Actual_Option": 100,
+            "Default_Option": 100,
+            "Locked_Option": false
+        }
+    ]
+]
