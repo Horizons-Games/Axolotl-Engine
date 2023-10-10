@@ -9,19 +9,23 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentAnimation.h"
 
 #include "../Scripts/EnemyClass.h"
 #include "../Scripts/BossShieldScript.h"
+#include "../Scripts/BossShieldEnemiesSpawner.h"
 #include "../Scripts/EnemyDroneScript.h"
 #include "../Scripts/EnemyVenomiteScript.h"
 #include "../Scripts/HealthSystem.h"
+#include "../Scripts/PathBehaviourScript.h"
 
 REGISTERCLASS(BossShieldAttackScript);
 
 BossShieldAttackScript::BossShieldAttackScript() : Script(), bossShieldObject(nullptr), isShielding(false),
 	shieldingTime(0.0f), shieldingMaxTime(20.0f), triggerShieldAttackCooldown(false), shieldAttackCooldown(0.0f),
 	shieldAttackMaxCooldown(50.0f), triggerEnemySpawning(false), enemiesToSpawnParent(nullptr),
-	enemySpawnTime(0.0f), enemyMaxSpawnTime(2.0f), battleArenaAreaSize(nullptr), healthSystemScript(nullptr)
+	enemySpawnTime(0.0f), enemyMaxSpawnTime(2.0f), battleArenaAreaSize(nullptr), healthSystemScript(nullptr),
+	currentPath(0), animator(nullptr)
 {
 	REGISTER_FIELD(shieldingMaxTime, float);
 	REGISTER_FIELD(shieldAttackMaxCooldown, float);
@@ -33,6 +37,10 @@ BossShieldAttackScript::BossShieldAttackScript() : Script(), bossShieldObject(nu
 	REGISTER_FIELD(enemiesToSpawnParent, GameObject*);
 
 	REGISTER_FIELD(battleArenaAreaSize, ComponentRigidBody*);
+
+	REGISTER_FIELD(initsPaths, std::vector<GameObject*>);
+
+	REGISTER_FIELD(manageEnemySpawner, bool);
 }
 
 void BossShieldAttackScript::Init()
@@ -54,6 +62,13 @@ void BossShieldAttackScript::Start()
 	}
 
 	healthSystemScript = owner->GetComponent<HealthSystem>();
+
+	if (!manageEnemySpawner)
+	{
+		bossShieldEnemiesSpawner = owner->GetComponent<BossShieldEnemiesSpawner>();
+	}
+
+	animator = owner->GetComponent<ComponentAnimation>();
 }
 
 void BossShieldAttackScript::Update(float deltaTime)
@@ -62,12 +77,19 @@ void BossShieldAttackScript::Update(float deltaTime)
 	{
 		shieldingTime = 0.0f;
 		bossShieldObject->DisableHitBySpecialTarget();
+		animator->SetParameter("IsShieldAttack", false);
+		animator->SetParameter("IsInvoking", false);
 	}
 
 	ManageShield(deltaTime);
 	ManageEnemiesSpawning(deltaTime);
 
 	ManageRespawnOfEnemies();
+
+	if (animator->GetActualStateName() == "BossShieldInvokeEnemy")
+	{
+		animator->SetParameter("IsInvoking", false);
+	}
 }
 
 void BossShieldAttackScript::TriggerShieldAttack()
@@ -76,8 +98,10 @@ void BossShieldAttackScript::TriggerShieldAttack()
 
 	bossShieldObject->ActivateShield();
 	healthSystemScript->SetIsImmortal(true);
+	//bossShieldEnemiesSpawner->StartSpawner();
 
 	isShielding = true;
+	animator->SetParameter("IsShieldAttack", true);
 	shieldAttackCooldown = shieldAttackMaxCooldown;
 
 	triggerEnemySpawning = true;
@@ -122,6 +146,12 @@ void BossShieldAttackScript::ManageEnemiesSpawning(float deltaTime)
 		return;
 	}
 
+	// The final boss has a script that manages the spawning
+	if (!manageEnemySpawner)
+	{
+		return;
+	}
+
 	if (enemySpawnTime > 0.0f)
 	{
 		enemySpawnTime -= deltaTime;
@@ -149,7 +179,7 @@ void BossShieldAttackScript::ManageRespawnOfEnemies()
 	for (int i = 0; i < enemiesNotReadyToSpawn.size(); ++i)
 	{
 		GameObject* enemy = enemiesNotReadyToSpawn[i];
-		if (enemy->IsEnabled())
+		if (enemy->GetComponent<HealthSystem>()->EntityIsAlive())
 		{
 			continue;
 		}
@@ -157,19 +187,25 @@ void BossShieldAttackScript::ManageRespawnOfEnemies()
 		EnemyClass* enemyClass = enemy->GetComponent<EnemyClass>();
 		enemyClass->ActivateNeedsToBeReset();
 
-		enemiesNotReadyToSpawn.erase(enemiesNotReadyToSpawn.begin() + i);
 		enemiesReadyToSpawn.push_back(enemy);
+		enemiesNotReadyToSpawn.erase(enemiesNotReadyToSpawn.begin() + i);
 	}
 }
 
 void BossShieldAttackScript::DisableShielding()
 {
 	isShielding = false;
+	animator->SetParameter("IsShieldAttack", false);
+	animator->SetParameter("IsInvoking", false);
 	shieldingTime = shieldingMaxTime;
 
 	bossShieldObject->DeactivateShield();
 
 	healthSystemScript->SetIsImmortal(false);
+	if (!manageEnemySpawner)
+	{
+		bossShieldEnemiesSpawner->StopSpawner();
+	}
 
 	triggerShieldAttackCooldown = true;
 	triggerEnemySpawning = false;
@@ -188,6 +224,12 @@ GameObject* BossShieldAttackScript::SelectEnemyToSpawn()
 
 	EnemyClass* enemyClass = selectedEnemy->GetComponent<EnemyClass>();
 
+	if (!initsPaths.empty())
+	{
+		selectedEnemy->GetComponent<PathBehaviourScript>()->SetNewPath(initsPaths[currentPath]);
+		currentPath = (currentPath + 1) % initsPaths.size();
+	}
+
 	if (enemyClass->NeedsToBeReset())
 	{
 		if (enemyClass->GetEnemyType() == EnemyTypes::DRONE)
@@ -203,6 +245,7 @@ GameObject* BossShieldAttackScript::SelectEnemyToSpawn()
 	}
 
 	enemiesReadyToSpawn.erase(enemiesReadyToSpawn.begin() + randomEnemyIndex);
+
 	enemiesNotReadyToSpawn.push_back(selectedEnemy);
 
 	return selectedEnemy;
@@ -219,7 +262,7 @@ float3 BossShieldAttackScript::SelectSpawnPosition() const
 		+ (App->GetModule<ModuleRandom>()->RandomNumberInRange(100.0f) * 0.01f);
 	float3 selectedSpawningPosition =
 		float3(randomXPos,
-			0.0f,			/* The height will not be modified, we'll only have one height in the arena */
+			enemiesToSpawnParent->GetComponent<ComponentTransform>()->GetGlobalPosition().y,
 			randomZPos);
 	selectedSpawningPosition += battleArenaAreaSize->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
 
@@ -230,7 +273,7 @@ void BossShieldAttackScript::SpawnEnemyInPosition(GameObject* selectedEnemy, con
 {
 	ComponentTransform* selectedEnemyTransform = selectedEnemy->GetComponent<ComponentTransform>();
 	selectedEnemyTransform->SetGlobalPosition(float3(selectedSpawningPosition.x,
-		selectedEnemyTransform->GetGlobalPosition().y,
+		selectedSpawningPosition.y,
 		selectedSpawningPosition.z));
 	selectedEnemyTransform->RecalculateLocalMatrix();
 

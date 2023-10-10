@@ -22,11 +22,16 @@ public:
 
 	void CleanInputVisuals();
 
+	void EnableHackingTimer();
+	void DisableHackingTimer();
+
+	void SetHackingTimerValue(float maxHackTime, float currentTime);
 private:
 
 	GameObject* command_A;
 	GameObject* command_X;
 	GameObject* command_Y;
+	GameObject* hackingTimer;
 
 	std::deque<GameObject*> inputVisuals;
 	std::vector<GameObject*> inputPositions;

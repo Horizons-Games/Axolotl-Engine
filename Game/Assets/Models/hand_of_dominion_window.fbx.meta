@@ -1,0 +1,11 @@
+{
+    "UID": 12307321505197954580,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/hand_of_dominion_window.Plane.003_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/hand_of_dominion_windowWallWindow_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

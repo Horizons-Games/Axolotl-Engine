@@ -172,6 +172,7 @@ void Application::OnPlay()
 	onPlayTimer.Start();
 	// Active Scripts
 	GetModule<ModuleScene>()->OnPlay();
+	GetModule<ModuleUI>()->SetUpButtons();
 }
 
 void Application::OnPause()
@@ -182,7 +183,6 @@ void Application::OnPause()
 		GetModule<ModuleInput>()->SetShowCursor(true);
 		GetModule<ModuleCamera>()->SetSelectedCamera(-1);
 		GetModule<ModuleAudio>()->Suspend();
-		GetModule<ModuleUI>()->SetUpButtons();
 	}
 	else if (GetPlayState() == PlayState::PAUSED)
 	{

@@ -34,12 +34,12 @@ void PlayerDeathScript::Start()
 void PlayerDeathScript::ManagePlayerDeath() const
 {
 
-#ifndef ENGINE
-	if (loseSceneName != "" && !componentAnimation->IsPlaying() && componentAnimation->GetActualStateName() == "Dying")
-	{
-		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + loseSceneName + ".axolotl");
-	}
-#endif // ENGINE
+//#ifndef ENGINE
+//	if (loseSceneName != "" && !componentAnimation->IsPlaying() && componentAnimation->GetActualStateName() == "Dying")
+//	{
+//		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + loseSceneName + ".axolotl");
+//	}
+//#endif // ENGINE
 	if (!componentAnimation->IsPlaying() && componentAnimation->GetActualStateName() == "Death")
 	{
 		LOG_VERBOSE("Player is dead");

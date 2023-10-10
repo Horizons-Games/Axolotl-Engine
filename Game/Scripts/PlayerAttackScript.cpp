@@ -80,8 +80,8 @@ void PlayerAttackScript::Start()
 
 	if (isMelee)
 	{
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_OPEN);
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);
+		//audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_OPEN);
+		//audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);
 	}
 
 	playerManager = owner->GetComponent<PlayerManagerScript>();
@@ -685,7 +685,7 @@ void PlayerAttackScript::SetCanAttack(bool canAttack)
 	this->canAttack = canAttack;
 }
 
-bool PlayerAttackScript::IsMeleeAvailable() const
+bool PlayerAttackScript::IsMelee() const
 {
 	return isMelee;
 }

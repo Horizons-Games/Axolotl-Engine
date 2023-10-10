@@ -182,9 +182,16 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 	const std::string* oldName = nullptr;
 	std::string newName;
 	TypeFieldPairParameter field;
-	for (const auto& it : stateMachine->GetMapParameters())
+	auto params = stateMachine->GetMapParameters();
+	for (const auto& it : params)
 	{
 		std::string name = it.first;
+
+		if (name == "")
+		{
+			continue;
+		}
+
 		name.resize(24);
 		ImGui::SetNextItemWidth(10);
 		if (ImGui::Button(("x##" + name).c_str()))
