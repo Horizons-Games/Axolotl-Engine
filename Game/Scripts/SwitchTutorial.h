@@ -27,7 +27,6 @@ public:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 
 private:
-
 	bool tutorialActivable;
 	bool tutorialFinished;
 	float finalWaitTime;

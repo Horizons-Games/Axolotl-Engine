@@ -3,7 +3,6 @@
 #include "SwitchTutorial.h"
 #include "SwitchPlayerManagerScript.h"
 
-
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleCamera.h"
@@ -26,7 +25,6 @@
 #include "../Scripts/PowerUpLogicScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
-
 
 REGISTERCLASS(SwitchTutorial);
 
@@ -53,9 +51,9 @@ void SwitchTutorial::Start()
 void SwitchTutorial::Update(float deltaTime)
 {
 	if (tutorialActivable && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN && !tutorialUI->GetDisplacementControl()->IsMoving())
-	{	
+	{
 		tutorialUI->UnDeployUI();
-		
+
 		if (tutorialUI->GetTutorialCurrentState() == tutorialUI->GetTutorialSlideSize())
 		{
 			manager->GetComponent<SwitchPlayerManagerScript>()->SetIsSwitchAvailable(true);
@@ -68,12 +66,10 @@ void SwitchTutorial::Update(float deltaTime)
 	if (tutorialFinished)
 	{
 		finalWaitTime -= deltaTime;
-
 	}
 
 	if (tutorialFinished && finalWaitTime <= 0.0f)
 	{
-		
 		tutorialUI->UnDeployUI();
 		tutorialFinished = false;
 		tutorialActivable = false;
@@ -81,7 +77,6 @@ void SwitchTutorial::Update(float deltaTime)
 		LOG_INFO("Tutorial:END");
 		owner->Disable();
 	}
-
 }
 
 void SwitchTutorial::OnCollisionEnter(ComponentRigidBody* other)
