@@ -11,6 +11,7 @@
 #include "SwitchPlayerManagerScript.h"
 #include "UIImageDisplacementControl.h"
 #include "HealthSystem.h"
+#include "ModuleUI.h"
 
 REGISTERCLASS(UIGameManager);
 
@@ -50,6 +51,8 @@ void UIGameManager::Start()
 	
 	healthSystemClassBix = player->GetOwner()->GetComponent<HealthSystem>();
 
+	ui = App->GetModule<ModuleUI>();
+
 	componentSliderPlayerFront = sliderHudHealthBixFront->GetComponent<ComponentSlider>();
 	componentSliderPlayerBack = sliderHudHealthBixBack->GetComponent<ComponentSlider>();
 	componentSliderPlayerFront->SetMaxValue(healthSystemClassBix->GetMaxHealth());
@@ -78,11 +81,7 @@ void UIGameManager::Update(float deltaTime)
 	// Player input method true=GAMEPAD false=KEYBOARD
 	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD)
 	{
-		if (menuIsOpen)
-		{
-			player->SetMouse(menuIsOpen);
-		}
-
+		player->SetMouse(false);
 		inputMethod = true;
 	}
 	else if (input->GetCurrentInputMethod() == InputMethod::KEYBOARD)
@@ -156,6 +155,11 @@ void UIGameManager::MenuIsOpen()
 {
 	if (menuIsOpen)
 	{
+		if (inputMethod)
+		{
+			ui->ResetCurrentButtonIndex();
+		}
+		
 		mainMenuObject->Enable();
 		hudCanvasObject->Disable();
 	}

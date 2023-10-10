@@ -10,6 +10,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentPlayer;
 class ComponentSlider;
 class HealthSystem;
+class ModuleUI;
 
 class UIGameManager : public Script
 {
@@ -78,6 +79,7 @@ private:
 	ComponentPlayer* player;
 	ComponentPlayer* secondPlayer;
 	ModuleInput* input;
+	ModuleUI* ui;
 	ComponentSlider* componentSliderPlayerFront;
 	ComponentSlider* componentSliderPlayerBack;
 	ComponentSlider* componentSliderSecondPlayerFront;
