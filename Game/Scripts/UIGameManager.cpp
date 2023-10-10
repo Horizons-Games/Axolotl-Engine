@@ -7,6 +7,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/UI/ComponentSlider.h"
 #include "ModulePlayer.h"
+#include "ModuleScene.h"
 #include "SwitchPlayerManagerScript.h"
 #include "UIImageDisplacementControl.h"
 #include "HealthSystem.h"
@@ -17,7 +18,8 @@ UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), manager(null
 hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr),
 speedPwrUpObject(nullptr), pwrUpActive(false), savePwrUp(PowerUpType::NONE), sliderHudHealthBixFront(nullptr), 
 sliderHudHealthBixBack(nullptr), sliderHudHealthAlluraFront(nullptr), sliderHudHealthAlluraBack(nullptr),
-debugModeObject(nullptr), imgMouse(nullptr), imgController(nullptr), inputMethod(true), prevInputMethod(true)
+debugModeObject(nullptr), imgMouse(nullptr), imgController(nullptr), inputMethod(true), prevInputMethod(true),
+loadRetryScene("Insert here the actual Level")
 {
 	REGISTER_FIELD(manager, GameObject*);
 	REGISTER_FIELD(mainMenuObject, GameObject*);
@@ -35,6 +37,13 @@ debugModeObject(nullptr), imgMouse(nullptr), imgController(nullptr), inputMethod
 	REGISTER_FIELD(attackPwrUpObject, GameObject*);
 	REGISTER_FIELD(defensePwrUpObject, GameObject*);
 	REGISTER_FIELD(speedPwrUpObject, GameObject*);
+
+	REGISTER_FIELD(winImage, GameObject*);
+	REGISTER_FIELD(loseImage, GameObject*);
+
+	REGISTER_FIELD(loadRetryScene, std::string);
+
+
 }
 
 void UIGameManager::Start()
@@ -68,6 +77,24 @@ void UIGameManager::Update(float deltaTime)
 
 	input = App->GetModule<ModuleInput>();
 
+	// Player input method true=GAMEPAD false=KEYBOARD
+	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD)
+	{
+		inputMethod = true;
+	}
+	else if (input->GetCurrentInputMethod() == InputMethod::KEYBOARD)
+	{
+		inputMethod = false;
+	}
+	InputMethodImg(inputMethod);
+
+	//Lose Game State
+	if (!healthSystemClassBix->EntityIsAlive() || !healthSystemClassAllura->EntityIsAlive())
+	{
+		LoseGameState();
+		return;
+	}
+
 	//IN-GAME MENU
 	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::DOWN)
 	{
@@ -88,18 +115,7 @@ void UIGameManager::Update(float deltaTime)
 		}
 	}
 
-	// Player input method true=GAMEPAD false=KEYBOARD
-	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD)
-	{
-		inputMethod = true;
-	}
-	else if (input->GetCurrentInputMethod() == InputMethod::KEYBOARD)
-	{
-		inputMethod = false;
-	}
-
-	InputMethodImg(inputMethod);
-
+	//Life controller
 	if (healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerBack->GetCurrentValue()
 		|| healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerFront->GetCurrentValue())
 	{
@@ -121,6 +137,13 @@ void UIGameManager::Update(float deltaTime)
 	}
 }
 
+// In  Game Menu Secction
+void UIGameManager::SetMenuIsOpen(bool menuState)
+{
+	menuIsOpen = menuState;
+	MenuIsOpen();
+}
+
 void UIGameManager::MenuIsOpen()
 {
 	if (menuIsOpen)
@@ -136,6 +159,7 @@ void UIGameManager::MenuIsOpen()
 	player->SetMouse(menuIsOpen);
 }
 
+//Power Ups Secction
 void UIGameManager::EnableUIPwrUp(enum class PowerUpType pwrUp)
 {
 	if (!pwrUpActive)
@@ -205,7 +229,6 @@ void UIGameManager::ActiveSliderUIPwrUP(float time)
 			break;
 		}
 	}
-
 }
 
 void UIGameManager::DisableUIPwrUP()
@@ -233,6 +256,20 @@ void UIGameManager::DisableUIPwrUP()
 	EnableUIPwrUp(savePwrUp);
 }
 
+void UIGameManager::SetMaxPowerUpTime(float maxPowerUpTime)
+{
+	componentSliderHealPwrUp = healPwrUpObject->GetComponent<ComponentSlider>();
+	componentSliderAttackPwrUp = attackPwrUpObject->GetComponent<ComponentSlider>();
+	componentSliderDefensePwrUp = defensePwrUpObject->GetComponent<ComponentSlider>();
+	componentSliderSpeedPwrUp = speedPwrUpObject->GetComponent<ComponentSlider>();
+
+	componentSliderHealPwrUp->SetMaxValue(maxPowerUpTime);
+	componentSliderAttackPwrUp->SetMaxValue(maxPowerUpTime);
+	componentSliderDefensePwrUp->SetMaxValue(maxPowerUpTime);
+	componentSliderSpeedPwrUp->SetMaxValue(maxPowerUpTime);
+}
+
+//Healt System Secction
 void UIGameManager::ModifySliderHealthValue(HealthSystem* healthSystemClass, ComponentSlider* componentSliderBack, ComponentSlider* componentSliderFront)
 {
 	// We use 2 slider to do a effect in the health bar
@@ -251,19 +288,48 @@ void UIGameManager::ModifySliderHealthValue(HealthSystem* healthSystemClass, Com
 	}
 }
 
-void UIGameManager::SetMaxPowerUpTime(float maxPowerUpTime)
+// Game States Secction
+void UIGameManager::LoseGameState()
 {
-	componentSliderHealPwrUp = healPwrUpObject->GetComponent<ComponentSlider>();
-	componentSliderAttackPwrUp = attackPwrUpObject->GetComponent<ComponentSlider>();
-	componentSliderDefensePwrUp = defensePwrUpObject->GetComponent<ComponentSlider>();
-	componentSliderSpeedPwrUp = speedPwrUpObject->GetComponent<ComponentSlider>();
+	//PUT CODE TO PAUSE GAME
+	if (!loseImage->IsEnabled())
+	{
+		loseImage->Enable();
+		LOG_INFO("YOU LOSE THE GAME");
+	}
+	
+	// A button to Retry the game
+	if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN)
+	{
+#ifndef ENGINE
+		App->GetModule<ModuleScene>()->SetSceneToLoad(loadRetryScene);
+#endif // 
 
-	componentSliderHealPwrUp->SetMaxValue(maxPowerUpTime);
-	componentSliderAttackPwrUp->SetMaxValue(maxPowerUpTime);
-	componentSliderDefensePwrUp->SetMaxValue(maxPowerUpTime);
-	componentSliderSpeedPwrUp->SetMaxValue(maxPowerUpTime);
+		LOG_INFO("YOU PRESSED A BUTTON AND LOAD RETRY SCENE");
+	}
+
+	// B button to go to the main menu
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
+	{
+#ifndef ENGINE
+		App->GetModule<ModuleScene>()->SetSceneToLoad("00_MainMenu_VS3.axolotl");
+#endif // 
+
+		LOG_INFO("YOU PRESSED B BUTTON AND LOAD MAIN MENU");
+	}
 }
 
+void UIGameManager::WinGameState()
+{
+	//PUT CODE TO PAUSE GAME
+	if (!winImage->IsEnabled())
+	{
+		winImage->Enable();
+	}
+}
+
+
+//Input method used by player
 void UIGameManager::InputMethodImg(bool input)
 {
 	if (currentInputTime == 0.0f && prevInputMethod != inputMethod)
@@ -298,8 +364,4 @@ void UIGameManager::InputMethodImg(bool input)
 
 }
 
-void UIGameManager::SetMenuIsOpen(bool menuState)
-{
-	menuIsOpen = menuState;
-	MenuIsOpen();
-}
+

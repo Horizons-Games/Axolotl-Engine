@@ -5,6 +5,8 @@
 
 #include "Components/ComponentScript.h"
 #include "UIComboManager.h"
+#include "CameraControllerScript.h"
+#include "ModulePlayer.h"
 
 REGISTERCLASS(ComboManager);
 
@@ -49,6 +51,13 @@ bool ComboManager::NextIsSpecialAttack() const
 
 void ComboManager::CheckSpecial(float deltaTime)
 {
+	if (!App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat())
+	{
+		uiComboManager->SetComboBarValue(0);
+		comboCount = 0;
+		specialCount = 0.f;
+	}
+
 	if (input->GetKey(SDL_SCANCODE_TAB) == KeyState::DOWN && specialCount == maxSpecialCount)
 	{
 		specialActivated = true;

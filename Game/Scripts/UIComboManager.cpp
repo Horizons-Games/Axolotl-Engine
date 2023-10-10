@@ -50,6 +50,9 @@ void UIComboManager::Update(float deltaTime)
 	{
 		if (owner->GetChildren()[0]->IsEnabled())
 		{
+			CleanInputVisuals();
+			clearCombo = false;
+			isEffectEnabled = -1;
 			owner->GetChildren()[0]->Disable();
 			owner->GetChildren()[1]->Disable();
 		}

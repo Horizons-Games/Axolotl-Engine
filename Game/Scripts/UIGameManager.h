@@ -23,15 +23,16 @@ public:
 	void SetMenuIsOpen(bool menuState);
 	void MenuIsOpen();
 
+	void LoseGameState();
+	void WinGameState();
+
 	void EnableUIPwrUp(enum class PowerUpType pwrUp);
 	void ActiveUIPwrUP(float currentPowerUpTimer);
 	void ActiveSliderUIPwrUP(float time);
 	void DisableUIPwrUP();
 
 	void ModifySliderHealthValue(HealthSystem* healthSystemClass, ComponentSlider* componentSliderFront, ComponentSlider* componentSliderBack);
-
 	void SetMaxPowerUpTime(float maxPowerUpTime);
-
 	void InputMethodImg(bool input);
 
 private:
@@ -59,6 +60,10 @@ private:
 	GameObject* debugModeObject;
 	GameObject* imgMouse;
 	GameObject* imgController;
+
+	GameObject* winImage;
+	GameObject* loseImage;
+	std::string loadRetryScene;
 
 	GameObject* sliderHudHealthBixFront;
 	GameObject* sliderHudHealthBixBack;
