@@ -1,0 +1,11 @@
+{
+    "UID": 8054241797870161271,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/window_screen.Plane.001_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/window_screenWallWindow_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
