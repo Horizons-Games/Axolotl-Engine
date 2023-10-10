@@ -8,7 +8,6 @@
 #include "debugdraw.h"
 #endif // ENGINE
 
-
 #include <algorithm>
 #include <random>
 
@@ -43,8 +42,8 @@ void HackZoneScript::GenerateCombination()
 		COMMAND_X, 
 		COMMAND_Y 
 	};
-	size_t allCommandsSize = sizeof(allCommands) / sizeof(allCommands[0]);
 
+	size_t allCommandsSize = sizeof(allCommands) / sizeof(allCommands[0]);
 
 	std::random_device rd;
 	std::default_random_engine generator(rd());
