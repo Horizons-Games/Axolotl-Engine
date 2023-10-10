@@ -319,6 +319,7 @@
     <ClCompile Include="..\Game\Scripts\SendTriggerCollision.cpp" />
     <ClCompile Include="..\Game\Scripts\ShockWaveAttackAreaScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ShockWaveAttackScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\SwitchTutorial.cpp" />
     <ClCompile Include="..\Game\Scripts\SpaceshipEscapeMusic.cpp" />
     <ClCompile Include="..\Game\Scripts\SpaceStationMusic.cpp" />
     <ClCompile Include="..\Game\Scripts\TurbineSewersAudio.cpp" />
@@ -936,6 +937,7 @@
     <ClInclude Include="..\Game\Scripts\SendTriggerCollision.h" />
     <ClInclude Include="..\Game\Scripts\ShockWaveAttackAreaScript.h" />
     <ClInclude Include="..\Game\Scripts\ShockWaveAttackScript.h" />
+    <ClInclude Include="..\Game\Scripts\SwitchTutorial.h" />
     <ClInclude Include="..\Game\Scripts\SpaceshipEscapeMusic.h" />
     <ClInclude Include="..\Game\Scripts\SpaceStationMusic.h" />
     <ClInclude Include="..\Game\Scripts\TurbineSewersAudio.h" />
