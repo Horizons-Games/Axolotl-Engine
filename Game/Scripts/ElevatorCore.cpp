@@ -17,8 +17,8 @@
 #include "PlayerAttackScript.h"
 #include "EnemyDroneScript.h"
 #include "EnemyVenomiteScript.h"
+#include "SwitchPlayerManagerScript.h"
 #include "HealthSystem.h"
-
 
 #include "Scene/Scene.h"
 
@@ -26,7 +26,6 @@
 
 #include "DataStructures/Quadtree.h"
 #include "Auxiliar/Audio/AudioData.h"
-
 
 REGISTERCLASS(ElevatorCore);
 
@@ -39,6 +38,7 @@ goTransform(nullptr), go(nullptr)
 	REGISTER_FIELD(coolDown, float);
 	REGISTER_FIELD(speed, float);
 	REGISTER_FIELD(miniBossHealth, HealthSystem*);
+	REGISTER_FIELD(switchPlayerManager, SwitchPlayerManagerScript*);
 }
 
 void ElevatorCore::Start()
@@ -107,7 +107,6 @@ void ElevatorCore::Update(float deltaTime)
 		{
 			currentTime -= deltaTime;
 		}
-
 	}
 }
 
@@ -157,7 +156,6 @@ void ElevatorCore::MoveUpElevator(bool isGOInside, float deltaTime)
 		go->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
 
 	}
-
 }
 
 void ElevatorCore::MoveDownElevator(bool isGOInside, float deltaTime)
@@ -232,7 +230,6 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 
 				SetDisableInteractions(true);
 			}
-			
 		}
 		else if (other->GetOwner()->CompareTag("Enemy") && currentTime <= 0.0f)
 		{
@@ -249,6 +246,7 @@ void ElevatorCore::SetDisableInteractions(bool interactions)
 
 	PlayerManagerScript* manager = go->GetComponentInternal<PlayerManagerScript>();
 	manager->ParalyzePlayer(interactions);
+	switchPlayerManager->SetIsSwitchAvailable(!interactions);
 }
 
 void ElevatorCore::ActiveAuto()

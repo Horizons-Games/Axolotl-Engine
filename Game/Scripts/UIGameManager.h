@@ -32,12 +32,16 @@ public:
 
 	void SetMaxPowerUpTime(float maxPowerUpTime);
 
+	void InputMethodImg(bool input);
+
 protected:
 	enum class PowerUpType savePwrUp;
 	enum class PowerUpType activePwrUp;
 
 	bool menuIsOpen;
 	bool pwrUpActive;
+	bool inputMethod;
+	bool prevInputMethod;
 
 	float damage = 0.0f;
 	float damageBack = 0.0f;
@@ -45,11 +49,17 @@ protected:
 	float currentPowerUpTime = 0.0f;
 	float differencePowerUpTime = 0.0f;
 	float maxSliderValue = 0.0f;
+	float uiTime = 0.0f;
+	float currentInputTime = 0.0f;
 
 	int selectedPositon = -1;
 
 	GameObject* mainMenuObject;
 	GameObject* hudCanvasObject;
+	GameObject* debugModeObject;
+	GameObject* imgMouse;
+	GameObject* imgController;
+
 	GameObject* sliderHudHealthBixFront;
 	GameObject* sliderHudHealthBixBack;
 	GameObject* sliderHudHealthAlluraFront;
@@ -76,12 +86,6 @@ protected:
 	HealthSystem* healthSystemClassAllura;
 
 };
-
-inline void UIGameManager::SetMenuIsOpen(bool menuState)
-{
-	menuIsOpen = menuState;
-	MenuIsOpen();
-}
 
 
 
