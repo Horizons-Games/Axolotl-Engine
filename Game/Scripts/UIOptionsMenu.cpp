@@ -201,14 +201,14 @@ void UIOptionsMenu::ControlEnable()
 
 				if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN)
 				{
-					if (valueSlider > 0.0f)
+					if (valueSlider > slider->GetMinValue())
 					{
 						valueSlider -= 10.0f;
 					}
 				}
 				else if (input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
 				{
-					if (valueSlider < 100.0f)
+					if (valueSlider < slider->GetMaxValue())
 					{
 						valueSlider += 10.0f;
 					}
