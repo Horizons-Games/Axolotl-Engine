@@ -12,6 +12,8 @@
 #include "UIImageDisplacementControl.h"
 #include "HealthSystem.h"
 #include "ModuleUI.h"
+#include "Components/ComponentPlayer.h"
+#include "PlayerManagerScript.h"
 
 REGISTERCLASS(UIGameManager);
 
@@ -159,7 +161,9 @@ void UIGameManager::MenuIsOpen()
 		{
 			ui->ResetCurrentButtonIndex();
 		}
-		
+
+		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->ParalyzePlayer(true);
+
 		mainMenuObject->Enable();
 		hudCanvasObject->Disable();
 	}
