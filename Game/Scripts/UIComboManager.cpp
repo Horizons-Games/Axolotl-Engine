@@ -40,7 +40,7 @@ void UIComboManager::Init()
 
 void UIComboManager::Update(float deltaTime)
 {
-	if (App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat() 
+	if (!App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->HasComponent<CameraControllerScript>() || App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat()
 		&& !owner->GetChildren()[0]->IsEnabled())
 	{
 		owner->GetChildren()[0]->Enable();
