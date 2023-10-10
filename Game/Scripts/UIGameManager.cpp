@@ -38,9 +38,7 @@ loadRetryScene("Insert here the actual Level")
 	REGISTER_FIELD(defensePwrUpObject, GameObject*);
 	REGISTER_FIELD(speedPwrUpObject, GameObject*);
 
-	REGISTER_FIELD(winImage, GameObject*);
-	REGISTER_FIELD(loseImage, GameObject*);
-
+	REGISTER_FIELD(gameStates, GameObject*);
 	REGISTER_FIELD(loadRetryScene, std::string);
 
 
@@ -292,9 +290,10 @@ void UIGameManager::ModifySliderHealthValue(HealthSystem* healthSystemClass, Com
 void UIGameManager::LoseGameState()
 {
 	//PUT CODE TO PAUSE GAME
-	if (!loseImage->IsEnabled())
+	if (!gameStates->IsEnabled())
 	{
-		loseImage->Enable();
+		gameStates->Enable();
+		gameStates->GetChildren()[1]->GetChildren()[0]->Enable();
 		LOG_INFO("YOU LOSE THE GAME");
 	}
 	
@@ -322,9 +321,11 @@ void UIGameManager::LoseGameState()
 void UIGameManager::WinGameState()
 {
 	//PUT CODE TO PAUSE GAME
-	if (!winImage->IsEnabled())
+	if (!gameStates->IsEnabled())
 	{
-		winImage->Enable();
+		gameStates->Enable();
+		gameStates->GetChildren()[1]->GetChildren()[1]->Enable();
+		LOG_INFO("YOU WIN THE GAME");
 	}
 }
 

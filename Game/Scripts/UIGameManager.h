@@ -61,8 +61,7 @@ private:
 	GameObject* imgMouse;
 	GameObject* imgController;
 
-	GameObject* winImage;
-	GameObject* loseImage;
+	GameObject* gameStates;
 	std::string loadRetryScene;
 
 	GameObject* sliderHudHealthBixFront;
