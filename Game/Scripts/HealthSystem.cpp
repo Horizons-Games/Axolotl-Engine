@@ -68,7 +68,7 @@ void HealthSystem::Update(float deltaTime)
 {
 	meshEffect->DamageEffect();
 
-	if (!EntityIsAlive() && owner->CompareTag("Player"))
+	if (!EntityIsAlive() && owner->CompareTag("Player") && playerManager->IsParalyzed())
 	{
 		meshEffect->ClearEffect();
 		PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
@@ -116,9 +116,7 @@ void HealthSystem::TakeDamage(float damage)
 
 			if (currentHealth - damage <= 0)
 			{
-				PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
-				playerDeathManager->ManagePlayerDeath();
-				componentAnimation->SetParameter("IsDead", true);
+				playerManager->ParalyzePlayer(true);
 			}
 			else
 			{

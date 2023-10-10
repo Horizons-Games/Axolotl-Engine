@@ -46,7 +46,11 @@ void PlayerDeathScript::ManagePlayerDeath() const
 	}
 
 	componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-	DisablePlayerActions();
+	componentAnimation->SetParameter("IsDead", true);
+	if (componentAnimation->GetActualStateName() == "Dying")
+	{
+		DisablePlayerActions();
+	}
 }
 
 void PlayerDeathScript::DisablePlayerActions() const

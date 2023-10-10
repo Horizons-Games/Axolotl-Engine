@@ -132,6 +132,7 @@ void PlayerManagerScript::PausePlayer(bool paused)
 
 	owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(linearVelocityPlayer);
 }
+
 PlayerAttackScript* PlayerManagerScript::GetAttackManager() const
 {
 	return attackManager;
@@ -142,6 +143,7 @@ void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 	movementManager->SetIsParalyzed(paralyzed);
 	jumpManager->SetCanJump(!paralyzed);
 	rotationManager->SetCanRotate(!paralyzed);
+	attackManager->SetCanAttack(!paralyzed);
 }
 
 void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)
