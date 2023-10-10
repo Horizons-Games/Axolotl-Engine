@@ -158,24 +158,24 @@ void FinalBossScript::TryAttacksIndividually()
 	*/
 
 	// Uncomment this to check the brutal charge attack ------------------------------
-	
+	/*
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		chargeAttackScript->CanPerformChargeAttack() && !isPerformingAnAttack)
 	{
 		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
-	
+	*/
 
 	// Uncomment this to check the energy shield attack ------------------------------
-	/*
+	
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		shieldAttackScript->CanPerformShieldAttack() && !isPerformingAnAttack)
 	{
 		shieldAttackScript->TriggerShieldAttack();
 		bossState = FinalBossStates::DEFENDING;
 	}
-	*/
+	
 
 	// Uncomment this to check the last wish missiles attack -------------------------
 	/*
