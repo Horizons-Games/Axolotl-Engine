@@ -15,13 +15,15 @@
 
 REGISTERCLASS(UIComboManager);
 
-UIComboManager::UIComboManager() : Script(), clearComboTimer(0.0f), clearCombo(false), alphaEnabled(false), isEffectEnabled(-1)
+UIComboManager::UIComboManager() : Script(), clearComboTimer(0.0f), clearCombo(false), alphaEnabled(false), 
+isEffectEnabled(-1), forceEnableComboBar(false)
 {
 	REGISTER_FIELD(inputPrefabSoft, GameObject*);
 	REGISTER_FIELD(inputPrefabHeavy, GameObject*);
 	REGISTER_FIELD(inputPrefabJumpAttack, GameObject*);
 	REGISTER_FIELD(noFillBar, GameObject*);
 	REGISTER_FIELD(shinyButtonEffect, std::vector<GameObject*>);
+	REGISTER_FIELD(forceEnableComboBar, bool);
 }
 
 void UIComboManager::Init()
@@ -40,28 +42,35 @@ void UIComboManager::Init()
 
 void UIComboManager::Update(float deltaTime)
 {
-	if (!App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->HasComponent<CameraControllerScript>() || App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat()
-		&& !owner->GetChildren()[0]->IsEnabled())
+	if (forceEnableComboBar)
 	{
 		owner->GetChildren()[0]->Enable();
 		owner->GetChildren()[1]->Enable();
 	}
-	else if (!App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat())
+	else
 	{
-		if (owner->GetChildren()[0]->IsEnabled())
+		if (App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat()
+			&& !owner->GetChildren()[0]->IsEnabled())
 		{
-			CleanInputVisuals();
-			clearCombo = false;
-			isEffectEnabled = -1;
-			owner->GetChildren()[0]->Disable();
-			owner->GetChildren()[1]->Disable();
+			owner->GetChildren()[0]->Enable();
+			owner->GetChildren()[1]->Enable();
 		}
-		return;
+		else if (!App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat())
+		{
+			if (owner->GetChildren()[0]->IsEnabled())
+			{
+				CleanInputVisuals();
+				clearCombo = false;
+				isEffectEnabled = -1;
+				owner->GetChildren()[0]->Disable();
+				owner->GetChildren()[1]->Disable();
+			}
+			return;
+		}
 	}
 
 	if (clearCombo)
 	{
-
 		if (clearComboTimer <= 0.0f)
 		{
 			CleanInputVisuals();

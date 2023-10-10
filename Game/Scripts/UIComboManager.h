@@ -57,6 +57,7 @@ private:
 	float clearComboTimer;
 	bool clearCombo;
 	bool  isEffectEnabled;
+	bool forceEnableComboBar;
 
 	float transparency;
 	bool alphaEnabled;
