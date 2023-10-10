@@ -800,8 +800,6 @@
     <ClCompile Include="..\Game\Scripts\TutorialSystem.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\CombatTutorial.cpp">
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\CameraBossControllerScript.cpp">
       <Filter>UserScripts\Camera</Filter>
     </ClCompile>
@@ -828,6 +826,9 @@
     </ClCompile>
     <ClCompile Include="Exceptions\AccessingFailedScriptException.cpp">
       <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\CombatTutorial.cpp">
+      <Filter>UserScripts\Gameplay\Tutorials</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1678,8 +1679,6 @@
     <ClInclude Include="..\Game\Scripts\TutorialSystem.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\CombatTutorial.h">
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\CameraBossControllerScript.h">
       <Filter>UserScripts\Camera</Filter>
     </ClInclude>
@@ -1700,6 +1699,9 @@
     </ClInclude>
     <ClInclude Include="Exceptions\AxoDefaultException.h">
       <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\CombatTutorial.h">
+      <Filter>UserScripts\Gameplay\Tutorials</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1912,6 +1914,9 @@
     </Filter>
     <Filter Include="DataModels\Schedulable">
       <UniqueIdentifier>{aebeccfc-924c-4feb-a954-996d552b513f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Tutorials">
+      <UniqueIdentifier>{bbb763f3-1b50-4a0f-a40f-2147fb2cf1c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
