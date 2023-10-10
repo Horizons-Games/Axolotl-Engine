@@ -16,7 +16,7 @@ enum class Canvas
 	GAME_CANVAS = 0,
 	VIDEO_CANVAS = 1,
 	AUDIO_CANVAS = 2,
-	CONTROLL_CANVAS = 3
+	CONTROLS_CANVAS = 3
 };
 enum class Button
 {
@@ -45,8 +45,8 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void ControlEnable();
-	//void KeyboardEnable();
+	void ControllerMenuMode();
+	//void KeyboardMenuMode();
 	void LoadOptions();
 	
 	void SetLoadFromMainMenu(bool fromMainMenu);
@@ -100,24 +100,24 @@ private:
 	GameObject* gameOptionButton;
 	GameObject* videoOptionButton;
 	GameObject* audioOptionButton;
-	GameObject* controlOptionButton;
+	GameObject* controlsOptionButton;
 
 	GameObject* gameOptionCanvas;
 	GameObject* videoOptionCanvas;
 	GameObject* audioOptionCanvas;
-	GameObject* controlOptionCanvas;
+	GameObject* controlsOptionCanvas;
 
 	GameObject* gameOptionHover;
 	GameObject* videoOptionHover;
 	GameObject* audioOptionHover;
-	GameObject* controlOptionHover;
+	GameObject* controlsOptionHover;
 
 	GameObject* gamepadTriggersImg;
 
 	ComponentButton* gameOptionComponentButton;
 	ComponentButton* videoOptionComponentButton;
 	ComponentButton* audioOptionComponentButton;
-	ComponentButton* controlOptionComponentButton;
+	ComponentButton* controlsOptionComponentButton;
 	ComponentSlider* slider;
 
 	void UpdateChanges();

@@ -73,14 +73,14 @@ void UIText::CleanInputVisuals()
 void UIText::FpsMetric(float time)
 {
 	currentTime = time;
-	timeDiff = currentTime - previusTime;
+	timeDiff = currentTime - previousTime;
 	counter++;
 
 	if (timeDiff >= 1.0f / 30.0f)
 	{
 		fps = (1.0f / timeDiff) * counter;
 		ms = (timeDiff / counter) * 1000.0f;
-		previusTime = currentTime;
+		previousTime = currentTime;
 		counter = 0.0f;
 	}
 	AddInputVisuals(fps);

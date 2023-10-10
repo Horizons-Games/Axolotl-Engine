@@ -15,26 +15,26 @@
 REGISTERCLASS(UIOptionsMenu);
 
 UIOptionsMenu::UIOptionsMenu() : Script(), gameOptionButton(nullptr), videoOptionButton(nullptr), 
-audioOptionButton(nullptr), controlOptionButton(nullptr), gameOptionCanvas(nullptr), videoOptionCanvas(nullptr), 
+audioOptionButton(nullptr), controlsOptionButton(nullptr), gameOptionCanvas(nullptr), videoOptionCanvas(nullptr), 
 audioOptionCanvas(nullptr), gameOptionHover(nullptr), videoOptionHover(nullptr), audioOptionHover(nullptr), 
-controlOptionHover(nullptr), gamepadTriggersImg(nullptr), headerMenuPosition(0), newHeaderMenuPosition(-1),
+controlsOptionHover(nullptr), gamepadTriggersImg(nullptr), headerMenuPosition(0), newHeaderMenuPosition(-1),
 selectedOption(-1), actualButton(-1), actualButtonHover(-1), maxButtonsOptions(-1), maxOptions(-1), 
 newSelectedOption(-1), loadFromMainMenu(false), valueSlider(-1), resetButtonIndex(true)
 {
 	REGISTER_FIELD(gameOptionButton, GameObject*);
 	REGISTER_FIELD(videoOptionButton, GameObject*);
 	REGISTER_FIELD(audioOptionButton, GameObject*);
-	REGISTER_FIELD(controlOptionButton, GameObject*);
+	REGISTER_FIELD(controlsOptionButton, GameObject*);
 
 	REGISTER_FIELD(gameOptionCanvas, GameObject*);
 	REGISTER_FIELD(videoOptionCanvas, GameObject*);
 	REGISTER_FIELD(audioOptionCanvas, GameObject*);
-	REGISTER_FIELD(controlOptionCanvas, GameObject*);
+	REGISTER_FIELD(controlsOptionCanvas, GameObject*);
 
 	REGISTER_FIELD(gameOptionHover, GameObject*);
 	REGISTER_FIELD(videoOptionHover, GameObject*);
 	REGISTER_FIELD(audioOptionHover, GameObject*);
-	REGISTER_FIELD(controlOptionHover, GameObject*);
+	REGISTER_FIELD(controlsOptionHover, GameObject*);
 
 	REGISTER_FIELD(gamepadTriggersImg, GameObject*);
 }
@@ -50,12 +50,12 @@ void UIOptionsMenu::Init()
 	gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
 	videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
 	audioOptionComponentButton = audioOptionButton->GetComponent<ComponentButton>();
-	controlOptionComponentButton = controlOptionButton->GetComponent<ComponentButton>();
+	controlsOptionComponentButton = controlsOptionButton->GetComponent<ComponentButton>();
 
 	buttonsAndCanvas.push_back(HeaderOptionsButton{ gameOptionComponentButton, gameOptionCanvas, gameOptionHover });
 	buttonsAndCanvas.push_back(HeaderOptionsButton{ videoOptionComponentButton, videoOptionCanvas, videoOptionHover });
 	buttonsAndCanvas.push_back(HeaderOptionsButton{ audioOptionComponentButton, audioOptionCanvas, audioOptionHover });
-	buttonsAndCanvas.push_back(HeaderOptionsButton{ controlOptionComponentButton, controlOptionCanvas, controlOptionHover });
+	buttonsAndCanvas.push_back(HeaderOptionsButton{ controlsOptionComponentButton, controlsOptionCanvas, controlsOptionHover });
 
 	LoadOptions();
 }
@@ -65,7 +65,7 @@ void UIOptionsMenu::Start()
 	gameOptionComponentButton->Disable();
 	videoOptionComponentButton->Disable();
 	audioOptionComponentButton->Disable();
-	controlOptionComponentButton->Disable();
+	controlsOptionComponentButton->Disable();
 
 	buttonsAndCanvas[0].canvas->Enable();
 	buttonsAndCanvas[0].hovered->Enable();
@@ -77,12 +77,12 @@ void UIOptionsMenu::Start()
 
 void UIOptionsMenu::Update(float deltaTime)
 {
-	ControlEnable();
+	ControllerMenuMode();
 }
 
-void UIOptionsMenu::ControlEnable()
+void UIOptionsMenu::ControllerMenuMode()
 {
-	if (resetButtonIndex == true)
+	if (resetButtonIndex)
 	{
 		ui->ResetCurrentButtonIndex();
 		resetButtonIndex = false;
@@ -677,7 +677,7 @@ bool UIOptionsMenu::IsLoadFromMainMenu() const
 
 
 /*
-void UIOptionsMenu::KeyboardEnable()
+void UIOptionsMenu::KeyboardMenuMode()
 {
 	gameOptionComponentButton->Enable();
 	videoOptionComponentButton->Enable();

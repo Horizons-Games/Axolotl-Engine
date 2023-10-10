@@ -31,7 +31,7 @@ private:
 	float actualNumber;
 	float prevNumber;
 	float currentTime;
-	float previusTime = 0.0f;
+	float previousTime = 0.0f;
 	float fps;
 	float ms;
 	float timeDiff;
