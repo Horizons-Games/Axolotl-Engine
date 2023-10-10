@@ -5,6 +5,8 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class ComponentAnimation;
+
 class BossLevelElevator;
 class BossShieldAttackScript;
 
@@ -31,4 +33,6 @@ private:
 	BossLevelElevator* elevatorOne;
 	BossLevelElevator* elevatorTwo;
 	BossShieldAttackScript* bossShieldAttackScript;
+
+	ComponentAnimation* animator;
 };

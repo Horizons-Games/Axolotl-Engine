@@ -25,7 +25,6 @@ FinalBossScript::FinalBossScript() : bossPhase(FinalBossPhases::NEUTRAL), patrol
 	transform(nullptr), targetTransform(nullptr), shockWaveAttackScript(nullptr), bossState(FinalBossStates::IDLE),
 	shieldAttackScript(nullptr), missilesAttackScript(nullptr)
 {
-
 }
 
 void FinalBossScript::Start()
@@ -168,24 +167,24 @@ void FinalBossScript::TryAttacksIndividually()
 	*/
 
 	// Uncomment this to check the energy shield attack ------------------------------
-	
+	/*
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		shieldAttackScript->CanPerformShieldAttack() && !isPerformingAnAttack)
 	{
 		shieldAttackScript->TriggerShieldAttack();
 		bossState = FinalBossStates::DEFENDING;
 	}
-	
+	*/
 
 	// Uncomment this to check the last wish missiles attack -------------------------
-	/*
+	
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 5.0f) &&
 		missilesAttackScript->CanPerformMissilesAttack() && !isPerformingAnAttack)
 	{
 		missilesAttackScript->TriggerMissilesAttack();
 		bossState = FinalBossStates::ATTACKING;
 	}
-	*/
+	
 }
 
 void FinalBossScript::ReactivateMovement() const

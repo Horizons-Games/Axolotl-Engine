@@ -5,6 +5,7 @@
 #include "Modules/ModuleRandom.h"
 
 #include "Components/ComponentScript.h"
+#include "Components/ComponentAnimation.h"
 
 #include "../Scripts/BossLevelElevator.h"
 #include "../Scripts/BossShieldAttackScript.h"
@@ -14,7 +15,7 @@
 
 REGISTERCLASS(BossShieldEnemiesSpawner);
 
-BossShieldEnemiesSpawner::BossShieldEnemiesSpawner() : Script()
+BossShieldEnemiesSpawner::BossShieldEnemiesSpawner() : Script(), animator(nullptr)
 {
 	REGISTER_FIELD(enemiesToSpawnParent, GameObject*);
 	REGISTER_FIELD(elevatorOne, BossLevelElevator*);
@@ -32,6 +33,7 @@ void BossShieldEnemiesSpawner::Start()
 	}
 
 	bossShieldAttackScript = owner->GetComponent<BossShieldAttackScript>();
+	animator = owner->GetComponent<ComponentAnimation>();
 }
 
 void BossShieldEnemiesSpawner::Update(float deltaTime)
@@ -62,6 +64,8 @@ void BossShieldEnemiesSpawner::StartSpawner()
 	{
 		ReactivateEnemies();
 	}
+
+	animator->SetParameter("IsInvoking", true);
 
 	GameObject* enemy1 = SelectRandomEnemy();
 	GameObject* enemy2 = SelectRandomEnemy();

@@ -9,6 +9,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentAnimation.h"
 
 #include "../Scripts/EnemyClass.h"
 #include "../Scripts/BossShieldScript.h"
@@ -24,7 +25,7 @@ BossShieldAttackScript::BossShieldAttackScript() : Script(), bossShieldObject(nu
 	shieldingTime(0.0f), shieldingMaxTime(20.0f), triggerShieldAttackCooldown(false), shieldAttackCooldown(0.0f),
 	shieldAttackMaxCooldown(50.0f), triggerEnemySpawning(false), enemiesToSpawnParent(nullptr),
 	enemySpawnTime(0.0f), enemyMaxSpawnTime(2.0f), battleArenaAreaSize(nullptr), healthSystemScript(nullptr),
-	currentPath(0)
+	currentPath(0), animator(nullptr)
 {
 	REGISTER_FIELD(shieldingMaxTime, float);
 	REGISTER_FIELD(shieldAttackMaxCooldown, float);
@@ -66,6 +67,8 @@ void BossShieldAttackScript::Start()
 	{
 		bossShieldEnemiesSpawner = owner->GetComponent<BossShieldEnemiesSpawner>();
 	}
+
+	animator = owner->GetComponent<ComponentAnimation>();
 }
 
 void BossShieldAttackScript::Update(float deltaTime)
@@ -74,12 +77,19 @@ void BossShieldAttackScript::Update(float deltaTime)
 	{
 		shieldingTime = 0.0f;
 		bossShieldObject->DisableHitBySpecialTarget();
+		animator->SetParameter("IsShieldAttack", false);
+		animator->SetParameter("IsInvoking", false);
 	}
 
 	ManageShield(deltaTime);
 	ManageEnemiesSpawning(deltaTime);
 
 	ManageRespawnOfEnemies();
+
+	if (animator->GetActualStateName() == "BossShieldInvokeEnemy")
+	{
+		animator->SetParameter("IsInvoking", false);
+	}
 }
 
 void BossShieldAttackScript::TriggerShieldAttack()
@@ -91,6 +101,7 @@ void BossShieldAttackScript::TriggerShieldAttack()
 	//bossShieldEnemiesSpawner->StartSpawner();
 
 	isShielding = true;
+	animator->SetParameter("IsShieldAttack", true);
 	shieldAttackCooldown = shieldAttackMaxCooldown;
 
 	triggerEnemySpawning = true;
@@ -135,7 +146,7 @@ void BossShieldAttackScript::ManageEnemiesSpawning(float deltaTime)
 		return;
 	}
 
-	// The final boss has a script that manage the spawning
+	// The final boss has a script that manages the spawning
 	if (!manageEnemySpawner)
 	{
 		return;
@@ -184,6 +195,8 @@ void BossShieldAttackScript::ManageRespawnOfEnemies()
 void BossShieldAttackScript::DisableShielding()
 {
 	isShielding = false;
+	animator->SetParameter("IsShieldAttack", false);
+	animator->SetParameter("IsInvoking", false);
 	shieldingTime = shieldingMaxTime;
 
 	bossShieldObject->DeactivateShield();
