@@ -7,6 +7,8 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentCameraSample.h"
+#include "Components/ComponentAudioSource.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "Camera/CameraGameObject.h"
 
@@ -128,6 +130,12 @@ void CameraControllerScript::PreUpdate(float deltaTime)
 		transform->SetGlobalRotation(finalTargetOrientation);
 		transform->RecalculateLocalMatrix();
 	}
+
+	for (Component* components : owner->GetComponents())
+	{
+		components->OnTransformChanged();
+	}
+
 }
 
 void CameraControllerScript::ToggleCameraState()
@@ -208,3 +216,17 @@ ComponentCameraSample* CameraControllerScript::FindClosestSample(float3 position
 
 }
 
+void CameraControllerScript::SetInCombat(bool newmode)
+{
+	inCombat = newmode;
+	if (inCombat)
+	{
+		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentAudioSource>()->
+			SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::COMBAT);
+	}
+	else
+	{
+		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentAudioSource>()->
+			SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
+	}
+}

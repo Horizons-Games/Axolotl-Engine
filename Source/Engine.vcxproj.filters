@@ -836,6 +836,21 @@
     <ClCompile Include="..\Game\Scripts\PathBehaviourScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossMusic.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SpaceshipEscapeMusic.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SpaceStationMusic.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\TurbineSewersAudio.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\WaterfallAudio.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\UILoadSavedSettings.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
@@ -1720,6 +1735,21 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\PathBehaviourScript.h">
       <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossMusic.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SpaceshipEscapeMusic.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SpaceStationMusic.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\TurbineSewersAudio.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\WaterfallAudio.h">
+      <Filter>UserScripts\Audio</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UILoadSavedSettings.h">
       <Filter>UserScripts\UI</Filter>
