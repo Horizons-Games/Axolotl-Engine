@@ -351,14 +351,22 @@ void UIGameManager::InputMethodImg(bool input)
 		if (input)
 		{
 			prevInputMethod = input;
-			imgMouse->Disable();
-			imgController->Enable();
+
+			if (imgMouse && imgController)
+			{
+				imgMouse->Disable();
+				imgController->Enable();
+			}
 		}
 		else
 		{
 			prevInputMethod = input;
-			imgController->Disable();
-			imgMouse->Enable();
+
+			if (imgMouse && imgController)
+			{
+				imgMouse->Enable();
+				imgController->Disable();
+			}
 		}
 		currentInputTime++;
 	}
@@ -366,8 +374,12 @@ void UIGameManager::InputMethodImg(bool input)
 	{
 		if (currentInputTime >= 10.0f)
 		{
-			imgController->Disable();
-			imgMouse->Disable();
+			if (imgMouse && imgController)
+			{
+				imgController->Disable();
+				imgMouse->Disable();
+			}
+
 			currentInputTime = 0.0f;
 		}
 		else

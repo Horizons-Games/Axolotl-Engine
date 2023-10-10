@@ -37,7 +37,7 @@ void AIMovement::Update(float deltaTime)
 {
 	if (agent && agent->IsEnabled())
 	{
-		if ( agent->GetAgentId() != -1)
+		if (agent->GetAgentId() != -1)
 		{
 			agent->SetMaxSpeed(movementSpeed);
 			agent->SetRotationSpeed(rotationSpeed);
@@ -218,4 +218,9 @@ void AIMovement::CheckIfHasArrived()
 	{
 		isAtDestiny = false;
 	}
+}
+
+void AIMovement::SetMovementSpeed(float newMovementSpeed)
+{
+	movementSpeed = newMovementSpeed;
 }

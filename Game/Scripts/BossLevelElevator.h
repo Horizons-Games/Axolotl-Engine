@@ -7,6 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform;
 class ComponentRigidBody;
+class ComponentAudioSource;
 
 enum class ElevatorState
 {
@@ -31,17 +32,31 @@ public:
 	void Update(float deltaTime) override;
 
 	void ChangeMovementState(ElevatorState newState);
+	void AttachEnemies(GameObject* enemyOneGO, GameObject* enemyTwoGO);
+	void ToggleEnemyInteractions(GameObject* enemy, bool interactions);
+	void MoveEnemyToElevatorPoint(GameObject* enemy, ComponentTransform* elevatorPosition);
+	void ReleaseEnemies();
+	void MoveEnemiesToArena(GameObject* enemyOne, ComponentTransform* targetPosition);
+	void CheckIfEnemiesAreInTarget();
+	void ToggleParalizeDependingOfEnemyType(GameObject* enemy, bool paralize);
+
+	bool GetHasEnemies() const;
+	PositionState GetPositionState() const;
 
 private:
 	void MoveDown(float deltaTime);
 	void MoveUp(float deltaTime);
 	void MoveFences(float deltaTime);
 	void ResetElevator();
+	void MoveEnemy(GameObject* enemy, float deltaTime);
 
 	float moveSpeed;
 	float cooldownTime;
 	float currentTime;
 	bool fencesDown;
+	bool hasEnemies;
+	bool enemyOneParalized;
+	bool enemyTwoParalized;
 
 	float initialPos;
 	float finalPos;
@@ -52,7 +67,24 @@ private:
 	ElevatorState elevatorState;
 	PositionState positionState;
 
-	ComponentTransform* transform;
+	ComponentAudioSource* componentAudio;
 	ComponentRigidBody* platformRigidBody;
+	ComponentTransform* transform;
 	ComponentTransform* fencesTransform;
+	ComponentTransform* enemyOnePosition;
+	ComponentTransform* enemyTwoPosition;
+	ComponentTransform* enemyOneArenaPosition;
+	ComponentTransform* enemyTwoArenaPosition;
+	GameObject* enemyOne;
+	GameObject* enemyTwo;
 };
+
+inline bool BossLevelElevator::GetHasEnemies() const
+{
+	return hasEnemies;
+}
+
+inline PositionState BossLevelElevator::GetPositionState() const
+{
+	return positionState;
+}
