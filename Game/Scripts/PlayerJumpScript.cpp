@@ -106,9 +106,6 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 		if (isGrounded)
 		{
 			coyoteTimerCount = coyoteTime;
-		}
-		else
-		{
 			isGrounded = false;
 			componentAnimation->SetParameter("IsGrounded", false);
 		}
