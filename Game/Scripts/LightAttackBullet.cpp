@@ -129,7 +129,7 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->CompareTag("Enemy"))
 	{
-		if (playerAttackScript->IsMeleeAvailable())
+		if (playerAttackScript->IsMelee())
 		{
 			audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
 		}
@@ -153,7 +153,7 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 
 	else if (!other->IsTrigger() && !other->GetOwner()->CompareTag("Player"))
 	{
-		if (playerAttackScript->IsMeleeAvailable())
+		if (playerAttackScript->IsMelee())
 		{
 			audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
 		}

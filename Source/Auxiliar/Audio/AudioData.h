@@ -37,6 +37,10 @@ namespace SEWERS
 {
 static const wchar_t* BIGDOOR_OPEN = L"sfx_bigDoor_open";
 static const wchar_t* BIGDOOR_CLOSE = L"sfx_bigDoor_close";
+static const wchar_t* TURBINE = L"sfx_turbine";
+static const wchar_t* WATER_FALLING = L"sfx_water_falling";
+static const wchar_t* AMBIENT = L"sewers_ambient";
+static const wchar_t* AMBIENT_STOP = L"sewers_ambient_stop";
 } // namespace SEWERS
 namespace CANTINA
 {
@@ -50,12 +54,13 @@ namespace PLAYER
 {
 namespace LOCOMOTION
 {
-static const wchar_t* FOOTSTEPS_WALK = L"sfx_footsteps_walk_01";
+static const wchar_t* FOOTSTEPS_WALK_BIX_METAL = L"sfx_footsteps_walk_Bix_metal";
+static const wchar_t* FOOTSTEPS_WALK_ALLURA_METAL = L"sfx_footsteps_walk_Allura_metal";
+static const wchar_t* FOOTSTEPS_WALK_BIX_WATER = L"sfx_footsteps_walk_Bix_water";
+static const wchar_t* FOOTSTEPS_WALK_ALLURA_WATER = L"sfx_footsteps_walk_Allura_water";
 static const wchar_t* FOOTSTEPS_WALK_STOP = L"sfx_footsteps_walk_stop";
-static const wchar_t* FOOTSTEPS_RUN = L"sfx_footsteps_run_01";
-static const wchar_t* FOOTSTEPS_RUN_STOP = L"sfx_footsteps_run_stop";
-static const wchar_t* FOOTSTEPS_CROUCH = L"sfx_footsteps_crouch_01";
-static const wchar_t* FOOTSTEPS_CROUCH_STOP = L"sfx_footsteps_crouch_stop";
+static const wchar_t* FALLING_METAL = L"sfx_falling_metal";
+static const wchar_t* FALLING_WATER = L"sfx_falling_water";
 static const wchar_t* JUMP = L"sfx_jump_01";
 static const wchar_t* DOUBLE_JUMP = L"sfx_doubleJump_01";
 static const wchar_t* DASH = L"sfx_dash_01";
@@ -74,6 +79,8 @@ static const wchar_t* CHARGED_SHOT = L"sfx_chargedShot_01";
 static const wchar_t* ELECTRIC_SHOT = L"sfx_electricShot_shot_01";
 static const wchar_t* CANNON_SHOT_IMPACT = L"sfx_electricShot_impact_01";
 static const wchar_t* SHOT_IMPACT = L"sfx_shot_impact_01";
+static const wchar_t* RECEIVEDAMAGE_BIX = L"sfx_receiveDamage_voice_Bix";
+static const wchar_t* RECEIVEDAMAGE_ALLURA = L"sfx_receiveDamage_voice_Allura";
 } // namespace WEAPON
 namespace ABILITIES
 {
@@ -135,6 +142,7 @@ namespace ZONE
 static const wchar_t* SPACESTATION = L"SpaceStation";
 static const wchar_t* SPACESHIP = L"Spaceship";
 static const wchar_t* BOSS = L"Boss";
+static const wchar_t* BOSS_INTRO = L"BossIntro";
 static const wchar_t* HANGAR = L"Hangar";
 static const wchar_t* SEWERS = L"Sewers";
 static const wchar_t* CANTINA = L"Cantina";
