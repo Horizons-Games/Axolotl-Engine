@@ -30,13 +30,13 @@
 
 REGISTERCLASS(SwitchTutorial);
 
-SwitchTutorial::SwitchTutorial() : Script(), allura(nullptr), combatTutorialUI(nullptr),
+SwitchTutorial::SwitchTutorial() : Script(), allura(nullptr), switchTutorialUI(nullptr),
 finalWaitTime(5.0f), finalTotalWaitTime(5.0f), tutorialActivable(false), manager(nullptr),
 tutorialFinished(false)
 {
 	REGISTER_FIELD(allura, GameObject*);
 	REGISTER_FIELD(manager, GameObject*);
-	REGISTER_FIELD(combatTutorialUI, GameObject*);
+	REGISTER_FIELD(switchTutorialUI, GameObject*);
 	REGISTER_FIELD(finalWaitTime, float);
 	REGISTER_FIELD(finalTotalWaitTime, float);
 }
@@ -47,7 +47,7 @@ void SwitchTutorial::Start()
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
 	playerManager = player->GetComponent<PlayerManagerScript>();
 	
-	tutorialUI = combatTutorialUI->GetComponent<TutorialSystem>();
+	tutorialUI = switchTutorialUI->GetComponent<TutorialSystem>();
 }
 
 void SwitchTutorial::Update(float deltaTime)

@@ -35,7 +35,7 @@ private:
 
 	GameObject* manager;
 	GameObject* player;
-	GameObject* combatTutorialUI;
+	GameObject* switchTutorialUI;
 	PlayerManagerScript* playerManager;
 	SwitchPlayerManagerScript* switchManager;
 	
