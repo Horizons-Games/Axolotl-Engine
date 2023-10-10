@@ -25,7 +25,7 @@
 
 ComponentImage::ComponentImage(bool active, GameObject* owner) :
 	Component(ComponentType::IMAGE, active, owner, true),
-	color(float4(1.0f, 1.0f, 1.0f, 1.0f)),
+	color(float4::one),
 	renderPercentage(1.0f),
 	direction(0)
 {
