@@ -160,12 +160,12 @@ const std::shared_ptr<R> ModuleResources::RequestResource(const std::string path
 
 		long long assetTime = fileSystem->GetModificationDate(assetPath.c_str());
 		std::string libExtension = type == ResourceType::Video ? extension : GENERAL_BINARY_EXTENSION;
-		long long libTime = fileSystem->GetModificationDate((libraryPath + extension).c_str());
+		long long libTime = fileSystem->GetModificationDate((libraryPath + libExtension).c_str());
 		if (assetTime <= libTime)
 		{
-			std::string fileName = fileSystem->GetFileName(libraryPath + extension);
+			std::string fileName = fileSystem->GetFileName(libraryPath + libExtension);
 			UID uid = std::stoull(fileName.c_str(), NULL, 0);
-			ResourceType type = FindTypeByFolder(libraryPath + extension);
+			ResourceType type = FindTypeByFolder(libraryPath + libExtension);
 			std::shared_ptr<Resource> resource =
 				CreateResourceOfType(uid, fileSystem->GetFileName(assetPath), assetPath, libraryPath, type);
 			resource->LoadImporterOptions(meta);
