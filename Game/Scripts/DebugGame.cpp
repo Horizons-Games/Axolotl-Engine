@@ -86,7 +86,7 @@ void DebugGame::Update(float deltaTime)
 	else if (input->GetKey(SDL_SCANCODE_F3) == KeyState::DOWN)
 	{
 #ifndef ENGINE
-		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/Gameplay_FinalBoss.axolotl");
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_LEVEL_BOSS.axolotl");
 		LOG_INFO("LOADING BOSS FIGHT");
 #endif // ENGINE
 	}
