@@ -13,7 +13,7 @@ REGISTERCLASS(UIText);
 
 UIText::UIText() : Script(), actualNumber(0.0f), prevNumber(0.0f)
 {
-	REGISTER_FIELD(numbersIMG, std::vector<GameObject*>);
+	REGISTER_FIELD(numbersImg, std::vector<GameObject*>);
 	REGISTER_FIELD(actualNumber, float);
 }
 
@@ -26,7 +26,7 @@ void UIText::Init()
 
 void UIText::Update(float deltaTime)
 {
-	//FpsMetric(deltaTime); NEXT FEATURE WHEN SARA LET ME DO IT
+	//FpsMetric(deltaTime);
 	if (actualNumber != prevNumber)
 	{
 		prevNumber = actualNumber;
@@ -43,18 +43,18 @@ void UIText::AddInputVisuals(float numFrom)
 
 		CleanInputVisuals();
 		
-		for (int currentNumToShow=0; currentNumToShow < maxNumberToShow; ++currentNumToShow)
+		for (int currentNumberToShow=0; currentNumberToShow < maxNumberToShow; ++currentNumberToShow)
 		{
 			digit = number % 10;
 			
 			if (number !=0)
 			{
 				number /= 10;
-				prefab = numbersIMG[digit];
+				prefab = numbersImg[digit];
 
 				GameObject* newInput =
 					App->GetModule<ModuleScene>()->GetLoadedScene()->
-					DuplicateGameObject(prefab->GetName(), prefab, inputPositions[currentNumToShow]);
+					DuplicateGameObject(prefab->GetName(), prefab, inputPositions[currentNumberToShow]);
 				newInput->Enable();
 				inputVisuals.push_front(newInput);
 			}
@@ -73,14 +73,14 @@ void UIText::CleanInputVisuals()
 void UIText::FpsMetric(float time)
 {
 	currentTime = time;
-	timeDiff = currentTime - previusTime;
+	timeDiff = currentTime - previousTime;
 	counter++;
 
 	if (timeDiff >= 1.0f / 30.0f)
 	{
 		fps = (1.0f / timeDiff) * counter;
 		ms = (timeDiff / counter) * 1000.0f;
-		previusTime = currentTime;
+		previousTime = currentTime;
 		counter = 0.0f;
 	}
 	AddInputVisuals(fps);

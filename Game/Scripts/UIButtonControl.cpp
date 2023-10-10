@@ -12,7 +12,7 @@ REGISTERCLASS(UIButtonControl);
 
 UIButtonControl::UIButtonControl() : Script(), disableObject(nullptr), enableObject(nullptr), 
 buttonComponent(nullptr), buttonHover(nullptr), isGameExit(false), isGameResume(false), 
-setUiGameManagerObject(nullptr), UIGameManagerClass(nullptr), isBackButton (false)
+setUiGameManagerObject(nullptr), UIGameManagerClass(nullptr), isBackButton(false)
 {
 	REGISTER_FIELD(enableObject, GameObject*);
 	REGISTER_FIELD(disableObject, GameObject*);
@@ -54,7 +54,7 @@ void UIButtonControl::Update(float deltaTime)
 	}
 	else if (enableObject != nullptr && disableObject != nullptr)
 	{
-		if (isBackButton != false && input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
+		if (!isBackButton && input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
 		{
 			buttonComponent->SetClicked(true);
 			ui->ResetCurrentButtonIndex();

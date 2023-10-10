@@ -17,7 +17,7 @@ UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), manager(null
 hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr),
 speedPwrUpObject(nullptr), pwrUpActive(false), savePwrUp(PowerUpType::NONE), sliderHudHealthBixFront(nullptr), 
 sliderHudHealthBixBack(nullptr), sliderHudHealthAlluraFront(nullptr), sliderHudHealthAlluraBack(nullptr),
-debugModeObject(nullptr), imgMouse(nullptr), imgController(nullptr),inputMethod(true), prevInputMethod(true)
+debugModeObject(nullptr), imgMouse(nullptr), imgController(nullptr), inputMethod(true), prevInputMethod(true)
 {
 	REGISTER_FIELD(manager, GameObject*);
 	REGISTER_FIELD(mainMenuObject, GameObject*);
@@ -68,14 +68,14 @@ void UIGameManager::Update(float deltaTime)
 
 	input = App->GetModule<ModuleInput>();
 
-	//IN GAME MENU
+	//IN-GAME MENU
 	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::DOWN)
 	{
 		menuIsOpen = !menuIsOpen;
 		MenuIsOpen();
 	}
 
-	// DEBBUG MODE
+	// DEBUG MODE
 	if (input->GetKey(SDL_SCANCODE_B) == KeyState::DOWN && debugModeObject != nullptr)
 	{
 		if (!debugModeObject->IsEnabled())
@@ -88,7 +88,7 @@ void UIGameManager::Update(float deltaTime)
 		}
 	}
 
-	// Player input method ture=GAMEPAD false=KEYBOARD
+	// Player input method true=GAMEPAD false=KEYBOARD
 	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD)
 	{
 		inputMethod = true;
@@ -266,22 +266,21 @@ void UIGameManager::SetMaxPowerUpTime(float maxPowerUpTime)
 
 void UIGameManager::InputMethodImg(bool input)
 {
-	if (currentInputTime == 0.0f && prevInputMethod != inputMethod )
+	if (currentInputTime == 0.0f && prevInputMethod != inputMethod)
 	{
 		if (input)
 		{
 			prevInputMethod = input;
 			imgMouse->Disable();
 			imgController->Enable();
-			currentInputTime++;
 		}
 		else
 		{
 			prevInputMethod = input;
 			imgController->Disable();
 			imgMouse->Enable();
-			currentInputTime++;
 		}
+		currentInputTime++;
 	}
 	else
 	{

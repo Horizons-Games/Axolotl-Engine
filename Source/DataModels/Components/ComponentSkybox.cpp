@@ -1,19 +1,16 @@
 #include "StdAfx.h"
 
 #include "ComponentSkybox.h"
-#include "GameObject/GameObject.h"
-#include "Application.h"
-#include "ModuleScene.h"
-#include "ModuleProgram.h"
-#include "ModuleCamera.h"
-#include "Filesystem/ModuleResources.h"
-#include "Scene/Scene.h"
-#include "Resources/ResourceSkyBox.h"
-#include "DataModels/Program/Program.h"
 
+#include "Application.h"
+#include "ModuleProgram.h"
+
+#include "Filesystem/ModuleResources.h"
+#include "Resources/ResourceSkyBox.h"
+
+#include "DataModels/Program/Program.h"
 #include "Cubemap/Cubemap.h"
 
-#include "Camera/Camera.h"
 
 ComponentSkybox::ComponentSkybox(bool active, GameObject* owner) : 
 	Component(ComponentType::SKYBOX, active, owner, true), useCubemap(false)
@@ -24,7 +21,7 @@ ComponentSkybox::~ComponentSkybox()
 {
 }
 
-void ComponentSkybox::Draw()
+void ComponentSkybox::Draw(float4x4 view, float4x4 proj) const
 {
 	if (IsEnabled())
 	{
@@ -39,10 +36,9 @@ void ComponentSkybox::Draw()
 			glDepthMask(GL_FALSE);
 
 			program->Activate();
-			ModuleCamera* camera = App->GetModule<ModuleCamera>();
 
-			program->BindUniformFloat4x4("view", (const float*) &camera->GetCamera()->GetViewMatrix(), GL_TRUE);
-			program->BindUniformFloat4x4("proj", (const float*) &camera->GetCamera()->GetProjectionMatrix(), GL_TRUE);
+			program->BindUniformFloat4x4("view", (const float*) &view, GL_TRUE);
+			program->BindUniformFloat4x4("proj", (const float*) &proj, GL_TRUE);
 
 			glBindVertexArray(skyboxRes->GetVAO());
 			glActiveTexture(GL_TEXTURE0);

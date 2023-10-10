@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Scripting\Script.h"
-#include <vector>
 
 #include "ModuleInput.h"
 #include "ModuleUI.h"
@@ -17,7 +16,7 @@ enum class Canvas
 	GAME_CANVAS = 0,
 	VIDEO_CANVAS = 1,
 	AUDIO_CANVAS = 2,
-	CONTROLL_CANVAS = 3
+	CONTROLS_CANVAS = 3
 };
 enum class Button
 {
@@ -33,7 +32,7 @@ enum class Button
 	//AUDIO
 	GENERAL = 0,
 	MUSIC = 1,
-	VFX = 2,
+	SFX = 2,
 };
 
 class UIOptionsMenu : public Script
@@ -46,8 +45,8 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void ControlEnable();
-	//void KeyboardEnable();
+	void ControllerMenuMode();
+	//void KeyboardMenuMode();
 	void LoadOptions();
 	
 	void SetLoadFromMainMenu(bool fromMainMenu);
@@ -101,24 +100,24 @@ private:
 	GameObject* gameOptionButton;
 	GameObject* videoOptionButton;
 	GameObject* audioOptionButton;
-	GameObject* controlOptionButton;
+	GameObject* controlsOptionButton;
 
 	GameObject* gameOptionCanvas;
 	GameObject* videoOptionCanvas;
 	GameObject* audioOptionCanvas;
-	GameObject* controlOptionCanvas;
+	GameObject* controlsOptionCanvas;
 
 	GameObject* gameOptionHover;
 	GameObject* videoOptionHover;
 	GameObject* audioOptionHover;
-	GameObject* controlOptionHover;
+	GameObject* controlsOptionHover;
 
-	GameObject* padTriggersIMG;
+	GameObject* gamepadTriggersImg;
 
 	ComponentButton* gameOptionComponentButton;
 	ComponentButton* videoOptionComponentButton;
 	ComponentButton* audioOptionComponentButton;
-	ComponentButton* controlOptionComponentButton;
+	ComponentButton* controlsOptionComponentButton;
 	ComponentSlider* slider;
 
 	void UpdateChanges();
@@ -130,12 +129,12 @@ private:
 	void GameOption(int button, int option);
 	void VideoOption(int button, int option);
 	void AudioOption(int button, int option);
-	void ControlOption();
+	void ControlsOption();
 
 	void BackToLastSavedOption();
 	bool IsSlider(int header, int button, int option);
-	void IsSizeOptionEnable();
-	void IsFpsEnable();
+	void IsSizeOptionEnabled();
+	void IsFpsEnabled();
 
 };
 

@@ -338,7 +338,7 @@
                                 },
                                 {
                                     "name": "Player",
-                                    "value": 15488349568880553011,
+                                    "value": 798847553128553075,
                                     "type": 2
                                 },
                                 {
@@ -1145,9 +1145,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 10.664076805114746,
-                            "localPos_Y": 0.4819333553314209,
-                            "localPos_Z": -0.003684103023260832,
+                            "localPos_X": 0.7382159233093262,
+                            "localPos_Y": 15.125150680541992,
+                            "localPos_Z": 4.869946002960205,
                             "localRot_X": 0.0,
                             "localRot_Y": -89.98020935058594,
                             "localRot_Z": 0.0,
@@ -1205,9 +1205,9 @@
                             "radius": 0.44999998807907104,
                             "factor": 0.5,
                             "height": 1.3669999837875366,
-                            "rbPos_X": 10.663710594177246,
-                            "rbPos_Y": 1.503354787826538,
-                            "rbPos_Z": -0.003684103023260832,
+                            "rbPos_X": 0.7378497123718262,
+                            "rbPos_Y": 16.14657211303711,
+                            "rbPos_Z": 4.869946002960205,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -7667,9 +7667,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
+                            "localPos_X": 0.0008544921875,
+                            "localPos_Y": -0.0010395050048828125,
+                            "localPos_Z": 0.0007481575012207031,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
@@ -8055,10 +8055,10 @@
                             "localAABB_min_y": 0.0,
                             "localAABB_max_x": 0.0,
                             "localAABB_max_y": 0.0,
-                            "worldAABB_min_x": 598.0,
-                            "worldAABB_min_y": 443.0,
-                            "worldAABB_max_x": 598.0,
-                            "worldAABB_max_y": 443.0
+                            "worldAABB_min_x": 508.0,
+                            "worldAABB_min_y": 326.5,
+                            "worldAABB_max_x": 508.0,
+                            "worldAABB_max_y": 326.5
                         }
                     },
                     {
@@ -8150,10 +8150,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 535.7083129882813,
-                            "worldAABB_min_y": 380.7083435058594,
-                            "worldAABB_max_x": 660.2916870117188,
-                            "worldAABB_max_y": 505.2916564941406
+                            "worldAABB_min_x": 455.0833435058594,
+                            "worldAABB_min_y": 273.5833435058594,
+                            "worldAABB_max_x": 560.9166870117188,
+                            "worldAABB_max_y": 379.4166564941406
                         }
                     }
                 ]
@@ -8188,10 +8188,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 106.625,
-                            "worldAABB_max_x": 1196.0,
-                            "worldAABB_max_y": 779.375
+                            "worldAABB_min_x": 0.000030517578125,
+                            "worldAABB_min_y": 40.75,
+                            "worldAABB_max_x": 1016.0,
+                            "worldAABB_max_y": 612.25
                         }
                     },
                     {
@@ -8241,10 +8241,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 535.7083129882813,
-                            "worldAABB_min_y": 380.7083435058594,
-                            "worldAABB_max_x": 660.2916870117188,
-                            "worldAABB_max_y": 505.2916564941406
+                            "worldAABB_min_x": 455.0833435058594,
+                            "worldAABB_min_y": 273.5833435058594,
+                            "worldAABB_max_x": 560.9166870117188,
+                            "worldAABB_max_y": 379.4166564941406
                         }
                     }
                 ]
@@ -8279,10 +8279,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 535.7083129882813,
-                            "worldAABB_min_y": 380.7083435058594,
-                            "worldAABB_max_x": 660.2916870117188,
-                            "worldAABB_max_y": 505.2916564941406
+                            "worldAABB_min_x": 455.0833435058594,
+                            "worldAABB_min_y": 273.5833435058594,
+                            "worldAABB_max_x": 560.9166870117188,
+                            "worldAABB_max_y": 379.4166564941406
                         }
                     }
                 ]
@@ -8317,10 +8317,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 535.7083129882813,
-                            "worldAABB_min_y": 380.7083435058594,
-                            "worldAABB_max_x": 660.2916870117188,
-                            "worldAABB_max_y": 505.2916564941406
+                            "worldAABB_min_x": 455.0833435058594,
+                            "worldAABB_min_y": 273.5833435058594,
+                            "worldAABB_max_x": 560.9166870117188,
+                            "worldAABB_max_y": 379.4166564941406
                         }
                     }
                 ]
@@ -8355,10 +8355,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 106.625,
-                            "worldAABB_max_x": 1196.0,
-                            "worldAABB_max_y": 779.375
+                            "worldAABB_min_x": 0.000030517578125,
+                            "worldAABB_min_y": 40.75,
+                            "worldAABB_max_x": 1016.0,
+                            "worldAABB_max_y": 612.25
                         }
                     },
                     {
@@ -8408,10 +8408,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 535.7083129882813,
-                            "worldAABB_min_y": 380.7083435058594,
-                            "worldAABB_max_x": 660.2916870117188,
-                            "worldAABB_max_y": 505.2916564941406
+                            "worldAABB_min_x": 455.0833435058594,
+                            "worldAABB_min_y": 273.5833435058594,
+                            "worldAABB_max_x": 560.9166870117188,
+                            "worldAABB_max_y": 379.4166564941406
                         }
                     }
                 ]
@@ -8446,10 +8446,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 106.625,
-                            "worldAABB_max_x": 1196.0,
-                            "worldAABB_max_y": 779.375
+                            "worldAABB_min_x": 0.000030517578125,
+                            "worldAABB_min_y": 40.75,
+                            "worldAABB_max_x": 1016.0,
+                            "worldAABB_max_y": 612.25
                         }
                     },
                     {
@@ -8499,10 +8499,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 535.7083129882813,
-                            "worldAABB_min_y": 380.7083435058594,
-                            "worldAABB_max_x": 660.2916870117188,
-                            "worldAABB_max_y": 505.2916564941406
+                            "worldAABB_min_x": 455.0833435058594,
+                            "worldAABB_min_y": 273.5833435058594,
+                            "worldAABB_max_x": 560.9166870117188,
+                            "worldAABB_max_y": 379.4166564941406
                         }
                     }
                 ]
@@ -8537,10 +8537,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 490.546875,
-                            "worldAABB_min_y": 277.3994140625,
-                            "worldAABB_max_x": 705.453125,
-                            "worldAABB_max_y": 330.6588134765625
+                            "worldAABB_min_x": 416.71875,
+                            "worldAABB_min_y": 185.82260131835938,
+                            "worldAABB_max_x": 599.28125,
+                            "worldAABB_max_y": 231.06634521484375
                         }
                     },
                     {
@@ -8590,10 +8590,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.996337890625,
-                            "worldAABB_min_y": 380.4307556152344,
-                            "worldAABB_max_x": 681.003662109375,
-                            "worldAABB_max_y": 430.5755310058594
+                            "worldAABB_min_x": 437.4885559082031,
+                            "worldAABB_min_y": 273.3475341796875,
+                            "worldAABB_max_x": 578.511474609375,
+                            "worldAABB_max_y": 315.9454345703125
                         }
                     },
                     {
@@ -8715,10 +8715,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.996337890625,
-                            "worldAABB_min_y": 443.1658935546875,
-                            "worldAABB_max_x": 681.003662109375,
-                            "worldAABB_max_y": 493.3106689453125
+                            "worldAABB_min_x": 437.4885559082031,
+                            "worldAABB_min_y": 326.64093017578125,
+                            "worldAABB_max_x": 578.511474609375,
+                            "worldAABB_max_y": 369.23883056640625
                         }
                     },
                     {
@@ -8840,10 +8840,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 535.7083129882813,
-                            "worldAABB_min_y": 380.7083435058594,
-                            "worldAABB_max_x": 660.2916870117188,
-                            "worldAABB_max_y": 505.2916564941406
+                            "worldAABB_min_x": 455.0833435058594,
+                            "worldAABB_min_y": 273.5833435058594,
+                            "worldAABB_max_x": 560.9166870117188,
+                            "worldAABB_max_y": 379.4166564941406
                         }
                     }
                 ]
@@ -8878,10 +8878,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 535.7083129882813,
-                            "worldAABB_min_y": 380.7083435058594,
-                            "worldAABB_max_x": 660.2916870117188,
-                            "worldAABB_max_y": 505.2916564941406
+                            "worldAABB_min_x": 455.0833435058594,
+                            "worldAABB_min_y": 273.5833435058594,
+                            "worldAABB_max_x": 560.9166870117188,
+                            "worldAABB_max_y": 379.4166564941406
                         }
                     }
                 ]
@@ -8916,10 +8916,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.996337890625,
-                            "worldAABB_min_y": 505.90106201171875,
-                            "worldAABB_max_x": 681.003662109375,
-                            "worldAABB_max_y": 556.0458374023438
+                            "worldAABB_min_x": 437.4885559082031,
+                            "worldAABB_min_y": 379.9343566894531,
+                            "worldAABB_max_x": 578.511474609375,
+                            "worldAABB_max_y": 422.5322570800781
                         }
                     },
                     {
@@ -9041,10 +9041,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.996337890625,
-                            "worldAABB_min_y": 568.63623046875,
-                            "worldAABB_max_x": 681.003662109375,
-                            "worldAABB_max_y": 618.781005859375
+                            "worldAABB_min_x": 437.4885559082031,
+                            "worldAABB_min_y": 433.2277526855469,
+                            "worldAABB_max_x": 578.511474609375,
+                            "worldAABB_max_y": 475.8256530761719
                         }
                     },
                     {
@@ -9166,10 +9166,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.996337890625,
-                            "worldAABB_min_y": 380.4307861328125,
-                            "worldAABB_max_x": 681.003662109375,
-                            "worldAABB_max_y": 430.5755615234375
+                            "worldAABB_min_x": 437.4885559082031,
+                            "worldAABB_min_y": 273.3475646972656,
+                            "worldAABB_max_x": 578.511474609375,
+                            "worldAABB_max_y": 315.9454650878906
                         }
                     },
                     {
@@ -9219,10 +9219,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.996337890625,
-                            "worldAABB_min_y": 443.1658935546875,
-                            "worldAABB_max_x": 681.003662109375,
-                            "worldAABB_max_y": 493.3106689453125
+                            "worldAABB_min_x": 437.4885559082031,
+                            "worldAABB_min_y": 326.64093017578125,
+                            "worldAABB_max_x": 578.511474609375,
+                            "worldAABB_max_y": 369.23883056640625
                         }
                     },
                     {
@@ -9272,10 +9272,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.996337890625,
-                            "worldAABB_min_y": 505.90106201171875,
-                            "worldAABB_max_x": 681.003662109375,
-                            "worldAABB_max_y": 556.0458374023438
+                            "worldAABB_min_x": 437.4885559082031,
+                            "worldAABB_min_y": 379.9343566894531,
+                            "worldAABB_max_x": 578.511474609375,
+                            "worldAABB_max_y": 422.5322570800781
                         }
                     },
                     {
@@ -9325,10 +9325,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 514.996337890625,
-                            "worldAABB_min_y": 568.63623046875,
-                            "worldAABB_max_x": 681.003662109375,
-                            "worldAABB_max_y": 618.781005859375
+                            "worldAABB_min_x": 437.4885559082031,
+                            "worldAABB_min_y": 433.227783203125,
+                            "worldAABB_max_x": 578.511474609375,
+                            "worldAABB_max_y": 475.82568359375
                         }
                     },
                     {
@@ -9378,10 +9378,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 535.7083129882813,
-                            "worldAABB_min_y": 380.7083435058594,
-                            "worldAABB_max_x": 660.2916870117188,
-                            "worldAABB_max_y": 505.2916564941406
+                            "worldAABB_min_x": 455.0833435058594,
+                            "worldAABB_min_y": 273.5833435058594,
+                            "worldAABB_max_x": 560.9166870117188,
+                            "worldAABB_max_y": 379.4166564941406
                         }
                     }
                 ]
@@ -9416,10 +9416,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 106.625,
-                            "worldAABB_max_x": 1196.0,
-                            "worldAABB_max_y": 779.375
+                            "worldAABB_min_x": 0.000030517578125,
+                            "worldAABB_min_y": 40.75,
+                            "worldAABB_max_x": 1016.0,
+                            "worldAABB_max_y": 612.25
                         }
                     },
                     {
@@ -9469,10 +9469,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1012.313232421875,
-                            "worldAABB_min_y": 144.39895629882813,
-                            "worldAABB_max_x": 1082.079833984375,
-                            "worldAABB_max_y": 161.84060668945313
+                            "worldAABB_min_x": 859.9583740234375,
+                            "worldAABB_min_y": 72.83890533447266,
+                            "worldAABB_max_x": 919.2249755859375,
+                            "worldAABB_max_y": 87.65557098388672
                         }
                     },
                     {
@@ -9594,10 +9594,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 106.625,
-                            "worldAABB_max_x": 1196.0,
-                            "worldAABB_max_y": 779.375
+                            "worldAABB_min_x": 0.000030517578125,
+                            "worldAABB_min_y": 40.75,
+                            "worldAABB_max_x": 1016.0,
+                            "worldAABB_max_y": 612.25
                         }
                     },
                     {
@@ -9647,10 +9647,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 535.7083129882813,
-                            "worldAABB_min_y": 380.7083435058594,
-                            "worldAABB_max_x": 660.2916870117188,
-                            "worldAABB_max_y": 505.2916564941406
+                            "worldAABB_min_x": 455.0833435058594,
+                            "worldAABB_min_y": 273.5833435058594,
+                            "worldAABB_max_x": 560.9166870117188,
+                            "worldAABB_max_y": 379.4166564941406
                         }
                     }
                 ]
@@ -9685,10 +9685,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 535.7083129882813,
-                            "worldAABB_min_y": 380.7083435058594,
-                            "worldAABB_max_x": 660.2916870117188,
-                            "worldAABB_max_y": 505.2916564941406
+                            "worldAABB_min_x": 455.0833435058594,
+                            "worldAABB_min_y": 273.5833435058594,
+                            "worldAABB_max_x": 560.9166870117188,
+                            "worldAABB_max_y": 379.4166564941406
                         }
                     }
                 ]
@@ -9723,10 +9723,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 14.606964111328125,
-                            "worldAABB_min_y": 187.4702911376953,
-                            "worldAABB_max_x": 196.18716430664063,
-                            "worldAABB_max_y": 240.1067352294922
+                            "worldAABB_min_x": 12.408599853515625,
+                            "worldAABB_min_y": 109.42794036865234,
+                            "worldAABB_max_x": 166.66067504882813,
+                            "worldAABB_max_y": 154.14251708984375
                         }
                     },
                     {
@@ -9776,10 +9776,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1211.7076416015625,
-                            "worldAABB_min_y": 134.96774291992188,
-                            "worldAABB_max_x": 1568.9503173828125,
-                            "worldAABB_max_y": 231.51980590820313
+                            "worldAABB_min_x": 1029.3436279296875,
+                            "worldAABB_min_y": 64.82709503173828,
+                            "worldAABB_max_x": 1332.8206787109375,
+                            "worldAABB_max_y": 146.84793090820313
                         }
                     },
                     {
@@ -9846,10 +9846,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 83.9928207397461,
-                            "worldAABB_min_y": 89.29387664794922,
-                            "worldAABB_max_x": 208.57614135742188,
-                            "worldAABB_max_y": 213.877197265625
+                            "worldAABB_min_x": 71.35176849365234,
+                            "worldAABB_min_y": 26.027259826660156,
+                            "worldAABB_max_x": 177.18508911132813,
+                            "worldAABB_max_y": 131.860595703125
                         }
                     },
                     {
@@ -9898,10 +9898,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 14.0704345703125,
-                            "worldAABB_min_y": 114.0548095703125,
-                            "worldAABB_max_x": 278.49853515625,
-                            "worldAABB_max_y": 189.11627197265625
+                            "worldAABB_min_x": 11.952812194824219,
+                            "worldAABB_min_y": 47.0616340637207,
+                            "worldAABB_max_x": 236.58404541015625,
+                            "worldAABB_max_y": 110.82621765136719
                         }
                     },
                     {
@@ -9951,10 +9951,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 122.59113311767578,
-                            "worldAABB_min_y": 158.1842498779297,
-                            "worldAABB_max_x": 258.386962890625,
-                            "worldAABB_max_y": 170.64259338378906
+                            "worldAABB_min_x": 104.14096069335938,
+                            "worldAABB_min_y": 84.54950714111328,
+                            "worldAABB_max_x": 219.49929809570313,
+                            "worldAABB_max_y": 95.1328353881836
                         }
                     },
                     {
@@ -10004,10 +10004,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 270.0245361328125,
-                            "worldAABB_min_y": 132.89804077148438,
-                            "worldAABB_max_x": 285.59747314453125,
-                            "worldAABB_max_y": 170.27304077148438
+                            "worldAABB_min_x": 229.38539123535156,
+                            "worldAABB_min_y": 63.06892395019531,
+                            "worldAABB_max_x": 242.6145477294922,
+                            "worldAABB_max_y": 94.81892395019531
                         }
                     },
                     {
@@ -10073,10 +10073,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 83.99288177490234,
-                            "worldAABB_min_y": 89.2936019897461,
-                            "worldAABB_max_x": 208.57620239257813,
-                            "worldAABB_max_y": 213.87692260742188
+                            "worldAABB_min_x": 71.35179901123047,
+                            "worldAABB_min_y": 26.027015686035156,
+                            "worldAABB_max_x": 177.18511962890625,
+                            "worldAABB_max_y": 131.8603515625
                         }
                     },
                     {
@@ -10125,10 +10125,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 21.701217651367188,
-                            "worldAABB_min_y": 136.01234436035156,
-                            "worldAABB_max_x": 270.86785888671875,
-                            "worldAABB_max_y": 167.15818786621094
+                            "worldAABB_min_x": 18.435134887695313,
+                            "worldAABB_min_y": 65.71451568603516,
+                            "worldAABB_max_x": 230.10179138183594,
+                            "worldAABB_max_y": 92.17284393310547
                         }
                     },
                     {
@@ -10178,10 +10178,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 122.5912857055664,
-                            "worldAABB_min_y": 158.18382263183594,
-                            "worldAABB_max_x": 258.3871154785156,
-                            "worldAABB_max_y": 170.6421661376953
+                            "worldAABB_min_x": 104.14108276367188,
+                            "worldAABB_min_y": 84.54914093017578,
+                            "worldAABB_max_x": 219.49942016601563,
+                            "worldAABB_max_y": 95.1324691772461
                         }
                     },
                     {
@@ -10231,10 +10231,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 262.4596252441406,
-                            "worldAABB_min_y": 132.89776611328125,
-                            "worldAABB_max_x": 278.0325622558594,
-                            "worldAABB_max_y": 170.27276611328125
+                            "worldAABB_min_x": 222.9590301513672,
+                            "worldAABB_min_y": 63.06867980957031,
+                            "worldAABB_max_x": 236.1881866455078,
+                            "worldAABB_max_y": 94.81867980957031
                         }
                     },
                     {
@@ -10300,10 +10300,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 535.7083129882813,
-                            "worldAABB_min_y": 380.7083435058594,
-                            "worldAABB_max_x": 660.2916870117188,
-                            "worldAABB_max_y": 505.2916564941406
+                            "worldAABB_min_x": 455.0833435058594,
+                            "worldAABB_min_y": 273.5833435058594,
+                            "worldAABB_max_x": 560.9166870117188,
+                            "worldAABB_max_y": 379.4166564941406
                         }
                     }
                 ]
@@ -10338,10 +10338,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 949.324951171875,
-                            "worldAABB_min_y": 617.4166259765625,
-                            "worldAABB_max_x": 1073.9083251953125,
-                            "worldAABB_max_y": 742.0
+                            "worldAABB_min_x": 806.449951171875,
+                            "worldAABB_min_y": 474.6666564941406,
+                            "worldAABB_max_x": 912.2833251953125,
+                            "worldAABB_max_y": 580.5
                         }
                     },
                     {
@@ -10390,10 +10390,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 938.1124877929688,
-                            "worldAABB_min_y": 606.2041625976563,
-                            "worldAABB_max_x": 1085.120849609375,
-                            "worldAABB_max_y": 753.2124633789063
+                            "worldAABB_min_x": 796.9249877929688,
+                            "worldAABB_min_y": 465.14166259765625,
+                            "worldAABB_max_x": 921.8082885742188,
+                            "worldAABB_max_y": 590.0249633789063
                         }
                     },
                     {
@@ -10443,10 +10443,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 938.1124877929688,
-                            "worldAABB_min_y": 606.2041625976563,
-                            "worldAABB_max_x": 1085.120849609375,
-                            "worldAABB_max_y": 753.2124633789063
+                            "worldAABB_min_x": 796.9249877929688,
+                            "worldAABB_min_y": 465.14166259765625,
+                            "worldAABB_max_x": 921.8082885742188,
+                            "worldAABB_max_y": 590.0249633789063
                         }
                     },
                     {
@@ -10496,10 +10496,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1003.8302001953125,
-                            "worldAABB_min_y": 661.0208129882813,
-                            "worldAABB_max_x": 1019.403076171875,
-                            "worldAABB_max_y": 698.3958129882813
+                            "worldAABB_min_x": 852.7520751953125,
+                            "worldAABB_min_y": 511.70831298828125,
+                            "worldAABB_max_x": 865.981201171875,
+                            "worldAABB_max_y": 543.4583129882813
                         }
                     },
                     {
@@ -10565,10 +10565,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 949.324951171875,
-                            "worldAABB_min_y": 617.4166259765625,
-                            "worldAABB_max_x": 1073.9083251953125,
-                            "worldAABB_max_y": 742.0
+                            "worldAABB_min_x": 806.449951171875,
+                            "worldAABB_min_y": 474.6666564941406,
+                            "worldAABB_max_x": 912.2833251953125,
+                            "worldAABB_max_y": 580.5
                         }
                     },
                     {
@@ -10617,10 +10617,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 938.1124877929688,
-                            "worldAABB_min_y": 606.2041625976563,
-                            "worldAABB_max_x": 1085.120849609375,
-                            "worldAABB_max_y": 753.2124633789063
+                            "worldAABB_min_x": 796.9249877929688,
+                            "worldAABB_min_y": 465.14166259765625,
+                            "worldAABB_max_x": 921.8082885742188,
+                            "worldAABB_max_y": 590.0249633789063
                         }
                     },
                     {
@@ -10670,10 +10670,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 938.1124877929688,
-                            "worldAABB_min_y": 606.2041625976563,
-                            "worldAABB_max_x": 1085.120849609375,
-                            "worldAABB_max_y": 753.2124633789063
+                            "worldAABB_min_x": 796.9249877929688,
+                            "worldAABB_min_y": 465.14166259765625,
+                            "worldAABB_max_x": 921.8082885742188,
+                            "worldAABB_max_y": 590.0249633789063
                         }
                     },
                     {
@@ -10723,10 +10723,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1076.35791015625,
-                            "worldAABB_min_y": 661.0208129882813,
-                            "worldAABB_max_x": 1091.930908203125,
-                            "worldAABB_max_y": 698.3958129882813
+                            "worldAABB_min_x": 914.3643188476563,
+                            "worldAABB_min_y": 511.70831298828125,
+                            "worldAABB_max_x": 927.5934448242188,
+                            "worldAABB_max_y": 543.4583129882813
                         }
                     },
                     {
@@ -10792,10 +10792,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 949.324951171875,
-                            "worldAABB_min_y": 617.4166259765625,
-                            "worldAABB_max_x": 1073.9083251953125,
-                            "worldAABB_max_y": 742.0
+                            "worldAABB_min_x": 806.449951171875,
+                            "worldAABB_min_y": 474.6666564941406,
+                            "worldAABB_max_x": 912.2833251953125,
+                            "worldAABB_max_y": 580.5
                         }
                     },
                     {
@@ -10844,10 +10844,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 938.1124877929688,
-                            "worldAABB_min_y": 606.2041625976563,
-                            "worldAABB_max_x": 1085.120849609375,
-                            "worldAABB_max_y": 753.2124633789063
+                            "worldAABB_min_x": 796.9249877929688,
+                            "worldAABB_min_y": 465.14166259765625,
+                            "worldAABB_max_x": 921.8082885742188,
+                            "worldAABB_max_y": 590.0249633789063
                         }
                     },
                     {
@@ -10897,10 +10897,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 938.1124877929688,
-                            "worldAABB_min_y": 606.2041625976563,
-                            "worldAABB_max_x": 1085.120849609375,
-                            "worldAABB_max_y": 753.2124633789063
+                            "worldAABB_min_x": 796.9249877929688,
+                            "worldAABB_min_y": 465.14166259765625,
+                            "worldAABB_max_x": 921.8082885742188,
+                            "worldAABB_max_y": 590.0249633789063
                         }
                     },
                     {
@@ -10950,10 +10950,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1076.8206787109375,
-                            "worldAABB_min_y": 661.0208129882813,
-                            "worldAABB_max_x": 1092.3936767578125,
-                            "worldAABB_max_y": 698.3958129882813
+                            "worldAABB_min_x": 914.7573852539063,
+                            "worldAABB_min_y": 511.70831298828125,
+                            "worldAABB_max_x": 927.9865112304688,
+                            "worldAABB_max_y": 543.4583129882813
                         }
                     },
                     {
@@ -11019,10 +11019,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 949.324951171875,
-                            "worldAABB_min_y": 617.4166259765625,
-                            "worldAABB_max_x": 1073.9083251953125,
-                            "worldAABB_max_y": 742.0
+                            "worldAABB_min_x": 806.449951171875,
+                            "worldAABB_min_y": 474.6666564941406,
+                            "worldAABB_max_x": 912.2833251953125,
+                            "worldAABB_max_y": 580.5
                         }
                     },
                     {
@@ -11071,10 +11071,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 938.1124877929688,
-                            "worldAABB_min_y": 606.2041625976563,
-                            "worldAABB_max_x": 1085.120849609375,
-                            "worldAABB_max_y": 753.2124633789063
+                            "worldAABB_min_x": 796.9249877929688,
+                            "worldAABB_min_y": 465.14166259765625,
+                            "worldAABB_max_x": 921.8082885742188,
+                            "worldAABB_max_y": 590.0249633789063
                         }
                     },
                     {
@@ -11124,10 +11124,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 938.1124877929688,
-                            "worldAABB_min_y": 606.2041625976563,
-                            "worldAABB_max_x": 1085.120849609375,
-                            "worldAABB_max_y": 753.2124633789063
+                            "worldAABB_min_x": 796.9249877929688,
+                            "worldAABB_min_y": 465.14166259765625,
+                            "worldAABB_max_x": 921.8082885742188,
+                            "worldAABB_max_y": 590.0249633789063
                         }
                     },
                     {
@@ -11177,10 +11177,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1125.4989013671875,
-                            "worldAABB_min_y": 661.0208129882813,
-                            "worldAABB_max_x": 1141.0718994140625,
-                            "worldAABB_max_y": 698.3958129882813
+                            "worldAABB_min_x": 956.1095581054688,
+                            "worldAABB_min_y": 511.70831298828125,
+                            "worldAABB_max_x": 969.3386840820313,
+                            "worldAABB_max_y": 543.4583129882813
                         }
                     },
                     {
@@ -11272,9 +11272,9 @@
                             "radius": 6.5,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 10.663710594177246,
-                            "rbPos_Y": 0.4819333553314209,
-                            "rbPos_Z": 0.2558068633079529,
+                            "rbPos_X": 0.7378497123718262,
+                            "rbPos_Y": 15.125150680541992,
+                            "rbPos_Z": 5.12943696975708,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -11345,10 +11345,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 998.0364379882813,
-                            "worldAABB_min_y": 96.59294891357422,
-                            "worldAABB_max_x": 1122.6197509765625,
-                            "worldAABB_max_y": 221.17626953125
+                            "worldAABB_min_x": 847.8302612304688,
+                            "worldAABB_min_y": 32.22777557373047,
+                            "worldAABB_max_x": 953.6636352539063,
+                            "worldAABB_max_y": 138.06109619140625
                         }
                     },
                     {
@@ -11403,10 +11403,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 998.0364379882813,
-                            "worldAABB_min_y": 96.59294891357422,
-                            "worldAABB_max_x": 1122.6197509765625,
-                            "worldAABB_max_y": 221.17626953125
+                            "worldAABB_min_x": 847.8302612304688,
+                            "worldAABB_min_y": 32.22777557373047,
+                            "worldAABB_max_x": 953.6636352539063,
+                            "worldAABB_max_y": 138.06109619140625
                         }
                     },
                     {
@@ -11455,10 +11455,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 935.7448120117188,
-                            "worldAABB_min_y": 143.3116912841797,
-                            "worldAABB_max_x": 1184.9114990234375,
-                            "worldAABB_max_y": 174.45753479003906
+                            "worldAABB_min_x": 794.9136352539063,
+                            "worldAABB_min_y": 71.91527557373047,
+                            "worldAABB_max_x": 1006.5802612304688,
+                            "worldAABB_max_y": 98.37360382080078
                         }
                     },
                     {
@@ -11508,10 +11508,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 935.7448120117188,
-                            "worldAABB_min_y": 143.3116912841797,
-                            "worldAABB_max_x": 1184.9114990234375,
-                            "worldAABB_max_y": 174.45753479003906
+                            "worldAABB_min_x": 794.9136352539063,
+                            "worldAABB_min_y": 71.91527557373047,
+                            "worldAABB_max_x": 1006.5802612304688,
+                            "worldAABB_max_y": 98.37360382080078
                         }
                     },
                     {
@@ -11561,10 +11561,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 998.0364379882813,
-                            "worldAABB_min_y": 158.16824340820313,
-                            "worldAABB_max_x": 1122.6197509765625,
-                            "worldAABB_max_y": 282.7515869140625
+                            "worldAABB_min_x": 847.8302612304688,
+                            "worldAABB_min_y": 84.5359115600586,
+                            "worldAABB_max_x": 953.6636352539063,
+                            "worldAABB_max_y": 190.36923217773438
                         }
                     }
                 ]
@@ -11599,10 +11599,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1078.2369384765625,
-                            "worldAABB_min_y": 158.16824340820313,
-                            "worldAABB_max_x": 1202.8201904296875,
-                            "worldAABB_max_y": 282.7515869140625
+                            "worldAABB_min_x": 915.96044921875,
+                            "worldAABB_min_y": 84.5359115600586,
+                            "worldAABB_max_x": 1021.7938232421875,
+                            "worldAABB_max_y": 190.36923217773438
                         }
                     }
                 ]
@@ -11637,10 +11637,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1121.841064453125,
-                            "worldAABB_min_y": 201.7724151611328,
-                            "worldAABB_max_x": 1159.216064453125,
-                            "worldAABB_max_y": 239.1474151611328
+                            "worldAABB_min_x": 953.0021362304688,
+                            "worldAABB_min_y": 121.57757568359375,
+                            "worldAABB_max_x": 984.7521362304688,
+                            "worldAABB_max_y": 153.32757568359375
                         }
                     },
                     {
@@ -11690,10 +11690,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1000.5281372070313,
-                            "worldAABB_min_y": 158.16824340820313,
-                            "worldAABB_max_x": 1125.1114501953125,
-                            "worldAABB_max_y": 282.7515869140625
+                            "worldAABB_min_x": 849.9469604492188,
+                            "worldAABB_min_y": 84.5359115600586,
+                            "worldAABB_max_x": 955.7803344726563,
+                            "worldAABB_max_y": 190.36923217773438
                         }
                     }
                 ]
@@ -11728,10 +11728,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1044.13232421875,
-                            "worldAABB_min_y": 201.7724151611328,
-                            "worldAABB_max_x": 1081.50732421875,
-                            "worldAABB_max_y": 239.1474151611328
+                            "worldAABB_min_x": 886.9886474609375,
+                            "worldAABB_min_y": 121.57757568359375,
+                            "worldAABB_max_x": 918.7386474609375,
+                            "worldAABB_max_y": 153.32757568359375
                         }
                     },
                     {
@@ -11781,10 +11781,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 922.6635131835938,
-                            "worldAABB_min_y": 158.16824340820313,
-                            "worldAABB_max_x": 1047.246826171875,
-                            "worldAABB_max_y": 282.7515869140625
+                            "worldAABB_min_x": 783.8010864257813,
+                            "worldAABB_min_y": 84.5359115600586,
+                            "worldAABB_max_x": 889.6344604492188,
+                            "worldAABB_max_y": 190.36923217773438
                         }
                     }
                 ]
@@ -11819,10 +11819,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 966.2677001953125,
-                            "worldAABB_min_y": 201.7724151611328,
-                            "worldAABB_max_x": 1003.6427001953125,
-                            "worldAABB_max_y": 239.1474151611328
+                            "worldAABB_min_x": 820.8427734375,
+                            "worldAABB_min_y": 121.57757568359375,
+                            "worldAABB_max_x": 852.5927734375,
+                            "worldAABB_max_y": 153.32757568359375
                         }
                     },
                     {
@@ -11872,10 +11872,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1030.4281005859375,
-                            "worldAABB_min_y": 190.55992126464844,
-                            "worldAABB_max_x": 1090.2281494140625,
-                            "worldAABB_max_y": 250.3599090576172
+                            "worldAABB_min_x": 875.346923828125,
+                            "worldAABB_min_y": 112.05258178710938,
+                            "worldAABB_max_x": 926.14697265625,
+                            "worldAABB_max_y": 162.85256958007813
                         }
                     },
                     {
@@ -11925,10 +11925,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 1030.4281005859375,
-                            "worldAABB_min_y": 190.55992126464844,
-                            "worldAABB_max_x": 1090.2281494140625,
-                            "worldAABB_max_y": 250.3599090576172
+                            "worldAABB_min_x": 875.346923828125,
+                            "worldAABB_min_y": 112.05258178710938,
+                            "worldAABB_max_x": 926.14697265625,
+                            "worldAABB_max_y": 162.85256958007813
                         }
                     },
                     {
@@ -12022,9 +12022,9 @@
                             "radius": 4.499998569488525,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 4.056807518005371,
-                            "rbPos_Y": 2.2755861282348633,
-                            "rbPos_Z": -7.765255451202393,
+                            "rbPos_X": -5.869053840637207,
+                            "rbPos_Y": 16.91880226135254,
+                            "rbPos_Z": -2.89162540435791,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -12178,9 +12178,9 @@
                             "radius": 10.0,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 10.664076805114746,
-                            "rbPos_Y": 0.4819333553314209,
-                            "rbPos_Z": -0.003684103023260832,
+                            "rbPos_X": 0.7382159233093262,
+                            "rbPos_Y": 15.125150680541992,
+                            "rbPos_Z": 4.869946002960205,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -13318,9 +13318,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -3.6554927825927734,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 6.881433010101318,
+                            "localPos_X": -6.887493133544922,
+                            "localPos_Y": 15.22875690460205,
+                            "localPos_Z": 47.937068939208984,
                             "localRot_X": -0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": -0.0,
@@ -13356,16 +13356,16 @@
                             "type": "Component_RigidBody",
                             "active": true,
                             "removed": true,
-                            "isKinematic": true,
+                            "isKinematic": false,
                             "isTrigger": false,
                             "drawCollider": true,
-                            "mass": 10000.0,
-                            "linearDamping": 0.75,
+                            "mass": 48.0,
+                            "linearDamping": 0.10000000149011612,
                             "angularDamping": 0.10000000149011612,
                             "restitution": 0.10000000149011612,
                             "currentShape": 1,
                             "usePositionController": true,
-                            "useRotationController": true,
+                            "useRotationController": false,
                             "KpForce": 0.5,
                             "KpTorque": 10.0,
                             "gravity_Y": -9.8100004196167,
@@ -13375,9 +13375,9 @@
                             "radius": 0.0,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 2.6538429260253906,
-                            "rbPos_Y": 0.6000003814697266,
-                            "rbPos_Z": 4.404046058654785,
+                            "rbPos_X": -0.5781574249267578,
+                            "rbPos_Y": 15.828757286071777,
+                            "rbPos_Z": 45.45968246459961,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -13631,7 +13631,7 @@
                             "fields": [
                                 {
                                     "name": "MovementSpeed",
-                                    "value": 0.0,
+                                    "value": 300.0,
                                     "type": 0
                                 },
                                 {
@@ -13658,6 +13658,32 @@
                             "updateRigidBody": true,
                             "yOffset": 0.0,
                             "rotationSpeed": 5.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "PathBehaviourScript",
+                            "fields": [
+                                {
+                                    "name": "WaypointsPath",
+                                    "type": 4,
+                                    "vectorElements": [
+                                        {
+                                            "value": 12975468948908060547
+                                        },
+                                        {
+                                            "value": 7277680015360100287
+                                        },
+                                        {
+                                            "value": 16060100297902948091
+                                        }
+                                    ],
+                                    "innerType": 2
+                                }
+                            ]
                         }
                     }
                 ]
@@ -13746,7 +13772,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
+                            "localPos_Y": -0.000011444091796875,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -17471,7 +17497,7 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
+                            "localPos_Y": 5.960464477539063e-8,
                             "localPos_Z": 0.0,
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
@@ -17784,9 +17810,9 @@
                             "radius": 4.499998569488525,
                             "factor": 0.5,
                             "height": 2.0,
-                            "rbPos_X": 2.4081192016601563,
-                            "rbPos_Y": 1.2689639329910278,
-                            "rbPos_Z": 7.075658798217773,
+                            "rbPos_X": -0.8238811492919922,
+                            "rbPos_Y": 16.49772071838379,
+                            "rbPos_Z": 48.13129425048828,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -43809,9 +43835,9 @@
                             "radius": 3.200000047683716,
                             "factor": 1.0,
                             "height": 2.0,
-                            "rbPos_X": 10.664076805114746,
-                            "rbPos_Y": 0.7819333672523499,
-                            "rbPos_Z": -0.003684103023260832,
+                            "rbPos_X": 0.7382159233093262,
+                            "rbPos_Y": 15.425150871276855,
+                            "rbPos_Z": 4.869946002960205,
                             "xAxisBlocked": false,
                             "yAxisBlocked": false,
                             "zAxisBlocked": false,
@@ -45286,6 +45312,12 @@
                                     "name": "BattleArenaAreaSize",
                                     "value": 11522846364253669712,
                                     "type": 2
+                                },
+                                {
+                                    "name": "InitsPaths",
+                                    "type": 4,
+                                    "vectorElements": null,
+                                    "innerType": 2
                                 }
                             ]
                         }
@@ -66744,6 +66776,41 @@
                             "boudingBoxPos_Y": 0.0,
                             "boudingBoxPos_Z": 0.0
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": true,
+                            "isTrigger": true,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 0.5,
+                            "boxSize_Y": 0.5,
+                            "boxSize_Z": 0.5,
+                            "radius": 1.7320507764816284,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.0,
+                            "rbPos_Y": 0.0,
+                            "rbPos_Z": 0.0,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
                     }
                 ]
             }
@@ -66867,6 +66934,1788 @@
                             "assetPathMesh": "Assets/Meshes/BixLastVersion.Mesh.003_1.mesh",
                             "materialUID": 11731344734254509166,
                             "assetPathMaterial": "Assets/Materials/BixLastVersionLightSaberEmission_1.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "PATH",
+                "tag": "",
+                "uid": 7031815882488215204,
+                "parentUID": 4244497369269210692,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Path 1",
+                "tag": "",
+                "uid": 12975468948908060547,
+                "parentUID": 7031815882488215204,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 5.099610805511475,
+                            "localPos_Y": 12.747153282165527,
+                            "localPos_Z": 7.811990737915039,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Path 2",
+                "tag": "",
+                "uid": 7277680015360100287,
+                "parentUID": 7031815882488215204,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": -6.407846450805664,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Path 3",
+                "tag": "",
+                "uid": 16060100297902948091,
+                "parentUID": 7031815882488215204,
+                "enabled": true,
+                "static": false,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 20.950057983398438,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": -2.247347354888916,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Floor",
+                "tag": "NAVIGABLE",
+                "uid": 14293398735451902599,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.9598076343536377,
+                            "localPos_Y": 13.726213455200195,
+                            "localPos_Z": 42.7031364440918,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 5.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 6.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 5838496268976162218,
+                            "assetPathMesh": "Assets/Meshes/Cube.mesh",
+                            "materialUID": 4337559970860798462,
+                            "assetPathMaterial": "Assets/Materials/Default.mat"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": true,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 5.0,
+                            "boxSize_Y": 1.0,
+                            "boxSize_Z": 6.0,
+                            "radius": 3.464101552963257,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -0.9598076343536377,
+                            "rbPos_Y": 13.726213455200195,
+                            "rbPos_Z": 42.7031364440918,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "core_elevator",
+                "tag": "",
+                "uid": 5821342675514676258,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.000004443792931851931,
+                            "localPos_Y": 14.198755264282227,
+                            "localPos_Z": 33.13829803466797,
+                            "localRot_X": -180.0,
+                            "localRot_Y": -0.000005008955668017734,
+                            "localRot_Z": -180.0,
+                            "localSca_X": 0.029999999329447746,
+                            "localSca_Y": 0.029999999329447746,
+                            "localSca_Z": 0.029999999329447746,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ElevatorCore",
+                            "fields": [
+                                {
+                                    "name": "Elevator",
+                                    "value": 13164628030408326439,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "FinalPos",
+                                    "value": -15.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "CoolDown",
+                                    "value": 10.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "Speed",
+                                    "value": 5.0,
+                                    "type": 0
+                                },
+                                {
+                                    "name": "MiniBossHealth",
+                                    "value": 0,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.0,
+                            "angularDamping": 0.0,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 1.5,
+                            "boxSize_Y": 0.5,
+                            "boxSize_Z": 1.5,
+                            "radius": 1.7320507764816284,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.000004443792931851931,
+                            "rbPos_Y": 15.0,
+                            "rbPos_Z": 32.287174224853516,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 7395680316162975983,
+                "parentUID": 5821342675514676258,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Elevator",
+                "tag": "",
+                "uid": 13164628030408326439,
+                "parentUID": 7395680316162975983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": -1.2935353517532349,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 100.0,
+                            "localSca_Y": 100.0,
+                            "localSca_Z": 7.488554954528809,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": true,
+                            "isTrigger": false,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": 0.0,
+                            "boxSize_X": 3.0,
+                            "boxSize_Y": 3.200000047683716,
+                            "boxSize_Z": 0.30000001192092896,
+                            "radius": 1.7320507764816284,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.000004448229447007179,
+                            "rbPos_Y": 14.198755264282227,
+                            "rbPos_Z": 33.17710494995117,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "core_elevator.Cube_0",
+                "tag": "",
+                "uid": 12106623259858990536,
+                "parentUID": 13164628030408326439,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 16020984873849441629,
+                            "assetPathMesh": "Assets/Meshes/core_elevator.Cube_0.mesh",
+                            "materialUID": 1841618945664183704,
+                            "assetPathMaterial": "Assets/Materials/core_elevatorMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Wall",
+                "tag": "",
+                "uid": 8632927520954164366,
+                "parentUID": 7395680316162975983,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -207.18045043945313,
+                            "localPos_Z": -132.076904296875,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 183.454833984375,
+                            "localSca_Y": 30.58348846435547,
+                            "localSca_Z": 215.0259552001953,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "core_elevator.Cube.001_0",
+                "tag": "",
+                "uid": 8572464759649373536,
+                "parentUID": 8632927520954164366,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -5.684341886080802e-14,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 14321517527275946310,
+                            "assetPathMesh": "Assets/Meshes/core_elevator.Cube.001_0.mesh",
+                            "materialUID": 1841618945664183704,
+                            "assetPathMaterial": "Assets/Materials/core_elevatorMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RigidBody",
+                "tag": "",
+                "uid": 15001069260722257890,
+                "parentUID": 5821342675514676258,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 3.0,
+                            "boxSize_Y": 0.25,
+                            "boxSize_Z": 4.5,
+                            "radius": 1.7320507764816284,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.000004443792931851931,
+                            "rbPos_Y": 14.198755264282227,
+                            "rbPos_Z": 34.13834762573242,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Door Security",
+                "tag": "",
+                "uid": 1402740733380808841,
+                "parentUID": 9011007661183311806,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.10469814389944077,
+                            "localPos_Y": 13.369739532470703,
+                            "localPos_Z": 36.80245590209961,
+                            "localRot_X": 179.99996948242188,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 179.99996948242188,
+                            "localSca_X": 1.0000001192092896,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0000001192092896,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "futuristic_door",
+                "tag": "",
+                "uid": 16561821504894891634,
+                "parentUID": 1402740733380808841,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 11.329999923706055,
+                            "localSca_Y": 14.279500007629395,
+                            "localSca_Z": 14.279999732971191,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 3.0,
+                            "boxSize_Y": 4.0,
+                            "boxSize_Z": 4.0,
+                            "radius": 1.7320507764816284,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.10469814389944077,
+                            "rbPos_Y": 17.369739532470703,
+                            "rbPos_Z": 36.80245590209961,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Animation",
+                            "active": true,
+                            "removed": true,
+                            "stateUID": 1405924466326730202,
+                            "assetPathState": "Assets/StateMachine/NewDoor.state"
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "ActivationLogic",
+                            "fields": [
+                                {
+                                    "name": "LinkedHackZone",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "InteractWithEnemies",
+                                    "value": true,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "EnemisToSpawn",
+                                    "value": 4971651585672607876,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Elevator",
+                                    "value": 5821342675514676258,
+                                    "type": 2
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RootNode",
+                "tag": "",
+                "uid": 10303461369316189329,
+                "parentUID": 16561821504894891634,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": -1.2505552149377763e-12,
+                            "localPos_Z": -0.007264614105224609,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "DoorWall",
+                "tag": "",
+                "uid": 4270406214230105136,
+                "parentUID": 10303461369316189329,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "futuristic_door.DoorWall_0",
+                "tag": "",
+                "uid": 15052810644680750891,
+                "parentUID": 4270406214230105136,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 1.4901161193847656e-8,
+                            "localPos_Y": 0.000006690621376037598,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 16891537735835974809,
+                            "assetPathMesh": "Assets/Meshes/futuristic_door.DoorWall_0.mesh",
+                            "materialUID": 2328227087566131755,
+                            "assetPathMaterial": "Assets/Materials/futuristic_doorDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Door",
+                "tag": "",
+                "uid": 816093960139413956,
+                "parentUID": 10303461369316189329,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "futuristic_door.Door_0",
+                "tag": "",
+                "uid": 2137623957770918475,
+                "parentUID": 816093960139413956,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.980232238769531e-7,
+                            "localPos_Y": -9.344789759779815e-7,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 13907333954840108333,
+                            "assetPathMesh": "Assets/Meshes/futuristic_door.Door_0.mesh",
+                            "materialUID": 2328227087566131755,
+                            "assetPathMaterial": "Assets/Materials/futuristic_doorDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Armature",
+                "tag": "",
+                "uid": 2753458978246599575,
+                "parentUID": 10303461369316189329,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 0.10000000149011612,
+                            "localSca_Y": 0.10000000149011612,
+                            "localSca_Z": 0.10000000149011612,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone",
+                "tag": "",
+                "uid": 15125081584831360192,
+                "parentUID": 2753458978246599575,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 1.4849399328231812,
+                            "localRot_X": 90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Bone_end",
+                "tag": "",
+                "uid": 9106718452035625931,
+                "parentUID": 15125081584831360192,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 1.0000001192092896,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RigidBody",
+                "tag": "",
+                "uid": 10837616815229490887,
+                "parentUID": 16561821504894891634,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.00000947713851928711,
+                            "localPos_Y": 0.18288451433181763,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": true,
+                            "drawCollider": true,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 3.0,
+                            "boxSize_Y": 4.0,
+                            "boxSize_Z": 3.0,
+                            "radius": 1.7320507764816284,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.10459022969007492,
+                            "rbPos_Y": 15.981239318847656,
+                            "rbPos_Z": 36.802459716796875,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "RigidBodys",
+                "tag": "",
+                "uid": 8928807763370110142,
+                "parentUID": 1402740733380808841,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.000006338600087474333,
+                            "localPos_Z": 0.0,
+                            "localRot_X": -0.000012293887266423553,
+                            "localRot_Y": 0.000005008951120544225,
+                            "localRot_Z": 0.000022311796783469617,
+                            "localSca_X": 0.9999998807907104,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999998807907104,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Left",
+                "tag": "",
+                "uid": 449569453918396884,
+                "parentUID": 8928807763370110142,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.825000762939453,
+                            "localPos_Y": 3.337061643600464,
+                            "localPos_Z": -0.10000038146972656,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 1.5,
+                            "boxSize_Y": 3.5,
+                            "boxSize_Z": 1.5,
+                            "radius": 1.7320507764816284,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 2.929698944091797,
+                            "rbPos_Y": 16.70680809020996,
+                            "rbPos_Z": 36.9024543762207,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Right",
+                "tag": "",
+                "uid": 6763906947725438425,
+                "parentUID": 8928807763370110142,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.825000047683716,
+                            "localPos_Y": 3.337061643600464,
+                            "localPos_Z": -0.10000038146972656,
+                            "localRot_X": 1.987846566769546e-16,
+                            "localRot_Y": -7.062249689118779e-31,
+                            "localRot_Z": -4.07110976874403e-13,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 1.5,
+                            "boxSize_Y": 3.5,
+                            "boxSize_Z": 1.5,
+                            "radius": 1.7320507764816284,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": -2.720301866531372,
+                            "rbPos_Y": 16.70680809020996,
+                            "rbPos_Z": 36.9024543762207,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Up",
+                "tag": "",
+                "uid": 11231961778942069259,
+                "parentUID": 8928807763370110142,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -3.073364496231079e-7,
+                            "localPos_Y": 6.2911057472229,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_RigidBody",
+                            "active": true,
+                            "removed": true,
+                            "isKinematic": false,
+                            "isTrigger": false,
+                            "drawCollider": false,
+                            "mass": 100.0,
+                            "linearDamping": 0.10000000149011612,
+                            "angularDamping": 0.10000000149011612,
+                            "restitution": 0.0,
+                            "currentShape": 1,
+                            "usePositionController": false,
+                            "useRotationController": false,
+                            "KpForce": 5.0,
+                            "KpTorque": 0.05000000074505806,
+                            "gravity_Y": -9.8100004196167,
+                            "boxSize_X": 1.25,
+                            "boxSize_Y": 1.0,
+                            "boxSize_Z": 0.800000011920929,
+                            "radius": 1.7320507764816284,
+                            "factor": 0.5,
+                            "height": 2.0,
+                            "rbPos_X": 0.10469844937324524,
+                            "rbPos_Y": 19.660852432250977,
+                            "rbPos_Z": 36.80245590209961,
+                            "xAxisBlocked": false,
+                            "yAxisBlocked": false,
+                            "zAxisBlocked": false,
+                            "xRotationAxisBlocked": false,
+                            "yRotationAxisBlocked": false,
+                            "zRotationAxisBlocked": false
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "FRONT 01",
+                "tag": "",
+                "uid": 11001072744252185509,
+                "parentUID": 1402740733380808841,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 0.0,
+                            "localPos_Y": 0.0,
+                            "localPos_Z": 0.0,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -3.7026527650087065e-25,
+                            "localSca_X": 1.0,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Colum",
+                "tag": "",
+                "uid": 3797640332832472951,
+                "parentUID": 11001072744252185509,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 2.7507078647613525,
+                            "localPos_Y": 2.999976634979248,
+                            "localPos_Z": 0.8032627105712891,
+                            "localRot_X": -0.0,
+                            "localRot_Y": -45.0,
+                            "localRot_Z": -0.0,
+                            "localSca_X": 0.9999998807907104,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999998807907104,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Column",
+                "tag": "",
+                "uid": 4720346526556921769,
+                "parentUID": 3797640332832472951,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 8.75,
+                            "localPos_Y": -3.0,
+                            "localPos_Z": 4.76837158203125e-7,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.4279999732971191,
+                            "localSca_Y": 1.4279999732971191,
+                            "localSca_Z": 1.4279998540878296,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 133900975829291239,
+                            "assetPathMesh": "Assets/Meshes/Lv2_HandOfDominion_Column.Cube.010_0.mesh",
+                            "materialUID": 8218581728829059453,
+                            "assetPathMaterial": "Assets/Materials/Lv2_HandOfDominion_ColumnWallVariant_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Colum",
+                "tag": "",
+                "uid": 17556623069328038152,
+                "parentUID": 11001072744252185509,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -2.5549416542053223,
+                            "localPos_Y": 3.0002808570861816,
+                            "localPos_Z": -0.09653663635253906,
+                            "localRot_X": 0.0,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": -5.785394945326104e-27,
+                            "localSca_X": 0.9999998807907104,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999998807907104,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Column",
+                "tag": "",
+                "uid": 15569089822504358971,
+                "parentUID": 17556623069328038152,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 8.75,
+                            "localPos_Y": -3.0,
+                            "localPos_Z": 4.76837158203125e-7,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.4279999732971191,
+                            "localSca_Y": 1.4279999732971191,
+                            "localSca_Z": 1.4279998540878296,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 133900975829291239,
+                            "assetPathMesh": "Assets/Meshes/Lv2_HandOfDominion_Column.Cube.010_0.mesh",
+                            "materialUID": 8218581728829059453,
+                            "assetPathMaterial": "Assets/Materials/Lv2_HandOfDominion_ColumnWallVariant_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "upper_area.Cube.009_0",
+                "tag": "",
+                "uid": 9589061831167429496,
+                "parentUID": 17556623069328038152,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.10375499725341797,
+                            "localPos_Y": 4.525033473968506,
+                            "localPos_Z": 0.6015644073486328,
+                            "localRot_X": -90.0000228881836,
+                            "localRot_Y": -0.000013759290595771745,
+                            "localRot_Z": 0.00001697656261967495,
+                            "localSca_X": 0.6700003147125244,
+                            "localSca_Y": 0.4999999403953552,
+                            "localSca_Z": 1.0,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 2083371507501750162,
+                            "assetPathMesh": "Assets/Meshes/upper_area.Cube.009_0.mesh",
+                            "materialUID": 7080561641462949106,
+                            "assetPathMaterial": "Assets/Materials/upper_areaDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "upper_area.Cube.009_0",
+                "tag": "",
+                "uid": 13812358218203247403,
+                "parentUID": 3797640332832472951,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.0945281982421875,
+                            "localPos_Y": 4.525328636169434,
+                            "localPos_Z": 0.5998096466064453,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": -0.00000891534818947548,
+                            "localRot_Z": -0.0000020851596218562918,
+                            "localSca_X": 0.6700002551078796,
+                            "localSca_Y": 0.5000001192092896,
+                            "localSca_Z": 1.000000238418579,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 2083371507501750162,
+                            "assetPathMesh": "Assets/Meshes/upper_area.Cube.009_0.mesh",
+                            "materialUID": 7080561641462949106,
+                            "assetPathMaterial": "Assets/Materials/upper_areaDefaultMaterial_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Colum",
+                "tag": "",
+                "uid": 8554319005869407112,
+                "parentUID": 11001072744252185509,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 3.051913022994995,
+                            "localPos_Y": 2.9999680519104004,
+                            "localPos_Z": 0.5020618438720703,
+                            "localRot_X": 1.1514849403843064e-12,
+                            "localRot_Y": -45.000003814697266,
+                            "localRot_Z": 4.769627076108007e-13,
+                            "localSca_X": 0.9999998807907104,
+                            "localSca_Y": 1.0,
+                            "localSca_Z": 0.9999998807907104,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "Column",
+                "tag": "",
+                "uid": 16126275672012107517,
+                "parentUID": 8554319005869407112,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": 8.75,
+                            "localPos_Y": -3.0,
+                            "localPos_Z": 4.76837158203125e-7,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": 0.0,
+                            "localRot_Z": 0.0,
+                            "localSca_X": 1.4279999732971191,
+                            "localSca_Y": 1.4279999732971191,
+                            "localSca_Z": 1.4279998540878296,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 133900975829291239,
+                            "assetPathMesh": "Assets/Meshes/Lv2_HandOfDominion_Column.Cube.010_0.mesh",
+                            "materialUID": 8218581728829059453,
+                            "assetPathMaterial": "Assets/Materials/Lv2_HandOfDominion_ColumnWallVariant_0.mat"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "GameObject": {
+                "name": "upper_area.Cube.009_0",
+                "tag": "",
+                "uid": 9921355396576693688,
+                "parentUID": 8554319005869407112,
+                "enabled": true,
+                "static": true,
+                "Components": [
+                    {
+                        "Component": {
+                            "type": "Component_Transform",
+                            "active": true,
+                            "removed": false,
+                            "localPos_X": -0.0945281982421875,
+                            "localPos_Y": 4.525328636169434,
+                            "localPos_Z": 0.5998096466064453,
+                            "localRot_X": -90.00000762939453,
+                            "localRot_Y": -0.00000891534818947548,
+                            "localRot_Z": -0.0000020851596218562918,
+                            "localSca_X": 0.6700002551078796,
+                            "localSca_Y": 0.5000001192092896,
+                            "localSca_Z": 1.000000238418579,
+                            "boudingBoxSca_X": 1.0,
+                            "boudingBoxSca_Y": 1.0,
+                            "boudingBoxSca_Z": 1.0,
+                            "boudingBoxPos_X": 0.0,
+                            "boudingBoxPos_Y": 0.0,
+                            "boudingBoxPos_Z": 0.0
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_MeshRenderer",
+                            "active": true,
+                            "removed": true,
+                            "meshUID": 2083371507501750162,
+                            "assetPathMesh": "Assets/Meshes/upper_area.Cube.009_0.mesh",
+                            "materialUID": 7080561641462949106,
+                            "assetPathMaterial": "Assets/Materials/upper_areaDefaultMaterial_0.mat"
                         }
                     }
                 ]

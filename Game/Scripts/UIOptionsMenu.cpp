@@ -15,28 +15,28 @@
 REGISTERCLASS(UIOptionsMenu);
 
 UIOptionsMenu::UIOptionsMenu() : Script(), gameOptionButton(nullptr), videoOptionButton(nullptr), 
-audioOptionButton(nullptr), controlOptionButton(nullptr), gameOptionCanvas(nullptr), videoOptionCanvas(nullptr), 
+audioOptionButton(nullptr), controlsOptionButton(nullptr), gameOptionCanvas(nullptr), videoOptionCanvas(nullptr), 
 audioOptionCanvas(nullptr), gameOptionHover(nullptr), videoOptionHover(nullptr), audioOptionHover(nullptr), 
-controlOptionHover(nullptr), padTriggersIMG(nullptr), headerMenuPosition(0), newHeaderMenuPosition(-1), 
+controlsOptionHover(nullptr), gamepadTriggersImg(nullptr), headerMenuPosition(0), newHeaderMenuPosition(-1),
 selectedOption(-1), actualButton(-1), actualButtonHover(-1), maxButtonsOptions(-1), maxOptions(-1), 
 newSelectedOption(-1), loadFromMainMenu(false), valueSlider(-1), resetButtonIndex(true)
 {
 	REGISTER_FIELD(gameOptionButton, GameObject*);
 	REGISTER_FIELD(videoOptionButton, GameObject*);
 	REGISTER_FIELD(audioOptionButton, GameObject*);
-	REGISTER_FIELD(controlOptionButton, GameObject*);
+	REGISTER_FIELD(controlsOptionButton, GameObject*);
 
 	REGISTER_FIELD(gameOptionCanvas, GameObject*);
 	REGISTER_FIELD(videoOptionCanvas, GameObject*);
 	REGISTER_FIELD(audioOptionCanvas, GameObject*);
-	REGISTER_FIELD(controlOptionCanvas, GameObject*);
+	REGISTER_FIELD(controlsOptionCanvas, GameObject*);
 
 	REGISTER_FIELD(gameOptionHover, GameObject*);
 	REGISTER_FIELD(videoOptionHover, GameObject*);
 	REGISTER_FIELD(audioOptionHover, GameObject*);
-	REGISTER_FIELD(controlOptionHover, GameObject*);
+	REGISTER_FIELD(controlsOptionHover, GameObject*);
 
-	REGISTER_FIELD(padTriggersIMG, GameObject*);
+	REGISTER_FIELD(gamepadTriggersImg, GameObject*);
 }
 
 void UIOptionsMenu::Init()
@@ -47,44 +47,42 @@ void UIOptionsMenu::Init()
 	render = App->GetModule<ModuleRender>();
 	audio = App->GetModule<ModuleAudio>();
 	
+	gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
+	videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
+	audioOptionComponentButton = audioOptionButton->GetComponent<ComponentButton>();
+	controlsOptionComponentButton = controlsOptionButton->GetComponent<ComponentButton>();
+
+	buttonsAndCanvas.push_back(HeaderOptionsButton{ gameOptionComponentButton, gameOptionCanvas, gameOptionHover });
+	buttonsAndCanvas.push_back(HeaderOptionsButton{ videoOptionComponentButton, videoOptionCanvas, videoOptionHover });
+	buttonsAndCanvas.push_back(HeaderOptionsButton{ audioOptionComponentButton, audioOptionCanvas, audioOptionHover });
+	buttonsAndCanvas.push_back(HeaderOptionsButton{ controlsOptionComponentButton, controlsOptionCanvas, controlsOptionHover });
+
 	LoadOptions();
 }
 
 void UIOptionsMenu::Start()
 {
-	gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
-	videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
-	audioOptionComponentButton = audioOptionButton->GetComponent<ComponentButton>();
-	controlOptionComponentButton = controlOptionButton->GetComponent<ComponentButton>();
-
-	buttonsAndCanvas.push_back(HeaderOptionsButton{ gameOptionComponentButton, gameOptionCanvas, gameOptionHover });
-	buttonsAndCanvas.push_back(HeaderOptionsButton{ videoOptionComponentButton, videoOptionCanvas, videoOptionHover });
-	buttonsAndCanvas.push_back(HeaderOptionsButton{ audioOptionComponentButton, audioOptionCanvas, audioOptionHover });
-	buttonsAndCanvas.push_back(HeaderOptionsButton{ controlOptionComponentButton, controlOptionCanvas, controlOptionHover });
-
 	gameOptionComponentButton->Disable();
 	videoOptionComponentButton->Disable();
 	audioOptionComponentButton->Disable();
-	controlOptionComponentButton->Disable();
+	controlsOptionComponentButton->Disable();
 
 	buttonsAndCanvas[0].canvas->Enable();
 	buttonsAndCanvas[0].hovered->Enable();
 	
-	SetLoadFromMainMenu(false);
-	LoadOptions();
 	//InitOptionMenu();
-	IsSizeOptionEnable();
-	IsFpsEnable();
+	IsSizeOptionEnabled();
+	IsFpsEnabled();
 }
 
 void UIOptionsMenu::Update(float deltaTime)
 {
-	ControlEnable();
+	ControllerMenuMode();
 }
 
-void UIOptionsMenu::ControlEnable()
+void UIOptionsMenu::ControllerMenuMode()
 {
-	if (resetButtonIndex == true)
+	if (resetButtonIndex)
 	{
 		ui->ResetCurrentButtonIndex();
 		resetButtonIndex = false;
@@ -93,6 +91,7 @@ void UIOptionsMenu::ControlEnable()
 	//BACK TO MAIN MENU
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
 	{
+		BackToLastSavedOption();
 		SaveOptions();
 		resetButtonIndex = true;
 		return;
@@ -100,7 +99,10 @@ void UIOptionsMenu::ControlEnable()
 
 	if (input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::DOWN)
 	{
+		BackToLastSavedOption();
 		LoadDefaultOptions();
+		resetButtonIndex = true;
+		return;
 	}
 
 	// MOVE THE HEADER OF THE OPTIONS
@@ -150,7 +152,6 @@ void UIOptionsMenu::ControlEnable()
 		verticalDirection == JoystickVerticalDirection::BACK)
 	{
 		BackToLastSavedOption();
-		newSelectedOption = -1;
 	}
 
 	maxButtonsOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren().size() - 1;
@@ -173,7 +174,7 @@ void UIOptionsMenu::ControlEnable()
 	}
 
 	// MOVE LEFT OR RIGHT THE OPTIONS
-	if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
 	{
 		maxOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->
 			GetChildren()[1]->GetChildren().size() - 1;
@@ -200,14 +201,14 @@ void UIOptionsMenu::ControlEnable()
 
 				if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN)
 				{
-					if (valueSlider > 0.0f)
+					if (valueSlider > slider->GetMinValue())
 					{
 						valueSlider -= 10.0f;
 					}
 				}
-				else if (input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::DOWN)
+				else if (input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
 				{
-					if (valueSlider < 100.0f)
+					if (valueSlider < slider->GetMaxValue())
 					{
 						valueSlider += 10.0f;
 					}
@@ -216,9 +217,10 @@ void UIOptionsMenu::ControlEnable()
 				{
 					slider->ModifyCurrentValue(valueSlider);
 					newSelectedOption = valueSlider;
+					LOG_INFO("SLIDER {}", valueSlider);
 				}
 			}
-			else // CAMBIA OPCIONES CUANDO NO ES UN SLIDER
+			else // CHANGE OPTIONS WHEN IS NOT A SLIDER
 			{
 				newSelectedOption = selectedOption;
 
@@ -229,7 +231,7 @@ void UIOptionsMenu::ControlEnable()
 						newSelectedOption--;
 					}
 				}
-				else if (input->GetKey(SDL_SCANCODE_RIGHT) == KeyState::DOWN)
+				else if (input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
 				{
 					if (newSelectedOption < maxOptions)
 					{
@@ -260,7 +262,7 @@ void UIOptionsMenu::ControlEnable()
 
 void UIOptionsMenu::UpdateChanges()
 {
-	if (actualConfig[headerMenuPosition].options[actualButton].actualOption == newSelectedOption)
+	if (actualConfig[headerMenuPosition].options[actualButton].actualOption == newSelectedOption || newSelectedOption == -1)
 	{
 		return;
 	}
@@ -268,6 +270,7 @@ void UIOptionsMenu::UpdateChanges()
 	actualConfig[headerMenuPosition].options[actualButton].actualOption = newSelectedOption;
 	ApplyChanges(headerMenuPosition, actualButton, newSelectedOption);
 }
+
 void UIOptionsMenu::ApplyChanges(int headerMenuPosition, int actualButton, int newSelectedOption)
 {
 	switch (headerMenuPosition)
@@ -282,7 +285,7 @@ void UIOptionsMenu::ApplyChanges(int headerMenuPosition, int actualButton, int n
 		AudioOption(actualButton, newSelectedOption);
 		break;
 	case 3:
-		ControlOption();
+		ControlsOption();
 		break;
 	default:
 		break;
@@ -318,6 +321,7 @@ void UIOptionsMenu::InitOptionMenu()
 
 void UIOptionsMenu::LoadOptions()
 {
+	actualConfig.clear();
 	std::string optionMenuPath = "Settings/OptionsConfig.txt";
 	rapidjson::Document doc;
 	Json optionsMenu(doc, doc);
@@ -328,32 +332,31 @@ void UIOptionsMenu::LoadOptions()
 	optionsMenu.fromBuffer(buffer);
 	delete buffer;
 
-	for (int a = 0; a < optionsMenu.Size(); a++)
+	for (int canvasIndex = 0; canvasIndex < optionsMenu.Size(); ++canvasIndex)
 	{
-		Json canvas = optionsMenu[a];
+		Json canvas = optionsMenu[canvasIndex];
 		CanvasOptionInfo canvasInfo;
-		for (int b = 0; b < canvas.Size(); b++)
+		for (int optionsIndex = 0; optionsIndex < canvas.Size(); ++optionsIndex)
 		{
 			ButtonOptionInfo buttonInfo;
-			buttonInfo.actualOption = canvas[b]["Actual_Option"];
-			buttonInfo.defaultOption = canvas[b]["Default_Option"];
-			buttonInfo.locked = canvas[b]["Locked_Option"];
+			buttonInfo.actualOption = canvas[optionsIndex]["Actual_Option"];
+			buttonInfo.defaultOption = canvas[optionsIndex]["Default_Option"];
+			buttonInfo.locked = canvas[optionsIndex]["Locked_Option"];
 			canvasInfo.options.push_back(buttonInfo);
-			if (loadFromMainMenu == false)
-			{
-				if (!IsSlider(a, b, 0))
+			
+				if (!IsSlider(canvasIndex, optionsIndex, 0))
 				{
-					buttonsAndCanvas[a].canvas->GetChildren()[b]->GetChildren()[1]->
+					buttonsAndCanvas[canvasIndex].canvas->GetChildren()[optionsIndex]->GetChildren()[1]->
 						GetChildren()[buttonInfo.actualOption]->Enable();
 				}
 				else
 				{
 					ComponentSlider* sliderLoad;
-					sliderLoad = buttonsAndCanvas[a].canvas->GetChildren()[b]->
+					sliderLoad = buttonsAndCanvas[canvasIndex].canvas->GetChildren()[optionsIndex]->
 						GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentSlider>();
 					sliderLoad->ModifyCurrentValue(buttonInfo.actualOption);
 				}
-			}
+			
 		}
 		actualConfig.push_back(canvasInfo);
 	}
@@ -362,38 +365,38 @@ void UIOptionsMenu::LoadOptions()
 	CanvasOptionInfo controller;
 	actualConfig.push_back(controller);
 
-	for (int a = 0; a < actualConfig.size(); a++)
+	for (int canvasIndex = 0; canvasIndex < actualConfig.size(); ++canvasIndex)
 	{
-		for (int b = 0; b < actualConfig[a].options.size(); b++)
+		for (int optionsIndex = 0; optionsIndex < actualConfig[canvasIndex].options.size(); ++optionsIndex)
 		{
-			ApplyChanges(a, b, actualConfig[a].options[b].actualOption);
+			ApplyChanges(canvasIndex, optionsIndex, actualConfig[canvasIndex].options[optionsIndex].actualOption);
 		}
 	}
 }
 
 void UIOptionsMenu::LoadDefaultOptions()
 {
-	for (int a = 0; a < buttonsAndCanvas.size()-1; a++)
+	for (int canvasIndex = 0; canvasIndex < actualConfig.size(); ++canvasIndex)
 	{
-		for (int b = 0; b < actualConfig[a].options.size(); b++)
+		for (int optionsIndex = 0; optionsIndex < actualConfig[canvasIndex].options.size(); ++optionsIndex)
 		{
-			if (!IsSlider(a, b, 0))
+			if (!IsSlider(canvasIndex, optionsIndex, 0))
 			{
-				buttonsAndCanvas[a].canvas->GetChildren()[b]->GetChildren()[1]->
-					GetChildren()[actualConfig[a].options[b].actualOption]->Disable();
-				buttonsAndCanvas[a].canvas->GetChildren()[b]->GetChildren()[1]->
-					GetChildren()[actualConfig[a].options[b].defaultOption]->Enable();
+				buttonsAndCanvas[canvasIndex].canvas->GetChildren()[optionsIndex]->GetChildren()[1]->
+					GetChildren()[actualConfig[canvasIndex].options[optionsIndex].actualOption]->Disable();
+				buttonsAndCanvas[canvasIndex].canvas->GetChildren()[optionsIndex]->GetChildren()[1]->
+					GetChildren()[actualConfig[canvasIndex].options[optionsIndex].defaultOption]->Enable();
 			}
 			else
 			{
 				ComponentSlider* sliderLoad;
-				sliderLoad = buttonsAndCanvas[a].canvas->GetChildren()[b]->
+				sliderLoad = buttonsAndCanvas[canvasIndex].canvas->GetChildren()[optionsIndex]->
 					GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentSlider>();
-				sliderLoad->ModifyCurrentValue(actualConfig[a].options[b].defaultOption);
+				sliderLoad->ModifyCurrentValue(actualConfig[canvasIndex].options[optionsIndex].defaultOption);
 			}
 
-			actualConfig[a].options[b].actualOption = actualConfig[a].options[b].defaultOption;
-			ApplyChanges(a, b, actualConfig[a].options[b].defaultOption);
+			actualConfig[canvasIndex].options[optionsIndex].actualOption = actualConfig[canvasIndex].options[optionsIndex].defaultOption;
+			ApplyChanges(canvasIndex, optionsIndex, actualConfig[canvasIndex].options[optionsIndex].defaultOption);
 		}
 	}
 }
@@ -406,14 +409,14 @@ void UIOptionsMenu::SaveOptions()
 	Json optionsMenu(doc, doc);
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
-	for (int a = 0; a < actualConfig.size()-1; a++)
+	for (int canvasIndex = 0; canvasIndex < actualConfig.size()-1; ++canvasIndex)
 	{
-		Json canvas = optionsMenu[a];
-		for (int b = 0; b < actualConfig[a].options.size(); b++)
+		Json canvas = optionsMenu[canvasIndex];
+		for (int optionsIndex = 0; optionsIndex < actualConfig[canvasIndex].options.size(); ++optionsIndex)
 		{
-			canvas[b]["Actual_Option"] = actualConfig[a].options[b].actualOption;
-			canvas[b]["Default_Option"] = actualConfig[a].options[b].defaultOption;
-			canvas[b]["Locked_Option"] = actualConfig[a].options[b].locked;
+			canvas[optionsIndex]["Actual_Option"] = actualConfig[canvasIndex].options[optionsIndex].actualOption;
+			canvas[optionsIndex]["Default_Option"] = actualConfig[canvasIndex].options[optionsIndex].defaultOption;
+			canvas[optionsIndex]["Locked_Option"] = actualConfig[canvasIndex].options[optionsIndex].locked;
 		}
 	}
 
@@ -443,26 +446,23 @@ void UIOptionsMenu::BackToLastSavedOption()
 		buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[1]->
 			GetChildren()[saveSelectedOption]->Enable();
 	}
+
+	newSelectedOption = -1;
 }
 
 bool UIOptionsMenu::IsSlider(int header, int button, int option)
 {
-	if (buttonsAndCanvas[header].canvas->GetChildren()[button]->GetChildren()[1]->GetChildren()[option]->
-		HasComponent<ComponentSlider>())
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return buttonsAndCanvas[header].canvas->GetChildren()[button]->GetChildren()[1]->GetChildren()[option]->
+		HasComponent<ComponentSlider>();
 }
 
-void UIOptionsMenu::IsSizeOptionEnable()
+void UIOptionsMenu::IsSizeOptionEnabled()
 {
 	float4 colorSet;
-	if (actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[static_cast<int>(Button::WINDOWSMODE)].actualOption == 0 ||
-		actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[static_cast<int>(Button::WINDOWSMODE)].actualOption == 1)
+
+	int gameOptionWindowsMode = actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[static_cast<int>(Button::WINDOWSMODE)].actualOption;
+
+	if (gameOptionWindowsMode == 0 || gameOptionWindowsMode == 1)
 	{
 		colorSet = { 0.5f, 0.5f, 0.5f, 1.0f };
 		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->
@@ -488,7 +488,7 @@ void UIOptionsMenu::IsSizeOptionEnable()
 		GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(colorSet);
 }
 
-void UIOptionsMenu::IsFpsEnable()
+void UIOptionsMenu::IsFpsEnabled()
 {
 	float4 colorSet;
 	if (actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[(int)Button::VSYNC].actualOption == 1)
@@ -557,14 +557,18 @@ void UIOptionsMenu::GameOption(int button, int option)
 		default:
 			break;
 		}
-		if (loadFromMainMenu == false)
-		{
-			IsFpsEnable();
-		}
+			IsFpsEnabled();
 		break;
 	case 2: //BRIGHTNESS
 		brightnessToShow = option;
-		window->SetBrightness(brightnessToShow * 0.01f);
+		if (brightnessToShow * 0.01f < 0.3f)
+		{
+			window->SetBrightness(0.3f);
+		}
+		else
+		{
+			window->SetBrightness(brightnessToShow * 0.01f);
+		}
 		LOG_INFO("BRIGHTNESS {}", brightnessToShow * 0.01f);
 		break;
 	case 3: //RESOLUTION
@@ -594,7 +598,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 		case 0:
 
 			window->SetDesktopFullscreen(true);
-			//window->SetFullscreen(true); // NOT WORKING PROPRETLY WE NEED FIX IT
+			//window->SetFullscreen(true); // NOT WORKING PROPRERLY WE NEED TO FIX IT
 			LOG_INFO("Windows Mode: Fullscreen");
 			break;
 		case 1:
@@ -612,10 +616,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 		default:
 			break;
 		}
-		if (loadFromMainMenu == false)
-		{
-			IsSizeOptionEnable();
-		}
+		IsSizeOptionEnabled();
 		break;
 	default:
 		break;
@@ -652,14 +653,14 @@ void UIOptionsMenu::AudioOption(int button, int option)
 		break;
 	case 1: //MUSIC
 		break;
-	case 2: // VFX
+	case 2: // SFX
 		break;
 	default:
 		break;
 	}
 
 }
-void UIOptionsMenu::ControlOption()
+void UIOptionsMenu::ControlsOption()
 {
 	//Function reserved to the control canvas options
 }
@@ -676,7 +677,7 @@ bool UIOptionsMenu::IsLoadFromMainMenu() const
 
 
 /*
-void UIOptionsMenu::KeyboardEnable()
+void UIOptionsMenu::KeyboardMenuMode()
 {
 	gameOptionComponentButton->Enable();
 	videoOptionComponentButton->Enable();

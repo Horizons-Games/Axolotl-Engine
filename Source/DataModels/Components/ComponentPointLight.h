@@ -30,8 +30,8 @@ public:
 	void OnTransformChanged() override;
 
 private:
-	void SignalEnable() override;
-	void SignalDisable() override;
+	void SignalEnable(bool isSceneLoading) override;
+	void SignalDisable(bool isSceneLoading) override;
 
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
@@ -43,9 +43,4 @@ private:
 inline float ComponentPointLight::GetRadius() const
 {
 	return radius;
-}
-
-inline void ComponentPointLight::SetRadius(float radius)
-{
-	this->radius = radius;
 }
