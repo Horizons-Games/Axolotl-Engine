@@ -319,7 +319,7 @@ void UIGameManager::LoseGameState()
 	if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN)
 	{
 #ifndef ENGINE
-		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/{}",loadRetryScene);
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/"+loadRetryScene);
 #endif // 
 
 		LOG_INFO("YOU PRESSED A BUTTON AND LOAD RETRY SCENE");
