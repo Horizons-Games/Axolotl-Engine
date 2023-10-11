@@ -815,6 +815,9 @@
     <ClCompile Include="DataModels\Schedulable\Schedulable.cpp">
       <Filter>DataModels\Schedulable</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SceneLoadingScript.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
     <ClCompile Include="Exceptions\AxoDefaultException.cpp">
       <Filter>Exceptions</Filter>
     </ClCompile>
@@ -1720,6 +1723,9 @@
     </ClInclude>
     <ClInclude Include="DataModels\Schedulable\Schedulable.h">
       <Filter>DataModels\Schedulable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SceneLoadingScript.h">
+      <Filter>UserScripts\UI</Filter>
     </ClInclude>
     <ClInclude Include="Exceptions\AccessingFailedScriptException.h">
       <Filter>Exceptions</Filter>

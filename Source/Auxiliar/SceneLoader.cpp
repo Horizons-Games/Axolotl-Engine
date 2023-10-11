@@ -96,6 +96,7 @@ void OnLoadedScene()
 
 	ModuleUI* ui = App->GetModule<ModuleUI>();
 	ui->SetUpButtons();
+	ui->ResetCurrentButtonIndex();
 #endif // !ENGINE
 
 	LOG_VERBOSE("Finished load of scene {}", currentLoadingConfig->scenePath.value());
