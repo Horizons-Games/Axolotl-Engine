@@ -16,7 +16,7 @@
 REGISTERCLASS(UIComboManager);
 
 UIComboManager::UIComboManager() : Script(), clearComboTimer(0.0f), clearCombo(false), alphaEnabled(false), 
-isEffectEnabled(-1), forceEnableComboBar(false)
+isEffectEnabled(-1), forceEnableComboBar(false), specialActivated(false)
 {
 	REGISTER_FIELD(inputPrefabSoft, GameObject*);
 	REGISTER_FIELD(inputPrefabHeavy, GameObject*);
@@ -140,16 +140,31 @@ float UIComboManager::GetMaxComboBarValue() const
 
 void UIComboManager::SetActivateSpecial(bool activate) 
 {
+	specialActivated = activate;
+	GameObject* newVisuals;
 	if (activate) 
 	{
-		comboBar->GetFill()->GetComponent<ComponentImage>()->SetColor(float4::one);
-		comboBar->GetBackground()->GetComponent<ComponentImage>()->SetColor(float4::one);
+		comboBar->GetOwner()->GetChildren()[0]->Disable();
+		newVisuals = comboBar->GetOwner()->GetChildren()[1];
+		
+		for (int i = 0; i < inputVisuals.size(); i++)
+		{
+			inputVisuals[i]->GetChildren()[0]->Disable();
+			inputVisuals[i]->GetChildren()[1]->Enable();
+		}
 	}
 	else 
 	{
-		comboBar->GetFill()->GetComponent<ComponentImage>()->SetColor(float4::one);
-		comboBar->GetBackground()->GetComponent<ComponentImage>()->SetColor(float4::one);
+		comboBar->GetOwner()->GetChildren()[1]->Disable();
+		newVisuals = comboBar->GetOwner()->GetChildren()[0];
 	}
+
+	newVisuals->Enable();
+	comboBar->SetBackground(newVisuals->GetChildren()[0]);
+	comboBar->SetFill(newVisuals->GetChildren()[1]);
+
+	noFillBar = newVisuals->GetChildren()[2];
+	noFillBar->GetComponent<ComponentImage>()->SetColor(float4(1.f, 1.f, 1.f, transparency));
 }
 
 void UIComboManager::SetComboBarValue(float value)
@@ -197,6 +212,9 @@ void UIComboManager::AddInputVisuals(InputVisualType type)
 			App->GetModule<ModuleScene>()->GetLoadedScene()->
 			DuplicateGameObject(prefab->GetName(), prefab, inputPositions[0]);
 		newInput->Enable();
+
+		specialActivated? newInput->GetChildren()[1]->Disable() : newInput->GetChildren()[0]->Disable();
+
 		inputVisuals.push_front(newInput);
 		for (int i = 1; i < inputVisuals.size(); i++)
 		{
@@ -242,10 +260,11 @@ void UIComboManager::CleanInputVisuals()
 
 void UIComboManager::UpdateFadeOut(float transparency)
 {
-		for (int i = 0; i < inputVisuals.size(); i++)
-		{
-			inputVisuals[i]->GetComponent<ComponentImage>()->SetColor(float4(1.f, 1.f, 1.f, transparency));
-		}
+	for (int i = 0; i < inputVisuals.size(); i++)
+	{
+		GameObject* visual = specialActivated ? inputVisuals[i]->GetChildren()[1] : inputVisuals[i]->GetChildren()[0];
+		visual->GetComponent<ComponentImage>()->SetColor(float4(1.f, 1.f, 1.f, transparency));
+	}
 }
 
 void UIComboManager::FinishComboButtonsEffect() //Make a VFX when you get a full combo

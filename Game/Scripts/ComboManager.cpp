@@ -146,20 +146,6 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 {
 	uiComboManager->UpdateFadeOut(1.0f);
-	if (specialCount < 0 || !specialActivated)
-	{
-		this->specialCount = 
-			std::clamp(this->specialCount + specialCount, 0.0f, maxSpecialCount);
-
-		if (this->specialCount <= 0.0f && specialActivated)
-		{
-			specialActivated = false;
-		}
-
-		uiComboManager->SetComboBarValue(this->specialCount);
-
-		actualComboTimer = comboTime;
-	}
 
 	comboCount++;
 	if (type == AttackType::HEAVYNORMAL || type == AttackType::HEAVYFINISHER)
@@ -175,6 +161,21 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 	else if (type == AttackType::JUMPNORMAL || type == AttackType::JUMPFINISHER)
 	{
 		uiComboManager->AddInputVisuals(InputVisualType::JUMP);
+	}
+
+	if (specialCount < 0 || !specialActivated)
+	{
+		this->specialCount =
+			std::clamp(this->specialCount + specialCount, 0.0f, maxSpecialCount);
+
+		if (this->specialCount <= 0.0f && specialActivated)
+		{
+			specialActivated = false;
+		}
+
+		uiComboManager->SetComboBarValue(this->specialCount);
+
+		actualComboTimer = comboTime;
 	}
 
 	if (comboCount == 3) 

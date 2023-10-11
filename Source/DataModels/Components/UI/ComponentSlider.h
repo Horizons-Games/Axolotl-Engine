@@ -110,11 +110,6 @@ inline void ComponentSlider::SetBackground(GameObject* background)
 	this->background = background;
 }
 
-inline void ComponentSlider::SetFill(GameObject* fill)
-{
-	this->fill = fill;
-}
-
 inline void ComponentSlider::SetHandle(GameObject* handle)
 {
 	this->handle = handle;

@@ -62,6 +62,8 @@ private:
 
 	float transparency;
 	bool alphaEnabled;
+
+	bool specialActivated;
 };
 
 inline void UIComboManager::SetEffectEnable(bool effectEnabled)
