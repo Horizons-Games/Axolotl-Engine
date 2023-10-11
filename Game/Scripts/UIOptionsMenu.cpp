@@ -41,23 +41,29 @@ newSelectedOption(-1), loadFromMainMenu(false), valueSlider(-1), resetButtonInde
 
 void UIOptionsMenu::Init()
 {
-	input = App->GetModule<ModuleInput>();
-	window = App->GetModule<ModuleWindow>();
-	ui = App->GetModule<ModuleUI>();
-	render = App->GetModule<ModuleRender>();
-	audio = App->GetModule<ModuleAudio>();
+	if (loadFromMainMenu)
+	{
+		loadFromMainMenu = false;
+
+		input = App->GetModule<ModuleInput>();
+		window = App->GetModule<ModuleWindow>();
+		ui = App->GetModule<ModuleUI>();
+		render = App->GetModule<ModuleRender>();
+		audio = App->GetModule<ModuleAudio>();
+
+		gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
+		videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
+		audioOptionComponentButton = audioOptionButton->GetComponent<ComponentButton>();
+		controlsOptionComponentButton = controlsOptionButton->GetComponent<ComponentButton>();
+
+		buttonsAndCanvas.push_back(HeaderOptionsButton{ gameOptionComponentButton, gameOptionCanvas, gameOptionHover });
+		buttonsAndCanvas.push_back(HeaderOptionsButton{ videoOptionComponentButton, videoOptionCanvas, videoOptionHover });
+		buttonsAndCanvas.push_back(HeaderOptionsButton{ audioOptionComponentButton, audioOptionCanvas, audioOptionHover });
+		buttonsAndCanvas.push_back(HeaderOptionsButton{ controlsOptionComponentButton, controlsOptionCanvas, controlsOptionHover });
+
+		LoadOptions();
+	}
 	
-	gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
-	videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
-	audioOptionComponentButton = audioOptionButton->GetComponent<ComponentButton>();
-	controlsOptionComponentButton = controlsOptionButton->GetComponent<ComponentButton>();
-
-	buttonsAndCanvas.push_back(HeaderOptionsButton{ gameOptionComponentButton, gameOptionCanvas, gameOptionHover });
-	buttonsAndCanvas.push_back(HeaderOptionsButton{ videoOptionComponentButton, videoOptionCanvas, videoOptionHover });
-	buttonsAndCanvas.push_back(HeaderOptionsButton{ audioOptionComponentButton, audioOptionCanvas, audioOptionHover });
-	buttonsAndCanvas.push_back(HeaderOptionsButton{ controlsOptionComponentButton, controlsOptionCanvas, controlsOptionHover });
-
-	LoadOptions();
 }
 
 void UIOptionsMenu::Start()
@@ -70,7 +76,7 @@ void UIOptionsMenu::Start()
 	buttonsAndCanvas[0].canvas->Enable();
 	buttonsAndCanvas[0].hovered->Enable();
 	
-	//InitOptionMenu();
+	// InitOptionMenu();
 	IsSizeOptionEnabled();
 	IsFpsEnabled();
 }
@@ -88,7 +94,7 @@ void UIOptionsMenu::ControllerMenuMode()
 		resetButtonIndex = false;
 	}
 
-	//BACK TO MAIN MENU
+	// BACK TO MAIN MENU
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
 	{
 		BackToLastSavedOption();
@@ -97,6 +103,7 @@ void UIOptionsMenu::ControllerMenuMode()
 		return;
 	}
 
+	// LOAD DEFAULT OPTIONS
 	if (input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::DOWN)
 	{
 		BackToLastSavedOption();
@@ -125,7 +132,7 @@ void UIOptionsMenu::ControllerMenuMode()
 			}
 		}
 
-		//DISABLE THE HOVER BUTTON
+		// DISABLE THE HOVER BUTTON
 		for (actualButtonHover = 0; actualButtonHover < 5; actualButtonHover++)
 		{
 			if (owner->GetChildren()[3]->GetChildren()[1]->GetChildren()[actualButtonHover]->IsEnabled())
@@ -135,7 +142,7 @@ void UIOptionsMenu::ControllerMenuMode()
 			}
 		}
 
-		//ENABLE-DISABLE THE MAIN BAR MENU OPTION HOVER - GAME - VIDEO - AUDIO - CONTROLS
+		// ENABLE-DISABLE THE MAIN BAR MENU OPTION HOVER - GAME - VIDEO - AUDIO - CONTROLS
 		buttonsAndCanvas[headerMenuPosition].canvas->Disable();
 		buttonsAndCanvas[headerMenuPosition].hovered->Disable();
 		BackToLastSavedOption();	
@@ -146,7 +153,7 @@ void UIOptionsMenu::ControllerMenuMode()
 		newSelectedOption = -1;
 	}
 
-	//IF YOU DONT SAVE ANY OPTIONS THIS GO BACK TO THE LAST SAVED OPTION
+	// IF YOU DONT SAVE ANY OPTIONS THIS GO BACK TO THE LAST SAVED OPTION
 	verticalDirection = input->GetLeftJoystickDirection().verticalDirection;
 	if (verticalDirection == JoystickVerticalDirection::FORWARD || 
 		verticalDirection == JoystickVerticalDirection::BACK)
@@ -156,7 +163,7 @@ void UIOptionsMenu::ControllerMenuMode()
 
 	maxButtonsOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren().size() - 1;
 
-	//LOOK FOR THE current SELECTED BUTTON
+	// LOOK FOR THE CURRENT SELECTED BUTTON
 	for (actualButton = 0; actualButton < maxButtonsOptions; actualButton++)
 	{
 		if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[0]->
@@ -628,16 +635,28 @@ void UIOptionsMenu::VideoOption(int button, int option)
 	switch (button)
 	{
 	case 0:
-		render->ToggleShadows();
+		if (render->IsShadowsEnabled() != option)
+		{
+			render->ToggleShadows();
+		}
 		break;
 	case 1:
-		render->ToggleSSAO();
+		if (render->IsSsaoEnabled() != option)
+		{
+			render->ToggleSSAO();
+		}
 		break;
 	case 2:
-		render->ToggleVSM();
+		if (render->IsVSMEnabled() != option)
+		{
+			render->ToggleVSM();
+		}
 		break;
 	case 3:
-		render->SwitchBloomActivation();
+		if (render->IsBloomEnabled() != option)
+		{
+			render->SwitchBloomActivation();
+		}
 		break;
 	default:
 		break;

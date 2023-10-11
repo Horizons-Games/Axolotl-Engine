@@ -16,7 +16,8 @@ void UILoadSavedSettings::Start()
 {
 	Assert(optionsMenu != nullptr, "Options Menu is not set");
 
-	optionsMenu->SetLoadFromMainMenu(true);
 	optionsMenu->Init();
+	optionsMenu->SetLoadFromMainMenu(true);
+	optionsMenu->LoadOptions();
 
 }
