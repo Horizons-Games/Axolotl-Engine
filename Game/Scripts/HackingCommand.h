@@ -11,8 +11,6 @@ enum HackingCommandType
 	COMMAND_Y,
 };
 
-
-
 class HackingCommand
 {
 public:
