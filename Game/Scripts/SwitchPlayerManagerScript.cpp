@@ -246,6 +246,7 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		comboSystem->ClearComboForSwitch(true);
 
 		currentPlayer->Disable();
+		playerManager->StopHackingParticle();
 
 		// Change UI of the player here
 		SwitchHealthBars();
