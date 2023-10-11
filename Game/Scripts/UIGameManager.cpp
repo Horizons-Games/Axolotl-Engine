@@ -323,7 +323,7 @@ void UIGameManager::LoseGameState()
 	if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN)
 	{
 #ifndef ENGINE
-		App->GetModule<ModuleScene>()->SetSceneToLoad(loadRetryScene);
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/"+loadRetryScene);
 #endif // 
 
 		LOG_INFO("YOU PRESSED A BUTTON AND LOAD RETRY SCENE");
@@ -333,7 +333,7 @@ void UIGameManager::LoseGameState()
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
 	{
 #ifndef ENGINE
-		App->GetModule<ModuleScene>()->SetSceneToLoad("00_MainMenu_VS3.axolotl");
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/00_MainMenu_VS3.axolotl");
 #endif // 
 
 		LOG_INFO("YOU PRESSED B BUTTON AND LOAD MAIN MENU");
@@ -348,6 +348,16 @@ void UIGameManager::WinGameState()
 		gameStates->Enable();
 		gameStates->GetChildren()[1]->GetChildren()[1]->Enable();
 		LOG_INFO("YOU WIN THE GAME");
+	}
+
+	// B button to go to the main menu
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
+	{
+#ifndef ENGINE
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/00_MainMenu_VS3.axolotl");
+#endif // 
+
+		LOG_INFO("YOU PRESSED B BUTTON AND LOAD MAIN MENU");
 	}
 }
 
@@ -381,7 +391,7 @@ void UIGameManager::InputMethodImg(bool input)
 	}
 	else
 	{
-		if (currentInputTime >= 10.0f)
+		if (currentInputTime >= 20.0f)
 		{
 			if (imgMouse && imgController)
 			{

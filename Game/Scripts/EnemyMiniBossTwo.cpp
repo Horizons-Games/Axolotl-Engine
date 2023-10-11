@@ -20,11 +20,12 @@ REGISTERCLASS(EnemyMiniBossTwo);
 EnemyMiniBossTwo::EnemyMiniBossTwo() : seekScript(nullptr), bossState(MiniBossTwoBehaviours::IDLE),
 ownerTransform(nullptr), attackDistance(8.0f), boostOfEnergy(nullptr), shield(nullptr),
 componentAnimation(nullptr), componentAudioSource(nullptr), rangedAttack(nullptr), aiMovement(nullptr),
-firstShieldUsed(false), secondShieldUsed(false), seekDistance(15.0f)
+firstShieldUsed(false), secondShieldUsed(false), seekDistance(15.0f), blockedDoor(nullptr)
 {
 	REGISTER_FIELD(seekDistance, float);
 	REGISTER_FIELD(attackDistance, float);
 	REGISTER_FIELD(boostOfEnergy, BoostOfEnergy*);
+	REGISTER_FIELD(blockedDoor, GameObject*);
 }
 
 void EnemyMiniBossTwo::Start()
@@ -206,6 +207,6 @@ void EnemyMiniBossTwo::UpdateBehaviour(float deltaTime)
 void EnemyMiniBossTwo::SetReadyToDie()
 {
 	componentAnimation->SetParameter("IsDead", true);
-
+	blockedDoor->Disable();
 	deathScript->ManageEnemyDeath();
 }
