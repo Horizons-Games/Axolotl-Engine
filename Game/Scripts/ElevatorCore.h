@@ -12,13 +12,14 @@ class ComponentRigidBody;
 class ComponentTransform;
 class GameObject;
 class ModulePlayer;
+class SwitchPlayerManagerScript;
 
 class HealthSystem;
 
 // Little fix until we could check if an audio is being reproduced
-enum class ActiveActions
+enum class ActiveActionsElevator
 {
-	ACTIVE_PLAYER,
+	ACTIVE,
 	ACTIVE_AUTO,
 	INACTIVE
 };
@@ -34,16 +35,21 @@ class ElevatorCore : public Script
 
 public:
 	ElevatorCore();
-	~ElevatorCore();
 
 	void Start() override;
 	void Update(float deltaTime) override;
 	void MoveUpElevator(bool isPlayerInside, float deltaTime);
 	void MoveDownElevator(bool isPlayerInside, float deltaTime);
 	void OnCollisionEnter(ComponentRigidBody* other) override;
-	void OnCollisionExit(ComponentRigidBody* other) override;
-	void DisableAllInteractions();
-	void EnableAllInteractions();
+	void SetDisableInteractions(bool interactions);
+	void ActiveAuto();
+	void SetDisableInteractionsEnemies(const GameObject* enemy, bool interactions, 
+		bool activeElevator, bool setStaticRigidBody);
+
+	bool GetElevatorPos(const PositionState pos) const;
+
+	bool GetBooked() const;
+	void SetBooked(bool nbooked);
 
 private:
 	ComponentAudioSource* componentAudio;
@@ -52,12 +58,11 @@ private:
 	ComponentRigidBody* triggerEntrance;
 	ComponentTransform* transform;
 
-	ActiveActions activeState;
+	ActiveActionsElevator activeState;
 	PositionState positionState;
 
-	GameObject* currentPlayer;
-	ModulePlayer* modulePlayer;
-	ComponentTransform* playerTransform;
+	GameObject* go;
+	ComponentTransform* goTransform;
 
 	GameObject* elevator;
 	float finalPos;
@@ -67,7 +72,9 @@ private:
 	float currentTime;
 
 	float speed;
+	bool booked;
 
+	SwitchPlayerManagerScript* switchPlayerManager;
 
 	//Enemy condition
 	HealthSystem* miniBossHealth;

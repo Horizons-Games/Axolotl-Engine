@@ -684,7 +684,7 @@ void ComponentScript::InternalLoad(const Json& meta)
 	}
 }
 
-void ComponentScript::SignalEnable()
+void ComponentScript::SignalEnable(bool isSceneLoading)
 {
 	if (App->GetPlayState() != Application::PlayState::STOPPED && !App->GetModule<ModuleScene>()->IsLoading())
 	{

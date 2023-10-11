@@ -150,8 +150,6 @@ void WindowComponentTransform::DrawWindowContents()
 		}
 
 		UpdateComponentTransform();
-
-		UpdateLights();
 	}
 }
 
@@ -338,25 +336,6 @@ void WindowComponentTransform::UpdateComponentTransform()
 		if (scaleModified || rotationModified || translationModified)
 		{
 			asTransform->UpdateTransformMatrices();
-		}
-	}
-}
-
-void WindowComponentTransform::UpdateLights()
-{
-	ComponentTransform* asTransform = static_cast<ComponentTransform*>(component);
-
-	if (asTransform)
-	{
-		// Rendering lights if modified
-		if (translationModified || rotationModified)
-		{
-			const ComponentLight* lightComp = asTransform->GetOwner()->GetComponentInternal<ComponentLight>();
-
-			if (lightComp)
-			{
-				asTransform->CalculateLightTransformed(lightComp, translationModified, rotationModified);
-			}
 		}
 	}
 }

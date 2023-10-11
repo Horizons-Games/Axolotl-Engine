@@ -35,12 +35,15 @@ void AIMovement::Start()
 
 void AIMovement::Update(float deltaTime)
 {
-	if (agent)
+	if (agent && agent->IsEnabled())
 	{
-		agent->SetMaxSpeed(movementSpeed);
-		agent->SetRotationSpeed(rotationSpeed);
+		if ( agent->GetAgentId() != -1)
+		{
+			agent->SetMaxSpeed(movementSpeed);
+			agent->SetRotationSpeed(rotationSpeed);
 
-		AgentMoveToTarget();
+			AgentMoveToTarget();
+		}
 	}
 	else
 	{
@@ -55,7 +58,7 @@ void AIMovement::Update(float deltaTime)
 
 	//RotateToTarget(deltaTime);
 
-	CheckIfHasArrived();
+	//CheckIfHasArrived();
 }
 
 void AIMovement::MoveToTarget(float deltaTime)
@@ -66,7 +69,6 @@ void AIMovement::MoveToTarget(float deltaTime)
 	btVector3 movement(0, 0, 0);
 
 	forwardVector = targetPosition - componentTransform->GetGlobalPosition();
-	
 	forwardVector.y = 0;
 	forwardVector = forwardVector.Normalized();
 
@@ -74,7 +76,7 @@ void AIMovement::MoveToTarget(float deltaTime)
 	{
 		movement = btVector3(forwardVector.x, forwardVector.y, forwardVector.z) * deltaTime * movementSpeed;
 	}
-
+	
 	btVector3 currentVelocity = rigidBody->GetRigidBody()->getLinearVelocity();
 	btVector3 newVelocity(movement.getX(), currentVelocity.getY(), movement.getZ());
 
@@ -197,7 +199,10 @@ void AIMovement::SetMovementStatuses(bool activateMovement, bool activateRotatio
 
 bool AIMovement::GetIsAtDestiny()
 {
-	return isAtDestiny;
+	float2 currentPos = float2(componentTransform->GetGlobalPosition().x, componentTransform->GetGlobalPosition().z);
+	float2 destinyPos = float2(targetPosition.x, targetPosition.z);
+
+	return currentPos.Distance(destinyPos) < targetPositionOffset;
 }
 
 void AIMovement::CheckIfHasArrived()

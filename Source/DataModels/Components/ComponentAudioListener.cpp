@@ -43,7 +43,7 @@ void ComponentAudioListener::OnTransformChanged()
 	AK::SoundEngine::SetPosition(listenerID, listenerTransform);
 }
 
-void ComponentAudioListener::SignalEnable()
+void ComponentAudioListener::SignalEnable(bool isSceneLoading)
 {
 	AK::SoundEngine::RegisterGameObj(listenerID, GetOwner()->GetName().c_str());
 	AK::SoundEngine::SetDefaultListeners(&listenerID, 1);
@@ -51,7 +51,7 @@ void ComponentAudioListener::SignalEnable()
 	OnTransformChanged();
 }
 
-void ComponentAudioListener::SignalDisable()
+void ComponentAudioListener::SignalDisable(bool isSceneLoading)
 {
 	AK::SoundEngine::UnregisterGameObj(listenerID);
 }

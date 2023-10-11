@@ -11,21 +11,25 @@
 
 REGISTERCLASS(UIButtonControl);
 
-UIButtonControl::UIButtonControl() : Script(), disableObject(nullptr), enableObject(nullptr), buttonComponent(nullptr),
-buttonHover(nullptr), isGameExit(false), isGameResume(false), setUiGameManagerObject(nullptr), UIGameManagerClass(nullptr)
+UIButtonControl::UIButtonControl() : Script(), disableObject(nullptr), enableObject(nullptr), 
+buttonComponent(nullptr), buttonHover(nullptr), isGameExit(false), isGameResume(false), 
+setUiGameManagerObject(nullptr), UIGameManagerClass(nullptr), isBackButton(false)
 {
 	REGISTER_FIELD(enableObject, GameObject*);
 	REGISTER_FIELD(disableObject, GameObject*);
 	REGISTER_FIELD(buttonHover, GameObject*);
 	REGISTER_FIELD(setUiGameManagerObject, GameObject*);
-	REGISTER_FIELD(isGameExit, bool);
+	REGISTER_FIELD(isBackButton, bool);
 	REGISTER_FIELD(isGameResume, bool);
+	REGISTER_FIELD(isGameExit, bool);
 	REGISTER_FIELD(loadingScreenScript, SceneLoadingScript*);
 }
 
 void UIButtonControl::Start()
 {
 	buttonComponent = owner->GetComponent<ComponentButton>();
+	input = App->GetModule<ModuleInput>();
+	ui = App->GetModule<ModuleUI>();
 	
 	if (isGameResume != false)
 	{
@@ -43,7 +47,6 @@ void UIButtonControl::Start()
 
 void UIButtonControl::Update(float deltaTime)
 {
-
 	if (isGameExit != false)
 	{
 		if (buttonComponent->IsClicked())
@@ -53,6 +56,12 @@ void UIButtonControl::Update(float deltaTime)
 	}
 	else if (enableObject != nullptr && disableObject != nullptr)
 	{
+		if (isBackButton && input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
+		{
+			buttonComponent->SetClicked(true);
+			ui->ResetCurrentButtonIndex();
+		}
+
 		if (buttonComponent->IsClicked())
 		{
 			enableObject->Enable();

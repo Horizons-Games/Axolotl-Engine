@@ -526,6 +526,7 @@
     <ClInclude Include="recastnavigation\Recast\RecastAssert.h" />
     <ClInclude Include="recastnavigation\Recast\SampleInterfaces.h" />
     <ClInclude Include="ImGui\imgui_color_gradient.h" />
+    <ClInclude Include="ParShapes\par_shapes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGui\imgui.cpp">

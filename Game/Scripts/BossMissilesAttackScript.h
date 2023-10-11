@@ -58,8 +58,10 @@ private:
 	float missileAttackCooldown;
 	float missileSpawnTime;
 
+	ComponentTransform* safePositionSelected;
+
 	//Modifiable values
-	ComponentTransform* safePositionTransform;
+	std::vector<ComponentTransform*> safePositionsTransforms;
 	ComponentRigidBody* battleArenaAreaSize;
 
 	float missileAttackMaxDuration;
