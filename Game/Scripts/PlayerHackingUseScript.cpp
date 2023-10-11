@@ -14,6 +14,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentParticleSystem.h"
 #include "Physics/Physics.h"
 
 #include "MathGeoLib/Include/Geometry/Ray.h"
@@ -47,10 +48,11 @@ void PlayerHackingUseScript::Update(float deltaTime)
 		currentAction == PlayerActions::DOUBLEJUMPING;
 
 	bool isAttacking = playerManager->GetAttackManager()->IsInAttackAnimation();
-		
+	FindHackZone(hackingTag);
+	CheckCurrentHackZone();
+
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingActive && !isJumping && !isAttacking)
 	{
-		FindHackZone(hackingTag);
 		if (hackZone && !hackZone->IsCompleted() && !playerManager->IsParalyzed())
 		{
 			InitHack();
@@ -158,6 +160,7 @@ void PlayerHackingUseScript::InitHack()
 	switchPlayerManager->SetIsSwitchAvailable(false);
 
 	userCommandInputs.reserve(static_cast<size_t>(hackZone->GetSequenceSize()));
+	//hackZone->GetOwner()->GetComponent<ComponentParticleSystem>()->Stop();
 
 	commandCombination = hackZone->GetCommandCombination();
 	for (auto command : commandCombination)
@@ -250,8 +253,23 @@ void PlayerHackingUseScript::FindHackZone(const std::string& tag)
 			if (distance < hackZoneScript->GetInfluenceRadius())
 			{
 				hackZone = hackZoneScript;
+				//hackZone->GetOwner()->GetComponent<ComponentParticleSystem>()->Play();
 			}
+		}
+	}
+}
 
+void PlayerHackingUseScript::CheckCurrentHackZone()
+{
+	if (hackZone)
+	{
+		float3 hackZonePosition = hackZone->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
+		float3 playerPosition = transform->GetGlobalPosition();
+		float distance = (playerPosition - hackZonePosition).Length();
+
+		if (distance > hackZone->GetInfluenceRadius())
+		{
+			//hackZone->GetOwner()->GetComponent<ComponentParticleSystem>()->Stop();
 		}
 	}
 }
