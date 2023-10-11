@@ -160,7 +160,7 @@ void PlayerHackingUseScript::InitHack()
 	switchPlayerManager->SetIsSwitchAvailable(false);
 
 	userCommandInputs.reserve(static_cast<size_t>(hackZone->GetSequenceSize()));
-	//hackZone->GetOwner()->GetComponent<ComponentParticleSystem>()->Stop();
+	hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
 
 	commandCombination = hackZone->GetCommandCombination();
 	for (auto command : commandCombination)
@@ -250,10 +250,10 @@ void PlayerHackingUseScript::FindHackZone(const std::string& tag)
 
 			float distance = (playerPosition - hackZonePosition).Length();
 
-			if (distance < hackZoneScript->GetInfluenceRadius())
+			if (distance < hackZoneScript->GetInfluenceRadius() && !hackZoneScript->IsCompleted())
 			{
 				hackZone = hackZoneScript;
-				//hackZone->GetOwner()->GetComponent<ComponentParticleSystem>()->Play();
+				hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
 			}
 		}
 	}
@@ -269,7 +269,8 @@ void PlayerHackingUseScript::CheckCurrentHackZone()
 
 		if (distance > hackZone->GetInfluenceRadius())
 		{
-			//hackZone->GetOwner()->GetComponent<ComponentParticleSystem>()->Stop();
+			hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+			hackZone = nullptr;
 		}
 	}
 }
