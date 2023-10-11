@@ -85,7 +85,6 @@ void ComboManager::CheckSpecial(float deltaTime)
 	}
 	else if (comboCount > 0)
 	{
-		
 		uiComboManager->UpdateFadeOut(actualComboTimer / comboTime);
 		actualComboTimer -= deltaTime;
 	}
@@ -163,6 +162,11 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 		uiComboManager->AddInputVisuals(InputVisualType::JUMP);
 	}
 
+	if (comboCount == 3)
+	{
+		ClearCombo(true);
+	}
+
 	if (specialCount < 0 || !specialActivated)
 	{
 		this->specialCount =
@@ -176,12 +180,6 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 		uiComboManager->SetComboBarValue(this->specialCount);
 
 		actualComboTimer = comboTime;
-	}
-
-	if (comboCount == 3) 
-	{
-		uiComboManager->SetEffectEnable(true);
-		ClearCombo(true);
 	}
 }
 
