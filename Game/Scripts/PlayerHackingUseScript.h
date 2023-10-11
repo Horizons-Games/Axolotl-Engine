@@ -36,6 +36,7 @@ private:
 	void FinishHack();
 	void RestartHack();
 	void CheckCurrentHackZone();
+
 private:
 
 	bool isHackingButtonPressed;
