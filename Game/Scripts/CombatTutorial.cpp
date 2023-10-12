@@ -53,7 +53,7 @@ void CombatTutorial::Start()
 	if (combatDummy)
 	{
 		dummyHealthSystem = combatDummy->GetComponent<HealthSystem>();
-		componentMoveScript = combatDummy->GetComponent<PlayerMoveScript>();
+		componentMoveScript = player->GetComponent<PlayerMoveScript>();
 		dummyHealthSystem->SetIsImmortal(true);
 	}
 
@@ -71,6 +71,7 @@ void CombatTutorial::Update(float deltaTime)
 		
 		tutorialUI->UnDeployUI();
 		dummyHealthSystem->SetIsImmortal(true);
+		doorRigidbody->SetIsTrigger(false);
 		
 		if (tutorialUI->GetTutorialCurrentState() == static_cast<int>(tutorialUI->GetNumControllableState()))
 		{
@@ -169,7 +170,6 @@ void CombatTutorial::OnCollisionEnter(ComponentRigidBody* other)
 			userControllable = true;
 			//Launches intro
 			tutorialUI->TutorialStart();
-			doorRigidbody->SetIsTrigger(false);
 			LOG_INFO("TutorialEntered");
 		}
 }

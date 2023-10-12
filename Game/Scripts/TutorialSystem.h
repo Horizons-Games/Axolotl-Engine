@@ -52,6 +52,7 @@ private:
 	std::vector<GameObject*> tutorialUI;
 	GameObject* currentTutorialUI;
 	GameObject* NextTutorialUI;
+	GameObject* player;
 	GameObject* dummy;
 	HealthSystem* dummyHealthSystem;
 	PlayerMoveScript* componentMoveScript;

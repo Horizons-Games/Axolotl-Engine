@@ -46,7 +46,7 @@ TutorialSystem::TutorialSystem() :
 
 void TutorialSystem::Start()
 {
-	
+	player = App->GetModule<ModulePlayer>()->GetPlayer();
 	currentTutorialUI = tutorialUI.front();
 	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
 	transform2D = currentTutorialUI->GetComponent<ComponentTransform2D>();
@@ -56,7 +56,7 @@ void TutorialSystem::Start()
 	if (dummy)
 	{
 		dummyHealthSystem = dummy->GetComponent<HealthSystem>();
-		componentMoveScript = dummy->GetComponent<PlayerMoveScript>();
+		componentMoveScript = player->GetComponent<PlayerMoveScript>();
 	}
 }
 
@@ -83,7 +83,7 @@ void TutorialSystem::TutorialStart()
 	transform2D->CalculateMatrices();
 	displacementControl->SetMovingToEnd(true);
 	displacementControl->MoveImageToEndPosition();
-	componentMoveScript->SetIsParalyzed(true);
+	//componentMoveScript->SetIsParalyzed(true);
 
 }
 
