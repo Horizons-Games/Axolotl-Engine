@@ -36,7 +36,7 @@ bool CompareButtonPositions(const ComponentButton* a, const ComponentButton* b)
 
 namespace
 {
-constexpr const float cooldownTime = 0.15f;
+constexpr const float cooldownTime = 0.25f;
 } // namespace
 
 ModuleUI::ModuleUI()
@@ -73,7 +73,7 @@ UpdateStatus ModuleUI::Update()
 		leftClickDown = input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN;
 	}
 
-	lastButtonChange = lastButtonChange + App->GetDeltaTime();
+	lastButtonChange += App->GetDeltaTime();
 
 	if (!sortedButtonsIds.empty() && lastButtonChange > cooldownTime)
 	{

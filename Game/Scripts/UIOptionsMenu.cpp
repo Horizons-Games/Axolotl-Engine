@@ -10,7 +10,10 @@
 #include "Application.h"
 #include "UIGameManager.h"
 
-
+namespace
+{
+	constexpr const float cooldownTime = 0.25f;
+} // namespace
 
 REGISTERCLASS(UIOptionsMenu);
 
@@ -19,7 +22,8 @@ audioOptionButton(nullptr), controlsOptionButton(nullptr), gameOptionCanvas(null
 audioOptionCanvas(nullptr), gameOptionHover(nullptr), videoOptionHover(nullptr), audioOptionHover(nullptr), 
 controlsOptionHover(nullptr), gamepadTriggersImg(nullptr), headerMenuPosition(0), newHeaderMenuPosition(-1),
 selectedOption(-1), actualButton(-1), actualButtonHover(-1), maxButtonsOptions(-1), maxOptions(-1), 
-newSelectedOption(-1), valueSlider(-1), resetButtonIndex(true), applyChangesOnLoad(false)
+newSelectedOption(-1), valueSlider(-1), applyChangesOnLoad(false), timeSinceLastChange(0.0f),
+verticalDirection(JoystickVerticalDirection::NONE), horizontalDirection(JoystickHorizontalDirection::NONE)
 {
 	REGISTER_FIELD(gameOptionButton, GameObject*);
 	REGISTER_FIELD(videoOptionButton, GameObject*);
@@ -77,23 +81,20 @@ void UIOptionsMenu::Start()
 
 void UIOptionsMenu::Update(float deltaTime)
 {
-	ControllerMenuMode();
+	ControllerMenuMode(deltaTime);
 }
 
-void UIOptionsMenu::ControllerMenuMode()
+void UIOptionsMenu::ControllerMenuMode(float deltaTime)
 {
-	if (resetButtonIndex)
-	{
-		ui->ResetCurrentButtonIndex();
-		resetButtonIndex = false;
-	}
-
+	
+	timeSinceLastChange += deltaTime;
+	
 	// BACK TO MAIN MENU
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
 	{
 		BackToLastSavedOption();
 		SaveOptions();
-		resetButtonIndex = true;
+		ui->ResetCurrentButtonIndex();
 		return;
 	}
 
@@ -102,7 +103,7 @@ void UIOptionsMenu::ControllerMenuMode()
 	{
 		BackToLastSavedOption();
 		LoadDefaultOptions();
-		resetButtonIndex = true;
+		ui->ResetCurrentButtonIndex();
 		return;
 	}
 
@@ -169,15 +170,20 @@ void UIOptionsMenu::ControllerMenuMode()
 	}
 
 	// IF THE BUTTON IS LOCKED BLOCK THE OPTIONS SELECCTION
-	if (actualConfig[headerMenuPosition].options.size() == 0 || 
+	if (actualConfig[headerMenuPosition].options.size() == 0 ||
 		actualConfig[headerMenuPosition].options[actualButton].locked)
 	{
 		return;
 	}
 
 	// MOVE LEFT OR RIGHT THE OPTIONS
-	if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
+	horizontalDirection = input->GetLeftJoystickDirection().horizontalDirection;
+	if (horizontalDirection != JoystickHorizontalDirection::NONE ||
+		input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN ||
+		input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
 	{
+		// Set vertical direction to none to avoid unexpected vertical movement during options change	
+		verticalDirection = JoystickVerticalDirection::NONE;
 		maxOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->
 			GetChildren()[1]->GetChildren().size() - 1;
 
@@ -201,14 +207,16 @@ void UIOptionsMenu::ControllerMenuMode()
 
 				valueSlider = slider->GetCurrentValue();
 
-				if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN)
+				if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN ||
+					horizontalDirection == JoystickHorizontalDirection::LEFT)
 				{
 					if (valueSlider > slider->GetMinValue())
 					{
 						valueSlider -= 10.0f;
 					}
 				}
-				else if (input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
+				else if (input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN ||
+					horizontalDirection == JoystickHorizontalDirection::RIGHT)
 				{
 					if (valueSlider < slider->GetMaxValue())
 					{
@@ -226,22 +234,26 @@ void UIOptionsMenu::ControllerMenuMode()
 			{
 				newSelectedOption = selectedOption;
 
-				if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN)
+				if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN ||
+					horizontalDirection == JoystickHorizontalDirection::LEFT)
 				{
-					if (newSelectedOption > 0)
+					if (newSelectedOption > 0 && timeSinceLastChange > cooldownTime)
 					{
 						newSelectedOption--;
+						timeSinceLastChange = 0.0f;
 					}
 				}
-				else if (input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
+				else if (input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN ||
+					horizontalDirection == JoystickHorizontalDirection::RIGHT)
 				{
-					if (newSelectedOption < maxOptions)
+					if (newSelectedOption < maxOptions && timeSinceLastChange > cooldownTime)
 					{
 						newSelectedOption++;
+						timeSinceLastChange = 0.0f;
 					}
 				}
 
-				//.ACTUAL CANVAS -> HOVERED BUTTON -> ALWAYS SECOND CHILDREN -> SELECTED OPTION
+				// ACTUAL CANVAS -> HOVERED BUTTON -> ALWAYS SECOND CHILDREN -> SELECTED OPTION
 				// THINK THE IF IS USELESS BUT ITS WORKING GOOD SO DONT DELETE
 				if (newSelectedOption != -1 && newSelectedOption != selectedOption)
 				{
@@ -252,14 +264,12 @@ void UIOptionsMenu::ControllerMenuMode()
 				}
 			}
 		}
-
 	}
 
 	if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN)
 	{
 		UpdateChanges();
 	}
-
 }
 
 void UIOptionsMenu::UpdateChanges()
@@ -488,7 +498,6 @@ void UIOptionsMenu::IsSizeOptionEnabled()
 	{
 		colorSet = { 1.0f, 1.0f, 1.0f, 1.0f };
 		actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[static_cast<int>(Button::RESOLUTION)].locked = false;
-
 	}
 
 	buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->GetChildren()[static_cast<int>(Button::RESOLUTION)]->

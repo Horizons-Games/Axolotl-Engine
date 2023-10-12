@@ -45,7 +45,7 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void ControllerMenuMode();
+	void ControllerMenuMode(float deltaTime);
 	//void KeyboardMenuMode();
 	void LoadOptions();
 	
@@ -84,10 +84,9 @@ private:
 	int maxOptions;
 	int newSelectedOption;
 	float valueSlider;
+	float timeSinceLastChange;
 
 	bool isSlider;
-	bool optionSizeLock;
-	bool resetButtonIndex;
 	bool applyChangesOnLoad;
 
 	ModuleInput* input;
@@ -96,6 +95,7 @@ private:
 	ModuleRender* render;
 	ModuleAudio* audio;
 	JoystickVerticalDirection verticalDirection;
+	JoystickHorizontalDirection horizontalDirection;
 
 	GameObject* gameOptionButton;
 	GameObject* videoOptionButton;
