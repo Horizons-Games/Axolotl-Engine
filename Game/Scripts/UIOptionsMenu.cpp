@@ -41,29 +41,23 @@ newSelectedOption(-1), loadFromMainMenu(false), valueSlider(-1), resetButtonInde
 
 void UIOptionsMenu::Init()
 {
-	if (loadFromMainMenu)
-	{
-		loadFromMainMenu = false;
+	input = App->GetModule<ModuleInput>();
+	window = App->GetModule<ModuleWindow>();
+	ui = App->GetModule<ModuleUI>();
+	render = App->GetModule<ModuleRender>();
+	audio = App->GetModule<ModuleAudio>();
 
-		input = App->GetModule<ModuleInput>();
-		window = App->GetModule<ModuleWindow>();
-		ui = App->GetModule<ModuleUI>();
-		render = App->GetModule<ModuleRender>();
-		audio = App->GetModule<ModuleAudio>();
+	gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
+	videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
+	audioOptionComponentButton = audioOptionButton->GetComponent<ComponentButton>();
+	controlsOptionComponentButton = controlsOptionButton->GetComponent<ComponentButton>();
 
-		gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
-		videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
-		audioOptionComponentButton = audioOptionButton->GetComponent<ComponentButton>();
-		controlsOptionComponentButton = controlsOptionButton->GetComponent<ComponentButton>();
+	buttonsAndCanvas.push_back(HeaderOptionsButton{ gameOptionComponentButton, gameOptionCanvas, gameOptionHover });
+	buttonsAndCanvas.push_back(HeaderOptionsButton{ videoOptionComponentButton, videoOptionCanvas, videoOptionHover });
+	buttonsAndCanvas.push_back(HeaderOptionsButton{ audioOptionComponentButton, audioOptionCanvas, audioOptionHover });
+	buttonsAndCanvas.push_back(HeaderOptionsButton{ controlsOptionComponentButton, controlsOptionCanvas, controlsOptionHover });
 
-		buttonsAndCanvas.push_back(HeaderOptionsButton{ gameOptionComponentButton, gameOptionCanvas, gameOptionHover });
-		buttonsAndCanvas.push_back(HeaderOptionsButton{ videoOptionComponentButton, videoOptionCanvas, videoOptionHover });
-		buttonsAndCanvas.push_back(HeaderOptionsButton{ audioOptionComponentButton, audioOptionCanvas, audioOptionHover });
-		buttonsAndCanvas.push_back(HeaderOptionsButton{ controlsOptionComponentButton, controlsOptionCanvas, controlsOptionHover });
-
-		LoadOptions();
-	}
-	
+	LoadOptions();
 }
 
 void UIOptionsMenu::Start()

@@ -72,6 +72,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		seekScript->DisableMovement();
 		rangedAttackScript->InterruptAttack();
 		venomiteState = VenomiteBehaviours::SEEK;
+		return;
 	}
 	if (paralyzed)
 	{

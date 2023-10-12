@@ -55,6 +55,9 @@ void FinalBossScript::Update(float deltaTime)
 {
 	if (isPaused)
 	{
+		aiMovement->SetMovementStatuses(false, false);
+		bossPhase = FinalBossPhases::NEUTRAL;
+		bossState = FinalBossStates::IDLE;
 		return;
 	}
 	if (!target)
