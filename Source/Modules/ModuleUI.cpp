@@ -82,7 +82,8 @@ UpdateStatus ModuleUI::Update()
 		int newIndex = static_cast<int>(currentButtonIndex);
 		do
 		{
-			if (leftJoystickDirection.verticalDirection == JoystickVerticalDirection::FORWARD)
+			if (leftJoystickDirection.verticalDirection == JoystickVerticalDirection::FORWARD ||
+				input->GetKey(SDL_SCANCODE_TAB) != KeyState::IDLE)
 			{
 				// We sum the size to avoid negative values, if this is not used we can not jump
 				// from the first button to the last
@@ -91,6 +92,7 @@ UpdateStatus ModuleUI::Update()
 			// When the current button is not enabled we keep looping until we find one enabled,
 			// this avoids getting stuck in a disabled button when we change from a scene to another
 			else if (leftJoystickDirection.verticalDirection == JoystickVerticalDirection::BACK ||
+					 input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE ||
 					 !scene->GetLoadedScene()
 						  ->SearchGameObjectByID(sortedButtonsIds[newIndex])
 						  ->GetComponent<ComponentButton>()
