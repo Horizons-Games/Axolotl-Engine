@@ -10,14 +10,12 @@ REGISTERCLASS(UILoadSavedSettings);
 UILoadSavedSettings::UILoadSavedSettings() : Script(), optionsMenu(nullptr)
 {
 	REGISTER_FIELD(optionsMenu, UIOptionsMenu*);
+	REGISTER_FIELD(applyOptionsOnLoad, bool);
 }
 
 void UILoadSavedSettings::Start()
 {
 	Assert(optionsMenu != nullptr, "Options Menu is not set");
-
-	optionsMenu->Init();
-	optionsMenu->SetLoadFromMainMenu(true);
-	optionsMenu->LoadOptions();
-
+	optionsMenu->SetApplyChangesOnLoad(applyOptionsOnLoad);
+	optionsMenu->Initialize();
 }

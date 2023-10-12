@@ -41,7 +41,7 @@ public:
 	UIOptionsMenu();
 	~UIOptionsMenu() override = default;
 
-	void Init();
+	void Initialize();
 	void Start() override;
 	void Update(float deltaTime) override;
 
@@ -49,8 +49,8 @@ public:
 	//void KeyboardMenuMode();
 	void LoadOptions();
 	
-	void SetLoadFromMainMenu(bool fromMainMenu);
-	bool IsLoadFromMainMenu() const;
+	void SetApplyChangesOnLoad(bool apply);
+	bool IsApplyChangesOnLoad() const;
 
 private:
 
@@ -88,7 +88,7 @@ private:
 	bool isSlider;
 	bool optionSizeLock;
 	bool resetButtonIndex;
-	bool loadFromMainMenu;
+	bool applyChangesOnLoad;
 
 	ModuleInput* input;
 	ModuleUI* ui;
