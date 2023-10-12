@@ -20,6 +20,7 @@
 
 #include "UIGameManager.h"
 #include "HealthSystem.h"
+#include "SceneLoadingScript.h"
 #include "Components/ComponentScript.h"
 
 REGISTERCLASS(UITrigger);
@@ -34,6 +35,7 @@ playerHealthSystem(nullptr), onTriggerState(false), damageTaken(1)
 	REGISTER_FIELD(isLoseByDamage, bool);
 	REGISTER_FIELD(setGameStateObject, GameObject*);
 	REGISTER_FIELD(damageTaken, float);
+	REGISTER_FIELD(loadingScreenScript, SceneLoadingScript*);
 }
 
 UITrigger::~UITrigger()
@@ -70,7 +72,7 @@ void UITrigger::Update(float deltaTime)
 	{
 		if (isWinTrigger)
 		{
-			App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/00_WinScene_VS3.axolotl");
+			LoadScene("Lib/Scenes/00_WinScene_VS3.axolotl");
 
 		}
 		else if (isLoseTrigger)
@@ -107,5 +109,17 @@ void UITrigger::OnCollisionExit(ComponentRigidBody* other)
 	if (other->GetOwner()->CompareTag("Player"))
 	{
 		onTriggerState = false;
+	}
+}
+
+void UITrigger::LoadScene(const std::string& sceneToLoadIfNoLoadingScreen)
+{
+	if (loadingScreenScript != nullptr)
+	{
+		loadingScreenScript->StartLoad();
+	}
+	else
+	{
+		App->GetModule<ModuleScene>()->SetSceneToLoad(sceneToLoadIfNoLoadingScreen);
 	}
 }
