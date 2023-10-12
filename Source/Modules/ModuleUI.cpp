@@ -56,6 +56,11 @@ bool ModuleUI::Init()
 
 UpdateStatus ModuleUI::Update()
 {
+	if (App->GetModule<ModuleScene>()->IsLoading())
+	{
+		return UpdateStatus::UPDATE_CONTINUE;
+	}
+
 	std::vector<ComponentCanvas*> canvasScene = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCanvas();
 
 #ifdef ENGINE
