@@ -87,26 +87,27 @@ void UIComboManager::Update(float deltaTime)
 		}
 	}
 
-	for (auto it = shinyButtonEffect.begin(); it != shinyButtonEffect.end(); ++it)
+	for (auto it = shinyButtonEffect.begin(); it != shinyButtonEffect.end();)
 	{
 		ComponentImage* image = (*it)->GetComponentInternal<ComponentImage>();
 		float4 color = image->GetColor();
 		if (color.w <= 0.0f) 
 		{
-			//shinyButtonEffect.erase(it);
-			//App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(*it);
+			App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(*it);
+			it = shinyButtonEffect.erase(it);
 			continue;
 		}
 		else
 		{
-			color.w -= deltaTime;
+			color.w -= deltaTime * 2;
 			image->SetColor(color);
 		}
 
 		ComponentTransform2D* transform = (*it)->GetComponent<ComponentTransform2D>();
 		float2 size = transform->GetSize();
-		size = size.Add(deltaTime * 200);
+		size = size.Add(deltaTime * 120);
 		transform->SetSize(size);
+		++it;
 	}
 
 	if (noFillBar && noFillBar->IsEnabled())
@@ -193,7 +194,7 @@ void UIComboManager::SetComboBarValue(float value)
 
 void UIComboManager::AddInputVisuals(InputVisualType type) 
 {
-	if (inputVisuals.size() >= 3) 
+	if (clearCombo) 
 	{
 		CleanInputVisuals();
 	}
@@ -208,7 +209,6 @@ void UIComboManager::AddInputVisuals(InputVisualType type)
 		prefab = inputPrefabHeavy;
 		break;
 	case InputVisualType::JUMP:
-		AXO_TODO("Add here the CORRECT input prefab for the jump");
 		prefab = inputPrefabJumpAttack;
 		break;
 	default:
@@ -271,11 +271,6 @@ void UIComboManager::UpdateFadeOut(float transparency)
 void UIComboManager::InitFinishComboButtonsEffect() //Make a VFX when you get a full combo
 {
 	finisherClearEffect = true;
-	int size = inputVisuals.size();
-	if (size != 3)  //TODO QUITAR
-	{
-		int a = 2;
-	}
 	for (int i = 0; i < inputVisuals.size(); i++)
 	{
 		inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(111.f, 111.f));
@@ -286,7 +281,7 @@ void UIComboManager::InitFinishComboButtonsEffect() //Make a VFX when you get a 
 			App->GetModule<ModuleScene>()->GetLoadedScene()->
 			DuplicateGameObject(prefab->GetName(), prefab, inputPositions[i]);
 		newShinyEffect->Enable();
-		newShinyEffect->GetComponent<ComponentTransform2D>()->SetSize(float2(151.f, 154.f));
+		newShinyEffect->GetComponent<ComponentTransform2D>()->SetSize(float2(154.f, 154.f));
 		shinyButtonEffect.push_back(newShinyEffect);
 	}
 }
