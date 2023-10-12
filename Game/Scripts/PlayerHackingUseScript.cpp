@@ -259,6 +259,15 @@ void PlayerHackingUseScript::FindHackZone(const std::string& tag)
 	}
 }
 
+void PlayerHackingUseScript::StopHackingParticle()
+{
+	if (hackZone)
+	{
+		hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+		hackZone = nullptr;
+	}
+}
+
 void PlayerHackingUseScript::CheckCurrentHackZone()
 {
 	if (hackZone)

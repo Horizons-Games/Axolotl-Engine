@@ -26,6 +26,7 @@ public:
 	bool IsHackingActive() const;
 
 	void PrintCombination(); // DEBUG METHOD
+	void StopHackingParticle();
 
 private:
 
