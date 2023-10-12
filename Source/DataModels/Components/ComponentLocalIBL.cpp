@@ -128,9 +128,6 @@ void ComponentLocalIBL::GenerateMaps()
 	glEnable(GL_DEPTH_TEST);
 	glCullFace(GL_FRONT); // Show front faces
 	glFrontFace(GL_CW); // Clockwise
-
-	App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneLocalIBL(this);
-	App->GetModule<ModuleScene>()->GetLoadedScene()->RenderLocalIBL(this);
 }
 
 void ComponentLocalIBL::Draw() const
@@ -437,6 +434,9 @@ void ComponentLocalIBL::CreateCubemap()
 	Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	ComponentSkybox* skybox = scene->GetRoot()->GetComponentInternal<ComponentSkybox>();
+
+	modRender->BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
+	modRender->BindCubemapToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
 
 	Frustum frustum;
 	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);

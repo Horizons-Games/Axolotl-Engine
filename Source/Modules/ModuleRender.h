@@ -88,6 +88,7 @@ public:
 	void SortTransparents(std::vector<GameObject*>& sceneGameObjects, const float3& pos);
 	
 	void BindCameraToProgram(Program* program, Frustum& frustum);
+	void BindCubemapToProgram(Program* program);
 
 private:
 
@@ -111,8 +112,6 @@ private:
 	bool CheckIfTransparent(const GameObject* gameObject);
 
 	void DrawHighlight(GameObject* gameObject);
-
-	void BindCubemapToProgram(Program* program);
 
 	void KawaseDualFiltering();
 
