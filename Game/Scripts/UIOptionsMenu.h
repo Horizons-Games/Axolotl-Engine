@@ -18,6 +18,7 @@ enum class Canvas
 	AUDIO_CANVAS = 2,
 	CONTROLS_CANVAS = 3
 };
+
 enum class Button
 {
 	//GAME
@@ -67,6 +68,7 @@ private:
 		int defaultOption;
 		bool locked;
 	};
+
 	struct CanvasOptionInfo
 	{
 		std::vector<ButtonOptionInfo> options;
