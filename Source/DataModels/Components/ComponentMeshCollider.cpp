@@ -128,7 +128,7 @@ void ComponentMeshCollider::GetMinMaxPoints(const std::vector<float3>& startingP
 			}
 		}
 		minStep += stepSize;
-		for (int i = 0; i < points.size(); i++)
+		for (int i = 0; i < points.size(); ++i)
 		{
 			if (minStep > points[i].y)
 			{

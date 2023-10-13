@@ -141,7 +141,7 @@ struct ContactResultCallback : public btCollisionWorld::ContactResultCallback
 void ModulePhysics::ManageCollisions()
 {
 	btCollisionObjectArray collisionArray = dynamicsWorld->getCollisionObjectArray();
-	for (int i = 0; i < collisionArray.size(); i++)
+	for (int i = 0; i < collisionArray.size(); ++i)
 	{
 		btCollisionObject* obj = collisionArray[i];
 
@@ -162,7 +162,7 @@ void ModulePhysics::ManageCollisions()
 
 		if (result.collisionDetected)
 		{
-			for (int j = 0; j < result.othersRigidBody.size(); j++)
+			for (int j = 0; j < result.othersRigidBody.size(); ++j)
 			{
 				ComponentRigidBody* other =
 					static_cast<ComponentRigidBody*>(result.othersRigidBody[j]->getUserPointer());
@@ -295,7 +295,7 @@ void ModulePhysics::GetCollisions(ComponentRigidBody* rb, std::vector<ComponentR
 
 	if (result.collisionDetected)
 	{
-		for (int j = 0; j < result.othersRigidBody.size(); j++)
+		for (int j = 0; j < result.othersRigidBody.size(); ++j)
 		{
 			ComponentRigidBody* other = static_cast<ComponentRigidBody*>(result.othersRigidBody[j]->getUserPointer());
 			if (tag.empty() || tag == other->GetOwner()->GetTag())

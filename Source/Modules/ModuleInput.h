@@ -182,7 +182,7 @@ inline SDL_JoystickID ModuleInput::GetControllerInstanceID(SDL_GameController* c
 
 inline SDL_GameController* ModuleInput::FindController() const
 {
-	for (int i = 0; i < SDL_NumJoysticks(); i++)
+	for (int i = 0; i < SDL_NumJoysticks(); ++i)
 	{
 		if (SDL_IsGameController(i))
 		{

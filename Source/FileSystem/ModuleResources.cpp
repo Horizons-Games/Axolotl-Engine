@@ -324,7 +324,7 @@ std::shared_ptr<Resource> ModuleResources::LoadResourceStored(const char* filePa
 {
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	std::vector<std::string> files = fileSystem->ListFiles(filePath);
-	for (size_t i = 0; i < files.size(); i++)
+	for (size_t i = 0; i < files.size(); ++i)
 	{
 		std::string path(filePath);
 		path += '/' + files[i];
@@ -677,7 +677,7 @@ void ModuleResources::MonitorResources()
 bool ModuleResources::ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID)
 {
 	std::map<UID, std::weak_ptr<Resource>>::iterator it;
-	for (it = resources.begin(); it != resources.end(); it++)
+	for (it = resources.begin(); it != resources.end(); ++it)
 	{
 		std::shared_ptr<Resource> resourceAsShared = it->second.lock();
 

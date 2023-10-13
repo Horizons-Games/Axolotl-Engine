@@ -97,7 +97,7 @@ void JumpFinisherArea::PushEnemies(float pushForce, float stunTime, std::vector<
 	const ComponentTransform* transform = owner->GetComponent<ComponentTransform>();
 
 	for (std::vector<ComponentRigidBody*>::iterator it = (*enemies).begin(); it < (*enemies).end();
-		it++)
+		++it)
 	{
 		GameObject* ownerEnemy = (*it)->GetOwner();
 		// If you think about a better way to identify the bosses lmk, tags are already in use
