@@ -72,6 +72,7 @@ void CombatTutorial::Update(float deltaTime)
 		tutorialUI->UnDeployUI();
 		dummyHealthSystem->SetIsImmortal(true);
 		doorRigidbody->SetIsTrigger(false);
+		componentMoveScript->SetIsParalyzed(true);
 		
 		if (tutorialUI->GetTutorialCurrentState() == static_cast<int>(tutorialUI->GetNumControllableState()))
 		{
@@ -84,7 +85,7 @@ void CombatTutorial::Update(float deltaTime)
 
 	else if (tutorialActivable && input->GetKey(SDL_SCANCODE_G) == KeyState::DOWN && !tutorialUI->GetDisplacementControl()->IsMoving())
 	{
-
+		tutorialUI->TutorialSkip();
 
 	}
 	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.75f
