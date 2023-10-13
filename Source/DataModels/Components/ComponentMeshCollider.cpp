@@ -66,7 +66,7 @@ bool ComponentMeshCollider::StepsMove(int steps, Direction direction, float dist
 	std::vector<float3> usedPoints;
 	GetPointsGivenDirection(usedPoints, PositionPoints, direction);
 	float3 movementDirection = GetMovementGivenDirection(PositionPoints, direction);
-	for (int i = steps; i > 0; i--)
+	for (int i = steps; i > 0; --i)
 	{
 		if (!IsColliding(usedPoints, movementDirection, sectionMove * (float) i, stepSize))
 		{
