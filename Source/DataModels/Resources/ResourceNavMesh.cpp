@@ -399,7 +399,7 @@ static int RasterizeTileLayers(float* verts,
 		}
 	}
 
-	// Transfer ownsership of tile data from build context to the caller.
+	// Transfer ownership of tile data from build context to the caller.
 	int n = 0;
 	for (int i = 0; i < rcMin(rc.ntiles, maxTiles); ++i)
 	{
