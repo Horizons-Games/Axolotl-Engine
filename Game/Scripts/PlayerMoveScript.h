@@ -37,11 +37,19 @@ public:
 	void Start() override;
 	void PreUpdate(float deltaTime) override;
 
+	void OnCollisionEnter(ComponentRigidBody* other) override;
+	void OnCollisionExit(ComponentRigidBody* other) override;
+
 	void Move(float deltaTime);
 	void MoveRotate(float deltaTime);
 
+	bool IsTriggeringStoredDash() const;
+	void SetIsTriggeringStoredDash(bool isTriggeringStoredDash);
+
 	bool IsParalyzed() const;
 	void SetIsParalyzed(bool isParalyzed);
+
+	bool IsOnWater() const;
 
 	PlayerJumpScript* GetJumpScript() const;
 
@@ -51,6 +59,7 @@ private:
 	ComponentAnimation* componentAnimation;
 	bool isParalyzed;
 
+	bool isTriggeringStoredDash;
 	float dashForce;
 	float dashRollTime;
 	float dashRollDuration;
@@ -78,6 +87,8 @@ private:
 	int currentMovements;
 
 	float3 desiredRotation;
+
+	int waterCounter;
 
 	void DashRoll(float deltaTime);
 };

@@ -111,12 +111,17 @@ ModuleRenderer::ModuleRenderer(ParticleEmitter* emitter, ModuleRenderer* rendere
 	alignment = renderer->GetAlignment();
 	blendingMode = renderer->GetBlending();
 	tiles[0] = renderer->GetTiles().first;
+	tiles[1] = renderer->GetTiles().second;
 	sheetSpeed = renderer->GetSheetSpeed();
 	frameBlending = renderer->GetFrameBlending();
 }
 
 ModuleRenderer::~ModuleRenderer()
 {
+#ifdef ENGINE
+	delete windowTexture;
+#endif // ENGINE
+
 	// Buffer cleanup
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);

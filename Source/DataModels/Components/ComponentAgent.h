@@ -27,6 +27,7 @@ public:
 
 	float3 GetVelocity() const;
 	float GetMaxSpeed() const;
+	int GetAgentId() const;
 	float GetInitialMaxSpeed() const;
 	float GetMaxAcceleration() const;
 	float GetInitialMaxAcceleration() const;
@@ -61,12 +62,17 @@ private:
 	bool isFirstAdded = true;
 
 	ComponentTransform* transform;
-
+	ComponentRigidBody* rb;
 };
 
 inline float ComponentAgent::GetMaxSpeed() const
 {
 	return maxSpeed;
+}
+
+inline int ComponentAgent::GetAgentId() const
+{
+	return agentId;
 }
 
 inline float ComponentAgent::GetMaxAcceleration() const

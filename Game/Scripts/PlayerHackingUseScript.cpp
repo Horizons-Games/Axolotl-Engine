@@ -3,6 +3,7 @@
 
 #include "HackZoneScript.h"
 #include "UIHackingManager.h"
+#include "SwitchPlayerManagerScript.h"
 #include "PlayerManagerScript.h"
 #include "PlayerJumpScript.h"
 #include "PlayerMoveScript.h"
@@ -13,6 +14,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentParticleSystem.h"
 #include "Physics/Physics.h"
 
 #include "MathGeoLib/Include/Geometry/Ray.h"
@@ -23,6 +25,7 @@ PlayerHackingUseScript::PlayerHackingUseScript()
 	: Script(), isHackingActive(false), hackingTag("Hackeable")
 {
 	REGISTER_FIELD(hackingManager, UIHackingManager*);
+	REGISTER_FIELD(switchPlayerManager, SwitchPlayerManagerScript*);
 }
 
 void PlayerHackingUseScript::Start()
@@ -35,23 +38,22 @@ void PlayerHackingUseScript::Start()
 	isHackingButtonPressed = false;
 }
 
-
 void PlayerHackingUseScript::Update(float deltaTime)
 {
-
 	currentTime += deltaTime;
+	hackingManager->SetHackingTimerValue(maxHackTime, currentTime);
 
 	PlayerActions currentAction = playerManager->GetPlayerState();
-	bool isJumping = currentAction == PlayerActions::JUMPING || 
-		currentAction == PlayerActions::DOUBLEJUMPING || 
-		currentAction == PlayerActions::FALLING;
+	bool isJumping = currentAction == PlayerActions::JUMPING ||
+		currentAction == PlayerActions::DOUBLEJUMPING;
 
 	bool isAttacking = playerManager->GetAttackManager()->IsInAttackAnimation();
-		
+	FindHackZone(hackingTag);
+	CheckCurrentHackZone();
+
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingActive && !isJumping && !isAttacking)
 	{
-		FindHackZone(hackingTag);
-		if (hackZone && !hackZone->IsCompleted())
+		if (hackZone && !hackZone->IsCompleted() && !playerManager->IsParalyzed())
 		{
 			InitHack();
 			isHackingButtonPressed = true;
@@ -141,8 +143,8 @@ void PlayerHackingUseScript::PrintCombination()
 		default: 
 			break;
 		}
+
 		combination += c;
-		
 	}
 
 	LOG_DEBUG(combination);
@@ -155,8 +157,10 @@ void PlayerHackingUseScript::InitHack()
 	currentTime = App->GetDeltaTime();
 	maxHackTime = hackZone->GetMaxTime();
 	hackZone->GenerateCombination();
+	switchPlayerManager->SetIsSwitchAvailable(false);
 
 	userCommandInputs.reserve(static_cast<size_t>(hackZone->GetSequenceSize()));
+	hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
 
 	commandCombination = hackZone->GetCommandCombination();
 	for (auto command : commandCombination)
@@ -164,7 +168,9 @@ void PlayerHackingUseScript::InitHack()
 		hackingManager->AddInputVisuals(command);
 	}
 
-	PrintCombination();
+	hackingManager->EnableHackingTimer();
+
+	//PrintCombination();
 	LOG_DEBUG("Hacking is active");
 }
 
@@ -173,10 +179,12 @@ void PlayerHackingUseScript::FinishHack()
 	EnableAllInteractions();
 	isHackingActive = false;
 	hackZone = nullptr;
+	switchPlayerManager->SetIsSwitchAvailable(true);
 
 	userCommandInputs.clear();
 
 	hackingManager->CleanInputVisuals();
+	hackingManager->DisableHackingTimer();
 
 	LOG_DEBUG("Hacking is finished");
 }
@@ -185,6 +193,7 @@ void PlayerHackingUseScript::RestartHack()
 {
 	userCommandInputs.clear();
 	hackingManager->CleanInputVisuals();
+	hackingManager->DisableHackingTimer();
 
 	currentTime = App->GetDeltaTime();
 	maxHackTime = hackZone->GetMaxTime();
@@ -198,19 +207,23 @@ void PlayerHackingUseScript::RestartHack()
 		hackingManager->AddInputVisuals(command);
 	}
 
-	PrintCombination();
+	hackingManager->EnableHackingTimer();
+
+	//PrintCombination();
 	input->Rumble();
 	LOG_DEBUG("Hacking is restarted");
 }
 
 void PlayerHackingUseScript::DisableAllInteractions()
 {
-	playerManager->ParalyzePlayer(true);
+	playerManager->SetPlayerState(PlayerActions::IDLE);
+	playerManager->PausePlayer(true);
 }
 
 void PlayerHackingUseScript::EnableAllInteractions()
 {
-	playerManager->ParalyzePlayer(false);
+	playerManager->SetPlayerState(PlayerActions::IDLE);
+	playerManager->PausePlayer(false);
 }
 
 void PlayerHackingUseScript::FindHackZone(const std::string& tag)
@@ -237,11 +250,36 @@ void PlayerHackingUseScript::FindHackZone(const std::string& tag)
 
 			float distance = (playerPosition - hackZonePosition).Length();
 
-			if (distance < hackZoneScript->GetInfluenceRadius())
+			if (distance < hackZoneScript->GetInfluenceRadius() && !hackZoneScript->IsCompleted())
 			{
 				hackZone = hackZoneScript;
+				hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
 			}
+		}
+	}
+}
 
+void PlayerHackingUseScript::StopHackingParticle()
+{
+	if (hackZone)
+	{
+		hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+		hackZone = nullptr;
+	}
+}
+
+void PlayerHackingUseScript::CheckCurrentHackZone()
+{
+	if (hackZone)
+	{
+		float3 hackZonePosition = hackZone->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
+		float3 playerPosition = transform->GetGlobalPosition();
+		float distance = (playerPosition - hackZonePosition).Length();
+
+		if (distance > hackZone->GetInfluenceRadius())
+		{
+			hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+			hackZone = nullptr;
 		}
 	}
 }

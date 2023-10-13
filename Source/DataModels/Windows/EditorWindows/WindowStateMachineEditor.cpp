@@ -182,9 +182,16 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 	const std::string* oldName = nullptr;
 	std::string newName;
 	TypeFieldPairParameter field;
-	for (const auto& it : stateMachine->GetMapParameters())
+	auto params = stateMachine->GetMapParameters();
+	for (const auto& it : params)
 	{
 		std::string name = it.first;
+
+		if (name == "")
+		{
+			continue;
+		}
+
 		name.resize(24);
 		ImGui::SetNextItemWidth(10);
 		if (ImGui::Button(("x##" + name).c_str()))
@@ -471,7 +478,7 @@ void WindowStateMachineEditor::DrawTransitions(std::shared_ptr<ResourceStateMach
 
 		ImU32 color = IM_COL32(255, 255, 255, 255);
 
-		if (App->IsOnPlayMode() && it.first == stateMachine->GetLastTranstionID())
+		if (App->GetPlayState() != Application::PlayState::STOPPED && it.first == stateMachine->GetLastTranstionID())
 		{
 			color = IM_COL32(250, 100, 20, 255);
 		}
@@ -591,7 +598,7 @@ void WindowStateMachineEditor::DrawStates(std::shared_ptr<ResourceStateMachine>&
 				colorRectMultiColorUp = IM_COL32(245, 208, 11, 255);
 				colorRectMultiColorDown = IM_COL32(186, 120, 2, 255);
 			}
-			else if (App->IsOnPlayMode() && stateMachine->GetActualStateID() == i)
+			else if (App->GetPlayState() != Application::PlayState::STOPPED && stateMachine->GetActualStateID() == i)
 			{
 				colorRectFilled = IM_COL32(250, 100, 20, 255);
 				colorRectMultiColorUp = IM_COL32(255, 120, 11, 255);

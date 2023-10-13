@@ -45,6 +45,8 @@ public:
 	const Quadtree* GetBackRightNode() const;
 	const Quadtree* GetBackLeftNode() const;
 
+	const Quadtree* GetParent() const;
+
 	bool IsFreezed() const;
 	void SetFreezedStatus(bool isFreezed);
 
@@ -149,4 +151,9 @@ inline void Quadtree::SetMinQuadrantSideSize(float minQuadrantSideSize)
 {
 	this->minQuadrantSideSize = minQuadrantSideSize;
 	minQuadrantDiagonalSquared = 3 * minQuadrantSideSize * minQuadrantSideSize;
+}
+
+inline const Quadtree* Quadtree::GetParent() const
+{
+	return parent;
 }

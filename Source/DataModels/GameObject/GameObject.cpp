@@ -23,6 +23,7 @@
 #include "DataModels/Components/ComponentSpotLight.h"
 #include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/Components/ComponentTrail.h"
+#include "DataModels/Components/ComponentLocalIBL.h"
 #include "DataModels/Components/ComponentLine.h"
 #include "DataModels/Components/ComponentCameraSample.h"
 #include "DataModels/Components/ComponentAgent.h"
@@ -160,8 +161,8 @@ void GameObject::Load(const Json& meta)
 		if (type == ComponentType::LIGHT)
 		{
 			LightType lightType = GetLightTypeByName(jsonComponent["lightType"]);
-			AXO_TODO("Look at this when implement metas")
-			CreateComponentLight(lightType, AreaType::NONE);
+			AXO_TODO("look at this when implement metas")
+			CreateComponentLight(lightType, AreaType::NONE, false);
 		}
 		else if (type == ComponentType::SCRIPT)
 		{
@@ -452,10 +453,20 @@ void GameObject::CopyComponent(Component* component)
 		}
 		/*else
 		{
-			if (referenceBeforeMove->GetType() == ComponentType::PARTICLE)
+			switch (referenceBeforeMove->GetType())
 			{
-				App->GetModule<ModuleScene>()->GetLoadedScene()->AddParticleSystem(
-					static_cast<ComponentParticleSystem*>(referenceBeforeMove));
+			case ComponentType::PARTICLE:
+				App->GetModule<ModuleScene>()->GetLoadedScene()->
+					AddParticleSystem(static_cast<ComponentParticleSystem*>(referenceBeforeMove));
+				break;
+
+			case ComponentType::LINE:
+				App->GetModule<ModuleScene>()->GetLoadedScene()->
+					AddComponentLines(static_cast<ComponentLine*>(referenceBeforeMove));
+				break;
+
+			default:
+				break;
 			}
 		}*/
 
@@ -477,8 +488,13 @@ void GameObject::CopyComponentLight(LightType type, Component* component)
 		case LightType::SPOT:
 			newComponent = std::make_unique<ComponentSpotLight>(static_cast<ComponentSpotLight&>(*component));
 			break;
+
 		case LightType::AREA:
 			newComponent = std::make_unique<ComponentAreaLight>(static_cast<ComponentAreaLight&>(*component));
+			break;
+
+		case LightType::LOCAL_IBL:
+			newComponent = std::make_unique<ComponentLocalIBL>(static_cast<ComponentLocalIBL&>(*component));
 			break;
 	}
 
@@ -489,25 +505,25 @@ void GameObject::CopyComponentLight(LightType type, Component* component)
 	}
 }
 
-void GameObject::Enable()
+void GameObject::Enable(bool isSceneLoading)
 {
 	assert(parent != nullptr);
 
 	enabled = true;
 
-	this->Activate();
+	this->Activate(isSceneLoading);
 }
 
-void GameObject::Disable()
+void GameObject::Disable(bool isSceneLoading)
 {
 	assert(parent != nullptr);
 
 	enabled = false;
 
-	this->Deactivate();
+	this->Deactivate(isSceneLoading);
 }
 
-void GameObject::Activate()
+void GameObject::Activate(bool isSceneLoading)
 {
 	active = parent->IsActive();
 
@@ -518,7 +534,7 @@ void GameObject::Activate()
 
 	for (std::unique_ptr<GameObject>& child : children)
 	{
-		child->Activate();
+		child->Activate(isSceneLoading);
 	}
 
 	for (std::unique_ptr<Component>& component : components)
@@ -526,24 +542,24 @@ void GameObject::Activate()
 		// If the Component is currently disabled itself, avoid sending the signal
 		if (component->IsEnabled())
 		{
-			component->SignalEnable();
+			component->SignalEnable(isSceneLoading);
 		}
 	}
 }
 
-void GameObject::Deactivate()
+void GameObject::Deactivate(bool isSceneLoading)
 {
 	active = false;
 
 	for (std::unique_ptr<GameObject>& child : children)
 	{
-		child->Deactivate();
+		child->Deactivate(isSceneLoading);
 	}
 
 	for (std::unique_ptr<Component>& component : components)
 	{
 		// No need to check, we know component->IsEnabled will return false
-		component->SignalDisable();
+		component->SignalDisable(isSceneLoading);
 	}
 }
 
@@ -672,7 +688,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 			newComponent = std::make_unique<ComponentTrail>(true, this);
 			break;
 		}
-		
+
 		case ComponentType::CUBEMAP:
 		{
 			newComponent = std::make_unique<ComponentCubemap>(true, this);
@@ -726,15 +742,20 @@ Component* GameObject::CreateComponent(ComponentType type)
 		}
 		else
 		{
-			if (referenceBeforeMove->GetType() == ComponentType::PARTICLE)
+			switch (referenceBeforeMove->GetType())
 			{
+			case ComponentType::PARTICLE:
 				App->GetModule<ModuleScene>()->GetLoadedScene()->
 					AddParticleSystem(static_cast<ComponentParticleSystem*>(referenceBeforeMove));
-			}
-			else if (referenceBeforeMove->GetType() == ComponentType::LINE)
-			{
+				break;
+
+			case ComponentType::LINE:
 				App->GetModule<ModuleScene>()->GetLoadedScene()->
 					AddComponentLines(static_cast<ComponentLine*>(referenceBeforeMove));
+				break;
+
+			default:
+				break;
 			}
 		}
 
@@ -745,7 +766,7 @@ Component* GameObject::CreateComponent(ComponentType type)
 	return nullptr;
 }
 
-Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaType)
+Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaType, bool updateLights)
 {
 	std::unique_ptr<Component> newComponent;
 
@@ -765,12 +786,21 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 		case LightType::AREA:
 			newComponent = std::make_unique<ComponentAreaLight>(areaType, this);
 			break;
+		case LightType::LOCAL_IBL:
+			newComponent = std::make_unique<ComponentLocalIBL>(this);
+			break;
 	}
 
 	if (newComponent)
 	{
 		Component* referenceBeforeMove = newComponent.get();
 		components.push_back(std::move(newComponent));
+
+		if (!updateLights)
+		{
+			return referenceBeforeMove;
+		}
+
 		Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 		switch (lightType)
@@ -799,6 +829,11 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 					break;
 				}
 				break;
+
+			case LightType::LOCAL_IBL:
+				scene->UpdateSceneLocalIBLs();
+				scene->RenderLocalIBLs();
+				break;
 		}
 
 		return referenceBeforeMove;
@@ -820,15 +855,18 @@ bool GameObject::RemoveComponent(const Component* component)
 		return false;
 	}
 
-	if (component->GetType() == ComponentType::PARTICLE)
+	switch (component->GetType())
 	{
+	case ComponentType::PARTICLE:
 		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(
 			static_cast<const ComponentParticleSystem*>(component));
-	}
-	else if (component->GetType() == ComponentType::LINE)
-	{
+		break;
+	case ComponentType::LINE:
 		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveComponentLine(
 			static_cast<const ComponentLine*>(component));
+		break;
+	default:
+		break;
 	}
 
 	components.erase(removeIfResult, std::end(components));
@@ -953,14 +991,14 @@ void GameObject::SpreadStatic()
 {
 	for (const std::unique_ptr<GameObject>& child : children)
 	{
-		child->SetStatic(staticObject);
+		child->SetIsStatic(staticObject);
 		child->SpreadStatic();
 	}
 }
 
-void GameObject::SetStatic(bool newStatic)
+void GameObject::SetIsStatic(bool isStatic)
 {
-	staticObject = newStatic;
+	staticObject = isStatic;
 	std::vector<ComponentRigidBody*> rigids = GetComponents<ComponentRigidBody>();
 
 	for (ComponentRigidBody* rigid : rigids)

@@ -179,7 +179,7 @@ void ComponentLine::Render()
 	{
 #ifdef ENGINE
 		//Draw the BoundingBox of ComponentLine
-		if (transform->IsDrawBoundingBoxes() && !App->IsOnPlayMode())
+		if (transform->IsDrawBoundingBoxes() && App->GetPlayState() != Application::PlayState::RUNNING)
 		{
 			App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
 		}

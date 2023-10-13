@@ -14,6 +14,7 @@
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/AIMovement.h"
+#include "../Scripts/PathBehaviourScript.h"
 
 #include "../Scripts/EnemyDeathScript.h"
 
@@ -26,7 +27,7 @@ droneState(DroneBehaviours::IDLE), ownerTransform(nullptr), attackDistance(3.0f)
 componentAnimation(nullptr), componentAudioSource(nullptr), heavyAttackScript(nullptr),
 explosionGameObject(nullptr), playerManager(nullptr), aiMovement(nullptr), flinchAnimationOffset(false),
 exclamationVFX(nullptr), enemyDetectionDuration(0.0f), enemyDetectionTime(0.0f), minStopTimeAfterSeek(0.0f),
-minStopDurationAfterSeek(1.0f)
+minStopDurationAfterSeek(1.0f), pathScript(nullptr)
 {
 	// seekDistance should be greater than attackDistance, because first the drone seeks and then attacks
 	REGISTER_FIELD(attackDistance, float);
@@ -61,18 +62,25 @@ void EnemyDroneScript::Start()
 	healthScript = owner->GetComponent<HealthSystem>();
 	aiMovement = owner->GetComponent<AIMovement>();
 
-	seekTarget = seekScript->GetTarget();
-	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
-
-	playerManager = seekTarget->GetComponent<PlayerManagerScript>();
+	if(owner->HasComponent<PathBehaviourScript>())
+	{
+		pathScript = owner->GetComponent<PathBehaviourScript>();
+		droneState = DroneBehaviours::INPATH;
+	}
 
 	enemyDetectionTime = 0.0f;
-
-	droneState = DroneBehaviours::IDLE;
 }
 
 void EnemyDroneScript::Update(float deltaTime)
 {
+	if (paralyzed)
+	{
+		return;
+	}
+	seekTarget = seekScript->GetTarget();
+	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
+	playerManager = seekTarget->GetComponent<PlayerManagerScript>();
+
 	if (stunned && droneState != DroneBehaviours::READYTOEXPLODE && droneState != DroneBehaviours::EXPLOSIONATTACK)
 	{
 		if (timeStunned < 0)
@@ -94,7 +102,8 @@ void EnemyDroneScript::Update(float deltaTime)
 
 void EnemyDroneScript::CheckState(float deltaTime)
 {
-	if (droneState == DroneBehaviours::EXPLOSIONATTACK)
+	if (droneState == DroneBehaviours::EXPLOSIONATTACK 
+		|| droneState == DroneBehaviours::INPATH)
 	{
 		return;
 	}
@@ -276,6 +285,21 @@ void EnemyDroneScript::UpdateBehaviour(float deltaTime)
 		aiMovement->SetRotationTargetPosition(target);
 
 		break;
+	
+	case DroneBehaviours::INPATH:
+		if (pathScript && pathScript->IsPathFinished())
+		{
+			droneState = DroneBehaviours::IDLE;
+			componentAnimation->SetParameter("IsRunning", false);
+			pathScript->Disable();
+		}
+		else if (!pathScript)
+		{
+			droneState = DroneBehaviours::IDLE;
+			componentAnimation->SetParameter("IsRunning", false);
+		}
+
+		break;
 	}
 }
 
@@ -290,11 +314,30 @@ void EnemyDroneScript::ResetValues()
 	}
 
 	componentAnimation->SetParameter("IsSeeking", true);
-	droneState = DroneBehaviours::IDLE;
+	droneState = DroneBehaviours::INPATH;
 	fastAttackScript->ResetScriptValues();
 	healthScript->HealLife(1000.0f); // It will cap at max health
 	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
 	enemyDeathScript->ResetDespawnTimerAndEnableActions();
+	if(pathScript)
+	{
+		pathScript->Enable();
+		pathScript->ResetPath();
+	}
+}
+
+void EnemyDroneScript::ParalyzeEnemy(bool nparalyzed)
+{
+	if (nparalyzed)
+	{
+		componentAnimation->SetParameter("IsRunning", false);
+	}
+	else
+	{
+		componentAnimation->SetParameter("IsRunning", true);
+	}
+
+	paralyzed = nparalyzed;
 }
 
 void EnemyDroneScript::CalculateNextPosition() const

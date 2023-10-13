@@ -50,10 +50,6 @@ WindowInspector::WindowInspector() :
 {
 	flags |= ImGuiWindowFlags_AlwaysAutoResize;
 
-	actions.emplace_back("Create Mesh Renderer Component",
-						 std::bind(&WindowInspector::AddComponentMeshRenderer, this),
-						 ComponentFunctionality::GRAPHICS);
-
 	actions.emplace_back("Create Spot Light Component",
 						 std::bind(&WindowInspector::AddComponentLight, this, LightType::SPOT, AreaType::NONE),
 						 &GameObjectDoesNotHaveComponent<ComponentLight>,
@@ -73,20 +69,29 @@ WindowInspector::WindowInspector() :
 						 &GameObjectDoesNotHaveComponent<ComponentLight>,
 						 ComponentFunctionality::GRAPHICS);
 
+	actions.push_back(AddComponentAction("Create Local IBL Component",
+		std::bind(&WindowInspector::AddComponentLight, this, LightType::LOCAL_IBL, AreaType::NONE), 
+		&GameObjectDoesNotHaveComponent<ComponentLight>,
+		ComponentFunctionality::GRAPHICS));
+
 	actions.emplace_back("Create Particle System Component",
 						 std::bind(&WindowInspector::AddComponentParticle, this),
 						 &GameObjectDoesNotHaveComponent<ComponentParticleSystem>,
+						 ComponentFunctionality::GRAPHICS);
+
+	actions.emplace_back("Create Mesh Renderer Component",
+		std::bind(&WindowInspector::AddComponentMeshRenderer, this),
+		ComponentFunctionality::GRAPHICS);
+
+	actions.emplace_back("Create Trail Component",
+						 std::bind(&WindowInspector::AddComponentTrail, this),
+						 &GameObjectDoesNotHaveComponent<ComponentTrail>,
 						 ComponentFunctionality::GRAPHICS);
 
 	actions.emplace_back("Create Player Component",
 						 std::bind(&WindowInspector::AddComponentPlayer, this),
 						 &GameObjectDoesNotHaveComponent<ComponentPlayer>,
 						 ComponentFunctionality::GAMEPLAY);
-
-	actions.emplace_back("Create Trail Component",
-						 std::bind(&WindowInspector::AddComponentTrail, this),
-						 &GameObjectDoesNotHaveComponent<ComponentTrail>,
-						 ComponentFunctionality::GRAPHICS);
 
 	actions.emplace_back("Create RigidBody Component",
 						 std::bind(&WindowInspector::AddComponentRigidBody, this),
@@ -213,7 +218,7 @@ void WindowInspector::InspectSelectedGameObject()
 			// This should be changed into a pop-up windows
 			if (ImGui::Checkbox("Static", &staticness))
 			{
-				lastSelectedGameObject->SetStatic(staticness);
+				lastSelectedGameObject->SetIsStatic(staticness);
 				lastSelectedGameObject->SpreadStatic();
 			}
 
