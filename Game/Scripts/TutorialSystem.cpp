@@ -77,7 +77,7 @@ void TutorialSystem::Update(float deltaTime)
 void TutorialSystem::TutorialStart()
 {
 	tutorialCurrentState = 0;
-	tutorialTotalStates = tutorialUI.size() - 1;
+	tutorialTotalStates = static_cast<int>(tutorialUI.size()) - 1;
 	currentTutorialUI->Enable();
 	transform2D->SetPosition(initialPos);
 	transform2D->CalculateMatrices();
@@ -135,10 +135,6 @@ void TutorialSystem::TutorialEnd()
 {
 	displacementControl->SetMovingToEnd(false);
 	displacementControl->MoveImageToStarPosition();
-	//currentTutorialUI->Disable();
-	//tutorialCurrentState = 0;
-	//currentTutorialUI = tutorialUI.front();
-	//displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
 	currentTutorialUI = tutorialUI[tutorialCurrentState];
 	componentMoveScript->SetIsParalyzed(false);
 	LOG_INFO("TutorialExit");
