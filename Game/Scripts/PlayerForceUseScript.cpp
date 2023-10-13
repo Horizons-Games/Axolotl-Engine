@@ -116,15 +116,11 @@ void PlayerForceUseScript::Update(float deltaTime)
 					playerManagerScript->SetPlayerSpeed(lastMoveSpeed / 2.0f);
 				}
 
-
 				rigidBody->SetKpForce(50.0f);
 				rigidBody->SetKpTorque(50.0f);
-
-
 			}
 		}
 	}
-
 	else if ((input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE
 		&& gameObjectAttached)
 		|| currentTimeForce < 0.0f
@@ -166,7 +162,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 	if (gameObjectAttached)
 	{
-		
 		if (!isForceActive)
 		{
 			componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_USE);
@@ -200,33 +195,39 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 		float3 currentDistance = hittedTransform->GetGlobalPosition() - nextPosition;
 		
-		if ( std::abs(currentDistance.x) > 2 && std::abs(currentDistance.z) > 2 && currentTimeForce < 14.5f )
-		{
-			breakForce = true;
-			currentTimeForce = 10;
-			return;
-		} 
-		float difX = pickedPlayerPosition.x - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().x;
-		float difY = pickedPlayerPosition.y - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().y;
-		float difZ = pickedPlayerPosition.z - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().z;
-		if ( abs(difX) + abs(difY) + abs(difZ) > 0.2f)
+		if (std::abs(currentDistance.x) > 2 && std::abs(currentDistance.z) > 2 && currentTimeForce < 14.5f)
 		{
 			breakForce = true;
 			currentTimeForce = 10;
 			return;
 		}
 
-		float2 mouseMotion = input->GetMouseMotion();
-		nextPosition.y = nextPosition.y -= mouseMotion.y * 0.2f * deltaTime;
+		float difX = pickedPlayerPosition.x - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().x;
+		float difY = pickedPlayerPosition.y - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().y;
+		float difZ = pickedPlayerPosition.z - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().z;
+		if (abs(difX) + abs(difY) + abs(difZ) > 0.2f)
+		{
+			breakForce = true;
+			currentTimeForce = 10;
+			return;
+		}
 
-
-
+		InputMethod inputMethod = input->GetCurrentInputMethod();
+		if (inputMethod == InputMethod::KEYBOARD)
+		{
+			float2 mouseMotion = input->GetMouseMotion();
+			nextPosition.y -= mouseMotion.y * 0.2f * deltaTime;
+		}
+		else if (inputMethod == InputMethod::GAMEPAD)
+		{
+			// We divide by 1000 (*0.001) to move at aprox same speed as if we where using the mouse
+			Sint16 verticalMovement = input->GetLeftJoystickMovement().verticalMovement * 0.001f;
+			nextPosition.y -= verticalMovement * 0.2f * deltaTime;
+		}
 
 		// Set position
 		hittedRigidBody->SetPositionTarget(nextPosition);
-
-
-
+		
 		currentTimeForce -= deltaTime;
 	}
 	else if (currentTimeForce < maxTimeForce)
