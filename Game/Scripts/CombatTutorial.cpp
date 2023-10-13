@@ -22,6 +22,7 @@
 #include "..\Game\Scripts\PlayerManagerScript.h"
 #include "..\Game\Scripts\UIImageDisplacementControl.h"
 #include "../Scripts/PowerUpLogicScript.h"
+#include "..\Game\Scripts\PlayerMoveScript.h"
 #include "CameraControllerScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
@@ -29,7 +30,7 @@
 REGISTERCLASS(CombatTutorial);
 
 CombatTutorial::CombatTutorial() : Script(), combatDummy(nullptr), userControllable(false), combatTutorialUI(nullptr), 
-debugPowerUp(nullptr), finalWaitTime(5.0f), finalTotalWaitTime(5.0f),tutorialActivable(false), nextStateActive(true)
+debugPowerUp(nullptr), finalWaitTime(5.0f), finalTotalWaitTime(5.0f),tutorialActivable(false), nextStateActive(true), door(nullptr)
 {
 	REGISTER_FIELD(combatDummy, GameObject*);
 	REGISTER_FIELD(userControllable, bool);
@@ -37,6 +38,7 @@ debugPowerUp(nullptr), finalWaitTime(5.0f), finalTotalWaitTime(5.0f),tutorialAct
 	REGISTER_FIELD(debugPowerUp, GameObject*);
 	REGISTER_FIELD(finalWaitTime, float);
 	REGISTER_FIELD(finalTotalWaitTime, float);
+	REGISTER_FIELD(door, GameObject*);
 
 }
 
@@ -46,9 +48,19 @@ void CombatTutorial::Start()
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
 	
 	tutorialUI = combatTutorialUI->GetComponent<TutorialSystem>();
-	dummyHealthSystem = combatDummy->GetComponent<HealthSystem>();
+	
 
-	dummyHealthSystem->SetIsImmortal(true);
+	if (combatDummy)
+	{
+		dummyHealthSystem = combatDummy->GetComponent<HealthSystem>();
+		componentMoveScript = player->GetComponent<PlayerMoveScript>();
+		dummyHealthSystem->SetIsImmortal(true);
+	}
+
+	if (door)
+	{
+		doorRigidbody = door->GetComponent<ComponentRigidBody>();
+	}
 }
 
 void CombatTutorial::Update(float deltaTime)
@@ -59,13 +71,22 @@ void CombatTutorial::Update(float deltaTime)
 		
 		tutorialUI->UnDeployUI();
 		dummyHealthSystem->SetIsImmortal(true);
+		doorRigidbody->SetIsTrigger(false);
+		componentMoveScript->SetIsParalyzed(true);
 		
 		if (tutorialUI->GetTutorialCurrentState() == static_cast<int>(tutorialUI->GetNumControllableState()))
 		{
 			dummyHealthSystem->SetIsImmortal(false);
 			userControllable = false;
-			nextStateActive = false;	
+			nextStateActive = false;
+			componentMoveScript->SetIsParalyzed(false);
 		}
+	}
+
+	else if (tutorialActivable && input->GetKey(SDL_SCANCODE_G) == KeyState::DOWN && !tutorialUI->GetDisplacementControl()->IsMoving())
+	{
+		tutorialUI->TutorialSkip();
+
 	}
 	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.75f
 		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.50f && !nextStateActive)
@@ -133,7 +154,9 @@ void CombatTutorial::Update(float deltaTime)
 		tutorialFinished = false;
 		tutorialActivable = false;
 		finalWaitTime = finalTotalWaitTime;
+		doorRigidbody->SetIsTrigger(true);
 		LOG_INFO("Tutorial:END");
+
 	}
 }
 
