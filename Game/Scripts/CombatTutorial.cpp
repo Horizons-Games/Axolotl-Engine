@@ -46,6 +46,7 @@ void CombatTutorial::Start()
 {
 	input = App->GetModule<ModuleInput>();
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
+	componentAnimation = door->GetComponent<ComponentAnimation>();
 	
 	tutorialUI = combatTutorialUI->GetComponent<TutorialSystem>();
 	
@@ -154,6 +155,8 @@ void CombatTutorial::Update(float deltaTime)
 		tutorialFinished = false;
 		tutorialActivable = false;
 		finalWaitTime = finalTotalWaitTime;
+		componentAnimation->SetParameter("IsActive", true);
+		//componentRigidBody->Disable();
 		doorRigidbody->SetIsTrigger(true);
 		LOG_INFO("Tutorial:END");
 
