@@ -12,11 +12,9 @@
 #include "UIImageDisplacementControl.h"
 #include "HealthSystem.h"
 #include "EnemiesManager.h"
-#include "PlayerManagerScript.h"
 #include "EnemyClass.h"
 #include "ModuleUI.h"
 #include "Components/ComponentPlayer.h"
-#include "PlayerManagerScript.h"
 
 REGISTERCLASS(UIGameManager);
 
@@ -174,8 +172,8 @@ void UIGameManager::MenuIsOpen()
 		hudCanvasObject->Enable();
 	}
 
-	manager->GetComponent<EnemiesManager>()->PauseEnemies(menuIsOpen);
-	App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->FullPausePlayer(menuIsOpen);
+	manager->GetComponent<EnemiesManager>()->Pause(menuIsOpen);
+
 	player->SetMouse(menuIsOpen);
 }
 

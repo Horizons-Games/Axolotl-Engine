@@ -14,7 +14,7 @@
 REGISTERCLASS(BossChargeRockScript);
 
 BossChargeRockScript::BossChargeRockScript() : Script(), rockState(RockStates::SKY), fallingRockDamage(10.0f),
-	despawnTimer(0.0f), despawnMaxTimer(30.0f), triggerRockDespawn(false)
+	despawnTimer(0.0f), despawnMaxTimer(30.0f), triggerRockDespawn(false), isUnpaused(true)
 {
 	REGISTER_FIELD(fallingRockDamage, float);
 	REGISTER_FIELD(despawnMaxTimer, float);
@@ -25,10 +25,24 @@ void BossChargeRockScript::Start()
 	despawnTimer = despawnMaxTimer;
 
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	rockGravity = rigidBody->GetRigidBody()->getGravity();
 }
 
 void BossChargeRockScript::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		rigidBody->GetRigidBody()->setGravity(btVector3(0, 0, 0));
+		rigidBody->GetRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
+		isUnpaused = false;
+		return;
+	}
+	else if (!isUnpaused)
+	{
+		rigidBody->GetRigidBody()->setGravity(rockGravity);
+		isUnpaused = true;
+	}
+
 	if (triggerRockDespawn)
 	{
 		despawnTimer -= deltaTime;
@@ -90,4 +104,9 @@ void BossChargeRockScript::DeactivateRock()
 void BossChargeRockScript::DestroyRock() const
 {
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+}
+
+void BossChargeRockScript::SetPauseRock(bool isPaused)
+{
+	this->isPaused = isPaused;
 }

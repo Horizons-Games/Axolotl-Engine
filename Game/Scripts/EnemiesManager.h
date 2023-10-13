@@ -14,6 +14,9 @@ public:
 	EnemiesManager();
 	~EnemiesManager() override = default;
 
+	void Pause(bool paused);
+	void PauseBullets(bool paused);
+	void PauseRocks(bool paused);
 	void PauseEnemies(bool paused);
 
 private:
@@ -24,7 +27,9 @@ private:
 	std::string enemyTag;
 	std::string bulletTag;
 	std::string alluraBulletTag;
+	std::string rockTag;
 	std::vector<GameObject*> enemiesGameObjects;
 	std::vector<GameObject*> bulletGameObjects;
 	std::vector<GameObject*> alluraBulletGameObjects;
+	std::vector<GameObject*> rockGameObjects;
 };

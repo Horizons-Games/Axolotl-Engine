@@ -52,7 +52,10 @@ void BossChargeAttackScript::Start()
 
 void BossChargeAttackScript::Update(float deltaTime)
 {
-	ManageChargeAttackStates(deltaTime);
+	if (!isPaused)
+	{
+		ManageChargeAttackStates(deltaTime);
+	}
 }
 
 void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
@@ -280,4 +283,15 @@ void BossChargeAttackScript::RotateToTarget(ComponentTransform* target) const
 			(target->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized());
 
 	rigidBody->SetRotationTarget(errorRotation);
+}
+
+void BossChargeAttackScript::SetIsPaused(bool isPaused)
+{
+	rigidBody->SetKpForce(0.f);
+	this->isPaused = isPaused;
+
+	if (!isPaused && chargeState == ChargeState::CHARGING)
+	{
+		rigidBody->SetKpForce(0.5f);
+	}
 }

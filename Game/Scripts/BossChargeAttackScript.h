@@ -34,6 +34,7 @@ public:
 	bool CanPerformChargeAttack() const;
 
 	bool IsAttacking() const;
+	void SetIsPaused(bool isPaused);
 
 private:
 	void ManageChargeAttackStates(float deltaTime);
@@ -76,4 +77,6 @@ private:
 	GameObject* rockPrefab;
 
 	bool isRockAttackVariant;
+
+	bool isPaused;
 };
