@@ -87,6 +87,8 @@ void CombatTutorial::Update(float deltaTime)
 	else if (tutorialActivable && input->GetKey(SDL_SCANCODE_G) == KeyState::DOWN && !tutorialUI->GetDisplacementControl()->IsMoving())
 	{
 		tutorialUI->TutorialSkip();
+		componentAnimation->SetParameter("IsActive", true);
+		doorRigidbody->Disable();
 
 	}
 	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.75f
@@ -156,7 +158,7 @@ void CombatTutorial::Update(float deltaTime)
 		tutorialActivable = false;
 		finalWaitTime = finalTotalWaitTime;
 		componentAnimation->SetParameter("IsActive", true);
-		//componentRigidBody->Disable();
+		doorRigidbody->Disable();
 		doorRigidbody->SetIsTrigger(true);
 		LOG_INFO("Tutorial:END");
 
