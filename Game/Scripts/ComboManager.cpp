@@ -5,6 +5,8 @@
 
 #include "Components/ComponentScript.h"
 #include "UIComboManager.h"
+#include "CameraControllerScript.h"
+#include "ModulePlayer.h"
 
 REGISTERCLASS(ComboManager);
 
@@ -49,13 +51,22 @@ bool ComboManager::NextIsSpecialAttack() const
 
 void ComboManager::CheckSpecial(float deltaTime)
 {
+	if (App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->HasComponent<CameraControllerScript>() && !App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat() &&
+		!uiComboManager->IsCombatActive())
+	{
+		uiComboManager->SetComboBarValue(0);
+		comboCount = 0;
+		specialCount = 0.f;
+		return;
+	}
+
 	if (input->GetKey(SDL_SCANCODE_TAB) == KeyState::DOWN && specialCount == maxSpecialCount)
 	{
 		specialActivated = true;
 
 		uiComboManager->SetActivateSpecial(true);
-
-		ClearCombo(false);
+		actualComboTimer = comboTime;
+		//ClearCombo(false);
 	}
 
 	if (actualComboTimer <= 0)
@@ -65,8 +76,7 @@ void ComboManager::CheckSpecial(float deltaTime)
 			ClearCombo(false);
 			actualComboTimer = comboTime;
 		}
-
-		else if (specialCount > 0 && specialCount < maxSpecialCount)
+		else if (specialCount > 0 && specialCount < maxSpecialCount && !specialActivated)
 		{
 			specialCount = std::max(0.0f, specialCount - 5.0f * deltaTime);
 			uiComboManager->SetComboBarValue(specialCount);
@@ -74,7 +84,6 @@ void ComboManager::CheckSpecial(float deltaTime)
 	}
 	else if (comboCount > 0)
 	{
-		
 		uiComboManager->UpdateFadeOut(actualComboTimer / comboTime);
 		actualComboTimer -= deltaTime;
 	}
@@ -135,20 +144,6 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 {
 	uiComboManager->UpdateFadeOut(1.0f);
-	if (specialCount < 0 || !specialActivated)
-	{
-		this->specialCount = 
-			std::clamp(this->specialCount + specialCount, 0.0f, maxSpecialCount);
-
-		if (this->specialCount <= 0.0f && specialActivated)
-		{
-			specialActivated = false;
-		}
-
-		uiComboManager->SetComboBarValue(this->specialCount);
-
-		actualComboTimer = comboTime;
-	}
 
 	comboCount++;
 	if (type == AttackType::HEAVYNORMAL || type == AttackType::HEAVYFINISHER)
@@ -166,10 +161,24 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 		uiComboManager->AddInputVisuals(InputVisualType::JUMP);
 	}
 
-	if (comboCount == 3) 
+	if (comboCount == 3 || type == AttackType::JUMPNORMAL)
 	{
-		uiComboManager->SetEffectEnable(true);
 		ClearCombo(true);
+	}
+
+	if (specialCount < 0 || !specialActivated)
+	{
+		this->specialCount =
+			std::clamp(this->specialCount + specialCount, 0.0f, maxSpecialCount);
+
+		if (this->specialCount <= 0.0f && specialActivated)
+		{
+			specialActivated = false;
+		}
+
+		uiComboManager->SetComboBarValue(this->specialCount);
+
+		actualComboTimer = comboTime;
 	}
 }
 

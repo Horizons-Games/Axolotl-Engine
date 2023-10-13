@@ -20,7 +20,9 @@
 #include "..\Game\Scripts\PlayerManagerScript.h"
 #include "..\Game\Scripts\UIImageDisplacementControl.h"
 #include "..\Game\Scripts\HealthSystem.h"
+#include "..\Game\Scripts\PlayerMoveScript.h"
 #include "Components/UI/ComponentTransform2D.h"
+
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -44,15 +46,17 @@ TutorialSystem::TutorialSystem() :
 
 void TutorialSystem::Start()
 {
-	
+	player = App->GetModule<ModulePlayer>()->GetPlayer();
 	currentTutorialUI = tutorialUI.front();
 	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
 	transform2D = currentTutorialUI->GetComponent<ComponentTransform2D>();
+	
 	stateWaitTime = totalStateWaitTime;
 
 	if (dummy)
 	{
 		dummyHealthSystem = dummy->GetComponent<HealthSystem>();
+		componentMoveScript = player->GetComponent<PlayerMoveScript>();
 	}
 }
 
@@ -79,6 +83,8 @@ void TutorialSystem::TutorialStart()
 	transform2D->CalculateMatrices();
 	displacementControl->SetMovingToEnd(true);
 	displacementControl->MoveImageToEndPosition();
+	//componentMoveScript->SetIsParalyzed(true);
+
 }
 
 void TutorialSystem::DeployUI()
@@ -130,8 +136,25 @@ void TutorialSystem::TutorialEnd()
 	displacementControl->SetMovingToEnd(false);
 	displacementControl->MoveImageToStarPosition();
 	//currentTutorialUI->Disable();
+	//tutorialCurrentState = 0;
+	//currentTutorialUI = tutorialUI.front();
+	//displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
+	currentTutorialUI = tutorialUI[tutorialCurrentState];
+	componentMoveScript->SetIsParalyzed(false);
+	LOG_INFO("TutorialExit");
+}
+
+void TutorialSystem::TutorialSkip()
+{
+	displacementControl->SetMovingToEnd(false);
+	displacementControl->MoveImageToStarPosition();
+	//currentTutorialUI->Disable();
 	tutorialCurrentState = 0;
 	currentTutorialUI = tutorialUI.front();
+	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
+	currentTutorialUI = tutorialUI[tutorialCurrentState];
+	componentMoveScript->SetIsParalyzed(false);
+	LOG_INFO("TutorialSkipped");
 }
 
 int TutorialSystem::GetTutorialCurrentState() const

@@ -18,5 +18,6 @@ public:
 private:
 
 	UIOptionsMenu* optionsMenu;
+	bool applyOptionsOnLoad;
 
 };
