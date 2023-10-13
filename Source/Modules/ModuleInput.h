@@ -122,6 +122,9 @@ public:
 
 	KeyState operator[](SDL_Scancode index);
 
+	Sint16 GetLeftTriggerIntensity() const;
+	Sint16 GetRightTriggerIntensity() const;
+
 private:
 	KeyState keysState[SDL_NUM_SCANCODES] = { KeyState::IDLE };
 	KeyState mouseButtonState[NUM_MOUSEBUTTONS] = { KeyState::IDLE };
@@ -131,6 +134,9 @@ private:
 	float2 mouseMotion;
 	int mousePosX;
 	int mousePosY;
+
+	Sint16 leftTriggerIntensity;
+	Sint16 rightTriggerIntensity;
 
 	JoystickMovement leftJoystickMovement;
 	JoystickDirection leftJoystickDirection;
@@ -318,3 +324,12 @@ inline InputMethod ModuleInput::GetCurrentInputMethod() const
 	return inputMethod;
 }
 
+inline Sint16 ModuleInput::GetLeftTriggerIntensity() const
+{
+	return leftTriggerIntensity;
+}
+
+inline Sint16 ModuleInput::GetRightTriggerIntensity() const
+{
+	return rightTriggerIntensity;
+}
