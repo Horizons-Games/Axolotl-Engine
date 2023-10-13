@@ -128,11 +128,35 @@ void PlayerManagerScript::TriggerJump(bool forcedJump)
 	jumpManager->SetCanJump(forcedJump);
 }
 
-void PlayerManagerScript::StopHackingParticle()
+void PlayerManagerScript::PlayHackingParticle() const
+{
+	if (hackingManager)
+	{
+		hackingManager->PlayHackingParticle();
+	}
+}
+
+void PlayerManagerScript::StopHackingParticle() const
 {
 	if (hackingManager)
 	{
 		hackingManager->StopHackingParticle();
+	}
+}
+
+void PlayerManagerScript::PlaySwitchParticles() const
+{
+	if (hackingManager)
+	{
+		hackingManager->PlaySwitchParticles();
+	}
+}
+
+void PlayerManagerScript::StopSwitchParticles() const
+{
+	if (hackingManager)
+	{
+		hackingManager->StopSwitchParticles();
 	}
 }
 

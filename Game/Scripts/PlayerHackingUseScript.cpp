@@ -51,7 +51,8 @@ void PlayerHackingUseScript::Update(float deltaTime)
 	FindHackZone(hackingTag);
 	CheckCurrentHackZone();
 
-	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingActive && !isJumping && !isAttacking)
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingActive &&
+		!isJumping && !isAttacking && !playerManager->GetAttackManager()->IsMelee())
 	{
 		if (hackZone && !hackZone->IsCompleted() && !playerManager->IsParalyzed())
 		{
@@ -253,9 +254,46 @@ void PlayerHackingUseScript::FindHackZone(const std::string& tag)
 			if (distance < hackZoneScript->GetInfluenceRadius() && !hackZoneScript->IsCompleted())
 			{
 				hackZone = hackZoneScript;
-				hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
+				if (playerManager->GetAttackManager()->IsMelee())
+				{
+					hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+					hackZone->GetOwner()->GetChildren()[1]->GetComponent<ComponentParticleSystem>()->Play();
+					hackZone->GetOwner()->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Play();
+				}
+				else
+				{
+					hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
+					hackZone->GetOwner()->GetChildren()[1]->GetComponent<ComponentParticleSystem>()->Stop();
+					hackZone->GetOwner()->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Stop();
+				}
 			}
 		}
+	}
+}
+
+void PlayerHackingUseScript::PlaySwitchParticles()
+{
+	if (hackZone)
+	{
+		hackZone->GetOwner()->GetChildren()[1]->GetComponent<ComponentParticleSystem>()->Play();
+		hackZone->GetOwner()->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Play();
+	}
+}
+
+void PlayerHackingUseScript::StopSwitchParticles()
+{
+	if (hackZone)
+	{
+		hackZone->GetOwner()->GetChildren()[1]->GetComponent<ComponentParticleSystem>()->Stop();
+		hackZone->GetOwner()->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Stop();
+	}
+}
+
+void PlayerHackingUseScript::PlayHackingParticle()
+{
+	if (hackZone)
+	{
+		hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
 	}
 }
 
@@ -264,9 +302,9 @@ void PlayerHackingUseScript::StopHackingParticle()
 	if (hackZone)
 	{
 		hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
-		hackZone = nullptr;
 	}
 }
+
 
 void PlayerHackingUseScript::CheckCurrentHackZone()
 {
@@ -279,6 +317,8 @@ void PlayerHackingUseScript::CheckCurrentHackZone()
 		if (distance > hackZone->GetInfluenceRadius())
 		{
 			hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+			hackZone->GetOwner()->GetChildren()[1]->GetComponent<ComponentParticleSystem>()->Stop();
+			hackZone->GetOwner()->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Stop();
 			hackZone = nullptr;
 		}
 	}

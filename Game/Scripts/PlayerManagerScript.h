@@ -55,7 +55,13 @@ public:
 	PlayerJumpScript* GetJumpManager() const;
 	PlayerMoveScript* GetMovementManager() const;
 	PlayerAttackScript* GetAttackManager() const;
-	void StopHackingParticle();
+
+	void PlayHackingParticle() const;
+	void StopHackingParticle() const;
+
+	void PlaySwitchParticles() const;
+	void StopSwitchParticles() const;
+
 	void SetPlayerSpeed(float playerSpeed);
 	PlayerActions GetPlayerState() const;
 	void SetPlayerState(PlayerActions playerState);
