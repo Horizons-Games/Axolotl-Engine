@@ -113,8 +113,8 @@ public:
 	const int GetSpotIndex(const ComponentSpotLight* spot);
 	const int GetTubeIndex(const ComponentAreaLight* tube);
 	const GameObject* GetDirectionalLight() const;
-	const SpotLight& GetSpotLightsStruct(int index) const;
-	const PointLight& GetPointLightsStruct(int index) const;
+	SpotLight GetSpotLightsStruct(int index) const;
+	PointLight GetPointLightsStruct(int index) const;
 	const std::vector<GameObject*>& GetNonStaticObjects() const;
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<ComponentCamera*>& GetSceneCameras() const;
