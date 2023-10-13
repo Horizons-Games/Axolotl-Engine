@@ -65,8 +65,8 @@ void ComboManager::CheckSpecial(float deltaTime)
 		specialActivated = true;
 
 		uiComboManager->SetActivateSpecial(true);
-
-		ClearCombo(false);
+		actualComboTimer = comboTime;
+		//ClearCombo(false);
 	}
 
 	if (actualComboTimer <= 0)
@@ -76,8 +76,7 @@ void ComboManager::CheckSpecial(float deltaTime)
 			ClearCombo(false);
 			actualComboTimer = comboTime;
 		}
-
-		else if (specialCount > 0 && specialCount < maxSpecialCount)
+		else if (specialCount > 0 && specialCount < maxSpecialCount && !specialActivated)
 		{
 			specialCount = std::max(0.0f, specialCount - 5.0f * deltaTime);
 			uiComboManager->SetComboBarValue(specialCount);
@@ -85,7 +84,6 @@ void ComboManager::CheckSpecial(float deltaTime)
 	}
 	else if (comboCount > 0)
 	{
-		
 		uiComboManager->UpdateFadeOut(actualComboTimer / comboTime);
 		actualComboTimer -= deltaTime;
 	}
@@ -146,20 +144,6 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 {
 	uiComboManager->UpdateFadeOut(1.0f);
-	if (specialCount < 0 || !specialActivated)
-	{
-		this->specialCount = 
-			std::clamp(this->specialCount + specialCount, 0.0f, maxSpecialCount);
-
-		if (this->specialCount <= 0.0f && specialActivated)
-		{
-			specialActivated = false;
-		}
-
-		uiComboManager->SetComboBarValue(this->specialCount);
-
-		actualComboTimer = comboTime;
-	}
 
 	comboCount++;
 	if (type == AttackType::HEAVYNORMAL || type == AttackType::HEAVYFINISHER)
@@ -177,10 +161,24 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 		uiComboManager->AddInputVisuals(InputVisualType::JUMP);
 	}
 
-	if (comboCount == 3) 
+	if (comboCount == 3 || type == AttackType::JUMPNORMAL)
 	{
-		uiComboManager->SetEffectEnable(true);
 		ClearCombo(true);
+	}
+
+	if (specialCount < 0 || !specialActivated)
+	{
+		this->specialCount =
+			std::clamp(this->specialCount + specialCount, 0.0f, maxSpecialCount);
+
+		if (this->specialCount <= 0.0f && specialActivated)
+		{
+			specialActivated = false;
+		}
+
+		uiComboManager->SetComboBarValue(this->specialCount);
+
+		actualComboTimer = comboTime;
 	}
 }
 

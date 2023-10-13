@@ -19,7 +19,7 @@ audioOptionButton(nullptr), controlsOptionButton(nullptr), gameOptionCanvas(null
 audioOptionCanvas(nullptr), gameOptionHover(nullptr), videoOptionHover(nullptr), audioOptionHover(nullptr), 
 controlsOptionHover(nullptr), gamepadTriggersImg(nullptr), headerMenuPosition(0), newHeaderMenuPosition(-1),
 selectedOption(-1), actualButton(-1), actualButtonHover(-1), maxButtonsOptions(-1), maxOptions(-1), 
-newSelectedOption(-1), loadFromMainMenu(false), valueSlider(-1), resetButtonIndex(true)
+newSelectedOption(-1), valueSlider(-1), resetButtonIndex(true), applyChangesOnLoad(false)
 {
 	REGISTER_FIELD(gameOptionButton, GameObject*);
 	REGISTER_FIELD(videoOptionButton, GameObject*);
@@ -39,31 +39,25 @@ newSelectedOption(-1), loadFromMainMenu(false), valueSlider(-1), resetButtonInde
 	REGISTER_FIELD(gamepadTriggersImg, GameObject*);
 }
 
-void UIOptionsMenu::Init()
+void UIOptionsMenu::Initialize()
 {
-	if (loadFromMainMenu)
-	{
-		loadFromMainMenu = false;
+	input = App->GetModule<ModuleInput>();
+	window = App->GetModule<ModuleWindow>();
+	ui = App->GetModule<ModuleUI>();
+	render = App->GetModule<ModuleRender>();
+	audio = App->GetModule<ModuleAudio>();
 
-		input = App->GetModule<ModuleInput>();
-		window = App->GetModule<ModuleWindow>();
-		ui = App->GetModule<ModuleUI>();
-		render = App->GetModule<ModuleRender>();
-		audio = App->GetModule<ModuleAudio>();
+	gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
+	videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
+	audioOptionComponentButton = audioOptionButton->GetComponent<ComponentButton>();
+	controlsOptionComponentButton = controlsOptionButton->GetComponent<ComponentButton>();
 
-		gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
-		videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
-		audioOptionComponentButton = audioOptionButton->GetComponent<ComponentButton>();
-		controlsOptionComponentButton = controlsOptionButton->GetComponent<ComponentButton>();
+	buttonsAndCanvas.push_back(HeaderOptionsButton{ gameOptionComponentButton, gameOptionCanvas, gameOptionHover });
+	buttonsAndCanvas.push_back(HeaderOptionsButton{ videoOptionComponentButton, videoOptionCanvas, videoOptionHover });
+	buttonsAndCanvas.push_back(HeaderOptionsButton{ audioOptionComponentButton, audioOptionCanvas, audioOptionHover });
+	buttonsAndCanvas.push_back(HeaderOptionsButton{ controlsOptionComponentButton, controlsOptionCanvas, controlsOptionHover });
 
-		buttonsAndCanvas.push_back(HeaderOptionsButton{ gameOptionComponentButton, gameOptionCanvas, gameOptionHover });
-		buttonsAndCanvas.push_back(HeaderOptionsButton{ videoOptionComponentButton, videoOptionCanvas, videoOptionHover });
-		buttonsAndCanvas.push_back(HeaderOptionsButton{ audioOptionComponentButton, audioOptionCanvas, audioOptionHover });
-		buttonsAndCanvas.push_back(HeaderOptionsButton{ controlsOptionComponentButton, controlsOptionCanvas, controlsOptionHover });
-
-		LoadOptions();
-	}
-	
+	LoadOptions();
 }
 
 void UIOptionsMenu::Start()
@@ -371,6 +365,11 @@ void UIOptionsMenu::LoadOptions()
 	// THE CANVAS CONTROLLER ONLY HAVE IMG INSIDE AND DONT SAVE BUTTONS - MADE AN ERROR ON THE SAVE AND LOAD.
 	CanvasOptionInfo controller;
 	actualConfig.push_back(controller);
+
+	if (!applyChangesOnLoad)
+	{
+		return;
+	}
 
 	for (int canvasIndex = 0; canvasIndex < actualConfig.size(); ++canvasIndex)
 	{
@@ -684,16 +683,15 @@ void UIOptionsMenu::ControlsOption()
 	//Function reserved to the control canvas options
 }
 
-void UIOptionsMenu::SetLoadFromMainMenu(bool fromMainMenu)
+void UIOptionsMenu::SetApplyChangesOnLoad(bool apply)
 {
-	loadFromMainMenu = fromMainMenu;
+	applyChangesOnLoad = apply;
 }
 
-bool UIOptionsMenu::IsLoadFromMainMenu() const
+bool UIOptionsMenu::IsApplyChangesOnLoad() const
 {
-	return loadFromMainMenu;
+	return applyChangesOnLoad;
 }
-
 
 /*
 void UIOptionsMenu::KeyboardMenuMode()

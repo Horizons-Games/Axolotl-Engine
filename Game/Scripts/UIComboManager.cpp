@@ -16,13 +16,13 @@
 REGISTERCLASS(UIComboManager);
 
 UIComboManager::UIComboManager() : Script(), clearComboTimer(0.0f), clearCombo(false), alphaEnabled(false), 
-isEffectEnabled(-1), forceEnableComboBar(false)
+finisherClearEffect(false), forceEnableComboBar(false), specialActivated(false)
 {
 	REGISTER_FIELD(inputPrefabSoft, GameObject*);
 	REGISTER_FIELD(inputPrefabHeavy, GameObject*);
 	REGISTER_FIELD(inputPrefabJumpAttack, GameObject*);
 	REGISTER_FIELD(noFillBar, GameObject*);
-	REGISTER_FIELD(shinyButtonEffect, std::vector<GameObject*>);
+	REGISTER_FIELD(shinyEffectPrefab, GameObject*);
 	REGISTER_FIELD(forceEnableComboBar, bool);
 }
 
@@ -61,7 +61,6 @@ void UIComboManager::Update(float deltaTime)
 			{
 				CleanInputVisuals();
 				clearCombo = false;
-				isEffectEnabled = -1;
 				owner->GetChildren()[0]->Disable();
 				owner->GetChildren()[1]->Disable();
 			}
@@ -74,35 +73,41 @@ void UIComboManager::Update(float deltaTime)
 		if (clearComboTimer <= 0.0f)
 		{
 			CleanInputVisuals();
-			clearCombo = false;
-			isEffectEnabled = -1;
 		}
-		else if (isEffectEnabled != -1)
+		else
 		{
-			if (isEffectEnabled)
+			if (finisherClearEffect) 
 			{
 				for (int i = 0; i < inputVisuals.size(); i++)
 				{
 					inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(106.f, 106.f));
 				}
-
-				for (GameObject* shinyButton : shinyButtonEffect)
-				{
-					if (shinyButton)
-					{
-						shinyButton->GetComponent<ComponentTransform2D>()->SetSize(float2(146.f, 149.f));
-					}
-				}
-
-				isEffectEnabled = false;
 			}
-			else
-			{
-				FinishComboButtonsEffect();
-				isEffectEnabled = true;
-			}
-			clearComboTimer -= 0.05f;
+			clearComboTimer -= deltaTime;
 		}
+	}
+
+	for (auto it = shinyButtonEffect.begin(); it != shinyButtonEffect.end();)
+	{
+		ComponentImage* image = (*it)->GetComponentInternal<ComponentImage>();
+		float4 color = image->GetColor();
+		if (color.w <= 0.0f) 
+		{
+			App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(*it);
+			it = shinyButtonEffect.erase(it);
+			continue;
+		}
+		else
+		{
+			color.w -= deltaTime * 2;
+			image->SetColor(color);
+		}
+
+		ComponentTransform2D* transform = (*it)->GetComponent<ComponentTransform2D>();
+		float2 size = transform->GetSize();
+		size = size.Add(deltaTime * 120);
+		transform->SetSize(size);
+		++it;
 	}
 
 	if (noFillBar && noFillBar->IsEnabled())
@@ -140,16 +145,31 @@ float UIComboManager::GetMaxComboBarValue() const
 
 void UIComboManager::SetActivateSpecial(bool activate) 
 {
+	specialActivated = activate;
+	GameObject* newVisuals;
 	if (activate) 
 	{
-		comboBar->GetFill()->GetComponent<ComponentImage>()->SetColor(float4::one);
-		comboBar->GetBackground()->GetComponent<ComponentImage>()->SetColor(float4::one);
+		comboBar->GetOwner()->GetChildren()[0]->Disable();
+		newVisuals = comboBar->GetOwner()->GetChildren()[1];
+		
+		for (int i = 0; i < inputVisuals.size(); i++)
+		{
+			inputVisuals[i]->GetChildren()[0]->Disable();
+			inputVisuals[i]->GetChildren()[1]->Enable();
+		}
 	}
 	else 
 	{
-		comboBar->GetFill()->GetComponent<ComponentImage>()->SetColor(float4::one);
-		comboBar->GetBackground()->GetComponent<ComponentImage>()->SetColor(float4::one);
+		comboBar->GetOwner()->GetChildren()[1]->Disable();
+		newVisuals = comboBar->GetOwner()->GetChildren()[0];
 	}
+
+	newVisuals->Enable();
+	comboBar->SetBackground(newVisuals->GetChildren()[0]);
+	comboBar->SetFill(newVisuals->GetChildren()[1]);
+
+	noFillBar = newVisuals->GetChildren()[2];
+	noFillBar->GetComponent<ComponentImage>()->SetColor(float4(1.f, 1.f, 1.f, transparency));
 }
 
 void UIComboManager::SetComboBarValue(float value)
@@ -174,34 +194,38 @@ void UIComboManager::SetComboBarValue(float value)
 
 void UIComboManager::AddInputVisuals(InputVisualType type) 
 {
-	if (inputVisuals.size() < 3)
+	if (clearCombo) 
 	{
-		GameObject* prefab = nullptr;
-		switch (type)
-		{
-		case InputVisualType::LIGHT:
-			prefab = inputPrefabSoft;
-			break;
-		case InputVisualType::HEAVY:
-			prefab = inputPrefabHeavy;
-			break;
-		case InputVisualType::JUMP:
-			AXO_TODO("Add here the CORRECT input prefab for the jump");
-			prefab = inputPrefabJumpAttack;
-			break;
-		default:
-			return;
-		}
+		CleanInputVisuals();
+	}
 
-		GameObject* newInput = 
-			App->GetModule<ModuleScene>()->GetLoadedScene()->
-			DuplicateGameObject(prefab->GetName(), prefab, inputPositions[0]);
-		newInput->Enable();
-		inputVisuals.push_front(newInput);
-		for (int i = 1; i < inputVisuals.size(); i++)
-		{
-			inputVisuals[i]->SetParent(inputPositions[i]);
-		}
+	GameObject* prefab = nullptr;
+	switch (type)
+	{
+	case InputVisualType::LIGHT:
+		prefab = inputPrefabSoft;
+		break;
+	case InputVisualType::HEAVY:
+		prefab = inputPrefabHeavy;
+		break;
+	case InputVisualType::JUMP:
+		prefab = inputPrefabJumpAttack;
+		break;
+	default:
+		return;
+	}
+
+	GameObject* newInput = 
+		App->GetModule<ModuleScene>()->GetLoadedScene()->
+		DuplicateGameObject(prefab->GetName(), prefab, inputPositions[0]);
+	newInput->Enable();
+
+	specialActivated? newInput->GetChildren()[0]->Disable() : newInput->GetChildren()[1]->Disable();
+
+	inputVisuals.push_front(newInput);
+	for (int i = 1; i < inputVisuals.size(); i++)
+	{
+		inputVisuals[i]->SetParent(inputPositions[i]);
 	}
 }
 
@@ -212,7 +236,7 @@ void UIComboManager::ClearCombo(bool finish)
 	if(finish)
 	{
 		clearComboTimer = 1.0f;
-		
+		InitFinishComboButtonsEffect();
 		//Particles, audio, etc
 	}
 	else 
@@ -225,46 +249,40 @@ void UIComboManager::ClearCombo(bool finish)
 
 void UIComboManager::CleanInputVisuals()
 {
+	clearCombo = false;
+	finisherClearEffect = false;
+
 	for (GameObject* input : inputVisuals) 
 	{
 		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(input);
-	}
-
-	for (GameObject* shinyButton : shinyButtonEffect)
-	{
-		if (shinyButton)
-		{
-			shinyButton->Disable();
-		}
 	}
 	inputVisuals.clear();
 }
 
 void UIComboManager::UpdateFadeOut(float transparency)
 {
-		for (int i = 0; i < inputVisuals.size(); i++)
-		{
-			inputVisuals[i]->GetComponent<ComponentImage>()->SetColor(float4(1.f, 1.f, 1.f, transparency));
-		}
+	for (int i = 0; i < inputVisuals.size(); i++)
+	{
+		GameObject* visual = specialActivated ? inputVisuals[i]->GetChildren()[1] : inputVisuals[i]->GetChildren()[0];
+		visual->GetComponent<ComponentImage>()->SetColor(float4(1.f, 1.f, 1.f, transparency));
+	}
 }
 
-void UIComboManager::FinishComboButtonsEffect() //Make a VFX when you get a full combo
+void UIComboManager::InitFinishComboButtonsEffect() //Make a VFX when you get a full combo
 {
+	finisherClearEffect = true;
 	for (int i = 0; i < inputVisuals.size(); i++)
 	{
 		inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(111.f, 111.f));
-	}
 
-	if (inputVisuals.size() >= 3)
-	{
-		for (GameObject* shinyButton : shinyButtonEffect)
-		{
-			if (shinyButton)
-			{
-				shinyButton->Enable();
-				shinyButton->GetComponent<ComponentTransform2D>()->SetSize(float2(151.f, 154.f));
-			}
-		}
+		GameObject* prefab = specialActivated ? shinyEffectPrefab->GetChildren()[1] : shinyEffectPrefab->GetChildren()[0];
+
+		GameObject* newShinyEffect =
+			App->GetModule<ModuleScene>()->GetLoadedScene()->
+			DuplicateGameObject(prefab->GetName(), prefab, inputPositions[i]);
+		newShinyEffect->Enable();
+		newShinyEffect->GetComponent<ComponentTransform2D>()->SetSize(float2(154.f, 154.f));
+		shinyButtonEffect.push_back(newShinyEffect);
 	}
 }
 

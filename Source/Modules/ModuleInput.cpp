@@ -353,6 +353,16 @@ UpdateStatus ModuleInput::PreUpdate()
 							inputMethod = InputMethod::GAMEPAD;
 						}
 					}
+
+					if (axis == SDL_CONTROLLER_AXIS_TRIGGERLEFT)
+					{
+						leftTriggerIntensity = axisValue;
+					}
+
+					if (axis == SDL_CONTROLLER_AXIS_TRIGGERRIGHT)
+					{
+						rightTriggerIntensity = axisValue;
+					}
 				}
 				break;
 
