@@ -49,6 +49,9 @@ public:
 	bool IsGrounded() const;
 	bool IsTeleporting() const;
 	bool IsParalyzed() const;
+
+	GameObject* GetMovementParticleSystem() const;
+
 	PlayerJumpScript* GetJumpManager() const;
 	PlayerMoveScript* GetMovementManager() const;
 	PlayerAttackScript* GetAttackManager() const;
@@ -77,4 +80,6 @@ private:
 	PlayerHackingUseScript* hackingManager;
 	PlayerRotationScript* rotationManager;
 	btVector3 rigidBodyManager;
+
+	GameObject* movementParticleSystem;
 };

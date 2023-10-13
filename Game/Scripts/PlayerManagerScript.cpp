@@ -25,6 +25,7 @@ PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), play
 	REGISTER_FIELD(playerSpeed, float);
 	REGISTER_FIELD(playerRotationSpeed, float);
 	REGISTER_FIELD(debugManager, DebugGame*);
+	REGISTER_FIELD(movementParticleSystem, GameObject*);
 }
 
 void PlayerManagerScript::Start()
@@ -61,6 +62,11 @@ bool PlayerManagerScript::IsTeleporting() const
 bool PlayerManagerScript::IsParalyzed() const
 {
 	return movementManager->IsParalyzed();
+}
+
+GameObject* PlayerManagerScript::GetMovementParticleSystem() const
+{
+	return movementParticleSystem;
 }
 
 float PlayerManagerScript::GetPlayerAttack() const
