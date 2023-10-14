@@ -27,12 +27,8 @@ public:
 
 	void PrintCombination(); // DEBUG METHOD
 	
-	void PlayHackingParticle();
-	void StopHackingParticle();
+	void StopHackingParticles();
 	
-	void PlaySwitchParticles();
-	void StopSwitchParticles();
-
 private:
 
 	void DisableAllInteractions();

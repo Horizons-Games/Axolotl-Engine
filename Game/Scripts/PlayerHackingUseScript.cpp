@@ -255,7 +255,7 @@ void PlayerHackingUseScript::FindHackZone(const std::string& tag)
 			{
 				hackZone = hackZoneScript;
 				if (playerManager->GetAttackManager()->IsMelee())
-				{
+				{	
 					hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
 					hackZone->GetOwner()->GetChildren()[1]->GetComponent<ComponentParticleSystem>()->Play();
 					hackZone->GetOwner()->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Play();
@@ -271,40 +271,16 @@ void PlayerHackingUseScript::FindHackZone(const std::string& tag)
 	}
 }
 
-void PlayerHackingUseScript::PlaySwitchParticles()
-{
-	if (hackZone)
-	{
-		hackZone->GetOwner()->GetChildren()[1]->GetComponent<ComponentParticleSystem>()->Play();
-		hackZone->GetOwner()->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Play();
-	}
-}
-
-void PlayerHackingUseScript::StopSwitchParticles()
-{
-	if (hackZone)
-	{
-		hackZone->GetOwner()->GetChildren()[1]->GetComponent<ComponentParticleSystem>()->Stop();
-		hackZone->GetOwner()->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Stop();
-	}
-}
-
-void PlayerHackingUseScript::PlayHackingParticle()
-{
-	if (hackZone)
-	{
-		hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
-	}
-}
-
-void PlayerHackingUseScript::StopHackingParticle()
+void PlayerHackingUseScript::StopHackingParticles()
 {
 	if (hackZone)
 	{
 		hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+		hackZone->GetOwner()->GetChildren()[1]->GetComponent<ComponentParticleSystem>()->Stop();
+		hackZone->GetOwner()->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Stop();
+		hackZone = nullptr;
 	}
 }
-
 
 void PlayerHackingUseScript::CheckCurrentHackZone()
 {
@@ -316,10 +292,7 @@ void PlayerHackingUseScript::CheckCurrentHackZone()
 
 		if (distance > hackZone->GetInfluenceRadius())
 		{
-			hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
-			hackZone->GetOwner()->GetChildren()[1]->GetComponent<ComponentParticleSystem>()->Stop();
-			hackZone->GetOwner()->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Stop();
-			hackZone = nullptr;
+			StopHackingParticles();
 		}
 	}
 }

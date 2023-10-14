@@ -246,16 +246,7 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		comboSystem->ClearComboForSwitch(true);
 
 		currentPlayer->Disable();
-		if (playerManager->GetAttackManager()->IsMelee())
-		{
-			playerManager->StopSwitchParticles();
-			playerManager->PlayHackingParticle();
-		}
-		else 
-		{
-			playerManager->StopHackingParticle();
-			playerManager->PlaySwitchParticles();
-		}
+		playerManager->StopHackingParticles();
 
 		// Change UI of the player here
 		SwitchHealthBars();
