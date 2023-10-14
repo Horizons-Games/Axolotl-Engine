@@ -122,6 +122,8 @@ void EnemyVenomiteScript::CheckState()
 		if (venomiteState != VenomiteBehaviours::RANGED_ATTACK && componentAnimation->GetActualStateName() 
 			!= "VenomiteMeleeAttack" && componentAnimation->GetActualStateName() != "VenomiteMeleeAttackEnd")
 		{
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS_STOP);
+
 			batonGameObject->Disable();
 			blasterGameObject->Enable();
 
@@ -160,11 +162,15 @@ void EnemyVenomiteScript::CheckState()
 			componentAnimation->SetParameter("IsRangedAttacking", false);
 			componentAnimation->SetParameter("IsMeleeAttacking", false);
 
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS);
+
 			venomiteState = VenomiteBehaviours::SEEK;
 		}
 	}
 	else if (venomiteState != VenomiteBehaviours::PATROL)
 	{
+		componentAudioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS_STOP);
+
 		patrolScript->StartPatrol();
 		batonGameObject->Disable();
 		blasterGameObject->Disable();

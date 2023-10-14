@@ -6,6 +6,7 @@
 
 class ComponentTransform;
 class ComponentAnimation;
+class ComponentAudioSource;
 class AIMovement;
 
 class PatrolBehaviourScript : public Script
@@ -25,6 +26,7 @@ private:
 
 	ComponentTransform* ownerTransform;
 	ComponentAnimation* componentAnimation;
+	ComponentAudioSource* audioSource;
 	AIMovement* aiMovement;
 	std::vector<ComponentTransform*> waypointsPatrol;
 	int currentWayPoint;
@@ -33,6 +35,7 @@ private:
 	float patrolStopDuration;
 	float totalPatrolTime;
 	std::string patrolAnimationParamater;
+	bool hasWalkAnim;
 
 	void GetNearestPatrollingPoint();
 	void Patrolling();
