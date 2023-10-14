@@ -10,8 +10,6 @@
 #include "Application.h"
 #include "UIGameManager.h"
 
-
-
 REGISTERCLASS(UIOptionsMenu);
 
 UIOptionsMenu::UIOptionsMenu() : Script(), gameOptionButton(nullptr), videoOptionButton(nullptr), 
@@ -304,17 +302,16 @@ void UIOptionsMenu::InitOptionMenu()
 	actualConfig.push_back(gameCanvas);
 
 	CanvasOptionInfo videoCanvas;
-	for (int i = 0; i < 4; ++i)
-	{
-		videoCanvas.options.push_back(ButtonOptionInfo{ 1, 1, false });
-	}
+	videoCanvas.options.push_back(ButtonOptionInfo{ 1, 1, false });
+	videoCanvas.options.push_back(ButtonOptionInfo{ 1, 1, false });
+	videoCanvas.options.push_back(ButtonOptionInfo{ 1, 1, false });
+	videoCanvas.options.push_back(ButtonOptionInfo{ 1, 1, false });
 	actualConfig.push_back(videoCanvas);
 
 	CanvasOptionInfo audioCanvas;
-	for (int i = 0; i < 3; ++i)
-	{
-		audioCanvas.options.push_back(ButtonOptionInfo{ 100, 100, false });
-	}
+	audioCanvas.options.push_back(ButtonOptionInfo{ 100, 100, false });
+	audioCanvas.options.push_back(ButtonOptionInfo{ 100, 100, false });
+	audioCanvas.options.push_back(ButtonOptionInfo{ 100, 100, false });
 	actualConfig.push_back(audioCanvas);
 
 	CanvasOptionInfo controllerCanvas;
@@ -476,10 +473,10 @@ void UIOptionsMenu::IsSizeOptionEnabled()
 	if (gameOptionWindowsMode == 0 || gameOptionWindowsMode == 1)
 	{
 		colorSet = { 0.5f, 0.5f, 0.5f, 1.0f };
-		for (int i = 1; i < 5; ++i)
-		{
-			resolutionParentGameObject->GetChildren()[i]->Disable();
-		}
+		resolutionParentGameObject->GetChildren()[1]->Disable();
+		resolutionParentGameObject->GetChildren()[2]->Disable();
+		resolutionParentGameObject->GetChildren()[3]->Disable();
+		resolutionParentGameObject->GetChildren()[4]->Disable();
 		resolutionParentGameObject->GetChildren()[0]->Enable();
 		actualConfig[gameCanvasIndex].options[resolutionIndex].locked = true;
 	}
@@ -503,10 +500,9 @@ void UIOptionsMenu::IsFpsEnabled()
 	if (actualConfig[gameCanvasIndex].options[(int)Button::VSYNC].actualOption == 1)
 	{
 		colorSet = { 0.5f, 0.5f, 0.5f, 1.0f };
-		for (int i = 1; i < 4; ++i)
-		{
-			FPSParentGameObject->GetChildren()[i]->Disable();
-		}
+		FPSParentGameObject->GetChildren()[1]->Disable();
+		FPSParentGameObject->GetChildren()[2]->Disable();
+		FPSParentGameObject->GetChildren()[3]->Disable();
 		FPSParentGameObject->GetChildren()[0]->Enable();
 		actualConfig[gameCanvasIndex].options[FPSIndex].locked = true;
 	}
