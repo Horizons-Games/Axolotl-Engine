@@ -12,8 +12,6 @@
 #include "Modules/ModuleScene.h"
 #include "Modules/ModuleProgram.h"
 
-#include "ParShapes/par_shapes.h"
-
 #include "Program/Program.h"
 
 #include "Scene/Scene.h"
@@ -21,6 +19,20 @@
 #include "GameObject/GameObject.h"
 
 #include "GBuffer/GBuffer.h"
+
+// par_shapes triggers a bunch of warnings that don't seem related to how we use it
+// so we'll silence them
+#pragma warning(push)
+// truncation from 'double' to 'float'
+#pragma warning(disable : 4305)
+// conversion from 'double' to 'float', possible loss of data
+#pragma warning(disable : 4244)
+// 'ARRAYSIZE': macro redefinition
+#pragma warning(disable : 4005)
+
+#include "ParShapes/par_shapes.h"
+
+#pragma warning(pop)
 
 
 LightPass::LightPass() : numLights(0)
@@ -286,7 +298,7 @@ void LightPass::LoadShape(par_shapes_mesh_s* shape, ResourceMesh* mesh)
 
 	std::vector<unsigned int> facesIndexes(shape->triangles, shape->triangles + shape->ntriangles * 3);
 	std::vector<std::vector<unsigned int>> faces;
-	for (unsigned int i = 0; i + 2 < shape->ntriangles * 3; i += 3)
+	for (int i = 0; i + 2 < shape->ntriangles * 3; i += 3)
 	{
 		std::vector<unsigned int> indexes{ facesIndexes[i], facesIndexes[i + 1], facesIndexes[i + 2] };
 		faces.push_back(indexes);

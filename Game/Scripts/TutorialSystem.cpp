@@ -49,8 +49,11 @@ void TutorialSystem::Start()
 	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
 	transform2D = currentTutorialUI->GetComponent<ComponentTransform2D>();
 	stateWaitTime = totalStateWaitTime;
-	dummyHealthSystem = dummy->GetComponent<HealthSystem>();
-	
+
+	if (dummy)
+	{
+		dummyHealthSystem = dummy->GetComponent<HealthSystem>();
+	}
 }
 
 void TutorialSystem::Update(float deltaTime)
@@ -70,7 +73,7 @@ void TutorialSystem::Update(float deltaTime)
 void TutorialSystem::TutorialStart()
 {
 	tutorialCurrentState = 0;
-	tutorialTotalStates = tutorialUI.size() - 1;
+	tutorialTotalStates = static_cast<int>(tutorialUI.size()) - 1;
 	currentTutorialUI->Enable();
 	transform2D->SetPosition(initialPos);
 	transform2D->CalculateMatrices();
@@ -87,7 +90,7 @@ void TutorialSystem::DeployUI()
 	displacementControl->SetMovingToEnd(true);
 	displacementControl->MoveImageToEndPosition();
 
-	if (tutorialCurrentState == int(numNotControllableStates))
+	if (tutorialCurrentState == int(numNotControllableStates) && dummy)
 	{
 		dummyHealthSystem->SetIsImmortal(false);
 	}	
@@ -108,7 +111,10 @@ void TutorialSystem::UnDeployUI()
 		currentTutorialUI = tutorialUI[tutorialCurrentState];
 		displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
 		displacementControl->SetIsMoving(true);
-		dummyHealthSystem->SetIsImmortal(true);
+		if (dummy)
+		{
+			dummyHealthSystem->SetIsImmortal(true);
+		}
 	}
 
 

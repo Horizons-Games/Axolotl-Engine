@@ -153,6 +153,7 @@ void ComponentRigidBody::Update()
 {
 	float deltaTime = App->GetDeltaTime();
 
+	
 	if (!rigidBody->isStaticOrKinematicObject())
 	{
 		rigidBody->setCcdMotionThreshold(0.1f);
