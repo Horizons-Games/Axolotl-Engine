@@ -103,6 +103,13 @@ void PlayerAttackScript::Start()
 
 void PlayerAttackScript::Update(float deltaTime)
 {
+	if (!canAttack && !jumpFinisherScript->IsActive())
+	{
+		isNextAttackTriggered = false;
+		ResetAttackAnimations(deltaTime);
+		return;
+	}
+	
 	if (isMelee && timeSinceLastJumpAttack < jumpAttackCooldown)
 	{
 		playerManager->ParalyzePlayer(true);
@@ -119,11 +126,6 @@ void PlayerAttackScript::Update(float deltaTime)
 
 	// Mark the enemy that is going to be attacked
 	UpdateEnemyDetection();
-
-	if (!canAttack)
-	{
-		return;
-	}
 
 	// Check if the special was activated
 	comboSystem->CheckSpecial(deltaTime);
