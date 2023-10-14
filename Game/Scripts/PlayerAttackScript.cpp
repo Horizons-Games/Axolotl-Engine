@@ -122,8 +122,6 @@ void PlayerAttackScript::Update(float deltaTime)
 
 	if (!canAttack)
 	{
-		isNextAttackTriggered = false;
-		ResetAttackAnimations(deltaTime);
 		return;
 	}
 
