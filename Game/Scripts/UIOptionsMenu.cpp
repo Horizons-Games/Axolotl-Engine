@@ -412,7 +412,7 @@ void UIOptionsMenu::SaveOptions()
 	Json optionsMenu(doc, doc);
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
-	for (int canvasIndex = 0; canvasIndex < actualConfig.size()-1; ++canvasIndex)
+	for (int canvasIndex = 0; canvasIndex < actualConfig.size() - 1; ++canvasIndex)
 	{
 		Json canvas = optionsMenu[canvasIndex];
 		for (int optionsIndex = 0; optionsIndex < actualConfig[canvasIndex].options.size(); ++optionsIndex)
@@ -520,7 +520,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 	switch (button)
 	{
 		float brightnessToShow;
-	case 0: //FPS LIMIT
+	case 0: // FPS LIMIT
 		switch (option)
 		{
 		case 0:
@@ -544,7 +544,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 		}
 		break;
 
-	case 1: //VSYNC
+	case 1: // VSYNC
 		switch (option)
 		{
 		case 0:
@@ -561,7 +561,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 		IsFpsEnabled();
 		break;
 
-	case 2: //BRIGHTNESS
+	case 2: // BRIGHTNESS
 		brightnessToShow = option;
 		if (brightnessToShow * 0.01f < 0.3f)
 		{
@@ -574,7 +574,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 		LOG_INFO("BRIGHTNESS {}", brightnessToShow * 0.01f);
 		break;
 
-	case 3: //RESOLUTION
+	case 3: // RESOLUTION
 		switch (option)
 		{
 		case 0:
@@ -596,12 +596,13 @@ void UIOptionsMenu::GameOption(int button, int option)
 		}
 		break;
 
-	case 4: //WINDOWS MODE
+	case 4: // WINDOWS MODE
 		switch (option)
 		{
 		case 0:
 			window->SetDesktopFullscreen(true);
-			//window->SetFullscreen(true); // NOT WORKING PROPRERLY WE NEED TO FIX IT
+			AXO_TODO("Fix SetFullscreen")
+			// window->SetFullscreen(true);
 			LOG_INFO("Windows Mode: Fullscreen");
 			break;
 		case 1:
@@ -664,10 +665,10 @@ void UIOptionsMenu::AudioOption(int button, int option)
 {
 	switch (button)
 	{
-	case 0: //MASTER
+	case 0: // MASTER
 		// audio-> this is ModuleAudio
 		break;
-	case 1: //MUSIC
+	case 1: // MUSIC
 		break;
 	case 2: // SFX
 		break;
@@ -678,7 +679,7 @@ void UIOptionsMenu::AudioOption(int button, int option)
 
 void UIOptionsMenu::ControlsOption()
 {
-	//Function reserved to the control canvas options
+	// Function reserved to the control canvas options
 }
 
 void UIOptionsMenu::SetApplyChangesOnLoad(bool apply)
