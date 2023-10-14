@@ -610,7 +610,7 @@ bool ModuleDebugDraw::CleanUp()
 UpdateStatus ModuleDebugDraw::Update()
 {
 #ifdef ENGINE
-	dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
+	//dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
 #endif // ENGINE
 
 	return UpdateStatus::UPDATE_CONTINUE;
@@ -630,7 +630,7 @@ void ModuleDebugDraw::DrawTransform(ComponentTransform* transform)
 	float4x4 transformDrawPosition =
 		float4x4::FromTRS((float3) transform->GetGlobalPosition(), float4x4::identity, float3(0.5f, 0.5f, 0.5f));
 
-	dd::axisTriad(transformDrawPosition, 0.1f, 1.0f);
+	//dd::axisTriad(transformDrawPosition, 0.1f, 1.0f);
 }
 
 void ModuleDebugDraw::DrawBoundingBox(const AABB& aabb)

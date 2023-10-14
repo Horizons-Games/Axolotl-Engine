@@ -107,6 +107,8 @@ bool AnimationController::GetTransform(const std::string& name, float3& pos, Qua
 
 			pos = Interpolate(firstPos, secondPos, lambda);
 			rot = Interpolate(firstQuat, secondQuat, lambda);
+
+			//LOG_DEBUG("Difference {}, {}, {}", pos.x - firstPos.x, pos.y - firstPos.y, pos.z - firstPos.z);
 		}
 
 		return true;
