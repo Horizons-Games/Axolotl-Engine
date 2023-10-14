@@ -26,7 +26,9 @@ public:
 	bool IsHackingActive() const;
 
 	void PrintCombination(); // DEBUG METHOD
-
+	
+	void StopHackingParticles();
+	
 private:
 
 	void DisableAllInteractions();
@@ -35,6 +37,7 @@ private:
 	void InitHack();
 	void FinishHack();
 	void RestartHack();
+	void CheckCurrentHackZone();
 
 private:
 

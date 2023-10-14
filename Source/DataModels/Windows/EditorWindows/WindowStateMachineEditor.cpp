@@ -182,9 +182,16 @@ void WindowStateMachineEditor::DrawParameters(std::shared_ptr<ResourceStateMachi
 	const std::string* oldName = nullptr;
 	std::string newName;
 	TypeFieldPairParameter field;
-	for (const auto& it : stateMachine->GetMapParameters())
+	auto params = stateMachine->GetMapParameters();
+	for (const auto& it : params)
 	{
 		std::string name = it.first;
+
+		if (name == "")
+		{
+			continue;
+		}
+
 		name.resize(24);
 		ImGui::SetNextItemWidth(10);
 		if (ImGui::Button(("x##" + name).c_str()))
@@ -300,7 +307,7 @@ void WindowStateMachineEditor::DrawTransitionEditor(std::shared_ptr<ResourceStat
 			stateAsShared->AddCondition(transitionIdSelected);
 		}
 		ImGui::Separator();
-		for (int i = 0; i < it->second.conditions.size(); i++)
+		for (int i = 0; i < it->second.conditions.size(); ++i)
 		{
 			if (ImGui::Button(("X##" + std::to_string(i)).c_str()))
 			{
@@ -338,7 +345,7 @@ void WindowStateMachineEditor::DrawTransitionEditor(std::shared_ptr<ResourceStat
 							if (ImGui::BeginCombo(("##comboCondition1" + std::to_string(i)).c_str(),
 												  conditionNamesFloat[static_cast<int>(condition.conditionType)]))
 							{
-								for (int i = 0; i < IM_ARRAYSIZE(conditionNamesFloat); i++)
+								for (int i = 0; i < IM_ARRAYSIZE(conditionNamesFloat); ++i)
 								{
 									if (ImGui::Selectable(conditionNamesFloat[i]))
 									{
@@ -361,7 +368,7 @@ void WindowStateMachineEditor::DrawTransitionEditor(std::shared_ptr<ResourceStat
 									("##comboCondition2" + std::to_string(i)).c_str(),
 									conditionNamesBool[static_cast<int>(condition.conditionType) - (boolNamesOffset)]))
 							{
-								for (int i = 0; i < IM_ARRAYSIZE(conditionNamesBool); i++)
+								for (int i = 0; i < IM_ARRAYSIZE(conditionNamesBool); ++i)
 								{
 									if (ImGui::Selectable(conditionNamesBool[i]))
 									{
@@ -520,7 +527,7 @@ void WindowStateMachineEditor::DrawStates(std::shared_ptr<ResourceStateMachine>&
 										  const ImVec2& mouseDelta,
 										  ImDrawList* drawList)
 {
-	for (unsigned int i = 0; i < stateAsShared->GetNumStates(); i++)
+	for (unsigned int i = 0; i < stateAsShared->GetNumStates(); ++i)
 	{
 		State* state = stateAsShared->GetState(i);
 		if (state != nullptr)

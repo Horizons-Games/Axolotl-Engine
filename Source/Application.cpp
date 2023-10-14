@@ -95,7 +95,7 @@ bool Application::Start()
 
 UpdateStatus Application::Update()
 {
-	if (closeGame == true)
+	if (closeGame)
 	{
 		return UpdateStatus::UPDATE_STOP;
 	}

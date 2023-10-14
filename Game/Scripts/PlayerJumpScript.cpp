@@ -9,6 +9,7 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/PlayerManagerScript.h"
@@ -51,6 +52,8 @@ void PlayerJumpScript::Start()
 	attackScript = owner->GetComponent<PlayerAttackScript>();
 	playerManager = owner->GetComponent<PlayerManagerScript>();
 	playerMove = owner->GetComponent<PlayerMoveScript>();
+
+	landingParticle = playerManager->GetMovementParticleSystem()->GetChildren()[0]->GetComponent<ComponentParticleSystem>();
 }
 
 void PlayerJumpScript::PreUpdate(float deltaTime)
@@ -91,6 +94,7 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 			}
 			else
 			{
+				landingParticle->Play();
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FALLING_METAL);
 			}
 		}

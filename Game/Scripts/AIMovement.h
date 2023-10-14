@@ -45,8 +45,3 @@ private:
 	void RotateToTarget(float deltaTime);
 	void CheckIfHasArrived();
 };
-
-inline void AIMovement::SetMovementSpeed(float newMovementSpeed)
-{
-	movementSpeed = newMovementSpeed;
-}
