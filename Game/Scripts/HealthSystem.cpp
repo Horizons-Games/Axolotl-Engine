@@ -12,6 +12,7 @@
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
 #include "../Scripts/PlayerManagerScript.h"
+#include "../Scripts/ComboManager.h"
 #include "../Scripts/MeshEffect.h"
 
 REGISTERCLASS(HealthSystem);
@@ -117,6 +118,7 @@ void HealthSystem::TakeDamage(float damage)
 			if (currentHealth - damage <= 0)
 			{
 				playerManager->ParalyzePlayer(true);
+				owner->GetComponent<ComboManager>()->SuccessfulAttack(-100.f, AttackType::NONE);
 			}
 			else
 			{
