@@ -10,6 +10,7 @@
 #include "GameObject/GameObject.h"
 #include "Modules/ModuleDebugDraw.h"
 #include "debugdraw.h"
+#include "Modules/ModuleScene.h"
 
 #ifndef ENGINE
 	#include "Modules/ModuleEditor.h"
@@ -76,6 +77,11 @@ void ModulePhysics::Reset()
 
 UpdateStatus ModulePhysics::PreUpdate()
 {
+	if (App->GetModule<ModuleScene>()->IsLoading())
+	{
+		return UpdateStatus::UPDATE_CONTINUE;
+	}
+
 #ifdef ENGINE
 	if (App->GetPlayState() == Application::PlayState::RUNNING)
 	{

@@ -25,6 +25,12 @@ void WindowComponentImage::DrawWindowContents()
 	DrawEnableAndDeleteComponent();
 	ImGui::Text("");
 	ComponentImage* asImage = static_cast<ComponentImage*>(component);
+
+	if (!asImage)
+	{
+		return;
+	}
+
 	std::shared_ptr<ResourceTexture> image = asImage->GetImage();
 	if (image)
 	{

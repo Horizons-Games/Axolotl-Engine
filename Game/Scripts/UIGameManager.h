@@ -10,6 +10,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentPlayer;
 class ComponentSlider;
 class HealthSystem;
+class ModuleUI;
 
 class UIGameManager : public Script
 {
@@ -23,15 +24,16 @@ public:
 	void SetMenuIsOpen(bool menuState);
 	void MenuIsOpen();
 
+	void LoseGameState();
+	void WinGameState();
+
 	void EnableUIPwrUp(enum class PowerUpType pwrUp);
 	void ActiveUIPwrUP(float currentPowerUpTimer);
 	void ActiveSliderUIPwrUP(float time);
 	void DisableUIPwrUP();
 
 	void ModifySliderHealthValue(HealthSystem* healthSystemClass, ComponentSlider* componentSliderFront, ComponentSlider* componentSliderBack);
-
 	void SetMaxPowerUpTime(float maxPowerUpTime);
-
 	void InputMethodImg(bool input);
 
 private:
@@ -60,6 +62,9 @@ private:
 	GameObject* imgMouse;
 	GameObject* imgController;
 
+	GameObject* gameStates;
+	std::string loadRetryScene;
+
 	GameObject* sliderHudHealthBixFront;
 	GameObject* sliderHudHealthBixBack;
 	GameObject* sliderHudHealthAlluraFront;
@@ -74,6 +79,7 @@ private:
 	ComponentPlayer* player;
 	ComponentPlayer* secondPlayer;
 	ModuleInput* input;
+	ModuleUI* ui;
 	ComponentSlider* componentSliderPlayerFront;
 	ComponentSlider* componentSliderPlayerBack;
 	ComponentSlider* componentSliderSecondPlayerFront;

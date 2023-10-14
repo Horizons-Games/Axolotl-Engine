@@ -60,7 +60,7 @@ void BossShieldEnemiesSpawner::Update(float deltaTime)
 
 void BossShieldEnemiesSpawner::StartSpawner()
 {
-	if (enemiesReadyToSpawn.size() <= 0)
+	if (enemiesReadyToSpawn.size() < 4)
 	{
 		ReactivateEnemies();
 	}
@@ -124,6 +124,6 @@ void BossShieldEnemiesSpawner::ReactivateEnemies()
 		enemyClass->ActivateNeedsToBeReset();
 
 		enemiesReadyToSpawn.push_back(*it);
-		enemiesNotReadyToSpawn.erase(it);
 	}
+	enemiesNotReadyToSpawn.clear();
 }
