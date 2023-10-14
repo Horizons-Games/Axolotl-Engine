@@ -9,6 +9,7 @@
 #include "PlayerRotationScript.h"
 #include "PlayerMoveScript.h"
 #include "PlayerAttackScript.h"
+#include "PlayerHackingUseScript.h"
 #include "HealthSystem.h"
 
 #include "DebugGame.h"
@@ -17,15 +18,15 @@
 REGISTERCLASS(PlayerManagerScript);
 
 PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), playerDefense(0.f), playerSpeed(6.0f),
-	movementManager(nullptr), jumpManager(nullptr), debugManager(nullptr), playerState(PlayerActions::IDLE)
+	movementManager(nullptr), jumpManager(nullptr), debugManager(nullptr), hackingManager(nullptr), playerState(PlayerActions::IDLE)
 {
 	REGISTER_FIELD(isActivePlayer, bool);
 	REGISTER_FIELD(playerAttack, float);
 	REGISTER_FIELD(playerDefense, float);
 	REGISTER_FIELD(playerSpeed, float);
 	REGISTER_FIELD(playerRotationSpeed, float);
-
 	REGISTER_FIELD(debugManager, DebugGame*);
+	REGISTER_FIELD(movementParticleSystem, GameObject*);
 }
 
 void PlayerManagerScript::Start()
@@ -40,6 +41,10 @@ void PlayerManagerScript::Start()
 	rotationManager = owner->GetComponent<PlayerRotationScript>();
 	attackManager = owner->GetComponent<PlayerAttackScript>();
 	playerGravity = owner->GetComponent<ComponentRigidBody>()->GetGravity();
+	if (owner->HasComponent<PlayerHackingUseScript>())
+	{
+		hackingManager = owner->GetComponent<PlayerHackingUseScript>();
+	}
 }
 
 bool PlayerManagerScript::IsGrounded() const
@@ -65,6 +70,11 @@ bool PlayerManagerScript::IsParalyzed() const
 bool PlayerManagerScript::IsPaused() const
 {
 	return isPaused;
+}
+
+GameObject* PlayerManagerScript::GetMovementParticleSystem() const
+{
+	return movementParticleSystem;
 }
 
 float PlayerManagerScript::GetPlayerAttack() const
@@ -143,6 +153,14 @@ void PlayerManagerScript::FullPausePlayer(bool paused)
 
 	owner->GetComponent<ComponentRigidBody>()->SetGravity(gravityPlayer);
 	owner->GetComponent<ComponentRigidBody>()->UpdateRigidBody();
+}
+
+void PlayerManagerScript::StopHackingParticle()
+{
+	if (hackingManager)
+	{
+		hackingManager->StopHackingParticle();
+	}
 }
 
 void PlayerManagerScript::PausePlayer(bool paused)

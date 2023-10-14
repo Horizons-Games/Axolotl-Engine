@@ -27,7 +27,7 @@ bool ModuleProgram::Start()
 
 	std::string directory = rootPath + "Common/";
 	std::vector<std::string> files = fileSystem->ListFilesWithPath(directory.c_str());
-	for (auto i = 0; i < files.size(); i++)
+	for (auto i = 0; i < files.size(); ++i)
 	{
 		std::string path = files[i];
 		if (fileSystem->IsDirectory(path.c_str()))

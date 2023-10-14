@@ -375,7 +375,7 @@ void ModuleRenderer::DrawImGui()
 
 			if (ImGui::BeginCombo("##alignmentCombo", currentItem))
 			{
-				for (int n = 0; n < IM_ARRAYSIZE(alignmentItems); n++)
+				for (int n = 0; n < IM_ARRAYSIZE(alignmentItems); ++n)
 				{
 					bool isSelected = (currentItem == alignmentItems[n]);
 
@@ -442,7 +442,7 @@ void ModuleRenderer::DrawImGui()
 
 			if (ImGui::BeginCombo("##blendingCombo", currentItem))
 			{
-				for (int n = 0; n < IM_ARRAYSIZE(blendingItems); n++)
+				for (int n = 0; n < IM_ARRAYSIZE(blendingItems); ++n)
 				{
 					bool isSelected = (currentItem == blendingItems[n]);
 

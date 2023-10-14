@@ -10,6 +10,7 @@
 #include "GameObject/GameObject.h"
 #include "Modules/ModuleDebugDraw.h"
 #include "debugdraw.h"
+#include "Modules/ModuleScene.h"
 
 #ifndef ENGINE
 	#include "Modules/ModuleEditor.h"
@@ -76,6 +77,11 @@ void ModulePhysics::Reset()
 
 UpdateStatus ModulePhysics::PreUpdate()
 {
+	if (App->GetModule<ModuleScene>()->IsLoading())
+	{
+		return UpdateStatus::UPDATE_CONTINUE;
+	}
+
 #ifdef ENGINE
 	if (App->GetPlayState() == Application::PlayState::RUNNING)
 	{
@@ -141,7 +147,7 @@ struct ContactResultCallback : public btCollisionWorld::ContactResultCallback
 void ModulePhysics::ManageCollisions()
 {
 	btCollisionObjectArray collisionArray = dynamicsWorld->getCollisionObjectArray();
-	for (int i = 0; i < collisionArray.size(); i++)
+	for (int i = 0; i < collisionArray.size(); ++i)
 	{
 		btCollisionObject* obj = collisionArray[i];
 
@@ -162,7 +168,7 @@ void ModulePhysics::ManageCollisions()
 
 		if (result.collisionDetected)
 		{
-			for (int j = 0; j < result.othersRigidBody.size(); j++)
+			for (int j = 0; j < result.othersRigidBody.size(); ++j)
 			{
 				ComponentRigidBody* other =
 					static_cast<ComponentRigidBody*>(result.othersRigidBody[j]->getUserPointer());
@@ -295,7 +301,7 @@ void ModulePhysics::GetCollisions(ComponentRigidBody* rb, std::vector<ComponentR
 
 	if (result.collisionDetected)
 	{
-		for (int j = 0; j < result.othersRigidBody.size(); j++)
+		for (int j = 0; j < result.othersRigidBody.size(); ++j)
 		{
 			ComponentRigidBody* other = static_cast<ComponentRigidBody*>(result.othersRigidBody[j]->getUserPointer());
 			if (tag.empty() || tag == other->GetOwner()->GetTag())

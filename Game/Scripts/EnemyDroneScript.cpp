@@ -119,7 +119,7 @@ void EnemyDroneScript::CheckState(float deltaTime)
 	if (droneState == DroneBehaviours::READYTOEXPLODE)
 	{
 		if (droneState != DroneBehaviours::EXPLOSIONATTACK && componentAnimation->GetActualStateName() != "Flinch"
-			&& flinchAnimationOffset == true)
+			&& flinchAnimationOffset)
 		{
 			componentAnimation->SetParameter("IsSeeking", false);
 			componentAnimation->SetParameter("IsAttacking", false);

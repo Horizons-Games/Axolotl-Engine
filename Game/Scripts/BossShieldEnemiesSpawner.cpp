@@ -117,7 +117,7 @@ GameObject* BossShieldEnemiesSpawner::SelectRandomEnemy()
 void BossShieldEnemiesSpawner::ReactivateEnemies()
 {
 	for (std::vector<GameObject*>::iterator it = (enemiesNotReadyToSpawn).begin(); it < (enemiesNotReadyToSpawn).end();
-		it++)
+		++it)
 	{
 		// TODO: check if there is something else to reset
 		EnemyClass* enemyClass = (*it)->GetComponent<EnemyClass>();

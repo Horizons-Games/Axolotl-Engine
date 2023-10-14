@@ -19,7 +19,7 @@ audioOptionButton(nullptr), controlsOptionButton(nullptr), gameOptionCanvas(null
 audioOptionCanvas(nullptr), gameOptionHover(nullptr), videoOptionHover(nullptr), audioOptionHover(nullptr), 
 controlsOptionHover(nullptr), gamepadTriggersImg(nullptr), headerMenuPosition(0), newHeaderMenuPosition(-1),
 selectedOption(-1), actualButton(-1), actualButtonHover(-1), maxButtonsOptions(-1), maxOptions(-1), 
-newSelectedOption(-1), loadFromMainMenu(false), valueSlider(-1), resetButtonIndex(true)
+newSelectedOption(-1), valueSlider(-1), resetButtonIndex(true), applyChangesOnLoad(false)
 {
 	REGISTER_FIELD(gameOptionButton, GameObject*);
 	REGISTER_FIELD(videoOptionButton, GameObject*);
@@ -39,7 +39,7 @@ newSelectedOption(-1), loadFromMainMenu(false), valueSlider(-1), resetButtonInde
 	REGISTER_FIELD(gamepadTriggersImg, GameObject*);
 }
 
-void UIOptionsMenu::Init()
+void UIOptionsMenu::Initialize()
 {
 	input = App->GetModule<ModuleInput>();
 	window = App->GetModule<ModuleWindow>();
@@ -127,7 +127,7 @@ void UIOptionsMenu::ControllerMenuMode()
 		}
 
 		// DISABLE THE HOVER BUTTON
-		for (actualButtonHover = 0; actualButtonHover < 5; actualButtonHover++)
+		for (actualButtonHover = 0; actualButtonHover < 5; ++actualButtonHover)
 		{
 			if (owner->GetChildren()[3]->GetChildren()[1]->GetChildren()[actualButtonHover]->IsEnabled())
 			{
@@ -158,7 +158,7 @@ void UIOptionsMenu::ControllerMenuMode()
 	maxButtonsOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren().size() - 1;
 
 	// LOOK FOR THE CURRENT SELECTED BUTTON
-	for (actualButton = 0; actualButton < maxButtonsOptions; actualButton++)
+	for (actualButton = 0; actualButton < maxButtonsOptions; ++actualButton)
 	{
 		if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[0]->
 			GetChildren()[0]->GetComponent<ComponentButton>()->IsHovered())
@@ -182,7 +182,7 @@ void UIOptionsMenu::ControllerMenuMode()
 
 		if (maxOptions >= 0)
 		{
-			for (selectedOption = 0; selectedOption < maxOptions; selectedOption++)
+			for (selectedOption = 0; selectedOption < maxOptions; ++selectedOption)
 			{
 				if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->
 					GetChildren()[1]->GetChildren()[selectedOption]->IsEnabled())
@@ -365,6 +365,11 @@ void UIOptionsMenu::LoadOptions()
 	// THE CANVAS CONTROLLER ONLY HAVE IMG INSIDE AND DONT SAVE BUTTONS - MADE AN ERROR ON THE SAVE AND LOAD.
 	CanvasOptionInfo controller;
 	actualConfig.push_back(controller);
+
+	if (!applyChangesOnLoad)
+	{
+		return;
+	}
 
 	for (int canvasIndex = 0; canvasIndex < actualConfig.size(); ++canvasIndex)
 	{
@@ -678,16 +683,15 @@ void UIOptionsMenu::ControlsOption()
 	//Function reserved to the control canvas options
 }
 
-void UIOptionsMenu::SetLoadFromMainMenu(bool fromMainMenu)
+void UIOptionsMenu::SetApplyChangesOnLoad(bool apply)
 {
-	loadFromMainMenu = fromMainMenu;
+	applyChangesOnLoad = apply;
 }
 
-bool UIOptionsMenu::IsLoadFromMainMenu() const
+bool UIOptionsMenu::IsApplyChangesOnLoad() const
 {
-	return loadFromMainMenu;
+	return applyChangesOnLoad;
 }
-
 
 /*
 void UIOptionsMenu::KeyboardMenuMode()

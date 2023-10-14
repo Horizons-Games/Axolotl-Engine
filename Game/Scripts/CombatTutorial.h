@@ -13,6 +13,7 @@ class ComponentRigidBody;
 class TutorialSystem;
 class HealthSystem;
 class ModuleInput;
+class PlayerMoveScript;
 	
 
 
@@ -40,12 +41,15 @@ private:
 	GameObject* player;
 	GameObject* combatTutorialUI;
 	GameObject* debugPowerUp;
+	GameObject* door;
 	
 
 	ModuleInput* input;
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;
 	ComponentRigidBody* componentRigidBody;
+	ComponentRigidBody* doorRigidbody;
+	PlayerMoveScript* componentMoveScript;
 
 	TutorialSystem* tutorialUI;
 	HealthSystem* dummyHealthSystem;
