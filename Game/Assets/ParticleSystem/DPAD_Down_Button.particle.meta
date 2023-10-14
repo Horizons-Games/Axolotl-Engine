@@ -1,0 +1,10 @@
+{
+    "UID": 2323934581425473379,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": [
+        "Assets/Textures/UI_DPAD_DOWN.png"
+    ],
+    "ConfigEmitters": [
+        false
+    ]
+}
