@@ -289,7 +289,7 @@ void LightPass::LoadShape(par_shapes_mesh_s* shape, ResourceMesh* mesh)
 		std::vector<float3> tcoords;
 		tcoords.reserve(shape->npoints);
 
-		for (int i = 0; i < tcoordsCopy.size(); i++)
+		for (int i = 0; i < tcoordsCopy.size(); ++i)
 		{
 			tcoords.push_back(float3(tcoordsCopy[i].x, tcoordsCopy[i].y, 0.0f));
 		}

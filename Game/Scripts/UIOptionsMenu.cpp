@@ -127,7 +127,7 @@ void UIOptionsMenu::ControllerMenuMode()
 		}
 
 		// DISABLE THE HOVER BUTTON
-		for (actualButtonHover = 0; actualButtonHover < 5; actualButtonHover++)
+		for (actualButtonHover = 0; actualButtonHover < 5; ++actualButtonHover)
 		{
 			if (owner->GetChildren()[3]->GetChildren()[1]->GetChildren()[actualButtonHover]->IsEnabled())
 			{
@@ -158,7 +158,7 @@ void UIOptionsMenu::ControllerMenuMode()
 	maxButtonsOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren().size() - 1;
 
 	// LOOK FOR THE CURRENT SELECTED BUTTON
-	for (actualButton = 0; actualButton < maxButtonsOptions; actualButton++)
+	for (actualButton = 0; actualButton < maxButtonsOptions; ++actualButton)
 	{
 		if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[0]->
 			GetChildren()[0]->GetComponent<ComponentButton>()->IsHovered())
@@ -182,7 +182,7 @@ void UIOptionsMenu::ControllerMenuMode()
 
 		if (maxOptions >= 0)
 		{
-			for (selectedOption = 0; selectedOption < maxOptions; selectedOption++)
+			for (selectedOption = 0; selectedOption < maxOptions; ++selectedOption)
 			{
 				if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->
 					GetChildren()[1]->GetChildren()[selectedOption]->IsEnabled())
