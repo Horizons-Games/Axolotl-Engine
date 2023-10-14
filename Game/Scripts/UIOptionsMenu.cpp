@@ -19,7 +19,7 @@ audioOptionButton(nullptr), controlsOptionButton(nullptr), gameOptionCanvas(null
 audioOptionCanvas(nullptr), gameOptionHover(nullptr), videoOptionHover(nullptr), audioOptionHover(nullptr), 
 controlsOptionHover(nullptr), gamepadTriggersImg(nullptr), headerMenuPosition(0), newHeaderMenuPosition(-1),
 selectedOption(-1), actualButton(-1), actualButtonHover(-1), maxButtonsOptions(-1), maxOptions(-1), 
-newSelectedOption(-1), loadFromMainMenu(false), valueSlider(-1), resetButtonIndex(true)
+newSelectedOption(-1), valueSlider(-1), resetButtonIndex(true), applyChangesOnLoad(false)
 {
 	REGISTER_FIELD(gameOptionButton, GameObject*);
 	REGISTER_FIELD(videoOptionButton, GameObject*);
@@ -39,14 +39,14 @@ newSelectedOption(-1), loadFromMainMenu(false), valueSlider(-1), resetButtonInde
 	REGISTER_FIELD(gamepadTriggersImg, GameObject*);
 }
 
-void UIOptionsMenu::Init()
+void UIOptionsMenu::Initialize()
 {
 	input = App->GetModule<ModuleInput>();
 	window = App->GetModule<ModuleWindow>();
 	ui = App->GetModule<ModuleUI>();
 	render = App->GetModule<ModuleRender>();
 	audio = App->GetModule<ModuleAudio>();
-	
+
 	gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
 	videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
 	audioOptionComponentButton = audioOptionButton->GetComponent<ComponentButton>();
@@ -70,7 +70,7 @@ void UIOptionsMenu::Start()
 	buttonsAndCanvas[0].canvas->Enable();
 	buttonsAndCanvas[0].hovered->Enable();
 	
-	//InitOptionMenu();
+	// InitOptionMenu();
 	IsSizeOptionEnabled();
 	IsFpsEnabled();
 }
@@ -88,7 +88,7 @@ void UIOptionsMenu::ControllerMenuMode()
 		resetButtonIndex = false;
 	}
 
-	//BACK TO MAIN MENU
+	// BACK TO MAIN MENU
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
 	{
 		BackToLastSavedOption();
@@ -97,6 +97,7 @@ void UIOptionsMenu::ControllerMenuMode()
 		return;
 	}
 
+	// LOAD DEFAULT OPTIONS
 	if (input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::DOWN)
 	{
 		BackToLastSavedOption();
@@ -125,7 +126,7 @@ void UIOptionsMenu::ControllerMenuMode()
 			}
 		}
 
-		//DISABLE THE HOVER BUTTON
+		// DISABLE THE HOVER BUTTON
 		for (actualButtonHover = 0; actualButtonHover < 5; actualButtonHover++)
 		{
 			if (owner->GetChildren()[3]->GetChildren()[1]->GetChildren()[actualButtonHover]->IsEnabled())
@@ -135,7 +136,7 @@ void UIOptionsMenu::ControllerMenuMode()
 			}
 		}
 
-		//ENABLE-DISABLE THE MAIN BAR MENU OPTION HOVER - GAME - VIDEO - AUDIO - CONTROLS
+		// ENABLE-DISABLE THE MAIN BAR MENU OPTION HOVER - GAME - VIDEO - AUDIO - CONTROLS
 		buttonsAndCanvas[headerMenuPosition].canvas->Disable();
 		buttonsAndCanvas[headerMenuPosition].hovered->Disable();
 		BackToLastSavedOption();	
@@ -146,7 +147,7 @@ void UIOptionsMenu::ControllerMenuMode()
 		newSelectedOption = -1;
 	}
 
-	//IF YOU DONT SAVE ANY OPTIONS THIS GO BACK TO THE LAST SAVED OPTION
+	// IF YOU DONT SAVE ANY OPTIONS THIS GO BACK TO THE LAST SAVED OPTION
 	verticalDirection = input->GetLeftJoystickDirection().verticalDirection;
 	if (verticalDirection == JoystickVerticalDirection::FORWARD || 
 		verticalDirection == JoystickVerticalDirection::BACK)
@@ -156,7 +157,7 @@ void UIOptionsMenu::ControllerMenuMode()
 
 	maxButtonsOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren().size() - 1;
 
-	//LOOK FOR THE current SELECTED BUTTON
+	// LOOK FOR THE CURRENT SELECTED BUTTON
 	for (actualButton = 0; actualButton < maxButtonsOptions; actualButton++)
 	{
 		if (buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->GetChildren()[0]->
@@ -364,6 +365,11 @@ void UIOptionsMenu::LoadOptions()
 	// THE CANVAS CONTROLLER ONLY HAVE IMG INSIDE AND DONT SAVE BUTTONS - MADE AN ERROR ON THE SAVE AND LOAD.
 	CanvasOptionInfo controller;
 	actualConfig.push_back(controller);
+
+	if (!applyChangesOnLoad)
+	{
+		return;
+	}
 
 	for (int canvasIndex = 0; canvasIndex < actualConfig.size(); ++canvasIndex)
 	{
@@ -628,16 +634,28 @@ void UIOptionsMenu::VideoOption(int button, int option)
 	switch (button)
 	{
 	case 0:
-		render->ToggleShadows();
+		if (render->IsShadowsEnabled() != option)
+		{
+			render->ToggleShadows();
+		}
 		break;
 	case 1:
-		render->ToggleSSAO();
+		if (render->IsSsaoEnabled() != option)
+		{
+			render->ToggleSSAO();
+		}
 		break;
 	case 2:
-		render->ToggleVSM();
+		if (render->IsVSMEnabled() != option)
+		{
+			render->ToggleVSM();
+		}
 		break;
 	case 3:
-		render->SwitchBloomActivation();
+		if (render->IsBloomEnabled() != option)
+		{
+			render->SwitchBloomActivation();
+		}
 		break;
 	default:
 		break;
@@ -665,16 +683,15 @@ void UIOptionsMenu::ControlsOption()
 	//Function reserved to the control canvas options
 }
 
-void UIOptionsMenu::SetLoadFromMainMenu(bool fromMainMenu)
+void UIOptionsMenu::SetApplyChangesOnLoad(bool apply)
 {
-	loadFromMainMenu = fromMainMenu;
+	applyChangesOnLoad = apply;
 }
 
-bool UIOptionsMenu::IsLoadFromMainMenu() const
+bool UIOptionsMenu::IsApplyChangesOnLoad() const
 {
-	return loadFromMainMenu;
+	return applyChangesOnLoad;
 }
-
 
 /*
 void UIOptionsMenu::KeyboardMenuMode()
