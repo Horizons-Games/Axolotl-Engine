@@ -1012,16 +1012,6 @@ void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 #endif // ENGINE
 }
 
-void ModuleRender::FillCharactersBatches()
-{
-	batchManager->FillCharactersBacthes();
-}
-
-void ModuleRender::RelocateGOInBatches(GameObject* go)
-{
-	batchManager->SwapBatchParentAndChildren(go);
-}
-
 void ModuleRender::DrawMeshesByFilter(std::vector<GameObject*>& objects, ProgramType type, bool normalBehaviour)
 {
 	ModuleProgram* modProgram = App->GetModule<ModuleProgram>();

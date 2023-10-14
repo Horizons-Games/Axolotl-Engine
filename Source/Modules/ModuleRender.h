@@ -78,10 +78,6 @@ public:
 	bool IsObjectInsideFrustrum(const GameObject* gameObject);
 
 	void DrawQuadtree(const Quadtree* quadtree);
-
-	void FillCharactersBatches();
-	void RelocateGOInBatches(GameObject* go);
-
 	void DrawMeshesByFilter(std::vector<GameObject*>& objects, ProgramType type, bool normalBehaviour = true);
 
 	void SortOpaques(std::vector<GameObject*>& sceneGameObjects, const float3& pos);
