@@ -26,6 +26,15 @@ ComponentPlanarReflection::ComponentPlanarReflection(GameObject* parent) :
 	if (GetOwner()->HasComponent<ComponentTransform>())
 	{
 		influenceAABB = { GetPosition() + float3(-5.f, -0.01f, -5.f), GetPosition() + float3(5.f, 0.01f, 5.f) };
+		ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+
+		float3 translation = float3(-0.5f);
+
+		transform->TranslateLocalAABB(translation);
+		float3 scaling = scale;
+		scaling.x *= 10;
+		scaling.z *= 10;
+		transform->ScaleLocalAABB(scaling);
 	}
 
 	frustum = new Frustum();
@@ -84,9 +93,9 @@ void ComponentPlanarReflection::Draw() const
 {
 	bool canDrawPlanarReflection =
 #ifdef ENGINE
-		IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 #else
-		false;
+	false;
 #endif // ENGINE
 
 	if (!canDrawPlanarReflection)
@@ -96,6 +105,15 @@ void ComponentPlanarReflection::Draw() const
 
 	dd::aabb(influenceAABB.minPoint, influenceAABB.maxPoint, dd::colors::Blue);
 	dd::arrow(GetPosition(), GetPosition() + planeNormal * 4, dd::colors::OrangeRed, 1.f);
+
+#ifdef ENGINE
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+
+	if (transform->IsDrawBoundingBoxes())
+	{
+		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
+	}
+#endif
 }
 
 void ComponentPlanarReflection::OnTransformChanged()
@@ -108,6 +126,12 @@ void ComponentPlanarReflection::OnTransformChanged()
 
 	influenceAABB.minPoint = (GetPosition() - halfsize);
 	influenceAABB.maxPoint = (GetPosition() + halfsize);
+
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+
+	float3 translation = float3(-0.5f);
+
+	transform->TranslateLocalAABB(translation);
 }
 
 void ComponentPlanarReflection::InitBuffer()
@@ -223,6 +247,15 @@ void ComponentPlanarReflection::ScaleInfluenceAABB(float3& scaling)
 	valueScaled = center + scaling.Mul(originScaling);
 	influenceAABB.maxPoint.x = valueScaled.x;
 	influenceAABB.maxPoint.z = valueScaled.z;
+
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+
+	float3 translation = float3(-0.5f);
+
+	transform->TranslateLocalAABB(translation);
+	scaling.x *= 10;
+	scaling.z *= 10;
+	transform->ScaleLocalAABB(scaling);
 }
 
 const uint64_t& ComponentPlanarReflection::GetHandleReflection()
