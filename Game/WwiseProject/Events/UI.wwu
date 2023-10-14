@@ -8,7 +8,7 @@
 						<Action Name="" ID="{1317D0D7-DADB-479C-9BA5-DF358D96E1CD}" ShortID="377863798">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_button_back_01" ID="{D98F5510-5B2C-4E4B-972B-F79A828BD7FB}" WorkUnitID="{C66BB8FA-DA9D-4378-B7F0-9AD5A14F1C2E}"/>
+									<ObjectRef Name="sfx_button_cancel" ID="{D98F5510-5B2C-4E4B-972B-F79A828BD7FB}" WorkUnitID="{C66BB8FA-DA9D-4378-B7F0-9AD5A14F1C2E}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -19,7 +19,7 @@
 						<Action Name="" ID="{31637A0F-CBEC-439C-B70F-87E525DA66A6}" ShortID="166982180">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_button_hover_01" ID="{96ED333A-D579-4AC3-8A59-C3AC055172E6}" WorkUnitID="{C66BB8FA-DA9D-4378-B7F0-9AD5A14F1C2E}"/>
+									<ObjectRef Name="sfx_button_hover" ID="{96ED333A-D579-4AC3-8A59-C3AC055172E6}" WorkUnitID="{C66BB8FA-DA9D-4378-B7F0-9AD5A14F1C2E}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -30,7 +30,7 @@
 						<Action Name="" ID="{C6FF7BF3-DBC3-44DF-B785-7DA0B12207B7}" ShortID="808730061">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_button_press_01" ID="{C8902B41-FC66-4631-9041-4C18370BB189}" WorkUnitID="{C66BB8FA-DA9D-4378-B7F0-9AD5A14F1C2E}"/>
+									<ObjectRef Name="sfx_button_confirm" ID="{C8902B41-FC66-4631-9041-4C18370BB189}" WorkUnitID="{C66BB8FA-DA9D-4378-B7F0-9AD5A14F1C2E}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

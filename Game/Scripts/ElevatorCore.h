@@ -12,6 +12,7 @@ class ComponentRigidBody;
 class ComponentTransform;
 class GameObject;
 class ModulePlayer;
+class SwitchPlayerManagerScript;
 
 class HealthSystem;
 
@@ -72,6 +73,8 @@ private:
 
 	float speed;
 	bool booked;
+
+	SwitchPlayerManagerScript* switchPlayerManager;
 
 	//Enemy condition
 	HealthSystem* miniBossHealth;

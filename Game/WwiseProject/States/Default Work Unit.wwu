@@ -19,6 +19,7 @@
 						<State Name="Spaceship" ID="{B6218C97-4372-49BC-9A0B-C4E0AA6147BE}"/>
 						<State Name="SpaceStation" ID="{DA04FE5C-33D3-46B9-B62D-EEFD32F6872B}"/>
 						<State Name="Boss" ID="{65FDE6F7-080B-4E92-98FD-00E6E6BF07CA}"/>
+						<State Name="BossIntro" ID="{F4C42366-A074-42D8-AA2F-EF7356C3920F}"/>
 					</ChildrenList>
 				</StateGroup>
 			</ChildrenList>

@@ -56,6 +56,11 @@ bool ModuleUI::Init()
 
 UpdateStatus ModuleUI::Update()
 {
+	if (App->GetModule<ModuleScene>()->IsLoading())
+	{
+		return UpdateStatus::UPDATE_CONTINUE;
+	}
+
 	std::vector<ComponentCanvas*> canvasScene = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCanvas();
 
 #ifdef ENGINE
@@ -67,6 +72,12 @@ UpdateStatus ModuleUI::Update()
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 
 	bool leftClickDown = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
+
+	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD)
+	{
+		leftClickDown = input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN;
+	}
+
 	lastButtonChange = lastButtonChange + App->GetDeltaTime();
 
 	if (!sortedButtonsIds.empty() && lastButtonChange > cooldownTime)
@@ -152,9 +163,16 @@ UpdateStatus ModuleUI::PostUpdate()
 		ComponentButton* button = static_cast<ComponentButton*>(interactable);
 		ModuleInput* input = App->GetModule<ModuleInput>();
 
+		bool leftClickUp = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::UP;
+
+		if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD)
+		{
+			leftClickUp = input->GetKey(SDL_SCANCODE_SPACE) == KeyState::UP;
+		}
+
 		if (button->IsClicked())
 		{
-			if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::UP)
+			if (leftClickUp)
 			{
 #ifndef ENGINE
 				button->OnClicked();
@@ -206,6 +224,11 @@ void ModuleUI::CreateVAO()
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*) 0);
 
 	glBindVertexArray(0);
+}
+
+void ModuleUI::ResetCurrentButtonIndex()
+{
+	currentButtonIndex = 0;
 }
 
 void ModuleUI::SetUpButtons()

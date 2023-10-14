@@ -69,13 +69,13 @@ void ComboManager::CheckSpecial(float deltaTime)
 		else if (specialCount > 0 && specialCount < maxSpecialCount)
 		{
 			specialCount = std::max(0.0f, specialCount - 5.0f * deltaTime);
-
 			uiComboManager->SetComboBarValue(specialCount);
 		}
 	}
-
-	else
+	else if (comboCount > 0)
 	{
+		
+		uiComboManager->UpdateFadeOut(actualComboTimer / comboTime);
 		actualComboTimer -= deltaTime;
 	}
 }
@@ -134,6 +134,7 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 
 void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 {
+	uiComboManager->UpdateFadeOut(1.0f);
 	if (specialCount < 0 || !specialActivated)
 	{
 		this->specialCount = 
@@ -160,8 +161,14 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 		uiComboManager->AddInputVisuals(InputVisualType::LIGHT);
 	}
 
-	if (comboCount == 3 || type == AttackType::JUMPNORMAL) 
+	else if (type == AttackType::JUMPNORMAL || type == AttackType::JUMPFINISHER)
 	{
+		uiComboManager->AddInputVisuals(InputVisualType::JUMP);
+	}
+
+	if (comboCount == 3) 
+	{
+		uiComboManager->SetEffectEnable(true);
 		ClearCombo(true);
 	}
 }
