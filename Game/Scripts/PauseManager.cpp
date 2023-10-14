@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "EnemiesManager.h"
+#include "PauseManager.h"
 
 #include "EnemyClass.h"
 #include "Components/ComponentScript.h"
@@ -15,9 +15,9 @@
 #include "Scene/Scene.h"
 #include "Application.h"
 
-REGISTERCLASS(EnemiesManager);
+REGISTERCLASS(PauseManager);
 
-EnemiesManager::EnemiesManager() : Script(), enemiesGameObjects{}, enemyTag("Enemy"),
+PauseManager::PauseManager() : Script(), enemiesGameObjects{}, enemyTag("Enemy"),
 bulletTag("Bullet"), alluraBulletTag("AlluraBullet"), rockTag("Rock"), 
 bulletGameObjects{}, alluraBulletGameObjects{}, rockGameObjects{}
 {
@@ -27,13 +27,13 @@ bulletGameObjects{}, alluraBulletGameObjects{}, rockGameObjects{}
 	REGISTER_FIELD(bulletTag, std::string);
 }
 
-void EnemiesManager::Start()
+void PauseManager::Start()
 {
 	scene = App->GetModule<ModuleScene>()->GetLoadedScene();
 	enemiesGameObjects = scene->SearchGameObjectByTag(enemyTag);
 }
 
-void EnemiesManager::Pause(bool paused)
+void PauseManager::Pause(bool paused)
 {
 	bulletGameObjects = scene->SearchGameObjectByTag(bulletTag);
 	alluraBulletGameObjects = scene->SearchGameObjectByTag(alluraBulletTag);
@@ -45,7 +45,7 @@ void EnemiesManager::Pause(bool paused)
 	App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->FullPausePlayer(paused);
 }
 
-void EnemiesManager::PauseEnemies(bool paused)
+void PauseManager::PauseEnemies(bool paused)
 {
 	for (int i = 0; i < enemiesGameObjects.size(); i++)
 	{
@@ -61,7 +61,7 @@ void EnemiesManager::PauseEnemies(bool paused)
 	}
 }
 
-void EnemiesManager::PauseBullets(bool paused)
+void PauseManager::PauseBullets(bool paused)
 {
 	for (int i = 0; i < bulletGameObjects.size(); i++)
 	{
@@ -74,7 +74,7 @@ void EnemiesManager::PauseBullets(bool paused)
 	}
 }
 
-void EnemiesManager::PauseRocks(bool paused)
+void PauseManager::PauseRocks(bool paused)
 {
 	for (int i = 0; i < rockGameObjects.size(); i++)
 	{

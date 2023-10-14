@@ -11,7 +11,7 @@
 #include "SwitchPlayerManagerScript.h"
 #include "UIImageDisplacementControl.h"
 #include "HealthSystem.h"
-#include "EnemiesManager.h"
+#include "PauseManager.h"
 #include "EnemyClass.h"
 #include "ModuleUI.h"
 #include "Components/ComponentPlayer.h"
@@ -172,7 +172,7 @@ void UIGameManager::MenuIsOpen()
 		hudCanvasObject->Enable();
 	}
 
-	manager->GetComponent<EnemiesManager>()->Pause(menuIsOpen);
+	manager->GetComponent<PauseManager>()->Pause(menuIsOpen);
 
 	player->SetMouse(menuIsOpen);
 }

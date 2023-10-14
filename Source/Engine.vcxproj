@@ -242,6 +242,7 @@
     <ClCompile Include="..\Game\Scripts\MinMaxForce.cpp" />
     <ClCompile Include="..\Game\Scripts\ParticleBillboardAssistance.cpp" />
     <ClCompile Include="..\Game\Scripts\PathBehaviourScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PauseManager.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerAttackScript.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -549,7 +550,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\EnemiesManager.cpp" />
     <ClCompile Include="Exceptions\AccessingFailedScriptException.cpp" />
     <ClCompile Include="Exceptions\AxoDefaultException.cpp" />
     <ClCompile Include="Exceptions\ComponentNotFoundException.cpp" />
@@ -921,6 +921,7 @@
     <ClInclude Include="..\Game\Scripts\MinMaxForce.h" />
     <ClInclude Include="..\Game\Scripts\ParticleBillboardAssistance.h" />
     <ClInclude Include="..\Game\Scripts\PathBehaviourScript.h" />
+    <ClInclude Include="..\Game\Scripts\PauseManager.h" />
     <ClInclude Include="..\Game\Scripts\PlayerAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h" />
@@ -1090,7 +1091,6 @@
     <ClInclude Include="Defines\GlslDefines.h" />
     <ClInclude Include="Defines\QuadtreeDefines.h" />
     <ClInclude Include="Defines\WindowDefines.h" />
-    <ClInclude Include="..\Game\Scripts\EnemiesManager.h" />
     <ClInclude Include="Enums\BlendingType.h" />
     <ClInclude Include="Enums\ComponentType.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.h">

@@ -8,11 +8,11 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class Scene;
 
-class EnemiesManager : public Script
+class PauseManager : public Script
 {
 public:
-	EnemiesManager();
-	~EnemiesManager() override = default;
+	PauseManager();
+	~PauseManager() override = default;
 
 	void Pause(bool paused);
 	void PauseBullets(bool paused);
