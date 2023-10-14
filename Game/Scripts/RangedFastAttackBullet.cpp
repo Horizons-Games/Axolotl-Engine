@@ -61,7 +61,7 @@ void RangedFastAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 		playerHealthScript->TakeDamage(damageAttack);
 	}
 
-	audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); //Provisional sfx
+	audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT); //Provisional sfx
 
 	mesh->Disable();
 	rigidBody->Disable();

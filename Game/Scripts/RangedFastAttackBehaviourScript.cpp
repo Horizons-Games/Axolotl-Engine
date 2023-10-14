@@ -150,7 +150,7 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 	// Once the engine automatically runs the Start() for newly created objects, delete this line
 	script->Start();
 
-	audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
+	audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT);
 
 	currentConsecutiveShots += 1.0f;
 	if (currentConsecutiveShots < numConsecutiveShots)
