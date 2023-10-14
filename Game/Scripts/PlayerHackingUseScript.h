@@ -30,8 +30,8 @@ public:
 
 private:
 
-	void DisableAllInteractions();
-	void EnableAllInteractions();
+	void DisableAllInteractions() const;
+	void EnableAllInteractions() const;
 	void FindHackZone(const std::string& tag);
 	void InitHack();
 	void FinishHack();
