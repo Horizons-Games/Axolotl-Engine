@@ -155,7 +155,7 @@ void PlayerManagerScript::FullPausePlayer(bool paused)
 	owner->GetComponent<ComponentRigidBody>()->UpdateRigidBody();
 }
 
-void PlayerManagerScript::StopHackingParticles()
+void PlayerManagerScript::StopHackingParticles() const
 {
 	if (hackingManager)
 	{

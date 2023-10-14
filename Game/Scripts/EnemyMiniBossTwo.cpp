@@ -47,12 +47,14 @@ void EnemyMiniBossTwo::Update(float deltaTime)
 {
 	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
 
+	boostOfEnergy->SetIsPaused(isPaused);
 	if (isPaused)
 	{
 		seekScript->DisableMovement();
-		bossState = MiniBossTwoBehaviours::SEEK;
+		rangedAttack->InterruptAttack();
 		return;
 	}
+	
 	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;
