@@ -44,8 +44,6 @@ void GBuffer::DrawFrameBuffer()
 void GBuffer::ClearFrameBuffer()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	//float color[4] = { 0.f, 0.f, 0.f, 0.f };
-	//glClearBufferfv(GL_COLOR, 0, color);
 }
 
 void GBuffer::UnBindFrameBuffer()

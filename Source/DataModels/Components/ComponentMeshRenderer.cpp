@@ -715,7 +715,6 @@ const bool ComponentMeshRenderer::IsReflective() const
 void ComponentMeshRenderer::SetReflective(bool reflective) const
 {
 	material->SetReflective(reflective);
-	AXO_TODO("Check if its inside of some planarReflection");
 }
 
 // Default shader attributes (getters)
