@@ -37,6 +37,9 @@ private:
 
 	void NextInTheList();
 
+	void OpenDoor();
+	void CloseDoor();
+
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;
 	ActiveActions activeState;
@@ -48,4 +51,6 @@ private:
 
 	HackZoneScript* linkedHackZone;
 	bool interactWithEnemies;
+
+	bool wasActivatedByPlayer;
 };
