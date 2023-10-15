@@ -70,6 +70,10 @@ void ElevatorCore::Update(float deltaTime)
 {
 	if (activeState == ActiveActionsElevator::ACTIVE)
 	{
+		if (App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->IsPaused())
+		{
+			return;
+		}
 		if (positionState == PositionState::UP)
 		{
 			MoveDownElevator(true, deltaTime);
