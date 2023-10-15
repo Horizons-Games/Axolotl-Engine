@@ -43,6 +43,8 @@ public:
 	bool GetHasEnemies() const;
 	PositionState GetPositionState() const;
 
+	void SetIsPaused(bool isPaused);
+
 private:
 	void MoveDown(float deltaTime);
 	void MoveUp(float deltaTime);
@@ -77,6 +79,8 @@ private:
 	ComponentTransform* enemyTwoArenaPosition;
 	GameObject* enemyOne;
 	GameObject* enemyTwo;
+
+	bool isPaused;
 };
 
 inline bool BossLevelElevator::GetHasEnemies() const

@@ -60,6 +60,8 @@ void FinalBossScript::Update(float deltaTime)
 		aiMovement->SetMovementStatuses(false, false);
 		chargeAttackScript->SetIsPaused(isPaused);
 		shockWaveAttackScript->SetIsPaused(isPaused);
+		missilesAttackScript->SetIsPaused(isPaused);
+		shieldAttackScript->SetIsPaused(isPaused);
 
 		bossPhase = FinalBossPhases::NEUTRAL;
 		bossState = FinalBossStates::IDLE;
@@ -74,6 +76,8 @@ void FinalBossScript::Update(float deltaTime)
 		rigidBody->GetRigidBody()->setGravity(bossGravity);
 		chargeAttackScript->SetIsPaused(isPaused);
 		shockWaveAttackScript->SetIsPaused(isPaused);
+		missilesAttackScript->SetIsPaused(isPaused);
+		shieldAttackScript->SetIsPaused(isPaused);
 		paused = false;
 	}
 

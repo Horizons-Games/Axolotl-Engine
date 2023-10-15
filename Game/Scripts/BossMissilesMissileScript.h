@@ -15,6 +15,7 @@ public:
 	void Update(float deltaTime) override;
 
 	void OnCollisionEnter(ComponentRigidBody* other) override;
+	void SetIsPaused(bool isPaused);
 
 private:
 	void TriggerExplosion(float deltaTime);
@@ -30,4 +31,6 @@ private:
 	float explosionTime;
 	float maxSizeExplosion;
 	float areaGrowingFactor;
+
+	bool isPaused;
 };

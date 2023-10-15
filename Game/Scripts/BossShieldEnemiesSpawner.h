@@ -22,6 +22,7 @@ public:
 	void StartSpawner();
 	void StopSpawner();
 	void ReactivateEnemies();
+	void SetIsPaused(bool isPaused);
 
 private:
 	GameObject* SelectRandomEnemy();
@@ -35,4 +36,6 @@ private:
 	BossShieldAttackScript* bossShieldAttackScript;
 
 	ComponentAnimation* animator;
+
+	bool isPaused;
 };

@@ -71,6 +71,7 @@ void JumpFinisherAttack::ShootForceBullet(float pushForce, float stunTime)
 		ComponentLine* bulletLine = forceArea->GetVisualStartEffect()->GetComponent<ComponentLine>();
 		bulletLine->SetEnd(newForceBullet->GetChildren().front());
 	}
+	newForceBullet->SetTag("AlluraBullet");
 
 	forceArea->VisualStartEffect();
 	activated = true;

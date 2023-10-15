@@ -37,6 +37,11 @@ void BossMissilesMissileScript::Start()
 
 void BossMissilesMissileScript::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		return;
+	}
+
 	if (hasHitGround)
 	{
 		if (rigidBody->GetRadius() <= maxSizeExplosion)
@@ -90,4 +95,9 @@ void BossMissilesMissileScript::TriggerExplosion(float deltaTime)
 void BossMissilesMissileScript::DestroyMissile() const
 {
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+}
+
+void BossMissilesMissileScript::SetIsPaused(bool isPaused)
+{
+	this->isPaused = isPaused;
 }
