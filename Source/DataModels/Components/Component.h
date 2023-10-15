@@ -102,6 +102,8 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_Slider";
 		case ComponentType::IMAGE:
 			return "Component_Image";
+		case ComponentType::VIDEO:
+			return "Component_Video";
 		case ComponentType::BUTTON:
 			return "Component_Button";
 		case ComponentType::RIGIDBODY:
@@ -188,6 +190,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Image")
 	{
 		return ComponentType::IMAGE;
+	}
+
+	if (typeName == "Component_Video")
+	{
+		return ComponentType::VIDEO;
 	}
 
 	if (typeName == "Component_Button")
