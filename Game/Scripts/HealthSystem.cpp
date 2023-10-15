@@ -112,10 +112,7 @@ void HealthSystem::TakeDamage(float damage)
 
 			currentHealth -= actualDamage;
 
-			ModuleInput* input = App->GetModule<ModuleInput>();
-			input->Rumble();
-
-			if (currentHealth - damage <= 0)
+			if (currentHealth <= 0)
 			{
 				playerManager->ParalyzePlayer(true);
 				owner->GetComponent<ComboManager>()->SuccessfulAttack(-100.f, AttackType::NONE);
@@ -124,6 +121,8 @@ void HealthSystem::TakeDamage(float damage)
 			{
 				componentAnimation->SetParameter("IsTakingDamage", true);
 				damageTaken = true;
+				ModuleInput* input = App->GetModule<ModuleInput>();
+				input->Rumble();
 			}
 		}
 
