@@ -78,7 +78,7 @@ void UIComboManager::Update(float deltaTime)
 		{
 			if (finisherClearEffect) 
 			{
-				for (int i = 0; i < inputVisuals.size(); i++)
+				for (int i = 0; i < inputVisuals.size(); ++i)
 				{
 					inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(106.f, 106.f));
 				}
@@ -152,7 +152,7 @@ void UIComboManager::SetActivateSpecial(bool activate)
 		comboBar->GetOwner()->GetChildren()[0]->Disable();
 		newVisuals = comboBar->GetOwner()->GetChildren()[1];
 		
-		for (int i = 0; i < inputVisuals.size(); i++)
+		for (int i = 0; i < inputVisuals.size(); ++i)
 		{
 			inputVisuals[i]->GetChildren()[0]->Disable();
 			inputVisuals[i]->GetChildren()[1]->Enable();
@@ -223,7 +223,7 @@ void UIComboManager::AddInputVisuals(InputVisualType type)
 	specialActivated? newInput->GetChildren()[0]->Disable() : newInput->GetChildren()[1]->Disable();
 
 	inputVisuals.push_front(newInput);
-	for (int i = 1; i < inputVisuals.size(); i++)
+	for (int i = 1; i < inputVisuals.size(); ++i)
 	{
 		inputVisuals[i]->SetParent(inputPositions[i]);
 	}
@@ -261,7 +261,7 @@ void UIComboManager::CleanInputVisuals()
 
 void UIComboManager::UpdateFadeOut(float transparency)
 {
-	for (int i = 0; i < inputVisuals.size(); i++)
+	for (int i = 0; i < inputVisuals.size(); ++i)
 	{
 		GameObject* visual = specialActivated ? inputVisuals[i]->GetChildren()[1] : inputVisuals[i]->GetChildren()[0];
 		visual->GetComponent<ComponentImage>()->SetColor(float4(1.f, 1.f, 1.f, transparency));
@@ -271,7 +271,7 @@ void UIComboManager::UpdateFadeOut(float transparency)
 void UIComboManager::InitFinishComboButtonsEffect() //Make a VFX when you get a full combo
 {
 	finisherClearEffect = true;
-	for (int i = 0; i < inputVisuals.size(); i++)
+	for (int i = 0; i < inputVisuals.size(); ++i)
 	{
 		inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(111.f, 111.f));
 

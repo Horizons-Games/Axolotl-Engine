@@ -289,7 +289,7 @@ void ComponentTrail::RedoBuffers()
 
 	GLuint* indices = (GLuint*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 	unsigned int index_idx = 0;
-	for (int i = 0; i < (points.size() - 1) + totalCatmullPoints; i++)
+	for (int i = 0; i < (points.size() - 1) + totalCatmullPoints; ++i)
 	{
 		indices[index_idx++] = 0 + 2 * i;
 		indices[index_idx++] = 2 + 2 * i;
@@ -352,7 +352,7 @@ void ComponentTrail::RedoBuffers()
 			Point p2 = points[i + 1];
 			CalculateExtraPoints(p0, p, p2, p3);
 			const Curve curve = CatmullRomCentripetal(p0, p.centerPosition, p2.centerPosition, p3);
-			for (int j = 1; j <= catmullPoints; j++)
+			for (int j = 1; j <= catmullPoints; ++j)
 			{
 				float lambda = stepsCatmull * j;
 				float3 pointCatmull = curve.a * lambda * lambda * lambda + curve.b * lambda * lambda + curve.c * lambda
@@ -392,7 +392,7 @@ void ComponentTrail::RedoBuffers()
 void ComponentTrail::UpdateLife()
 {
 	float timePassed = App->GetDeltaTime();
-	for (int i = 0; i < points.size(); i++)
+	for (int i = 0; i < points.size(); ++i)
 	{
 		points[i].life -= timePassed;
 
@@ -402,7 +402,7 @@ void ComponentTrail::UpdateLife()
 		}
 	}
 
-	for (int i = 0; i < points.size(); i++)
+	for (int i = 0; i < points.size(); ++i)
 	{
 		if (i == points.size() - 1 && points[i].life <= 0)
 		{

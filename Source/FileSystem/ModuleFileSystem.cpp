@@ -165,7 +165,7 @@ std::vector<std::string> ModuleFileSystem::ListFiles(const char* directoryPath) 
 	std::vector<std::string> files;
 	char** rc = PHYSFS_enumerateFiles(directoryPath);
 	char** i;
-	for (i = rc; *i != NULL; i++)
+	for (i = rc; *i != NULL; ++i)
 	{
 		files.push_back(*i);
 	}
@@ -176,7 +176,7 @@ std::vector<std::string> ModuleFileSystem::ListFiles(const char* directoryPath) 
 std::vector<std::string> ModuleFileSystem::ListFilesWithPath(const char* directoryPath)
 {
 	std::vector<std::string> files = ListFiles(directoryPath);
-	for (int i = 0; i < files.size(); i++)
+	for (int i = 0; i < files.size(); ++i)
 	{
 		files[i] = directoryPath + files[i];
 	}
@@ -252,7 +252,7 @@ const std::string ModuleFileSystem::GetPathWithExtension(const std::string& path
 	std::string filePath = GetPathWithoutFile(pathWithoutExtension);
 	std::string fileName = GetFileName(pathWithoutExtension);
 	std::vector<std::string> files = ListFiles(filePath.c_str());
-	for (size_t i = 0; i < files.size(); i++)
+	for (size_t i = 0; i < files.size(); ++i)
 	{
 		std::string currentFile = files[i];
 		if (GetPathWithoutExtension(currentFile) == fileName)
