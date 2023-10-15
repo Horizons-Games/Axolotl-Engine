@@ -62,8 +62,8 @@ void UIGameManager::Start()
 
 	if (manager) 
 	{
-		SwitchPlayerManagerScript* SwitchPlayer = manager->GetComponent<SwitchPlayerManagerScript>();
-		secondPlayer = SwitchPlayer->GetSecondPlayer()->GetComponent<ComponentPlayer>();
+		SwitchPlayerManagerScript* switchPlayer = manager->GetComponent<SwitchPlayerManagerScript>();
+		secondPlayer = switchPlayer->GetSecondPlayer()->GetComponent<ComponentPlayer>();
 
 		healthSystemClassAllura = secondPlayer->GetOwner()->GetComponent<HealthSystem>();
 
@@ -98,24 +98,27 @@ void UIGameManager::Update(float deltaTime)
 	InputMethodImg(inputMethod);
 
 	//Life controller
-	if (healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerBack->GetCurrentValue()
-		|| healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerFront->GetCurrentValue())
+	if (componentSliderPlayerBack->GetCurrentValue() > 0)
 	{
-		ModifySliderHealthValue(healthSystemClassBix, componentSliderPlayerBack, componentSliderPlayerFront);
+		if (healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerBack->GetCurrentValue()
+			|| healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerFront->GetCurrentValue())
+		{
+			ModifySliderHealthValue(healthSystemClassBix, componentSliderPlayerBack, componentSliderPlayerFront, deltaTime);
+		}
 	}
-	if (manager)
+	
+	if (manager && componentSliderSecondPlayerBack->GetCurrentValue() > 0)
 	{
 		if (healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerBack->GetCurrentValue()
 			|| healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerFront->GetCurrentValue())
 		{
-			ModifySliderHealthValue(healthSystemClassAllura, componentSliderSecondPlayerBack, componentSliderSecondPlayerFront);
+			ModifySliderHealthValue(healthSystemClassAllura, componentSliderSecondPlayerBack, componentSliderSecondPlayerFront, deltaTime);
 		}
 	}
 
-	//Lose Game State
-	if (!healthSystemClassBix->EntityIsAlive() || !healthSystemClassAllura->EntityIsAlive())
+	if (componentSliderPlayerBack->GetCurrentValue() <= 0 || componentSliderSecondPlayerBack->GetCurrentValue() <= 0)
 	{
-		LoseGameState();
+		LoseGameState(deltaTime);
 		return;
 	}
 
@@ -286,27 +289,39 @@ void UIGameManager::SetMaxPowerUpTime(float maxPowerUpTime)
 }
 
 //Healt System Secction
-void UIGameManager::ModifySliderHealthValue(HealthSystem* healthSystemClass, ComponentSlider* componentSliderBack, ComponentSlider* componentSliderFront)
+void UIGameManager::ModifySliderHealthValue(HealthSystem* healthSystemClass, ComponentSlider* componentSliderBack, ComponentSlider* componentSliderFront, float deltaTime)
 {
+
+	float currentHealth = healthSystemClass->GetCurrentHealth();
 	// We use 2 slider to do a effect in the health bar
-	damage = healthSystemClass->GetCurrentHealth() - componentSliderFront->GetCurrentValue();
-	damageBack = healthSystemClass->GetCurrentHealth() - componentSliderBack->GetCurrentValue();
+	damage = currentHealth - componentSliderFront->GetCurrentValue();
+	damageBack = currentHealth - componentSliderBack->GetCurrentValue();
 
 	if (damageBack <= 0.0f && damage <= 0.0f)
 	{
-		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + std::max(damageBack, -0.1f));
-		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + std::max(damage, -0.4f));
+		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + std::max(damageBack, -80.0f * deltaTime));
+		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + std::max(damage, -100.0f * deltaTime));
 	}
 	else
 	{
-		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + std::min(damageBack, 0.4f));
-		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + std::min(damage, 0.2f));
+		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + std::min(damageBack, 80.0f * deltaTime));
+		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + std::min(damage, 100.0f * deltaTime));
+	}
+
+	if (currentHealth <= 0.0f)
+	{
+		gameOverTimer = 3.0f;
 	}
 }
 
 // Game States Secction
-void UIGameManager::LoseGameState()
+void UIGameManager::LoseGameState(float deltaTime)
 {
+	if (gameOverTimer > 0.0f)
+	{
+		gameOverTimer -= deltaTime;
+		return;
+	}
 	//PUT CODE TO PAUSE GAME
 	if (!gameStates->IsEnabled())
 	{
