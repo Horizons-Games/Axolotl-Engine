@@ -9,6 +9,7 @@
 #include "RangedFastAttackBullet.h"
 #include "BossChargeRockScript.h"
 #include "LightAttackBullet.h"
+#include "JumpFinisherAttackBullet.h"
 
 #include "ModulePlayer.h"
 #include "ModuleScene.h"
@@ -70,7 +71,14 @@ void PauseManager::PauseBullets(bool paused)
 	
 	for (int i = 0; i < alluraBulletGameObjects.size(); i++)
 	{
-		alluraBulletGameObjects[i]->GetComponent<LightAttackBullet>()->SetPauseBullet(paused);	
+		if (alluraBulletGameObjects[i]->HasComponent<LightAttackBullet>())
+		{
+			alluraBulletGameObjects[i]->GetComponent<LightAttackBullet>()->SetPauseBullet(paused);
+		}
+		else if(alluraBulletGameObjects[i]->IsEnabled())
+		{
+			alluraBulletGameObjects[i]->GetComponent<JumpFinisherAttackBullet>()->SetIsPaused(paused);
+		}
 	}
 }
 

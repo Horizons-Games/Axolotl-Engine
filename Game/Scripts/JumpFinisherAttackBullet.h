@@ -2,6 +2,7 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
+#include "Bullet\LinearMath\btVector3.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -26,6 +27,7 @@ public:
 
 	void SetAreaPushForce(float newAreaPushForce);
 	void SetAreaStunTime(float newAreaStunTime);
+	void SetIsPaused(bool isPaused);
 
 private:
 	void InitializeBullet();
@@ -44,4 +46,7 @@ private:
 	float areaStunTime;
 
 	EntityDetection* enemyDetection;
+
+	bool isPaused;
+	btVector3 bulletGravity;
 };
