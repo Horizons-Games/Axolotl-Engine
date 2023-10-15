@@ -246,7 +246,7 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		comboSystem->ClearComboForSwitch(true);
 
 		currentPlayer->Disable();
-		playerManager->StopHackingParticle();
+		playerManager->StopHackingParticles();
 
 		// Change UI of the player here
 		SwitchHealthBars();
@@ -254,7 +254,7 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		// Enabling the new current player
 		secondPlayer->GetComponent<ComponentPlayer>()->SetActualPlayer(true);
 		secondPlayer->Enable();
-		secondPlayer->GetComponent<PlayerAttackScript>()->PlayWeaponSounds();;
+		secondPlayer->GetComponent<PlayerAttackScript>()->PlayWeaponSounds();
 
 		secondPlayer->GetComponent<PlayerManagerScript>()->PausePlayer(true);
 

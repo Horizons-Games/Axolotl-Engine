@@ -216,7 +216,7 @@ bool Physics::RaycastFirst(const LineSegment& ray, GameObject* exceptionGameObje
 
 	if (hitGameObjects.size() != 0)
 	{
-		for (auto it = hitGameObjects.begin(); it != hitGameObjects.end(); it++)
+		for (auto it = hitGameObjects.begin(); it != hitGameObjects.end(); ++it)
 		{
 			if (!(exceptionGameObject->IsADescendant((*it).second) || exceptionGameObject == (*it).second))
 			{

@@ -209,7 +209,7 @@ void WindowComponentParticle::DrawEmitter(EmitterInstance* instance)
 
 			if (ImGui::BeginCombo("##shapeCombo", currentItem))
 			{
-				for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+				for (int n = 0; n < IM_ARRAYSIZE(items); ++n)
 				{
 					// You can store your selection however you want, outside or inside your objects
 					bool isSelected = (currentItem == items[n]);

@@ -399,7 +399,7 @@ static int RasterizeTileLayers(float* verts,
 		}
 	}
 
-	// Transfer ownsership of tile data from build context to the caller.
+	// Transfer ownership of tile data from build context to the caller.
 	int n = 0;
 	for (int i = 0; i < rcMin(rc.ntiles, maxTiles); ++i)
 	{
@@ -511,7 +511,7 @@ void DrawObstacles(duDebugDraw* dd, const dtTileCache* tc)
 		{
 			// AABB localAABB = {{bmin[0], bmin[1], bmin[2]}, {bmax[0], bmax[1], bmax[2]}};
 			// OBB worldOBB = OBB(localAABB);
-			////float3 eulerAngle = float3(0, ob->orientedBox.yRadian, 0);
+			// float3 eulerAngle = float3(0, ob->orientedBox.yRadian, 0);
 			// worldOBB.Transform(Quat::FromEulerXYZ(0, ob->orientedBox.yRadian, 0));
 			// AABB worldAABB = worldOBB.MinimalEnclosingAABB();
 			// bmin[0] = worldAABB.minPoint[0];
