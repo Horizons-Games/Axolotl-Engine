@@ -463,9 +463,10 @@ void UIOptionsMenu::IsSizeOptionEnabled()
 {
 	float4 colorSet;
 
-	int gameCanvasIndex = static_cast<int>(Canvas::GAME_CANVAS);
-	int resolutionIndex = static_cast<int>(Button::RESOLUTION);
-	int gameOptionWindowsMode = actualConfig[gameCanvasIndex].options[static_cast<int>(Button::WINDOWSMODE)].actualOption;
+	int gameCanvasIndex = 0;
+	int resolutionIndex = 3;
+	int windowModeIndex = 4;
+	int gameOptionWindowsMode = actualConfig[gameCanvasIndex].options[windowModeIndex].actualOption;
 
 	GameObject* resolutionParentGameObject = buttonsAndCanvas[gameCanvasIndex].canvas->
 		GetChildren()[resolutionIndex]->GetChildren()[1];
@@ -492,8 +493,8 @@ void UIOptionsMenu::IsSizeOptionEnabled()
 void UIOptionsMenu::IsFpsEnabled()
 {
 	float4 colorSet;
-	int gameCanvasIndex = static_cast<int>(Canvas::GAME_CANVAS);
-	int FPSIndex = static_cast<int>(Button::FPS);
+	int gameCanvasIndex = 0;
+	int FPSIndex = 0;
 
 	GameObject* FPSParentGameObject = buttonsAndCanvas[gameCanvasIndex].canvas->GetChildren()[FPSIndex]->GetChildren()[1];
 	
