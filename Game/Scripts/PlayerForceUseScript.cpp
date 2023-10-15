@@ -69,8 +69,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 		ComponentRigidBody* hittedRigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 		ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
 
-		Sint16 horizontalMovement = input->GetLeftJoystickMovement().horizontalMovement * 0.001f;
-		distancePointGameObjectAttached += horizontalMovement * 0.1f;
 		distancePointGameObjectAttached = std::min(distancePointGameObjectAttached, maxDistanceForce);
 		distancePointGameObjectAttached = std::max(distancePointGameObjectAttached, minDistanceForce);
 
@@ -96,27 +94,29 @@ void PlayerForceUseScript::Update(float deltaTime)
 		if (std::abs(currentDistance.x) > 2 && std::abs(currentDistance.z) > 2)
 		{
 			FinishForce();
-			return;
 		}
 
 		float difX = pickedPlayerPosition.x - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().x;
 		float difY = pickedPlayerPosition.y - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().y;
 		float difZ = pickedPlayerPosition.z - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().z;
+
 		if (abs(difX) + abs(difY) + abs(difZ) > 0.2f)
 		{
 			FinishForce();
-			return;
 		}
 
 		InputMethod inputMethod = input->GetCurrentInputMethod();
 		if (inputMethod == InputMethod::KEYBOARD)
 		{
 			float2 mouseMotion = input->GetMouseMotion();
+			nextPosition.x -= mouseMotion.x * 0.2f * deltaTime;
 			nextPosition.y -= mouseMotion.y * 0.2f * deltaTime;
 		}
 		else if (inputMethod == InputMethod::GAMEPAD)
 		{
 			// We divide by 1000 (*0.001) to move at aprox same speed as if we where using the mouse
+			Sint16 horizontalMovement = input->GetLeftJoystickMovement().horizontalMovement * 0.001f;
+			nextPosition.x -= horizontalMovement * 0.2f * deltaTime;
 			Sint16 verticalMovement = input->GetLeftJoystickMovement().verticalMovement * 0.001f;
 			nextPosition.y -= verticalMovement * 0.2f * deltaTime;
 		}
@@ -159,7 +159,6 @@ void PlayerForceUseScript::InitForce()
 			if (distancePointGameObjectAttached > maxDistanceForce)
 			{
 				gameObjectAttached = nullptr;
-				return;
 			}
 			else if (distancePointGameObjectAttached < minDistanceForce)
 			{
@@ -170,6 +169,7 @@ void PlayerForceUseScript::InitForce()
 			rigidBody->SetKpTorque(50.0f);
 		}
 	}
+
 	if (!gameObjectAttached)
 	{
 		EnableAllInteractions();
