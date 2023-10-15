@@ -27,9 +27,12 @@ public:
 	bool IsForceActive() const;
 
 private:
+	void DisableAllInteractions() const;
+	void EnableAllInteractions() const;
+	void InitForce();
+	void FinishForce();
 
     GameObject* gameObjectAttached;
-    GameObject* gameObjectAttachedParent;
 	float distancePointGameObjectAttached;
 	float maxDistanceForce;
 	float minDistanceForce;
@@ -38,17 +41,18 @@ private:
 	float lastHorizontalSensitivity;
 	float lastVerticalSensitivity;
 	float lastMoveSpeed;
+	float gravity;
 	bool isForceActive;
 	bool objectStaticness;
 
 	bool breakForce;
+	bool isForceButtonPressed;
 
     std::string tag;
-	std::string tag2;
 	
 	PlayerRotationScript* rotationHorizontalScript;
 	CameraControllerScript* rotationVerticalScript;
-	PlayerManagerScript* playerManagerScript;
+	PlayerManagerScript* playerManager;
 	PlayerMoveScript* moveScript;
 	float3 offsetFromPickedPoint;
 	float3 pickedPlayerPosition;
@@ -59,11 +63,5 @@ private:
 	ComponentTransform* transform;
 	ComponentRigidBody* rigidBody;
 
-
 	ModuleInput* input;
 };
-
-inline bool PlayerForceUseScript::IsForceActive() const
-{
-	return isForceActive;
-}

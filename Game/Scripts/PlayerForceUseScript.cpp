@@ -30,15 +30,14 @@
 REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
-	gameObjectAttachedParent(nullptr), tag("Forceable"), tag2("ForceableDoors"), distancePointGameObjectAttached(0.0f),
-	maxDistanceForce(20.0f), minDistanceForce(1.f), maxTimeForce(20.0f), isForceActive(false),
-	currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componentAudioSource(nullptr),
-	playerManagerScript(nullptr)
+	tag("Forceable"), distancePointGameObjectAttached(0.0f), maxDistanceForce(20.0f),
+	minDistanceForce(1.0f), maxTimeForce(20.0f), isForceActive(false), currentTimeForce(0.0f), 
+	breakForce(false), componentAnimation(nullptr), componentAudioSource(nullptr), playerManager(nullptr),
+	gravity(0.0f), isForceButtonPressed(false)
 {
 	REGISTER_FIELD(maxDistanceForce, float);
 	REGISTER_FIELD(minDistanceForce, float);
 	REGISTER_FIELD(maxTimeForce, float);
-
 }
 
 void PlayerForceUseScript::Start()
@@ -48,12 +47,13 @@ void PlayerForceUseScript::Start()
 	currentTimeForce = maxTimeForce;
 
 	rotationHorizontalScript = owner->GetComponent<PlayerRotationScript>();
-	playerManagerScript = owner->GetComponent<PlayerManagerScript>();
+	playerManager = owner->GetComponent<PlayerManagerScript>();
 	moveScript = owner->GetComponent<PlayerMoveScript>();
 
 	input = App->GetModule<ModuleInput>();
 	transform = owner->GetComponent<ComponentTransform>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	gravity = rigidBody->GetGravity().getY();
 }
 
 void PlayerForceUseScript::Update(float deltaTime)
@@ -64,7 +64,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 		componentAnimation->SetParameter("IsStoppingForce", false);
 		RaycastHit hit;
 		btVector3 rigidBodyOrigin = rigidBody->GetRigidBodyOrigin();
-		rigidBody->SetGravity(btVector3(0.0, 0.0, 0.0));
+		rigidBody->SetGravity(btVector3(0.0, gravity, 0.0));
 		float3 origin = float3(rigidBodyOrigin.getX(), rigidBodyOrigin.getY(), rigidBodyOrigin.getZ());
 		int raytries = 0;
 		
@@ -74,7 +74,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 			LineSegment line(ray, 300);
 			raytries++;
 
-			if (Physics::RaycastToTag(line, hit, owner, tag) || Physics::RaycastToTag(line, hit, owner, tag2))
+			if (Physics::RaycastToTag(line, hit, owner, tag))
 			{
 				gameObjectAttached = hit.gameObject;
 				ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
@@ -85,11 +85,6 @@ void PlayerForceUseScript::Update(float deltaTime)
 				offsetFromPickedPoint = hittedTransform->GetGlobalPosition() - hit.hitPoint;
 				pickedRotation = hittedTransform->GetGlobalRotation();
 				pickedPlayerPosition = owner->GetComponent<ComponentTransform>()->GetGlobalPosition();
-
-				if (gameObjectAttached->GetTag() == "ForceableDoors" && !rigidBody->IsTrigger())
-				{
-					rigidBody->SetIsTrigger(true);
-				}
 
 				if (distancePointGameObjectAttached > maxDistanceForce)
 				{
@@ -110,10 +105,10 @@ void PlayerForceUseScript::Update(float deltaTime)
 					rotationHorizontalScript->SetVerticalSensitivity(lastVerticalSensitivity / 2.0f);
 				}
 
-				if (playerManagerScript)
+				if (playerManager)
 				{
-					lastMoveSpeed = playerManagerScript->GetPlayerSpeed();
-					playerManagerScript->SetPlayerSpeed(lastMoveSpeed / 2.0f);
+					lastMoveSpeed = playerManager->GetPlayerSpeed();
+					playerManager->SetPlayerSpeed(lastMoveSpeed / 2.0f);
 				}
 
 				rigidBody->SetKpForce(50.0f);
@@ -128,18 +123,15 @@ void PlayerForceUseScript::Update(float deltaTime)
 	{
 		rigidBody->SetGravity(btVector3(0.0, -150.0, 0.0));
 		ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
-		if (gameObjectAttached->GetTag() == "ForceableDoors" && rigidBody->IsTrigger())
-		{
-			rigidBody->SetIsTrigger(false);
-		}
+
 		gameObjectAttached = nullptr;
 		rigidBody->DisablePositionController();
 		rigidBody->DisableRotationController();
 		rigidBody->SetIsStatic(objectStaticness);
 
-		if (playerManagerScript)
+		if (playerManager)
 		{
-			playerManagerScript->SetPlayerSpeed(lastMoveSpeed);
+			playerManager->SetPlayerSpeed(lastMoveSpeed);
 			rotationHorizontalScript->SetHorizontalSensitivity(lastHorizontalSensitivity);
 			rotationHorizontalScript->SetVerticalSensitivity(lastVerticalSensitivity);
 		}
@@ -234,4 +226,30 @@ void PlayerForceUseScript::Update(float deltaTime)
 	{
 		currentTimeForce = std::min(maxTimeForce, currentTimeForce + (deltaTime * 4));
 	}
+}
+
+void PlayerForceUseScript::InitForce() {
+
+}
+
+void PlayerForceUseScript::FinishForce()
+{
+
+}
+
+void PlayerForceUseScript::DisableAllInteractions() const
+{
+	playerManager->SetPlayerState(PlayerActions::IDLE);
+	playerManager->PausePlayer(true);
+}
+
+void PlayerForceUseScript::EnableAllInteractions() const
+{
+	playerManager->SetPlayerState(PlayerActions::IDLE);
+	playerManager->PausePlayer(false);
+}
+
+bool PlayerForceUseScript::IsForceActive() const
+{
+	return isForceActive;
 }
