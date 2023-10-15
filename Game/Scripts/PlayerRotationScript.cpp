@@ -31,16 +31,9 @@ void PlayerRotationScript::Start()
 
 void PlayerRotationScript::PreUpdate(float deltaTime)
 {
-	if (forceScript)
+	if (forceScript && forceScript->IsForceActive())
 	{
-		if (forceScript->IsForceActive())
-		{
-			Rotation(deltaTime);
-		}
-		else
-		{
-			btRigidbody->setAngularVelocity({ 0.0f,0.0f,0.0f });
-		}
+		Rotation(deltaTime);
 	}
 	else
 	{

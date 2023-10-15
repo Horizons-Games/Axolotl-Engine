@@ -7,7 +7,6 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ModuleInput;
 class CameraControllerScript;
-class PlayerRotationScript;
 class PlayerManagerScript;
 class PlayerMoveScript;
 class ComponentTransform;
@@ -36,21 +35,11 @@ private:
 	float distancePointGameObjectAttached;
 	float maxDistanceForce;
 	float minDistanceForce;
-	float maxTimeForce;
-	float currentTimeForce;
-	float lastHorizontalSensitivity;
-	float lastVerticalSensitivity;
-	float lastMoveSpeed;
 	float gravity;
-	bool isForceActive;
 	bool objectStaticness;
-
-	bool breakForce;
-	bool isForceButtonPressed;
 
     std::string tag;
 	
-	PlayerRotationScript* rotationHorizontalScript;
 	CameraControllerScript* rotationVerticalScript;
 	PlayerManagerScript* playerManager;
 	PlayerMoveScript* moveScript;
