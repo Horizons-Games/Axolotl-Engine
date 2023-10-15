@@ -182,10 +182,12 @@
     <ClCompile Include="..\Game\Scripts\BoostOfEnergy.cpp" />
     <ClCompile Include="..\Game\Scripts\BossChargeAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossChargeRockScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\BossLevelElevator.cpp" />
     <ClCompile Include="..\Game\Scripts\BossMissilesAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossMissilesMissileScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossMusic.cpp" />
     <ClCompile Include="..\Game\Scripts\BossShieldAttackScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\BossShieldEnemiesSpawner.cpp" />
     <ClCompile Include="..\Game\Scripts\BossShieldScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CombatTutorial.cpp" />
     <ClCompile Include="..\Game\Scripts\CameraBossControllerScript.cpp" />
@@ -320,9 +322,9 @@
     <ClCompile Include="..\Game\Scripts\SendTriggerCollision.cpp" />
     <ClCompile Include="..\Game\Scripts\ShockWaveAttackAreaScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ShockWaveAttackScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\SwitchTutorial.cpp" />
     <ClCompile Include="..\Game\Scripts\SpaceshipEscapeMusic.cpp" />
     <ClCompile Include="..\Game\Scripts\SpaceStationMusic.cpp" />
+    <ClCompile Include="..\Game\Scripts\SwitchTutorial.cpp" />
     <ClCompile Include="..\Game\Scripts\TurbineSewersAudio.cpp" />
     <ClCompile Include="..\Game\Scripts\TutorialSystem.cpp" />
     <ClCompile Include="..\Game\Scripts\SwitchPlayerManagerScript.cpp" />
@@ -900,10 +902,12 @@
     <ClInclude Include="..\Game\Scripts\BoostOfEnergy.h" />
     <ClInclude Include="..\Game\Scripts\BossChargeAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\BossChargeRockScript.h" />
+    <ClInclude Include="..\Game\Scripts\BossLevelElevator.h" />
     <ClInclude Include="..\Game\Scripts\BossMissilesAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\BossMissilesMissileScript.h" />
     <ClInclude Include="..\Game\Scripts\BossMusic.h" />
     <ClInclude Include="..\Game\Scripts\BossShieldAttackScript.h" />
+    <ClInclude Include="..\Game\Scripts\BossShieldEnemiesSpawner.h" />
     <ClInclude Include="..\Game\Scripts\BossShieldScript.h" />
     <ClInclude Include="..\Game\Scripts\CombatTutorial.h" />
     <ClInclude Include="..\Game\Scripts\CameraBossControllerScript.h" />
@@ -950,9 +954,9 @@
     <ClInclude Include="..\Game\Scripts\SendTriggerCollision.h" />
     <ClInclude Include="..\Game\Scripts\ShockWaveAttackAreaScript.h" />
     <ClInclude Include="..\Game\Scripts\ShockWaveAttackScript.h" />
-    <ClInclude Include="..\Game\Scripts\SwitchTutorial.h" />
     <ClInclude Include="..\Game\Scripts\SpaceshipEscapeMusic.h" />
     <ClInclude Include="..\Game\Scripts\SpaceStationMusic.h" />
+    <ClInclude Include="..\Game\Scripts\SwitchTutorial.h" />
     <ClInclude Include="..\Game\Scripts\TurbineSewersAudio.h" />
     <ClInclude Include="..\Game\Scripts\TutorialSystem.h" />
     <ClInclude Include="..\Game\Scripts\SwitchPlayerManagerScript.h" />

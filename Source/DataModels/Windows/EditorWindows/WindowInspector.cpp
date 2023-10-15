@@ -382,7 +382,7 @@ void WindowInspector::DrawSkyboxOptions()
 		ImGui::SameLine();
 		std::vector<std::shared_ptr<ResourceTexture>> textures = resourceSkybox->GetTextures();
 
-		for (size_t i = 0; i < textures.size(); i++)
+		for (size_t i = 0; i < textures.size(); ++i)
 		{
 			ImGui::Text(names[i].c_str());
 			ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(textures[i]->GetGlTexture())),

@@ -11,6 +11,7 @@ class HealthSystem;
 class PlayerAttackScript;
 class PlayerJumpScript;
 class PlayerMoveScript;
+class PlayerHackingUseScript;
 class DebugGame;
 class PlayerRotationScript;
 
@@ -48,9 +49,15 @@ public:
 	bool IsGrounded() const;
 	bool IsTeleporting() const;
 	bool IsParalyzed() const;
+
+	GameObject* GetMovementParticleSystem() const;
+
 	PlayerJumpScript* GetJumpManager() const;
 	PlayerMoveScript* GetMovementManager() const;
 	PlayerAttackScript* GetAttackManager() const;
+
+	void StopHackingParticles() const;
+
 	void SetPlayerSpeed(float playerSpeed);
 	PlayerActions GetPlayerState() const;
 	void SetPlayerState(PlayerActions playerState);
@@ -72,6 +79,9 @@ private:
 	PlayerJumpScript* jumpManager;
 	PlayerAttackScript* attackManager;
 	DebugGame* debugManager;
+	PlayerHackingUseScript* hackingManager;
 	PlayerRotationScript* rotationManager;
 	btVector3 rigidBodyManager;
+
+	GameObject* movementParticleSystem;
 };

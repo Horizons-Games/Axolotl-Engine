@@ -7,6 +7,8 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform;
 class ComponentRigidBody;
+class ComponentAnimation;
+
 class FinalBossScript;
 
 enum class ChargeState
@@ -49,6 +51,7 @@ private:
 
 	ComponentTransform* transform;
 	ComponentRigidBody* rigidBody;
+	ComponentAnimation* animator;
 	FinalBossScript* finalBossScript;
 
 	ComponentTransform* chargeThroughPosition;

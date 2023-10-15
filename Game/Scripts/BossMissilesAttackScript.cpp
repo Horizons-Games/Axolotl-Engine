@@ -9,6 +9,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentAnimation.h"
 
 #include "../Scripts/FinalBossScript.h"
 
@@ -18,7 +19,8 @@ BossMissilesAttackScript::BossMissilesAttackScript() : Script(), missilePrefab(n
 	safePositionSelected(nullptr), rigidBody(nullptr), initialPosition(float3::zero), midJumpPosition(float3::zero),
 	transform(nullptr), missilesAttackState(AttackState::NONE), missileAttackDuration(0.0f), 
 	missileAttackMaxDuration(15.0f), missileAttackCooldown(0.0f), missileAttackMaxCooldown(30.0f),
-	missileSpawnTime(0.0f), missileMaxSpawnTime(1.0f), battleArenaAreaSize(nullptr), missileSpawningHeight(10.0f)
+	missileSpawnTime(0.0f), missileMaxSpawnTime(1.0f), battleArenaAreaSize(nullptr), missileSpawningHeight(10.0f),
+	animator(nullptr)
 {
 	REGISTER_FIELD(safePositionsTransforms, std::vector<ComponentTransform*>);
 	REGISTER_FIELD(battleArenaAreaSize, ComponentRigidBody*);
@@ -38,6 +40,7 @@ void BossMissilesAttackScript::Start()
 
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	transform = owner->GetComponent<ComponentTransform>();
+	animator = owner->GetComponent<ComponentAnimation>();
 	finalBossScript = owner->GetComponent<FinalBossScript>();
 }
 
@@ -51,6 +54,8 @@ void BossMissilesAttackScript::TriggerMissilesAttack()
 	LOG_INFO("The missiles attack was triggered");
 
 	missilesAttackState = AttackState::STARTING_SAFE_JUMP;
+	animator->SetParameter("IsStartingMissilesJump", true);
+	animator->SetParameter("IsMissilesAttack", true);
 	finalBossScript->RemoveAgent();
 
 	initialPosition = transform->GetGlobalPosition();
@@ -84,6 +89,9 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 		if (transform->GetGlobalPosition().Equals(midJumpPosition, 0.5f))
 		{
 			missilesAttackState = AttackState::ENDING_SAFE_JUMP;
+			animator->SetParameter("IsStartingMissilesJump", false);
+			animator->SetParameter("IsEndingMissilesJump", true);
+			animator->SetParameter("IsMissilesLanding", true);
 			MoveUserToPosition(safePositionSelected->GetGlobalPosition());
 		}
 	}
@@ -94,10 +102,12 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 		if (transform->GetGlobalPosition().Equals(safePositionSelected->GetGlobalPosition(), 0.5f))
 		{
 			missilesAttackState = AttackState::EXECUTING_ATTACK;
+			RotateToTarget(midJumpPosition);
 		}
 	}
 	else if (missilesAttackState == AttackState::EXECUTING_ATTACK)
 	{
+		RotateToTarget(midJumpPosition);
 		ManageMissileSpawning(deltaTime);
 
 		missileAttackDuration -= deltaTime;
@@ -106,6 +116,10 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 			missileAttackDuration = missileAttackMaxDuration;
 			missilesAttackState = AttackState::STARTING_BACK_JUMP;
 			MoveUserToPosition(midJumpPosition);
+			animator->SetParameter("IsMissilesAttack", false);
+			animator->SetParameter("IsStartingMissilesJump", true);
+			animator->SetParameter("IsEndingMissilesJump", false);
+			animator->SetParameter("IsMissilesLanding", false);
 		}
 	}
 	else if (missilesAttackState == AttackState::STARTING_BACK_JUMP)
@@ -115,6 +129,9 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 		if (transform->GetGlobalPosition().Equals(midJumpPosition, 0.5f))
 		{
 			missilesAttackState = AttackState::ENDING_BACK_JUMP;
+			animator->SetParameter("IsStartingMissilesJump", false);
+			animator->SetParameter("IsEndingMissilesJump", true);
+			animator->SetParameter("IsMissilesLanding", true);
 			MoveUserToPosition(initialPosition);
 		}
 	}
@@ -125,6 +142,8 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 		if (transform->GetGlobalPosition().Equals(initialPosition, 0.5f))
 		{
 			missilesAttackState = AttackState::ON_COOLDOWN;
+			animator->SetParameter("IsEndingMissilesJump", false);
+			animator->SetParameter("IsMissilesLanding", false);
 		}
 	}
 	else if (missilesAttackState == AttackState::ON_COOLDOWN)

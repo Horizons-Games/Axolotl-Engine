@@ -37,32 +37,30 @@ public:
 
 	void UpdateFadeOut(float transparency);
 
-	void FinishComboButtonsEffect();
-	void SetEffectEnable(bool effectEnabled);
+	void InitFinishComboButtonsEffect();
+	bool IsCombatActive();
 
-
+	std::deque<GameObject*> inputVisuals;
 private:
 	GameObject* inputPrefabSoft;
 	GameObject* inputPrefabHeavy;
-	GameObject*  inputPrefabJumpAttack;
+	GameObject* inputPrefabJumpAttack;
+	GameObject* shinyEffectPrefab;
 
 	GameObject* noFillBar;
-	std::vector<GameObject*> shinyButtonEffect;
 
-	std::deque<GameObject*> inputVisuals;
+	std::vector<GameObject*> shinyButtonEffect;
 	std::vector<GameObject*> inputPositions;
 
 	ComponentSlider* comboBar;
 
 	float clearComboTimer;
 	bool clearCombo;
-	bool  isEffectEnabled;
+	bool finisherClearEffect;
+	bool forceEnableComboBar;
 
 	float transparency;
 	bool alphaEnabled;
-};
 
-inline void UIComboManager::SetEffectEnable(bool effectEnabled)
-{
-	isEffectEnabled = effectEnabled;
+	bool specialActivated;
 };

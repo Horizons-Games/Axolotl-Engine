@@ -255,12 +255,18 @@ void EnemyVenomiteScript::UpdateBehaviour(float deltaTime)
 		break;
 
 	case VenomiteBehaviours::INPATH:
-		if (pathScript->IsPathFinished())
+		if (pathScript && pathScript->IsPathFinished())
 		{
 			venomiteState = VenomiteBehaviours::IDLE;
 			componentAnimation->SetParameter("IsRunning", false);
 			pathScript->Disable();
 		}
+		else if (!pathScript)
+		{
+			venomiteState = VenomiteBehaviours::IDLE;
+			componentAnimation->SetParameter("IsRunning", false);
+		}
+
 		break;
 	}
 }
