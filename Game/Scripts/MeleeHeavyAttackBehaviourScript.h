@@ -35,6 +35,9 @@ public:
 	void UpdateDroneColor();
 
 	ExplosionState HasExploded() const;
+	
+	void SetIsPaused(bool isPaused);
+
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
@@ -56,4 +59,5 @@ private:
 	float explosionDamage;
 	float explosionTime;
 	float explosionDistance;
+	bool isPaused;
 };

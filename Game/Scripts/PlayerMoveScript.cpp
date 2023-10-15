@@ -79,6 +79,8 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 		{
 			componentAnimation->SetParameter("IsRunning", false);
 			componentAnimation->SetParameter("IsDashing", false);
+			owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(btVector3(0.f,
+				owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->getLinearVelocity().getY(), 0.f));
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			return;
 		}

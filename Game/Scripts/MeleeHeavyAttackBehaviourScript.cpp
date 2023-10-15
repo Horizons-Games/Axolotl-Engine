@@ -11,6 +11,7 @@
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/EnemyDeathScript.h"
+
 #include "../Scripts/SeekBehaviourScript.h"
 #include "../Scripts/AIMovement.h"
 
@@ -44,6 +45,11 @@ void MeleeHeavyAttackBehaviourScript::Start()
 
 void MeleeHeavyAttackBehaviourScript::Update(float deltaTime)
 {
+	if (isPaused) 
+	{
+		return;
+	}
+
 	rigidBody->SetPositionTarget(transform->GetGlobalPosition());
 
 	if (attackState == ExplosionState::WAITING_EXPLOSION)
@@ -126,4 +132,9 @@ void MeleeHeavyAttackBehaviourScript::OnCollisionExit(ComponentRigidBody* other)
 	{
 		targetPlayer = nullptr;
 	}
+}
+
+void MeleeHeavyAttackBehaviourScript::SetIsPaused(bool isPaused)
+{
+	this->isPaused = isPaused;
 }
