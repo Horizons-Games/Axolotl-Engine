@@ -55,6 +55,8 @@ private:
 	AIMovement* aiMovement;
 	BossShieldAttackScript* shield;
 
+	GameObject* blockedDoor;
+
 	ComponentTransform* ownerTransform;
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;

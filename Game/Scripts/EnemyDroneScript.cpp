@@ -111,7 +111,7 @@ void EnemyDroneScript::CheckState(float deltaTime)
 	if (droneState == DroneBehaviours::READYTOEXPLODE)
 	{
 		if (droneState != DroneBehaviours::EXPLOSIONATTACK && componentAnimation->GetActualStateName() != "Flinch"
-			&& flinchAnimationOffset == true)
+			&& flinchAnimationOffset)
 		{
 			componentAnimation->SetParameter("IsSeeking", false);
 			componentAnimation->SetParameter("IsAttacking", false);
@@ -287,12 +287,16 @@ void EnemyDroneScript::UpdateBehaviour(float deltaTime)
 		break;
 	
 	case DroneBehaviours::INPATH:
-
-		if (pathScript->IsPathFinished())
+		if (pathScript && pathScript->IsPathFinished())
 		{
 			droneState = DroneBehaviours::IDLE;
 			componentAnimation->SetParameter("IsRunning", false);
 			pathScript->Disable();
+		}
+		else if (!pathScript)
+		{
+			droneState = DroneBehaviours::IDLE;
+			componentAnimation->SetParameter("IsRunning", false);
 		}
 
 		break;

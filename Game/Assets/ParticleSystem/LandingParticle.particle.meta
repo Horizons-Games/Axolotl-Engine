@@ -1,0 +1,10 @@
+{
+    "UID": 16587160262906340958,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": [
+        "Assets/Textures/CartoonSmoke.png"
+    ],
+    "ConfigEmitters": [
+        false
+    ]
+}

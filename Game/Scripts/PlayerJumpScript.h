@@ -10,6 +10,7 @@ class GameObject;
 class ComponentAnimation;
 class ComponentAudioSource;
 class ComponentRigidBody;
+class ComponentParticleSystem;
 
 class PlayerAttackScript;
 class PlayerManagerScript;
@@ -53,6 +54,8 @@ private:
 	ComponentRigidBody* rigidbody;
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudio;
+	ComponentParticleSystem* landingParticle;
+
 
 	PlayerAttackScript* attackScript;
 	PlayerManagerScript* playerManager;

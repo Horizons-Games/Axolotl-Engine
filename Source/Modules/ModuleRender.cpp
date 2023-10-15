@@ -671,7 +671,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 
 	float auxWidht = static_cast<float>(width), auxHeight = static_cast<float>(height);
 
-	for (unsigned int i = 0; i < KAWASE_DUAL_SAMPLERS; i++)
+	for (unsigned int i = 0; i < KAWASE_DUAL_SAMPLERS; ++i)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, dualKawaseDownFramebuffers[i]);
 		
@@ -694,7 +694,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 		}
 	}
 
-	for (unsigned int i = 0; i < KAWASE_DUAL_SAMPLERS; i++)
+	for (unsigned int i = 0; i < KAWASE_DUAL_SAMPLERS; ++i)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, dualKawaseUpFramebuffers[i]);
 
@@ -1217,7 +1217,7 @@ void ModuleRender::KawaseDualFiltering()
 	kawaseDownProgram->Activate();
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Kawase dual down")),
 		"Kawase dual down");
-	for (auto i = 0; i < KAWASE_DUAL_SAMPLERS; i++)
+	for (auto i = 0; i < KAWASE_DUAL_SAMPLERS; ++i)
 	{
 		auxWidht /= 2;
 		auxHeight /= 2;
@@ -1240,7 +1240,7 @@ void ModuleRender::KawaseDualFiltering()
 	kawaseUpProgram->Activate();
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Kawase dual up")),
 		"Kawase dual up");
-	for (auto i = 0; i < KAWASE_DUAL_SAMPLERS; i++)
+	for (auto i = 0; i < KAWASE_DUAL_SAMPLERS; ++i)
 	{
 		auxWidht *= 2;
 		auxHeight *= 2;
