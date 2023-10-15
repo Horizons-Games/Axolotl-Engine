@@ -103,6 +103,9 @@ void PlayerAttackScript::Start()
 
 void PlayerAttackScript::Update(float deltaTime)
 {
+	// Mark the enemy that is going to be attacked
+	UpdateEnemyDetection();
+
 	if (!canAttack && !jumpFinisherScript->IsActive())
 	{
 		isNextAttackTriggered = false;
@@ -122,10 +125,6 @@ void PlayerAttackScript::Update(float deltaTime)
 	}
 
 	timeSinceLastJumpAttack += deltaTime;
-
-
-	// Mark the enemy that is going to be attacked
-	UpdateEnemyDetection();
 
 	// Check if the special was activated
 	comboSystem->CheckSpecial(deltaTime);
