@@ -120,6 +120,7 @@ public:
 	const std::vector<ComponentCanvas*>& GetSceneCanvas() const;
 	const std::vector<Component*>& GetSceneInteractable() const;
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
+	const std::vector<ComponentVideo*>& GetSceneVideos() const;
 	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
 	const std::vector<ComponentLine*>& GetSceneComponentLines() const;
 	std::vector<ComponentMeshRenderer*> GetMeshRenderers() const;
@@ -160,6 +161,7 @@ public:
 	void RemoveNonStaticObject(const GameObject* gameObject);
 	void AddUpdatableObject(Updatable* updatable);
 	
+	void AddVideoComponent(ComponentVideo* componentVideo);
 	void AddParticleSystem(ComponentParticleSystem* particleSystem);
 	void AddComponentLines(ComponentLine* componentLine);
 	
@@ -199,6 +201,7 @@ private:
 	std::vector<GameObject*> sceneGameObjects;
 	std::vector<ComponentCamera*> sceneCameras;
 	std::vector<ComponentCanvas*> sceneCanvas;
+	std::vector<ComponentVideo*> sceneVideos;
 	std::vector<Component*> sceneInteractableComponents;
 	std::vector<Updatable*> sceneUpdatableObjects;
 
@@ -286,6 +289,12 @@ inline const std::vector<ComponentParticleSystem*>& Scene::GetSceneParticleSyste
 	return sceneParticleSystems;
 }
 
+inline const std::vector<ComponentVideo*>& Scene::GetSceneVideos() const
+{
+	return sceneVideos;
+}
+
+
 inline const std::vector<ComponentLine*>& Scene::GetSceneComponentLines() const
 {
 	return sceneComponentLines;
@@ -364,6 +373,11 @@ inline void Scene::AddParticleSystem(ComponentParticleSystem* particleSystem)
 inline void Scene::AddComponentLines(ComponentLine* componentLine)
 {
 	sceneComponentLines.push_back(componentLine);
+}
+
+inline void Scene::AddVideoComponent(ComponentVideo* componentVideo)
+{
+	sceneVideos.push_back(componentVideo);
 }
 
 inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleSystem)

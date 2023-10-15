@@ -97,6 +97,21 @@ void UIGameManager::Update(float deltaTime)
 	}
 	InputMethodImg(inputMethod);
 
+	//Life controller
+	if (healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerBack->GetCurrentValue()
+		|| healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerFront->GetCurrentValue())
+	{
+		ModifySliderHealthValue(healthSystemClassBix, componentSliderPlayerBack, componentSliderPlayerFront);
+	}
+	if (manager)
+	{
+		if (healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerBack->GetCurrentValue()
+			|| healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerFront->GetCurrentValue())
+		{
+			ModifySliderHealthValue(healthSystemClassAllura, componentSliderSecondPlayerBack, componentSliderSecondPlayerFront);
+		}
+	}
+
 	//Lose Game State
 	if (!healthSystemClassBix->EntityIsAlive() || !healthSystemClassAllura->EntityIsAlive())
 	{
@@ -121,21 +136,6 @@ void UIGameManager::Update(float deltaTime)
 		else
 		{
 			debugModeObject->Disable();
-		}
-	}
-
-	//Life controller
-	if (healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerBack->GetCurrentValue()
-		|| healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerFront->GetCurrentValue())
-	{
-		ModifySliderHealthValue(healthSystemClassBix, componentSliderPlayerBack, componentSliderPlayerFront);
-	}
-	if (manager)
-	{
-		if (healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerBack->GetCurrentValue()
-			|| healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerFront->GetCurrentValue())
-		{
-			ModifySliderHealthValue(healthSystemClassAllura, componentSliderSecondPlayerBack, componentSliderSecondPlayerFront);
 		}
 	}
 
