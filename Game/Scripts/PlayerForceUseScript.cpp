@@ -28,7 +28,7 @@ REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), 
 	gameObjectAttached(nullptr), tag("Forceable"), distancePointGameObjectAttached(0.0f), 
-	maxDistanceForce(20.0), minDistanceForce(1.0f),
+	maxDistanceForce(20.0f), minDistanceForce(1.0f),
 	componentAnimation(nullptr), componentAudioSource(nullptr), 
 	playerManager(nullptr), gravity(0.0f), isForceActive(false)
 {
