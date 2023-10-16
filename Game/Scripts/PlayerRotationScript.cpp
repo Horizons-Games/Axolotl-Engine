@@ -37,10 +37,9 @@ void PlayerRotationScript::PreUpdate(float deltaTime)
 	}
 	else
 	{
-		btRigidbody->setAngularVelocity({ 0.0f,0.0f,0.0f });
+		btRigidbody->setAngularVelocity(btVector3(0, 0, 0));
 	}
 }
-	
 
 void PlayerRotationScript::Rotation(float deltaTime)
 {
@@ -49,7 +48,18 @@ void PlayerRotationScript::Rotation(float deltaTime)
 		return;
 	}
 
-	float horizontalMotion = App->GetModule<ModuleInput>()->GetMouseMotion().x * rotationSensitivityHorizontal;
+	ModuleInput* input = App->GetModule<ModuleInput>();
+
+	float horizontalMotion;
+	if (input->GetCurrentInputMethod() == InputMethod::KEYBOARD)
+	{
+		horizontalMotion = input->GetMouseMotion().x * rotationSensitivityHorizontal;
+	}
+	else if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD)
+	{
+		horizontalMotion = input->GetLeftJoystickMovement().horizontalMovement * 0.001f * rotationSensitivityHorizontal;
+	}
+	
 	btVector3 angularVelocity(0, 0, 0);
 
 	if (horizontalMotion != 0)

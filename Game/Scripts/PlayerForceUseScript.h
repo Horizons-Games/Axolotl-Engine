@@ -2,11 +2,10 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
-#include "Math/Quat.h"
+
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ModuleInput;
-class CameraControllerScript;
 class PlayerManagerScript;
 class PlayerMoveScript;
 class ComponentTransform;
@@ -35,7 +34,10 @@ private:
 	float distancePointGameObjectAttached;
 	float maxDistanceForce;
 	float minDistanceForce;
+	float lastHorizontalSensitivity;
+	float lastVerticalSensitivity;
 	float gravity;
+	bool isForceActive;
 	bool objectStaticness;
 
     std::string tag;
