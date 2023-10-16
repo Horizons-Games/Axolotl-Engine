@@ -57,8 +57,6 @@ void BossChargeAttackScript::Start()
 void BossChargeAttackScript::Update(float deltaTime)
 {
 	ManageChargeAttackStates(deltaTime);
-
-	LOG_DEBUG("Is facing near wall? {}", wallChecker->IsFacingNearWall());
 }
 
 void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
@@ -78,10 +76,6 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 
 		if (isRockAttackVariant)
 		{
-			SpawnRock(float3(owner->GetComponent<ComponentTransform>()->GetGlobalPosition().x,
-			owner->GetComponent<ComponentTransform>()->GetGlobalPosition().y + rockSpawningHeight,
-			owner->GetComponent<ComponentTransform>()->GetGlobalPosition().z));
-
 			MakeRocksFall();
 		}
 	}

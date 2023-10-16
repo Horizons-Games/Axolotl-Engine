@@ -13,7 +13,7 @@
 REGISTERCLASS(BossChargeRockScript);
 
 BossChargeRockScript::BossChargeRockScript() : Script(), rockState(RockStates::SKY), fallingRockDamage(10.0f),
-	despawnTimer(0.0f), despawnMaxTimer(30.0f), triggerRockDespawn(false)
+	despawnTimer(0.0f), despawnMaxTimer(30.0f), triggerRockDespawn(false), rockHitAndRemained(false)
 {
 	REGISTER_FIELD(fallingRockDamage, float);
 	REGISTER_FIELD(despawnMaxTimer, float);
@@ -42,7 +42,19 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (rockState == RockStates::SKY && other->GetOwner()->CompareTag("Rock"))
 	{
-		DeactivateRock();
+		BossChargeRockScript* otherRock = other->GetOwner()->GetComponent<BossChargeRockScript>();
+
+		if (!otherRock->WasRockHitAndRemained())
+		{
+			other->GetOwner()->GetComponent<BossChargeRockScript>()->DeactivateRock();
+			rockHitAndRemained = true;
+		}
+		else if (otherRock->WasRockHitAndRemained() || otherRock->GetRockState() != RockStates::SKY)
+		{
+			DeactivateRock();
+		}
+
+		LOG_DEBUG("Rock deactivated");
 	}
 	else if (rockState == RockStates::FALLING)
 	{
@@ -71,6 +83,11 @@ void BossChargeRockScript::SetRockState(RockStates newState)
 	rockState = newState;
 }
 
+RockStates BossChargeRockScript::GetRockState() const
+{
+	return rockState;
+}
+
 void BossChargeRockScript::DeactivateRock()
 {
 	if (rockState == RockStates::HIT_ENEMY)
@@ -95,4 +112,9 @@ void BossChargeRockScript::DeactivateRock()
 void BossChargeRockScript::DestroyRock() const
 {
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+}
+
+bool BossChargeRockScript::WasRockHitAndRemained() const
+{
+	return rockHitAndRemained;
 }
