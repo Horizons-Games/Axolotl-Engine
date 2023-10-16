@@ -94,7 +94,6 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		}
 	}
 
-	
 	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;

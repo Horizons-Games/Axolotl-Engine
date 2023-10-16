@@ -37,11 +37,7 @@ void BossChargeRockScript::Update(float deltaTime)
 		isUnpaused = false;
 		return;
 	}
-	else if (!isUnpaused)
-	{
-		rigidBody->GetRigidBody()->setGravity(rockGravity);
-		isUnpaused = true;
-	}
+	rigidBody->GetRigidBody()->setGravity(rockGravity);
 
 	if (triggerRockDespawn)
 	{

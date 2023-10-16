@@ -46,6 +46,5 @@ private:
 	float despawnMaxTimer;
 
 	bool isPaused;
-	bool isUnpaused;
 	btVector3 rockGravity;
 };

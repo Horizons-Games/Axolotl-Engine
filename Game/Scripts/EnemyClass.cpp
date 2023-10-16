@@ -75,6 +75,7 @@ void EnemyClass::PauseEnemy(bool isPaused)
 {
 	this->isPaused = isPaused;
 }
+
 void EnemyClass::ParalyzeEnemy(bool nparalyzed)
 {
 	return;
