@@ -28,12 +28,15 @@ public:
 	void DrawFrustum(const Frustum& frustum);
 	void ShowBoundingBoxes(bool showBoundingBoxes);
 	bool IsShowingBoundingBoxes() const;
+	void ShowGrid(bool showGrid);
+	bool IsShowingGrid() const;
 	void ShowRigidBody(bool showRigidBody);
 	bool IsShowingRigidBody() const;
 
 private:
 	bool showBoundingBoxes;
 	bool showRigidBody;
+	bool showGrid;
 	static DDRenderInterfaceCoreGL* implementation;
 };
 
@@ -45,6 +48,16 @@ inline void ModuleDebugDraw::ShowBoundingBoxes(bool showBoundingBoxes)
 inline bool ModuleDebugDraw::IsShowingBoundingBoxes() const
 {
 	return showBoundingBoxes;
+}
+
+inline void ModuleDebugDraw::ShowGrid(bool showGrid)
+{
+	this->showGrid = showGrid;
+}
+
+inline bool ModuleDebugDraw::IsShowingGrid() const
+{
+	return showGrid;
 }
 
 inline void ModuleDebugDraw::ShowRigidBody(bool showRigidBody)
