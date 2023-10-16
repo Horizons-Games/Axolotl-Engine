@@ -3,7 +3,6 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentLocalIBL.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentRigidBody.h"
@@ -27,7 +26,6 @@ firstShieldUsed(false), secondShieldUsed(false), seekDistance(15.0f), blockedDoo
 	REGISTER_FIELD(attackDistance, float);
 	REGISTER_FIELD(boostOfEnergy, BoostOfEnergy*);
 	REGISTER_FIELD(blockedDoor, GameObject*);
-	REGISTER_FIELD(localIBL, ComponentLight*);
 }
 
 void EnemyMiniBossTwo::Start()
@@ -42,6 +40,7 @@ void EnemyMiniBossTwo::Start()
 	aiMovement = owner->GetComponent<AIMovement>();
 	shield = owner->GetComponent<BossShieldAttackScript>();
 	deathScript = owner->GetComponent<EnemyDeathScript>();
+
 }
 
 void EnemyMiniBossTwo::Update(float deltaTime)
@@ -203,9 +202,5 @@ void EnemyMiniBossTwo::SetReadyToDie()
 {
 	componentAnimation->SetParameter("IsDead", true);
 	blockedDoor->Disable();
-	if (localIBL)
-	{
-		static_cast<ComponentLocalIBL*>(localIBL)->GenerateMaps();
-	}
 	deathScript->ManageEnemyDeath();
 }
