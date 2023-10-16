@@ -215,8 +215,7 @@ void FinalBossScript::ManageNeutralPhase()
 		return;
 	}
 
-	// Trust me, 1 in 1500 chance is enough
-	bool chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(1500.0f);
+	bool chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(2000.0f);
 
 	// If the player gets near the boss, the boss will defend itself with a shockwave if possible
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
@@ -257,7 +256,7 @@ void FinalBossScript::ManageAggressivePhase()
 		return;
 	}
 
-	bool chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(500.0f); // Triple the chance of charges
+	bool chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(750.0f);
 	bool seekingShockWaveChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(500.0f);
 
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
@@ -308,8 +307,7 @@ void FinalBossScript::ManageDefensivePhase()
 		return;
 	}
 
-	// Reduce a lot the chance of charges
-	bool chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(2500.0f);
+	bool chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(4000.0f);
 	bool shieldChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(200.0f);
 
 	// The boss is on the defensive now, if the shield attack is available, they will most likely trigger it
@@ -357,9 +355,8 @@ void FinalBossScript::ManageLastResortPhase()
 		return;
 	}
 
-	bool chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(750.0f);
+	bool chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(1000.0f);
 	bool seekingShockWaveChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(750.0f);
-	// This is his final attack, he should trigger almost always when ready IMO
 	bool lastResortMissilesChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(250.0f);
 
 	// If the missiles attack is ready, trigger it as much as possible
