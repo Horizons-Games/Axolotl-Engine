@@ -30,6 +30,7 @@ void WindowFrustum::DrawWindowContents()
 
 	bool showAABBs = debug->IsShowingBoundingBoxes();
 	bool showRB = debug->IsShowingRigidBody();
+	bool showGrid = debug->IsShowingGrid();
 	if (ImGui::Checkbox("Show bounding boxes", &showAABBs))
 	{
 		debug->ShowBoundingBoxes(showAABBs);
@@ -37,6 +38,10 @@ void WindowFrustum::DrawWindowContents()
 	if (ImGui::Checkbox("Show Rigid bodies", &showRB))
 	{
 		debug->ShowRigidBody(showRB);
+	}
+	if (ImGui::Checkbox("Show Grid bodies", &showGrid))
+	{
+		debug->ShowGrid(showGrid);
 	}
 	const char* listbox_items[] = { "Basic Frustum", "Offset Frustum", "No Frustum" };
 
