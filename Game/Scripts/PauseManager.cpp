@@ -49,7 +49,7 @@ void PauseManager::Pause(bool paused)
 
 void PauseManager::PauseEnemies(bool paused)
 {
-	for (int i = 0; i < enemiesGameObjects.size(); i++)
+	for (int i = 0; i < enemiesGameObjects.size(); ++i)
 	{
 		enemiesGameObjects[i]->GetComponent<EnemyClass>()->PauseEnemy(paused);
 		if (paused)
@@ -65,7 +65,7 @@ void PauseManager::PauseEnemies(bool paused)
 
 void PauseManager::PauseBullets(bool paused)
 {
-	for (int i = 0; i < bulletGameObjects.size(); i++)
+	for (int i = 0; i < bulletGameObjects.size(); ++i)
 	{
 		if (bulletGameObjects[i]->HasComponent<RangedFastAttackBullet>())
 		{
@@ -77,7 +77,7 @@ void PauseManager::PauseBullets(bool paused)
 		}
 	}
 	
-	for (int i = 0; i < alluraBulletGameObjects.size(); i++)
+	for (int i = 0; i < alluraBulletGameObjects.size(); ++i)
 	{
 		if (alluraBulletGameObjects[i]->HasComponent<LightAttackBullet>())
 		{
@@ -92,7 +92,7 @@ void PauseManager::PauseBullets(bool paused)
 
 void PauseManager::PauseRocks(bool paused)
 {
-	for (int i = 0; i < rockGameObjects.size(); i++)
+	for (int i = 0; i < rockGameObjects.size(); ++i)
 	{
 		rockGameObjects[i]->GetComponent<BossChargeRockScript>()->SetPauseRock(paused);
 	}

@@ -14,7 +14,7 @@
 REGISTERCLASS(BossChargeRockScript);
 
 BossChargeRockScript::BossChargeRockScript() : Script(), rockState(RockStates::SKY), fallingRockDamage(10.0f),
-	despawnTimer(0.0f), despawnMaxTimer(30.0f), triggerRockDespawn(false), isUnpaused(true)
+	despawnTimer(0.0f), despawnMaxTimer(30.0f), triggerRockDespawn(false)
 {
 	REGISTER_FIELD(fallingRockDamage, float);
 	REGISTER_FIELD(despawnMaxTimer, float);
@@ -34,7 +34,6 @@ void BossChargeRockScript::Update(float deltaTime)
 	{
 		rigidBody->GetRigidBody()->setGravity(btVector3(0, 0, 0));
 		rigidBody->GetRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
-		isUnpaused = false;
 		return;
 	}
 	rigidBody->GetRigidBody()->setGravity(rockGravity);
