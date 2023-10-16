@@ -23,12 +23,13 @@
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/CameraControllerScript.h"
 #include "../Scripts/PlayerMoveScript.h"
+#include <AxoLog.h>
 
 REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), 
 	gameObjectAttached(nullptr), tag("Forceable"), distancePointGameObjectAttached(0.0f), 
-	maxDistanceForce(20.0f), minDistanceForce(1.0f),
+	maxDistanceForce(10.0f), minDistanceForce(1.0f),
 	componentAnimation(nullptr), componentAudioSource(nullptr), 
 	playerManager(nullptr), gravity(0.0f)
 {
@@ -69,58 +70,35 @@ void PlayerForceUseScript::Update(float deltaTime)
 		ComponentRigidBody* hittedRigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 		ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
 
-		distancePointGameObjectAttached = std::min(distancePointGameObjectAttached, maxDistanceForce);
-		distancePointGameObjectAttached = std::max(distancePointGameObjectAttached, minDistanceForce);
-
-		// Get next rotation of gameObject
-		Quat targetRotation =
-			Quat::RotateFromTo(hittedTransform->GetGlobalForward(),
-				(transform->GetGlobalPosition() - hittedTransform->GetGlobalPosition()).Normalized());
-
-		// Set rotation
-		hittedRigidBody->SetRotationTarget(targetRotation);
-		
-		// Get next position of the gameObject
-		float3 nextPosition = transform->GetGlobalForward();
-		nextPosition.Normalize();
-		nextPosition *= distancePointGameObjectAttached;
-		nextPosition += transform->GetGlobalPosition();
-		nextPosition += offsetFromPickedPoint;
-
-		nextPosition.y = hittedTransform->GetGlobalPosition().y;
-
-		float3 currentDistance = hittedTransform->GetGlobalPosition() - nextPosition;
-		
-		if (std::abs(currentDistance.x) > 2 && std::abs(currentDistance.z) > 2)
-		{
-			FinishForce();
-		}
-
-		float difX = pickedPlayerPosition.x - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().x;
-		float difY = pickedPlayerPosition.y - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().y;
-		float difZ = pickedPlayerPosition.z - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().z;
-
-		if (abs(difX) + abs(difY) + abs(difZ) > 0.2f)
-		{
-			FinishForce();
-		}
+		float3 nextPosition = hittedTransform->GetGlobalPosition();
 
 		InputMethod inputMethod = input->GetCurrentInputMethod();
 		if (inputMethod == InputMethod::KEYBOARD)
 		{
 			float2 mouseMotion = input->GetMouseMotion();
-			nextPosition.x -= mouseMotion.x * 0.2f * deltaTime;
+			nextPosition.x += mouseMotion.x * 0.2f * deltaTime;
 			nextPosition.y -= mouseMotion.y * 0.2f * deltaTime;
 		}
 		else if (inputMethod == InputMethod::GAMEPAD)
 		{
 			// We divide by 1000 (*0.001) to move at aprox same speed as if we where using the mouse
-			Sint16 horizontalMovement = input->GetLeftJoystickMovement().horizontalMovement * 0.001f;
-			nextPosition.x -= horizontalMovement * 0.2f * deltaTime;
-			Sint16 verticalMovement = input->GetLeftJoystickMovement().verticalMovement * 0.001f;
+			Sint16 horizontalMovement = int(input->GetLeftJoystickMovement().horizontalMovement * 0.001f);
+			nextPosition.x += horizontalMovement * 0.2f * deltaTime;
+			Sint16 verticalMovement = int(input->GetLeftJoystickMovement().verticalMovement * 0.001f);
 			nextPosition.y -= verticalMovement * 0.2f * deltaTime;
 		}
+		
+		distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(nextPosition);
 
+		if (distancePointGameObjectAttached > maxDistanceForce)
+		{
+			gameObjectAttached = nullptr;
+		}
+		else if (distancePointGameObjectAttached < minDistanceForce)
+		{
+			distancePointGameObjectAttached = minDistanceForce;
+		}
+		
 		// Set position
 		hittedRigidBody->SetPositionTarget(nextPosition);
 	}
@@ -147,24 +125,10 @@ void PlayerForceUseScript::InitForce()
 		if (Physics::RaycastToTag(line, hit, owner, tag))
 		{
 			gameObjectAttached = hit.gameObject;
-			ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
 			distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hit.hitPoint);
 			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 			objectStaticness = rigidBody->IsStatic();
 			rigidBody->SetIsStatic(false);
-			offsetFromPickedPoint = hittedTransform->GetGlobalPosition() - hit.hitPoint;
-			pickedRotation = hittedTransform->GetGlobalRotation();
-			pickedPlayerPosition = owner->GetComponent<ComponentTransform>()->GetGlobalPosition();
-
-			if (distancePointGameObjectAttached > maxDistanceForce)
-			{
-				gameObjectAttached = nullptr;
-			}
-			else if (distancePointGameObjectAttached < minDistanceForce)
-			{
-				distancePointGameObjectAttached = minDistanceForce;
-			}
-
 			rigidBody->SetKpForce(50.0f);
 			rigidBody->SetKpTorque(50.0f);
 		}
@@ -188,6 +152,7 @@ void PlayerForceUseScript::FinishForce()
 	rigidBody->DisablePositionController();
 	rigidBody->DisableRotationController();
 	rigidBody->SetIsStatic(objectStaticness);
+	rigidBody->GetRigidBody()->setLinearVelocity(btVector3(0.0f,0.0f,0.0f));
 	gameObjectAttached = nullptr;
 
 	componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_STOP);

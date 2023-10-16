@@ -40,12 +40,8 @@ private:
 
     std::string tag;
 	
-	CameraControllerScript* rotationVerticalScript;
 	PlayerManagerScript* playerManager;
 	PlayerMoveScript* moveScript;
-	float3 offsetFromPickedPoint;
-	float3 pickedPlayerPosition;
-	Quat pickedRotation;
 
 	ComponentAudioSource* componentAudioSource;
 	ComponentAnimation* componentAnimation;
