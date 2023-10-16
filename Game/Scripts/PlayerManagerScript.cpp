@@ -140,7 +140,12 @@ void PlayerManagerScript::FullPausePlayer(bool paused)
 {
 	btVector3 gravityPlayer(0.f, 0.f, 0.f);
 	isPaused = paused;
-	PausePlayer(paused);
+
+	if (hackingManager && !hackingManager->IsHackingActive())
+	{
+		PausePlayer(paused);
+	}
+	
 	if (!paused)
 	{
 		gravityPlayer = rigidBodyGravity;
