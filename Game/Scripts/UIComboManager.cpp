@@ -113,6 +113,30 @@ void UIComboManager::Update(float deltaTime)
 		++it;
 	}
 
+	for (auto it = shinyBarEffect.begin(); it != shinyBarEffect.end();)
+	{
+		ComponentImage* image = (*it)->GetComponentInternal<ComponentImage>();
+		float4 color = image->GetColor();
+		if (color.w <= 0.0f)
+		{
+			App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(*it);
+			it = shinyBarEffect.erase(it);
+			continue;
+		}
+		else
+		{
+			color.w -= deltaTime * 2;
+			image->SetColor(color);
+		}
+
+		ComponentTransform2D* transform = (*it)->GetComponent<ComponentTransform2D>();
+		float2 size = transform->GetSize();
+		size.x += deltaTime * 120;
+		size.y += deltaTime * 40;
+		transform->SetSize(size);
+		++it;
+	}
+
 	if (noFillBar && noFillBar->IsEnabled())
 	{
 		if (alphaEnabled)
@@ -293,6 +317,18 @@ void UIComboManager::InitFinishComboButtonsEffect() //Make a VFX when you get a 
 		newShinyEffect->Enable();
 		newShinyEffect->GetComponent<ComponentTransform2D>()->SetSize(float2(154.f, 154.f));
 		shinyButtonEffect.push_back(newShinyEffect);
+	}
+
+	if (specialActivated)
+	{
+		GameObject* newShinyBarEffect =
+			App->GetModule<ModuleScene>()->GetLoadedScene()->
+			DuplicateGameObject(shinyEffectBarPrefab->GetName(), shinyEffectBarPrefab, comboBar->GetOwner());
+		newShinyBarEffect->Enable();
+		newShinyBarEffect->GetComponent<ComponentTransform2D>()->SetSize(float2(433.f, 81.f));
+		shinyBarEffect.push_back(newShinyBarEffect);
+
+		noFillBar->GetComponent<ComponentImage>()->SetColor(float4(1.f, 1.f, 1.f, 0.5f));
 	}
 }
 
