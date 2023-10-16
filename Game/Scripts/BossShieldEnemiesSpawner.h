@@ -10,6 +10,8 @@ class ComponentAnimation;
 class BossLevelElevator;
 class BossShieldAttackScript;
 
+constexpr int ENEMIES_PER_WAVE = 4;
+
 class BossShieldEnemiesSpawner : public Script
 {
 public:
