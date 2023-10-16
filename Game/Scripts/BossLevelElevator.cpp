@@ -66,6 +66,8 @@ void BossLevelElevator::Update(float deltaTime)
 	{
 		currentTime -= deltaTime;
 
+		CheckIfEnemiesAreInTarget();
+
 		return;
 	}
 
@@ -82,8 +84,6 @@ void BossLevelElevator::Update(float deltaTime)
 	{
 		MoveDown(deltaTime);
 	}
-
-	CheckIfEnemiesAreInTarget();
 }
 
 void BossLevelElevator::ChangeMovementState(ElevatorState newState)
@@ -275,9 +275,7 @@ void BossLevelElevator::CheckIfEnemiesAreInTarget()
 	{
 		ToggleParalizeDependingOfEnemyType(enemyOne, false);
 
-		ComponentRigidBody* rb = enemyOne->GetComponentInternal<ComponentRigidBody>();
-		rb->SetIsTrigger(false);
-		rb->SetUpMobility();
+		enemyOne->GetComponentInternal<ComponentRigidBody>()->SetIsTrigger(false);
 		enemyOneParalized = false;
 	}
 
@@ -285,9 +283,7 @@ void BossLevelElevator::CheckIfEnemiesAreInTarget()
 	{
 		ToggleParalizeDependingOfEnemyType(enemyTwo, false);
 
-		ComponentRigidBody* rb = enemyTwo->GetComponentInternal<ComponentRigidBody>();
-		rb->SetIsTrigger(false);
-		rb->SetUpMobility();
+		enemyTwo->GetComponentInternal<ComponentRigidBody>()->SetIsTrigger(false);
 		enemyTwoParalized = false;
 	}
 }
