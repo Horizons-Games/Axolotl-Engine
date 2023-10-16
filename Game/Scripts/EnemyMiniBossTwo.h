@@ -10,6 +10,7 @@ class HealthSystem;
 class PatrolBehaviourScript;
 class EnemyDeathScript;
 class ComponentTransform;
+class ComponentLight;
 class ComponentAnimation;
 class ComponentAudioSource;
 class BoostOfEnergy;
@@ -58,6 +59,7 @@ private:
 	GameObject* blockedDoor;
 
 	ComponentTransform* ownerTransform;
+	ComponentLight* localIBL;
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
 	ComponentTransform* seekTargetTransform;
