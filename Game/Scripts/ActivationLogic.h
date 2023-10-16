@@ -47,7 +47,7 @@ private:
 
 	GameObject* enemiesToSpawn;
 	ElevatorCore* elevator;
-	std::vector<GameObject*> enemiesWating;
+	std::vector<GameObject*> enemiesWaiting;
 
 	HackZoneScript* linkedHackZone;
 	bool interactWithEnemies;

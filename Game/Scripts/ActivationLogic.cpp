@@ -54,7 +54,7 @@ void ActivationLogic::Start()
 
 	if(interactWithEnemies)
 	{
-		enemiesWating.reserve(enemiesToSpawn->GetChildren().size());
+		enemiesWaiting.reserve(enemiesToSpawn->GetChildren().size());
 	}
 	//componentRigidBody->Disable();
 }
@@ -79,7 +79,7 @@ void ActivationLogic::Update(float deltaTime)
 	{
 		elevator->SetBooked(false);
 	}
-	if (!enemiesWating.empty()) 
+	if (!enemiesWaiting.empty()) 
 	{
 		if (elevator->GetElevatorPos(PositionState::DOWN))
 		{
@@ -121,7 +121,7 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		if (other->GetOwner()->CompareTag("Enemy"))
 		{
-			enemiesWating.push_back(other->GetOwner());
+			enemiesWaiting.push_back(other->GetOwner());
 			elevator->SetDisableInteractionsEnemies(other->GetOwner(), true, false, true);
 		}
 	}
@@ -147,8 +147,8 @@ void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 void ActivationLogic::NextInTheList()
 {
 	elevator->SetBooked(true);
-	elevator->SetDisableInteractionsEnemies(enemiesWating[0],false, false, false);
-	enemiesWating.erase(enemiesWating.begin());
+	elevator->SetDisableInteractionsEnemies(enemiesWaiting[0],false, false, false);
+	enemiesWaiting.erase(enemiesWaiting.begin());
 	OpenDoor();
 }
 
