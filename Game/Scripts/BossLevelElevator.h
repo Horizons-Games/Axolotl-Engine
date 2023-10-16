@@ -44,10 +44,9 @@ public:
 	PositionState GetPositionState() const;
 
 private:
-	void MoveDown(float deltaTime);
+	void MoveDown(float deltaTime, bool resetElevator = false);
 	void MoveUp(float deltaTime);
 	void MoveFences(float deltaTime);
-	void ResetElevator();
 	void MoveEnemy(GameObject* enemy, float deltaTime);
 
 	float moveSpeed;

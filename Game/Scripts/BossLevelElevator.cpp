@@ -54,6 +54,11 @@ void BossLevelElevator::Update(float deltaTime)
 			MoveFences(deltaTime);
 		}
 
+		if (positionState != PositionState::DOWN)
+		{
+			MoveDown(deltaTime, true);
+		}
+
 		return;
 	}
 
@@ -85,18 +90,13 @@ void BossLevelElevator::ChangeMovementState(ElevatorState newState)
 {
 	elevatorState = newState;
 
-	if (newState == ElevatorState::INACTIVE)
-	{
-		ResetElevator();
-		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
-	}
-	else if (newState == ElevatorState::ACTIVE)
+	if (newState == ElevatorState::INACTIVE || newState == ElevatorState::ACTIVE)
 	{
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 	}
 }
 
-void BossLevelElevator::MoveDown(float deltaTime)
+void BossLevelElevator::MoveDown(float deltaTime, bool resetElevator)
 {
 	float3 pos = transform->GetGlobalPosition();
 	
@@ -111,8 +111,12 @@ void BossLevelElevator::MoveDown(float deltaTime)
 	if (pos.y <= initialPos)
 	{
 		positionState = PositionState::DOWN;
-		ChangeMovementState(ElevatorState::COOLING_DOWN);
-		currentTime = cooldownTime;
+
+		if (!resetElevator)
+		{
+			ChangeMovementState(ElevatorState::COOLING_DOWN);
+			currentTime = cooldownTime;
+		}
 	}
 }
 
@@ -185,19 +189,6 @@ void BossLevelElevator::MoveEnemy(GameObject* enemy, float deltaTime)
 	enemyTransform->RecalculateLocalMatrix();
 	enemyTransform->UpdateTransformMatrices();
 	enemy->GetComponentInternal<ComponentRigidBody>()->UpdateRigidBody();
-}
-
-void BossLevelElevator::ResetElevator()
-{
-	float3 pos = transform->GetGlobalPosition();
-
-	pos.y = initialPos;
-
-	transform->SetGlobalPosition(pos);
-	transform->RecalculateLocalMatrix();
-	transform->UpdateTransformMatrices();
-	platformRigidBody->UpdateRigidBody();
-	positionState = PositionState::DOWN;
 }
 
 
