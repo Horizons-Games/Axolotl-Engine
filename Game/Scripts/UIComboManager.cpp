@@ -21,8 +21,11 @@ finisherClearEffect(false), forceEnableComboBar(false), specialActivated(false)
 	REGISTER_FIELD(inputPrefabSoft, GameObject*);
 	REGISTER_FIELD(inputPrefabHeavy, GameObject*);
 	REGISTER_FIELD(inputPrefabJumpAttack, GameObject*);
+	REGISTER_FIELD(inputPrefabLightFinisherAttack, GameObject*);
+	REGISTER_FIELD(inputPrefabHeavyFinisherAttack, GameObject*);
 	REGISTER_FIELD(noFillBar, GameObject*);
 	REGISTER_FIELD(shinyEffectPrefab, GameObject*);
+	REGISTER_FIELD(shinyEffectBarPrefab, GameObject*);
 	REGISTER_FIELD(forceEnableComboBar, bool);
 }
 
@@ -192,7 +195,7 @@ void UIComboManager::SetComboBarValue(float value)
 	}
 }
 
-void UIComboManager::AddInputVisuals(InputVisualType type) 
+void UIComboManager::AddInputVisuals(AttackType type)
 {
 	if (clearCombo) 
 	{
@@ -202,14 +205,21 @@ void UIComboManager::AddInputVisuals(InputVisualType type)
 	GameObject* prefab = nullptr;
 	switch (type)
 	{
-	case InputVisualType::LIGHT:
+	case AttackType::LIGHTNORMAL:
 		prefab = inputPrefabSoft;
 		break;
-	case InputVisualType::HEAVY:
+	case AttackType::HEAVYNORMAL:
 		prefab = inputPrefabHeavy;
 		break;
-	case InputVisualType::JUMP:
+	case AttackType::JUMPNORMAL:
+	case AttackType::JUMPFINISHER:
 		prefab = inputPrefabJumpAttack;
+		break;
+	case AttackType::LIGHTFINISHER:
+		prefab = inputPrefabLightFinisherAttack;
+		break;
+	case AttackType::HEAVYFINISHER:
+		prefab = inputPrefabHeavyFinisherAttack;
 		break;
 	default:
 		return;

@@ -3,14 +3,9 @@
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
 
-RUNTIME_MODIFIABLE_INCLUDE;
+#include "ComboManager.h"
 
-enum class InputVisualType 
-{
-	LIGHT,
-	HEAVY,
-	JUMP
-};
+RUNTIME_MODIFIABLE_INCLUDE;
 
 class GameObject;
 class ComponentSlider;
@@ -29,7 +24,7 @@ public:
 	void SetActivateSpecial(bool activate);
 	void SetComboBarValue(float value);
 
-	void AddInputVisuals(InputVisualType type);
+	void AddInputVisuals(AttackType type);
 
 	void ClearCombo(bool finish);
 
@@ -45,11 +40,15 @@ private:
 	GameObject* inputPrefabSoft;
 	GameObject* inputPrefabHeavy;
 	GameObject* inputPrefabJumpAttack;
+	GameObject* inputPrefabLightFinisherAttack;
+	GameObject* inputPrefabHeavyFinisherAttack;
 	GameObject* shinyEffectPrefab;
+	GameObject* shinyEffectBarPrefab;
 
 	GameObject* noFillBar;
 
 	std::vector<GameObject*> shinyButtonEffect;
+	std::vector<GameObject*> shinyBarEffect;
 	std::vector<GameObject*> inputPositions;
 
 	ComponentSlider* comboBar;
