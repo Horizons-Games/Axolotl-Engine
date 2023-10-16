@@ -85,19 +85,19 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 {
 	if (playerManager->IsPaused())
 	{
-		if (!isPaused)
+		if (!isUnpaused)
 		{
 			changePlayerTimer.Pause();
 		}
-		isPaused = true;
+		isUnpaused = true;
 		return;
 	}
-	if (isPaused)
+	if (isUnpaused)
 	{
 		changePlayerTimer.Play();
 	}
 	
-	isPaused = false;
+	isUnpaused = false;
 	if (!isChangingPlayer)
 	{
 		if (input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE && secondPlayer 

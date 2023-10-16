@@ -84,5 +84,5 @@ private:
 
 	bool bossScene;
 	bool isSwitchAvailable;
-	bool isPaused;
+	bool isUnpaused;
 };
