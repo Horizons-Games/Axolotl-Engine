@@ -5,7 +5,6 @@
 #include "Components/ComponentRigidBody.h"
 
 #include "PlayerJumpScript.h"
-#include "PlayerRotationScript.h"
 #include "PlayerMoveScript.h"
 #include "PlayerAttackScript.h"
 #include "PlayerHackingUseScript.h"
@@ -36,7 +35,6 @@ void PlayerManagerScript::Start()
 	jumpManager = owner->GetComponent<PlayerJumpScript>();
 	healthManager = owner->GetComponent<HealthSystem>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
-	rotationManager = owner->GetComponent<PlayerRotationScript>();
 	attackManager = owner->GetComponent<PlayerAttackScript>();
 	if (owner->HasComponent<PlayerHackingUseScript>())
 	{
@@ -160,7 +158,6 @@ void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 {
 	movementManager->SetIsParalyzed(paralyzed);
 	jumpManager->SetCanJump(!paralyzed);
-	rotationManager->SetCanRotate(!paralyzed);
 }
 
 void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)

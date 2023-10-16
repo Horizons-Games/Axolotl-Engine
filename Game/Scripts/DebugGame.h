@@ -9,7 +9,6 @@ class ComponentRigidBody;
 class PlayerAttackScript;
 class PlayerMoveScript;
 class PlayerJumpScript;
-class PlayerRotationScript;
 class ModuleInput;
 class ComboManager;
 
@@ -49,7 +48,6 @@ private:
 	PlayerAttackScript* playerAttackScript;
 	PlayerMoveScript* playerMoveScript;
 	PlayerJumpScript* playerJumpScript;
-	PlayerRotationScript* playerRotationScript;
 	GameObject* setGodCamera;
 	ComboManager* comboSystemScript;
 
