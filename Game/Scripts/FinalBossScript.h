@@ -89,6 +89,6 @@ private:
 	GameObject* target;
 	ModulePlayer* modulePlayer;
 
-	bool paused;
+	bool isUnpaused;
 	btVector3 bossGravity;
 };

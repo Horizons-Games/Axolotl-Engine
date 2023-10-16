@@ -68,17 +68,17 @@ void FinalBossScript::Update(float deltaTime)
 
 		rigidBody->GetRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
 		rigidBody->GetRigidBody()->setGravity(btVector3(0, 0, 0));
-		paused = true;
+		isUnpaused = true;
 		return;
 	}
-	if (paused)
+	if (isUnpaused)
 	{
 		rigidBody->GetRigidBody()->setGravity(bossGravity);
 		chargeAttackScript->SetIsPaused(isPaused);
 		shockWaveAttackScript->SetIsPaused(isPaused);
 		missilesAttackScript->SetIsPaused(isPaused);
 		shieldAttackScript->SetIsPaused(isPaused);
-		paused = false;
+		isUnpaused = false;
 	}
 
 	if (!target)
