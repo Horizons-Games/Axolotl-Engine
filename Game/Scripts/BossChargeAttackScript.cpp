@@ -244,11 +244,6 @@ void BossChargeAttackScript::SpawnRock(const float3& spawnPosition)
 	GameObject* newRock = App->GetModule<ModuleScene>()->GetLoadedScene()->
 		DuplicateGameObject("Rock Copy", rockPrefab, rockPrefab->GetParent());
 
-	if (!newRock->GetChildren().empty())
-	{
-		newRock->GetChildren().front()->Disable();
-	}
-
 	ComponentTransform* newRockTransform = newRock->GetComponent<ComponentTransform>();
 	newRockTransform->SetGlobalPosition(spawnPosition);
 	newRockTransform->RecalculateLocalMatrix();
