@@ -19,6 +19,8 @@ enum class ChargeState
 	BOUNCING_WALL
 };
 
+//constexpr float ROCK_RIGIDBODY_OFFSET = 11.0f;
+
 class BossChargeAttackScript : public Script
 {
 public:

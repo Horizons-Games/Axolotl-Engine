@@ -73,6 +73,12 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 
 		if (isRockAttackVariant)
 		{
+			/*
+			SpawnRock(float3(owner->GetComponent<ComponentTransform>()->GetGlobalPosition().x,
+			owner->GetComponent<ComponentTransform>()->GetGlobalPosition().y + rockSpawningHeight,
+			owner->GetComponent<ComponentTransform>()->GetGlobalPosition().z));
+			*/
+
 			MakeRocksFall();
 		}
 	}
@@ -252,6 +258,13 @@ void BossChargeAttackScript::SpawnRock(const float3& spawnPosition)
 
 	ComponentRigidBody* newRockRigidBody = newRock->GetComponent<ComponentRigidBody>();
 	newRockRigidBody->SetDefaultPosition();
+	/*
+	newRockRigidBody->SetRigidBodyOrigin(btVector3(transform->GetGlobalPosition().x,
+													transform->GetGlobalPosition().y + ROCK_RIGIDBODY_OFFSET,
+													transform->GetGlobalPosition().z));
+	newRockRigidBody->UpdateRigidBodyTranslation();
+	newRockRigidBody->UpdateRigidBody();
+	*/
 	newRockRigidBody->Enable();
 
 	if (!newRock->GetChildren().empty())
