@@ -23,12 +23,13 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NONE),
 	chargeHitPlayer(false), bounceBackForce(5.0f), prepareChargeMaxTime(2.0f), chargeMaxCooldown(5.0f),
 	attackStunTime(4.0f), chargeDamage(20.0f), rockPrefab(nullptr), spawningRockChance(5.0f), rockSpawningHeight(7.0f),
-	isRockAttackVariant(false), animator(nullptr)
+	isRockAttackVariant(false), animator(nullptr), chargeForce(1.25f)
 {
 	REGISTER_FIELD(bounceBackForce, float);
 	REGISTER_FIELD(prepareChargeMaxTime, float);
 	REGISTER_FIELD(chargeMaxCooldown, float);
 	REGISTER_FIELD(attackStunTime, float);
+	REGISTER_FIELD(chargeForce, float);
 	REGISTER_FIELD(chargeDamage, float);
 
 	REGISTER_FIELD(spawningRockChance, float);
@@ -192,7 +193,7 @@ void BossChargeAttackScript::PerformChargeAttack()
 	rigidBody->SetYRotationAxisBlocked(true);
 	rigidBody->SetZRotationAxisBlocked(true);*/
 
-	rigidBody->SetKpForce(0.5f);
+	rigidBody->SetKpForce(chargeForce);
 	rigidBody->SetPositionTarget(float3(forward.x * 50.0f,
 										transform->GetGlobalPosition().y,
 										forward.z * 50.0f));
@@ -240,14 +241,23 @@ void BossChargeAttackScript::SpawnRock(const float3& spawnPosition)
 	GameObject* newRock = App->GetModule<ModuleScene>()->GetLoadedScene()->
 		DuplicateGameObject("Rock Copy", rockPrefab, rockPrefab->GetParent());
 
+	if (!newRock->GetChildren().empty())
+	{
+		newRock->GetChildren().front()->Disable();
+	}
+
 	ComponentTransform* newRockTransform = newRock->GetComponent<ComponentTransform>();
 	newRockTransform->SetGlobalPosition(spawnPosition);
 	newRockTransform->RecalculateLocalMatrix();
 
-	newRock->Enable();
 	ComponentRigidBody* newRockRigidBody = newRock->GetComponent<ComponentRigidBody>();
 	newRockRigidBody->SetDefaultPosition();
 	newRockRigidBody->Enable();
+
+	if (!newRock->GetChildren().empty())
+	{
+		newRock->GetChildren().front()->Enable();
+	}
 
 	rocksSpawned.push_back(newRock);
 }
@@ -258,6 +268,7 @@ void BossChargeAttackScript::MakeRocksFall() const
 	{
 		if (!spawnedRock->IsEnabled())
 		{
+			spawnedRock->GetComponent<BossChargeRockScript>()->DestroyRock();
 			continue;
 		}
 
@@ -268,8 +279,7 @@ void BossChargeAttackScript::MakeRocksFall() const
 
 		spawnedRock->GetComponent<BossChargeRockScript>()->SetRockState(RockStates::FALLING);
 
-		// This will need any kind of warning for the player in the future
-		// Maybe a particle in the floor that shows where the rock is going to land
+		// VFX Here: Rock falling warning
 	}
 }
 

@@ -68,6 +68,7 @@ private:
 	float prepareChargeMaxTime;
 	float chargeMaxCooldown;
 	float attackStunTime;
+	float chargeForce;
 	float chargeDamage;
 
 	float spawningRockChance;

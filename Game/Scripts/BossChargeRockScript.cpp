@@ -7,7 +7,6 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidbody.h"
-#include "Components/ComponentMeshRenderer.h"
 
 #include "../Scripts/HealthSystem.h"
 
@@ -52,9 +51,12 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 			other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(fallingRockDamage);
 			rockState = RockStates::HIT_ENEMY;
 			DeactivateRock();
+
+			// VFX Here: Rock hit an enemy on the head while falling
 		}
 		else if (other->GetOwner()->CompareTag("Floor"))
 		{
+			// VFX Here: Rock hit the floor
 			rockState = RockStates::FLOOR;
 		}
 	}
@@ -73,11 +75,14 @@ void BossChargeRockScript::DeactivateRock()
 {
 	if (rockState == RockStates::HIT_ENEMY)
 	{
-		// Only disable the mesh and the rigid so the particles can still be seen
-		owner->GetComponent<ComponentMeshRenderer>()->Disable();
+		// Only disable the root node of the rock and the rigid so the particles can still be seen
 		owner->GetComponent<ComponentRigidBody>()->Disable();
+		if (!owner->GetChildren().empty())
+		{
+			owner->GetChildren().front()->Disable();
+		}
 
-		// This will need to manage particles in the future
+		// VFX Here: Disappear/Break rock (particles in the parent will still play, only the fbx will disappear)
 	}
 	else
 	{

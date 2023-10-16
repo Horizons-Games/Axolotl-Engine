@@ -27,10 +27,10 @@ public:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 
 	void SetRockState(RockStates newState);
+	void DestroyRock() const;
 
 private:
 	void DeactivateRock();
-	void DestroyRock() const;
 
 	RockStates rockState;
 
