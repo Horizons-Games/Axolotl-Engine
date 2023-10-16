@@ -60,7 +60,7 @@ void ComboManager::CheckSpecial(float deltaTime)
 		return;
 	}
 
-	if (input->GetKey(SDL_SCANCODE_TAB) == KeyState::DOWN && specialCount == maxSpecialCount)
+	if (!specialActivated && specialCount == maxSpecialCount) //input->GetKey(SDL_SCANCODE_TAB) == KeyState::DOWN && 
 	{
 		specialActivated = true;
 
@@ -107,35 +107,39 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 {
 	bool leftClick = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
 	bool rightClick = input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::DOWN;
+	bool lightSpecialInput = input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN;
+	bool heavySpecialInput = input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN;
 
-	if (jumping && (leftClick || rightClick))
+	if (jumping && leftClick)
 	{
-		if (specialActivated && comboCount == maxComboCount - 1)
+		if (specialActivated)
 		{
 			return AttackType::JUMPFINISHER;
 		}
-
 		return AttackType::JUMPNORMAL;
 	}
 
 	if (leftClick)
 	{
-		if (specialActivated && comboCount == maxComboCount - 1)
+		return AttackType::LIGHTNORMAL;
+	}
+
+	if (rightClick) 
+	{
+		return AttackType::HEAVYNORMAL;
+	}
+
+	if (specialActivated) 
+	{
+		if (lightSpecialInput) 
 		{
 			return AttackType::LIGHTFINISHER;
 		}
 
-		return AttackType::LIGHTNORMAL;
-	}
-
-	if (rightClick)
-	{
-		if (specialActivated && comboCount == maxComboCount - 1)
+		if (heavySpecialInput) 
 		{
 			return AttackType::HEAVYFINISHER;
 		}
-
-		return AttackType::HEAVYNORMAL;
 	}
 
 	return AttackType::NONE;
@@ -146,22 +150,11 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 	uiComboManager->UpdateFadeOut(1.0f);
 
 	comboCount++;
-	if (type == AttackType::HEAVYNORMAL || type == AttackType::HEAVYFINISHER)
-	{
-		uiComboManager->AddInputVisuals(InputVisualType::HEAVY);
-	}
 
-	else if (type == AttackType::LIGHTNORMAL || type == AttackType::LIGHTFINISHER)
-	{
-		uiComboManager->AddInputVisuals(InputVisualType::LIGHT);
-	}
+	uiComboManager->AddInputVisuals(type);
 
-	else if (type == AttackType::JUMPNORMAL || type == AttackType::JUMPFINISHER)
-	{
-		uiComboManager->AddInputVisuals(InputVisualType::JUMP);
-	}
-
-	if (comboCount == 3 || type == AttackType::JUMPNORMAL)
+	if (comboCount == 3 || type == AttackType::JUMPNORMAL || type == AttackType::JUMPFINISHER 
+		|| type == AttackType::HEAVYFINISHER || type == AttackType::LIGHTFINISHER)
 	{
 		ClearCombo(true);
 	}
