@@ -16,6 +16,7 @@
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/BossChargeRockScript.h"
 #include "../Scripts/FinalBossScript.h"
+#include "../Scripts/BossWallChecker.h"
 
 REGISTERCLASS(BossChargeAttackScript);
 
@@ -23,7 +24,7 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NONE),
 	chargeHitPlayer(false), bounceBackForce(5.0f), prepareChargeMaxTime(2.0f), chargeMaxCooldown(5.0f),
 	attackStunTime(4.0f), chargeDamage(20.0f), rockPrefab(nullptr), spawningRockChance(5.0f), rockSpawningHeight(7.0f),
-	isRockAttackVariant(false), animator(nullptr), chargeForce(1.25f)
+	isRockAttackVariant(false), animator(nullptr), chargeForce(1.25f), wallChecker(nullptr)
 {
 	REGISTER_FIELD(bounceBackForce, float);
 	REGISTER_FIELD(prepareChargeMaxTime, float);
@@ -38,6 +39,8 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 	REGISTER_FIELD(rockPrefab, GameObject*);
 
 	REGISTER_FIELD(isRockAttackVariant, bool);
+
+	REGISTER_FIELD(wallChecker, BossWallChecker*);
 }
 
 void BossChargeAttackScript::Start()
@@ -54,6 +57,8 @@ void BossChargeAttackScript::Start()
 void BossChargeAttackScript::Update(float deltaTime)
 {
 	ManageChargeAttackStates(deltaTime);
+
+	LOG_DEBUG("Is facing near wall? {}", wallChecker->IsFacingNearWall());
 }
 
 void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
@@ -73,11 +78,9 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 
 		if (isRockAttackVariant)
 		{
-			/*
 			SpawnRock(float3(owner->GetComponent<ComponentTransform>()->GetGlobalPosition().x,
 			owner->GetComponent<ComponentTransform>()->GetGlobalPosition().y + rockSpawningHeight,
 			owner->GetComponent<ComponentTransform>()->GetGlobalPosition().z));
-			*/
 
 			MakeRocksFall();
 		}
@@ -130,7 +133,7 @@ void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
 		rigidBody->SetIsTrigger(true);
 		rigidBody->SetYAxisBlocked(true);
 		rigidBody->SetUpMobility();
-		if (isRockAttackVariant)
+		if (isRockAttackVariant && !wallChecker->IsFacingNearWall())
 		{
 			float spawnRockActualChange = App->GetModule<ModuleRandom>()->RandomNumberInRange(100.0f);
 
@@ -258,13 +261,6 @@ void BossChargeAttackScript::SpawnRock(const float3& spawnPosition)
 
 	ComponentRigidBody* newRockRigidBody = newRock->GetComponent<ComponentRigidBody>();
 	newRockRigidBody->SetDefaultPosition();
-	/*
-	newRockRigidBody->SetRigidBodyOrigin(btVector3(transform->GetGlobalPosition().x,
-													transform->GetGlobalPosition().y + ROCK_RIGIDBODY_OFFSET,
-													transform->GetGlobalPosition().z));
-	newRockRigidBody->UpdateRigidBodyTranslation();
-	newRockRigidBody->UpdateRigidBody();
-	*/
 	newRockRigidBody->Enable();
 
 	if (!newRock->GetChildren().empty())

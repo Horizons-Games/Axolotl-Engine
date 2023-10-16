@@ -10,6 +10,7 @@ class ComponentRigidBody;
 class ComponentAnimation;
 
 class FinalBossScript;
+class BossWallChecker;
 
 enum class ChargeState
 {
@@ -18,8 +19,6 @@ enum class ChargeState
 	CHARGING,
 	BOUNCING_WALL
 };
-
-//constexpr float ROCK_RIGIDBODY_OFFSET = 11.0f;
 
 class BossChargeAttackScript : public Script
 {
@@ -79,4 +78,6 @@ private:
 	GameObject* rockPrefab;
 
 	bool isRockAttackVariant;
+
+	BossWallChecker* wallChecker;
 };
