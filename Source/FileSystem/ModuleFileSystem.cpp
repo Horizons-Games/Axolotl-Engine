@@ -330,7 +330,7 @@ void ModuleFileSystem::AppendToZipFolder(const std::string& zipPath, const std::
 
 ConnectedCallback ModuleFileSystem::RegisterFileZippedCallback(FileZippedCallback&& callback)
 {
-	std::scoped_lock(callbacksMutex);
+	std::scoped_lock lock(callbacksMutex);
 	UID callbackUID = UniqueID::GenerateUID();
 	callbacks[callbackUID] = std::move(callback);
 	return ConnectedCallback(std::bind(&ModuleFileSystem::DeregisterFileZippedCallback, this, callbackUID));
@@ -338,7 +338,7 @@ ConnectedCallback ModuleFileSystem::RegisterFileZippedCallback(FileZippedCallbac
 
 void ModuleFileSystem::DeregisterFileZippedCallback(UID callbackUID)
 {
-	std::scoped_lock(callbacksMutex);
+	std::scoped_lock lock(callbacksMutex);
 	auto callbackToDelete = callbacks.find(callbackUID);
 	if (callbackToDelete != std::end(callbacks))
 	{
@@ -372,7 +372,7 @@ void ModuleFileSystem::ZipFolderRecursive(
 			std::chrono::duration<float> zipFileDuration = std::chrono::steady_clock::now() - zipFileStart;
 
 			FileZippedData fileZippedData{ itemPath, currentItem, std::move(zipFileDuration), rootPath, totalItems };
-			std::scoped_lock(callbacksMutex);
+			std::scoped_lock lock(callbacksMutex);
 			for (const auto& [_, callback] : callbacks)
 			{
 				callback(fileZippedData);
