@@ -153,6 +153,7 @@ void PlayerForceUseScript::InitForce()
 		if (Physics::RaycastToTag(line, hit, owner, tag))
 		{
 			gameObjectAttached = hit.gameObject;
+			gameObjectAttached->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
 			distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hit.hitPoint);
 			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 			objectStaticness = rigidBody->IsStatic();
