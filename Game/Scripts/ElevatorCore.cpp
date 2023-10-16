@@ -74,6 +74,7 @@ void ElevatorCore::Update(float deltaTime)
 		{
 			return;
 		}
+
 		if (positionState == PositionState::UP)
 		{
 			MoveDownElevator(true, deltaTime);
