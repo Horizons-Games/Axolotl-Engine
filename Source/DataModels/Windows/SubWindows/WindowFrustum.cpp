@@ -39,7 +39,7 @@ void WindowFrustum::DrawWindowContents()
 	{
 		debug->ShowRigidBody(showRB);
 	}
-	if (ImGui::Checkbox("Show Grid bodies", &showGrid))
+	if (ImGui::Checkbox("Show Grid", &showGrid))
 	{
 		debug->ShowGrid(showGrid);
 	}
