@@ -218,7 +218,7 @@ void BossMissilesAttackScript::SpawnMissileInPosition(GameObject* selectedEnemy,
 	newMissileTransform->SetGlobalPosition(selectedSpawningPosition);
 	newMissileTransform->RecalculateLocalMatrix();
 
-	newMissile->SetTag("Bullet");
+	newMissile->SetTag("Missile");
 	newMissile->Enable();
 	ComponentRigidBody* newMissileRigidBody = newMissile->GetComponent<ComponentRigidBody>();
 	newMissileRigidBody->SetDefaultPosition();

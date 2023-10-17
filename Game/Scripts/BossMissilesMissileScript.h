@@ -2,6 +2,7 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
+#include "Bullet\LinearMath\btVector3.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -33,4 +34,5 @@ private:
 	float areaGrowingFactor;
 
 	bool isPaused;
+	btVector3 missileGravity;
 };

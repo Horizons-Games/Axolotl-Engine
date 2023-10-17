@@ -30,6 +30,7 @@ void BossMissilesMissileScript::Start()
 	rigidBody->SetIsKinematic(false);
 	rigidBody->SetUpMobility();
 	rigidBody->SetDrawCollider(true);
+	missileGravity = rigidBody->GetGravity();
 
 	// VFX Here: Missile falling warning (the missile spawns on top of where it is going to fall, 
 										// that's why its in the Start)
@@ -39,8 +40,12 @@ void BossMissilesMissileScript::Update(float deltaTime)
 {
 	if (isPaused)
 	{
+		rigidBody->SetGravity(btVector3(0.f, 0.f, 0.f));
+		rigidBody->GetRigidBody()->setLinearVelocity(btVector3(0.f, 0.f, 0.f));
 		return;
 	}
+
+	rigidBody->SetGravity(missileGravity);
 
 	if (hasHitGround)
 	{

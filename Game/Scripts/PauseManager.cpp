@@ -20,13 +20,15 @@
 REGISTERCLASS(PauseManager);
 
 PauseManager::PauseManager() : Script(), enemiesGameObjects{}, enemyTag("Enemy"),
-bulletTag("Bullet"), alluraBulletTag("AlluraBullet"), rockTag("Rock"), 
-bulletGameObjects{}, alluraBulletGameObjects{}, rockGameObjects{}
+bulletTag("Bullet"), alluraBulletTag("AlluraBullet"), rockTag("Rock"),
+missileTag("Missile"), bulletGameObjects{}, alluraBulletGameObjects{}, 
+rockGameObjects{}, missileGameObjects{}
 {
 	REGISTER_FIELD(enemyTag, std::string);
 	REGISTER_FIELD(alluraBulletTag, std::string);
 	REGISTER_FIELD(rockTag, std::string);
 	REGISTER_FIELD(bulletTag, std::string);
+	REGISTER_FIELD(missileTag, std::string);
 }
 
 void PauseManager::Start()
@@ -40,10 +42,12 @@ void PauseManager::Pause(bool paused)
 	bulletGameObjects = scene->SearchGameObjectByTag(bulletTag);
 	alluraBulletGameObjects = scene->SearchGameObjectByTag(alluraBulletTag);
 	rockGameObjects = scene->SearchGameObjectByTag(rockTag);
+	missileGameObjects = scene->SearchGameObjectByTag(missileTag);
 
 	PauseEnemies(paused);
 	PauseBullets(paused);
 	PauseRocks(paused);
+	PauseMissiles(paused);
 	App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->FullPausePlayer(paused);
 }
 
@@ -95,5 +99,13 @@ void PauseManager::PauseRocks(bool paused)
 	for (int i = 0; i < rockGameObjects.size(); ++i)
 	{
 		rockGameObjects[i]->GetComponent<BossChargeRockScript>()->SetPauseRock(paused);
+	}
+}
+
+void PauseManager::PauseMissiles(bool paused)
+{
+	for (int i = 0; i < missileGameObjects.size(); ++i)
+	{
+		missileGameObjects[i]->GetComponent<BossMissilesMissileScript>()->SetIsPaused(paused);
 	}
 }
