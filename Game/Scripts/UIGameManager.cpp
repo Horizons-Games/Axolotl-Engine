@@ -299,12 +299,12 @@ void UIGameManager::ModifySliderHealthValue(HealthSystem* healthSystemClass, Com
 
 	if (damageBack <= 0.0f && damage <= 0.0f)
 	{
-		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + std::max(damageBack, -80.0f * deltaTime));
+		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + std::max(damageBack, -25.0f * deltaTime));
 		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + std::max(damage, -100.0f * deltaTime));
 	}
 	else
 	{
-		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + std::min(damageBack, 80.0f * deltaTime));
+		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + std::min(damageBack, 100.0f * deltaTime));
 		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + std::min(damage, 100.0f * deltaTime));
 	}
 
