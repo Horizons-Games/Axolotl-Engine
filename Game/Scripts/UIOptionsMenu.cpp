@@ -154,7 +154,7 @@ void UIOptionsMenu::ControllerMenuMode()
 		BackToLastSavedOption();
 	}
 
-	maxButtonsOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren().size() - 1;
+	maxButtonsOptions = static_cast<int>(buttonsAndCanvas[headerMenuPosition].canvas->GetChildren().size() - 1);
 
 	// LOOK FOR THE CURRENT SELECTED BUTTON
 	for (actualButton = 0; actualButton < maxButtonsOptions; ++actualButton)
@@ -176,8 +176,8 @@ void UIOptionsMenu::ControllerMenuMode()
 	// MOVE LEFT OR RIGHT THE OPTIONS
 	if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
 	{
-		maxOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->
-			GetChildren()[1]->GetChildren().size() - 1;
+		maxOptions = static_cast<int>(buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->
+			GetChildren()[1]->GetChildren().size() - 1);
 
 		if (maxOptions >= 0)
 		{
@@ -216,7 +216,7 @@ void UIOptionsMenu::ControllerMenuMode()
 				if (valueSlider >= 0.0f && valueSlider <= 100.0f)
 				{
 					slider->ModifyCurrentValue(valueSlider);
-					newSelectedOption = valueSlider;
+					newSelectedOption = static_cast<int>(valueSlider);
 					LOG_INFO("SLIDER {}", valueSlider);
 				}
 			}
@@ -333,11 +333,11 @@ void UIOptionsMenu::LoadOptions()
 	optionsMenu.fromBuffer(buffer);
 	delete buffer;
 
-	for (int canvasIndex = 0; canvasIndex < optionsMenu.Size(); ++canvasIndex)
+	for (unsigned int canvasIndex = 0; canvasIndex < optionsMenu.Size(); ++canvasIndex)
 	{
 		Json canvas = optionsMenu[canvasIndex];
 		CanvasOptionInfo canvasInfo;
-		for (int optionsIndex = 0; optionsIndex < canvas.Size(); ++optionsIndex)
+		for (unsigned int optionsIndex = 0; optionsIndex < canvas.Size(); ++optionsIndex)
 		{
 			ButtonOptionInfo buttonInfo;
 			buttonInfo.actualOption = canvas[optionsIndex]["Actual_Option"];
@@ -355,7 +355,7 @@ void UIOptionsMenu::LoadOptions()
 				ComponentSlider* sliderLoad;
 				sliderLoad = buttonsAndCanvas[canvasIndex].canvas->GetChildren()[optionsIndex]->
 					GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentSlider>();
-				sliderLoad->ModifyCurrentValue(buttonInfo.actualOption);
+				sliderLoad->ModifyCurrentValue(static_cast<float>(buttonInfo.actualOption));
 			}
 		}
 		actualConfig.push_back(canvasInfo);
@@ -397,7 +397,8 @@ void UIOptionsMenu::LoadDefaultOptions()
 				ComponentSlider* sliderLoad;
 				sliderLoad = buttonsAndCanvas[canvasIndex].canvas->GetChildren()[optionsIndex]->
 					GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentSlider>();
-				sliderLoad->ModifyCurrentValue(actualConfig[canvasIndex].options[optionsIndex].defaultOption);
+				sliderLoad->ModifyCurrentValue
+					(static_cast<float>(actualConfig[canvasIndex].options[optionsIndex].defaultOption));
 			}
 
 			actualConfig[canvasIndex].options[optionsIndex].actualOption = actualConfig[canvasIndex].options[optionsIndex].defaultOption;
@@ -440,7 +441,7 @@ void UIOptionsMenu::BackToLastSavedOption()
 	
 	if (isSlider)
 	{
-		slider->ModifyCurrentValue(saveSelectedOption);
+		slider->ModifyCurrentValue(static_cast<float>(saveSelectedOption));
 		isSlider = false;
 	}
 	else
@@ -559,7 +560,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 		break;
 
 	case Button::BRIGHTNESS:
-		brightnessToShow = option;
+		brightnessToShow = static_cast<float>(option);
 		if (brightnessToShow * 0.01f < 0.3f)
 		{
 			window->SetBrightness(0.3f);
@@ -625,30 +626,30 @@ void UIOptionsMenu::GameOption(int button, int option)
 	}
 }
 
-void UIOptionsMenu::VideoOption(int button, int option)
+void UIOptionsMenu::VideoOption(int button, int option) // option should have been a bool. not an int
 {
 	switch (button)
 	{
 	case Button::SHADOWS:
-		if (render->IsShadowsEnabled() != option)
+		if (render->IsShadowsEnabled() != static_cast<bool>(option))
 		{
 			render->ToggleShadows();
 		}
 		break;
 	case Button::SSAO:
-		if (render->IsSsaoEnabled() != option)
+		if (render->IsSsaoEnabled() != static_cast<bool>(option))
 		{
 			render->ToggleSSAO();
 		}
 		break;
 	case Button::VSM:
-		if (render->IsVSMEnabled() != option)
+		if (render->IsVSMEnabled() != static_cast<bool>(option))
 		{
 			render->ToggleVSM();
 		}
 		break;
 	case Button::BLOOM:
-		if (render->IsBloomEnabled() != option)
+		if (render->IsBloomEnabled() != static_cast<bool>(option))
 		{
 			render->SwitchBloomActivation();
 		}
