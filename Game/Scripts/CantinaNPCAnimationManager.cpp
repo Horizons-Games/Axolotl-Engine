@@ -13,7 +13,10 @@ CantinaNPCAnimationManager::CantinaNPCAnimationManager() : Script(), audio(nullp
 
 void CantinaNPCAnimationManager::Start()
 {
-	audio = owner->GetComponent<ComponentAudioSource>();
+	if (owner->HasComponent<ComponentAudioSource>())
+	{
+		audio = owner->GetComponent<ComponentAudioSource>();
+	}
 	animation = owner->GetComponent<ComponentAnimation>();
 }
 
@@ -31,7 +34,10 @@ void CantinaNPCAnimationManager::Update(float deltaTime)
 
 		if (!activation && randomValue <= priority)
 		{
-			audio->PostEvent(AUDIO::SFX::NPC::CANTINA::DRUNKNPC_RANDOM_SOUND);
+			if(audio)
+			{
+				audio->PostEvent(AUDIO::SFX::NPC::CANTINA::DRUNKNPC_RANDOM_SOUND);
+			}
 
 			animation->SetParameter("Activate", true);
 			activation = true;
