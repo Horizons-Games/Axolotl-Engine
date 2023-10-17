@@ -76,13 +76,13 @@ void PlayerForceUseScript::Update(float deltaTime)
 		{
 			if (input->IsMouseWheelScrolled())
 			{
-				nextPosition.x -= input->GetMouseWheel().y * 10 * deltaTime;
-				nextPosition.y += input->GetMouseWheel().y * 10 * deltaTime;
+				nextPosition.x -= input->GetMouseWheel().y * 20 * deltaTime;
+				nextPosition.y += input->GetMouseWheel().y * 20 * deltaTime;
 			}
 
 			float2 mouseMotion = input->GetMouseMotion();
-			nextPosition.x += mouseMotion.x * 0.1f * deltaTime;
-			nextPosition.y -= mouseMotion.y * 0.1f * deltaTime;
+			nextPosition.x += mouseMotion.x * 0.2f * deltaTime;
+			nextPosition.y -= mouseMotion.y * 0.2f * deltaTime;
 		}
 		else if (inputMethod == InputMethod::GAMEPAD)
 		{
