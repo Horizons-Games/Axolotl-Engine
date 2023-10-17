@@ -246,6 +246,10 @@ void BossChargeAttackScript::SpawnRock(const float3& spawnPosition)
 
 	ComponentTransform* newRockTransform = newRock->GetComponent<ComponentTransform>();
 	newRockTransform->SetGlobalPosition(spawnPosition);
+	newRockTransform->SetGlobalRotation(
+		float3(newRockTransform->GetGlobalRotation().x, 
+			App->GetModule<ModuleRandom>()->RandomNumberInRange(360.f),
+			newRockTransform->GetGlobalRotation().z));
 	newRockTransform->RecalculateLocalMatrix();
 
 	ComponentRigidBody* newRockRigidBody = newRock->GetComponent<ComponentRigidBody>();
