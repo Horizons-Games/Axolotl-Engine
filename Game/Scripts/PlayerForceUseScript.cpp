@@ -52,7 +52,7 @@ void PlayerForceUseScript::Start()
 
 void PlayerForceUseScript::Update(float deltaTime)
 {
-	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && playerManager->IsGrounded())
 	{
 		if (!gameObjectAttached)
 		{
@@ -100,6 +100,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 			hittedRigidBody->DisableRotationController();
 			hittedRigidBody->SetIsStatic(objectStaticness);
 			hittedRigidBody->GetRigidBody()->setLinearVelocity({ 0.0f, 0.0f, 0.0f });
+			hittedRigidBody->SetGravity({ 0.0f, gravity, 0.0f });
 
 			gameObjectAttached = nullptr;
 		}
@@ -125,7 +126,12 @@ void PlayerForceUseScript::Update(float deltaTime)
 		rigidBody->GetRigidBody()->setWorldTransform(playerWorldTransform);
 		rigidBody->GetRigidBody()->getMotionState()->setWorldTransform(playerWorldTransform);
 		
-		hittedRigidBody->SetPositionTarget(nextPosition);
+		// using a threshold to avoid jiggle on the forceable box movement
+		if (fabs(nextPosition.x - hittedTransform->GetGlobalPosition().x) > 0.1f ||
+			fabs(nextPosition.y - hittedTransform->GetGlobalPosition().y) > 0.1f)
+		{
+			hittedRigidBody->SetPositionTarget(nextPosition);
+		}
 	}
 	else if (isForceActive)
 	{
@@ -166,12 +172,16 @@ void PlayerForceUseScript::InitForce()
 			}
 
 			distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hit.hitPoint);
-			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
-			objectStaticness = rigidBody->IsStatic();
-			rigidBody->SetIsStatic(false);
+			ComponentRigidBody* hittedRigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
+			ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
+			hittedRigidBody->GetRigidBody()->setLinearVelocity({ 0.0f, 0.0f, 0.0f });
+			hittedRigidBody->SetGravity({ 0.0f, 0.0f, 0.0f });
+			objectStaticness = hittedRigidBody->IsStatic();
+			hittedRigidBody->SetIsStatic(false);
+			hittedRigidBody->SetPositionTarget(hittedTransform->GetGlobalPosition());
 
-			rigidBody->SetKpForce(50.0f);
-			rigidBody->SetKpTorque(50.0f);
+			hittedRigidBody->SetKpForce(50.0f);
+			hittedRigidBody->SetKpTorque(50.0f);
 		}
 	}
 
@@ -183,12 +193,15 @@ void PlayerForceUseScript::FinishForce()
 	isForceActive = false;
 	EnableAllInteractions();
 	rigidBody->SetGravity({ 0.0f, gravity, 0.0f });
-	ComponentRigidBody* attachedRigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
+	ComponentRigidBody* hittedRigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
+	ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
 
-	attachedRigidBody->DisablePositionController();
-	attachedRigidBody->DisableRotationController();
-	attachedRigidBody->SetIsStatic(objectStaticness);
-	attachedRigidBody->GetRigidBody()->setLinearVelocity({ 0.0f, 0.0f, 0.0f });
+	hittedRigidBody->DisablePositionController();
+	hittedRigidBody->DisableRotationController();
+	hittedRigidBody->SetIsStatic(objectStaticness);
+	hittedRigidBody->GetRigidBody()->setLinearVelocity({ 0.0f, 0.0f, 0.0f });
+	hittedRigidBody->SetGravity({ 0.0f, gravity, 0.0f });
+	hittedRigidBody->SetPositionTarget(hittedTransform->GetGlobalPosition());
 	gameObjectAttached = nullptr;
 
 	componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_STOP);
