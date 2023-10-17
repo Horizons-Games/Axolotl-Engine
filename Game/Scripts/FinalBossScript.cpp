@@ -68,11 +68,13 @@ void FinalBossScript::Update(float deltaTime)
 
 		rigidBody->GetRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
 		rigidBody->GetRigidBody()->setGravity(btVector3(0, 0, 0));
+		rigidBody->SetIsStatic(true);
 		isUnpaused = true;
 		return;
 	}
 	if (isUnpaused)
 	{
+		rigidBody->SetIsStatic(false);
 		rigidBody->GetRigidBody()->setGravity(bossGravity);
 		chargeAttackScript->SetIsPaused(isPaused);
 		shockWaveAttackScript->SetIsPaused(isPaused);

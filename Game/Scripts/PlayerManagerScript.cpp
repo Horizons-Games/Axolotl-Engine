@@ -145,6 +145,10 @@ void PlayerManagerScript::FullPausePlayer(bool paused)
 	{
 		PausePlayer(paused);
 	}
+	else if (!hackingManager)
+	{
+		PausePlayer(paused);
+	}
 	
 	if (!paused)
 	{
