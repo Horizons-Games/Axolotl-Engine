@@ -70,6 +70,8 @@ void BossMissilesAttackScript::TriggerMissilesAttack()
 								(initialPosition.z + safePositionGlobalPos.z) / 2.0f);
 
 	MoveUserToPosition(midJumpPosition);
+
+	// VFX Here: The boss started the jump to start the missiles attack
 }
 
 bool BossMissilesAttackScript::CanPerformMissilesAttack() const
@@ -148,6 +150,8 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 			missilesAttackState = AttackState::ON_COOLDOWN;
 			animator->SetParameter("IsEndingMissilesJump", false);
 			animator->SetParameter("IsMissilesLanding", false);
+
+			// VFX Here: The boss finished the jump to end the missiles attack
 		}
 	}
 	else if (missilesAttackState == AttackState::ON_COOLDOWN)

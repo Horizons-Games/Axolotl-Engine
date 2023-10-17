@@ -31,6 +31,7 @@ public:
 	void SwitchHealthBars();
 
 	void SetIsSwitchAvailable(bool available);
+	bool IsSwitchAvailable() const;
 
 	void VisualSwitchEffect();
 	GameObject* GetSecondPlayer() const;

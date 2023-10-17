@@ -72,6 +72,8 @@ void BossShieldEnemiesSpawner::StartSpawner()
 
 	animator->SetParameter("IsInvoking", true);
 
+	// VFX Here: Add the yell effect for when the boss invokes enemies
+
 	GameObject* enemy1 = SelectRandomEnemy();
 	GameObject* enemy2 = SelectRandomEnemy();
 	GameObject* enemy3 = SelectRandomEnemy();

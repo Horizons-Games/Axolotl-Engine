@@ -169,6 +169,11 @@ void SwitchPlayerManagerScript::SetIsSwitchAvailable(bool available)
 	secondPlayerHealthBar->Enable();
 }
 
+bool SwitchPlayerManagerScript::IsSwitchAvailable() const
+{
+	return isSwitchAvailable;
+}
+
 void SwitchPlayerManagerScript::VisualSwitchEffect()
 {
 	Scene* loadScene = App->GetModule<ModuleScene>()->GetLoadedScene();

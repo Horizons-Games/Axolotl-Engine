@@ -16,6 +16,7 @@
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/BossChargeRockScript.h"
 #include "../Scripts/FinalBossScript.h"
+#include "../Scripts/BossWallChecker.h"
 
 REGISTERCLASS(BossChargeAttackScript);
 
@@ -23,12 +24,13 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NONE),
 	chargeHitPlayer(false), bounceBackForce(5.0f), prepareChargeMaxTime(2.0f), chargeMaxCooldown(5.0f),
 	attackStunTime(4.0f), chargeDamage(20.0f), rockPrefab(nullptr), spawningRockChance(5.0f), rockSpawningHeight(7.0f),
-	isRockAttackVariant(false), animator(nullptr)
+	isRockAttackVariant(false), animator(nullptr), chargeForce(1.25f), wallChecker(nullptr)
 {
 	REGISTER_FIELD(bounceBackForce, float);
 	REGISTER_FIELD(prepareChargeMaxTime, float);
 	REGISTER_FIELD(chargeMaxCooldown, float);
 	REGISTER_FIELD(attackStunTime, float);
+	REGISTER_FIELD(chargeForce, float);
 	REGISTER_FIELD(chargeDamage, float);
 
 	REGISTER_FIELD(spawningRockChance, float);
@@ -37,6 +39,8 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 	REGISTER_FIELD(rockPrefab, GameObject*);
 
 	REGISTER_FIELD(isRockAttackVariant, bool);
+
+	REGISTER_FIELD(wallChecker, BossWallChecker*);
 }
 
 void BossChargeAttackScript::Start()
@@ -60,7 +64,8 @@ void BossChargeAttackScript::Update(float deltaTime)
 
 void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (chargeState == ChargeState::PREPARING_CHARGE && other->GetOwner()->CompareTag("Wall"))
+	if (chargeState == ChargeState::PREPARING_CHARGE && 
+		(other->GetOwner()->CompareTag("Wall") || other->GetOwner()->CompareTag("Rock")))
 	{
 		prepareChargeTime = 0.0f;
 	}
@@ -77,6 +82,8 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 		{
 			MakeRocksFall();
 		}
+
+		// VFX Here: The boss hit the wall after a charge attack
 	}
 	else if (chargeState == ChargeState::CHARGING && !chargeHitPlayer && other->GetOwner()->CompareTag("Player"))
 	{
@@ -102,6 +109,8 @@ void BossChargeAttackScript::TriggerChargeAttack(ComponentTransform* targetPosit
 
 	chargeThroughPosition = targetPosition;
 	chargeHitPlayer = false;
+
+	// VFX Here: The boss started the charge attack (going backwards or yelling, whatever you want to add)
 }
 
 void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
@@ -126,7 +135,7 @@ void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
 		rigidBody->SetIsTrigger(true);
 		rigidBody->SetYAxisBlocked(true);
 		rigidBody->SetUpMobility();
-		if (isRockAttackVariant)
+		if (isRockAttackVariant && !wallChecker->IsFacingNearWall())
 		{
 			float spawnRockActualChange = App->GetModule<ModuleRandom>()->RandomNumberInRange(100.0f);
 
@@ -195,7 +204,7 @@ void BossChargeAttackScript::PerformChargeAttack()
 	rigidBody->SetYRotationAxisBlocked(true);
 	rigidBody->SetZRotationAxisBlocked(true);*/
 
-	rigidBody->SetKpForce(0.5f);
+	rigidBody->SetKpForce(chargeForce);
 	rigidBody->SetPositionTarget(float3(forward.x * 50.0f,
 										transform->GetGlobalPosition().y,
 										forward.z * 50.0f));
@@ -204,6 +213,8 @@ void BossChargeAttackScript::PerformChargeAttack()
 	chargeState = ChargeState::CHARGING;
 	animator->SetParameter("IsPreparingChargeAttack", false);
 	animator->SetParameter("IsCharging", true);
+
+	// VFX Here: The boss started the charging forward
 }
 
 void BossChargeAttackScript::WallHitAfterCharge() const
@@ -245,12 +256,20 @@ void BossChargeAttackScript::SpawnRock(const float3& spawnPosition)
 
 	ComponentTransform* newRockTransform = newRock->GetComponent<ComponentTransform>();
 	newRockTransform->SetGlobalPosition(spawnPosition);
+	newRockTransform->SetGlobalRotation(
+		float3(newRockTransform->GetGlobalRotation().x, 
+			App->GetModule<ModuleRandom>()->RandomNumberInRange(360.f),
+			newRockTransform->GetGlobalRotation().z));
 	newRockTransform->RecalculateLocalMatrix();
 
-	newRock->Enable();
 	ComponentRigidBody* newRockRigidBody = newRock->GetComponent<ComponentRigidBody>();
 	newRockRigidBody->SetDefaultPosition();
 	newRockRigidBody->Enable();
+
+	if (!newRock->GetChildren().empty())
+	{
+		newRock->GetChildren().front()->Enable();
+	}
 
 	rocksSpawned.push_back(newRock);
 }
@@ -261,6 +280,7 @@ void BossChargeAttackScript::MakeRocksFall() const
 	{
 		if (!spawnedRock->IsEnabled())
 		{
+			spawnedRock->GetComponent<BossChargeRockScript>()->DestroyRock();
 			continue;
 		}
 
@@ -271,8 +291,7 @@ void BossChargeAttackScript::MakeRocksFall() const
 
 		spawnedRock->GetComponent<BossChargeRockScript>()->SetRockState(RockStates::FALLING);
 
-		// This will need any kind of warning for the player in the future
-		// Maybe a particle in the floor that shows where the rock is going to land
+		// VFX Here: Rock falling warning
 	}
 }
 

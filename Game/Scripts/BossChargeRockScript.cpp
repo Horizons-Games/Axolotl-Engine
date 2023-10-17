@@ -7,14 +7,13 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidbody.h"
-#include "Components/ComponentMeshRenderer.h"
 
 #include "../Scripts/HealthSystem.h"
 
 REGISTERCLASS(BossChargeRockScript);
 
 BossChargeRockScript::BossChargeRockScript() : Script(), rockState(RockStates::SKY), fallingRockDamage(10.0f),
-	despawnTimer(0.0f), despawnMaxTimer(30.0f), triggerRockDespawn(false)
+	despawnTimer(0.0f), despawnMaxTimer(30.0f), triggerRockDespawn(false), rockHitAndRemained(false)
 {
 	REGISTER_FIELD(fallingRockDamage, float);
 	REGISTER_FIELD(despawnMaxTimer, float);
@@ -52,7 +51,19 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (rockState == RockStates::SKY && other->GetOwner()->CompareTag("Rock"))
 	{
-		DeactivateRock();
+		BossChargeRockScript* otherRock = other->GetOwner()->GetComponent<BossChargeRockScript>();
+
+		if (!otherRock->WasRockHitAndRemained())
+		{
+			other->GetOwner()->GetComponent<BossChargeRockScript>()->DeactivateRock();
+			rockHitAndRemained = true;
+		}
+		else if (otherRock->WasRockHitAndRemained() || otherRock->GetRockState() != RockStates::SKY)
+		{
+			DeactivateRock();
+		}
+
+		LOG_DEBUG("Rock deactivated");
 	}
 	else if (rockState == RockStates::FALLING)
 	{
@@ -61,9 +72,12 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 			other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(fallingRockDamage);
 			rockState = RockStates::HIT_ENEMY;
 			DeactivateRock();
+
+			// VFX Here: Rock hit an enemy on the head while falling
 		}
 		else if (other->GetOwner()->CompareTag("Floor"))
 		{
+			// VFX Here: Rock hit the floor
 			rockState = RockStates::FLOOR;
 		}
 	}
@@ -78,15 +92,23 @@ void BossChargeRockScript::SetRockState(RockStates newState)
 	rockState = newState;
 }
 
+RockStates BossChargeRockScript::GetRockState() const
+{
+	return rockState;
+}
+
 void BossChargeRockScript::DeactivateRock()
 {
 	if (rockState == RockStates::HIT_ENEMY)
 	{
-		// Only disable the mesh and the rigid so the particles can still be seen
-		owner->GetComponent<ComponentMeshRenderer>()->Disable();
+		// Only disable the root node of the rock and the rigid so the particles can still be seen
 		owner->GetComponent<ComponentRigidBody>()->Disable();
+		if (!owner->GetChildren().empty())
+		{
+			owner->GetChildren().front()->Disable();
+		}
 
-		// This will need to manage particles in the future
+		// VFX Here: Disappear/Break rock (particles in the parent will still play, only the fbx will disappear)
 	}
 	else
 	{
@@ -104,4 +126,9 @@ void BossChargeRockScript::DestroyRock() const
 void BossChargeRockScript::SetPauseRock(bool isPaused)
 {
 	this->isPaused = isPaused;
+}
+
+bool BossChargeRockScript::WasRockHitAndRemained() const
+{
+	return rockHitAndRemained;
 }

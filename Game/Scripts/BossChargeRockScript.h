@@ -29,10 +29,13 @@ public:
 
 	void SetRockState(RockStates newState);
 	void SetPauseRock(bool isPaused);
+	RockStates GetRockState() const;
+	void DestroyRock() const;
+
+	bool WasRockHitAndRemained() const;
 
 private:
 	void DeactivateRock();
-	void DestroyRock() const;
 
 	RockStates rockState;
 
@@ -40,6 +43,8 @@ private:
 	float despawnTimer;
 
 	ComponentRigidBody* rigidBody;
+
+	bool rockHitAndRemained;
 
 	// Modifiable values
 	float fallingRockDamage;

@@ -74,7 +74,7 @@ void ShockWaveAttackScript::TriggerNormalShockWaveAttack()
 	// During the shockwave attack, the final boss would not be able to rotate
 	DisableRotation();
 
-	// This will need to trigger any kind of effect or particles to show the shockwave expanding
+	// VFX Here: This should trigger the effect of the shockwave appearing and expanding
 }
 
 void ShockWaveAttackScript::TriggerSeekingShockWaveAttack(ComponentTransform* targetPosition)
