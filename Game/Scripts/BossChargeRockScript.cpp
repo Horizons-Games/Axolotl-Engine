@@ -35,7 +35,11 @@ void BossChargeRockScript::Update(float deltaTime)
 		rigidBody->GetRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
 		return;
 	}
-	rigidBody->GetRigidBody()->setGravity(rockGravity);
+
+	if (rockState != RockStates::FLOOR)
+	{
+		rigidBody->GetRigidBody()->setGravity(rockGravity);
+	}
 
 	if (triggerRockDespawn)
 	{
