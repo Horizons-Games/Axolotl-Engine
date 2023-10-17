@@ -386,6 +386,7 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 
 void PlayerMoveScript::OnCollisionEnter(ComponentRigidBody* other)
 {
+	LOG_INFO("Entering RigidBody: " + other->GetOwner()->GetName());
 	if (other->GetOwner()->CompareTag("Water"))
 	{
 		waterCounter++;
