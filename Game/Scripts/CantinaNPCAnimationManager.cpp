@@ -34,7 +34,7 @@ void CantinaNPCAnimationManager::Update(float deltaTime)
 
 		if (!activation && randomValue <= priority)
 		{
-			if(audio)
+			if (audio)
 			{
 				audio->PostEvent(AUDIO::SFX::NPC::CANTINA::DRUNKNPC_RANDOM_SOUND);
 			}
