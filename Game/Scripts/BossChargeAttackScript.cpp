@@ -61,7 +61,8 @@ void BossChargeAttackScript::Update(float deltaTime)
 
 void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (chargeState == ChargeState::PREPARING_CHARGE && other->GetOwner()->CompareTag("Wall"))
+	if (chargeState == ChargeState::PREPARING_CHARGE && 
+		(other->GetOwner()->CompareTag("Wall") || other->GetOwner()->CompareTag("Rock")))
 	{
 		prepareChargeTime = 0.0f;
 	}
@@ -78,6 +79,8 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 		{
 			MakeRocksFall();
 		}
+
+		// VFX Here: The boss hit the wall after a charge attack
 	}
 	else if (chargeState == ChargeState::CHARGING && !chargeHitPlayer && other->GetOwner()->CompareTag("Player"))
 	{
@@ -103,6 +106,8 @@ void BossChargeAttackScript::TriggerChargeAttack(ComponentTransform* targetPosit
 
 	chargeThroughPosition = targetPosition;
 	chargeHitPlayer = false;
+
+	// VFX Here: The boss started the charge attack (going backwards or yelling, whatever you want to add)
 }
 
 void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
@@ -205,6 +210,8 @@ void BossChargeAttackScript::PerformChargeAttack()
 	chargeState = ChargeState::CHARGING;
 	animator->SetParameter("IsPreparingChargeAttack", false);
 	animator->SetParameter("IsCharging", true);
+
+	// VFX Here: The boss started the charging forward
 }
 
 void BossChargeAttackScript::WallHitAfterCharge() const
