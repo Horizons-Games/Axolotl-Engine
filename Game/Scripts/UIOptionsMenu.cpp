@@ -462,7 +462,6 @@ bool UIOptionsMenu::IsSlider(int header, int button, int option)
 void UIOptionsMenu::IsSizeOptionEnabled()
 {
 	float4 colorSet;
-
 	int gameOptionWindowsMode = actualConfig[Canvas::GAME_CANVAS].options[Button::WINDOWSMODE].actualOption;
 
 	GameObject* screenResolutionButton = buttonsAndCanvas[Canvas::GAME_CANVAS].canvas->
@@ -516,8 +515,8 @@ void UIOptionsMenu::GameOption(int button, int option)
 {
 	switch (button)
 	{
-		float brightnessToShow;
-	case 0: // FPS LIMIT
+	float brightnessToShow;
+	case Button::FPS:
 		switch (option)
 		{
 		case 0:
@@ -541,7 +540,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 		}
 		break;
 
-	case 1: // VSYNC
+	case Button::VSYNC:
 		switch (option)
 		{
 		case 0:
@@ -558,7 +557,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 		IsFpsEnabled();
 		break;
 
-	case 2: // BRIGHTNESS
+	case Button::BRIGHTNESS:
 		brightnessToShow = option;
 		if (brightnessToShow * 0.01f < 0.3f)
 		{
@@ -571,7 +570,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 		LOG_INFO("BRIGHTNESS {}", brightnessToShow * 0.01f);
 		break;
 
-	case 3: // RESOLUTION
+	case Button::RESOLUTION:
 		switch (option)
 		{
 		case 0:
@@ -593,7 +592,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 		}
 		break;
 
-	case 4: // WINDOWS MODE
+	case Button::WINDOWSMODE:
 		switch (option)
 		{
 		case 0:
@@ -629,25 +628,25 @@ void UIOptionsMenu::VideoOption(int button, int option)
 {
 	switch (button)
 	{
-	case 0:
+	case Button::SHADOWS:
 		if (render->IsShadowsEnabled() != option)
 		{
 			render->ToggleShadows();
 		}
 		break;
-	case 1:
+	case Button::SSAO:
 		if (render->IsSsaoEnabled() != option)
 		{
 			render->ToggleSSAO();
 		}
 		break;
-	case 2:
+	case Button::VSM:
 		if (render->IsVSMEnabled() != option)
 		{
 			render->ToggleVSM();
 		}
 		break;
-	case 3:
+	case Button::BLOOM:
 		if (render->IsBloomEnabled() != option)
 		{
 			render->SwitchBloomActivation();
@@ -662,12 +661,12 @@ void UIOptionsMenu::AudioOption(int button, int option)
 {
 	switch (button)
 	{
-	case 0: // MASTER
+	case Button::GENERAL:
 		// audio-> this is ModuleAudio
 		break;
-	case 1: // MUSIC
+	case Button::MUSIC:
 		break;
-	case 2: // SFX
+	case Button::SFX:
 		break;
 	default:
 		break;

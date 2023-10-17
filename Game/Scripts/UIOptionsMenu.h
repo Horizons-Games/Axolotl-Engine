@@ -31,6 +31,10 @@ enum Button
 	WINDOWSMODE = 4,
 
 	// VIDEO
+	SHADOWS = 0,
+	SSAO = 1,
+	VSM = 2,
+	BLOOM = 3,
 
 	// AUDIO
 	GENERAL = 0,
