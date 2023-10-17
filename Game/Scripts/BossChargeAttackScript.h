@@ -10,6 +10,7 @@ class ComponentRigidBody;
 class ComponentAnimation;
 
 class FinalBossScript;
+class BossWallChecker;
 
 enum class ChargeState
 {
@@ -68,6 +69,7 @@ private:
 	float prepareChargeMaxTime;
 	float chargeMaxCooldown;
 	float attackStunTime;
+	float chargeForce;
 	float chargeDamage;
 
 	float spawningRockChance;
@@ -76,4 +78,6 @@ private:
 	GameObject* rockPrefab;
 
 	bool isRockAttackVariant;
+
+	BossWallChecker* wallChecker;
 };

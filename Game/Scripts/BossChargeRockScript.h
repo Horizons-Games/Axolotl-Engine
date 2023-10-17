@@ -27,10 +27,13 @@ public:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 
 	void SetRockState(RockStates newState);
+	RockStates GetRockState() const;
+	void DestroyRock() const;
+
+	bool WasRockHitAndRemained() const;
 
 private:
 	void DeactivateRock();
-	void DestroyRock() const;
 
 	RockStates rockState;
 
@@ -38,6 +41,8 @@ private:
 	float despawnTimer;
 
 	ComponentRigidBody* rigidBody;
+
+	bool rockHitAndRemained;
 
 	// Modifiable values
 	float fallingRockDamage;

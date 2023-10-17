@@ -1736,7 +1736,7 @@ void Scene::UpdateLightsFromCopiedGameObjects(const int& filter)
 	}
 }
 
-int& Scene::SearchForLights(GameObject* gameObject)
+int Scene::SearchForLights(GameObject* gameObject)
 {
 	int filter = 0;
 	

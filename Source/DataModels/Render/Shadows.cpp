@@ -498,7 +498,7 @@ void Shadows::PracticalPartition(Frustum* frustum, float lambda)
 		//float splitPosition = splitPositions[i];
 		float logarithmicSplit = nearPlane * pow(farPlane / nearPlane, float(i + 1) / float(FRUSTUM_PARTITIONS + 1));
 		float uniformSplit = nearPlane + (farPlane - nearPlane) * (float(i + 1) / float(FRUSTUM_PARTITIONS + 1));
-		float splitPosition = lambda * logarithmicSplit + (1.0 - lambda) * uniformSplit;
+		float splitPosition = lambda * logarithmicSplit + (1.0f - lambda) * uniformSplit;
 
 		*frustums[i] = *frustum;
 		frustums[i]->SetViewPlaneDistances(lastFarPlane, splitPosition);
