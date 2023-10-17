@@ -66,6 +66,10 @@ void UITrigger::Update(float deltaTime)
 	if (setPlayer != modulePlayer->GetPlayer())
 	{
 		setPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
+		if (isLoseByDamage)
+		{
+			playerHealthSystem = setPlayer->GetComponent<HealthSystem>();
+		}
 	}
 
 	if(onTriggerState)
