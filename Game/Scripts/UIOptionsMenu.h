@@ -11,7 +11,8 @@
 class ComponentButton;
 class ComponentSlider;
 
-enum class Canvas
+// using enum instead of enum class on purpose to avoid static_cast to int
+enum Canvas
 {
 	GAME_CANVAS = 0,
 	VIDEO_CANVAS = 1,
@@ -19,18 +20,19 @@ enum class Canvas
 	CONTROLS_CANVAS = 3
 };
 
-enum class Button
+// using enum instead of enum class on purpose to avoid static_cast to int
+enum Button
 {
-	//GAME
+	// GAME
 	FPS = 0,
 	VSYNC = 1,
 	BRIGHTNESS = 2,
 	RESOLUTION = 3,
 	WINDOWSMODE = 4,
 
-	//VIDEO
+	// VIDEO
 
-	//AUDIO
+	// AUDIO
 	GENERAL = 0,
 	MUSIC = 1,
 	SFX = 2,
@@ -47,7 +49,7 @@ public:
 	void Update(float deltaTime) override;
 
 	void ControllerMenuMode();
-	//void KeyboardMenuMode();
+	// void KeyboardMenuMode();
 	void LoadOptions();
 	
 	void SetApplyChangesOnLoad(bool apply);
@@ -137,12 +139,4 @@ private:
 	bool IsSlider(int header, int button, int option);
 	void IsSizeOptionEnabled();
 	void IsFpsEnabled();
-
 };
-
-
-
-
-
-
-

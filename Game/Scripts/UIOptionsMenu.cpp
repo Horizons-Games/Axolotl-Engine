@@ -165,7 +165,7 @@ void UIOptionsMenu::ControllerMenuMode()
 		}
 	}
 
-	// IF THE BUTTON IS LOCKED BLOCK THE OPTIONS SELECCTION
+	// IF THE BUTTON IS LOCKED BLOCK THE OPTIONS SELECTION
 	if (actualConfig[headerMenuPosition].options.size() == 0 || 
 		actualConfig[headerMenuPosition].options[actualButton].locked)
 	{
@@ -238,7 +238,7 @@ void UIOptionsMenu::ControllerMenuMode()
 					}
 				}
 
-				//.ACTUAL CANVAS -> HOVERED BUTTON -> ALWAYS SECOND CHILDREN -> SELECTED OPTION
+				// ACTUAL CANVAS -> HOVERED BUTTON -> ALWAYS SECOND CHILDREN -> SELECTED OPTION
 				// THINK THE IF IS USELESS BUT ITS WORKING GOOD SO DONT DELETE
 				if (newSelectedOption != -1 && newSelectedOption != selectedOption)
 				{
@@ -268,6 +268,7 @@ void UIOptionsMenu::UpdateChanges()
 
 	actualConfig[headerMenuPosition].options[actualButton].actualOption = newSelectedOption;
 	ApplyChanges(headerMenuPosition, actualButton, newSelectedOption);
+	newSelectedOption = -1;
 }
 
 void UIOptionsMenu::ApplyChanges(int headerMenuPosition, int actualButton, int newSelectedOption)
@@ -317,7 +318,6 @@ void UIOptionsMenu::InitOptionMenu()
 	CanvasOptionInfo controllerCanvas;
 	actualConfig.push_back(controllerCanvas);
 }
- 
 
 void UIOptionsMenu::LoadOptions()
 {
@@ -463,57 +463,53 @@ void UIOptionsMenu::IsSizeOptionEnabled()
 {
 	float4 colorSet;
 
-	int gameCanvasIndex = 0;
-	int resolutionIndex = 3;
-	int windowModeIndex = 4;
-	int gameOptionWindowsMode = actualConfig[gameCanvasIndex].options[windowModeIndex].actualOption;
+	int gameOptionWindowsMode = actualConfig[Canvas::GAME_CANVAS].options[Button::WINDOWSMODE].actualOption;
 
-	GameObject* resolutionParentGameObject = buttonsAndCanvas[gameCanvasIndex].canvas->
-		GetChildren()[resolutionIndex]->GetChildren()[1];
+	GameObject* screenResolutionButton = buttonsAndCanvas[Canvas::GAME_CANVAS].canvas->
+		GetChildren()[Button::RESOLUTION]->GetChildren()[1];
 	
 	if (gameOptionWindowsMode == 0 || gameOptionWindowsMode == 1)
 	{
 		colorSet = { 0.5f, 0.5f, 0.5f, 1.0f };
-		resolutionParentGameObject->GetChildren()[1]->Disable();
-		resolutionParentGameObject->GetChildren()[2]->Disable();
-		resolutionParentGameObject->GetChildren()[3]->Disable();
-		resolutionParentGameObject->GetChildren()[4]->Disable();
-		resolutionParentGameObject->GetChildren()[0]->Enable();
-		actualConfig[gameCanvasIndex].options[resolutionIndex].locked = true;
+		for (int i = 1; i < 5; ++i)
+		{
+			screenResolutionButton->GetChildren()[i]->Disable();
+		}
+		screenResolutionButton->GetChildren()[0]->Enable();
+		actualConfig[Canvas::GAME_CANVAS].options[Button::RESOLUTION].locked = true;
 	}
 	else
 	{
 		colorSet = { 1.0f, 1.0f, 1.0f, 1.0f };
-		actualConfig[gameCanvasIndex].options[resolutionIndex].locked = false;
+		actualConfig[Canvas::GAME_CANVAS].options[Button::RESOLUTION].locked = false;
 	}
 
-	resolutionParentGameObject->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(colorSet);
+	screenResolutionButton->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(colorSet);
 }
 
 void UIOptionsMenu::IsFpsEnabled()
 {
 	float4 colorSet;
-	int gameCanvasIndex = 0;
-	int FPSIndex = 0;
 
-	GameObject* FPSParentGameObject = buttonsAndCanvas[gameCanvasIndex].canvas->GetChildren()[FPSIndex]->GetChildren()[1];
+	GameObject* fpsButton = buttonsAndCanvas[Canvas::GAME_CANVAS].canvas->GetChildren()[Button::FPS]->GetChildren()[1];
 	
-	if (actualConfig[gameCanvasIndex].options[(int)Button::VSYNC].actualOption == 1)
+	if (actualConfig[Canvas::GAME_CANVAS].options[Button::VSYNC].actualOption == 1)
 	{
 		colorSet = { 0.5f, 0.5f, 0.5f, 1.0f };
-		FPSParentGameObject->GetChildren()[1]->Disable();
-		FPSParentGameObject->GetChildren()[2]->Disable();
-		FPSParentGameObject->GetChildren()[3]->Disable();
-		FPSParentGameObject->GetChildren()[0]->Enable();
-		actualConfig[gameCanvasIndex].options[FPSIndex].locked = true;
+		for (int i = 1; i < 4; ++i)
+		{
+			fpsButton->GetChildren()[i]->Disable();
+		}
+		fpsButton->GetChildren()[0]->Enable();
+		actualConfig[Canvas::GAME_CANVAS].options[Button::FPS].locked = true;
 	}
 	else
 	{
 		colorSet = { 1.0f, 1.0f, 1.0f, 1.0f };
-		actualConfig[gameCanvasIndex].options[FPSIndex].locked = false;
+		actualConfig[Canvas::GAME_CANVAS].options[Button::FPS].locked = false;
 	}
 
-	FPSParentGameObject->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(colorSet);
+	fpsButton->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(colorSet);
 }
 
 void UIOptionsMenu::GameOption(int button, int option)
