@@ -149,8 +149,9 @@ void UIOptionsMenu::ControllerMenuMode()
 
 	// IF YOU DONT SAVE ANY OPTIONS THIS GO BACK TO THE LAST SAVED OPTION
 	verticalDirection = input->GetLeftJoystickDirection().verticalDirection;
-	if (verticalDirection == JoystickVerticalDirection::FORWARD || 
-		verticalDirection == JoystickVerticalDirection::BACK)
+	if (verticalDirection != JoystickVerticalDirection::NONE ||
+		input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE ||
+		input->GetKey(SDL_SCANCODE_TAB) != KeyState::IDLE)
 	{
 		BackToLastSavedOption();
 	}
