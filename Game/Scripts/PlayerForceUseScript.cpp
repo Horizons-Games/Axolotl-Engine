@@ -74,9 +74,15 @@ void PlayerForceUseScript::Update(float deltaTime)
 		InputMethod inputMethod = input->GetCurrentInputMethod();
 		if (inputMethod == InputMethod::KEYBOARD)
 		{
+			if (input->IsMouseWheelScrolled())
+			{
+				nextPosition.x -= input->GetMouseWheel().y * 10 * deltaTime;
+				nextPosition.y += input->GetMouseWheel().y * 10 * deltaTime;
+			}
+
 			float2 mouseMotion = input->GetMouseMotion();
-			nextPosition.x += mouseMotion.x * 0.2f * deltaTime;
-			nextPosition.y -= mouseMotion.y * 0.2f * deltaTime;
+			nextPosition.x += mouseMotion.x * 0.1f * deltaTime;
+			nextPosition.y -= mouseMotion.y * 0.1f * deltaTime;
 		}
 		else if (inputMethod == InputMethod::GAMEPAD)
 		{
@@ -153,7 +159,12 @@ void PlayerForceUseScript::InitForce()
 		if (Physics::RaycastToTag(line, hit, owner, tag))
 		{
 			gameObjectAttached = hit.gameObject;
-			gameObjectAttached->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+			
+			if (gameObjectAttached->GetChildren()[0]->HasComponent<ComponentParticleSystem>())
+			{
+				gameObjectAttached->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+			}
+
 			distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hit.hitPoint);
 			ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 			objectStaticness = rigidBody->IsStatic();
