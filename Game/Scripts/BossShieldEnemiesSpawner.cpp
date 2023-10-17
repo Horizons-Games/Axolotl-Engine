@@ -60,7 +60,7 @@ void BossShieldEnemiesSpawner::Update(float deltaTime)
 
 void BossShieldEnemiesSpawner::StartSpawner()
 {
-	if (enemiesReadyToSpawn.size() <= 0)
+	if (enemiesReadyToSpawn.size() < ENEMIES_PER_WAVE)
 	{
 		ReactivateEnemies();
 	}
@@ -119,11 +119,10 @@ void BossShieldEnemiesSpawner::ReactivateEnemies()
 	for (std::vector<GameObject*>::iterator it = (enemiesNotReadyToSpawn).begin(); it < (enemiesNotReadyToSpawn).end();
 		++it)
 	{
-		// TODO: check if there is something else to reset
 		EnemyClass* enemyClass = (*it)->GetComponent<EnemyClass>();
 		enemyClass->ActivateNeedsToBeReset();
 
 		enemiesReadyToSpawn.push_back(*it);
-		enemiesNotReadyToSpawn.erase(it);
 	}
+	enemiesNotReadyToSpawn.clear();
 }
