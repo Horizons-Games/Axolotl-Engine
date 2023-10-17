@@ -58,6 +58,10 @@ void BossChargeAttackScript::Update(float deltaTime)
 {
 	if (!isPaused)
 	{
+		if (chargeState == ChargeState::CHARGING)
+		{
+			rigidBody->SetKpForce(chargeForce);
+		}
 		ManageChargeAttackStates(deltaTime);
 	}
 }
