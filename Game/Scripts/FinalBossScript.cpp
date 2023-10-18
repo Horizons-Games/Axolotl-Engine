@@ -48,11 +48,41 @@ void FinalBossScript::Start()
 	agent = owner->GetComponent<ComponentAgent>();
 	aiMovement = owner->GetComponent<AIMovement>();
 
+	bossGravity = rigidBody->GetRigidBody()->getGravity();
+
 	LOG_INFO("Final Boss is in the NEUTRAL PHASE");
 }
 
 void FinalBossScript::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		aiMovement->SetMovementStatuses(false, false);
+		chargeAttackScript->SetIsPaused(isPaused);
+		shockWaveAttackScript->SetIsPaused(isPaused);
+		missilesAttackScript->SetIsPaused(isPaused);
+		shieldAttackScript->SetIsPaused(isPaused);
+
+		bossPhase = FinalBossPhases::NEUTRAL;
+		bossState = FinalBossStates::IDLE;
+
+		rigidBody->GetRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
+		rigidBody->GetRigidBody()->setGravity(btVector3(0, 0, 0));
+		rigidBody->SetIsStatic(true);
+		isUnpaused = true;
+		return;
+	}
+	if (isUnpaused)
+	{
+		rigidBody->SetIsStatic(false);
+		rigidBody->GetRigidBody()->setGravity(bossGravity);
+		chargeAttackScript->SetIsPaused(isPaused);
+		shockWaveAttackScript->SetIsPaused(isPaused);
+		missilesAttackScript->SetIsPaused(isPaused);
+		shieldAttackScript->SetIsPaused(isPaused);
+		isUnpaused = false;
+	}
+
 	if (!target)
 	{
 		return;

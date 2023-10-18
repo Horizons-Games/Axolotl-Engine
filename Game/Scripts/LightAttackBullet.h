@@ -20,6 +20,7 @@ public:
 	void SetStunTime(float nStunTime);
 	void SetEnemy(GameObject* nEnemy);
 	void SetDamage(float nDamageAttack);
+	void SetPauseBullet(bool isPaused);
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
@@ -42,4 +43,5 @@ private:
 	float particleSystemTimer;
 	float particleSystemCurrentTimer;
 	bool triggerParticleSystemTimer;
+	bool isPaused;
 };

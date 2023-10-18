@@ -24,10 +24,23 @@ void BossChargeRockScript::Start()
 	despawnTimer = despawnMaxTimer;
 
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	rockGravity = rigidBody->GetRigidBody()->getGravity();
 }
 
 void BossChargeRockScript::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		rigidBody->GetRigidBody()->setGravity(btVector3(0, 0, 0));
+		rigidBody->GetRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
+		return;
+	}
+
+	if (rockState != RockStates::FLOOR)
+	{
+		rigidBody->GetRigidBody()->setGravity(rockGravity);
+	}
+
 	if (triggerRockDespawn)
 	{
 		despawnTimer -= deltaTime;
@@ -112,6 +125,11 @@ void BossChargeRockScript::DeactivateRock()
 void BossChargeRockScript::DestroyRock() const
 {
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+}
+
+void BossChargeRockScript::SetPauseRock(bool isPaused)
+{
+	this->isPaused = isPaused;
 }
 
 bool BossChargeRockScript::WasRockHitAndRemained() const

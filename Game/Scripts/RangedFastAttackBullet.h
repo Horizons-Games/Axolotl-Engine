@@ -22,6 +22,7 @@ public:
 	void SetBulletVelocity(float nVelocity);
 	void SetTargetTag(std::string nTag);
 	void SetBulletDamage(float damage);
+	void SetPauseBullet(bool isPaused);
 
 private:
 	void InitializeBullet();

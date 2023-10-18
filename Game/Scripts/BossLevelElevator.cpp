@@ -47,6 +47,11 @@ void BossLevelElevator::Start()
 
 void BossLevelElevator::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		return;
+	}
+
 	if (elevatorState == ElevatorState::INACTIVE)
 	{
 		if (fencesDown)
@@ -298,4 +303,9 @@ void BossLevelElevator::ToggleParalizeDependingOfEnemyType(GameObject* enemy, bo
 	{
 		enemy->GetComponent<EnemyDroneScript>()->ParalyzeEnemy(paralize);
 	}
+}
+
+void BossLevelElevator::SetIsPaused(bool isPaused)
+{
+	this->isPaused = isPaused;
 }

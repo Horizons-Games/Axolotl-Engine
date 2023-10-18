@@ -73,6 +73,11 @@ void BossShieldAttackScript::Start()
 
 void BossShieldAttackScript::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		return;
+	}
+
 	if (bossShieldObject->WasHitBySpecialTarget())
 	{
 		shieldingTime = 0.0f;
@@ -297,4 +302,10 @@ void BossShieldAttackScript::SpawnEnemyInPosition(GameObject* selectedEnemy, con
 	newEnemyRigidBody->Enable();
 	*/
 	// ** UNUSABLE FOR NOW **
+}
+
+void BossShieldAttackScript::SetIsPaused(bool isPaused)
+{
+	this->isPaused = isPaused;
+	bossShieldEnemiesSpawner->SetIsPaused(isPaused);
 }

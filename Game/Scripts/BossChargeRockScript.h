@@ -2,6 +2,7 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
+#include "Bullet\LinearMath\btVector3.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -27,6 +28,7 @@ public:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 
 	void SetRockState(RockStates newState);
+	void SetPauseRock(bool isPaused);
 	RockStates GetRockState() const;
 	void DestroyRock() const;
 
@@ -47,4 +49,7 @@ private:
 	// Modifiable values
 	float fallingRockDamage;
 	float despawnMaxTimer;
+
+	bool isPaused;
+	btVector3 rockGravity;
 };

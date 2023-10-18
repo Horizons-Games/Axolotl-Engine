@@ -81,6 +81,15 @@ void EnemyDroneScript::Update(float deltaTime)
 	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
 	playerManager = seekTarget->GetComponent<PlayerManagerScript>();
 
+	heavyAttackScript->SetIsPaused(isPaused);
+	if (isPaused) 
+	{
+		seekScript->DisableMovement();
+		fastAttackScript->InterruptAttack();
+		droneState = DroneBehaviours::SEEK;
+		return;
+	}
+
 	if (stunned && droneState != DroneBehaviours::READYTOEXPLODE && droneState != DroneBehaviours::EXPLOSIONATTACK)
 	{
 		if (timeStunned < 0)

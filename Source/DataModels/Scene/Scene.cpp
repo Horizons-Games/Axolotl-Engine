@@ -652,6 +652,23 @@ GameObject* Scene::SearchGameObjectByID(UID gameObjectID) const
 	return nullptr;
 }
 
+std::vector<GameObject*> Scene::SearchGameObjectByTag(const std::string& gameObjectTag) const
+{
+	std::vector<GameObject*> tagGameObjects;
+	for (GameObject* gameObject : sceneGameObjects)
+	{
+		if (gameObject && gameObject->CompareTag(gameObjectTag))
+		{
+			tagGameObjects.push_back(gameObject);
+		}
+	}
+	if (tagGameObjects.empty())
+	{
+		assert(false && "Wrong Tag introduced, GameObject not found");
+	}
+	return tagGameObjects;
+}
+
 GameObject* Scene::FindRootBone(GameObject* node, const std::vector<Bone>& bones)
 {
 	if (node->GetParent())

@@ -38,17 +38,20 @@ void ShockWaveAttackScript::Start()
 
 void ShockWaveAttackScript::Update(float deltaTime)
 {
-	ManageAreaBehaviour(deltaTime);
-
-	if (animator->GetActualStateName() == "BossRecoverShockwave" && isPreparingShockwave)
+	if (!isPaused)
 	{
-		TriggerNormalShockWaveAttack();
-		isPreparingShockwave = false;
-	}
+		ManageAreaBehaviour(deltaTime);
 
-	if (animator->GetActualStateName() == "BossTriggerShockwave")
-	{
-		animator->SetParameter("IsShockWaveAttack", false);
+		if (animator->GetActualStateName() == "BossRecoverShockwave" && isPreparingShockwave)
+		{
+			TriggerNormalShockWaveAttack();
+			isPreparingShockwave = false;
+		}
+
+		if (animator->GetActualStateName() == "BossTriggerShockwave")
+		{
+			animator->SetParameter("IsShockWaveAttack", false);
+		}
 	}
 }
 
@@ -183,4 +186,14 @@ void ShockWaveAttackScript::EnableRotation() const
 	rigidBody->SetYAxisBlocked(false);
 	rigidBody->SetZAxisBlocked(false);
 	rigidBody->UpdateBlockedAxis();*/
+}
+
+void ShockWaveAttackScript::SetIsPaused(bool isPaused)
+{
+	ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
+	this->isPaused = isPaused;
+	rigidBody->SetXAxisBlocked(isPaused);
+	rigidBody->SetYAxisBlocked(isPaused);
+	rigidBody->SetZAxisBlocked(isPaused);
+	rigidBody->UpdateBlockedAxis();
 }
