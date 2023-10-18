@@ -22,6 +22,10 @@ private:
 	float movementY;
 	float maxOffsetX;
 	float maxOffsetY;
+
+	bool activeTimer;
+	float waitTimer;
+	float waitTimerCount;
 };
 
 
