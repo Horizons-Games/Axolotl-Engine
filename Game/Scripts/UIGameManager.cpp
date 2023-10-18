@@ -11,9 +11,10 @@
 #include "SwitchPlayerManagerScript.h"
 #include "UIImageDisplacementControl.h"
 #include "HealthSystem.h"
+#include "PauseManager.h"
+#include "EnemyClass.h"
 #include "ModuleUI.h"
 #include "Components/ComponentPlayer.h"
-#include "PlayerManagerScript.h"
 
 REGISTERCLASS(UIGameManager);
 
@@ -165,17 +166,18 @@ void UIGameManager::MenuIsOpen()
 			ui->ResetCurrentButtonIndex();
 		}
 
-		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->ParalyzePlayer(true);
-
 		mainMenuObject->Enable();
 		hudCanvasObject->Disable();
 	}
 	else
 	{
-		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->ParalyzePlayer(false);
 		mainMenuObject->Disable();
 		hudCanvasObject->Enable();
 	}
+
+	manager->GetComponent<PauseManager>()->Pause(menuIsOpen);
+
+	player->SetMouse(menuIsOpen);
 }
 
 //Power Ups Secction

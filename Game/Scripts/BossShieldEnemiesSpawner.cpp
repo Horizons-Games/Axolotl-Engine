@@ -38,6 +38,11 @@ void BossShieldEnemiesSpawner::Start()
 
 void BossShieldEnemiesSpawner::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		return;
+	}
+
 	if (elevatorOne->GetHasEnemies() && elevatorOne->GetPositionState() == PositionState::UP)
 	{
 		elevatorOne->ReleaseEnemies();
@@ -127,4 +132,11 @@ void BossShieldEnemiesSpawner::ReactivateEnemies()
 		enemiesReadyToSpawn.push_back(*it);
 	}
 	enemiesNotReadyToSpawn.clear();
+}
+
+void BossShieldEnemiesSpawner::SetIsPaused(bool isPaused)
+{
+	this->isPaused = isPaused;
+	elevatorOne->SetIsPaused(isPaused);
+	elevatorTwo->SetIsPaused(isPaused);
 }

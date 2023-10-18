@@ -35,6 +35,7 @@ public:
 	bool CanPerformChargeAttack() const;
 
 	bool IsAttacking() const;
+	void SetIsPaused(bool isPaused);
 
 private:
 	void ManageChargeAttackStates(float deltaTime);
@@ -79,5 +80,6 @@ private:
 
 	bool isRockAttackVariant;
 
+	bool isPaused;
 	BossWallChecker* wallChecker;
 };

@@ -46,6 +46,10 @@ void BossMissilesAttackScript::Start()
 
 void BossMissilesAttackScript::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		return;
+	}
 	SwapBetweenAttackStates(deltaTime);
 }
 
@@ -214,8 +218,14 @@ void BossMissilesAttackScript::SpawnMissileInPosition(GameObject* selectedEnemy,
 	newMissileTransform->SetGlobalPosition(selectedSpawningPosition);
 	newMissileTransform->RecalculateLocalMatrix();
 
+	newMissile->SetTag("Missile");
 	newMissile->Enable();
 	ComponentRigidBody* newMissileRigidBody = newMissile->GetComponent<ComponentRigidBody>();
 	newMissileRigidBody->SetDefaultPosition();
 	newMissileRigidBody->Enable();
+}
+
+void BossMissilesAttackScript::SetIsPaused(bool isPaused)
+{
+	this->isPaused = isPaused;
 }
