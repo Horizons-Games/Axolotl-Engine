@@ -134,18 +134,25 @@ void LightAttackBullet::StartMoving()
 			0,
 			forward.z) * velocity);
 }
+
 void LightAttackBullet::SetPauseBullet(bool isPaused)
 {
 	this->isPaused = isPaused;
 	float3 forward = parentTransform->GetGlobalForward();
 	forward.Normalize();
+	btRigidBody* btRb = rigidBody->GetRigidBody();
+
 	if (isPaused)
 	{
-		rigidBody->SetKpForce(0);
+		btRb->setLinearVelocity(btVector3(0.f, 0.f, 0.f));
 	}
 	else
 	{
-		rigidBody->SetKpForce(velocity);
+		btRb->setLinearVelocity(
+			btVector3(
+				forward.x,
+				0,
+				forward.z) * velocity);
 	}
 }
 
