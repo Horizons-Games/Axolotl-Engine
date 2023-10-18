@@ -12,6 +12,8 @@
 
 #include "Camera/CameraGameObject.h"
 
+#include "ComboManager.h"
+
 #include "Application.h"
 
 REGISTERCLASS(CameraControllerScript);
@@ -223,10 +225,20 @@ void CameraControllerScript::SetInCombat(bool newmode)
 	{
 		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentAudioSource>()->
 			SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::COMBAT);
+		if (App->GetModule<ModulePlayer>()->GetPlayer()->HasComponent<ComboManager>()) 
+		{
+			App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComboManager>()->InitCombo();
+		}
+		
 	}
 	else
 	{
 		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentAudioSource>()->
 			SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
+
+		if (App->GetModule<ModulePlayer>()->GetPlayer()->HasComponent<ComboManager>())
+		{
+			App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComboManager>()->HideCombo();
+		}
 	}
 }
