@@ -1,0 +1,11 @@
+{
+    "UID": 8978393835998232539,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/HOD_BossArena_Walls.Walls1_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/HOD_BossArena_WallsWalls.001_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

@@ -21,6 +21,7 @@ public:
 	void SetDamage(float nDamageAttack);
 	void StartMoving();
 	void RepositionBullet(GameObject* shooterObject, GameObject* enemyAttacked);
+	void SetPauseBullet(bool isPaused);
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
@@ -45,4 +46,5 @@ private:
 	float particleSystemTimer;
 	float particleSystemCurrentTimer;
 	bool triggerParticleSystemTimer;
+	bool isPaused;
 };

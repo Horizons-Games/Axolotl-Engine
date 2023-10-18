@@ -9,22 +9,26 @@
 #include "FileSystem/Importers/CubemapImporter.h"
 #include "FileSystem/Importers/MaterialImporter.h"
 #include "FileSystem/Importers/MeshImporter.h"
-#include "FileSystem/Importers/NavMeshImporter.h"
 #include "FileSystem/Importers/ModelImporter.h"
+#include "FileSystem/Importers/NavMeshImporter.h"
+#include "FileSystem/Importers/ParticleSystemImporter.h"
 #include "FileSystem/Importers/SkyBoxImporter.h"
 #include "FileSystem/Importers/StateMachineImporter.h"
-#include "FileSystem/Importers/ParticleSystemImporter.h"
 #include "FileSystem/Importers/TextureImporter.h"
+#include "FileSystem/Importers/VideoImporter.h"
 #include "FileSystem/UIDGenerator.h"
 
+#include "ParticleSystem/ParticleEmitter.h"
 #include "Resources/EditorResource/EditorResource.h"
 #include "Resources/ResourceAnimation.h"
-#include "Resources/ResourceParticleSystem.h"
-#include "ParticleSystem/ParticleEmitter.h"
 #include "Resources/ResourceCubemap.h"
 #include "Resources/ResourceMaterial.h"
+#include "Resources/ResourceParticleSystem.h"
 #include "Resources/ResourceSkyBox.h"
 #include "Resources/ResourceTexture.h"
+#include "Resources/ResourceVideo.h"
+
+
 
 const std::string ModuleResources::assetsFolder = "Assets/";
 const std::string ModuleResources::libraryFolder = "Lib/";
@@ -37,6 +41,7 @@ ModuleResources::ModuleResources() : monitorResources(false)
 
 ModuleResources::~ModuleResources()
 {
+	CleanUp();
 }
 
 bool ModuleResources::Init()
@@ -44,6 +49,7 @@ bool ModuleResources::Init()
 	monitorResources = true;
 	modelImporter = std::make_unique<ModelImporter>();
 	textureImporter = std::make_unique<TextureImporter>();
+	videoImporter = std::make_unique<VideoImporter>();
 	meshImporter = std::make_unique<MeshImporter>();
 	navMeshImporter = std::make_unique<NavMeshImporter>();
 	materialImporter = std::make_unique<MaterialImporter>();
@@ -65,12 +71,28 @@ bool ModuleResources::CleanUp()
 {
 #ifdef ENGINE
 	monitorResources = false;
-	monitorThread.join();
+
+	if (monitorThread.joinable())
+	{
+		monitorThread.join();
+	}
 #else
 	resourcesBin.clear();
 #endif
 	resources.clear();
 	return true;
+}
+
+void ModuleResources::CleanResourceBin()
+{
+#ifndef ENGINE
+	resourcesBin.clear();
+#endif //! ENGINE
+}
+
+void ModuleResources::CleanResources()
+{
+	resources.clear();
 }
 
 void ModuleResources::CreateDefaultResource(ResourceType type, const std::string& fileName)
@@ -98,16 +120,17 @@ void ModuleResources::CreateDefaultResource(ResourceType type, const std::string
 																 assetsPath);
 			ImportResource(assetsPath);
 			break;
-        case ResourceType::ParticleSystem:
-		    assetsPath += PARTICLESYSTEM_EXTENSION;
-		    /*importedRes = CreateNewResource("DefaultParticleSystem", assetsPath, ResourceType::ParticleSystem);
-		    particleSystemImporter->Import(assetsPath.c_str(), std::dynamic_pointer_cast<ResourceParticleSystem>(importedRes));*/
-		    App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/ParticleSystemDefault.particle", assetsPath);
-		    ImportResource(assetsPath);
-            break;
+		case ResourceType::ParticleSystem:
+			assetsPath += PARTICLESYSTEM_EXTENSION;
+			/*importedRes = CreateNewResource("DefaultParticleSystem", assetsPath, ResourceType::ParticleSystem);
+			particleSystemImporter->Import(assetsPath.c_str(),
+			std::dynamic_pointer_cast<ResourceParticleSystem>(importedRes));*/
+			App->GetModule<ModuleFileSystem>()->CopyFileInAssets("Source/PreMades/ParticleSystemDefault.particle",
+																 assetsPath);
+			ImportResource(assetsPath);
+			break;
 		default:
 			break;
-	
 	}
 }
 
@@ -129,6 +152,7 @@ std::shared_ptr<Resource> ModuleResources::ImportResource(const std::string& ori
 		fileSystem->CopyFileInAssets(originalPath, assetsPath);
 
 	std::shared_ptr<Resource> importedRes = CreateNewResource(fileName, assetsPath, type);
+	LOG_DEBUG(importedRes->GetAssetsPath());
 	CreateMetaFileOfResource(importedRes);
 	ImportResourceFromSystem(assetsPath, importedRes, importedRes->GetType());
 
@@ -149,6 +173,7 @@ std::shared_ptr<Resource>
 {
 	UID uid = UniqueID::GenerateUID();
 	const std::string libraryPath = CreateLibraryPath(uid, type);
+	LOG_DEBUG(libraryPath);
 	return CreateResourceOfType(uid, fileName, assetsPath, libraryPath, type);
 }
 
@@ -208,6 +233,9 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 		case ResourceType::ParticleSystem:
 			return std::shared_ptr<EditorResource<ResourceParticleSystem>>(
 				new EditorResource<ResourceParticleSystem>(uid, fileName, assetsPath, libraryPath), customDeleter);
+		case ResourceType::Video:
+			return std::shared_ptr<EditorResource<ResourceVideo>>(
+				new EditorResource<ResourceVideo>(uid, fileName, assetsPath, libraryPath), customDeleter);
 		default:
 			return nullptr;
 	}
@@ -228,7 +256,7 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 			break;
 		case ResourceType::NavMesh:
 			return std::shared_ptr<ResourceNavMesh>(new ResourceNavMesh(uid, fileName, assetsPath, libraryPath),
-												customDeleter);
+													customDeleter);
 			break;
 		case ResourceType::Scene:
 			AXO_TODO("Implement resource scene")
@@ -256,6 +284,10 @@ std::shared_ptr<Resource> ModuleResources::CreateResourceOfType(UID uid,
 		case ResourceType::ParticleSystem:
 			return std::shared_ptr<ResourceParticleSystem>(
 				new ResourceParticleSystem(uid, fileName, assetsPath, libraryPath), customDeleter);
+			break;
+		case ResourceType::Video:
+			return std::shared_ptr<ResourceVideo>(
+				new ResourceVideo(uid, fileName, assetsPath, libraryPath), customDeleter);
 			break;
 		default:
 			return nullptr;
@@ -306,7 +338,7 @@ std::shared_ptr<Resource> ModuleResources::LoadResourceStored(const char* filePa
 {
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	std::vector<std::string> files = fileSystem->ListFiles(filePath);
-	for (size_t i = 0; i < files.size(); i++)
+	for (size_t i = 0; i < files.size(); ++i)
 	{
 		std::string path(filePath);
 		path += '/' + files[i];
@@ -339,8 +371,34 @@ std::shared_ptr<Resource> ModuleResources::LoadResourceStored(const char* filePa
 
 void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resource)
 {
-	std::string libPath = resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
+	std::string libPath;
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+	if (!(resource->GetType() == ResourceType::Video))
+	{
+		libPath = resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION;
+	}
+	else
+	{
+		
+		 std::shared_ptr<ResourceVideo> resourceVideo = std::dynamic_pointer_cast<ResourceVideo>(resource);
+		if (fileSystem->Exists((resource->GetLibraryPath() + MP4_VIDEO_EXTENSION).c_str()))
+		{
+			libPath = resource->GetLibraryPath() + MP4_VIDEO_EXTENSION;
+			resourceVideo->SetExtension(MP4_VIDEO_EXTENSION);
+			
+		}
+		else if (fileSystem->Exists((resource->GetLibraryPath() + MOV_VIDEO_EXTENSION).c_str())) {
+			libPath = resource->GetLibraryPath() + MOV_VIDEO_EXTENSION;
+			resourceVideo->SetExtension(MOV_VIDEO_EXTENSION);
+		}
+		else
+		{
+			libPath = resource->GetLibraryPath() + AVI_VIDEO_EXTENSION;
+			resourceVideo->SetExtension(AVI_VIDEO_EXTENSION);
+		}
+	}
+	
+	
 
 	if (resource->GetType() != ResourceType::Unknown && fileSystem->Exists(libPath.c_str()))
 	{
@@ -380,9 +438,12 @@ void ModuleResources::ImportResourceFromLibrary(std::shared_ptr<Resource>& resou
 				case ResourceType::StateMachine:
 					stateMachineImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceStateMachine>(resource));
 					break;
-                case ResourceType::ParticleSystem:
-				    particleSystemImporter->Load(binaryBuffer, std::dynamic_pointer_cast<ResourceParticleSystem>(resource));
-                    break;
+				case ResourceType::Video:
+          break;
+				case ResourceType::ParticleSystem:
+					particleSystemImporter->Load(binaryBuffer,
+												 std::dynamic_pointer_cast<ResourceParticleSystem>(resource));
+          break;
 				default:
 					break;
 			}
@@ -501,6 +562,9 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
 		case ResourceType::Texture:
 			textureImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceTexture>(resource));
 			break;
+		case ResourceType::Video:
+			videoImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceVideo>(resource));
+			break;
 		case ResourceType::Mesh:
 			meshImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceMesh>(resource));
 			break;
@@ -522,10 +586,12 @@ void ModuleResources::ImportResourceFromSystem(const std::string& originalPath,
 			animationImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceAnimation>(resource));
 			break;
 		case ResourceType::StateMachine:
-			stateMachineImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceStateMachine>(resource));
+			stateMachineImporter->Import(originalPath.c_str(),
+										 std::dynamic_pointer_cast<ResourceStateMachine>(resource));
 			break;
 		case ResourceType::ParticleSystem:
-			particleSystemImporter->Import(originalPath.c_str(), std::dynamic_pointer_cast<ResourceParticleSystem>(resource));
+			particleSystemImporter->Import(originalPath.c_str(),
+										   std::dynamic_pointer_cast<ResourceParticleSystem>(resource));
 		default:
 			break;
 	}
@@ -548,12 +614,13 @@ void ModuleResources::CreateAssetAndLibFolders()
 	//(actually there is a library that looks really clean but might be overkill:
 	// https://github.com/Neargye/magic_enum)
 	// ensure this vector is updated whenever a new type of resource is added
+
 	std::vector<ResourceType> allResourceTypes = { ResourceType::Material,		ResourceType::Mesh,
 												   ResourceType::Model,			ResourceType::Scene,
 												   ResourceType::Texture,		ResourceType::SkyBox,
 												   ResourceType::Cubemap,		ResourceType::Animation,
-												   ResourceType::StateMachine,	ResourceType::NavMesh,
-                                                   ResourceType::ParticleSystem };
+												   ResourceType::StateMachine,	ResourceType::NavMesh, 
+												   ResourceType::ParticleSystem, ResourceType::Video};
 
 	for (ResourceType type : allResourceTypes)
 	{
@@ -581,77 +648,87 @@ void ModuleResources::MonitorResources()
 	{
 		ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 		CreateAssetAndLibFolders();
+
 		std::vector<std::shared_ptr<EditorResourceInterface>> toRemove;
 		std::vector<std::shared_ptr<Resource>> toImport;
 		std::vector<std::shared_ptr<Resource>> toCreateLib;
 		std::vector<std::shared_ptr<Resource>> toCreateMeta;
-		for (auto resourceit = resources.begin(); resourceit != resources.end();)
-		{
-			const std::shared_ptr<Resource>& resource = resourceit->second.lock();
-			if (resource)
-			{
-				if (resource->GetType() != ResourceType::Mesh && !fileSystem->Exists(resource->GetAssetsPath().c_str()))
-				{
-					toRemove.push_back(std::dynamic_pointer_cast<EditorResourceInterface>(resource));
-				}
-				else
-				{
-					std::string libraryPathWithExtension = fileSystem->GetPathWithExtension(resource->GetLibraryPath());
 
-					if (libraryPathWithExtension.empty() /*file with that name was not found*/ ||
-						!fileSystem->Exists(libraryPathWithExtension.c_str()))
-					{
-						toCreateLib.push_back(resource);
-					}
-					if (!fileSystem->Exists((resource->GetAssetsPath() + META_EXTENSION).c_str()))
-					{
-						toCreateMeta.push_back(resource);
-					}
-					// these type's assets are binary files changed in runtime
-					else if (resource->GetType() != ResourceType::Mesh && resource->GetType() != ResourceType::Material)
-					{
-						long long assetTime = fileSystem->GetModificationDate(resource->GetAssetsPath().c_str());
-						long long libTime = fileSystem->GetModificationDate(
-							(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str());
-						if (assetTime > libTime)
-						{
-							toImport.push_back(resource);
-						}
-					}
-				}
+		// create a copy of the current state of the resources cache to avoid concurrency problems
+		std::map<UID, std::weak_ptr<Resource>> copyOfResources = resources;
+
+		for (const auto& [uid, weakResource] : copyOfResources)
+		{
+			std::shared_ptr<Resource> resource = weakResource.lock();
+			if (resource == nullptr)
+			{
+				continue;
 			}
 
-			if (resourceit != resources.end())
+			if (resource->GetType() != ResourceType::Mesh && !fileSystem->Exists(resource->GetAssetsPath().c_str()))
 			{
-				++resourceit;
+				toRemove.push_back(std::dynamic_pointer_cast<EditorResourceInterface>(resource));
+			}
+			else
+			{
+				std::string libraryPathWithExtension = fileSystem->GetPathWithExtension(resource->GetLibraryPath());
+
+				if (libraryPathWithExtension.empty() /*file with that name was not found*/ ||
+					!fileSystem->Exists(libraryPathWithExtension.c_str()))
+				{
+					toCreateLib.push_back(resource);
+				}
+				if (!fileSystem->Exists((resource->GetAssetsPath() + META_EXTENSION).c_str()))
+				{
+					toCreateMeta.push_back(resource);
+				}
+				// these type's assets are binary files changed in runtime
+				else if (resource->GetType() != ResourceType::Mesh && resource->GetType() != ResourceType::Material)
+				{
+					std::string extension = GENERAL_BINARY_EXTENSION;
+					if (resource->GetType() == ResourceType::Video)
+					{
+						extension = fileSystem->GetFileExtension(resource->GetAssetsPath());
+					}
+					long long assetTimestamp = fileSystem->GetModificationDate(resource->GetAssetsPath().c_str());
+					long long libTimestamp = fileSystem->GetModificationDate((resource->GetLibraryPath() + extension).c_str());
+					if (assetTimestamp > libTimestamp)
+					{
+						toImport.push_back(resource);
+					}
+				}
 			}
 		}
 		// Remove resources
 		for (std::shared_ptr<EditorResourceInterface> resource : toRemove)
 		{
 			DeleteResource(resource);
+			LOG_INFO("{} deleted", resource);
 		}
 		// Import resources
 		for (std::shared_ptr<Resource>& resource : toImport)
 		{
 			AddResource(resource, resource->GetAssetsPath());
+			LOG_INFO("{} imported", resource);
 		}
 		for (std::shared_ptr<Resource>& resource : toCreateLib)
 		{
 			ImportResourceFromSystem(resource->GetAssetsPath(), resource, resource->GetType());
+			LOG_INFO("{} imported from system", resource);
 		}
 		for (std::shared_ptr<Resource>& resource : toCreateMeta)
 		{
 			CreateMetaFileOfResource(resource);
+			LOG_INFO("Meta file of {} created", resource);
 		}
-		std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+		std::this_thread::sleep_for(std::chrono::seconds(4));
 	}
 }
 
 bool ModuleResources::ExistsResourceWithAssetsPath(const std::string& assetsPath, UID& resourceUID)
 {
 	std::map<UID, std::weak_ptr<Resource>>::iterator it;
-	for (it = resources.begin(); it != resources.end(); it++)
+	for (it = resources.begin(); it != resources.end(); ++it)
 	{
 		std::shared_ptr<Resource> resourceAsShared = it->second.lock();
 
@@ -697,6 +774,11 @@ ResourceType ModuleResources::FindTypeByExtension(const std::string& path)
 			 normalizedExtension == TGA_TEXTURE_EXTENSION || normalizedExtension == HDR_TEXTURE_EXTENSION)
 	{
 		return ResourceType::Texture;
+	}
+	else if (normalizedExtension == AVI_VIDEO_EXTENSION || normalizedExtension == MP4_VIDEO_EXTENSION ||
+			 normalizedExtension == MOV_VIDEO_EXTENSION)
+	{
+		return ResourceType::Video;
 	}
 	else if (normalizedExtension == SKYBOX_EXTENSION)
 	{
@@ -746,6 +828,8 @@ const std::string ModuleResources::GetNameOfType(ResourceType type)
 			return "Models";
 		case ResourceType::Texture:
 			return "Textures";
+		case ResourceType::Video:
+			return "Videos";
 		case ResourceType::Mesh:
 			return "Meshes";
 		case ResourceType::Scene:
@@ -779,6 +863,10 @@ ResourceType ModuleResources::GetTypeOfName(const std::string& typeName)
 	if (typeName == "Textures")
 	{
 		return ResourceType::Texture;
+	}
+	if (typeName == "Videos")
+	{
+		return ResourceType::Video;
 	}
 	if (typeName == "Meshes")
 	{

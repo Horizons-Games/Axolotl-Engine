@@ -50,7 +50,7 @@ void RangedFastAttackBullet::Update(float deltaTime)
 
 void RangedFastAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->IsTrigger() || other->GetOwner()->CompareTag("Enemy") || waitParticlesToDestroy)
+	if (waitParticlesToDestroy || other->IsTrigger())
 	{
 		return;
 	}
@@ -101,6 +101,28 @@ void RangedFastAttackBullet::InitializeBullet()
 void RangedFastAttackBullet::DestroyBullet()
 {
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+}
+
+void RangedFastAttackBullet::SetPauseBullet(bool isPaused)
+{
+	float3 forward = parentTransform->GetGlobalForward();
+	forward.Normalize();
+	if (isPaused)
+	{
+		rigidBody->GetRigidBody()->setLinearVelocity(
+			btVector3(
+				forward.x,
+				0,
+				forward.z) * 0);
+	}
+	else
+	{
+		rigidBody->GetRigidBody()->setLinearVelocity(
+			btVector3(
+				forward.x,
+				0,
+				forward.z) * velocity);
+	}
 }
 
 void RangedFastAttackBullet::SetBulletVelocity(float nVelocity)

@@ -66,7 +66,7 @@ bool ComponentMeshCollider::StepsMove(int steps, Direction direction, float dist
 	std::vector<float3> usedPoints;
 	GetPointsGivenDirection(usedPoints, PositionPoints, direction);
 	float3 movementDirection = GetMovementGivenDirection(PositionPoints, direction);
-	for (int i = steps; i > 0; i--)
+	for (int i = steps; i > 0; --i)
 	{
 		if (!IsColliding(usedPoints, movementDirection, sectionMove * (float) i, stepSize))
 		{
@@ -128,7 +128,7 @@ void ComponentMeshCollider::GetMinMaxPoints(const std::vector<float3>& startingP
 			}
 		}
 		minStep += stepSize;
-		for (int i = 0; i < points.size(); i++)
+		for (int i = 0; i < points.size(); ++i)
 		{
 			if (minStep > points[i].y)
 			{

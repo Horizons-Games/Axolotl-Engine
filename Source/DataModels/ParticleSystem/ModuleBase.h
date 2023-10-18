@@ -8,10 +8,12 @@ class ModuleBase : public ParticleModule
 {
 public:
 	ModuleBase(ParticleEmitter* emitter);
+	ModuleBase(ParticleEmitter* emitter, ModuleBase* base);
 	~ModuleBase() override;
 
 	void Spawn(EmitterInstance* instance) override;
 	void Update(EmitterInstance* instance) override;
+	void CopyConfig(ParticleModule* module) override;
 
 	void SetOrigin(const float3& origin);
 	void SetRotation(const Quat& rotation);

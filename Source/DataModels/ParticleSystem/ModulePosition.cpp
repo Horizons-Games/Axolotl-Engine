@@ -20,6 +20,11 @@ ModulePosition::ModulePosition(ParticleEmitter* emitter) : ParticleModule(Module
 {
 }
 
+ModulePosition::ModulePosition(ParticleEmitter* emitter, ModulePosition* position) :
+	ParticleModule(ModuleType::POSITION, emitter)
+{
+}
+
 ModulePosition::~ModulePosition()
 {
 }
@@ -38,7 +43,7 @@ void ModulePosition::Update(EmitterInstance* instance)
 	std::vector<unsigned int> sortedPositions;
 	std::vector<EmitterInstance::Particle>& particles = instance->GetParticles();
 
-	ModuleBase* base = dynamic_cast<ModuleBase*>(instance->GetEmitter()->GetModule(ModuleType::BASE));
+	ModuleBase* base = dynamic_cast<ModuleBase*>(instance->GetModule(ModuleType::BASE));
 	
 	float3 offset = float3(0.0, 0.0, 0.0);
 

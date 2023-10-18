@@ -31,7 +31,7 @@ void WindowRenderer::DrawWindowContents()
 	{
 		vertexShaderBuffers.resize((int) ProgramType::PROGRAM_TYPE_SIZE);
 		fragmentShaderBuffer.resize((int) ProgramType::PROGRAM_TYPE_SIZE);
-		for (int i = 0; i < (int) ProgramType::PROGRAM_TYPE_SIZE; i++)
+		for (int i = 0; i < (int) ProgramType::PROGRAM_TYPE_SIZE; ++i)
 		{
 			Program* program = moduleProgram->GetProgram((ProgramType) i);
 			if (program)
@@ -43,7 +43,7 @@ void WindowRenderer::DrawWindowContents()
 		initialized = true;
 	}
 
-	for (int i = 0; i < static_cast<int>(ProgramType::PROGRAM_TYPE_SIZE); i++)
+	for (int i = 0; i < static_cast<int>(ProgramType::PROGRAM_TYPE_SIZE); ++i)
 	{
 		Program* program = moduleProgram->GetProgram((ProgramType) i);
 		if (program)

@@ -4,15 +4,19 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentAgent.h"
+#include "Components/ComponentAnimation.h"
 
 #include "../Scripts/ShockWaveAttackAreaScript.h"
 #include "../Scripts/HealthSystem.h"
+#include "../Scripts/AIMovement.h"
 
 REGISTERCLASS(ShockWaveAttackScript);
 
 ShockWaveAttackScript::ShockWaveAttackScript() : Script(), outerArea(nullptr), innerArea(nullptr),
 	shockWaveCooldown(0.0f), shockWaveMaxCooldown(5.0f), shockWaveHitPlayer(false), shockWaveDamage(10.0f),
-	rigidBody(nullptr), transform(nullptr), targetPosition(nullptr), isSeeking(false)
+	/*rigidBody(nullptr),*/ transform(nullptr), targetPosition(nullptr), isSeeking(false), animator(nullptr),
+	isPreparingShockwave(false)
 {
 	REGISTER_FIELD(shockWaveMaxCooldown, float);
 	REGISTER_FIELD(shockWaveDamage, float);
@@ -25,40 +29,66 @@ void ShockWaveAttackScript::Start()
 {
 	shockWaveCooldown = shockWaveMaxCooldown;
 
-	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	//rigidBody = owner->GetComponent<ComponentRigidBody>();
 	transform = owner->GetComponent<ComponentTransform>();
+	aiMovement = owner->GetComponent<AIMovement>();
+	agent = owner->GetComponent<ComponentAgent>();
+	animator = owner->GetComponent<ComponentAnimation>();
 }
 
 void ShockWaveAttackScript::Update(float deltaTime)
 {
-	ManageAreaBehaviour(deltaTime);
+	if (!isPaused)
+	{
+		ManageAreaBehaviour(deltaTime);
+
+		if (animator->GetActualStateName() == "BossRecoverShockwave" && isPreparingShockwave)
+		{
+			TriggerNormalShockWaveAttack();
+			isPreparingShockwave = false;
+		}
+
+		if (animator->GetActualStateName() == "BossTriggerShockwave")
+		{
+			animator->SetParameter("IsShockWaveAttack", false);
+		}
+	}
 }
 
-void ShockWaveAttackScript::TriggerNormalShockWaveAttack(ComponentTransform* targetPosition)
+void ShockWaveAttackScript::PrepareShockWaveAttack(ComponentTransform* targetPosition)
+{
+	this->targetPosition = targetPosition;
+	isPreparingShockwave = true;
+
+	animator->SetParameter("IsShockWaveRun", false);
+	animator->SetParameter("IsShockWaveAttack", true);
+}
+
+void ShockWaveAttackScript::TriggerNormalShockWaveAttack()
 {
 	LOG_INFO("The shockwave attack was triggered");
 
 	outerArea->SetAreaState(AreaState::EXPANDING);
 	innerArea->SetAreaState(AreaState::EXPANDING);
 
-	this->targetPosition = targetPosition;
-
 	// During the shockwave attack, the final boss would not be able to rotate
 	DisableRotation();
 
-	// This will need to trigger any kind of effect or particles to show the shockwave expanding
+	// VFX Here: This should trigger the effect of the shockwave appearing and expanding
 }
 
 void ShockWaveAttackScript::TriggerSeekingShockWaveAttack(ComponentTransform* targetPosition)
 {
 	isSeeking = true;
 	this->targetPosition = targetPosition;
+	animator->SetParameter("IsShockWaveRun", true);
 }
 
 bool ShockWaveAttackScript::CanPerformShockWaveAttack() const
 {
 	return outerArea->GetAreaState() == AreaState::IDLE &&
-			innerArea->GetAreaState() == AreaState::IDLE;
+			innerArea->GetAreaState() == AreaState::IDLE &&
+			!isPreparingShockwave;
 }
 
 bool ShockWaveAttackScript::IsAttacking() const
@@ -70,7 +100,7 @@ bool ShockWaveAttackScript::IsAttacking() const
 
 void ShockWaveAttackScript::ManageAreaBehaviour(float deltaTime)
 {
-	if (isSeeking)
+	if (isSeeking && CanPerformShockWaveAttack())
 	{
 		SeekTowardsTarget();
 	}
@@ -95,13 +125,17 @@ void ShockWaveAttackScript::ManageAreaBehaviour(float deltaTime)
 void ShockWaveAttackScript::SeekTowardsTarget()
 {
 	RotateToTarget(targetPosition);
-	rigidBody->SetPositionTarget(targetPosition->GetGlobalPosition());
-	rigidBody->SetKpForce(2.0f);
+	aiMovement->SetMovementStatuses(true, true);
+	aiMovement->SetTargetPosition(targetPosition->GetGlobalPosition());
+	agent->SetMaxAcceleration(agent->GetInitialMaxAcceleration() * 3.0f);
+	/*rigidBody->SetPositionTarget(targetPosition->GetGlobalPosition());
+	rigidBody->SetKpForce(2.0f);*/
 
 	if (transform->GetGlobalPosition().Equals(targetPosition->GetGlobalPosition(), 5.0f))
 	{
 		isSeeking = false;
-		TriggerNormalShockWaveAttack(targetPosition);
+		PrepareShockWaveAttack(targetPosition);
+		aiMovement->SetMovementStatuses(false, false);
 	}
 }
 
@@ -120,11 +154,12 @@ void ShockWaveAttackScript::CheckPlayerDetected()
 
 void ShockWaveAttackScript::RotateToTarget(ComponentTransform* target) const
 {
-	Quat errorRotation =
+	/*Quat errorRotation =
 		Quat::RotateFromTo(transform->GetGlobalForward().Normalized(),
-			(target->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized());
+			(target->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized());*/
 
-	rigidBody->SetRotationTarget(errorRotation);
+	aiMovement->SetRotationTargetPosition(target->GetGlobalPosition());
+	//rigidBody->SetRotationTarget(errorRotation);
 }
 
 void ShockWaveAttackScript::ResetAreas()
@@ -137,16 +172,28 @@ void ShockWaveAttackScript::ResetAreas()
 
 void ShockWaveAttackScript::DisableRotation() const
 {
-	rigidBody->SetXAxisBlocked(true);
+	aiMovement->SetMovementStatuses(true, false);
+	/*rigidBody->SetXAxisBlocked(true);
 	rigidBody->SetYAxisBlocked(true);
 	rigidBody->SetZAxisBlocked(true);
-	rigidBody->UpdateBlockedAxis();
+	rigidBody->UpdateBlockedAxis();*/
 }
 
 void ShockWaveAttackScript::EnableRotation() const
 {
-	rigidBody->SetXAxisBlocked(false);
+	aiMovement->SetMovementStatuses(true, true);
+	/*rigidBody->SetXAxisBlocked(false);
 	rigidBody->SetYAxisBlocked(false);
 	rigidBody->SetZAxisBlocked(false);
+	rigidBody->UpdateBlockedAxis();*/
+}
+
+void ShockWaveAttackScript::SetIsPaused(bool isPaused)
+{
+	ComponentRigidBody* rigidBody = owner->GetComponent<ComponentRigidBody>();
+	this->isPaused = isPaused;
+	rigidBody->SetXAxisBlocked(isPaused);
+	rigidBody->SetYAxisBlocked(isPaused);
+	rigidBody->SetZAxisBlocked(isPaused);
 	rigidBody->UpdateBlockedAxis();
 }

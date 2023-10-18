@@ -30,6 +30,7 @@ void WindowFrustum::DrawWindowContents()
 
 	bool showAABBs = debug->IsShowingBoundingBoxes();
 	bool showRB = debug->IsShowingRigidBody();
+	bool showGrid = debug->IsShowingGrid();
 	if (ImGui::Checkbox("Show bounding boxes", &showAABBs))
 	{
 		debug->ShowBoundingBoxes(showAABBs);
@@ -37,6 +38,10 @@ void WindowFrustum::DrawWindowContents()
 	if (ImGui::Checkbox("Show Rigid bodies", &showRB))
 	{
 		debug->ShowRigidBody(showRB);
+	}
+	if (ImGui::Checkbox("Show Grid", &showGrid))
+	{
+		debug->ShowGrid(showGrid);
 	}
 	const char* listbox_items[] = { "Basic Frustum", "Offset Frustum", "No Frustum" };
 
@@ -63,7 +68,7 @@ void WindowFrustum::DrawWindowContents()
 	if (ImGui::SliderInt("Quadrant capacity", &quadrantCapacity, 1, 100, "%d", ImGuiSliderFlags_AlwaysClamp))
 	{
 		rootQuadtree->SetQuadrantCapacity(quadrantCapacity);
-		AXO_TODO("save values for future executions")
+		AXO_TODO("Save values for future executions")
 	}
 
 	float minQuadrantSideSize = rootQuadtree->GetMinQuadrantSideSize();
@@ -71,6 +76,6 @@ void WindowFrustum::DrawWindowContents()
 			"Minimum quadrant side size", &minQuadrantSideSize, 50.0, 500.0, "%.0f", ImGuiSliderFlags_AlwaysClamp))
 	{
 		rootQuadtree->SetMinQuadrantSideSize(minQuadrantSideSize);
-		AXO_TODO("save values for future executions")
+		AXO_TODO("Save values for future executions")
 	}
 }

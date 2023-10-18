@@ -20,11 +20,12 @@ REGISTERCLASS(EnemyMiniBossTwo);
 EnemyMiniBossTwo::EnemyMiniBossTwo() : seekScript(nullptr), bossState(MiniBossTwoBehaviours::IDLE),
 ownerTransform(nullptr), attackDistance(8.0f), boostOfEnergy(nullptr), shield(nullptr),
 componentAnimation(nullptr), componentAudioSource(nullptr), rangedAttack(nullptr), aiMovement(nullptr),
-firstShieldUsed(false), secondShieldUsed(false), seekDistance(15.0f)
+firstShieldUsed(false), secondShieldUsed(false), seekDistance(15.0f), blockedDoor(nullptr)
 {
 	REGISTER_FIELD(seekDistance, float);
 	REGISTER_FIELD(attackDistance, float);
 	REGISTER_FIELD(boostOfEnergy, BoostOfEnergy*);
+	REGISTER_FIELD(blockedDoor, GameObject*);
 }
 
 void EnemyMiniBossTwo::Start()
@@ -40,11 +41,20 @@ void EnemyMiniBossTwo::Start()
 	shield = owner->GetComponent<BossShieldAttackScript>();
 	deathScript = owner->GetComponent<EnemyDeathScript>();
 
-	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
 }
 
 void EnemyMiniBossTwo::Update(float deltaTime)
 {
+	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
+
+	boostOfEnergy->SetIsPaused(isPaused);
+	if (isPaused)
+	{
+		seekScript->DisableMovement();
+		rangedAttack->InterruptAttack();
+		return;
+	}
+	
 	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;
@@ -159,6 +169,8 @@ void EnemyMiniBossTwo::CheckState()
 
 void EnemyMiniBossTwo::UpdateBehaviour(float deltaTime)
 {
+	float3 target = seekTargetTransform->GetGlobalPosition();
+
 	switch (bossState)
 	{
 	case MiniBossTwoBehaviours::SEEK:
@@ -169,15 +181,16 @@ void EnemyMiniBossTwo::UpdateBehaviour(float deltaTime)
 		}
 		else
 		{
-			aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+			aiMovement->SetTargetPosition(target);
+			aiMovement->SetRotationTargetPosition(target);
 		}
 
 		break;
 
 	case MiniBossTwoBehaviours::RANGEDATTACK:
 
-		aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
-
+		aiMovement->SetTargetPosition(target);
+		aiMovement->SetRotationTargetPosition(target);
 
 		break;
 
@@ -185,7 +198,8 @@ void EnemyMiniBossTwo::UpdateBehaviour(float deltaTime)
 		
 		if (boostOfEnergy->attackState == BoostOfEnergyStates::AIMING)
 		{
-			aiMovement->SetTargetPosition(seekTargetTransform->GetGlobalPosition());
+			aiMovement->SetTargetPosition(target);
+			aiMovement->SetRotationTargetPosition(target);
 		}
 
 		break;
@@ -195,6 +209,6 @@ void EnemyMiniBossTwo::UpdateBehaviour(float deltaTime)
 void EnemyMiniBossTwo::SetReadyToDie()
 {
 	componentAnimation->SetParameter("IsDead", true);
-
+	blockedDoor->Disable();
 	deathScript->ManageEnemyDeath();
 }

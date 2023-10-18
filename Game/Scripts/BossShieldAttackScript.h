@@ -5,8 +5,11 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class ComponentAnimation;
+
 class BossShieldScript;
 class HealthSystem;
+class BossShieldEnemiesSpawner;
 
 class BossShieldAttackScript : public Script
 {
@@ -22,6 +25,7 @@ public:
 	bool CanPerformShieldAttack() const;
 
 	bool IsAttacking() const;
+	void SetIsPaused(bool isPaused);
 
 private:
 	void ManageShield(float deltaTime);
@@ -42,11 +46,16 @@ private:
 
 	bool triggerEnemySpawning;
 	float enemySpawnTime;
+	bool manageEnemySpawner = true;
 
 	std::vector<GameObject*> enemiesReadyToSpawn;
 	std::vector<GameObject*> enemiesNotReadyToSpawn;
+	std::vector<GameObject*> initsPaths;
 
 	HealthSystem* healthSystemScript;
+	BossShieldEnemiesSpawner* bossShieldEnemiesSpawner;
+
+	ComponentAnimation* animator;
 
 	// Modifiable values
 	float shieldingMaxTime;
@@ -55,8 +64,10 @@ private:
 	BossShieldScript* bossShieldObject;
 
 	float enemyMaxSpawnTime;
+	unsigned int currentPath;
 
 	GameObject* enemiesToSpawnParent;
 
 	ComponentRigidBody* battleArenaAreaSize;
+	bool isPaused;
 };

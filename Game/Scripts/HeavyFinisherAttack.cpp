@@ -170,7 +170,7 @@ void HeavyFinisherAttack::MoveForward(float deltaTime)
 void HeavyFinisherAttack::HitEnemy()
 {
 	target->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(damage);
-	if (playerAttackScript->IsMeleeAvailable())
+	if (playerAttackScript->IsMelee())
 	{
 		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_CLASH);
 	}

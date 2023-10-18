@@ -8,7 +8,8 @@ RUNTIME_MODIFIABLE_INCLUDE;
 enum class InputVisualType 
 {
 	LIGHT,
-	HEAVY
+	HEAVY,
+	JUMP
 };
 
 class GameObject;
@@ -34,15 +35,32 @@ public:
 
 	void CleanInputVisuals();
 
+	void UpdateFadeOut(float transparency);
+
+	void InitFinishComboButtonsEffect();
+	bool IsCombatActive();
+
+	std::deque<GameObject*> inputVisuals;
 private:
 	GameObject* inputPrefabSoft;
 	GameObject* inputPrefabHeavy;
+	GameObject* inputPrefabJumpAttack;
+	GameObject* shinyEffectPrefab;
 
-	std::deque<GameObject*> inputVisuals;
+	GameObject* noFillBar;
+
+	std::vector<GameObject*> shinyButtonEffect;
 	std::vector<GameObject*> inputPositions;
 
 	ComponentSlider* comboBar;
 
 	float clearComboTimer;
 	bool clearCombo;
+	bool finisherClearEffect;
+	bool forceEnableComboBar;
+
+	float transparency;
+	bool alphaEnabled;
+
+	bool specialActivated;
 };

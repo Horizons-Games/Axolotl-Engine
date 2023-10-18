@@ -9,11 +9,13 @@ class Cubemap
 {
 public:
 	Cubemap();
-	~Cubemap();
 	Cubemap(std::shared_ptr<ResourceCubemap> cubemapRes);
+	Cubemap(GLuint skyboxId);
+	~Cubemap();
 
 	void SaveOptions(Json& json) const;
 	void LoadOptions(Json& json);
+	std::shared_ptr<ResourceCubemap> GetCubemapResource() const;
 
 	void DebugNSight(); // DEBUG purpouse
 
@@ -25,8 +27,8 @@ public:
 	float GetIntensity();
 
 private:
-	void GenerateMaps();
-	void RenderToCubeMap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel = 0);
+	void GenerateMaps(bool hasSkybox);
+	void RenderToCubemap(unsigned int cubemapTex, Program* usedProgram, int resolution, int mipmapLevel = 0);
 	void CreateVAO();
 
 	GLuint frameBuffer;

@@ -1,0 +1,10 @@
+{
+    "UID": 11785489995169839603,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": [
+        "Assets/Textures/AlluraFace.png"
+    ],
+    "ConfigEmitters": [
+        false
+    ]
+}

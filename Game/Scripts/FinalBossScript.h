@@ -2,6 +2,7 @@
 
 #include "../Scripts/EnemyClass.h"
 #include "RuntimeInclude.h"
+#include "Bullet\LinearMath\btVector3.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -15,6 +16,9 @@ class BossChargeAttackScript;
 class ShockWaveAttackScript;
 class BossShieldAttackScript;
 class BossMissilesAttackScript;
+class ComponentAgent;
+class AIMovement;
+class ModulePlayer;
 
 enum class FinalBossPhases
 {
@@ -51,13 +55,14 @@ public:
 
 	void SetReadyToDie() override {};
 
+	void ReactivateMovement() const;
+	void RemoveAgent() const;
+
 private:
 	void ChangeBossPhase();
 	void ManageActualPhase(FinalBossPhases bossState);
 
 	void TryAttacksIndividually();
-
-	void ReactivateMovement() const;
 
 	void ManageNeutralPhase();
 	void ManageAggressivePhase();
@@ -77,7 +82,13 @@ private:
 	ShockWaveAttackScript* shockWaveAttackScript;
 	BossShieldAttackScript* shieldAttackScript;
 	BossMissilesAttackScript* missilesAttackScript;
+	ComponentAgent* agent;
+	AIMovement* aiMovement;
 
 	// Modifiable values
 	GameObject* target;
+	ModulePlayer* modulePlayer;
+
+	bool isUnpaused;
+	btVector3 bossGravity;
 };

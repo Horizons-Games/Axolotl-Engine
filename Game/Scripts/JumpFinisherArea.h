@@ -18,21 +18,19 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	virtual void OnCollisionEnter(ComponentRigidBody* other) override;
-	virtual void OnCollisionExit(ComponentRigidBody* other) override;
+	void VisualStartEffect();
+	void VisualLandingEffect();
 
-	void PushEnemies(float pushForce, float stunTime);
+	GameObject* GetVisualStartEffect();
+
+	void PushEnemies(float pushForce, float stunTime, std::vector<ComponentRigidBody*>* enemies = nullptr);
 
 private:
-	std::vector<GameObject*> enemiesInTheArea;
+	std::vector<ComponentRigidBody*> enemiesInTheArea;
 
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
-	ComponentParticleSystem* particleSystem;
-
-	bool triggerParticleSystemTimer;
-	float particleSystemTimer;
-	float particleSystemCurrentTimer;
-
-	bool throwableForceArea;
+	GameObject* initVisuals;
+	GameObject* landingParticleSystemPrefab;
+	GameObject* actualLandingParticleSystem;
 };

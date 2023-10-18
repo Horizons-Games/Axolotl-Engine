@@ -27,7 +27,7 @@ void WindowComponentAreaLight::DrawWindowContents()
 
 	if (asAreaLight)
 	{
-		AXO_TODO("ADD the rest of types once they are implemented");
+		AXO_TODO("Add the rest of types once they are implemented")
 		const char* lightTypes[] = { "SPHERE", "TUBE" };
 
 		const char* currentType;
@@ -65,7 +65,7 @@ void WindowComponentAreaLight::DrawWindowContents()
 
 			if (ImGui::BeginCombo("##combo", currentType))
 			{
-				for (int i = 0; i < IM_ARRAYSIZE(lightTypes); i++)
+				for (int i = 0; i < IM_ARRAYSIZE(lightTypes); ++i)
 				{
 					bool isSelected = (currentType == lightTypes[i]);
 

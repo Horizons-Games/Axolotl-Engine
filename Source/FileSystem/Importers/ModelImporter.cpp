@@ -126,7 +126,7 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 
 		std::vector<UID> meshesUIDs;
 		meshesUIDs.reserve(node->meshRenderers.size());
-		for (int i = 0; i < node->meshRenderers.size(); i++)
+		for (int i = 0; i < node->meshRenderers.size(); ++i)
 		{
 #ifdef ENGINE
 			jsonMeshes[countMeshes] = node->meshRenderers[i].first->GetAssetsPath().c_str();
@@ -141,7 +141,7 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 
 		std::vector<UID> materialsUIDs;
 		materialsUIDs.reserve(node->meshRenderers.size());
-		for (int i = 0; i < node->meshRenderers.size(); i++)
+		for (int i = 0; i < node->meshRenderers.size(); ++i)
 		{
 #ifdef ENGINE
 			jsonMat[countMat] = node->meshRenderers[i].second->GetAssetsPath().c_str();
@@ -158,7 +158,7 @@ void ModelImporter::Save(const std::shared_ptr<ResourceModel>& resource, char*& 
 
 	std::vector<UID> animationsUIDs;
 	animationsUIDs.reserve(resource->GetNumAnimations());
-	for (int i = 0; i < resource->GetNumAnimations(); i++)
+	for (int i = 0; i < resource->GetNumAnimations(); ++i)
 	{
 #ifdef ENGINE
 		jsonAnims[countAnim] = resource->GetAnimations()[i]->GetAssetsPath().c_str();
@@ -239,7 +239,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 
 #ifdef ENGINE
 		ModuleResources* resources = App->GetModule<ModuleResources>();
-		for (unsigned int i = 0; i < nodeHeader[1]; i++)
+		for (unsigned int i = 0; i < nodeHeader[1]; ++i)
 		{
 			std::string meshPath = jsonMeshes[countMeshes];
 			std::string matPath = jsonMat[countMat];
@@ -272,7 +272,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 		delete[] materialsPointer;
 		fileBuffer += bytes;
 
-		for (int i = 0; i < meshesUIDs.size(); i++)
+		for (int i = 0; i < meshesUIDs.size(); ++i)
 		{
 			std::shared_ptr<ResourceMesh> mesh =
 				App->GetModule<ModuleResources>()->SearchResource<ResourceMesh>(meshesUIDs[i]);
@@ -305,7 +305,7 @@ void ModelImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceModel> 
 	std::vector<UID> animationsUIDs(animationsPointer, animationsPointer + header[1]);
 	delete[] animationsPointer;
 	fileBuffer += bytes;
-	for (int i = 0; i < animationsUIDs.size(); i++)
+	for (int i = 0; i < animationsUIDs.size(); ++i)
 	{
 		std::shared_ptr<ResourceAnimation> anim =
 			App->GetModule<ModuleResources>()->SearchResource<ResourceAnimation>(animationsUIDs[i]);

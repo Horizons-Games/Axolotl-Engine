@@ -63,7 +63,11 @@ void ResourceMesh::InternalUnload()
 
 void ResourceMesh::CreateVBO()
 {
-	glGenBuffers(1, &vbo);
+	if (vbo == 0)
+	{
+		glGenBuffers(1, &vbo);
+	}
+
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
 	// position			//uv				//normal
@@ -137,7 +141,11 @@ void ResourceMesh::CreateVBO()
 
 void ResourceMesh::CreateEBO()
 {
-	glGenBuffers(1, &ebo);
+	if (ebo == 0)
+	{
+		glGenBuffers(1, &ebo);
+	}
+
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
 	GLuint indexSize = sizeof(GLuint) * numFaces * 3;
@@ -159,7 +167,10 @@ void ResourceMesh::CreateEBO()
 
 void ResourceMesh::CreateVAO()
 {
-	glGenVertexArrays(1, &vao);
+	if (vao == 0)
+	{
+		glGenVertexArrays(1, &vao);
+	}
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);

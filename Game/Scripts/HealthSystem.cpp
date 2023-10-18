@@ -4,21 +4,24 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Application.h"
+#include "ModuleInput.h"
 
 #include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/EnemyClass.h"
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
 #include "../Scripts/PlayerManagerScript.h"
-#include "MeshEffect.h"
+#include "../Scripts/ComboManager.h"
+#include "../Scripts/MeshEffect.h"
 
 REGISTERCLASS(HealthSystem);
 
-#define TIME_BETWEEN_EFFECTS 0.05f
-#define MAX_TIME_EFFECT_DURATION 0.1f
+#define TIME_BETWEEN_EFFECTS 0.10f
+#define MAX_TIME_EFFECT_DURATION 0.15f
 
 HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), 
-	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr),	damageTaken(false)
+	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr),	damageTaken(false), playerManager(nullptr)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
@@ -58,6 +61,7 @@ void HealthSystem::Start()
 	if (owner->CompareTag("Player"))
 	{
 		attackScript = owner->GetComponent<PlayerAttackScript>();
+		playerManager = owner->GetComponent<PlayerManagerScript>();
 	}
 }
 
@@ -65,7 +69,7 @@ void HealthSystem::Update(float deltaTime)
 {
 	meshEffect->DamageEffect();
 
-	if (!EntityIsAlive() && owner->CompareTag("Player"))
+	if (!EntityIsAlive() && owner->CompareTag("Player") && playerManager->IsParalyzed())
 	{
 		meshEffect->ClearEffect();
 		PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
@@ -101,23 +105,24 @@ void HealthSystem::TakeDamage(float damage)
 			}
 			damageTaken = true;
 		}
-		else if (owner->CompareTag("Player") && !attackScript->IsPerfomingJumpAttack())
+		else if (owner->CompareTag("Player") && !attackScript->IsPerformingJumpAttack())
 		{
 			float playerDefense = owner->GetComponent<PlayerManagerScript>()->GetPlayerDefense();
 			float actualDamage = std::max(damage - playerDefense, 0.f);
 
 			currentHealth -= actualDamage;
 
-			if (currentHealth - damage <= 0)
+			if (currentHealth <= 0)
 			{
-				PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
-				playerDeathManager->ManagePlayerDeath();
-				componentAnimation->SetParameter("IsDead", true);
+				playerManager->ParalyzePlayer(true);
+				owner->GetComponent<ComboManager>()->SuccessfulAttack(-100.f, AttackType::NONE);
 			}
 			else
 			{
 				componentAnimation->SetParameter("IsTakingDamage", true);
 				damageTaken = true;
+				ModuleInput* input = App->GetModule<ModuleInput>();
+				input->Rumble();
 			}
 		}
 
@@ -168,4 +173,9 @@ void HealthSystem::SetDeathCallback(std::function<void(void)>&& callDeath)
 float HealthSystem::GetCurrentHealth() const
 {
 	return currentHealth;
+}
+
+MeshEffect* HealthSystem::GetMeshEffect() const
+{
+	return meshEffect;
 }

@@ -52,20 +52,33 @@ void LightAttackBullet::Start()
 
 	
 
+	defaultTargetPos = parentTransform->GetGlobalForward();
+	defaultTargetPos.y = 0;
+	defaultTargetPos.Normalize();
+	defaultTargetPos = defaultTargetPos * maxDistanceBullet;
+	defaultTargetPos += parentTransform->GetGlobalPosition();	
 
 	particleSystem = owner->GetComponent<ComponentParticleSystem>();
-	particleSystem->Enable();
-	particleSystemCurrentTimer = particleSystemTimer;
+
+	if (particleSystem)
+	{
+		particleSystem->Enable();
+		particleSystemCurrentTimer = particleSystemTimer;
+	}
 
 	playerAttackScript = owner->GetParent()->GetComponent<PlayerAttackScript>();
 }
 
 void LightAttackBullet::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		return;
+	}
 	if (enemy != nullptr)
 	{
 		float3 targetPos = targetTransform->GetGlobalPosition();
-		targetPos.y = 0.75f; 
+		targetPos.y += 1; 
 		float3 forward = targetPos - owner->GetComponent<ComponentTransform>()->GetGlobalPosition();
 		forward.Normalize();
 
@@ -94,7 +107,11 @@ void LightAttackBullet::Update(float deltaTime)
 	{
 		particleSystemCurrentTimer = particleSystemTimer;
 		triggerParticleSystemTimer = false;
-		particleSystem->Stop();
+
+		if (particleSystem)
+		{
+			particleSystem->Stop();
+		}
 
 		DestroyBullet();
 	}
@@ -117,6 +134,27 @@ void LightAttackBullet::StartMoving()
 			0,
 			forward.z) * velocity);
 }
+void LightAttackBullet::SetPauseBullet(bool isPaused)
+{
+	this->isPaused = isPaused;
+	float3 forward = parentTransform->GetGlobalForward();
+	forward.Normalize();
+	if (isPaused)
+	{
+		rigidBody->SetKpForce(0);
+	}
+	else
+	{
+		rigidBody->SetKpForce(velocity);
+	}
+}
+
+void LightAttackBullet::SetBulletVelocity(float nVelocity)
+{
+	velocity = nVelocity;
+	rigidBody->SetKpForce(velocity);
+}
+
 
 //Function to reposition the bullet to the front of the player before shooting
 void LightAttackBullet::RepositionBullet(GameObject* shooterObject, GameObject* enemyAttacked)
@@ -184,7 +222,7 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->CompareTag("Enemy"))
 	{
-		if (playerAttackScript->IsMeleeAvailable())
+		if (playerAttackScript->IsMelee())
 		{
 			audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
 		}
@@ -197,18 +235,24 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 
 		// Disable the visuals and the rigidbody while the particles are being played
 		//rigidBody->SetIsTrigger(true);
+		
 		owner->GetComponent<ComponentMeshRenderer>()->Disable();
-		particleSystem->Play();
+
 		if (owner->HasComponent<ComponentLine>())
 		{
 			owner->GetComponent<ComponentLine>()->Disable();
+		}
+
+		if (particleSystem)
+		{
+			particleSystem->Play();
 		}
 		triggerParticleSystemTimer = true;
 	}
 
 	else if (!other->IsTrigger() && !other->GetOwner()->CompareTag("Player"))
 	{
-		if (playerAttackScript->IsMeleeAvailable())
+		if (playerAttackScript->IsMelee())
 		{
 			audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
 		}

@@ -9,10 +9,11 @@
 #include "Application.h"
 
 #include "Modules/ModuleScene.h"
+#include "Modules/ModuleDebugDraw.h"
+
 #include "Scene/Scene.h"
 
 #ifndef ENGINE
-	#include "Modules/ModuleDebugDraw.h"
 	#include "Modules/ModuleEditor.h"
 
 	#include "Windows/WindowDebug.h"
@@ -27,6 +28,33 @@ ComponentAreaLight::ComponentAreaLight() :
 	attRadius(1.f),
 	height(1.f)
 {
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float radius = (shapeRadius + attRadius) * 2.0f;
+
+	switch (areaType)
+	{
+		case AreaType::SPHERE:
+		{
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
+
+		case AreaType::TUBE:
+		{
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius, height + radius, radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
+	}
 }
 
 ComponentAreaLight::ComponentAreaLight(const ComponentAreaLight& componentAreaLight) :
@@ -45,6 +73,33 @@ ComponentAreaLight::ComponentAreaLight(AreaType areaType, GameObject* parent) :
 	attRadius(1.f),
 	height(1.f)
 {
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float radius = (shapeRadius + attRadius) * 2.0f;
+
+	switch (areaType)
+	{
+		case AreaType::SPHERE:
+		{
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
+
+		case AreaType::TUBE:
+		{
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius, height + radius, radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
+	}
 }
 
 ComponentAreaLight::ComponentAreaLight(const float3& color, float intensity, AreaType areaType) :
@@ -54,6 +109,33 @@ ComponentAreaLight::ComponentAreaLight(const float3& color, float intensity, Are
 	attRadius(1.f),
 	height(1.f)
 {
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float radius = (shapeRadius + attRadius) * 2.0f;
+
+	switch (areaType)
+	{
+		case AreaType::SPHERE:
+		{
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
+
+		case AreaType::TUBE:
+		{
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius, height + radius, radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
+	}
 }
 
 ComponentAreaLight::ComponentAreaLight(const float3& color, float intensity, GameObject* parent, AreaType areaType) :
@@ -63,6 +145,33 @@ ComponentAreaLight::ComponentAreaLight(const float3& color, float intensity, Gam
 	attRadius(1.f),
 	height(1.f)
 {
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float radius = (shapeRadius + attRadius) * 2.0f;
+
+	switch (areaType)
+	{
+		case AreaType::SPHERE:
+		{
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
+
+		case AreaType::TUBE:
+		{
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius, height + radius, radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
+	}
 }
 
 ComponentAreaLight::~ComponentAreaLight()
@@ -85,8 +194,13 @@ ComponentAreaLight::~ComponentAreaLight()
 	}
 }
 
-void ComponentAreaLight::SignalEnable()
+void ComponentAreaLight::SignalEnable(bool isSceneLoading)
 {
+	if (isSceneLoading)
+	{
+		return;
+	}
+
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	if (areaType == AreaType::SPHERE)
@@ -101,8 +215,13 @@ void ComponentAreaLight::SignalEnable()
 	}
 }
 
-void ComponentAreaLight::SignalDisable()
+void ComponentAreaLight::SignalDisable(bool isSceneLoading)
 {
+	if (isSceneLoading)
+	{
+		return;
+	}
+
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	if (areaType == AreaType::SPHERE)
@@ -121,7 +240,8 @@ void ComponentAreaLight::Draw() const
 {
 	bool canDrawLight =
 #ifdef ENGINE
-		IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
+		IsEnabled() && App->GetPlayState() != Application::PlayState::RUNNING &&
+		GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject();
 #else
 		IsEnabled() && App->GetModule<ModuleEditor>()->GetDebugOptions()->GetDrawAreaLight();
 #endif // ENGINE
@@ -169,52 +289,143 @@ void ComponentAreaLight::Draw() const
 	case AreaType::DISK:
 		break;
 	}
+
+#ifdef ENGINE
+	if (transform->IsDrawBoundingBoxes())
+	{
+		App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
+	}
+#endif
+}
+
+void ComponentAreaLight::SetShapeRadius(float newRadius)
+{
+	isDirty = true;
+	shapeRadius = newRadius;
+
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float radius = (shapeRadius + attRadius) * 2.0f;
+
+	switch (areaType)
+	{
+		case AreaType::SPHERE:
+		{
+			float3 scale = float3(radius);
+			transform->ScaleLocalAABB(scale);
+			break;
+		}
+		case AreaType::TUBE:
+		{
+			float3 scale = float3(radius, height + radius, radius);
+			transform->ScaleLocalAABB(scale);
+			break;
+		}
+	}
+}
+
+void ComponentAreaLight::SetLightRadius(float newRadius)
+{
+	isDirty = true;
+	attRadius = newRadius;
+
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float radius = (shapeRadius + attRadius) * 2.0f;
+
+	switch (areaType)
+	{
+		case AreaType::SPHERE:
+		{
+			float3 scale = float3(radius);
+			transform->ScaleLocalAABB(scale);
+			break;
+		}
+		case AreaType::TUBE:
+		{
+			float3 scale = float3(radius, height + radius, radius);
+			transform->ScaleLocalAABB(scale);
+			break;
+		}
+	}
+}
+
+void ComponentAreaLight::SetHeight(float newHeight)
+{
+	isDirty = true;
+	height = newHeight;
+
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float radius = (shapeRadius + attRadius) * 2.0f;
+	float3 scale = float3(radius, height + radius, radius);
+	transform->ScaleLocalAABB(scale);
 }
 
 void ComponentAreaLight::OnTransformChanged()
 {
 	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	float radius = (shapeRadius + attRadius) * 2.0f;
 
-	if (areaType == AreaType::SPHERE)
+	switch (areaType)
 	{
-		currentScene->UpdateSceneAreaSphere(this);
-		currentScene->RenderAreaSphere(this);
-	}
-	else
-	{
-		currentScene->UpdateSceneAreaTube(this);
-		currentScene->RenderAreaTube(this);
+		case AreaType::SPHERE:
+		{
+			currentScene->UpdateSceneAreaSphere(this);
+			currentScene->RenderAreaSphere(this);
+
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
+
+		case AreaType::TUBE:
+		{
+			currentScene->UpdateSceneAreaTube(this);
+			currentScene->RenderAreaTube(this);
+
+			float3 translation = float3(-0.5f);
+			float3 scale = float3(radius, height + radius, radius);
+
+			transform->TranslateLocalAABB(translation);
+			transform->ScaleLocalAABB(scale);
+
+			break;
+		}
 	}
 }
 
 void ComponentAreaLight::InternalSave(Json& meta)
 {
-	meta["color_light_X"] = (float) color.x;
-	meta["color_light_Y"] = (float) color.y;
-	meta["color_light_Z"] = (float) color.z;
+	meta["color_light_X"] = color.x;
+	meta["color_light_Y"] = color.y;
+	meta["color_light_Z"] = color.z;
 
-	meta["intensity"] = (float) intensity;
+	meta["intensity"] = intensity;
 
 	meta["lightType"] = GetNameByLightType(lightType).c_str();
 
 	meta["areaType"] = GetNameByAreaType(areaType).c_str();
-	meta["shapeRadius"] = (float) shapeRadius;
-	meta["height"] = (float) height;
-	meta["attRadius"] = (float) attRadius;
+	meta["shapeRadius"] = shapeRadius;
+	meta["height"] = height;
+	meta["attRadius"] = attRadius;
 }
 
 void ComponentAreaLight::InternalLoad(const Json& meta)
 {
-	color.x = (float) meta["color_light_X"];
-	color.y = (float) meta["color_light_Y"];
-	color.z = (float) meta["color_light_Z"];
+	color.x = static_cast<float>(meta["color_light_X"]);
+	color.y = static_cast<float>(meta["color_light_Y"]);
+	color.z = static_cast<float>(meta["color_light_Z"]);
 
-	intensity = (float) meta["intensity"];
+	intensity = static_cast<float>(meta["intensity"]);
 
 	lightType = GetLightTypeByName(meta["lightType"]);
 
 	areaType = GetAreaTypeByName(meta["areaType"]);
-	shapeRadius = (float) meta["shapeRadius"];
-	height = (float) meta["height"];
-	attRadius = (float) meta["attRadius"];
+	shapeRadius = static_cast<float>(meta["shapeRadius"]);
+	height = static_cast<float>(meta["height"]);
+	attRadius = static_cast<float>(meta["attRadius"]);
 }

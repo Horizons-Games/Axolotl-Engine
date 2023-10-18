@@ -47,7 +47,6 @@ void BoostOfEnergy::Start()
 {
 	transform = owner->GetComponent<ComponentTransform>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
-	target = owner->GetParent()->GetComponent<SeekBehaviourScript>()->GetTarget();
 
 	mesh->GetOwner()->Disable();
 	light->Disable();
@@ -61,6 +60,12 @@ void BoostOfEnergy::Start()
 
 void BoostOfEnergy::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		return;
+	}
+
+	target = owner->GetParent()->GetComponent<SeekBehaviourScript>()->GetTarget();
 
 	damageZone->UpdateRigidBody();
 	transform->SetGlobalPosition(shootingPosition->GetGlobalPosition());
@@ -220,4 +225,9 @@ void BoostOfEnergy::SetCollisionEnter(ComponentRigidBody* other)
 void BoostOfEnergy::SetCollisionExit(ComponentRigidBody* other)
 {
 	isPlayerInDamageZone = false;
+}
+
+void BoostOfEnergy::SetIsPaused(bool isPaused)
+{
+	this->isPaused = isPaused;
 }

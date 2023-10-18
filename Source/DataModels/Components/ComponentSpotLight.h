@@ -28,8 +28,8 @@ public:
 
 	void Draw() const override;
 
-	void SignalEnable() override;
-	void SignalDisable() override;
+	void SignalEnable(bool isSceneLoading) override;
+	void SignalDisable(bool isSceneLoading) override;
 
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
@@ -65,11 +65,6 @@ inline float ComponentSpotLight::GetOuterAngle() const
 	return outerAngle;
 }
 
-inline void ComponentSpotLight::SetRadius(float radius)
-{
-	this->radius = radius;
-}
-
 inline void ComponentSpotLight::SetInnerAngle(float angle)
 {
 	innerAngle = angle;
@@ -77,5 +72,6 @@ inline void ComponentSpotLight::SetInnerAngle(float angle)
 
 inline void ComponentSpotLight::SetOuterAngle(float angle)
 {
+	isDirty = true;
 	outerAngle = angle;
 }

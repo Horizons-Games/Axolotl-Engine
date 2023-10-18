@@ -4,12 +4,15 @@
 #include "Application.h"
 
 #include "ModuleInput.h"
+#include "ModulePhysics.h"
 
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentScript.h"
 #include "GameObject/GameObject.h"
 #include "../Scripts/EnemyClass.h"
+
+#include "ModulePlayer.h"
 
 #include "../Scripts/HealthSystem.h"
 
@@ -25,7 +28,6 @@ EntityDetection::EntityDetection() : Script(), input(nullptr), rigidBody(nullptr
 interactionAngle(50.0f), playerTransform(nullptr), enemySelected(nullptr), interactionOffset(1.0f),
 angleThresholdEnemyIntersection(1.0f)
 {
-	REGISTER_FIELD(player, GameObject*);
 	REGISTER_FIELD(interactionAngle, float);
 	REGISTER_FIELD(interactionOffset, float);
 	REGISTER_FIELD(angleThresholdEnemyIntersection, float);
@@ -33,6 +35,7 @@ angleThresholdEnemyIntersection(1.0f)
 
 void EntityDetection::Start()
 {
+	player = App->GetModule<ModulePlayer>()->GetPlayer();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	playerTransform = player->GetComponent<ComponentTransform>();
 
@@ -54,7 +57,9 @@ void EntityDetection::UpdateEnemyDetection(float distanceFilter)
 #ifdef ENGINE
 	DrawDetectionLines(distanceFilter);
 #endif // ENGINE
-
+	enemiesInTheArea.clear();
+	App->GetModule<ModulePhysics>()->GetCollisions(rigidBody, enemiesInTheArea, "Enemy");
+	App->GetModule<ModulePhysics>()->GetCollisions(rigidBody, enemiesInTheArea, "PriorityTarget");
 	SelectEnemy(distanceFilter);
 }
 
@@ -63,6 +68,7 @@ void EntityDetection::DrawDetectionLines(float distanceFilter)
 	float magnitude = rigidBody->GetRadius() * rigidBody->GetFactor();
 
 	dd::circle(originPosition, float3(0, 1, 0), dd::colors::DarkRed, distanceFilter,20);
+	dd::circle(originPosition, float3(0, 1, 0), dd::colors::DarkRed, magnitude, 20);
 
 	//Forward line
 	float3 vecRotated = Quat::RotateAxisAngle(float3::unitY, math::DegToRad(interactionAngle)) * vecForward;
@@ -81,8 +87,9 @@ void EntityDetection::SelectEnemy(float distanceFilter)
 	float angleActualSelected = 0;
 	bool actualIsSpecialTarget = false;
 
-	for (ComponentTransform* enemy : enemiesInTheArea)
+	for (ComponentRigidBody* enemyRigid : enemiesInTheArea)
 	{
+		ComponentTransform* enemy = enemyRigid->GetOwnerTransform();
 		bool insideDistanceFilter = true;
 		if (distanceFilter != 0)
 		{
@@ -171,29 +178,33 @@ void EntityDetection::VisualParticle(bool activate, GameObject* enemy)
 
 void EntityDetection::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->CompareTag("Enemy") ||
+	/*if (other->GetOwner()->CompareTag("Enemy") ||
 		other->GetOwner()->CompareTag("PriorityTarget") && other->GetOwner()->IsEnabled())
 	{
-		enemiesInTheArea.push_back(other->GetOwner()->GetComponent<ComponentTransform>());
-	}
+		enemiesInTheArea.push_back(other);
+	}*/
 }
 
 void EntityDetection::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (enemySelected == other->GetOwner()->GetComponent<ComponentTransform>())
+	/*if (other->GetOwner()->CompareTag("Enemy") ||
+		other->GetOwner()->CompareTag("PriorityTarget") && other->GetOwner()->IsEnabled())
 	{
-		VisualParticle(false, enemySelected->GetOwner());
-		enemySelected = nullptr;
-	}
+		if (enemySelected == other->GetOwner()->GetComponent<ComponentTransform>())
+		{
+			VisualParticle(false, enemySelected->GetOwner());
+			enemySelected = nullptr;
+		}
 
-	enemiesInTheArea.erase(
-		std::remove_if(
-			std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const ComponentTransform* transform)
-			{
-				return transform == other->GetOwner()->GetComponent<ComponentTransform>();
-			}
-		),
-		std::end(enemiesInTheArea));
+		enemiesInTheArea.erase(
+			std::remove_if(
+				std::begin(enemiesInTheArea), std::end(enemiesInTheArea), [other](const ComponentRigidBody* rigid)
+				{
+					return rigid == other;
+				}
+			),
+			std::end(enemiesInTheArea));
+	}*/
 }
 
 
@@ -207,4 +218,34 @@ GameObject* EntityDetection::GetEnemySelected() const
 	{
 		return nullptr;
 	}
+}
+
+bool EntityDetection::AreAnyEnemiesInTheArea() const
+{
+	return !enemiesInTheArea.empty();
+}
+
+std::vector<ComponentRigidBody*>& EntityDetection::GetEnemiesInTheArea()
+{
+	return enemiesInTheArea;
+}
+
+void EntityDetection::FilterEnemiesByDistance(float distanceFilter, 
+											std::vector<ComponentRigidBody*>& enemiesInTheAreaFiltered)
+{
+	if (distanceFilter > rigidBody->GetRadius())
+	{
+		distanceFilter = rigidBody->GetRadius();
+	}
+
+	std::for_each(enemiesInTheArea.begin(), enemiesInTheArea.end(),
+		[&distanceFilter, &enemiesInTheAreaFiltered, this](ComponentRigidBody* enemy)
+		{
+			float3 enemyPosition = enemy->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
+			enemyPosition.y = originPosition.y;
+			if (originPosition.Distance(enemyPosition) <= distanceFilter)
+			{
+				enemiesInTheAreaFiltered.emplace_back(enemy);
+			}
+		});
 }

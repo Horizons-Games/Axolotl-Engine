@@ -13,6 +13,7 @@
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentVideo.h"
 #include "Components/UI/ComponentTransform2D.h"
 #include "Components/UI/ComponentSlider.h"
 #include "GL/glew.h"
@@ -56,6 +57,11 @@ bool ModuleUI::Init()
 
 UpdateStatus ModuleUI::Update()
 {
+	if (App->GetModule<ModuleScene>()->IsLoading())
+	{
+		return UpdateStatus::UPDATE_CONTINUE;
+	}
+
 	std::vector<ComponentCanvas*> canvasScene = App->GetModule<ModuleScene>()->GetLoadedScene()->GetSceneCanvas();
 
 #ifdef ENGINE
@@ -67,24 +73,32 @@ UpdateStatus ModuleUI::Update()
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 
 	bool leftClickDown = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
+
+	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD)
+	{
+		leftClickDown = input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN;
+	}
+
 	lastButtonChange = lastButtonChange + App->GetDeltaTime();
 
 	if (!sortedButtonsIds.empty() && lastButtonChange > cooldownTime)
 	{
-		JoystickMovement joystickMovement = input->GetDirection();
+		JoystickDirection leftJoystickDirection = input->GetLeftJoystickDirection();
 
-		int newIndex = currentButtonIndex;
+		int newIndex = static_cast<int>(currentButtonIndex);
 		do
 		{
-			if (joystickMovement.verticalMovement == JoystickVerticalDirection::FORWARD)
+			if (leftJoystickDirection.verticalDirection == JoystickVerticalDirection::FORWARD ||
+				input->GetKey(SDL_SCANCODE_TAB) != KeyState::IDLE)
 			{
 				// We sum the size to avoid negative values, if this is not used we can not jump
 				// from the first button to the last
-				newIndex = (newIndex - 1 + sortedButtonsIds.size()) % sortedButtonsIds.size();
+				newIndex = (newIndex - 1 + sortedButtonsIds.size()) % static_cast<int>(sortedButtonsIds.size());
 			}
 			// When the current button is not enabled we keep looping until we find one enabled,
 			// this avoids getting stuck in a disabled button when we change from a scene to another
-			else if (joystickMovement.verticalMovement == JoystickVerticalDirection::BACK ||
+			else if (leftJoystickDirection.verticalDirection == JoystickVerticalDirection::BACK ||
+					 input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE ||
 					 !scene->GetLoadedScene()
 						  ->SearchGameObjectByID(sortedButtonsIds[newIndex])
 						  ->GetComponent<ComponentButton>()
@@ -152,9 +166,16 @@ UpdateStatus ModuleUI::PostUpdate()
 		ComponentButton* button = static_cast<ComponentButton*>(interactable);
 		ModuleInput* input = App->GetModule<ModuleInput>();
 
+		bool leftClickUp = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::UP;
+
+		if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD)
+		{
+			leftClickUp = input->GetKey(SDL_SCANCODE_SPACE) == KeyState::UP;
+		}
+
 		if (button->IsClicked())
 		{
-			if (input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::UP)
+			if (leftClickUp)
 			{
 #ifndef ENGINE
 				button->OnClicked();
@@ -206,6 +227,11 @@ void ModuleUI::CreateVAO()
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*) 0);
 
 	glBindVertexArray(0);
+}
+
+void ModuleUI::ResetCurrentButtonIndex()
+{
+	currentButtonIndex = 0;
 }
 
 void ModuleUI::SetUpButtons()
@@ -326,6 +352,15 @@ void ModuleUI::Draw2DGameObject(const GameObject* gameObject)
 			if (image->IsEnabled())
 			{
 				image->Draw();
+			}
+		}
+
+		for (ComponentVideo* video : gameObject->GetComponents<ComponentVideo>())
+		{
+			if (video->IsEnabled())
+			{
+				video->Draw();
+				video->UpdateVideoFrame();
 			}
 		}
 

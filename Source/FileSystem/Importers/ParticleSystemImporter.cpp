@@ -71,7 +71,7 @@ void ParticleSystemImporter::Save
 		// header of emitter (Size name + size Modules + check Resource) + content of Emitter
 		+ (sizeof(unsigned int) * 5 + sizeof(float) * 17 + sizeof(bool) * 6) * resource->GetNumEmitters();
 
-	for(size_t i = 0; i < header[0]; i++)
+	for(size_t i = 0; i < header[0]; ++i)
 	{
 		const ParticleEmitter* emitter = resource->GetEmitter(static_cast<unsigned int>(i));
 		size += static_cast<unsigned int>(emitter->GetName().size());
@@ -125,7 +125,7 @@ void ParticleSystemImporter::Save
 
 	cursor += bytes;
 
-	for (size_t i = 0; i < header[0]; i++)
+	for (size_t i = 0; i < header[0]; ++i)
 	{
 		const ParticleEmitter* emitter = resource->GetEmitter(static_cast<unsigned int>(i));
 

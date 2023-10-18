@@ -12,6 +12,9 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentRigidBody.h"
 
+#include "../Scripts/MeshEffect.h"
+#include "../Scripts/HealthSystem.h"
+
 #include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(PlayerDeathScript);
@@ -31,23 +34,30 @@ void PlayerDeathScript::Start()
 void PlayerDeathScript::ManagePlayerDeath() const
 {
 
-#ifndef ENGINE
-	if (loseSceneName != "" && !componentAnimation->IsPlaying() && componentAnimation->GetActualStateName() == "Dying")
-	{
-		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + loseSceneName + ".axolotl");
-	}
-#endif // ENGINE
+//#ifndef ENGINE
+//	if (loseSceneName != "" && !componentAnimation->IsPlaying() && componentAnimation->GetActualStateName() == "Dying")
+//	{
+//		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/" + loseSceneName + ".axolotl");
+//	}
+//#endif // ENGINE
 	if (!componentAnimation->IsPlaying() && componentAnimation->GetActualStateName() == "Death")
 	{
 		LOG_VERBOSE("Player is dead");
 	}
 
 	componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-	DisablePlayerActions();
+	componentAnimation->SetParameter("IsDead", true);
+	if (componentAnimation->GetActualStateName() == "Dying")
+	{
+		DisablePlayerActions();
+	}
 }
 
 void PlayerDeathScript::DisablePlayerActions() const
 {
+	MeshEffect* meshEffectScript = owner->GetComponent<HealthSystem>()->GetMeshEffect();
+	meshEffectScript->ClearEffect();
+
 	// Once the player is dead, disable its scripts
 	std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
 

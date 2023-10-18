@@ -9,6 +9,9 @@ class ModuleInput;
 
 class JumpFinisherArea;
 class JumpFinisherAttackBullet;
+class PlayerManagerScript;
+
+class ComponentRigidBody;
 
 class JumpFinisherAttack : public Script
 {
@@ -18,12 +21,25 @@ public:
 
 	void Start() override;
 	
-	void PerformGroundSmash(float pushForce, float stunTime);
+	void PerformGroundSmash();
+	void VisualLandingEffect();
+	void PushEnemies(float pushForce, float stunTime, std::vector<ComponentRigidBody*>& enemies);
 	void ShootForceBullet(float pushForce, float stunTime);
+
+	bool IsActive() const;
+
+	void SetBulletHitTheFloor(bool bulletHitTheFloor);
+	bool GetBulletHitTheFloor() const;
 
 private:
 	ModuleInput* input;
 
 	JumpFinisherArea* forceArea;
 	GameObject* forceAttackBullet;
+
+	ComponentRigidBody* rigidBody;
+	PlayerManagerScript* playerManager;
+
+	bool activated;
+	bool bulletHitTheFloor;
 };

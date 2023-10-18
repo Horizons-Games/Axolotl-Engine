@@ -60,6 +60,11 @@ bool ModuleCamera::Start()
 
 UpdateStatus ModuleCamera::Update()
 {
+	if (App->GetModule<ModuleScene>()->IsLoading())
+	{
+		return UpdateStatus::UPDATE_CONTINUE;
+	}
+
 	ModuleInput* input = App->GetModule<ModuleInput>();
 	if (
 #ifdef ENGINE
@@ -91,7 +96,10 @@ UpdateStatus ModuleCamera::Update()
 		}*/
 	}
 
-	selectedCamera->Update();
+	if (selectedCamera)
+	{
+		selectedCamera->Update();
+	}
 
 	return UpdateStatus::UPDATE_CONTINUE;
 }
@@ -117,7 +125,7 @@ void ModuleCamera::SetSelectedCamera(int cameraNumber)
 	{
 #ifdef ENGINE
 		selectedPosition = 0;
-		if (App->IsOnPlayMode())
+		if (App->GetPlayState() == Application::PlayState::RUNNING)
 		{
 			selectedCamera = App->GetModule<ModulePlayer>()->GetCameraPlayer();
 			if (!selectedCamera)

@@ -39,12 +39,17 @@ public:
 	void SetIsDeathTouched(bool isDeathTouch);
 
 	bool IsAttackAvailable() const;
-	bool IsMeleeAvailable() const;
-	bool IsPerfomingJumpAttack() const;
+	bool IsMelee() const;
+	bool IsPerformingJumpAttack() const;
+
+	bool CanAttack() const;
+	void SetCanAttack(bool canAttack);
 
 	AttackType GetCurrentAttackType() const;
 	bool IsInAttackAnimation() const;
 	GameObject* GetEnemyDetected() const;
+
+	void PlayWeaponSounds() const;
 
 private:
 	void Start() override;
@@ -56,18 +61,23 @@ private:
 
 	void LightNormalAttack();
 	void HeavyNormalAttack();
-	void JumpNormalAttack();
+	void InitJumpAttack();
+	void UpdateJumpAttack();
+	void EndJumpNormalAttack();
+	void EndJumpFinisherAttack();
 	void LightFinisher();
 	void HeavyFinisher();
-	void JumpFinisher();
 
 	void ResetAttackAnimations(float deltaTime);
 
 	void DamageEnemy(GameObject* enemyAttacked, float damageAttack);
 	void ThrowBasicAttack(GameObject* enemyAttacked, float nDamage);
 
+	bool canAttack;
 	bool isAttacking;
 	bool isMelee;
+	bool isGroundParalyzed;
+
 	float attackCooldown;
 	float attackCooldownCounter;
 	float comboInitTimer;
@@ -77,6 +87,11 @@ private:
 	bool isNextAttackTriggered;
 	std::string currentAttackAnimation;
 	float numAttackComboAnimation;
+
+	float jumpAttackCooldown;
+	float timeSinceLastJumpAttack;
+
+	float jumpBeforeJumpAttackCooldown;
 
 	bool isHeavyFinisherReceivedAux;
 
@@ -93,11 +108,14 @@ private:
 
 	EntityDetection* enemyDetection;
 	ComboManager* comboSystem;
+
 	float comboCountLight;
 	float comboCountHeavy;
 	float comboCountJump;
-	float attackSoft;
-	float attackHeavy;
+
+	float attackSoftDamage;
+	float attackHeavyDamage;
+	float bulletVelocity;
 
 	float normalAttackDistance;
 	AttackCombo attackComboPhase;

@@ -20,13 +20,14 @@
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentCubemap.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentDirLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentImage.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentVideo.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshCollider.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentMeshRenderer.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentParticle.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentTrail.h"
+#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentLocalIBL.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayer.h"
-#include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPlayerInput.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentPointLight.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentRigidBody.h"
 #include "DataModels/Windows/SubWindows/ComponentWindows/WindowComponentScript.h"
@@ -53,8 +54,8 @@
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentTrail.h"
+#include "Components/ComponentLocalIBL.h"
 #include "Components/ComponentPlayer.h"
-#include "Components/ComponentPlayerInput.h"
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"
@@ -68,6 +69,7 @@
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
+#include "Components/UI/ComponentVideo.h"
 #include "Components/UI/ComponentTransform2D.h"
 
 #include "Commands/CommandComponentEnabled.h"
@@ -99,8 +101,6 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentCameraSample>(static_cast<ComponentCameraSample*>(component));
 			case ComponentType::PLAYER:
 				return std::make_unique<WindowComponentPlayer>(static_cast<ComponentPlayer*>(component));
-			case ComponentType::PLAYERINPUT:
-				return std::make_unique<WindowComponentPlayerInput>(static_cast<ComponentPlayerInput*>(component));
 			case ComponentType::ANIMATION:
 				return std::make_unique<WindowComponentAnimation>(static_cast<ComponentAnimation*>(component));
 			case ComponentType::CANVAS:
@@ -109,6 +109,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 				return std::make_unique<WindowComponentSlider>(static_cast<ComponentSlider*>(component));
 			case ComponentType::IMAGE:
 				return std::make_unique<WindowComponentImage>(static_cast<ComponentImage*>(component));
+			case ComponentType::VIDEO:
+				return std::make_unique<WindowComponentVideo>(static_cast<ComponentVideo*>(component));
 			case ComponentType::BUTTON:
 				return std::make_unique<WindowComponentButton>(static_cast<ComponentButton*>(component));
 			case ComponentType::RIGIDBODY:
@@ -152,6 +154,8 @@ std::unique_ptr<ComponentWindow> ComponentWindow::CreateWindowForComponent(Compo
 						return std::make_unique<WindowComponentSpotLight>(static_cast<ComponentSpotLight*>(component));
 					case LightType::AREA:
 						return std::make_unique<WindowComponentAreaLight>(static_cast<ComponentAreaLight*>(component));
+					case LightType::LOCAL_IBL:
+						return std::make_unique<WindowComponentLocalIBL>(static_cast<ComponentLocalIBL*>(component));
 					case LightType::UNKNOWN:
 					default:
 						return std::make_unique<WindowComponentLight>(asLight);

@@ -7,7 +7,10 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentRigidBody;
 class ComponentTransform;
+class ComponentAgent;
+class ComponentAnimation;
 
+class AIMovement;
 class ShockWaveAttackAreaScript;
 
 class ShockWaveAttackScript : public Script
@@ -19,14 +22,16 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void TriggerNormalShockWaveAttack(ComponentTransform* targetPosition);
+	void PrepareShockWaveAttack(ComponentTransform* targetPosition);
 	void TriggerSeekingShockWaveAttack(ComponentTransform* targetPosition);
 	bool CanPerformShockWaveAttack() const;
 
 	bool IsAttacking() const;
+	void SetIsPaused(bool isPaused);
 
 private:
 	void ManageAreaBehaviour(float deltaTime);
+	void TriggerNormalShockWaveAttack();
 
 	void SeekTowardsTarget();
 	void CheckPlayerDetected();
@@ -40,12 +45,16 @@ private:
 	float shockWaveCooldown;
 	bool shockWaveHitPlayer;
 
-	ComponentRigidBody* rigidBody;
+	//ComponentRigidBody* rigidBody;
 	ComponentTransform* transform;
+	AIMovement* aiMovement;
+	ComponentAgent* agent;
 
 	ComponentTransform* targetPosition;
+	ComponentAnimation* animator;
 
 	bool isSeeking;
+	bool isPreparingShockwave;
 
 	// Modifiable values
 	float shockWaveMaxCooldown;
@@ -53,4 +62,6 @@ private:
 
 	ShockWaveAttackAreaScript* outerArea;
 	ShockWaveAttackAreaScript* innerArea;
+
+	bool isPaused;
 };

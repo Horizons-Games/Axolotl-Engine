@@ -37,8 +37,13 @@ public:
 
 	virtual void SetReadyToDie() = 0;
 
+	void PauseEnemy(bool isPaused);
+	bool isPaused;
+	virtual void ParalyzeEnemy(bool nparalyzed);
+
 protected:
 	bool stunned;
+	bool paralyzed;
 	float timeStunned;
 
 	GameObject* particleTargetGO;

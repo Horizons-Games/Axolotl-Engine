@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/mask_DefaultMaterial_BaseColor.png",
+    "NormalAssetPath": "Assets/Textures/mask_DefaultMaterial_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/mask_DefaultMaterial_Metallic.png",
+    "EmissiveAssetPath": "Assets/Textures/mask_DefaultMaterial_Emissive.png"
+}

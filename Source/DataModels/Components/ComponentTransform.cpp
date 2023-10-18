@@ -35,6 +35,8 @@ ComponentTransform::ComponentTransform(const ComponentTransform& componentTransf
 	Component(componentTransform),
 	bbPos(componentTransform.GetBBPos()),
 	bbSca(componentTransform.GetBBScale()),
+	originScaling(componentTransform.originScaling),
+	originCenter(componentTransform.originCenter),
 	localPos(componentTransform.GetLocalPosition()),
 	localRot(componentTransform.GetLocalRotation()),
 	localSca(componentTransform.GetLocalScale()),
@@ -183,45 +185,6 @@ void ComponentTransform::UpdateTransformMatrices(bool notifyChanges)
 		{
 			childTransform->UpdateTransformMatrices(notifyChanges);
 		}
-	}
-}
-
-void ComponentTransform::CalculateLightTransformed(const ComponentLight* lightComponent,
-												   bool translationModified,
-												   bool rotationModified)
-{
-	Scene* loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
-
-	switch (lightComponent->GetLightType())
-	{
-		case LightType::DIRECTIONAL:
-			if (rotationModified)
-				loadedScene->RenderDirectionalLight();
-			break;
-
-		case LightType::POINT:
-			if (translationModified)
-			{
-				loadedScene->UpdateScenePointLights();
-				loadedScene->RenderPointLights();
-			}
-			break;
-
-		case LightType::SPOT:
-			if (translationModified || rotationModified)
-			{
-				loadedScene->UpdateSceneSpotLights();
-				loadedScene->RenderSpotLights();
-			}
-			break;
-
-		case LightType::AREA:
-			if (translationModified || rotationModified)
-			{
-				loadedScene->UpdateSceneAreaLights();
-				loadedScene->RenderAreaLights();
-			}
-			break;
 	}
 }
 

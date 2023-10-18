@@ -16,7 +16,9 @@ public:
 	void Update(float deltaTime) override;
 
 	void SetTargetPosition(float3 targetPos); //Automatically moves and rotates
+	void SetRotationTargetPosition(float3 rotationTargetPos);
 	void SetMovementStatuses(bool activateMovement, bool activateRotation);
+	void SetMovementSpeed(float newMovementSpeed);
 	
 	bool GetIsAtDestiny();
 
@@ -27,10 +29,12 @@ private:
 	ComponentAgent* agent;
 
 	float3 targetPosition;
+	float3 rotationTargetPosition;
 	float3 forwardVector;
 
 	float movementSpeed;
 	float rotationSpeed;
+	float agentVelocity;
 	float targetPositionOffset;
 	bool movementActivated;
 	bool rotationActivated;

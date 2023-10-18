@@ -74,7 +74,7 @@ bool WindowLoading::DrawSpinner(const char* label, float radius, int thickness, 
 
 	const ImVec2 centre = ImVec2(pos.x + radius, pos.y + radius + style.FramePadding.y);
 
-	for (float i = 0; i < num_segments; i++)
+	for (float i = 0; i < num_segments; ++i)
 	{
 		const float a = a_min + (i / num_segments) * (a_max - a_min);
 		window->DrawList->PathLineTo(ImVec2(centre.x + ImCos(a + static_cast<float>(g.Time) * 8) * radius,

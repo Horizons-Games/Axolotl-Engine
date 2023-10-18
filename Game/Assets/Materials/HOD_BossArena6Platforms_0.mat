@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/HOD_BossArena2_Platforms_AlbedoTransparency.png",
+    "NormalAssetPath": "Assets/Textures/HOD_BossArena2_Platforms_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/HOD_BossArena2_Platforms_MetallicSmoothness.png",
+    "EmissiveAssetPath": "Assets/Textures/HOD_BossArena2_Platforms_Emission.png"
+}
