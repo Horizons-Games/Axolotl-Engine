@@ -213,8 +213,6 @@ void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 	currentPlayerTransform = currentPlayer->GetComponent<ComponentTransform>();
 	secondPlayerTransform = secondPlayer->GetComponent<ComponentTransform>();
 
-	// The position where the newCurrentPlayer will appear
-	playerPosition = currentPlayerTransform->GetGlobalPosition();
 
 	changePlayerTimer.Stop();
 	changePlayerTimer.Start();
@@ -270,6 +268,8 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		componentAnimation->SetParameter("IsFalling", true);
 		VisualSwitchEffect();
 		comboSystem->ClearComboForSwitch(true);
+		// The position where the newCurrentPlayer will appear
+		playerPosition = currentPlayerTransform->GetGlobalPosition();
 
 		currentPlayer->Disable();
 		playerManager->StopHackingParticles();
