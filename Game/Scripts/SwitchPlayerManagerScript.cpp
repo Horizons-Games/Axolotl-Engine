@@ -27,7 +27,7 @@
 REGISTERCLASS(SwitchPlayerManagerScript);
 
 SwitchPlayerManagerScript::SwitchPlayerManagerScript() : Script(), camera(nullptr), input(nullptr),
-	modulePlayer(nullptr), isSwitchAvailable(true), changingPlayerTime{200.f, 800.f, 1800.f},
+	modulePlayer(nullptr), isSwitchAvailable(true), changingPlayerTime{50.f, 400.f, 1100.f},
 	currentPlayerHealthBar(nullptr), secondPlayerHealthBar(nullptr), currentHealthBarTransform(nullptr),
 	secondHealthBarTransform(nullptr), currentPlayerTransform(nullptr), secondPlayerTransform(nullptr),
 	particlesTransform(nullptr), isSecondJumpAvailable(true), comboSystem(nullptr),
@@ -213,8 +213,6 @@ void SwitchPlayerManagerScript::CheckChangeCurrentPlayer()
 	currentPlayerTransform = currentPlayer->GetComponent<ComponentTransform>();
 	secondPlayerTransform = secondPlayer->GetComponent<ComponentTransform>();
 
-	// The position where the newCurrentPlayer will appear
-	playerPosition = currentPlayerTransform->GetGlobalPosition();
 
 	changePlayerTimer.Stop();
 	changePlayerTimer.Start();
@@ -270,6 +268,8 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 		componentAnimation->SetParameter("IsFalling", true);
 		VisualSwitchEffect();
 		comboSystem->ClearComboForSwitch(true);
+		// The position where the newCurrentPlayer will appear
+		playerPosition = currentPlayerTransform->GetGlobalPosition();
 
 		currentPlayer->Disable();
 		playerManager->StopHackingParticles();
