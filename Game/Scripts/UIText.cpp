@@ -38,7 +38,7 @@ void UIText::AddInputVisuals(float numFrom)
 {
 		int number = static_cast<int>(numFrom);
 		int digit = 0;
-		int maxNumberToShow = inputPositions.size();
+		int maxNumberToShow = static_cast<int>(inputPositions.size());
 		GameObject* prefab = nullptr;
 
 		CleanInputVisuals();
@@ -81,7 +81,7 @@ void UIText::FpsMetric(float time)
 		fps = (1.0f / timeDiff) * counter;
 		ms = (timeDiff / counter) * 1000.0f;
 		previousTime = currentTime;
-		counter = 0.0f;
+		counter = 0;
 	}
 	AddInputVisuals(fps);
 	LOG_INFO("fps {} - -- mls {}", fps, ms);

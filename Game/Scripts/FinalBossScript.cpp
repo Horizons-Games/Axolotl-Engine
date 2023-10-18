@@ -48,11 +48,41 @@ void FinalBossScript::Start()
 	agent = owner->GetComponent<ComponentAgent>();
 	aiMovement = owner->GetComponent<AIMovement>();
 
+	bossGravity = rigidBody->GetRigidBody()->getGravity();
+
 	LOG_INFO("Final Boss is in the NEUTRAL PHASE");
 }
 
 void FinalBossScript::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		aiMovement->SetMovementStatuses(false, false);
+		chargeAttackScript->SetIsPaused(isPaused);
+		shockWaveAttackScript->SetIsPaused(isPaused);
+		missilesAttackScript->SetIsPaused(isPaused);
+		shieldAttackScript->SetIsPaused(isPaused);
+
+		bossPhase = FinalBossPhases::NEUTRAL;
+		bossState = FinalBossStates::IDLE;
+
+		rigidBody->GetRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
+		rigidBody->GetRigidBody()->setGravity(btVector3(0, 0, 0));
+		rigidBody->SetIsStatic(true);
+		isUnpaused = true;
+		return;
+	}
+	if (isUnpaused)
+	{
+		rigidBody->SetIsStatic(false);
+		rigidBody->GetRigidBody()->setGravity(bossGravity);
+		chargeAttackScript->SetIsPaused(isPaused);
+		shockWaveAttackScript->SetIsPaused(isPaused);
+		missilesAttackScript->SetIsPaused(isPaused);
+		shieldAttackScript->SetIsPaused(isPaused);
+		isUnpaused = false;
+	}
+
 	if (!target)
 	{
 		return;
@@ -215,8 +245,7 @@ void FinalBossScript::ManageNeutralPhase()
 		return;
 	}
 
-	// Trust me, 1 in 1500 chance is enough
-	bool chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(1500.0f);
+	bool chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(5000.0f);
 
 	// If the player gets near the boss, the boss will defend itself with a shockwave if possible
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
@@ -257,7 +286,7 @@ void FinalBossScript::ManageAggressivePhase()
 		return;
 	}
 
-	bool chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(500.0f); // Triple the chance of charges
+	bool chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(2000.0f);
 	bool seekingShockWaveChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(500.0f);
 
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
@@ -308,8 +337,7 @@ void FinalBossScript::ManageDefensivePhase()
 		return;
 	}
 
-	// Reduce a lot the chance of charges
-	bool chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(2500.0f);
+	bool chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(10000.0f);
 	bool shieldChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(200.0f);
 
 	// The boss is on the defensive now, if the shield attack is available, they will most likely trigger it
@@ -357,9 +385,8 @@ void FinalBossScript::ManageLastResortPhase()
 		return;
 	}
 
-	bool chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(750.0f);
+	bool chargeChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(2500.0f);
 	bool seekingShockWaveChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(750.0f);
-	// This is his final attack, he should trigger almost always when ready IMO
 	bool lastResortMissilesChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(250.0f);
 
 	// If the missiles attack is ready, trigger it as much as possible

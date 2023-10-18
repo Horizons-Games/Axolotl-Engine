@@ -45,9 +45,9 @@ private:
 	ActiveActions activeState;
 	ComponentRigidBody* componentRigidBody;
 
-	GameObject* enemisToSpawn;
+	GameObject* enemiesToSpawn;
 	ElevatorCore* elevator;
-	std::vector<GameObject*> enemisWating;
+	std::vector<GameObject*> enemiesWaiting;
 
 	HackZoneScript* linkedHackZone;
 	bool interactWithEnemies;

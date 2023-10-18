@@ -31,6 +31,7 @@ public:
 	void SwitchHealthBars();
 
 	void SetIsSwitchAvailable(bool available);
+	bool IsSwitchAvailable() const;
 
 	void VisualSwitchEffect();
 	GameObject* GetSecondPlayer() const;
@@ -41,6 +42,7 @@ private:
 	ModuleInput* input;
 	ModulePlayer* modulePlayer;
 	Timer changePlayerTimer;
+	float currentChangePlayerTime;
 	std::vector<float> changingPlayerTime;
 
 	ComboManager* comboSystem;
@@ -83,4 +85,5 @@ private:
 
 	bool bossScene;
 	bool isSwitchAvailable;
+	bool isUnpaused;
 };
