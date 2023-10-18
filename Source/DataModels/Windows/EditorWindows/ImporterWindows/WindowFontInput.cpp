@@ -10,7 +10,7 @@ WindowFontInput::WindowFontInput() :
 {
 	dialogName = "Select Font";
 	title = "Load Font";
-	filters = FONT_EXTENSION + std::string(",.TTF");
+	filters = FONT_EXTENSION + std::string(",.TTF,.*");
 	startPath = "Assets/Fonts";	
 }
 

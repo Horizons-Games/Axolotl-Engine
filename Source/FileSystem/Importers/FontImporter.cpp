@@ -15,57 +15,57 @@ FontImporter::~FontImporter()
 
 void FontImporter::Import(const char* filePath, std::shared_ptr<ResourceFont> resource)
 {
-	/*ENGINE_LOG("Import font from %s", filePath);*/
 	char* buffer{};
 	unsigned int size;
-	if (resource.get()->ImportFont(filePath)) {		
+	if (resource->ImportFont(filePath))
+	{
 		Save(resource, buffer, size);
 		App->GetModule<ModuleFileSystem>()->Save(
-			(resource.get()->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
-		/*App->fileSystem->Save((resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);*/		
-	}	
-	/*buffer = nullptr;
-	delete[] buffer;*/
+			(resource->GetLibraryPath() + GENERAL_BINARY_EXTENSION).c_str(), buffer, size);
+	}		
+	delete[] buffer;
 }
 
 void FontImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceFont> resource)
 {
-	if (resource.get()->IsCharacterEmpty())
+	if (resource->IsCharacterEmpty())
 	{
-		resource.get()->storeFont.clear();
+		resource->storeFont.clear();
 		int num = 0;
 
 		while (num < 128)
 		{
-			unsigned int header[5];
-			int header2[2];
-			memcpy(header, fileBuffer, sizeof(header));
-			fileBuffer += sizeof(header);
-			memcpy(header2, fileBuffer, sizeof(header2));
-			fileBuffer += sizeof(header2);
-			if (header[4] != 0)
+			unsigned int headerTypeUnsignetInt[5];
+			int headerTypeInt[2];
+			memcpy(headerTypeUnsignetInt, fileBuffer, sizeof(headerTypeUnsignetInt));
+			fileBuffer += sizeof(headerTypeUnsignetInt);
+			memcpy(headerTypeInt, fileBuffer, sizeof(headerTypeInt));
+			fileBuffer += sizeof(headerTypeInt);
+			if (headerTypeUnsignetInt[4] != 0)
 			{
-				unsigned char* pixelsPointer = new unsigned char[header[4]];
-				memcpy(pixelsPointer, fileBuffer, sizeof(unsigned char) * header[4]);
-				std::vector<uint8_t> pixel(pixelsPointer, pixelsPointer + header[4]);
+				unsigned char* pixelsPointer = new unsigned char[headerTypeUnsignetInt[4]];
+				memcpy(pixelsPointer, fileBuffer, sizeof(unsigned char) * headerTypeUnsignetInt[4]);
+				std::vector<uint8_t> pixel(pixelsPointer, pixelsPointer + headerTypeUnsignetInt[4]);
 
-				StoreFontInPixels newstore = { header[0],  header[1], header[2], header2[0],
-											   header2[1], header[3], header[4], pixel
+				StoreFontInPixels newstore = {
+					headerTypeUnsignetInt[0], headerTypeUnsignetInt[1], headerTypeUnsignetInt[2], headerTypeInt[0],
+					headerTypeInt[1],		  headerTypeUnsignetInt[3], headerTypeUnsignetInt[4], pixel
 
 				};
-				resource.get()->storeFont.push_back(newstore);
-				fileBuffer += sizeof(unsigned char) * header[4];
+				resource->storeFont.push_back(newstore);
+				fileBuffer += sizeof(unsigned char) * headerTypeUnsignetInt[4];
 
 				delete[] pixelsPointer;
 			}
 			else
 			{
 				std::vector<uint8_t> pixel;
-				StoreFontInPixels newstore = { header[0],  header[1], header[2], header2[0],
-											   header2[1], header[3], header[4], pixel
+				StoreFontInPixels newstore = {
+					headerTypeUnsignetInt[0], headerTypeUnsignetInt[1], headerTypeUnsignetInt[2], headerTypeInt[0],
+					headerTypeInt[1],		  headerTypeUnsignetInt[3], headerTypeUnsignetInt[4], pixel
 
 				};
-				resource.get()->storeFont.push_back(newstore);
+				resource->storeFont.push_back(newstore);
 			}
 			num++;
 		}
@@ -76,34 +76,27 @@ void FontImporter::Load(const char* fileBuffer, std::shared_ptr<ResourceFont> re
 void FontImporter::Save(const std::shared_ptr<ResourceFont>& resource, char*& fileBuffer, unsigned int& size)
 {
 	size = 0;	
-	for (StoreFontInPixels it : resource.get()->storeFont)
+	for (StoreFontInPixels it : resource->storeFont)
 	{
 		
-			unsigned int header[5] =
-			{
-				it.symbol,
-				it.width,
-				it.height,				
-				it.advance_x,
-				it.size
-			};
-		int header2[2] = { it.left, it.top };
+		unsigned int headerTypeUnsignetInt[5] = { it.symbol, it.width, it.height, it.advance_x, it.size };
+		int headerTypeInt[2] = { it.left, it.top };
 
-			size += sizeof(header) + sizeof(header2) + sizeof(unsigned char) * it.size;
+		size += sizeof(headerTypeUnsignetInt) + sizeof(headerTypeInt) + sizeof(unsigned char) * it.size;
 	}
 	char* cursor = new char[size];
 	
 	fileBuffer = cursor;
-	for (StoreFontInPixels it : resource.get()->storeFont)
+	for (const StoreFontInPixels &it : resource->storeFont)
 	{
-		unsigned int header[5] = { it.symbol, it.width, it.height, it.advance_x, it.size };
-		int header2[2] = { it.left, it.top };
+		unsigned int headerTypeUnsignetInt[5] = { it.symbol, it.width, it.height, it.advance_x, it.size };
+		int headerTypeInt[2] = { it.left, it.top };
 		
-		unsigned int bytes = sizeof(header);		
-		memcpy(cursor, header, bytes);		
+		unsigned int bytes = sizeof(headerTypeUnsignetInt);		
+		memcpy(cursor, headerTypeUnsignetInt, bytes);		
 		cursor += bytes;
-		bytes = sizeof(header2);
-		memcpy(cursor, header2, bytes);
+		bytes = sizeof(headerTypeInt);
+		memcpy(cursor, headerTypeInt, bytes);
 		cursor += bytes;
 		if (it.size != 0)
 		{

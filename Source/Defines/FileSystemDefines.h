@@ -13,4 +13,6 @@
 #define ANIMATION_PATH "Assets/Animation/"
 #define ANIMATION_LIB_PATH "Lib/Animation/"
 #define SCENE_PATH "Assets/Scenes/"
+#define FONT_LIB_PATH "Lib/Fonts/"
+#define FONT_PATH "Assets/Fonts/"
 #define GAME_STARTING_CONFIG "Startup.conf"

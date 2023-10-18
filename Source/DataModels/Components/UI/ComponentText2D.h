@@ -21,33 +21,30 @@ public:
 	
 	void InternalSave(Json& meta) override; 
 	void InternalLoad(const Json& meta) override;
-	void Draw() const override;
-	/*void SetFontNumber(unsigned int fontNumber);*/	
-	std::vector<std::shared_ptr<ResourceFont>> getFonts();
-	void SetText(std::string text);
-	void SetColor(float3 color);
+	void Draw() const override;	
+	std::vector<std::shared_ptr<ResourceFont>> GetFonts() const;
+	void SetText(const std::string &text);
+	void SetColor(const float3 &color);
 	void SetCharacters(unsigned int item);
 
 private:
 	
 	void CreateVAO();
 	void DeleteVAOandVBO();
-	void RenderText(std::string text,float x,float y, float scale, float3 color, std::map<char, Character> characters) const;
+	void RenderText(const std::string &text,float x,float y, float scale, const float3 &color, std::map<char, Character> characters) const;
 	Program* programShared;
 	unsigned int VAO;
 	unsigned int VBO;
 	std::string text;		
 	std::shared_ptr<ResourceFont> currentFont;
-	float3 color;
-	/*unsigned int fontNumber; */
-	
+	float3 color;	
 };
 
-inline void ComponentText2D::SetText(std::string text) 
+inline void ComponentText2D::SetText(const std::string &text) 
 {
 	this->text = text;
 }
-inline void ComponentText2D::SetColor(float3 color)
+inline void ComponentText2D::SetColor(const float3 &color)
 {
 	this->color = color;
 }

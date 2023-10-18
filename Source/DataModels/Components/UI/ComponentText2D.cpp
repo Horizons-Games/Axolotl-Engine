@@ -10,6 +10,8 @@
 #include "ComponentCanvas.h"
 #include "ComponentTransform2D.h"
 #include "Resources/ResourceFont.h"
+#include "Defines/ExtensionDefines.h"
+#include "Defines/FileSystemDefines.h"
 #include <GL/glew.h>
 
 ComponentText2D::ComponentText2D(bool active, GameObject* owner) 
@@ -25,7 +27,7 @@ ComponentText2D::ComponentText2D(bool active, GameObject* owner)
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-	color = float3(0.5, 0.8f, 0.2f);
+	color = float3(0.5f, 0.8f, 0.2f);
 	programShared = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TEXT_SHADER);		
 }
 
@@ -40,22 +42,20 @@ void ComponentText2D::Init()
 
 void ComponentText2D::Draw() const 
 {			
-	if (currentFont.get()!=nullptr)
+	if (currentFont!=nullptr)
 	{		
 		if ( text != "")
 		{
-			if (currentFont.get()->IsCharacterEmpty())
+			if (currentFont->IsCharacterEmpty())
 			{
-				currentFont.get()->LoadCharacter();
-			}
-			/*glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);*/
-			assert(programShared);
+				currentFont->LoadCharacter();
+			}			
 			GLint programinuse;
 
 			if (programShared->IsValidProgram())
 			{
 				programShared->Activate();
-				ComponentTransform2D* transform = GetOwner()->GetComponent<ComponentTransform2D>();
+				ComponentTransform2D* transform = GetOwner()->GetComponentInternal<ComponentTransform2D>();
 
 				const float4x4& proj = App->GetModule<ModuleCamera>()->GetOrthoProjectionMatrix();
 				const float4x4& model = transform->GetGlobalScaledMatrix();
@@ -64,7 +64,7 @@ void ComponentText2D::Draw() const
 				float3 pos = transform->GetGlobalPosition();
 
 				ComponentCanvas* canvas = transform->WhichCanvasContainsMe();
-				float factor = 0.5;
+				float factor = 0.5f;
 				if (canvas)
 				{
 					canvas->RecalculateSizeAndScreenFactor();
@@ -82,9 +82,9 @@ void ComponentText2D::Draw() const
 				glEnable(GL_BLEND);
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				RenderText(text,
-						   0.0,
-						   0.0,
-						   0.6,
+						   0.0f,
+						   0.0f,
+						   0.6f,
 						   color,
 						   currentFont->GetCharacters());
 				programShared->Deactivate();
@@ -97,10 +97,10 @@ void ComponentText2D::InternalSave(Json& meta)
 {	
 	UID uidFont = 0;
 	std::string assetPath = "";
-	if (currentFont.get() != nullptr)
+	if (currentFont != nullptr)
 	{
-		uidFont = currentFont.get()->GetUID();
-		assetPath=currentFont.get()->GetAssetsPath();
+		uidFont = currentFont->GetUID();
+		assetPath=currentFont->GetAssetsPath();
 	}
 	meta["fontUID"] = static_cast<UID>(uidFont);
 	meta["assetPathImage"] = assetPath.c_str();
@@ -117,11 +117,11 @@ void ComponentText2D::InternalLoad(const Json& meta)
 	bool resourceExists = !path.empty() && App->GetModule<ModuleFileSystem>()->Exists(path.c_str());
 	if (resourceExists)
 	{
-		std::shared_ptr<ResourceFont> resourceImage =
+		std::shared_ptr<ResourceFont> resourceFont =
 			App->GetModule<ModuleResources>()->RequestResource<ResourceFont>(path);
-		if (resourceImage)
+		if (resourceFont)
 		{
-			currentFont = resourceImage;
+			currentFont = resourceFont;
 		}
 	}
 #else
@@ -139,17 +139,32 @@ void ComponentText2D::InternalLoad(const Json& meta)
 	color.z = static_cast<float>(meta["color_z"]);
 }
 
-std::vector<std::shared_ptr<ResourceFont>> ComponentText2D::getFonts()
+std::vector<std::shared_ptr<ResourceFont>> ComponentText2D::GetFonts() const
 {
-	std::vector<std::string> paths = App->GetModule<ModuleFileSystem>()->ListFiles("Assets/Fonts");
+	std::vector<std::string> paths = App->GetModule<ModuleFileSystem>()->ListFiles(FONT_PATH);
 	std::vector<std::shared_ptr<ResourceFont>> fonts;
 	for (std::string path : paths)
 	{
 		std::size_t found = path.find(".meta");
 		if (found != std::string::npos)
 		{
-			path.erase(path.begin() + found, path.end());
-			fonts.push_back(App->GetModule<ModuleResources>()->RequestResource<ResourceFont>(path));
+			ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
+			char* metaBuffer = {};
+			std::string assetPath = FONT_PATH + path;
+			fileSystem->Load(assetPath.c_str(), metaBuffer);
+			rapidjson::Document doc;
+			Json meta(doc, doc);
+			meta.fromBuffer(metaBuffer);
+			delete metaBuffer;
+			UID uid = (UID) meta["UID"];
+			std::string libpath = FONT_LIB_PATH +std::to_string(uid)+GENERAL_BINARY_EXTENSION;	
+			
+			if (fileSystem->Exists(libpath.c_str()))
+			{
+				path.erase(path.begin() + found, path.end());
+				fonts.push_back(App->GetModule<ModuleResources>()->RequestResource<ResourceFont>(path));
+			}
+			
 		}
 	}
 	return fonts;
@@ -174,11 +189,11 @@ void ComponentText2D::DeleteVAOandVBO()
 	glDeleteBuffers(1, &VBO);
 }
 
-void ComponentText2D::RenderText(std::string text,
+void ComponentText2D::RenderText(const std::string &text,
 								 float x,
 								 float y,
 								 float scale,
-								 float3 color,
+								 const float3 &color,
 								 std::map<char, Character> characters) const
 {	
 	programShared->BindUniformInt("text", 0);
@@ -199,13 +214,13 @@ void ComponentText2D::RenderText(std::string text,
 		float w = ch.Size.x * scale;
 		float h = ch.Size.y * scale;		
 		// update VBO for each character
-		float vertices[6][4] = { { xpos / 48.0, (ypos + h) / 48.0, 1.0f, 1.0f },
-								 { xpos / 48.0, ypos / 48.0, 1.0f, 0.0f },
-								 { (xpos + w) / 48.0, ypos / 48.0, 0.0f, 0.0f },
+		float vertices[6][4] = { { xpos / 48.0f, (ypos + h) / 48.0f, 1.0f, 1.0f },
+								 { xpos / 48.0f, ypos / 48.0f, 1.0f, 0.0f },
+								 { (xpos + w) / 48.0f, ypos / 48.0f, 0.0f, 0.0f },
 
-			{ xpos / 48.0, (ypos + h) / 48.0, 1.0f, 1.0f },
-								 { (xpos + w) / 48.0, ypos / 48.0, 0.0f, 0.0f },
-								 { (xpos + w) / 48.0, (ypos + h) / 48.0, 0.0f, 1.0f }
+			{ xpos / 48.0f, (ypos + h) / 48.0f, 1.0f, 1.0f },
+								 { (xpos + w) / 48.0f, ypos / 48.0f, 0.0f, 0.0f },
+								 { (xpos + w) / 48.0f, (ypos + h) / 48.0f, 0.0f, 1.0f }
 		};
 		// render glyph texture over quad
 		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
@@ -257,9 +272,9 @@ void ComponentText2D::RenderText(std::string text,
 void ComponentText2D::SetCharacters(unsigned int item)
 {
 	
-	std::vector<std::shared_ptr<ResourceFont>> resourceFonts = getFonts();
+	std::vector<std::shared_ptr<ResourceFont>> resourceFonts = GetFonts();
 	currentFont = resourceFonts[item];
-	currentFont.get()->LoadCharacter();
+	currentFont->LoadCharacter();
 }
 
 void ComponentText2D::Update()
