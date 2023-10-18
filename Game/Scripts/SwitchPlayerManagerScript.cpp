@@ -243,7 +243,7 @@ void SwitchPlayerManagerScript::HandleChangeCurrentPlayer()
 
 		componentAnimation->SetParameter("IsFalling", true);
 		VisualSwitchEffect();
-		comboSystem->ClearComboForSwitch(true);
+		comboSystem->ClearComboForSwitch(false);
 
 		currentPlayer->Disable();
 		playerManager->StopHackingParticles();

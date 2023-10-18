@@ -33,7 +33,9 @@ public:
 	void UpdateFadeOut(float transparency);
 
 	void InitFinishComboButtonsEffect();
-	bool IsCombatActive();
+
+	void InitComboUI();
+	void HideComboUI();
 
 	std::deque<GameObject*> inputVisuals;
 private:
@@ -56,7 +58,6 @@ private:
 	float clearComboTimer;
 	bool clearCombo;
 	bool finisherClearEffect;
-	bool forceEnableComboBar;
 
 	float transparency;
 	bool alphaEnabled;

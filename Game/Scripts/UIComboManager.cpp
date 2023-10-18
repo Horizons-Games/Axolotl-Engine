@@ -16,7 +16,7 @@
 REGISTERCLASS(UIComboManager);
 
 UIComboManager::UIComboManager() : Script(), clearComboTimer(0.0f), clearCombo(false), alphaEnabled(false), 
-finisherClearEffect(false), forceEnableComboBar(false), specialActivated(false)
+finisherClearEffect(false), specialActivated(false)
 {
 	REGISTER_FIELD(inputPrefabSoft, GameObject*);
 	REGISTER_FIELD(inputPrefabHeavy, GameObject*);
@@ -26,7 +26,6 @@ finisherClearEffect(false), forceEnableComboBar(false), specialActivated(false)
 	REGISTER_FIELD(noFillBar, GameObject*);
 	REGISTER_FIELD(shinyEffectPrefab, GameObject*);
 	REGISTER_FIELD(shinyEffectBarPrefab, GameObject*);
-	REGISTER_FIELD(forceEnableComboBar, bool);
 }
 
 void UIComboManager::Init()
@@ -45,32 +44,6 @@ void UIComboManager::Init()
 
 void UIComboManager::Update(float deltaTime)
 {
-	if (forceEnableComboBar)
-	{
-		owner->GetChildren()[0]->Enable();
-		owner->GetChildren()[1]->Enable();
-	}
-	else
-	{
-		if (App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat()
-			&& !owner->GetChildren()[0]->IsEnabled())
-		{
-			owner->GetChildren()[0]->Enable();
-			owner->GetChildren()[1]->Enable();
-		}
-		else if (!App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat())
-		{
-			if (owner->GetChildren()[0]->IsEnabled())
-			{
-				CleanInputVisuals();
-				clearCombo = false;
-				owner->GetChildren()[0]->Disable();
-				owner->GetChildren()[1]->Disable();
-			}
-			return;
-		}
-	}
-
 	if (clearCombo)
 	{
 		if (clearComboTimer <= 0.0f)
@@ -202,7 +175,7 @@ void UIComboManager::SetActivateSpecial(bool activate)
 void UIComboManager::SetComboBarValue(float value)
 {
 	comboBar->ModifyCurrentValue(value);
-	if (value == 0)
+	if (value == 0.0f)
 	{
 		SetActivateSpecial(false);
 
@@ -332,7 +305,34 @@ void UIComboManager::InitFinishComboButtonsEffect() //Make a VFX when you get a 
 	}
 }
 
-bool UIComboManager::IsCombatActive()
+void UIComboManager::InitComboUI() 
 {
-	return forceEnableComboBar;
+	owner->GetChildren()[0]->Enable();
+	owner->GetChildren()[1]->Enable();
+}
+
+void UIComboManager::HideComboUI() 
+{
+	owner->GetChildren()[0]->Disable();
+	owner->GetChildren()[1]->Disable();
+
+	clearComboTimer = 0.0f;
+	alphaEnabled = false;
+
+	noFillBar->GetComponent<ComponentImage>()->SetColor(float4(1.f, 1.f, 1.f, 0.5f));
+
+	for (GameObject* shiny : shinyButtonEffect) 
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(shiny);
+	}
+	shinyButtonEffect.clear();
+
+	for (GameObject* shiny : shinyBarEffect)
+	{
+		App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(shiny);
+	}
+	shinyBarEffect.clear();
+
+	CleanInputVisuals();
+	SetComboBarValue(0.0f);
 }

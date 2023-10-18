@@ -51,15 +51,6 @@ bool ComboManager::NextIsSpecialAttack() const
 
 void ComboManager::CheckSpecial(float deltaTime)
 {
-	if (App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->HasComponent<CameraControllerScript>() && !App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat() &&
-		!uiComboManager->IsCombatActive())
-	{
-		uiComboManager->SetComboBarValue(0);
-		comboCount = 0;
-		specialCount = 0.f;
-		return;
-	}
-
 	if (!specialActivated && specialCount == maxSpecialCount) //input->GetKey(SDL_SCANCODE_TAB) == KeyState::DOWN && 
 	{
 		specialActivated = true;
@@ -189,4 +180,18 @@ void ComboManager::FillComboBar()
 UIComboManager* ComboManager::GetUiComboManager() const
 {
 	return uiComboManager;
+}
+
+void ComboManager::InitCombo()
+{
+	specialCount = 0.0f;
+	comboCount = 0;
+	actualComboTimer = 0.0f;
+
+	uiComboManager->InitComboUI();
+}
+
+void ComboManager::HideCombo()
+{
+	uiComboManager->HideComboUI();
 }
