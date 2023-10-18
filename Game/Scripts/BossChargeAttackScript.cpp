@@ -11,6 +11,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidbody.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentObstacle.h"
 
 #include "../Scripts/EnemyClass.h"
 #include "../Scripts/HealthSystem.h"
@@ -287,6 +288,8 @@ void BossChargeAttackScript::MakeRocksFall() const
 			spawnedRock->GetComponent<BossChargeRockScript>()->DestroyRock();
 			continue;
 		}
+
+		spawnedRock->GetComponent<ComponentObstacle>()->RemoveObstacle();
 
 		ComponentRigidBody* rockRigidBody = spawnedRock->GetComponent<ComponentRigidBody>();
 		rockRigidBody->SetIsTrigger(false);
