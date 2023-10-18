@@ -385,7 +385,6 @@ void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDama
 	LightAttackBullet* ligthAttackBulletScript = bullet->GetComponent<LightAttackBullet>();
 
 	bullet->SetTag("AlluraBullet");
-	ligthAttackBulletScript->SetBulletVelocity(bulletVelocity);
 	ligthAttackBulletScript->SetEnemy(enemyDetection->GetEnemySelected());
 	ligthAttackBulletScript->SetStunTime(0);
 	ligthAttackBulletScript->SetDamage(nDamage);

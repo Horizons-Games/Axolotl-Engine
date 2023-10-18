@@ -149,13 +149,6 @@ void LightAttackBullet::SetPauseBullet(bool isPaused)
 	}
 }
 
-void LightAttackBullet::SetBulletVelocity(float nVelocity)
-{
-	velocity = nVelocity;
-	rigidBody->SetKpForce(velocity);
-}
-
-
 //Function to reposition the bullet to the front of the player before shooting
 void LightAttackBullet::RepositionBullet(GameObject* shooterObject, GameObject* enemyAttacked)
 {
