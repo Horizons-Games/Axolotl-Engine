@@ -138,7 +138,7 @@ void ElevatorCore::MoveUpElevator(bool isGOInside, float deltaTime)
 			{
 				SetDisableInteractions(false);
 			}
-			else if (go->CompareTag("Enemy"))
+			else if (go->CompareTag("Enemy") || go->CompareTag("PriorityTarget"))
 			{
 				SetDisableInteractionsEnemies(go, false, false, false);
 			}
@@ -187,7 +187,7 @@ void ElevatorCore::MoveDownElevator(bool isGOInside, float deltaTime)
 			{
 				SetDisableInteractions(false);
 			}
-			else if (go->CompareTag("Enemy"))
+			else if (go->CompareTag("Enemy") || go->CompareTag("PriorityTarget"))
 			{
 				SetDisableInteractionsEnemies(go, false, false, false);
 			}
@@ -231,7 +231,8 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 				SetDisableInteractions(true);
 			}
 		}
-		else if (other->GetOwner()->CompareTag("Enemy") && currentTime <= 0.0f)
+		else if ((other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("PriorityTarget")) 
+			&& currentTime <= 0.0f)
 		{
 			go = other->GetOwner();
 			goTransform = go->GetComponentInternal<ComponentTransform>();

@@ -64,7 +64,7 @@ void BossMissilesMissileScript::OnCollisionEnter(ComponentRigidBody* other)
 		hasHitGround = true;
 	}
 	
-	if (other->GetOwner()->CompareTag("Enemy"))
+	if (other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("PriorityTarget"))
 	{
 		other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(missileDamage);
 
