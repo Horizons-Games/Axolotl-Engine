@@ -290,8 +290,10 @@ void EnemyDroneScript::UpdateBehaviour(float deltaTime)
 
 	case DroneBehaviours::EXPLOSIONATTACK:
 
-		aiMovement->SetTargetPosition(target);
-		aiMovement->SetRotationTargetPosition(target);
+		if(healthScript->EntityIsAlive()){
+			aiMovement->SetTargetPosition(target);
+			aiMovement->SetRotationTargetPosition(target);
+		}
 
 		break;
 	
