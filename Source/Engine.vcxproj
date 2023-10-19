@@ -402,12 +402,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -975,7 +969,6 @@
     <ClInclude Include="..\Game\Scripts\PlayerForceUseScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h" />
-    <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h" />
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\UIComboManager.h" />
     <ClInclude Include="..\Game\Scripts\UIGameManager.h" />
