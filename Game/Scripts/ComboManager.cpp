@@ -57,15 +57,19 @@ void ComboManager::CheckSpecial(float deltaTime)
 
 		uiComboManager->SetActivateSpecial(true);
 		actualComboTimer = comboTime;
+		uiComboManager->UpdateFadeOut(1.0f);
 		//ClearCombo(false);
 	}
 
-	if (actualComboTimer <= 0)
+	if (actualComboTimer <= 0.0f)
 	{
 		if (comboCount > 0)
 		{
 			ClearCombo(false);
-			actualComboTimer = comboTime;
+			if (!specialActivated) 
+			{
+				actualComboTimer = comboTime;
+			}
 		}
 		else if (specialCount > 0 && specialCount < maxSpecialCount && !specialActivated)
 		{
@@ -77,6 +81,10 @@ void ComboManager::CheckSpecial(float deltaTime)
 	{
 		uiComboManager->UpdateFadeOut(actualComboTimer / comboTime);
 		actualComboTimer -= deltaTime;
+		if (actualComboTimer < 1.0f)
+		{
+			actualComboTimer = 0.0f;
+		}
 	}
 }
 
@@ -138,6 +146,7 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 
 void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 {
+	actualComboTimer = comboTime;
 	uiComboManager->UpdateFadeOut(1.0f);
 
 	comboCount++;
@@ -162,7 +171,6 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 
 		uiComboManager->SetComboBarValue(this->specialCount);
 
-		actualComboTimer = comboTime;
 	}
 }
 

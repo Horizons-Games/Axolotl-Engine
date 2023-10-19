@@ -248,7 +248,7 @@ void UIComboManager::ClearCombo(bool finish)
 	}
 	else 
 	{
-		clearComboTimer = 0.5f;
+		clearComboTimer = 0.0f;
 		//Particles, audio, etc
 	}
 }
