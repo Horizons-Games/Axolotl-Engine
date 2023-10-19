@@ -28,6 +28,8 @@ public:
 	int GetObstacleType() const;
 	void SetDrawGizmo(bool value);
 	bool GetDrawGizmo() const;
+	float GetYOffset() const;
+	void SetYOffset(float value);
 
 	void ResetSize();
 
@@ -39,6 +41,7 @@ private:
 	float3 boxSize = float3::one;
 	float radius = 1.0f;
 	float height = 2.0f;
+	float yOffset = 0.0f;
 	float3 currentPosition = float3::zero;
 	float3 currentRotation = float3::zero;
 	int obstacleType = ObstacleType::DT_OBSTACLE_BOX;
@@ -71,4 +74,9 @@ inline int ComponentObstacle::GetObstacleType() const
 inline bool ComponentObstacle::GetDrawGizmo() const
 {
 	return mustBeDrawnGizmo;
+}
+
+inline float ComponentObstacle::GetYOffset() const
+{
+	return yOffset;
 }
