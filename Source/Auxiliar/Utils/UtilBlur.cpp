@@ -85,11 +85,6 @@ void UtilBlur::GenerateTexture(GLuint nInternalFormat, GLuint nFormat, GLuint nT
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-		/*GLenum error = glGetError();
-		if (error != GL_NO_ERROR) {
-			SDL_assert(SDL_FALSE && "Problem auxTexture Blur");
-		}*/
-
 		internalFormat = nInternalFormat;
 		format = nFormat;
 		type = nType;
