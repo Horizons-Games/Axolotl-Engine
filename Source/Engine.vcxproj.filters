@@ -890,6 +890,12 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPlanarReflection.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PauseManager.cpp">
+      <Filter>UserScripts\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossWallChecker.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossChargeAttack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1823,6 +1829,12 @@
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPlanarReflection.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PauseManager.h">
+      <Filter>UserScripts\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossWallChecker.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossChargeAttack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

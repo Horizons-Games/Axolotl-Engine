@@ -70,6 +70,14 @@ void EnemyVenomiteScript::Update(float deltaTime)
 	{
 		return;
 	}
+
+	if (isPaused)
+	{
+		seekScript->DisableMovement();
+		rangedAttackScript->InterruptAttack();
+		venomiteState = VenomiteBehaviours::SEEK;
+		return;
+	}
 	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
 
 	if (stunned)

@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/ArrowCycleAlbedo.png",
+    "NormalAssetPath": "Assets/Textures/ArrowCycleNormal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/ArrowCycleMetallic.png",
+    "EmissiveAssetPath": "Assets/Textures/ArrowCycleEmission.png"
+}

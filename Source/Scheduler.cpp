@@ -4,9 +4,7 @@
 
 #include "Scheduler.h"
 
- Scheduler::Scheduler()
-{
-}
+Scheduler::Scheduler() = default;
 
 Scheduler::~Scheduler()
 {
@@ -16,17 +14,24 @@ Scheduler::~Scheduler()
 
 void Scheduler::ScheduleTask(Schedulable&& taskToSchedule)
 {
-	std::scoped_lock(schedulerMutex);
+	std::unique_lock lock(schedulerMutex);
 	scheduledTasks.push(std::move(taskToSchedule));
 }
 
 void Scheduler::RunTasks()
 {
-	std::scoped_lock(schedulerMutex);
-	std::queue<Schedulable> remainingTasks;
-	while (!scheduledTasks.empty())
+	// snapshot the state of the queue at the beginning of the method,
+	// to prevent it from being modified while the loop is executing
+	std::queue<Schedulable> scheduledTasksSnapshot;
 	{
-		Schedulable& schedulable = scheduledTasks.front();
+		std::unique_lock lock(schedulerMutex);
+		scheduledTasksSnapshot = std::move(scheduledTasks);
+	}
+
+	std::queue<Schedulable> remainingTasks;
+	while (!scheduledTasksSnapshot.empty())
+	{
+		Schedulable& schedulable = scheduledTasksSnapshot.front();
 		SchedulableRunResult result = schedulable.Run();
 		if (result == SchedulableRunResult::DELAYED)
 		{
@@ -36,7 +41,16 @@ void Scheduler::RunTasks()
 		{
 			LOG_ERROR("Trying to run empty schedulable {}!", schedulable.GetId());
 		}
-		scheduledTasks.pop();
+		scheduledTasksSnapshot.pop();
 	}
-	scheduledTasks = std::move(remainingTasks);
+
+	// now push all remaining elements into the back of the queue
+	{
+		std::unique_lock lock(schedulerMutex);
+		while (!remainingTasks.empty())
+		{
+			scheduledTasks.push(remainingTasks.front());
+			remainingTasks.pop();
+		}
+	}
 }

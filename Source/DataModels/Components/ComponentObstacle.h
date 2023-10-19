@@ -5,6 +5,8 @@
 #include "Math/float3.h"
 #include "DetourTileCache/DetourTileCache.h"
 
+class ComponentTransform;
+
 class ComponentObstacle: public Component, public Updatable
 {
 public:
@@ -42,6 +44,7 @@ private:
 	int obstacleType = ObstacleType::DT_OBSTACLE_BOX;
 	bool mustBeDrawnGizmo = true;
 	bool shouldAddObstacle = true;
+	ComponentTransform * transform;
 
 };
 

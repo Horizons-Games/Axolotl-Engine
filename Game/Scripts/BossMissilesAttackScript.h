@@ -35,6 +35,7 @@ public:
 	bool CanPerformMissilesAttack() const;
 
 	bool IsAttacking() const;
+	void SetIsPaused(bool isPaused);
 
 private:
 	void SwapBetweenAttackStates(float deltaTime);
@@ -73,4 +74,5 @@ private:
 	float missileSpawningHeight;
 
 	GameObject* missilePrefab;
+	bool isPaused;
 };

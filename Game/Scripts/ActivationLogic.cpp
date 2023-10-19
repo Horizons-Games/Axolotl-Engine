@@ -27,11 +27,11 @@
 REGISTERCLASS(ActivationLogic);
 
 ActivationLogic::ActivationLogic() : Script(),
-componentAudio(nullptr), activeState(ActiveActions::INACTIVE)
+componentAudio(nullptr), activeState(ActiveActions::INACTIVE), wasActivatedByPlayer(false)
 {
 	REGISTER_FIELD(linkedHackZone, HackZoneScript*);
 	REGISTER_FIELD(interactWithEnemies, bool);
-	REGISTER_FIELD(enemisToSpawn, GameObject*);
+	REGISTER_FIELD(enemiesToSpawn, GameObject*);
 	REGISTER_FIELD(elevator, ElevatorCore*);
 }
 
@@ -54,7 +54,7 @@ void ActivationLogic::Start()
 
 	if(interactWithEnemies)
 	{
-		enemisWating.reserve(enemisToSpawn->GetChildren().size());
+		enemiesWaiting.reserve(enemiesToSpawn->GetChildren().size());
 	}
 	//componentRigidBody->Disable();
 }
@@ -64,9 +64,13 @@ void ActivationLogic::Update(float deltaTime)
 	if (!componentRigidBody->IsEnabled() 
 		&& App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat())
 	{
-		componentAnimation->SetParameter("IsActive", false);
-		componentRigidBody->Enable();
-		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
+		CloseDoor();
+	}
+
+	if (wasActivatedByPlayer && !App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat())
+	{
+		OpenDoor();
+		wasActivatedByPlayer = false;
 	}
 
 	if ( interactWithEnemies
@@ -75,7 +79,7 @@ void ActivationLogic::Update(float deltaTime)
 	{
 		elevator->SetBooked(false);
 	}
-	if (!enemisWating.empty()) 
+	if (!enemiesWaiting.empty()) 
 	{
 		if (elevator->GetElevatorPos(PositionState::DOWN))
 		{
@@ -95,17 +99,21 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 		return;
 	}
 
-	if (!App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat())
+	if (other->GetOwner()->CompareTag("Player"))
 	{
-		if (other->GetOwner()->CompareTag("Player"))
+		PlayerManagerScript* playerManager = other->GetOwner()->GetComponent<PlayerManagerScript>();
+		if (playerManager->IsTeleporting())
 		{
-			PlayerManagerScript* playerManager = other->GetOwner()->GetComponent<PlayerManagerScript>();
-			if (!playerManager->IsTeleporting())
-			{
-				componentAnimation->SetParameter("IsActive", true);
-				componentRigidBody->Disable();
-				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
-			}
+			return;
+		}
+
+		if (!App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat()) 
+		{
+			OpenDoor();
+		}
+		else 
+		{
+			wasActivatedByPlayer = true;
 		}
 	}
 
@@ -113,7 +121,7 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		if (other->GetOwner()->CompareTag("Enemy"))
 		{
-			enemisWating.push_back(other->GetOwner());
+			enemiesWaiting.push_back(other->GetOwner());
 			elevator->SetDisableInteractionsEnemies(other->GetOwner(), true, false, true);
 		}
 	}
@@ -123,20 +131,15 @@ void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->CompareTag("Player"))
 	{
-		componentAnimation->SetParameter("IsActive", false);
-		// Until the trigger works 100% of the time better cross a closed door than be closed forever
-		componentRigidBody->Enable();
-		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
+		wasActivatedByPlayer = false;
+		CloseDoor();
 	}
 
 	if (interactWithEnemies)
 	{
 		if (other->GetOwner()->CompareTag("Enemy"))
 		{
-			componentAnimation->SetParameter("IsActive", false);
-			// Until the trigger works 100% of the time better cross a closed door than be closed forever
-			componentRigidBody->Enable();
-			componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
+			CloseDoor();
 		}
 	}
 }
@@ -144,9 +147,22 @@ void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 void ActivationLogic::NextInTheList()
 {
 	elevator->SetBooked(true);
-	elevator->SetDisableInteractionsEnemies(enemisWating[0],false, false, false);
-	enemisWating.erase(enemisWating.begin());
+	elevator->SetDisableInteractionsEnemies(enemiesWaiting[0],false, false, false);
+	enemiesWaiting.erase(enemiesWaiting.begin());
+	OpenDoor();
+}
+
+
+void ActivationLogic::OpenDoor() 
+{
 	componentAnimation->SetParameter("IsActive", true);
 	componentRigidBody->Disable();
 	componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
+}
+
+void ActivationLogic::CloseDoor() 
+{
+	componentAnimation->SetParameter("IsActive", false);
+	componentRigidBody->Enable();
+	componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
 }

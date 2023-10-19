@@ -103,7 +103,7 @@ void OnFileZipped(const FileZippedData& data)
 					maxMinutesToZip,
 					data.timeTaken.count());
 	}
-	std::scoped_lock(fileZippedDataMutex);
+	std::scoped_lock lock(fileZippedDataMutex);
 	lastFileZippedData = data;
 }
 
@@ -119,7 +119,7 @@ void CreateZip(const std::string& startingScene)
 
 	AddConfigToZip(startingScene);
 
-	std::scoped_lock(fileZippedDataMutex);
+	std::scoped_lock lock(fileZippedDataMutex);
 	lastFileZippedData.reset();
 
 	LOG_INFO("Done creating ZIP!");
@@ -182,7 +182,7 @@ bool Zipping()
 
 std::optional<FileZippedData> GetLastFileZippedData()
 {
-	std::scoped_lock(fileZippedDataMutex);
+	std::scoped_lock lock(fileZippedDataMutex);
 	return lastFileZippedData;
 }
 
