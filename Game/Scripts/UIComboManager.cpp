@@ -52,7 +52,7 @@ void UIComboManager::Init()
 
 void UIComboManager::Update(float deltaTime)
 {
-	if (noFillBar && noFillBar->IsEnabled())
+	if (noFillBar && noFillBar->IsEnabled() && !finisherClearEffect)
 	{
 		if (alphaEnabled)
 		{
@@ -77,23 +77,20 @@ void UIComboManager::Update(float deltaTime)
 		float4 newColor = float4(1.f, 1.f, 1.f, transparency);
 		noFillBar->GetComponent<ComponentImage>()->SetColor(newColor);
 
-		if (!finisherClearEffect)
-		{
-			specialBox.text->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
-			specialBox.lb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
-			specialBox.separator->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
-			specialBox.rb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.text->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.lb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.separator->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.rb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
 
-			ComponentTransform2D* transformText = specialBox.text->GetComponent<ComponentTransform2D>();
-			ComponentTransform2D* transformButtons = specialBox.lb->GetParent()->GetComponent<ComponentTransform2D>();
-			float growVelocity = (transparency - 0.5f) / 5.0f;
-			float3 sizeText = float3(1.0f + growVelocity, 1.0f + growVelocity, 1.0f);
-			float3 sizeButton = float3(1.0f + growVelocity / 2.0f, 1.0f + growVelocity / 2.0f, 1.0f);
-			transformText->SetScale(sizeText);
-			transformButtons->SetScale(sizeButton);
-			transformText->CalculateMatrices();
-			transformButtons->CalculateMatrices();
-		}
+		ComponentTransform2D* transformText = specialBox.text->GetComponent<ComponentTransform2D>();
+		ComponentTransform2D* transformButtons = specialBox.lb->GetParent()->GetComponent<ComponentTransform2D>();
+		float growVelocity = (transparency - 0.5f) / 5.0f;
+		float3 sizeText = float3(1.0f + growVelocity, 1.0f + growVelocity, 1.0f);
+		float3 sizeButton = float3(1.0f + growVelocity / 2.0f, 1.0f + growVelocity / 2.0f, 1.0f);
+		transformText->SetScale(sizeText);
+		transformButtons->SetScale(sizeButton);
+		transformText->CalculateMatrices();
+		transformButtons->CalculateMatrices();
 	}
 
 	if (clearCombo)
@@ -110,7 +107,7 @@ void UIComboManager::Update(float deltaTime)
 				{
 					inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(106.f, 106.f));
 				}
-				if(clearComboTimer < 0.8f) finisherClearEffect = false;
+				if(clearComboTimer < 0.9f) finisherClearEffect = false;
 			}
 			clearComboTimer -= deltaTime;
 		}
