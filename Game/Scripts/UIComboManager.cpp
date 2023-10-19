@@ -186,6 +186,20 @@ void UIComboManager::SetActivateSpecial(bool activate)
 		comboBar->GetOwner()->GetChildren()[1]->Disable();
 		newVisuals = comboBar->GetOwner()->GetChildren()[0];
 		specialBox.text->GetParent()->Disable();
+
+		float4 newColor = float4(1.f, 1.f, 1.f, 0.5f);
+		specialBox.text->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.lb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.separator->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.rb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+
+		ComponentTransform2D* transformText = specialBox.text->GetComponent<ComponentTransform2D>();
+		ComponentTransform2D* transformButtons = specialBox.lb->GetParent()->GetComponent<ComponentTransform2D>();
+		float3 size = float3(1.0f, 1.0f, 1.0f);
+		transformText->SetScale(size);
+		transformButtons->SetScale(size);
+		transformText->CalculateMatrices();
+		transformButtons->CalculateMatrices();
 	}
 
 	newVisuals->Enable();
