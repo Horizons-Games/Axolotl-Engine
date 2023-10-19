@@ -81,8 +81,6 @@ void CleanupAndInvokeCallback()
 
 void OnLoadedScene()
 {
-	App->GetModule<ModuleRender>()->FillCharactersBatches();
-
 #ifndef ENGINE
 	ModulePlayer* player = App->GetModule<ModulePlayer>();
 	if (player->GetPlayer())
@@ -275,11 +273,11 @@ void OnHierarchyLoaded()
 
 		if (value.enabled)
 		{
-			gameObject->Enable(true);
+			gameObject->Enable();
 		}
 		else
 		{
-			gameObject->Disable(true);
+			gameObject->Disable();
 		}
 	}
 

@@ -79,12 +79,11 @@ void LightPass::RenderLights(Program* program, GBuffer* gbuffer, int renderMode,
 {
 	program->Activate();
 
-	glPushDebugGroup(
-		GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Light Culling")), "Light Culling");
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Light Culling")), "Light Culling");
 
 	program->BindUniformInt("renderMode", renderMode);
-	program->BindUniformFloat2("screenSize",
-							   float2(static_cast<float>(screenSize.first), static_cast<float>(screenSize.second)));
+	program->BindUniformFloat2("screenSize", 
+								float2(static_cast<float>(screenSize.first), static_cast<float>(screenSize.second)));
 
 	gbuffer->BindTexture();
 
@@ -159,7 +158,7 @@ void LightPass::RenderSpots(Program* program, std::vector<ComponentSpotLight*> s
 {
 	for (ComponentSpotLight* spot : spotsToRender)
 	{
-		int index = (scene->GetSpotIndex(spot));
+		int index = scene->GetSpotIndex(spot);
 
 		if (spots.find(spot) == spots.end())
 		{
