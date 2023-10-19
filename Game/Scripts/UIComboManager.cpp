@@ -52,6 +52,50 @@ void UIComboManager::Init()
 
 void UIComboManager::Update(float deltaTime)
 {
+	if (noFillBar && noFillBar->IsEnabled())
+	{
+		if (alphaEnabled)
+		{
+			transparency -= deltaTime;
+
+			if (transparency <= 0.5f)
+			{
+				transparency = 0.5f;
+				alphaEnabled = false;
+			}
+		}
+		else
+		{
+			transparency += deltaTime;
+
+			if (transparency >= 1.0f)
+			{
+				transparency = 1.0f;
+				alphaEnabled = true;
+			}
+		}
+		float4 newColor = float4(1.f, 1.f, 1.f, transparency);
+		noFillBar->GetComponent<ComponentImage>()->SetColor(newColor);
+
+		if (!finisherClearEffect)
+		{
+			specialBox.text->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+			specialBox.lb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+			specialBox.separator->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+			specialBox.rb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+
+			ComponentTransform2D* transformText = specialBox.text->GetComponent<ComponentTransform2D>();
+			ComponentTransform2D* transformButtons = specialBox.lb->GetParent()->GetComponent<ComponentTransform2D>();
+			float growVelocity = (transparency - 0.5f) / 5.0f;
+			float3 sizeText = float3(1.0f + growVelocity, 1.0f + growVelocity, 1.0f);
+			float3 sizeButton = float3(1.0f + growVelocity / 2.0f, 1.0f + growVelocity / 2.0f, 1.0f);
+			transformText->SetScale(sizeText);
+			transformButtons->SetScale(sizeButton);
+			transformText->CalculateMatrices();
+			transformButtons->CalculateMatrices();
+		}
+	}
+
 	if (clearCombo)
 	{
 		if (clearComboTimer <= 0.0f)
@@ -66,6 +110,7 @@ void UIComboManager::Update(float deltaTime)
 				{
 					inputVisuals[i]->GetComponent<ComponentTransform2D>()->SetSize(float2(106.f, 106.f));
 				}
+				if(clearComboTimer < 0.8f) finisherClearEffect = false;
 			}
 			clearComboTimer -= deltaTime;
 		}
@@ -116,46 +161,6 @@ void UIComboManager::Update(float deltaTime)
 		size.y += deltaTime * 40;
 		transform->SetSize(size);
 		++it;
-	}
-
-	if (noFillBar && noFillBar->IsEnabled())
-	{
-		if (alphaEnabled)
-		{
-			transparency -= deltaTime;
-
-			if (transparency <= 0.5f)
-			{
-				transparency = 0.5f;
-				alphaEnabled = false;
-			}
-		}
-		else
-		{
-			transparency += deltaTime;
-
-			if (transparency >= 1.0f)
-			{
-				transparency = 1.0f;
-				alphaEnabled = true;
-			}
-		}
-		float4 newColor = float4(1.f, 1.f, 1.f, transparency);
-		noFillBar->GetComponent<ComponentImage>()->SetColor(newColor);
-		specialBox.text->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
-		specialBox.lb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
-		specialBox.separator->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
-		specialBox.rb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
-
-		ComponentTransform2D* transformText = specialBox.text->GetComponent<ComponentTransform2D>();
-		ComponentTransform2D* transformButtons = specialBox.lb->GetParent()->GetComponent<ComponentTransform2D>();
-		float growVelocity = (transparency - 0.5f) / 5.0f;
-		float3 sizeText = float3(1.0f + growVelocity, 1.0f + growVelocity, 1.0f);
-		float3 sizeButton = float3(1.0f + growVelocity/2.0f, 1.0f + growVelocity/2.0f, 1.0f);
-		transformText->SetScale(sizeText);
-		transformButtons->SetScale(sizeButton);
-		transformText->CalculateMatrices();
-		transformButtons->CalculateMatrices();
 	}
 }
 
@@ -232,7 +237,7 @@ void UIComboManager::SetComboBarValue(float value)
 
 void UIComboManager::AddInputVisuals(AttackType type)
 {
-	if (clearCombo) 
+	if (clearCombo)
 	{
 		CleanInputVisuals();
 	}
@@ -289,8 +294,7 @@ void UIComboManager::ClearCombo(bool finish)
 		clearComboTimer = 0.0f;
 		//Particles, audio, etc
 	}
-}
- 
+} 
 
 void UIComboManager::CleanInputVisuals()
 {
@@ -334,12 +338,27 @@ void UIComboManager::InitFinishComboButtonsEffect() //Make a VFX when you get a 
 	{
 		GameObject* newShinyBarEffect =
 			App->GetModule<ModuleScene>()->GetLoadedScene()->
-			DuplicateGameObject(shinyEffectBarPrefab->GetName(), shinyEffectBarPrefab, comboBar->GetOwner());
+			DuplicateGameObject(shinyEffectBarPrefab->GetName(), shinyEffectBarPrefab, shinyEffectBarPrefab->GetParent());
 		newShinyBarEffect->Enable();
 		newShinyBarEffect->GetComponent<ComponentTransform2D>()->SetSize(float2(115.f, 827.f));
 		shinyBarEffect.push_back(newShinyBarEffect);
 
-		noFillBar->GetComponent<ComponentImage>()->SetColor(float4(1.f, 1.f, 1.f, 0.5f));
+		float4 newColor = float4(1.f, 1.f, 1.f, 1.0f);
+		transparency = 1.0f;
+		noFillBar->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.text->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.lb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.separator->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.rb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+
+		ComponentTransform2D* transformText = specialBox.text->GetComponent<ComponentTransform2D>();
+		ComponentTransform2D* transformButtons = specialBox.lb->GetParent()->GetComponent<ComponentTransform2D>();
+		float3 sizeText = float3(1.1f, 1.1f, 1.0f);
+		float3 sizeButton = float3(1.05f, 1.05f, 1.0f);
+		transformText->SetScale(sizeText);
+		transformButtons->SetScale(sizeButton);
+		transformText->CalculateMatrices();
+		transformButtons->CalculateMatrices();
 	}
 }
 
