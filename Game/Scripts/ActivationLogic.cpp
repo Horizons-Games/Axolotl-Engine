@@ -31,7 +31,7 @@ componentAudio(nullptr), activeState(ActiveActions::INACTIVE), wasActivatedByPla
 {
 	REGISTER_FIELD(linkedHackZone, HackZoneScript*);
 	REGISTER_FIELD(interactWithEnemies, bool);
-	REGISTER_FIELD(enemisToSpawn, GameObject*);
+	REGISTER_FIELD(enemiesToSpawn, GameObject*);
 	REGISTER_FIELD(elevator, ElevatorCore*);
 }
 
@@ -54,7 +54,7 @@ void ActivationLogic::Start()
 
 	if(interactWithEnemies)
 	{
-		enemisWating.reserve(enemisToSpawn->GetChildren().size());
+		enemiesWaiting.reserve(enemiesToSpawn->GetChildren().size());
 	}
 	//componentRigidBody->Disable();
 }
@@ -79,7 +79,7 @@ void ActivationLogic::Update(float deltaTime)
 	{
 		elevator->SetBooked(false);
 	}
-	if (!enemisWating.empty()) 
+	if (!enemiesWaiting.empty()) 
 	{
 		if (elevator->GetElevatorPos(PositionState::DOWN))
 		{
@@ -121,7 +121,7 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		if (other->GetOwner()->CompareTag("Enemy"))
 		{
-			enemisWating.push_back(other->GetOwner());
+			enemiesWaiting.push_back(other->GetOwner());
 			elevator->SetDisableInteractionsEnemies(other->GetOwner(), true, false, true);
 		}
 	}
@@ -147,8 +147,8 @@ void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 void ActivationLogic::NextInTheList()
 {
 	elevator->SetBooked(true);
-	elevator->SetDisableInteractionsEnemies(enemisWating[0],false, false, false);
-	enemisWating.erase(enemisWating.begin());
+	elevator->SetDisableInteractionsEnemies(enemiesWaiting[0],false, false, false);
+	enemiesWaiting.erase(enemiesWaiting.begin());
 	OpenDoor();
 }
 

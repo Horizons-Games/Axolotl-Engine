@@ -2,6 +2,7 @@
 
 #include "../Scripts/EnemyClass.h"
 #include "RuntimeInclude.h"
+#include "Bullet\LinearMath\btVector3.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -87,4 +88,7 @@ private:
 	// Modifiable values
 	GameObject* target;
 	ModulePlayer* modulePlayer;
+
+	bool isUnpaused;
+	btVector3 bossGravity;
 };

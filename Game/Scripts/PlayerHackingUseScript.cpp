@@ -38,6 +38,10 @@ void PlayerHackingUseScript::Start()
 
 void PlayerHackingUseScript::Update(float deltaTime)
 {
+	if (playerManager->IsPaused())
+	{
+		return;
+	}
 	currentTime += deltaTime;
 	hackingManager->SetHackingTimerValue(maxHackTime, currentTime);
 

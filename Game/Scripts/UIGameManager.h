@@ -24,7 +24,7 @@ public:
 	void SetMenuIsOpen(bool menuState);
 	void MenuIsOpen();
 
-	void LoseGameState();
+	void LoseGameState(float deltaTime);
 	void WinGameState();
 
 	void EnableUIPwrUp(enum class PowerUpType pwrUp);
@@ -32,7 +32,8 @@ public:
 	void ActiveSliderUIPwrUP(float time);
 	void DisableUIPwrUP();
 
-	void ModifySliderHealthValue(HealthSystem* healthSystemClass, ComponentSlider* componentSliderFront, ComponentSlider* componentSliderBack);
+	void ModifySliderHealthValue(HealthSystem* healthSystemClass, ComponentSlider* componentSliderFront,
+								ComponentSlider* componentSliderBack, float deltaTime);
 	void SetMaxPowerUpTime(float maxPowerUpTime);
 	void InputMethodImg(bool input);
 
@@ -53,6 +54,7 @@ private:
 	float maxSliderValue = 0.0f;
 	float uiTime = 0.0f;
 	float currentInputTime = 0.0f;
+	float gameOverTimer = 0.0f;
 
 	int selectedPositon = -1;
 
