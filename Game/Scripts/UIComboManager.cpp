@@ -40,6 +40,14 @@ void UIComboManager::Init()
 	{
 		transparency = noFillBar->GetComponent<ComponentImage>()->GetColor().w;
 	}
+
+	GameObject* specialBoxGO = owner->GetChildren()[2];
+	specialBoxGO->Disable();
+	specialBox.text = specialBoxGO->GetChildren()[1];
+	GameObject* buttonsGO = specialBoxGO->GetChildren()[2];
+	specialBox.lb = buttonsGO->GetChildren()[0];
+	specialBox.separator = buttonsGO->GetChildren()[1];
+	specialBox.rb = buttonsGO->GetChildren()[2];
 }
 
 void UIComboManager::Update(float deltaTime)
@@ -132,10 +140,23 @@ void UIComboManager::Update(float deltaTime)
 				alphaEnabled = true;
 			}
 		}
-		
-		noFillBar->GetComponent<ComponentImage>()->SetColor(float4(1.f, 1.f, 1.f, transparency));
+		float4 newColor = float4(1.f, 1.f, 1.f, transparency);
+		noFillBar->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.text->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.lb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.separator->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.rb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+
+		ComponentTransform2D* transformText = specialBox.text->GetComponent<ComponentTransform2D>();
+		ComponentTransform2D* transformButtons = specialBox.lb->GetParent()->GetComponent<ComponentTransform2D>();
+		float growVelocity = (transparency - 0.5f) / 5.0f;
+		float3 sizeText = float3(1.0f + growVelocity, 1.0f + growVelocity, 1.0f);
+		float3 sizeButton = float3(1.0f + growVelocity/2.0f, 1.0f + growVelocity/2.0f, 1.0f);
+		transformText->SetScale(sizeText);
+		transformButtons->SetScale(sizeButton);
+		transformText->CalculateMatrices();
+		transformButtons->CalculateMatrices();
 	}
-	
 }
 
 float UIComboManager::GetMaxComboBarValue() const
@@ -157,11 +178,14 @@ void UIComboManager::SetActivateSpecial(bool activate)
 			inputVisuals[i]->GetChildren()[0]->Disable();
 			inputVisuals[i]->GetChildren()[1]->Enable();
 		}
+
+		specialBox.text->GetParent()->Enable();
 	}
 	else 
 	{
 		comboBar->GetOwner()->GetChildren()[1]->Disable();
 		newVisuals = comboBar->GetOwner()->GetChildren()[0];
+		specialBox.text->GetParent()->Disable();
 	}
 
 	newVisuals->Enable();
@@ -298,7 +322,7 @@ void UIComboManager::InitFinishComboButtonsEffect() //Make a VFX when you get a 
 			App->GetModule<ModuleScene>()->GetLoadedScene()->
 			DuplicateGameObject(shinyEffectBarPrefab->GetName(), shinyEffectBarPrefab, comboBar->GetOwner());
 		newShinyBarEffect->Enable();
-		newShinyBarEffect->GetComponent<ComponentTransform2D>()->SetSize(float2(433.f, 81.f));
+		newShinyBarEffect->GetComponent<ComponentTransform2D>()->SetSize(float2(115.f, 827.f));
 		shinyBarEffect.push_back(newShinyBarEffect);
 
 		noFillBar->GetComponent<ComponentImage>()->SetColor(float4(1.f, 1.f, 1.f, 0.5f));

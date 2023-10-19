@@ -10,6 +10,14 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class GameObject;
 class ComponentSlider;
 
+struct SpecialBox 
+{
+	GameObject* text;
+	GameObject* lb;
+	GameObject* separator;
+	GameObject* rb;
+};
+
 class UIComboManager : public Script
 {
 public:
@@ -54,6 +62,7 @@ private:
 	std::vector<GameObject*> inputPositions;
 
 	ComponentSlider* comboBar;
+	SpecialBox specialBox;
 
 	float clearComboTimer;
 	bool clearCombo;
