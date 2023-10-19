@@ -22,7 +22,8 @@ REGISTERCLASS(MeleeHeavyAttackBehaviourScript);
 
 MeleeHeavyAttackBehaviourScript::MeleeHeavyAttackBehaviourScript() : Script(), aiMovement(nullptr),
 	attackState(ExplosionState::NOTDEAD), targetPlayer(nullptr), explosionDamage(30.0f), componentAnimation(nullptr),
-	explosionTime(3.0f), parentDeathScript(nullptr), explosionDistance(4.0f), particleSystem(nullptr)
+	explosionTime(3.0f), parentDeathScript(nullptr), explosionDistance(4.0f), particleSystem(nullptr),
+	parentHealth(nullptr)
 {
 	REGISTER_FIELD(explosionDamage, float);
 	REGISTER_FIELD(explosionTime, float);
@@ -35,6 +36,7 @@ void MeleeHeavyAttackBehaviourScript::Start()
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	transform = owner->GetParent()->GetComponent<ComponentTransform>();
 	parentDeathScript = owner->GetParent()->GetComponent<EnemyDeathScript>();
+	parentHealth = owner->GetParent()->GetComponent<HealthSystem>();
 	componentAudioSource = owner->GetParent()->GetComponent<ComponentAudioSource>();
 	ownerAgent = owner->GetParent()->GetComponentInternal<ComponentAgent>();
 	componentAnimation = owner->GetParent()->GetComponent<ComponentAnimation>();
@@ -85,6 +87,7 @@ void MeleeHeavyAttackBehaviourScript::Update(float deltaTime)
 			owner->GetParent()->GetComponent<ComponentRigidBody>()->SetKpForce(0.5f);
 		}
 		
+		parentHealth->SetIsImmortal(false);
 		componentAnimation->SetParameter("IsDead", true);
 		attackState = ExplosionState::DEAD;
 		componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_TIMER);

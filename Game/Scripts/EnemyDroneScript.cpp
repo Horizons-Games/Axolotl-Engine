@@ -379,6 +379,7 @@ void EnemyDroneScript::SetReadyToDie()
 {
 	componentAnimation->SetParameter("IsTakingDamage", true);
 	fastAttackScript->InterruptAttack();
+	healthScript->SetIsImmortal(true);
 	droneState = DroneBehaviours::READYTOEXPLODE;
 }
 
