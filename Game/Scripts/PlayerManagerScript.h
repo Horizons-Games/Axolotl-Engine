@@ -13,7 +13,6 @@ class PlayerJumpScript;
 class PlayerMoveScript;
 class PlayerHackingUseScript;
 class DebugGame;
-class PlayerRotationScript;
 
 enum class PlayerActions
 {
@@ -83,7 +82,6 @@ private:
 	PlayerAttackScript* attackManager;
 	DebugGame* debugManager;
 	PlayerHackingUseScript* hackingManager;
-	PlayerRotationScript* rotationManager;
 	btVector3 rigidBodyLinearVelocity;
 	btVector3 rigidBodyGravity;
 	btVector3 rigidBodyManager;

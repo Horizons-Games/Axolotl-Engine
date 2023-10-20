@@ -26,7 +26,6 @@ public:
 	void GenerateCombination();
 
 private:
-
 	float influenceRadius;
 	float maxTime;
 	float sequenceSize;
@@ -36,34 +35,3 @@ private:
 
 	float3 position;
 };
-
-inline float HackZoneScript::GetInfluenceRadius() const
-{
-	return influenceRadius;
-}
-
-inline float HackZoneScript::GetMaxTime() const
-{
-	return maxTime;
-}
-
-inline float HackZoneScript::GetSequenceSize() const
-{
-	return sequenceSize;
-}
-
-inline const std::vector<HackingCommandType>& HackZoneScript::GetCommandCombination() const
-{
-	return commandCombination;
-}
-
-inline bool HackZoneScript::IsCompleted() const
-{
-	return completed;
-}
-
-inline void HackZoneScript::SetCompleted()
-{
-	completed = true;
-}
-
