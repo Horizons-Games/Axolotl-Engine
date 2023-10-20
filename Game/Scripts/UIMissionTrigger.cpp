@@ -14,11 +14,12 @@
 REGISTERCLASS(UIMissionTrigger);
 
 UIMissionTrigger::UIMissionTrigger() : Script(), missionLevel(nullptr), lastMissionLevel(nullptr),
-textBox(nullptr), maxTimeTextImageOn(5.0f)
+textBox(nullptr), maxTimeTextImageOn(5.0f), hasTimer(false)
 {
 	REGISTER_FIELD(missionLevel, GameObject*);
 	REGISTER_FIELD(lastMissionLevel, GameObject*);
 	REGISTER_FIELD(textBox, GameObject*);
+	REGISTER_FIELD(hasTimer, bool);
 	REGISTER_FIELD(maxTimeTextImageOn, float);
 	
 }
@@ -51,7 +52,7 @@ void UIMissionTrigger::Update(float deltaTime)
 		missionImageDisplacement->SetMovingToEnd(true);
 		missionImageDisplacement->MoveImageToEndPosition();
 	}
-	if (textBox != nullptr && textBox->IsEnabled())
+	if (textBox != nullptr && textBox->IsEnabled() && hasTimer)
 	{
 		DisableTextBox(deltaTime);
 	}

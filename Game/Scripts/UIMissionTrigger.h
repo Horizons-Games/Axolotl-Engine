@@ -32,6 +32,7 @@ private:
 	float maxTimeTextImageOn;
 	float currentTime;
 	bool wasInside = false;
+	bool hasTimer;
 
 	ComponentPlayer* player;
 	ComponentRigidBody* componentRigidBody;
