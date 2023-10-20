@@ -74,7 +74,7 @@ void ActivationLogic::Update(float deltaTime)
 	}
 
 	if ( interactWithEnemies
-		&& !App->GetModule<ModulePlayer>()->IsInCombat() 
+		&& App->GetModule<ModulePlayer>()->IsInBossCombat() 
 		&& !elevator->GetBooked())
 	{
 		elevator->SetBooked(false);
