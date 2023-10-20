@@ -115,7 +115,7 @@ void UIComboManager::Update(float deltaTime)
 
 	for (auto it = shinyButtonEffect.begin(); it != shinyButtonEffect.end();)
 	{
-		ComponentImage* image = (*it)->GetComponentInternal<ComponentImage>();
+		ComponentImage* image = (*it)->GetComponent<ComponentImage>();
 		float4 color = image->GetColor();
 		if (color.w <= 0.0f) 
 		{
@@ -138,7 +138,7 @@ void UIComboManager::Update(float deltaTime)
 
 	for (auto it = shinyBarEffect.begin(); it != shinyBarEffect.end();)
 	{
-		ComponentImage* image = (*it)->GetComponentInternal<ComponentImage>();
+		ComponentImage* image = (*it)->GetComponent<ComponentImage>();
 		float4 color = image->GetColor();
 		if (color.w <= 0.0f)
 		{
@@ -182,6 +182,13 @@ void UIComboManager::SetActivateSpecial(bool activate)
 		}
 
 		specialBox.text->GetParent()->Enable();
+
+		GameObject* newShinyBarEffect =
+			App->GetModule<ModuleScene>()->GetLoadedScene()->
+			DuplicateGameObject(shinyEffectBarPrefab->GetName(), shinyEffectBarPrefab, shinyEffectBarPrefab->GetParent());
+		newShinyBarEffect->Enable();
+		newShinyBarEffect->GetComponent<ComponentTransform2D>()->SetSize(float2(115.f, 827.f));
+		shinyBarEffect.push_back(newShinyBarEffect);
 	}
 	else 
 	{

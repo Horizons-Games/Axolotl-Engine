@@ -58,7 +58,7 @@ void ComboManager::CheckSpecial(float deltaTime)
 		uiComboManager->SetActivateSpecial(true);
 		actualComboTimer = comboTime;
 		uiComboManager->UpdateFadeOut(1.0f);
-		//ClearCombo(false);
+		ClearCombo(false);
 	}
 
 	if (actualComboTimer <= 0.0f)
@@ -195,6 +195,7 @@ void ComboManager::InitCombo()
 	specialCount = 0.0f;
 	comboCount = 0;
 	actualComboTimer = 0.0f;
+	specialActivated = false;
 
 	uiComboManager->InitComboUI();
 }
