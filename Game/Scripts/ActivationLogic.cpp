@@ -62,19 +62,19 @@ void ActivationLogic::Start()
 void ActivationLogic::Update(float deltaTime)
 {
 	if (!componentRigidBody->IsEnabled() 
-		&& App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat())
+		&& App->GetModule<ModulePlayer>()->IsInCombat())
 	{
 		CloseDoor();
 	}
 
-	if (wasActivatedByPlayer && !App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat())
+	if (wasActivatedByPlayer && !App->GetModule<ModulePlayer>()->IsInCombat())
 	{
 		OpenDoor();
 		wasActivatedByPlayer = false;
 	}
 
 	if ( interactWithEnemies
-		&& !App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat() 
+		&& App->GetModule<ModulePlayer>()->IsInBossCombat() 
 		&& !elevator->GetBooked())
 	{
 		elevator->SetBooked(false);
@@ -107,7 +107,7 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 			return;
 		}
 
-		if (!App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat()) 
+		if (!App->GetModule<ModulePlayer>()->IsInCombat()) 
 		{
 			OpenDoor();
 		}

@@ -16,7 +16,6 @@ class SwitchPlayerManagerScript;
 class PlayerHackingUseScript : public Script
 {
 public:
-
 	PlayerHackingUseScript();
 	~PlayerHackingUseScript() override = default;
 
@@ -30,9 +29,8 @@ public:
 	void StopHackingParticles();
 	
 private:
-
-	void DisableAllInteractions();
-	void EnableAllInteractions();
+	void DisableAllInteractions() const;
+	void EnableAllInteractions() const;
 	void FindHackZone(const std::string& tag);
 	void InitHack();
 	void FinishHack();
@@ -40,7 +38,6 @@ private:
 	void CheckCurrentHackZone();
 
 private:
-
 	bool isHackingButtonPressed;
 	bool isHackingActive;
 	std::string hackingTag;
@@ -60,8 +57,3 @@ private:
 	std::vector<HackingCommandType> userCommandInputs;
 	std::vector<HackingCommandType> commandCombination;
 };
-
-inline bool PlayerHackingUseScript::IsHackingActive() const
-{
-	return isHackingActive;
-}

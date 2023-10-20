@@ -171,7 +171,7 @@ void CombatTutorial::OnCollisionEnter(ComponentRigidBody* other)
 		if (other->GetOwner()->CompareTag("Player"))
 		{
 			PlayerManagerScript* playerManager = other->GetOwner()->GetComponent<PlayerManagerScript>();
-			App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->SetInCombat(true);
+			App->GetModule<ModulePlayer>()->SetInCombat(true);
 			tutorialActivable = true;
 			userControllable = true;
 			//Launches intro
@@ -184,7 +184,7 @@ void CombatTutorial::OnCollisionExit(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->CompareTag("Player") && !tutorialFinished)
 	{
-		App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->SetInCombat(false);
+		App->GetModule<ModulePlayer>()->SetInCombat(false);
 		tutorialUI->TutorialEnd();
 		LOG_INFO("TutorialExit");
 	}

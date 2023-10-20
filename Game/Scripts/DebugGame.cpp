@@ -16,7 +16,6 @@
 #include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/PlayerMoveScript.h"
 #include "../Scripts/PlayerJumpScript.h"
-#include "../Scripts/PlayerRotationScript.h"
 #include "../Scripts/PowerUpLogicScript.h"
 #include "../Scripts/GameManager.h"
 #include "../Scripts/ComboManager.h"
@@ -48,7 +47,6 @@ void DebugGame::Start()
 	playerAttackScript = player->GetComponent<PlayerAttackScript>();
 	playerMoveScript = player->GetComponent<PlayerMoveScript>();
 	playerJumpScript = player->GetComponent<PlayerJumpScript>();
-	playerRotationScript = player->GetComponent<PlayerRotationScript>();
 	comboSystemScript = player->GetComponent<ComboManager>();
 
 	playerRigidBody = player->GetComponent<ComponentRigidBody>();
