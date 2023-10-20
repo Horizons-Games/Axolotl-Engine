@@ -48,6 +48,7 @@ void CombatZoneScript::Start()
 	componentRigidBody = (*childWithRigid)->GetComponent<ComponentRigidBody>();
 	componentRigidBody->Disable();
 	*/
+	App->GetModule<ModulePlayer>()->SetInBossCombat(false);
 }
 
 void CombatZoneScript::Update(float deltaTime)
