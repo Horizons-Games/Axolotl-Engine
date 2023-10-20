@@ -206,6 +206,7 @@
     <ClCompile Include="..\Game\Scripts\FinalBossScript.cpp" />
     <ClCompile Include="..\Game\Scripts\HackingCommand.cpp" />
     <ClCompile Include="..\Game\Scripts\HackZoneScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\ForceZoneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp" />
     <ClCompile Include="..\Game\Scripts\LightAttackBullet.cpp" />
     <ClCompile Include="..\Game\Scripts\LightFinisherAttackScript.cpp" />
@@ -917,6 +918,7 @@
     <ClInclude Include="..\Game\Scripts\FinalBossScript.h" />
     <ClInclude Include="..\Game\Scripts\HackingCommand.h" />
     <ClInclude Include="..\Game\Scripts\HackZoneScript.h" />
+    <ClInclude Include="..\Game\Scripts\ForceZoneScript.h" />
     <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h" />
     <ClInclude Include="..\Game\Scripts\LightAttackBullet.h" />
     <ClInclude Include="..\Game\Scripts\LightFinisherAttackScript.h" />

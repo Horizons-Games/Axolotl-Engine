@@ -12,6 +12,7 @@ class ComponentTransform;
 class ComponentRigidBody;
 class ComponentAnimation;
 class ComponentAudioSource;
+class ForceZoneScript;
 
 class PlayerForceUseScript : public Script
 {
@@ -30,9 +31,9 @@ private:
 	void InitForce();
 	void FinishForce();
 
+private:
     GameObject* gameObjectAttached;
 	float distancePointGameObjectAttached;
-	float maxDistanceForce;
 	float minDistanceForce;
 	float lastHorizontalSensitivity;
 	float lastVerticalSensitivity;
@@ -40,8 +41,9 @@ private:
 	bool isForceActive;
 	bool objectStaticness;
 
-    std::string tag;
-	
+    std::string forceTag;
+	ForceZoneScript* forceZone;
+
 	PlayerManagerScript* playerManager;
 	PlayerMoveScript* moveScript;
 
@@ -49,6 +51,8 @@ private:
 	ComponentAnimation* componentAnimation;
 	ComponentTransform* transform;
 	ComponentRigidBody* rigidBody;
+
+	GameObject* forceZoneObject;
 
 	ModuleInput* input;
 };

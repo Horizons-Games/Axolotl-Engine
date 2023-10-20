@@ -298,3 +298,8 @@ void PlayerHackingUseScript::CheckCurrentHackZone()
 		}
 	}
 }
+
+bool PlayerHackingUseScript::IsHackingActive() const
+{
+	return isHackingActive;
+}

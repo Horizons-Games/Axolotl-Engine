@@ -20,6 +20,8 @@
 #include "MathGeoLib/Include/Geometry/Ray.h"
 #include "Auxiliar/Audio/AudioData.h"
 
+#include "ForceZoneScript.h"
+
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/CameraControllerScript.h"
 #include "../Scripts/PlayerMoveScript.h"
@@ -27,12 +29,11 @@
 REGISTERCLASS(PlayerForceUseScript);
 
 PlayerForceUseScript::PlayerForceUseScript() : Script(), 
-	gameObjectAttached(nullptr), tag("Forceable"), distancePointGameObjectAttached(0.0f), 
-	maxDistanceForce(20.0f), minDistanceForce(1.0f),
-	componentAnimation(nullptr), componentAudioSource(nullptr), 
-	playerManager(nullptr), gravity(0.0f), isForceActive(false)
+	gameObjectAttached(nullptr), forceTag("Forceable"), distancePointGameObjectAttached(0.0f), 
+	minDistanceForce(1.0f), componentAnimation(nullptr), componentAudioSource(nullptr), 
+	playerManager(nullptr), gravity(0.0f), isForceActive(false), forceZone(nullptr),
+	forceZoneObject(nullptr)
 {
-	REGISTER_FIELD(maxDistanceForce, float);
 	REGISTER_FIELD(minDistanceForce, float);
 }
 
@@ -94,7 +95,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 		}
 		
 		distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(nextPosition);
-		if (distancePointGameObjectAttached > maxDistanceForce || distancePointGameObjectAttached < minDistanceForce)
+		if (distancePointGameObjectAttached < minDistanceForce)
 		{
 			hittedRigidBody->DisablePositionController();
 			hittedRigidBody->DisableRotationController();
@@ -126,16 +127,28 @@ void PlayerForceUseScript::Update(float deltaTime)
 		rigidBody->GetRigidBody()->setWorldTransform(playerWorldTransform);
 		rigidBody->GetRigidBody()->getMotionState()->setWorldTransform(playerWorldTransform);
 		
-		// using a threshold to avoid jiggle on the forceable box movement
-		if (fabs(nextPosition.x - hittedTransform->GetGlobalPosition().x) > 0.1f ||
-			fabs(nextPosition.y - hittedTransform->GetGlobalPosition().y) > 0.1f)
+		if (forceZone)
 		{
-			hittedRigidBody->SetPositionTarget(nextPosition);
+			ComponentTransform* forceZoneTransform = forceZone->GetOwner()->GetComponent<ComponentTransform>();
+
+			float3 forceZonePosition = forceZoneTransform->GetGlobalPosition();
+			float boxDistance = (forceZonePosition - nextPosition).Length();
+
+			if (boxDistance < forceZone->GetInfluenceRadius())
+			{
+				// using a threshold to avoid jiggle on the forceable box movement
+				if (fabs(nextPosition.x - hittedTransform->GetGlobalPosition().x) > 0.1f ||
+					fabs(nextPosition.y - hittedTransform->GetGlobalPosition().y) > 0.1f)
+				{
+					hittedRigidBody->SetPositionTarget(nextPosition);
+				}
+			}
 		}
 	}
 	else if (isForceActive)
 	{
 		isForceActive = false;
+		forceZone = nullptr;
 		EnableAllInteractions();
 		rigidBody->SetGravity({ 0.0f, gravity, 0.0f });
 		componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_STOP);
@@ -154,17 +167,20 @@ void PlayerForceUseScript::InitForce()
 	rigidBody->SetGravity({ 0.0f, 0.0f, 0.0f });
 	float3 origin = float3(rigidBodyOrigin.getX(), rigidBodyOrigin.getY(), rigidBodyOrigin.getZ());
 	int raytries = 0;
+	isForceActive = true;
 
-	while (gameObjectAttached == nullptr && raytries < 4)
+	while (!gameObjectAttached && raytries < 4)
 	{
 		Ray ray(origin + float3(0.f, 1.f * static_cast<float>(raytries), 0.f), transform->GetGlobalForward());
 		LineSegment line(ray, 300);
 		raytries++;
-		isForceActive = true;
 
-		if (Physics::RaycastToTag(line, hit, owner, tag))
+		if (Physics::RaycastToTag(line, hit, owner, forceTag))
 		{
 			gameObjectAttached = hit.gameObject;
+			forceZoneObject = gameObjectAttached->GetParent();
+			ForceZoneScript* forceZoneScript = forceZoneObject->GetComponent<ForceZoneScript>();
+			forceZone = forceZoneScript;
 			
 			if (gameObjectAttached->GetChildren()[0]->HasComponent<ComponentParticleSystem>())
 			{
@@ -191,6 +207,7 @@ void PlayerForceUseScript::InitForce()
 void PlayerForceUseScript::FinishForce()
 {
 	isForceActive = false;
+	forceZone = nullptr;
 	EnableAllInteractions();
 	rigidBody->SetGravity({ 0.0f, gravity, 0.0f });
 	ComponentRigidBody* hittedRigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
