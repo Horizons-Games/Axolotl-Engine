@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/BixGhost_Face2_BaseColor.png",
+    "NormalAssetPath": "Assets/Textures/BixGhost_Face2_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/BixGhost_Face2_Metallic.png",
+    "EmissiveAssetPath": "Assets/Textures/BixGhost_Face2_Emissive.png"
+}

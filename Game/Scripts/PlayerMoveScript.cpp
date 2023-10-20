@@ -11,6 +11,7 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -19,6 +20,7 @@
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/PlayerForceUseScript.h"
 
+#include "GameObject/GameObject.h"
 #include "AxoLog.h"
 
 REGISTERCLASS(PlayerMoveScript);
@@ -28,7 +30,7 @@ componentAudio(nullptr), componentAnimation(nullptr), dashForce(30.0f),
 playerManager(nullptr), isParalyzed(false), desiredRotation(float3::zero), waterCounter(0),
 lightAttacksMoveFactor(2.0f), heavyAttacksMoveFactor(3.0f), dashRollTime(0.0f), 
 dashRollCooldown(0.1f), timeSinceLastDash(0.0f), dashRollDuration(0.2f), totalDirection(float3::zero),
-isTriggeringStoredDash(false)
+isTriggeringStoredDash(false), dashBix(nullptr), ghostBixDashing(false), rollAllura(nullptr)
 {
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(isParalyzed, bool);
@@ -36,6 +38,9 @@ isTriggeringStoredDash(false)
 	REGISTER_FIELD(heavyAttacksMoveFactor, float);
 	REGISTER_FIELD(dashRollCooldown, float);
 	REGISTER_FIELD(dashRollDuration, float);
+	REGISTER_FIELD(dashBix, GameObject*);
+	REGISTER_FIELD(rollAllura, GameObject*);
+	
 }
 
 void PlayerMoveScript::Start()
@@ -309,6 +314,19 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 
 void PlayerMoveScript::DashRoll(float deltaTime)
 {
+	if(ghostBixDashing) 
+	{
+		for (GameObject* child : dashBix->GetChildren()) 
+		{
+			if (child->GetTag() == "Effect" && child->GetComponent<ComponentAnimation>()->GetActualStateName() != "DashingInit" &&
+				child->GetComponent<ComponentAnimation>()->GetActualStateName() != "DashingKeep" &&
+				child->GetComponent<ComponentAnimation>()->GetActualStateName() != "DashingEnd")
+			{
+				dashBix->Disable();
+				ghostBixDashing = false;
+			}
+		}
+	}
 	if (playerAttackScript->IsAttackAvailable() &&
 		timeSinceLastDash > dashRollCooldown &&
 		(playerManager->GetPlayerState() == PlayerActions::IDLE ||
@@ -320,6 +338,13 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 		dashRollTime = 0.0f;
 		timeSinceLastDash = 0.0f;
 		isTriggeringStoredDash = false;
+		if(dashBix != nullptr) dashBix->Enable();
+		if (rollAllura != nullptr)
+		{
+			rollAllura->GetComponent<ComponentParticleSystem>()->Stop();
+			rollAllura->Enable();
+			rollAllura->GetComponent<ComponentParticleSystem>()->Play();
+		}
 		componentAnimation->SetParameter("IsDashing", true);
 		componentAnimation->SetParameter("IsRunning", false);
 		playerManager->SetPlayerState(PlayerActions::DASHING);
@@ -375,6 +400,14 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 			}
 			timeSinceLastDash = 0.0f;
 			componentAnimation->SetParameter("IsDashing", false);
+			if (dashBix != nullptr) 
+			{
+				ghostBixDashing = true;
+			}
+			if(rollAllura != nullptr) 
+			{
+				rollAllura->Disable();
+			}
 			btRigidbody->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
 		}
 		else

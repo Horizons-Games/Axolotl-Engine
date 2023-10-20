@@ -6,6 +6,7 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class GameObject;
 class Camera;
 class ModuleInput;
 class ComponentAudioSource;
@@ -91,4 +92,7 @@ private:
 	int waterCounter;
 
 	void DashRoll(float deltaTime);
+	GameObject* dashBix;
+	GameObject* rollAllura;
+	bool ghostBixDashing;
 };
