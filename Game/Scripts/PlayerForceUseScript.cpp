@@ -53,7 +53,8 @@ void PlayerForceUseScript::Start()
 
 void PlayerForceUseScript::Update(float deltaTime)
 {
-	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && playerManager->IsGrounded())
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && playerManager->IsGrounded() &&
+		playerManager->GetPlayerState() != PlayerActions::DASHING)
 	{
 		if (!gameObjectAttached)
 		{
@@ -164,7 +165,13 @@ void PlayerForceUseScript::Update(float deltaTime)
 
 void PlayerForceUseScript::InitForce() 
 {
+	playerManager->SetPlayerState(PlayerActions::IDLE);
+	componentAnimation->SetParameter("IsRunning", false);
+	componentAnimation->SetParameter("IsDashing", false);
+
+	componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 	componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_USE);
+
 	componentAnimation->SetParameter("IsStartingForce", true);
 	componentAnimation->SetParameter("IsStoppingForce", false);
 	RaycastHit hit;
