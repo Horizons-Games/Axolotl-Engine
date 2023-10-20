@@ -84,9 +84,9 @@ void UIComboManager::Update(float deltaTime)
 
 		ComponentTransform2D* transformText = specialBox.text->GetComponent<ComponentTransform2D>();
 		ComponentTransform2D* transformButtons = specialBox.lb->GetParent()->GetComponent<ComponentTransform2D>();
-		float growVelocity = (transparency - 0.5f) / 5.0f;
+		float growVelocity = (transparency - 0.5f) / 10.0f;
 		float3 sizeText = float3(1.0f + growVelocity, 1.0f + growVelocity, 1.0f);
-		float3 sizeButton = float3(1.0f + growVelocity / 2.0f, 1.0f + growVelocity / 2.0f, 1.0f);
+		float3 sizeButton = float3(1.0f + growVelocity, 1.0f + growVelocity, 1.0f);
 		transformText->SetScale(sizeText);
 		transformButtons->SetScale(sizeButton);
 		transformText->CalculateMatrices();
@@ -350,7 +350,7 @@ void UIComboManager::InitFinishComboButtonsEffect() //Make a VFX when you get a 
 
 		ComponentTransform2D* transformText = specialBox.text->GetComponent<ComponentTransform2D>();
 		ComponentTransform2D* transformButtons = specialBox.lb->GetParent()->GetComponent<ComponentTransform2D>();
-		float3 sizeText = float3(1.1f, 1.1f, 1.0f);
+		float3 sizeText = float3(1.05f, 1.05f, 1.0f);
 		float3 sizeButton = float3(1.05f, 1.05f, 1.0f);
 		transformText->SetScale(sizeText);
 		transformButtons->SetScale(sizeButton);
