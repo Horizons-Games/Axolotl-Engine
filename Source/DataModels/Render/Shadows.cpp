@@ -10,6 +10,7 @@
 
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentDirLight.h"
 
 #include "GameObject/GameObject.h"
 
@@ -22,13 +23,11 @@
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
 
-#include "Program/Program.h";
+#include "Program/Program.h"
 
 #include "Scene/Scene.h"
 
 #include "debugdraw.h"
-
-#define LAMBDA 0.85f
 
 Shadows::Shadows()
 {
@@ -59,8 +58,6 @@ Shadows::Shadows()
 	useShadows = true;
 	useVarianceShadowMapping = true;
 	useCSMDebug = false;
-
-	lambda = LAMBDA;
 }
 
 Shadows::~Shadows()
@@ -89,6 +86,8 @@ void Shadows::CleanUp()
 	glDeleteTextures(1, &shadowVarianceTexture);
 
 	glDeleteBuffers(1, &ssboMinMax);
+	glDeleteBuffers(1, &ssboLogSplit);
+
 	glDeleteBuffers(1, &uboFrustums);
 	glDeleteBuffers(1, &uboCascadeDistances);
 }
@@ -359,7 +358,8 @@ void Shadows::RenderShadowMap(const GameObject* light, const float2& minMax, Cam
 		App->GetModule<ModuleScene>()->GetLoadedScene()->ObtainObjectsInFrustum(&frustum);
 
 	// Calculate sub frustum
-	LogarithmicPartition(cameraFrustum);
+	float lambda = static_cast<ComponentDirLight*>(light->GetComponentInternal<ComponentLight>())->GetLambda();
+	PracticalPartition(cameraFrustum, lambda);
 
 	for (int i = 0; i <= FRUSTUM_PARTITIONS; ++i)
 	{
@@ -384,8 +384,12 @@ void Shadows::RenderShadowMap(const GameObject* light, const float2& minMax, Cam
 	glBindBuffer(GL_UNIFORM_BUFFER, uboFrustums);
 	glBufferData(GL_UNIFORM_BUFFER, sizeof(LightSpaceMatrices), &frustumMatrices, GL_STATIC_DRAW);
 
+	//glCullFace(GL_BACK);
+
 	ModuleRender* render = App->GetModule<ModuleRender>();
 	render->GetBatchManager()->DrawMeshes(objectsInFrustum, float3(frustum.Pos()));
+
+	//glCullFace(GL_FRONT);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
@@ -393,11 +397,13 @@ void Shadows::RenderShadowMap(const GameObject* light, const float2& minMax, Cam
 	program->Deactivate();
 
 	glPopDebugGroup();
+
+	delete cameraFrustum;
 }
 
 void Shadows::ShadowDepthVariance()
 {
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Shadow Depth Variance"), "Shadow Depth Variance");
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Shadow Depth Variance")), "Shadow Depth Variance");
 
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SHADOW_DEPTH_VARIANCE);
 	program->Activate();
@@ -425,7 +431,7 @@ void Shadows::ShadowDepthVariance()
 
 void Shadows::GaussianBlur()
 {
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("Gaussian Blur"), "Gaussian Blur");
+	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Gaussian Blur")), "Gaussian Blur");
 
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::GAUSSIAN_BLUR_3D);
 	program->Activate();
@@ -454,13 +460,13 @@ void Shadows::GaussianBlur()
 	glPopDebugGroup();
 }
 
-void Shadows::LogarithmicPartition(Frustum* frustum)
+void Shadows::PracticalPartition(Frustum* frustum, float lambda)
 {
 	float nearPlane = frustum->NearPlaneDistance();
 	float farPlane = frustum->FarPlaneDistance();
 	float lastFarPlane = nearPlane;
 
-	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::LOG_SPLIT);
+	/*Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::LOG_SPLIT);
 	program->Activate();
 
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("logarithmic Split")), 
@@ -485,11 +491,14 @@ void Shadows::LogarithmicPartition(Frustum* frustum)
 
 	glPopDebugGroup();
 
-	program->Deactivate();
+	program->Deactivate();*/
 
 	for (unsigned i = 0; i < FRUSTUM_PARTITIONS; ++i)
 	{
-		float splitPosition = splitPositions[i];
+		//float splitPosition = splitPositions[i];
+		float logarithmicSplit = nearPlane * pow(farPlane / nearPlane, float(i + 1) / float(FRUSTUM_PARTITIONS + 1));
+		float uniformSplit = nearPlane + (farPlane - nearPlane) * (float(i + 1) / float(FRUSTUM_PARTITIONS + 1));
+		float splitPosition = lambda * logarithmicSplit + (1.0 - lambda) * uniformSplit;
 
 		*frustums[i] = *frustum;
 		frustums[i]->SetViewPlaneDistances(lastFarPlane, splitPosition);
@@ -505,7 +514,7 @@ void Shadows::LogarithmicPartition(Frustum* frustum)
 	cascadeDistances.farDistances[FRUSTUM_PARTITIONS].x = farPlane;
 }
 
-Frustum& Shadows::ComputeLightFrustum(const GameObject* light, Frustum* cameraFrustum)
+Frustum Shadows::ComputeLightFrustum(const GameObject* light, Frustum* cameraFrustum)
 {
 	float3 corners[8];
 	cameraFrustum->GetCornerPoints(corners);
@@ -523,6 +532,8 @@ Frustum& Shadows::ComputeLightFrustum(const GameObject* light, Frustum* cameraFr
 
 	const ComponentTransform* lightTransform = light->GetComponent<ComponentTransform>();
 	const float3& lightPos = lightTransform->GetGlobalPosition();
+	float zNearOffset = static_cast<ComponentDirLight*>(
+		light->GetComponentInternal<ComponentLight>())->GetZNearOffset();
 
 	float3 lightFront = lightTransform->GetGlobalForward();
 	float3 lightRight = Cross(lightFront, float3(0.0f, 1.0f, 0.0f)).Normalized();
@@ -531,7 +542,7 @@ Frustum& Shadows::ComputeLightFrustum(const GameObject* light, Frustum* cameraFr
 	frustum.SetPos(sphereCenter - lightFront * sphereRadius);
 	frustum.SetFront(lightFront);
 	frustum.SetUp(lifghtUp);
-	frustum.SetViewPlaneDistances(0.0f, sphereRadius * 2.0f);
+	frustum.SetViewPlaneDistances(zNearOffset, sphereRadius * 2.0f);
 	frustum.SetOrthographic(sphereRadius * 2.0f, sphereRadius * 2.0f);
 
 	//dd::frustum(cameraFrustum->ViewProjMatrix().Inverted(), dd::colors::Yellow);

@@ -1,0 +1,10 @@
+{
+    "UID": 11307184955903527749,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": [
+        "Assets/Textures/Button_B.png"
+    ],
+    "ConfigEmitters": [
+        false
+    ]
+}

@@ -10,8 +10,10 @@ class GameObject;
 class ComponentAnimation;
 class ComponentAudioSource;
 class ComponentRigidBody;
+class ComponentParticleSystem;
 
 class PlayerAttackScript;
+class PlayerManagerScript;
 class PlayerMoveScript;
 
 class PlayerJumpScript : public Script
@@ -27,27 +29,35 @@ public:
 	void SetCanJump(bool canJump);
 
 	bool IsGrounded() const;
-	bool IsJumping() const;
+	void SetIsGrounded(bool isGrounded);
+
+	float GetTimeSinceLastJump() const;
+
+	float GetJumpForce() const;
+	void ToggleIsChangingPlayer();
 
 private:
-	void CheckGround();
-	void Jump(float deltatime);
+	void CheckGround(float deltaTime);
+	void Jump(float deltaTime);
 
+	bool isFalling;
 	bool isGrounded;
 	bool doubleJumpAvailable;
-	bool isJumping;
-	int groundedCount;
 	float coyoteTime;
 	float coyoteTimerCount;
-
 	float jumpParameter;
+	float timeSinceLastJump;
 	bool canDoubleJump;
 	bool canJump;
+	bool isChangingPlayer;
 
 	ComponentRigidBody* rigidbody;
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudio;
+	ComponentParticleSystem* landingParticle;
+
 
 	PlayerAttackScript* attackScript;
-	PlayerMoveScript* playerMoveScript;
+	PlayerManagerScript* playerManager;
+	PlayerMoveScript* playerMove;
 };

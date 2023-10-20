@@ -18,6 +18,7 @@ public:
 	bool IsLeaf() const;
 	bool InQuadrant(const GameObject* gameObject) const;
 	bool EntireInQuadrant(const GameObject* gameObject) const;
+	bool HasGameObject(GameObject* gameObject) const;
 
 	void Add(GameObject* gameObject);
 	void AddGameObjectAndChildren(GameObject* gameObject);
@@ -43,6 +44,8 @@ public:
 	const Quadtree* GetFrontLeftNode() const;
 	const Quadtree* GetBackRightNode() const;
 	const Quadtree* GetBackLeftNode() const;
+
+	const Quadtree* GetParent() const;
 
 	bool IsFreezed() const;
 	void SetFreezedStatus(bool isFreezed);
@@ -148,4 +151,9 @@ inline void Quadtree::SetMinQuadrantSideSize(float minQuadrantSideSize)
 {
 	this->minQuadrantSideSize = minQuadrantSideSize;
 	minQuadrantDiagonalSquared = 3 * minQuadrantSideSize * minQuadrantSideSize;
+}
+
+inline const Quadtree* Quadtree::GetParent() const
+{
+	return parent;
 }

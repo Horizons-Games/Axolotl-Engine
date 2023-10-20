@@ -7,6 +7,8 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform;
 class ComponentRigidBody;
+class ComponentAnimation;
+
 class FinalBossScript;
 
 enum class AttackState
@@ -47,6 +49,7 @@ private:
 
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* transform;
+	ComponentAnimation* animator;
 	FinalBossScript* finalBossScript;
 
 	float3 initialPosition;
@@ -58,8 +61,10 @@ private:
 	float missileAttackCooldown;
 	float missileSpawnTime;
 
+	ComponentTransform* safePositionSelected;
+
 	//Modifiable values
-	ComponentTransform* safePositionTransform;
+	std::vector<ComponentTransform*> safePositionsTransforms;
 	ComponentRigidBody* battleArenaAreaSize;
 
 	float missileAttackMaxDuration;

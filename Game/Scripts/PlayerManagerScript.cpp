@@ -2,31 +2,46 @@
 #include "PlayerManagerScript.h"
 
 #include "Components/ComponentScript.h"
+#include "Components/ComponentRigidBody.h"
 
-#include "../Scripts/PlayerJumpScript.h"
-#include "../Scripts/PlayerRotationScript.h"
-#include "../Scripts/PlayerMoveScript.h"
-#include "../Scripts/DebugGame.h"
+#include "PlayerJumpScript.h"
+#include "PlayerRotationScript.h"
+#include "PlayerMoveScript.h"
+#include "PlayerAttackScript.h"
+#include "PlayerHackingUseScript.h"
+#include "HealthSystem.h"
+
+#include "DebugGame.h"
+#include "Application.h"
 
 REGISTERCLASS(PlayerManagerScript);
 
 PlayerManagerScript::PlayerManagerScript() : Script(), playerAttack(20.0f), playerDefense(0.f), playerSpeed(6.0f),
-	movementManager(nullptr), jumpManager(nullptr), debugManager(nullptr)
+	movementManager(nullptr), jumpManager(nullptr), debugManager(nullptr), hackingManager(nullptr), playerState(PlayerActions::IDLE)
 {
+	REGISTER_FIELD(isActivePlayer, bool);
 	REGISTER_FIELD(playerAttack, float);
 	REGISTER_FIELD(playerDefense, float);
 	REGISTER_FIELD(playerSpeed, float);
 	REGISTER_FIELD(playerRotationSpeed, float);
-
 	REGISTER_FIELD(debugManager, DebugGame*);
+	REGISTER_FIELD(movementParticleSystem, GameObject*);
 }
 
 void PlayerManagerScript::Start()
 {
+	input = App->GetModule<ModuleInput>();
+
+	rigidBodyManager = owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->getLinearVelocity();
 	jumpManager = owner->GetComponent<PlayerJumpScript>();
+	healthManager = owner->GetComponent<HealthSystem>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
 	rotationManager = owner->GetComponent<PlayerRotationScript>();
-
+	attackManager = owner->GetComponent<PlayerAttackScript>();
+	if (owner->HasComponent<PlayerHackingUseScript>())
+	{
+		hackingManager = owner->GetComponent<PlayerHackingUseScript>();
+	}
 }
 
 bool PlayerManagerScript::IsGrounded() const
@@ -42,6 +57,16 @@ bool PlayerManagerScript::IsTeleporting() const
 	}
 
 	return false; // If no debug, then no tp is possible
+}
+
+bool PlayerManagerScript::IsParalyzed() const
+{
+	return movementManager->IsParalyzed();
+}
+
+GameObject* PlayerManagerScript::GetMovementParticleSystem() const
+{
+	return movementParticleSystem;
 }
 
 float PlayerManagerScript::GetPlayerAttack() const
@@ -89,6 +114,48 @@ PlayerMoveScript* PlayerManagerScript::GetMovementManager() const
 	return movementManager;
 }
 
+void PlayerManagerScript::TriggerJump(bool forcedJump)
+{
+	if (!forcedJump)
+	{
+		jumpManager->SetIsGrounded(!forcedJump);
+		playerState = PlayerActions::IDLE;
+	}
+	else
+	{
+		jumpManager->ToggleIsChangingPlayer();
+	}
+	jumpManager->SetCanJump(forcedJump);
+}
+
+void PlayerManagerScript::StopHackingParticles() const
+{
+	if (hackingManager)
+	{
+		hackingManager->StopHackingParticles();
+	}
+}
+
+void PlayerManagerScript::PausePlayer(bool paused)
+{
+	btVector3 linearVelocityPlayer(0.f, 0.f, 0.f);
+	ParalyzePlayer(paused);
+	healthManager->SetIsImmortal(paused);
+	attackManager->SetCanAttack(!paused);
+
+	if (!paused)
+	{
+		linearVelocityPlayer = rigidBodyManager;
+	}
+
+	owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(linearVelocityPlayer);
+}
+
+PlayerAttackScript* PlayerManagerScript::GetAttackManager() const
+{
+	return attackManager;
+}
+
 void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 {
 	movementManager->SetIsParalyzed(paralyzed);
@@ -99,4 +166,14 @@ void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)
 {
 	this->playerSpeed = playerSpeed;
+}
+
+PlayerActions PlayerManagerScript::GetPlayerState() const
+{
+	return playerState;
+}
+
+void PlayerManagerScript::SetPlayerState(PlayerActions playerState)
+{
+	this->playerState = playerState;
 }

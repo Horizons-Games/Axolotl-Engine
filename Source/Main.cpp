@@ -42,7 +42,7 @@ int main(int argc, char** argv)
 
 			case main_states::MAIN_INIT:
 				LOG_VERBOSE("Application Init --------------");
-				if (App->Init() == false)
+				if (!App->Init())
 				{
 					LOG_ERROR("Application Init exits with error -----");
 					state = main_states::MAIN_EXIT;
@@ -57,7 +57,7 @@ int main(int argc, char** argv)
 			case main_states::MAIN_START:
 
 				LOG_VERBOSE("Application Start --------------");
-				if (App->Start() == false)
+				if (!App->Start())
 				{
 					LOG_ERROR("Application Start exits with error -----");
 					state = main_states::MAIN_EXIT;
@@ -89,7 +89,7 @@ int main(int argc, char** argv)
 			case main_states::MAIN_FINISH:
 
 				LOG_VERBOSE("Application CleanUp --------------");
-				if (App->CleanUp() == false)
+				if (!App->CleanUp())
 				{
 					LOG_ERROR("Application CleanUp exits with error -----");
 				}

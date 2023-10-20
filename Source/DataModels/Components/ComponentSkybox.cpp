@@ -1,21 +1,19 @@
 #include "StdAfx.h"
 
 #include "ComponentSkybox.h"
-#include "GameObject/GameObject.h"
-#include "Application.h"
-#include "ModuleScene.h"
-#include "ModuleProgram.h"
-#include "ModuleCamera.h"
-#include "Filesystem/ModuleResources.h"
-#include "Scene/Scene.h"
-#include "Resources/ResourceSkyBox.h"
-#include "DataModels/Program/Program.h"
 
-#include "Camera/Camera.h"
+#include "Application.h"
+#include "ModuleProgram.h"
+
+#include "Filesystem/ModuleResources.h"
+#include "Resources/ResourceSkyBox.h"
+
+#include "DataModels/Program/Program.h"
+#include "Cubemap/Cubemap.h"
+
 
 ComponentSkybox::ComponentSkybox(bool active, GameObject* owner) : 
-	Component(ComponentType::SKYBOX, active, owner, true),
-	enable(true)
+	Component(ComponentType::SKYBOX, active, owner, true), useCubemap(false)
 {
 }
 
@@ -23,9 +21,9 @@ ComponentSkybox::~ComponentSkybox()
 {
 }
 
-void ComponentSkybox::Draw() const
+void ComponentSkybox::Draw(float4x4 view, float4x4 proj) const
 {
-	if (enable)
+	if (IsEnabled())
 	{
 		Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::SKYBOX);
 		if (program && skyboxRes)
@@ -38,10 +36,9 @@ void ComponentSkybox::Draw() const
 			glDepthMask(GL_FALSE);
 
 			program->Activate();
-			ModuleCamera* camera = App->GetModule<ModuleCamera>();
 
-			program->BindUniformFloat4x4("view", (const float*) &camera->GetCamera()->GetViewMatrix(), GL_TRUE);
-			program->BindUniformFloat4x4("proj", (const float*) &camera->GetCamera()->GetProjectionMatrix(), GL_TRUE);
+			program->BindUniformFloat4x4("view", (const float*) &view, GL_TRUE);
+			program->BindUniformFloat4x4("proj", (const float*) &proj, GL_TRUE);
 
 			glBindVertexArray(skyboxRes->GetVAO());
 			glActiveTexture(GL_TEXTURE0);
@@ -61,7 +58,7 @@ void ComponentSkybox::Draw() const
 void ComponentSkybox::InternalSave(Json& meta)
 {
 	Json jsonSkybox = meta["Skybox"];
-	jsonSkybox["enable"] = this->enable;
+	jsonSkybox["useCubemap"] = useCubemap;
 	jsonSkybox["skyboxUID"] = skyboxRes->GetUID();
 	jsonSkybox["skyboxAssetPath"] = skyboxRes->GetAssetsPath().c_str();
 }
@@ -69,7 +66,7 @@ void ComponentSkybox::InternalSave(Json& meta)
 void ComponentSkybox::InternalLoad(const Json& meta)
 {
 	Json jsonSkybox = meta["Skybox"];
-	this->enable = jsonSkybox["enable"];
+	useCubemap = jsonSkybox["useCubemap"];
 	UID resUID = jsonSkybox["skyboxUID"];
 	std::string resPath = jsonSkybox["skyboxAssetPath"];
 
@@ -80,16 +77,6 @@ void ComponentSkybox::InternalLoad(const Json& meta)
 #endif // ENGINE
 }
 
-void ComponentSkybox::SignalEnable()
-{
-	enable = true;
-}
-
-void ComponentSkybox::SignalDisable()
-{
-	enable = false;
-}
-
 std::shared_ptr<ResourceSkyBox> ComponentSkybox::GetSkyboxResource() const
 {
 	return skyboxRes;
@@ -97,6 +84,19 @@ std::shared_ptr<ResourceSkyBox> ComponentSkybox::GetSkyboxResource() const
 
 void ComponentSkybox::SetSkyboxResource(std::shared_ptr<ResourceSkyBox> resource)
 {
-	this->skyboxRes = resource;
+	skyboxRes = resource;
+	cubemap.release();
 }
 
+Cubemap* ComponentSkybox::GetCubemap()
+{
+	if (cubemap == nullptr)
+	{
+		if (!skyboxRes->IsLoaded())
+		{
+			skyboxRes->Load();
+		}
+		cubemap = std::make_unique<Cubemap>(skyboxRes->GetGlTexture());
+	}
+	return cubemap.get();
+}

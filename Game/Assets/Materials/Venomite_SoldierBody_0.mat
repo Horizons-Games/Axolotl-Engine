@@ -1,7 +1,7 @@
 {
     "DiffuseAssetPath": "Assets/Textures/NewEnemy_Body_BaseColor.png",
-    "NormalAssetPath": "",
+    "NormalAssetPath": "Assets/Textures/NewEnemy_Body_Normal.png",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "",
-    "EmissiveAssetPath": ""
+    "MetalicAssetPath": "Assets/Textures/NewEnemy_Body_Metallic.png",
+    "EmissiveAssetPath": "Assets/Textures/NewEnemy_Body_Emissive.png"
 }

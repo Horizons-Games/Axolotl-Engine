@@ -26,6 +26,8 @@ public:
 	void Draw() const override;
 	void Render();
 
+	void SaveConfig();
+
 	bool IsEmittersEmpty() const;
 	bool IsPlaying() const;
 	bool IsFinished() const;

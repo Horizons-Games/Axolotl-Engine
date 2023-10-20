@@ -30,6 +30,8 @@ protected:
 private:
 	void InspectSelectedGameObject();
 
+	void DrawAddComponentActions();
+
 	void InspectSelectedResource();
 	void InitTextureImportOptions();
 	void InitTextureLoadOptions();
@@ -43,7 +45,6 @@ private:
 	void AddComponentMeshRenderer();
 	void AddComponentLight(LightType type, AreaType areaType);
 	void AddComponentPlayer();
-	void AddComponentPlayerInput();
 	void AddComponentCameraSample();
 	void AddComponentAnimation();
 

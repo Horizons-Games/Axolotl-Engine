@@ -14,6 +14,7 @@ public:
 
 	virtual void Spawn(EmitterInstance* instance) {};
 	virtual void Update(EmitterInstance* instance) {};
+	virtual void CopyConfig(ParticleModule* module) = 0;
 	
 	void Save();
 	void Load();

@@ -17,6 +17,9 @@ public:
 
 	bool CleanUp() override;
 
+	void Suspend() const;
+	void WakeUp() const;
+
 private:
 	bool InitializeBanks();
 

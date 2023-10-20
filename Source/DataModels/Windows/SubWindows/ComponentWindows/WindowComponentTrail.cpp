@@ -21,8 +21,9 @@
 #define CAT_SAMP_MAX_VALUE 20
 
 WindowComponentTrail::WindowComponentTrail(ComponentTrail* component) : 
-			ComponentWindow("TRAIL", component),
-			inputTexture(std::make_unique<WindowTrailTexture>(this, TextureType::DIFFUSE))
+	ComponentWindow("TRAIL", component),
+	inputTexture(std::make_unique<WindowTrailTexture>(this, TextureType::DIFFUSE)), draggingMark(nullptr),
+	selectedMark(nullptr)
 {
 	Init();
 }
@@ -156,7 +157,7 @@ void WindowComponentTrail::DrawWindowContents()
 
 			if (ImGui::BeginCombo("##blendingCombo", currentItem))
 			{
-				for (int n = 0; n < IM_ARRAYSIZE(blendingItems); n++)
+				for (int n = 0; n < IM_ARRAYSIZE(blendingItems); ++n)
 				{
 					bool isSelected = (currentItem == blendingItems[n]);
 
@@ -186,23 +187,23 @@ void WindowComponentTrail::DrawWindowContents()
 			}
 
 			ImGui::TableNextColumn();
-			ImGui::Text("Catmun Samplers");
+			ImGui::Text("Catmull Samplers");
 			ImGui::TableNextColumn();
 			ImGui::Dummy(ImVec2(2.0f, 0.0f)); ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);
 			
-			int numCatmun = componentTrail->GetCatmunPoints();
-			if (ImGui::DragInt("##Catmun", &numCatmun, 1.f, CAT_SAMP_MIN_VALUE, CAT_SAMP_MAX_VALUE))
+			int numCatmull = componentTrail->GetCatmullPoints();
+			if (ImGui::DragInt("##Catmull", &numCatmull, 1.f, CAT_SAMP_MIN_VALUE, CAT_SAMP_MAX_VALUE))
 			{
-				if (numCatmun > CAT_SAMP_MAX_VALUE)
+				if (numCatmull > CAT_SAMP_MAX_VALUE)
 				{
-					numCatmun = CAT_SAMP_MAX_VALUE;
+					numCatmull = CAT_SAMP_MAX_VALUE;
 				}
-				else if (numCatmun < CAT_SAMP_MIN_VALUE)
+				else if (numCatmull < CAT_SAMP_MIN_VALUE)
 				{
-					numCatmun = CAT_SAMP_MIN_VALUE;
+					numCatmull = CAT_SAMP_MIN_VALUE;
 				}
-				componentTrail->SetCatmunPoints(numCatmun);
+				componentTrail->SetCatmullPoints(numCatmull);
 			}
 
 			ImGui::EndTable();
@@ -213,8 +214,6 @@ void WindowComponentTrail::DrawWindowContents()
 		ImGui::Text("Color Gradient");
 
 		ImGradient* gradient = componentTrail->GetGradient();
-		static ImGradientMark* draggingMark = nullptr;
-		static ImGradientMark* selectedMark = nullptr;
 
 		if (ImGui::GradientEditor(gradient, draggingMark, selectedMark))
 		{

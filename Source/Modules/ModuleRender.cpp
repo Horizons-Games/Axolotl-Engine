@@ -141,9 +141,14 @@ ModuleRender::~ModuleRender()
 	delete gBuffer;
 	delete shadows;
 	delete ssao;
-
+	delete lightPass;
+	
 	objectsInFrustrumDistances.clear();
 	gameObjectsInFrustrum.clear();
+
+	points.clear();
+	spots.clear();
+	spheres.clear();
 }
 
 bool ModuleRender::Init()
@@ -167,6 +172,7 @@ bool ModuleRender::Init()
 	gBuffer = new GBuffer();
 	shadows = new Shadows();
 	ssao = new SSAO();
+	lightPass = new LightPass();
 
 	GLenum err = glewInit();
 	// check for errors
@@ -240,6 +246,11 @@ UpdateStatus ModuleRender::PreUpdate()
 	gameObjectsInFrustrum.clear();
 	objectsInFrustrumDistances.clear();
 
+	points.clear();
+	spots.clear();
+	spheres.clear();
+	tubes.clear();
+
 	return UpdateStatus::UPDATE_CONTINUE;
 }
 
@@ -268,10 +279,11 @@ UpdateStatus ModuleRender::Update()
 
 	// Camera
 	Camera* checkedCamera = GetFrustumCheckedCamera();
-	Camera* engineCamera = App->GetModule<ModuleCamera>()->GetCamera();
+	Camera* engineCamera = camera->GetCamera();
+	Frustum frustum = *engineCamera->GetFrustum();
 
 #ifdef ENGINE
-	if (App->IsOnPlayMode())
+	if (App->GetPlayState() != Application::PlayState::STOPPED && player)
 #else
 	if (player)
 #endif
@@ -303,12 +315,14 @@ UpdateStatus ModuleRender::Update()
 	int w, h;
 	SDL_GetWindowSize(window->GetWindow(), &w, &h);
 
+	glViewport(0, 0, w, h);
+
 	// Bind camera and cubemap info to the shaders
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
 	BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT));
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_METALLIC), engineCamera);
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_SPECULAR), engineCamera);
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_METALLIC), frustum);
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::G_SPECULAR), frustum);
 
 	// -------- DEFERRED GEOMETRY -----------
 	gBuffer->BindFrameBuffer();
@@ -320,7 +334,7 @@ UpdateStatus ModuleRender::Update()
 
 	// Draw opaque objects
 	batchManager->DrawOpaque(false);
-	if (!App->IsOnPlayMode() && !isRoot)
+	if (!isRoot && App->GetPlayState() == Application::PlayState::STOPPED)
 	{
 		// Draw selected opaque
 		glEnable(GL_STENCIL_TEST);
@@ -353,7 +367,7 @@ UpdateStatus ModuleRender::Update()
 	if (ssao->IsEnabled())
 	{
 		program = modProgram->GetProgram(ProgramType::SSAO);
-		BindCameraToProgram(program, engineCamera);
+		BindCameraToProgram(program, frustum);
 		ssao->CalculateSSAO(program, w, h);
 
 		program = modProgram->GetProgram(ProgramType::GAUSSIAN_BLUR);
@@ -361,12 +375,13 @@ UpdateStatus ModuleRender::Update()
 	}
 
 	// -------- DEFERRED LIGHTING ---------------
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT), engineCamera);
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR), engineCamera);
-	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT), engineCamera);
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFAULT), frustum);
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::SPECULAR), frustum);
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::DEFERRED_LIGHT), frustum);
+	BindCameraToProgram(modProgram->GetProgram(ProgramType::LIGHT_CULLING), frustum);
 
-	// -------- DEFERRED LIGHTING ---------------
-	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, std::strlen("DEFERRED LIGHTING"), "DEFERRED LIGHTING");
+	glPushDebugGroup
+		(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("DEFERRED LIGHTING")), "DEFERRED LIGHTING");
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -383,11 +398,15 @@ UpdateStatus ModuleRender::Update()
 
 		ComponentDirLight* directLight = static_cast<ComponentDirLight*>(
 			App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight()->GetComponent<ComponentLight>());
+		
+		float2 shadowBias = directLight->GetShadowBias();
+
+		program->BindUniformFloat("amount", directLight->GetBleedingAmount());
 
 		if (!shadows->UseVSM())
 		{
-			program->BindUniformFloat("minBias", directLight->shadowBias[0]);
-			program->BindUniformFloat("maxBias", directLight->shadowBias[1]);
+			program->BindUniformFloat("minBias", shadowBias[0]);
+			program->BindUniformFloat("maxBias", shadowBias[1]);
 		}
 	}
 	program->BindUniformInt("useShadows", static_cast<int>(shadows->UseShadows()));
@@ -408,22 +427,25 @@ UpdateStatus ModuleRender::Update()
 
 	program->Deactivate();
 
-	int width, height;
-
-	SDL_GetWindowSize(window->GetWindow(), &width, &height);
-
 	gBuffer->ReadFrameBuffer();
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
-	glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
+	glBlitFramebuffer(0, 0, w, h, 0, 0, w, h, GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frameBuffer[0]);
 	glPopDebugGroup();
+
+	// ------- DEFERRED LIGHT PASS - Light culling ----------
+	program = modProgram->GetProgram(ProgramType::LIGHT_CULLING);
+	lightPass->RenderLights(program, gBuffer, modeRender, points, spots, spheres, tubes);
+	// -----------------------------
+
 	// -------- PRE-FORWARD ----------------------
 	if (loadedScene->GetRoot()->HasComponent<ComponentSkybox>())
 	{
-		loadedScene->GetRoot()->GetComponentInternal<ComponentSkybox>()->Draw();
+		loadedScene->GetRoot()->GetComponentInternal<ComponentSkybox>()->
+			Draw(engineCamera->GetViewMatrix(), engineCamera->GetProjectionMatrix());
 	}
 
-	debug->Draw(camera->GetCamera()->GetViewMatrix(), camera->GetCamera()->GetProjectionMatrix(), width, height);
+	debug->Draw(engineCamera->GetViewMatrix(), engineCamera->GetProjectionMatrix(), w, h);
 
 	// -------- DEFERRED + FORWARD ---------------
 
@@ -433,7 +455,7 @@ UpdateStatus ModuleRender::Update()
 
 	batchManager->DrawTransparent(false);
 
-	if (!App->IsOnPlayMode() && !isRoot)
+	if (!isRoot && App->GetPlayState() == Application::PlayState::STOPPED)
 	{
 		// Draw selected transparent
 		glEnable(GL_STENCIL_TEST);
@@ -458,6 +480,7 @@ UpdateStatus ModuleRender::Update()
 		glStencilMask(0x00); // disable writing to the stencil buffer 
 		glDisable(GL_STENCIL_TEST);
 	}
+
 	glDisable(GL_CULL_FACE);
 	glPolygonMode(GL_BACK, GL_FILL);
 
@@ -492,6 +515,12 @@ UpdateStatus ModuleRender::Update()
 	for (const GameObject* go : gameObjectsInFrustrum)
 	{
 		go->Render();
+	}
+
+	// ----- DRAW NAVMESH -----
+	if (navigation->GetNavMesh() != nullptr && navigation->GetDrawNavMesh())
+	{
+		navigation->DrawGizmos();
 	}
 
 	// -------- POST EFFECTS ---------------------
@@ -538,12 +567,6 @@ UpdateStatus ModuleRender::Update()
 		frustumCheckedCamera->Draw();
 	}
 #endif // ENGINE
-
-
-	if (navigation->GetNavMesh() != nullptr && navigation->GetDrawNavMesh())
-	{
-		navigation->DrawGizmos();
-	}
 
 #ifndef ENGINE
 	if (!App->IsDebuggingGame())
@@ -605,12 +628,12 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 {
 	gBuffer->InitGBuffer(width, height);
 	shadows->UpdateBuffers(width, height);
+	lightPass->SetScreenSize(width, height);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer[0]);
 
 	glBindRenderbuffer(GL_RENDERBUFFER, depthStencilRenderBuffer);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthStencilRenderBuffer);
 
 	glBindTexture(GL_TEXTURE_2D, renderedTexture[0]);
@@ -649,7 +672,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 
 	float auxWidht = static_cast<float>(width), auxHeight = static_cast<float>(height);
 
-	for (unsigned int i = 0; i < KAWASE_DUAL_SAMPLERS; i++)
+	for (unsigned int i = 0; i < KAWASE_DUAL_SAMPLERS; ++i)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, dualKawaseDownFramebuffers[i]);
 		
@@ -672,7 +695,7 @@ void ModuleRender::UpdateBuffers(unsigned width, unsigned height) //this is call
 		}
 	}
 
-	for (unsigned int i = 0; i < KAWASE_DUAL_SAMPLERS; i++)
+	for (unsigned int i = 0; i < KAWASE_DUAL_SAMPLERS; ++i)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, dualKawaseUpFramebuffers[i]);
 
@@ -727,12 +750,23 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 	{
 		return;
 	}
+
+	GameObject* player = App->GetModule<ModulePlayer>()->GetPlayer();
+
+	/*if (player && quadtree->IsLeaf() && quadtree->InQuadrant(player))
+	{
+		quadtree->GetParent()->GetParent()->AddRigidBodiesToSimulation();
+	}
+	else
+	{
+		quadtree->RemoveRigidBodiesFromSimulation();
+	}*/
+
 		
 	float3 cameraPos = camera->GetPosition();
 
 	if (camera->IsInside(quadtree->GetBoundingBox()))
 	{
-
 		const std::set<GameObject*>& gameObjectsToRender = quadtree->GetGameObjects();
 		if (quadtree->IsLeaf())
 		{
@@ -754,6 +788,43 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 
 						gameObjectsInFrustrum.insert(gameObject);
 						objectsInFrustrumDistances[gameObject] = dist;
+
+						if (gameObject->HasComponent<ComponentLight>())
+						{
+							ComponentLight* light = gameObject->GetComponentInternal<ComponentLight>();
+
+							if (!light->IsEnabled())
+							{
+								return;
+							}
+
+							switch (light->GetLightType())
+							{
+							case LightType::POINT:
+								points.push_back(static_cast<ComponentPointLight*>(light));
+								break;
+
+							case LightType::SPOT:
+								spots.push_back(static_cast<ComponentSpotLight*>(light));
+								break;
+
+								case LightType::AREA:
+								{
+									ComponentAreaLight* area = static_cast<ComponentAreaLight*>(light);
+									switch (area->GetAreaType())
+									{
+									case AreaType::SPHERE:
+										spheres.push_back(static_cast<ComponentAreaLight*>(light));
+										break;
+
+									case AreaType::TUBE:
+										tubes.push_back(static_cast<ComponentAreaLight*>(light));
+										break;
+									}
+									break;
+								}
+							}
+						}
 					}
 				}
 
@@ -779,6 +850,43 @@ void ModuleRender::FillRenderList(const Quadtree* quadtree, Camera* camera)
 
 						gameObjectsInFrustrum.insert(gameObject);
 						objectsInFrustrumDistances[gameObject] = dist;
+
+						if (gameObject->HasComponent<ComponentLight>())
+						{
+							ComponentLight* light = gameObject->GetComponentInternal<ComponentLight>();
+
+							if (!light->IsEnabled())
+							{
+								return;
+							}
+
+							switch (light->GetLightType())
+							{
+							case LightType::POINT:
+								points.push_back(static_cast<ComponentPointLight*>(light));
+								break;
+
+							case LightType::SPOT:
+								spots.push_back(static_cast<ComponentSpotLight*>(light));
+								break;
+
+								case LightType::AREA:
+								{
+									ComponentAreaLight* area = static_cast<ComponentAreaLight*>(light);
+									switch (area->GetAreaType())
+									{
+									case AreaType::SPHERE:
+										spheres.push_back(static_cast<ComponentAreaLight*>(light));
+										break;
+
+									case AreaType::TUBE:
+										tubes.push_back(static_cast<ComponentAreaLight*>(light));
+										break;
+									}
+									break;
+								}
+							}
+						}
 					}
 				}
 
@@ -836,6 +944,43 @@ void ModuleRender::AddToRenderList(const GameObject* gameObject, Camera* camera,
 
 					gameObjectsInFrustrum.insert(gameObject);
 					objectsInFrustrumDistances[gameObject] = dist;
+
+					if (gameObject->HasComponent<ComponentLight>())
+					{
+						ComponentLight* light = gameObject->GetComponentInternal<ComponentLight>();
+
+						if (!light->IsEnabled())
+						{
+							return;
+						}
+
+						switch (light->GetLightType())
+						{
+						case LightType::POINT:
+							points.push_back(static_cast<ComponentPointLight*>(light));
+							break;
+
+						case LightType::SPOT:
+							spots.push_back(static_cast<ComponentSpotLight*>(light));
+							break;
+
+							case LightType::AREA:
+							{
+								ComponentAreaLight* area = static_cast<ComponentAreaLight*>(light);
+								switch (area->GetAreaType())
+								{
+								case AreaType::SPHERE:
+									spheres.push_back(static_cast<ComponentAreaLight*>(light));
+									break;
+
+								case AreaType::TUBE:
+									tubes.push_back(static_cast<ComponentAreaLight*>(light));
+									break;
+								}
+								break;
+							}
+						}
+					}
 				}
 			}
 		}
@@ -877,6 +1022,96 @@ void ModuleRender::RelocateGOInBatches(GameObject* go)
 	batchManager->SwapBatchParentAndChildren(go);
 }
 
+void ModuleRender::DrawMeshesByFilter(std::vector<GameObject*>& objects, ProgramType type, bool normalBehaviour)
+{
+	ModuleProgram* modProgram = App->GetModule<ModuleProgram>();
+	Program* program;
+	int filter;
+	switch (type)
+	{
+	case ProgramType::DEFAULT:
+		program = modProgram->GetProgram(ProgramType::DEFAULT);
+		filter = batchManager->HAS_METALLIC;
+		if (normalBehaviour)
+		{
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			filter |= batchManager->HAS_TRANSPARENCY;
+		}
+		else
+		{
+			filter |= batchManager->HAS_OPAQUE;
+		}
+		program->Activate();
+		batchManager->DrawMeshesByFilters(objects, filter);
+		program->Deactivate();
+		glDisable(GL_BLEND);
+		break;
+	
+	case ProgramType::SPECULAR:
+		program = modProgram->GetProgram(ProgramType::SPECULAR);
+		filter = batchManager->HAS_SPECULAR;
+		if (normalBehaviour)
+		{
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			filter |= batchManager->HAS_TRANSPARENCY;
+		}
+		else
+		{
+			filter |= batchManager->HAS_OPAQUE;
+		}
+		program->Activate();
+		batchManager->DrawMeshesByFilters(objects, filter);
+		program->Deactivate();
+		glDisable(GL_BLEND);
+		break;
+	
+	case ProgramType::G_METALLIC:
+		program = modProgram->GetProgram(ProgramType::DEFAULT);
+		filter = batchManager->HAS_METALLIC | batchManager->HAS_OPAQUE;
+		program->Activate();
+		batchManager->DrawMeshesByFilters(objects, filter);
+		program->Deactivate();
+		break;
+	
+	case ProgramType::G_SPECULAR:
+		program = modProgram->GetProgram(ProgramType::SPECULAR);
+		filter = batchManager->HAS_SPECULAR | batchManager->HAS_OPAQUE;
+		program->Activate();
+		batchManager->DrawMeshesByFilters(objects, filter);
+		program->Deactivate();
+		break;
+	
+	default:
+		break;
+	}
+}
+
+void ModuleRender::SortOpaques(std::vector<GameObject*>& sceneGameObjects, const float3& pos)
+{
+	std::sort(sceneGameObjects.begin(), sceneGameObjects.end(),
+		[pos](GameObject*& a, GameObject*& b) -> bool
+		{
+			float aDist = a->GetComponentInternal<ComponentTransform>()->GetGlobalPosition().DistanceSq(pos);
+			float bDist = b->GetComponentInternal<ComponentTransform>()->GetGlobalPosition().DistanceSq(pos);
+
+			return aDist < bDist;
+		});
+}
+
+void ModuleRender::SortTransparents(std::vector<GameObject*>& sceneGameObjects, const float3& pos)
+{
+	std::sort(sceneGameObjects.begin(), sceneGameObjects.end(),
+		[pos](GameObject*& a, GameObject*& b) -> bool
+		{
+			float aDist = a->GetComponentInternal<ComponentTransform>()->GetGlobalPosition().DistanceSq(pos);
+			float bDist = b->GetComponentInternal<ComponentTransform>()->GetGlobalPosition().DistanceSq(pos);
+
+			return aDist > bDist;
+		});
+}
+
 void ModuleRender::DrawHighlight(GameObject* gameObject)
 {
 	std::queue<GameObject*> gameObjectQueue;
@@ -905,13 +1140,13 @@ void ModuleRender::DrawHighlight(GameObject* gameObject)
 	}
 }
 
-void ModuleRender::BindCameraToProgram(Program* program, Camera* camera)
+void ModuleRender::BindCameraToProgram(Program* program, Frustum& frustum)
 {
 	program->Activate();
 
-	const float4x4& view = camera->GetFrustum()->ViewMatrix();
-	const float4x4& proj = camera->GetFrustum()->ProjectionMatrix();
-	float3 viewPos = camera->GetPosition();
+	const float4x4& view = frustum.ViewMatrix();
+	const float4x4& proj = frustum.ProjectionMatrix();
+	float3 viewPos = frustum.Pos();
 
 	glBindBuffer(GL_UNIFORM_BUFFER, uboCamera);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(float4) * 4, &proj);
@@ -934,10 +1169,25 @@ void ModuleRender::BindCubemapToProgram(Program* program)
 
 	program->Activate();
 
-	glActiveTexture(GL_TEXTURE8);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
-	glActiveTexture(GL_TEXTURE9);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetPrefiltered());
+	ComponentSkybox* sky = App->GetModule<ModuleScene>()->GetLoadedScene()
+		->GetRoot()->GetComponentInternal<ComponentSkybox>();
+
+	if (sky && sky->GetUseCubeMap())
+	{
+		Cubemap* skyCubemap = sky->GetCubemap();
+		glActiveTexture(GL_TEXTURE8);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, skyCubemap->GetIrradiance());
+		glActiveTexture(GL_TEXTURE9);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, skyCubemap->GetPrefiltered());
+	}
+	else
+	{
+		glActiveTexture(GL_TEXTURE8);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetIrradiance());
+		glActiveTexture(GL_TEXTURE9);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->GetPrefiltered());
+		
+	}
 	glActiveTexture(GL_TEXTURE10);
 	glBindTexture(GL_TEXTURE_2D, cubemap->GetEnvironmentBRDF());
 
@@ -978,7 +1228,7 @@ void ModuleRender::KawaseDualFiltering()
 	kawaseDownProgram->Activate();
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Kawase dual down")),
 		"Kawase dual down");
-	for (auto i = 0; i < KAWASE_DUAL_SAMPLERS; i++)
+	for (auto i = 0; i < KAWASE_DUAL_SAMPLERS; ++i)
 	{
 		auxWidht /= 2;
 		auxHeight /= 2;
@@ -1001,7 +1251,7 @@ void ModuleRender::KawaseDualFiltering()
 	kawaseUpProgram->Activate();
 	glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, static_cast<GLsizei>(std::strlen("Kawase dual up")),
 		"Kawase dual up");
-	for (auto i = 0; i < KAWASE_DUAL_SAMPLERS; i++)
+	for (auto i = 0; i < KAWASE_DUAL_SAMPLERS; ++i)
 	{
 		auxWidht *= 2;
 		auxHeight *= 2;

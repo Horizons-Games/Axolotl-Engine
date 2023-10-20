@@ -13,6 +13,7 @@
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/AIMovement.h"
 #include "../Scripts/EnemyDeathScript.h"
+#include "../Scripts/PathBehaviourScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -23,7 +24,7 @@ EnemyVenomiteScript::EnemyVenomiteScript() : venomiteState(VenomiteBehaviours::I
 	meleeAttackScript(nullptr), healthScript(nullptr), ownerTransform(nullptr), componentAnimation(nullptr), 
 	componentAudioSource(nullptr), batonGameObject(nullptr), blasterGameObject(nullptr), aiMovement(nullptr),
 	seekTargetTransform(nullptr), deathScript(nullptr), enemyDetectionDuration(0.0f), enemyDetectionTime(0.0f),
-	exclamationParticle(nullptr)
+	pathScript(nullptr),exclamationParticle(nullptr)
 {
 	REGISTER_FIELD(rangedAttackDistance, float);
 	REGISTER_FIELD(meleeAttackDistance, float);
@@ -53,13 +54,24 @@ void EnemyVenomiteScript::Start()
 	aiMovement = owner->GetComponent<AIMovement>();
 	deathScript = owner->GetComponent<EnemyDeathScript>();
 
-	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
+	if (owner->HasComponent<PathBehaviourScript>())
+	{
+		pathScript = owner->GetComponent<PathBehaviourScript>();
+		venomiteState = VenomiteBehaviours::INPATH;
+		componentAnimation->SetParameter("IsRunning", true);
+	}
 
 	enemyDetectionTime = 0.0f;
 }
 
 void EnemyVenomiteScript::Update(float deltaTime)
 {
+	if (paralyzed)
+	{
+		return;
+	}
+	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
+
 	if (stunned)
 	{
 		if (timeStunned < 0)
@@ -84,9 +96,13 @@ void EnemyVenomiteScript::Update(float deltaTime)
 	UpdateBehaviour(deltaTime);
 }
 
-
 void EnemyVenomiteScript::CheckState()
 {
+	if (venomiteState == VenomiteBehaviours::INPATH)
+	{
+		return;
+	}
+
 	if (ownerTransform->GetGlobalPosition().Equals(seekTargetTransform->GetGlobalPosition(), meleeAttackDistance))
 	{
 		if (venomiteState != VenomiteBehaviours::MELEE_ATTACK)
@@ -238,7 +254,35 @@ void EnemyVenomiteScript::UpdateBehaviour(float deltaTime)
 
 		break;
 
+	case VenomiteBehaviours::INPATH:
+		if (pathScript && pathScript->IsPathFinished())
+		{
+			venomiteState = VenomiteBehaviours::IDLE;
+			componentAnimation->SetParameter("IsRunning", false);
+			pathScript->Disable();
+		}
+		else if (!pathScript)
+		{
+			venomiteState = VenomiteBehaviours::IDLE;
+			componentAnimation->SetParameter("IsRunning", false);
+		}
+
+		break;
 	}
+}
+
+void EnemyVenomiteScript::ParalyzeEnemy(bool nparalyzed)
+{
+	if (nparalyzed)
+	{
+		componentAnimation->SetParameter("IsRunning", false);
+	}
+	else
+	{
+		componentAnimation->SetParameter("IsRunning", true);
+	}
+
+	paralyzed = nparalyzed;
 }
 
 void EnemyVenomiteScript::SetReadyToDie()
@@ -259,11 +303,16 @@ void EnemyVenomiteScript::ResetValues()
 	}
 
 	componentAnimation->SetParameter("IsRunning", true);
-	venomiteState = VenomiteBehaviours::IDLE;
+	venomiteState = VenomiteBehaviours::INPATH;
 	meleeAttackScript->ResetScriptValues();
 	healthScript->HealLife(1000.0f); // It will cap at max health
 	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
 	enemyDeathScript->ResetDespawnTimerAndEnableActions();
+	if (pathScript)
+	{
+		pathScript->Enable();
+		pathScript->ResetPath();
+	}
 }
 
 void EnemyVenomiteScript::SetStunnedTime(float newTime)

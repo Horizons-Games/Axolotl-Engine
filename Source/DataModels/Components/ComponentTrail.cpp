@@ -31,7 +31,7 @@
 
 ComponentTrail::ComponentTrail(bool active, GameObject* owner) : Component(ComponentType::TRAIL, active, owner, true),
 maxSamplers(64), duration(5.f), minDistance(0.1f), width(1.f), ratioWidth(0.5f), blendingMode(BlendingMode::ADDITIVE),
-onPlay(false), catmunPoints(10)
+onPlay(true), catmullPoints(10)
 { 
 	points.reserve(maxSamplers);
 	gradient = new ImGradient();
@@ -42,9 +42,19 @@ onPlay(false), catmunPoints(10)
 	
 }
 
+ComponentTrail::ComponentTrail(const ComponentTrail& trail) : Component(trail), maxSamplers(trail.maxSamplers), 
+duration(trail.duration), minDistance(trail.minDistance), width(trail.width), ratioWidth(trail.ratioWidth), 
+blendingMode(trail.blendingMode), onPlay(trail.onPlay), catmullPoints(trail.catmullPoints), texture(trail.texture)
+{
+	points.reserve(maxSamplers);
+	gradient = new ImGradient(trail.gradient);
+	CreateBuffers();
+}
+
 ComponentTrail::~ComponentTrail()
 {
 	points.clear();
+	delete gradient;
 
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);
@@ -73,7 +83,7 @@ void ComponentTrail::Render()
 	}
 
 	RedoBuffers();
-	int totalCatmunPoints = catmunPoints * (static_cast<int>(points.size()) - 1);
+	int totalCatmullPoints = catmullPoints * (static_cast<int>(points.size()) - 1);
 
 	Program* program = App->GetModule<ModuleProgram>()->GetProgram(ProgramType::TRAIL);
 	program->Activate();
@@ -109,7 +119,7 @@ void ComponentTrail::Render()
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	int size = (static_cast<int>(points.size()) - 1 + totalCatmunPoints) * 2 * 3;
+	int size = (static_cast<int>(points.size()) - 1 + totalCatmullPoints) * 2 * 3;
 	glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, nullptr);
 	program->Deactivate();
 
@@ -124,13 +134,13 @@ void ComponentTrail::Render()
 
 void ComponentTrail::Draw() const
 {
-	bool canDrawLight = false 
+	bool canDrawTrail = false 
 #ifdef ENGINE
 		|| IsEnabled() && GetOwner() == App->GetModule<ModuleScene>()->GetSelectedGameObject()
 #endif
 		;
 
-	if (!canDrawLight)
+	if (!canDrawTrail)
 	{
 		return;
 	}
@@ -146,25 +156,29 @@ void ComponentTrail::Draw() const
 
 void ComponentTrail::InternalSave(Json& meta)
 {
-	meta["duration"] = static_cast<float>(duration);
-	meta["minDistance"] = static_cast<float>(minDistance);
-	meta["width"] = static_cast<float>(width);
-	meta["catmunPoints"] = static_cast<int>(catmunPoints);
-	meta["ratioWidth"] = static_cast<float>(ratioWidth);
-	meta["numberOfMarks"] = static_cast<int>(gradient->getMarks().size());
+	meta["duration"] = duration;
+	meta["minDistance"] = minDistance;
+	meta["width"] = width;
+	meta["catmullPoints"] = catmullPoints;
+	meta["ratioWidth"] = ratioWidth;
+	meta["onPlay"] = onPlay;
 	
 	std::list<ImGradientMark*> marks = gradient->getMarks();
-	int i = 0;
 	Json jsonColors = meta["ColorsGradient"];
-	for (ImGradientMark* const& mark : marks)
-	{
-		jsonColors[i]["color_x"] = static_cast<float>(mark->color[0]);
-		jsonColors[i]["color_y"] = static_cast<float>(mark->color[1]);
-		jsonColors[i]["color_z"] = static_cast<float>(mark->color[2]);
-		jsonColors[i]["color_w"] = static_cast<float>(mark->color[3]);
-		jsonColors[i]["pos"] = static_cast<float>(mark->position);
-		i++;
-	}
+	
+	ImGradientMark* mark = marks.front();
+	jsonColors[0]["color_x"] = mark->color[0];
+	jsonColors[0]["color_y"] = mark->color[1];
+	jsonColors[0]["color_z"] = mark->color[2];
+	jsonColors[0]["color_w"] = mark->color[3];
+	jsonColors[0]["pos"] = mark->position;
+
+	mark = marks.back();
+	jsonColors[1]["color_x"] = mark->color[0];
+	jsonColors[1]["color_y"] = mark->color[1];
+	jsonColors[1]["color_z"] = mark->color[2];
+	jsonColors[1]["color_w"] = mark->color[3];
+	jsonColors[1]["pos"] = mark->position;
 
 	UID uid = 0;
 	std::string assetPath = "";
@@ -174,7 +188,7 @@ void ComponentTrail::InternalSave(Json& meta)
 		assetPath = texture->GetAssetsPath();
 	}
 
-	meta["textureUID"] = static_cast<UID>(uid);
+	meta["textureUID"] = uid;
 	meta["assetPathTexture"] = assetPath.c_str();
 }
 
@@ -184,19 +198,23 @@ void ComponentTrail::InternalLoad(const Json& meta)
 	minDistance = static_cast<float>(meta["minDistance"]);
 	width = static_cast<float>(meta["width"]);
 	ratioWidth = static_cast<float>(meta["ratioWidth"]);
-	catmunPoints = static_cast<int>(meta["catmunPoints"]);
+	catmullPoints = static_cast<int>(meta["catmullPoints"]);
+	onPlay = static_cast<bool>(meta["onPlay"]);
 	
-	int numberOfMarks = static_cast<int>(meta["numberOfMarks"]);	
 	gradient->getMarks().clear();
 	Json jsonColors = meta["ColorsGradient"];
-	for (int i = 0; i < numberOfMarks; i++)
-	{
-		gradient->addMark(static_cast<float>(jsonColors[i]["pos"]),
-						  ImColor(static_cast<float>(jsonColors[i]["color_x"]),
-								  static_cast<float>(jsonColors[i]["color_y"]),
-								  static_cast<float>(jsonColors[i]["color_z"]),
-								  static_cast<float>(jsonColors[i]["color_w"])));
-	}
+	gradient->addMark(static_cast<float>(jsonColors[0]["pos"]),
+		ImColor(static_cast<float>(jsonColors[0]["color_x"]),
+			  static_cast<float>(jsonColors[0]["color_y"]),
+			  static_cast<float>(jsonColors[0]["color_z"]),
+			  static_cast<float>(jsonColors[0]["color_w"])));
+
+	gradient->addMark(static_cast<float>(jsonColors[1]["pos"]),
+		ImColor(static_cast<float>(jsonColors[1]["color_x"]),
+			static_cast<float>(jsonColors[1]["color_y"]),
+			static_cast<float>(jsonColors[1]["color_z"]),
+			static_cast<float>(jsonColors[1]["color_w"])));
+
 	gradient->refreshCache();
 #ifdef ENGINE
 	std::string path = meta["assetPathTexture"];
@@ -220,14 +238,14 @@ void ComponentTrail::InternalLoad(const Json& meta)
 
 void ComponentTrail::CreateBuffers()
 {
-	int totalCatmunPoints = catmunPoints * (maxSamplers - 1);
+	int totalCatmullPoints = catmullPoints * (maxSamplers - 1);
 
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
 	glGenBuffers(1, &ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	unsigned maxTriangles = (maxSamplers - 1 + totalCatmunPoints) * 2;
+	unsigned maxTriangles = (maxSamplers - 1 + totalCatmullPoints) * 2;
 	GLuint maxIndices = maxTriangles * 3;
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * maxIndices, nullptr, GL_STATIC_DRAW);
 
@@ -235,7 +253,7 @@ void ComponentTrail::CreateBuffers()
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	int numVertices = (maxSamplers + totalCatmunPoints) * 2;
+	int numVertices = (maxSamplers + totalCatmullPoints) * 2;
 	glBufferData(GL_ARRAY_BUFFER, vertexsSize * numVertices, nullptr, GL_STATIC_DRAW);
 	
 	glEnableVertexAttribArray(0); // pos
@@ -253,7 +271,7 @@ void ComponentTrail::CreateBuffers()
 void ComponentTrail::RedoBuffers()
 {
 	bool sizeChanged = false;
-	int totalCatmunPoints = catmunPoints * (static_cast<int>(points.size()) - 1);
+	int totalCatmullPoints = catmullPoints * (static_cast<int>(points.size()) - 1);
 
 	if (maxSamplers < static_cast<int>(points.size()))
 	{
@@ -264,14 +282,14 @@ void ComponentTrail::RedoBuffers()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	if (sizeChanged)
 	{
-		unsigned maxTriangles = (maxSamplers - 1 + totalCatmunPoints) * 2;
+		unsigned maxTriangles = (maxSamplers - 1 + totalCatmullPoints) * 2;
 		GLuint maxIndices = maxTriangles * 3;
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * maxIndices, nullptr, GL_STATIC_DRAW);
 	}
 
 	GLuint* indices = (GLuint*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 	unsigned int index_idx = 0;
-	for (int i = 0; i < (points.size() - 1) + totalCatmunPoints; i++)
+	for (int i = 0; i < (points.size() - 1) + totalCatmullPoints; ++i)
 	{
 		indices[index_idx++] = 0 + 2 * i;
 		indices[index_idx++] = 2 + 2 * i;
@@ -286,22 +304,22 @@ void ComponentTrail::RedoBuffers()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	if (sizeChanged)
 	{
-		int numVertices = (maxSamplers + totalCatmunPoints) * 2;
+		int numVertices = (maxSamplers + totalCatmullPoints) * 2;
 		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * numVertices, nullptr, GL_STATIC_DRAW);
 	}
 
 	Vertex* vertexData = reinterpret_cast<Vertex*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
 
-	float steps = 1.0f / static_cast<float>(points.size() - 1 + totalCatmunPoints);
-	float stepsCatmun = 1.0f / static_cast<float>(catmunPoints + 1);
+	float steps = 1.0f / static_cast<float>(points.size() - 1 + totalCatmullPoints);
+	float stepsCatmull = 1.0f / static_cast<float>(catmullPoints + 1);
 	float3 color;
 	std::list<ImGradientMark*> marks = gradient->getMarks();
 	float3 initColor = float3(marks.front()->color);
 	float3 endColor = float3(marks.back()->color);
 	for (unsigned int i = 0; i < points.size(); ++i)
 	{
-		int posInMemory = 2 * i * (1 + catmunPoints);
-		float actualStep = static_cast<float>(i) * (1 + catmunPoints);
+		int posInMemory = 2 * i * (1 + catmullPoints);
+		float actualStep = static_cast<float>(i) * (1 + catmullPoints);
 
 		Point p = points[i];
 
@@ -334,19 +352,19 @@ void ComponentTrail::RedoBuffers()
 			Point p2 = points[i + 1];
 			CalculateExtraPoints(p0, p, p2, p3);
 			const Curve curve = CatmullRomCentripetal(p0, p.centerPosition, p2.centerPosition, p3);
-			for (int j = 1; j <= catmunPoints; j++)
+			for (int j = 1; j <= catmullPoints; ++j)
 			{
-				float lambda = stepsCatmun * j;
-				float3 pointCatmun = curve.a * lambda * lambda * lambda + curve.b * lambda * lambda + curve.c * lambda
+				float lambda = stepsCatmull * j;
+				float3 pointCatmull = curve.a * lambda * lambda * lambda + curve.b * lambda * lambda + curve.c * lambda
 					+ curve.d;
 				Quat rotationPoint = p.rotation.Lerp(p2.rotation, lambda);
 
 				// pos
 				lerpWidht = Lerp(ratioWidth * width, width, ratioLife);
 				dirPerpendicular = (rotationPoint * float3::unitY) * lerpWidht;
-				vertex = pointCatmun + dirPerpendicular;
+				vertex = pointCatmull + dirPerpendicular;
 				vertexData[posInMemory + j * 2].position = vertex;
-				vertex = pointCatmun - dirPerpendicular;
+				vertex = pointCatmull - dirPerpendicular;
 				vertexData[posInMemory + j * 2 + 1].position = vertex;
 
 				actualStep++;
@@ -374,7 +392,7 @@ void ComponentTrail::RedoBuffers()
 void ComponentTrail::UpdateLife()
 {
 	float timePassed = App->GetDeltaTime();
-	for (int i = 0; i < points.size(); i++)
+	for (int i = 0; i < points.size(); ++i)
 	{
 		points[i].life -= timePassed;
 
@@ -384,7 +402,7 @@ void ComponentTrail::UpdateLife()
 		}
 	}
 
-	for (int i = 0; i < points.size(); i++)
+	for (int i = 0; i < points.size(); ++i)
 	{
 		if (i == points.size() - 1 && points[i].life <= 0)
 		{

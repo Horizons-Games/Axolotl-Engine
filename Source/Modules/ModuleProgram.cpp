@@ -27,7 +27,7 @@ bool ModuleProgram::Start()
 
 	std::string directory = rootPath + "Common/";
 	std::vector<std::string> files = fileSystem->ListFilesWithPath(directory.c_str());
-	for (auto i = 0; i < files.size(); i++)
+	for (auto i = 0; i < files.size(); ++i)
 	{
 		std::string path = files[i];
 		if (fileSystem->IsDirectory(path.c_str()))
@@ -105,6 +105,8 @@ bool ModuleProgram::Start()
 	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "kawase_up_fragment.glsl", "KawaseUp"));
 
 	programs.push_back(CreateProgram("render_clip_space_vertex.glsl", "ssao_fragment.glsl", "SSAO"));
+
+	programs.push_back(CreateProgram("lightCulling_vs.glsl", "lightCulling_fs.glsl", "LightCulling"));
 
 	programs.push_back(CreateProgram("component_line_vertex.glsl", "component_line_fragment.glsl", "ComponentLine"));
 	

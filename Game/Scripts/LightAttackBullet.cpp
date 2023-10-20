@@ -51,14 +51,18 @@ void LightAttackBullet::Start()
 	rigidBody->SetUseRotationController(true);
 
 	defaultTargetPos = parentTransform->GetGlobalForward();
+	defaultTargetPos.y = 0;
 	defaultTargetPos.Normalize();
 	defaultTargetPos = defaultTargetPos * maxDistanceBullet;
 	defaultTargetPos += parentTransform->GetGlobalPosition();	
-	defaultTargetPos.y = 0;
 
 	particleSystem = owner->GetComponent<ComponentParticleSystem>();
-	particleSystem->Enable();
-	particleSystemCurrentTimer = particleSystemTimer;
+
+	if (particleSystem)
+	{
+		particleSystem->Enable();
+		particleSystemCurrentTimer = particleSystemTimer;
+	}
 
 	playerAttackScript = owner->GetParent()->GetComponent<PlayerAttackScript>();
 }
@@ -67,12 +71,13 @@ void LightAttackBullet::Update(float deltaTime)
 {
 	if (enemy != nullptr)
 	{
-		rigidBody->SetPositionTarget(enemy->GetComponent<ComponentTransform>()->GetGlobalPosition());
+		defaultTargetPos = enemy->GetComponent<ComponentTransform>()->GetGlobalPosition();
+		defaultTargetPos.y += 1;
+		rigidBody->SetPositionTarget(defaultTargetPos);
 	}
 
 	else
 	{
-		defaultTargetPos.y -= 0.1f;
 		rigidBody->SetKpForce(2.0f);
 
 		rigidBody->SetPositionTarget(defaultTargetPos);
@@ -89,7 +94,11 @@ void LightAttackBullet::Update(float deltaTime)
 	{
 		particleSystemCurrentTimer = particleSystemTimer;
 		triggerParticleSystemTimer = false;
-		particleSystem->Stop();
+
+		if (particleSystem)
+		{
+			particleSystem->Stop();
+		}
 
 		DestroyBullet();
 	}
@@ -120,7 +129,7 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->CompareTag("Enemy"))
 	{
-		if (playerAttackScript->IsMeleeAvailable())
+		if (playerAttackScript->IsMelee())
 		{
 			audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
 		}
@@ -134,13 +143,17 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 		// Disable the visuals and the rigidbody while the particles are being played
 		rigidBody->SetIsTrigger(true);
 		owner->GetComponent<ComponentMeshRenderer>()->Disable();
-		particleSystem->Play();
+
+		if (particleSystem)
+		{
+			particleSystem->Play();
+		}
 		triggerParticleSystemTimer = true;
 	}
 
 	else if (!other->IsTrigger() && !other->GetOwner()->CompareTag("Player"))
 	{
-		if (playerAttackScript->IsMeleeAvailable())
+		if (playerAttackScript->IsMelee())
 		{
 			audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
 		}

@@ -111,12 +111,17 @@ ModuleRenderer::ModuleRenderer(ParticleEmitter* emitter, ModuleRenderer* rendere
 	alignment = renderer->GetAlignment();
 	blendingMode = renderer->GetBlending();
 	tiles[0] = renderer->GetTiles().first;
+	tiles[1] = renderer->GetTiles().second;
 	sheetSpeed = renderer->GetSheetSpeed();
 	frameBlending = renderer->GetFrameBlending();
 }
 
 ModuleRenderer::~ModuleRenderer()
 {
+#ifdef ENGINE
+	delete windowTexture;
+#endif // ENGINE
+
 	// Buffer cleanup
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);
@@ -153,6 +158,20 @@ void ModuleRenderer::Update(EmitterInstance* instance)
 			}
 		}
 	}
+}
+
+void ModuleRenderer::CopyConfig(ParticleModule* module)
+{
+	ModuleRenderer* renderer = static_cast<ModuleRenderer*>(module);
+
+	enabled       = renderer->IsEnabled();
+	alignment     = renderer->GetAlignment();
+	blendingMode  = renderer->GetBlending();
+	tiles[0]      = renderer->GetTiles().first;
+	tiles[1]      = renderer->GetTiles().second;
+	sheetSpeed    = renderer->GetSheetSpeed();
+	randomFrame	  = renderer->GetRandomFrame();
+	frameBlending = renderer->GetFrameBlending();
 }
 
 void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
@@ -226,7 +245,7 @@ void ModuleRenderer::UpdateInstanceBuffer(EmitterInstance* instance)
 				ComponentTransform* objectTransform = 
 					instance->GetOwner()->GetOwner()->GetComponentInternal<ComponentTransform>();
 				float4x4 originTransform = 
-					static_cast<ModuleBase*>(emitter->GetModule(ModuleType::BASE))->GetOriginTranform();
+					static_cast<ModuleBase*>(instance->GetModule(ModuleType::BASE))->GetOriginTranform();
 				float4x4 globalTransform = objectTransform->GetGlobalMatrix().Mul(originTransform);
 				zAxis = globalTransform.WorldZ();
 				xAxis = globalTransform.WorldX();
@@ -356,7 +375,7 @@ void ModuleRenderer::DrawImGui()
 
 			if (ImGui::BeginCombo("##alignmentCombo", currentItem))
 			{
-				for (int n = 0; n < IM_ARRAYSIZE(alignmentItems); n++)
+				for (int n = 0; n < IM_ARRAYSIZE(alignmentItems); ++n)
 				{
 					bool isSelected = (currentItem == alignmentItems[n]);
 
@@ -423,7 +442,7 @@ void ModuleRenderer::DrawImGui()
 
 			if (ImGui::BeginCombo("##blendingCombo", currentItem))
 			{
-				for (int n = 0; n < IM_ARRAYSIZE(blendingItems); n++)
+				for (int n = 0; n < IM_ARRAYSIZE(blendingItems); ++n)
 				{
 					bool isSelected = (currentItem == blendingItems[n]);
 

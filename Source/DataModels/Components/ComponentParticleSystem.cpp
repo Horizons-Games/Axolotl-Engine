@@ -135,16 +135,13 @@ void ComponentParticleSystem::Draw() const
 	for (EmitterInstance* instance : emitters)
 	{
 #ifdef ENGINE
-		if (!App->IsOnPlayMode())
+		instance->DrawDD();
+		//instance->SimulateParticles();
+		//Draw the BoundingBox of ComponentParticle
+		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+		if (transform->IsDrawBoundingBoxes())
 		{
-			instance->DrawDD();
-			//instance->SimulateParticles();
-			//Draw the BoundingBox of ComponentParticle
-			ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
-			if (transform->IsDrawBoundingBoxes())
-			{
-				App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
-			}
+			App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
 		}
 #endif //ENGINE
 	}
@@ -178,6 +175,14 @@ void ComponentParticleSystem::Render()
 
 void ComponentParticleSystem::Reset()
 {
+}
+
+void ComponentParticleSystem::SaveConfig()
+{
+	for (EmitterInstance* instance : emitters)
+	{
+		instance->SaveConfig();
+	}
 }
 
 void ComponentParticleSystem::CreateEmitterInstance()
@@ -263,7 +268,7 @@ void ComponentParticleSystem::RemoveEmitter(int pos)
 
 bool ComponentParticleSystem::IsFinished() const
 {
-	for (int i = 0; i < emitters.size(); i++)
+	for (int i = 0; i < emitters.size(); ++i)
 	{
 		if (emitters[i]->GetEmitter()->IsLooping() || emitters[i]->GetEmitter()->GetDuration() > emitters[i]->GetElapsedTime())
 		{

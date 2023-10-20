@@ -22,13 +22,18 @@
 
 #include "ScriptFactory.h"
 
+#include "DataModels/Schedulable/Schedulable.h"
 #include "Scheduler.h"
 
 #include "Defines/FramerateDefines.h"
 
 constexpr int FRAMES_BUFFER = 50;
 
-Application::Application() : maxFramerate(MAX_FRAMERATE), debuggingGame(false), isOnPlayMode(false), closeGame(false)
+Application::Application() :
+	maxFramerate(MAX_FRAMERATE),
+	debuggingGame(false),
+	editorPlayState(PlayState::STOPPED),
+	closeGame(false)
 {
 	modules.resize(static_cast<int>(ModuleType::LAST));
 	modules[static_cast<int>(ModuleToEnum<ModuleWindow>::value)] = std::make_unique<ModuleWindow>();
@@ -57,10 +62,6 @@ Application::~Application()
 
 bool Application::Init()
 {
-#ifndef ENGINE
-	isOnPlayMode = true;
-#endif // !ENGINE
-
 	scriptFactory = std::make_unique<ScriptFactory>();
 	scriptFactory->Init();
 
@@ -94,12 +95,12 @@ bool Application::Start()
 
 UpdateStatus Application::Update()
 {
-	if (closeGame == true)
+	if (closeGame)
 	{
 		return UpdateStatus::UPDATE_STOP;
 	}
 
-	bool playMode = isOnPlayMode;
+	bool playMode = editorPlayState != PlayState::STOPPED;
 	float ms = playMode ? onPlayTimer.Read() : appTimer.Read();
 
 	for (const std::unique_ptr<Module>& module : modules)
@@ -159,25 +160,42 @@ bool Application::CleanUp()
 
 void Application::OnPlay()
 {
-	onPlayTimer.Start();
-	isOnPlayMode = true;
-	ModulePlayer* player = GetModule<ModulePlayer>();
-	if (!player->LoadNewPlayer())
+	editorPlayState = PlayState::RUNNING;
+	if (!GetModule<ModulePlayer>()->LoadNewPlayer())
 	{
-		isOnPlayMode = false;
+		editorPlayState = PlayState::STOPPED;
+		LOG_WARNING("Player could not be loaded, game not starting");
+		return;
 		onPlayTimer.Stop();
 	}
-	else
+
+	onPlayTimer.Start();
+	// Active Scripts
+	GetModule<ModuleScene>()->OnPlay();
+	GetModule<ModuleUI>()->SetUpButtons();
+}
+
+void Application::OnPause()
+{
+	if (GetPlayState() == PlayState::RUNNING)
 	{
-		// Active Scripts
-		GetModule<ModuleScene>()->OnPlay();
-		GetModule<ModuleUI>()->SetUpButtons();
+		editorPlayState = PlayState::PAUSED;
+		GetModule<ModuleInput>()->SetShowCursor(true);
+		GetModule<ModuleCamera>()->SetSelectedCamera(-1);
+		GetModule<ModuleAudio>()->Suspend();
+	}
+	else if (GetPlayState() == PlayState::PAUSED)
+	{
+		editorPlayState = PlayState::RUNNING;
+		GetModule<ModuleInput>()->SetShowCursor(false);
+		GetModule<ModuleCamera>()->SetSelectedCamera(-1);
+		GetModule<ModuleAudio>()->WakeUp();
 	}
 }
 
 void Application::OnStop()
 {
-	isOnPlayMode = false;
+	editorPlayState = PlayState::STOPPED;
 	GetModule<ModuleInput>()->SetShowCursor(true);
 	GetModule<ModulePlayer>()->UnloadNewPlayer();
 	onPlayTimer.Stop();
@@ -185,15 +203,12 @@ void Application::OnStop()
 	GetModule<ModuleUI>()->ClearButtons();
 }
 
-void Application::OnPause()
-{
-}
 
-void Application::ScheduleTask(std::function<void(void)>&& taskToSchedule)
+void Application::ScheduleTask(std::function<void(void)>&& taskToSchedule, std::uint16_t frameDelay)
 {
 	if (scheduler != nullptr)
 	{
-		scheduler->ScheduleTask(std::move(taskToSchedule));
+		scheduler->ScheduleTask(Schedulable(std::move(taskToSchedule), frameDelay));
 	}
 	else
 	{

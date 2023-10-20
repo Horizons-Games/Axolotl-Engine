@@ -18,11 +18,35 @@ ImGradient::ImGradient()
     addMark(1.0f, ImColor(1.0f,1.0f,1.0f));
 }
 
+ImGradient::ImGradient(ImGradient* copyGradient)
+{
+	for (ImGradientMark* mark : copyGradient->getMarks())
+	{
+		addMark(mark->position, ImColor(mark->color[0], mark->color[1], mark->color[2], mark->color[3]));
+	}
+}
+
 ImGradient::~ImGradient()
 {
 	for (ImGradientMark* mark : m_marks)
 	{
 		delete mark;
+	}
+}
+
+void ImGradient::CopyMarks(ImGradient* copyGradient)
+{
+	//Clear current  marks
+	for (ImGradientMark* mark : m_marks)
+	{
+		delete mark;
+	}
+	m_marks.clear();
+
+	//Copy the marks from gradient passed by parameter
+	for (ImGradientMark* mark : copyGradient->getMarks())
+	{
+		addMark(mark->position, ImColor(mark->color[0], mark->color[1], mark->color[2], mark->color[3]));
 	}
 }
 

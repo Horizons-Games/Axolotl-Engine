@@ -10,6 +10,8 @@ class ComponentRigidBody;
 
 class HackZoneScript;
 class UIHackingManager;
+class PlayerManagerScript;
+class SwitchPlayerManagerScript;
 
 class PlayerHackingUseScript : public Script
 {
@@ -23,8 +25,10 @@ public:
 
 	bool IsHackingActive() const;
 
-	void PrintCombination(); //DEBUG METHOD
-
+	void PrintCombination(); // DEBUG METHOD
+	
+	void StopHackingParticles();
+	
 private:
 
 	void DisableAllInteractions();
@@ -33,6 +37,7 @@ private:
 	void InitHack();
 	void FinishHack();
 	void RestartHack();
+	void CheckCurrentHackZone();
 
 private:
 
@@ -41,8 +46,8 @@ private:
 	std::string hackingTag;
 	HackZoneScript* hackZone;
 	UIHackingManager* hackingManager;
-
-	KeyState keyState;
+	SwitchPlayerManagerScript* switchPlayerManager;
+	PlayerManagerScript* playerManager;
 
 	float currentTime;
 	float maxHackTime;

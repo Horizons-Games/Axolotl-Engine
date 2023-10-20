@@ -14,7 +14,6 @@ struct LoadOptionsMaterial
 	float2 tiling;
 	float2 offset;
 	float2 percentage;
-	float intensityBloom;
 
 	unsigned int shaderType; //This is a special option because it's both load and import option
 

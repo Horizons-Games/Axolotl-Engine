@@ -2,7 +2,7 @@
 #include "ComponentWindow.h"
 
 class ComponentLine;
-class ImGradient;
+struct ImGradientMark;
 class ResourceTexture;
 class WindowLineTexture;
 
@@ -25,6 +25,9 @@ private:
 
 	std::unique_ptr<WindowLineTexture> inputTexture;
 	std::shared_ptr<ResourceTexture> lineTexture;
+
+	ImGradientMark* draggingMark;
+	ImGradientMark* selectedMark;
 
 };
 

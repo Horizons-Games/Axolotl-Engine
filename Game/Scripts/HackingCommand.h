@@ -7,11 +7,9 @@
 enum HackingCommandType
 {
 	COMMAND_A,
-	COMMAND_B,
+	COMMAND_X,
 	COMMAND_Y,
 };
-
-
 
 class HackingCommand
 {

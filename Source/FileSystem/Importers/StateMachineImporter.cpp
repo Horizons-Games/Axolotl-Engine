@@ -59,7 +59,7 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 		   // size of 2 pos State + size vector conditions + Own UID Key + double + bool
 		   + (sizeof(unsigned int) * 3 + sizeof(UID) + sizeof(double) + sizeof(bool)) * resource->GetNumTransitions();
 
-	for (unsigned int i = 0; i < resource->GetNumStates(); i++)
+	for (unsigned int i = 0; i < resource->GetNumStates(); ++i)
 	{
 		const State* state = resource->GetState(i);
 		if (state != nullptr)
@@ -124,7 +124,7 @@ void StateMachineImporter::Save(const std::shared_ptr<ResourceStateMachine>& res
 
 	cursor += bytes;
 
-	for (unsigned int i = 0; i < resource->GetNumStates(); i++)
+	for (unsigned int i = 0; i < resource->GetNumStates(); ++i)
 	{
 		const State* state = resource->GetState(i);
 
@@ -321,7 +321,7 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 
 	resource->ClearAllStates();
 	std::vector<unsigned int> deadStates;
-	for (unsigned int i = 0; i < header[0]; i++)
+	for (unsigned int i = 0; i < header[0]; ++i)
 	{
 		std::unique_ptr<State> state = std::make_unique<State>();
 
@@ -434,7 +434,7 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 
 	std::unordered_map<std::string, TypeFieldPairParameter> parameters;
 	parameters.reserve(header[1]);
-	for (unsigned int i = 0; i < header[1]; i++)
+	for (unsigned int i = 0; i < header[1]; ++i)
 	{
 		std::string name;
 		TypeFieldPairParameter parameter;
@@ -477,7 +477,7 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 
 	std::unordered_map<UID, Transition> transitions;
 	transitions.reserve(header[2]);
-	for (unsigned int i = 0; i < header[2]; i++)
+	for (unsigned int i = 0; i < header[2]; ++i)
 	{
 		Transition transition;
 		UID uidTransition;
@@ -507,7 +507,7 @@ void StateMachineImporter::Load(const char* fileBuffer, std::shared_ptr<Resource
 
 		std::vector<Condition> conditions;
 		conditions.reserve(transitionHeader[2]);
-		for (unsigned int j = 0; j < transitionHeader[2]; j++)
+		for (unsigned int j = 0; j < transitionHeader[2]; ++j)
 		{
 			Condition condition;
 

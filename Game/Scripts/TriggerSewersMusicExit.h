@@ -21,6 +21,7 @@ private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 
 	ComponentAudioSource* componentAudio;
+	ComponentAudioSource* audioSourceCantina;
 
 	TriggerSewersMusic* triggerSewersMusicScript;
 	GameObject* triggerSewersMusicGO;
