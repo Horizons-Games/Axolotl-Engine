@@ -49,13 +49,13 @@ void UIComboManager::Update(float deltaTime)
 	}
 	else
 	{
-		if (App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat()
+		if (App->GetModule<ModulePlayer>()->IsInCombat()
 			&& !owner->GetChildren()[0]->IsEnabled())
 		{
 			owner->GetChildren()[0]->Enable();
 			owner->GetChildren()[1]->Enable();
 		}
-		else if (!App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat())
+		else if (!App->GetModule<ModulePlayer>()->IsInCombat())
 		{
 			if (owner->GetChildren()[0]->IsEnabled())
 			{
