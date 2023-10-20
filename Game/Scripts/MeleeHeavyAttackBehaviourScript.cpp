@@ -88,6 +88,7 @@ void MeleeHeavyAttackBehaviourScript::Update(float deltaTime)
 		}
 		
 		parentHealth->SetIsImmortal(false);
+		aiMovement->SetMovementStatuses(false, false);
 		componentAnimation->SetParameter("IsDead", true);
 		attackState = ExplosionState::DEAD;
 		componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_TIMER);

@@ -328,6 +328,7 @@ void EnemyDroneScript::ResetValues()
 	droneState = DroneBehaviours::INPATH;
 	fastAttackScript->ResetScriptValues();
 	healthScript->HealLife(1000.0f); // It will cap at max health
+	aiMovement->SetMovementStatuses(true, true);
 	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
 	enemyDeathScript->ResetDespawnTimerAndEnableActions();
 	if(pathScript)
