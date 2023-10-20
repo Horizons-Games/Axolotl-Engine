@@ -144,24 +144,29 @@ void CameraBossControllerScript::CalculateCameraPositionByBoss()
 {
 	float3 playerPos = playerTransform->GetGlobalPosition();
 	float3 bossPos = bossTransform->GetGlobalPosition();
-	float3 vector = (playerPos - bossPos).Normalized();
+
+	float2 playerPosXZ = float2(playerPos.x, playerPos.z);
+	float2 bossPosXZ = float2(bossPos.x, bossPos.z);
+
+	float2 vectorBossPlayerXZ = playerPosXZ - bossPosXZ;
+	float2 vectorBossPlayerXZNorm = vectorBossPlayerXZ.Normalized();
 	float newyOffset = yOffset;
 
-	float distance = vector.Length();
+	float distanceBossPlayerXZ = vectorBossPlayerXZ.Length();
 
 	float multiplier;
-	if (distance <= minDistance) 
+	if (distanceBossPlayerXZ <= minDistance)
 	{
 		multiplier = minMultiplier;
 	}
 
-	else if (distance >= maxDistance)
+	else if (distanceBossPlayerXZ >= maxDistance)
 	{
 		multiplier = maxMultiplier;
 	}
 	else
 	{
-		float t = (distance - minDistance)/ (maxDistance - minDistance);
+		float t = (distanceBossPlayerXZ - minDistance)/ (maxDistance - minDistance);
 		multiplier = (1 - t) * minMultiplier + t * maxMultiplier;
 	}
 
@@ -171,6 +176,6 @@ void CameraBossControllerScript::CalculateCameraPositionByBoss()
 		multiplier += multiplierWithHeight;
 	}
 
-	float3 offset = float3(vector.x * multiplier, newyOffset, vector.z * multiplier);
+	float3 offset = float3(vectorBossPlayerXZNorm.x * multiplier, newyOffset, vectorBossPlayerXZNorm.y * multiplier);
 	CalculateOffsetVector(offset);
 }
