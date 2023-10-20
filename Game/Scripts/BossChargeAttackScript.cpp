@@ -273,7 +273,7 @@ void BossChargeAttackScript::SpawnRock(const float3& spawnPosition)
 	newRockRigidBody->Enable();
 
 	ComponentBreakable* newRockBreakable = newRock->GetComponent<ComponentBreakable>();
-	newRockBreakable->SetImpulsionMul(0);
+	newRockBreakable->SetImpulsionMul(1);
 
 	if (!newRock->GetChildren().empty())
 	{
