@@ -1,7 +1,7 @@
 {
-    "DiffuseAssetPath": "Assets/Textures/Arrow3_DefaultMaterial_AlbedoTransparency.png",
-    "NormalAssetPath": "Assets/Textures/Arrow3_DefaultMaterial_Normal.png",
+    "DiffuseAssetPath": "Assets/Textures/ArrowCycleAlbedo.png",
+    "NormalAssetPath": "Assets/Textures/ArrowCycleNormal.png",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/Arrow3_DefaultMaterial_MetallicSmoothness.png",
-    "EmissiveAssetPath": "Assets/Textures/Arrow3_DefaultMaterial_Emission.png"
+    "MetalicAssetPath": "Assets/Textures/ArrowCycleMetallic.png",
+    "EmissiveAssetPath": "Assets/Textures/ArrowCycleEmission.png"
 }
