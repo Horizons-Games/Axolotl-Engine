@@ -206,7 +206,7 @@ void UIComboManager::SetActivateSpecial(bool activate)
 
 	newVisuals->Enable();
 	comboBar->SetBackground(newVisuals->GetChildren()[0]);
-	comboBar->SetFill(newVisuals->GetChildren()[1]);
+	comboBar->SetFill(newVisuals->GetChildren()[1], static_cast<int> (comboBar->GetDirection()));
 
 	noFillBar = newVisuals->GetChildren()[2];
 	noFillBar->GetComponent<ComponentImage>()->SetColor(float4(1.f, 1.f, 1.f, transparency));
