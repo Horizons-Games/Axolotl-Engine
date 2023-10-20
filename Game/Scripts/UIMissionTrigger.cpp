@@ -45,7 +45,8 @@ void UIMissionTrigger::Start()
 
 void UIMissionTrigger::Update(float deltaTime)
 {
-	if (missionImageDisplacementExit != nullptr && !missionImageDisplacementExit->IsMoving() && wasInside)
+	if (missionImageDisplacementExit != nullptr && !missionImageDisplacementExit->IsMoving() && wasInside 
+		&& missionImageDisplacement->IsMovingToEnd())
 	{
 		missionImageDisplacement->SetMovingToEnd(true);
 		missionImageDisplacement->MoveImageToEndPosition();
@@ -63,9 +64,9 @@ void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 		if (lastMissionLevel != nullptr)
 		{
 			missionImageDisplacementExit->SetMovingToEnd(false);
-			missionImageDisplacementExit->MoveImageToStarPosition();
+			missionImageDisplacementExit->MoveImageToStartPosition();
 		}
-		else if (missionLevel != nullptr)
+		if (missionLevel != nullptr)
 		{
 			missionImageDisplacement->SetMovingToEnd(true);
 			missionImageDisplacement->MoveImageToEndPosition();
