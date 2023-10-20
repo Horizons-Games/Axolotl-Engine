@@ -15,15 +15,17 @@
 REGISTERCLASS(BossChargeRockScript);
 
 BossChargeRockScript::BossChargeRockScript() : Script(), rockState(RockStates::SKY), fallingRockDamage(10.0f),
-	despawnTimer(0.0f), despawnMaxTimer(30.0f), triggerRockDespawn(false), rockHitAndRemained(false)
+	despawnTimer(0.0f), despawnMaxTimer(30.0f),breakTimer(0.0f),breakMaxTimer(30.0f), triggerRockDespawn(false), rockHitAndRemained(false)
 {
 	REGISTER_FIELD(fallingRockDamage, float);
 	REGISTER_FIELD(despawnMaxTimer, float);
+	REGISTER_FIELD(breakMaxTimer, float);
 }
 
 void BossChargeRockScript::Start()
 {
 	despawnTimer = despawnMaxTimer;
+	breakTimer = breakMaxTimer;
 
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	rockGravity = rigidBody->GetRigidBody()->getGravity();
@@ -49,6 +51,14 @@ void BossChargeRockScript::Update(float deltaTime)
 		if (despawnTimer <= 0.0f)
 		{
 			DestroyRock();
+		}
+	}
+	if (triggerBreakTimer)
+	{
+		breakTimer -= deltaTime;
+		if (breakTimer <= 0.0f)
+		{
+			owner->GetComponent<ComponentBreakable>()->BreakComponent();
 		}
 	}
 }
@@ -85,7 +95,7 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 		{
 			owner->GetComponent<ComponentObstacle>()->AddObstacle();
 			// VFX Here: Rock hit the floor
-			owner->GetComponent<ComponentBreakable>()->BreakComponent();
+			triggerBreakTimer = true;
 			rockState = RockStates::FLOOR;
 		}
 	}

@@ -40,7 +40,9 @@ private:
 	RockStates rockState;
 
 	bool triggerRockDespawn;
+	bool triggerBreakTimer;
 	float despawnTimer;
+	float breakTimer;
 
 	ComponentRigidBody* rigidBody;
 
@@ -49,6 +51,7 @@ private:
 	// Modifiable values
 	float fallingRockDamage;
 	float despawnMaxTimer;
+	float breakMaxTimer;
 
 	bool isPaused;
 	btVector3 rockGravity;
