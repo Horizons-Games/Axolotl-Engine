@@ -78,6 +78,7 @@ void ComponentBreakable::BreakComponent()
 		if (auto rb = GetOwner()->GetComponentInternal<ComponentRigidBody>())
 		{
 			rb->RemoveRigidBodyFromSimulation();
+			rb->Disable();
 			subscribed = false;
 		}
 
@@ -102,6 +103,8 @@ void ComponentBreakable::BreakComponent()
 			btVector3 impulsionMul{ impulsionPower.x, impulsionPower.y, impulsionPower.z };
 			impulsion = impulsion.cross(impulsionMul);
 			childRigidBody->GetRigidBody()->applyCentralImpulse(impulsion);
+			//childRigidBody->SetIsKinematic(true);
+			childRigidBody->SetLinearDamping(0.9);
 		}
 	}
 }
