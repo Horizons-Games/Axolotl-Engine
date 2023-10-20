@@ -10,8 +10,7 @@
 
 REGISTERCLASS(ForceZoneScript);
 
-ForceZoneScript::ForceZoneScript() 
-	: Script()
+ForceZoneScript::ForceZoneScript() : Script()
 {
 	REGISTER_FIELD(influenceRadius, float);
 }

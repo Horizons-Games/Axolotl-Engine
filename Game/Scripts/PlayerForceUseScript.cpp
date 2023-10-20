@@ -103,6 +103,11 @@ void PlayerForceUseScript::Update(float deltaTime)
 			hittedRigidBody->GetRigidBody()->setLinearVelocity({ 0.0f, 0.0f, 0.0f });
 			hittedRigidBody->SetGravity({ 0.0f, gravity, 0.0f });
 
+			if (gameObjectAttached->GetChildren()[0]->HasComponent<ComponentParticleSystem>())
+			{
+				gameObjectAttached->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
+			}
+
 			gameObjectAttached = nullptr;
 		}
 		
@@ -212,6 +217,11 @@ void PlayerForceUseScript::FinishForce()
 	rigidBody->SetGravity({ 0.0f, gravity, 0.0f });
 	ComponentRigidBody* hittedRigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 	ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
+
+	if (gameObjectAttached->GetChildren()[0]->HasComponent<ComponentParticleSystem>())
+	{
+		gameObjectAttached->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
+	}
 
 	hittedRigidBody->DisablePositionController();
 	hittedRigidBody->DisableRotationController();

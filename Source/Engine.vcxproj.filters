@@ -887,6 +887,9 @@
     <ClCompile Include="..\Game\Scripts\ForceZoneScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ForceTrigger.cpp">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1816,6 +1819,9 @@
       <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\ForceZoneScript.h">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ForceTrigger.h">
       <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
     </ClInclude>
   </ItemGroup>
