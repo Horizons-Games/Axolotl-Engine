@@ -60,9 +60,7 @@ Scene::Scene() :
 	ssboSpot(0),
 	rootQuadtree(nullptr),
 	rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE / 2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2),
-						  float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2))),
-	combatMode(false),
-	enemiesToDefeat(0)
+						  float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
 {
 }
 
@@ -2147,19 +2145,6 @@ std::vector<float> Scene::GetNormals()
 	}
 
 	return result;
-}
-
-void Scene::SetCombatMode(bool newCombatMode)
-{
-	combatMode = newCombatMode;
-	//App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<ComponentCameraSample>()->SetCombatCameraEnabled(combatMode);
-}
-
-void Scene::SetEnemiesToDefeat(float newEnemiesToDefeat)
-{
-	enemiesToDefeat = newEnemiesToDefeat;
-	if (newEnemiesToDefeat <= 0.0)
-		SetCombatMode(false);
 }
 
 const SpotLight& Scene::GetSpotLightsStruct(int index) const

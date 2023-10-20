@@ -252,9 +252,6 @@ private:
 	unsigned ssboLocalIBL;
 	unsigned ssboPlanarReflection;
 
-	bool combatMode;
-	float enemiesToDefeat;
-
 	AABB rootQuadtreeAABB;
 	// Render Objects
 	std::unique_ptr<Quadtree> rootQuadtree;
@@ -436,16 +433,6 @@ inline void Scene::RemovePlanarReflection(const ComponentPlanarReflection* compo
 		UpdateScenePlanarReflections();
 		RenderPlanarReflections();
 	}
-}
-
-inline const bool Scene::GetCombatMode() const
-{
-	return combatMode;
-}
-
-inline const float Scene::GetEnemiesToDefeat() const
-{
-	return enemiesToDefeat;
 }
 
 inline const size_t Scene::GetSizeSpotLights() const

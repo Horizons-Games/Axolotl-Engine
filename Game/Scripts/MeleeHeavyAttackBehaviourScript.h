@@ -20,6 +20,7 @@ class ComponentAudioSource;
 class ComponentAnimation;
 class ComponentParticleSystem;
 class EnemyDeathScript;
+class HealthSystem;
 class AIMovement;
 
 class MeleeHeavyAttackBehaviourScript : public Script
@@ -55,6 +56,7 @@ private:
 	ComponentAnimation* componentAnimation;
 	ComponentParticleSystem* particleSystem;
 	AIMovement* aiMovement;
+	HealthSystem* parentHealth;
 
 	float explosionDamage;
 	float explosionTime;

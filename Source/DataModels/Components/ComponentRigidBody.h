@@ -397,6 +397,7 @@ inline void ComponentRigidBody::SetKpTorque(float newKpTorque)
 {
 	KpTorque = newKpTorque;
 }
+
 inline float3 ComponentRigidBody::GetBoxSize() const
 {
 	return boxSize;
