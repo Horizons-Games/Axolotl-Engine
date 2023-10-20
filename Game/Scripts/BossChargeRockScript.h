@@ -3,6 +3,7 @@
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
 #include "Bullet\LinearMath\btVector3.h"
+#include "Components/ComponentParticleSystem.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -55,4 +56,6 @@ private:
 
 	bool isPaused;
 	btVector3 rockGravity;
+
+	ComponentParticleSystem* breakRockVFX;
 };
