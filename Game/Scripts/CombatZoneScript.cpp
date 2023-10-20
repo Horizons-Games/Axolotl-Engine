@@ -22,6 +22,7 @@ REGISTERCLASS(CombatZoneScript);
 CombatZoneScript::CombatZoneScript() : Script(), componentAudio(nullptr), enemiesToDefeat(1.0)
 {
 	REGISTER_FIELD(enemiesToDefeat, float);
+	REGISTER_FIELD(isBoss, bool);
 }
 
 CombatZoneScript::~CombatZoneScript()
@@ -59,9 +60,15 @@ void CombatZoneScript::OnCollisionEnter(ComponentRigidBody* other)
 	
 	if (other->GetOwner()->CompareTag("Player"))
 	{
-
-		App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->SetInCombat(true);
-		App->GetModule<ModuleScene>()->GetLoadedScene()->SetEnemiesToDefeat(enemiesToDefeat);
+		if (isBoss)
+		{
+			App->GetModule<ModulePlayer>()->SetInBossCombat(true);
+		}
+		else
+		{
+			App->GetModule<ModulePlayer>()->SetInCombat(true);
+			App->GetModule<ModulePlayer>()->SetEnemiesToDefeat(enemiesToDefeat);
+		}
 
 		std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
 

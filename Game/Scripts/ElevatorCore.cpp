@@ -213,7 +213,7 @@ void ElevatorCore::MoveDownElevator(bool isGOInside, float deltaTime)
 
 void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (!App->GetModule<ModuleScene>()->GetLoadedScene()->GetCombatMode() 
+	if (!App->GetModule<ModulePlayer>()->IsInCombat() 
 		&& activeState == ActiveActionsElevator::INACTIVE)
 	{
 		if (other->GetOwner()->CompareTag("Player"))
