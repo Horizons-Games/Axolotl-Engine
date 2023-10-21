@@ -34,13 +34,15 @@ private:
 	bool wasInside = false;
 	bool hasTimer;
 	bool waitForNotInCombat;
-	bool notInCombat;
+	bool waitForSwitch;
+	bool missionCondition;
 
 	ComponentPlayer* player;
 	ComponentRigidBody* componentRigidBody;
 	GameObject* missionLevel;
 	GameObject* lastMissionLevel;
 	GameObject* textBox;
+	GameObject* switchManager;
 	UIImageDisplacementControl* missionImageDisplacement;
 	UIImageDisplacementControl* missionImageDisplacementExit;
 };

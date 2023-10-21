@@ -7,6 +7,8 @@
 
 #include "Scene/Scene.h"
 
+#include "SwitchPlayerManagerScript.h"
+
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentScript.h"
@@ -14,13 +16,16 @@
 REGISTERCLASS(UIMissionTrigger);
 
 UIMissionTrigger::UIMissionTrigger() : Script(), missionLevel(nullptr), lastMissionLevel(nullptr),
-textBox(nullptr), maxTimeTextImageOn(5.0f), hasTimer(false), waitForNotInCombat(false)
+textBox(nullptr), maxTimeTextImageOn(5.0f), hasTimer(false), waitForNotInCombat(false),
+waitForSwitch(false), switchManager(nullptr)
 {
 	REGISTER_FIELD(missionLevel, GameObject*);
 	REGISTER_FIELD(lastMissionLevel, GameObject*);
 	REGISTER_FIELD(textBox, GameObject*);
 	REGISTER_FIELD(hasTimer, bool);
 	REGISTER_FIELD(waitForNotInCombat, bool);
+	REGISTER_FIELD(waitForSwitch, bool);
+	REGISTER_FIELD(switchManager, GameObject*);
 	REGISTER_FIELD(maxTimeTextImageOn, float);
 	
 }
@@ -58,8 +63,8 @@ void UIMissionTrigger::Update(float deltaTime)
 		DisableTextBox(deltaTime);
 	}
 
-	if (!notInCombat && !App->GetModule<ModulePlayer>()->IsInCombat() &&
-		wasInside)
+	if (!missionCondition && !App->GetModule<ModulePlayer>()->IsInCombat() &&
+		wasInside && waitForNotInCombat)
 	{
 		if (lastMissionLevel != nullptr)
 		{
@@ -76,7 +81,29 @@ void UIMissionTrigger::Update(float deltaTime)
 		{
 			textBox->Enable();
 		}
-		notInCombat = true;
+		missionCondition = true;
+	}
+	else if (waitForSwitch && !missionCondition)
+	{
+		if (switchManager->GetComponent<SwitchPlayerManagerScript>()->IsSwitchAvailable())
+		{
+			if (lastMissionLevel != nullptr)
+			{
+				missionImageDisplacementExit->SetMovingToEnd(false);
+				missionImageDisplacementExit->MoveImageToStartPosition();
+			}
+			if (missionLevel != nullptr)
+			{
+				missionImageDisplacement->SetMovingToEnd(true);
+				missionImageDisplacement->MoveImageToEndPosition();
+			}
+
+			if (textBox != nullptr)
+			{
+				textBox->Enable();
+			}
+			missionCondition = false;
+		}
 	}
 }
 
@@ -84,7 +111,7 @@ void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->CompareTag("Player") && !wasInside)
 	{
-		if (!wasInside && !waitForNotInCombat)
+		if (!waitForNotInCombat && !waitForSwitch)
 		{
 			if (lastMissionLevel != nullptr)
 			{
@@ -102,7 +129,7 @@ void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 				textBox->Enable();
 			}
 		}
-		else if (!App->GetModule<ModulePlayer>()->IsInCombat())
+		else if (!App->GetModule<ModulePlayer>()->IsInCombat() && waitForNotInCombat)
 		{
 			if (lastMissionLevel != nullptr)
 			{
@@ -119,7 +146,29 @@ void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 			{
 				textBox->Enable();
 			}
-			notInCombat = false;
+			missionCondition = false;
+		}
+		else if (waitForSwitch)
+		{
+			if (switchManager->GetComponent<SwitchPlayerManagerScript>()->IsSwitchAvailable())
+			{
+				if (lastMissionLevel != nullptr)
+				{
+					missionImageDisplacementExit->SetMovingToEnd(false);
+					missionImageDisplacementExit->MoveImageToStartPosition();
+				}
+				if (missionLevel != nullptr)
+				{
+					missionImageDisplacement->SetMovingToEnd(true);
+					missionImageDisplacement->MoveImageToEndPosition();
+				}
+
+				if (textBox != nullptr)
+				{
+					textBox->Enable();
+				}
+				missionCondition = false;
+			}
 		}
 
 		wasInside = true;
