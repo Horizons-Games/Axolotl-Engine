@@ -22,7 +22,7 @@
 
 REGISTERCLASS(FinalBossScript);
 
-FinalBossScript::FinalBossScript() : bossPhase(FinalBossPhases::DEFENSIVE), patrolScript(nullptr), 
+FinalBossScript::FinalBossScript() : bossPhase(FinalBossPhases::NEUTRAL), patrolScript(nullptr), 
 	bossHealthSystem(nullptr), rigidBody(nullptr), chargeAttackScript(nullptr),
 	transform(nullptr), targetTransform(nullptr), shockWaveAttackScript(nullptr), bossState(FinalBossStates::IDLE),
 	shieldAttackScript(nullptr), missilesAttackScript(nullptr), componentAnimation(nullptr), deathScript(nullptr)
