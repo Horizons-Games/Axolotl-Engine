@@ -53,4 +53,5 @@ private:
 	bool interactWithEnemies;
 
 	bool wasActivatedByPlayer;
+	bool wasActivatedByEnemy;
 };
