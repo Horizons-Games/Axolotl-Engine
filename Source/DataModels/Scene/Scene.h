@@ -109,8 +109,6 @@ public:
 	GameObject* GetRoot() const;
 	Quadtree* GetRootQuadtree() const;
 	Cubemap* GetCubemap() const;
-	const bool GetCombatMode() const;
-	const float GetEnemiesToDefeat() const;
 	const size_t GetSizeSpotLights() const;
 	const size_t GetSizePointLights() const;
 	const int GetPointIndex(const ComponentPointLight* point);
@@ -149,8 +147,6 @@ public:
 	void SetSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void SetSceneInteractable(const std::vector<Component*>& interactable);
 	void SetDirectionalLight(GameObject* directionalLight);
-	void SetCombatMode(bool combatMode);
-	void SetEnemiesToDefeat(float enemiesToDefeat);
 
 	void AddSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void AddSceneCameras(const std::vector<ComponentCamera*>& cameras);
