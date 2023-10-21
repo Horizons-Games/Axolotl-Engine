@@ -88,4 +88,6 @@ void ShockWaveAttackAreaScript::ResetAreaSize()
 	rigidBody->SetRadius(minSizeArea);
 	rigidBody->SetCollisionShape(rigidBody->GetShape());
 	areaState = AreaState::ON_COOLDOWN;
+
+	// VFX Here: Here the effect of the shockwave should be stopped
 }

@@ -33,22 +33,23 @@ public:
 
 	void ChangeMovementState(ElevatorState newState);
 	void AttachEnemies(GameObject* enemyOneGO, GameObject* enemyTwoGO);
-	void ToggleEnemyInteractions(GameObject* enemy, bool interactions);
-	void MoveEnemyToElevatorPoint(GameObject* enemy, ComponentTransform* elevatorPosition);
 	void ReleaseEnemies();
-	void MoveEnemiesToArena(GameObject* enemyOne, ComponentTransform* targetPosition);
-	void CheckIfEnemiesAreInTarget();
 	void ToggleParalizeDependingOfEnemyType(GameObject* enemy, bool paralize);
 
 	bool GetHasEnemies() const;
 	PositionState GetPositionState() const;
 
+	void SetIsPaused(bool isPaused);
+
 private:
-	void MoveDown(float deltaTime);
+	void MoveDown(float deltaTime, bool resetElevator = false);
 	void MoveUp(float deltaTime);
 	void MoveFences(float deltaTime);
-	void ResetElevator();
 	void MoveEnemy(GameObject* enemy, float deltaTime);
+	void ToggleEnemyInteractions(GameObject* enemy, bool interactions);
+	void MoveEnemyToElevatorPoint(GameObject* enemy, ComponentTransform* elevatorPosition);
+	void MoveEnemiesToArena(GameObject* enemyOne, ComponentTransform* targetPosition);
+	void CheckIfEnemiesAreInTarget();
 
 	float moveSpeed;
 	float cooldownTime;
@@ -77,6 +78,8 @@ private:
 	ComponentTransform* enemyTwoArenaPosition;
 	GameObject* enemyOne;
 	GameObject* enemyTwo;
+
+	bool isPaused;
 };
 
 inline bool BossLevelElevator::GetHasEnemies() const

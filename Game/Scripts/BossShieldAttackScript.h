@@ -25,6 +25,7 @@ public:
 	bool CanPerformShieldAttack() const;
 
 	bool IsAttacking() const;
+	void SetIsPaused(bool isPaused);
 
 private:
 	void ManageShield(float deltaTime);
@@ -68,4 +69,5 @@ private:
 	GameObject* enemiesToSpawnParent;
 
 	ComponentRigidBody* battleArenaAreaSize;
+	bool isPaused;
 };

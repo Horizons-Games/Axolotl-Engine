@@ -12,11 +12,10 @@ REGISTERCLASS(UITextTrigger);
 UITextTrigger::UITextTrigger() : Script(), textBox(nullptr)
 {
 	REGISTER_FIELD(textBox, GameObject*);
-} 
+}
 
 UITextTrigger::~UITextTrigger()
 {
-
 }
 
 void UITextTrigger::Start()

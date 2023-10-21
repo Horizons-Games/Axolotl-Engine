@@ -81,6 +81,15 @@ void EnemyDroneScript::Update(float deltaTime)
 	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
 	playerManager = seekTarget->GetComponent<PlayerManagerScript>();
 
+	heavyAttackScript->SetIsPaused(isPaused);
+	if (isPaused) 
+	{
+		seekScript->DisableMovement();
+		fastAttackScript->InterruptAttack();
+		droneState = DroneBehaviours::SEEK;
+		return;
+	}
+
 	if (stunned && droneState != DroneBehaviours::READYTOEXPLODE && droneState != DroneBehaviours::EXPLOSIONATTACK)
 	{
 		if (timeStunned < 0)
@@ -281,8 +290,10 @@ void EnemyDroneScript::UpdateBehaviour(float deltaTime)
 
 	case DroneBehaviours::EXPLOSIONATTACK:
 
-		aiMovement->SetTargetPosition(target);
-		aiMovement->SetRotationTargetPosition(target);
+		if(healthScript->EntityIsAlive()){
+			aiMovement->SetTargetPosition(target);
+			aiMovement->SetRotationTargetPosition(target);
+		}
 
 		break;
 	
@@ -317,6 +328,7 @@ void EnemyDroneScript::ResetValues()
 	droneState = DroneBehaviours::INPATH;
 	fastAttackScript->ResetScriptValues();
 	healthScript->HealLife(1000.0f); // It will cap at max health
+	aiMovement->SetMovementStatuses(true, true);
 	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
 	enemyDeathScript->ResetDespawnTimerAndEnableActions();
 	if(pathScript)
@@ -368,6 +380,7 @@ void EnemyDroneScript::SetReadyToDie()
 {
 	componentAnimation->SetParameter("IsTakingDamage", true);
 	fastAttackScript->InterruptAttack();
+	healthScript->SetIsImmortal(true);
 	droneState = DroneBehaviours::READYTOEXPLODE;
 }
 

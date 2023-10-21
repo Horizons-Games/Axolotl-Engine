@@ -13,7 +13,6 @@ class PlayerJumpScript;
 class PlayerMoveScript;
 class PlayerHackingUseScript;
 class DebugGame;
-class PlayerRotationScript;
 
 enum class PlayerActions
 {
@@ -44,12 +43,13 @@ public:
 
 	void ParalyzePlayer(bool paralyzed);
 	void PausePlayer(bool paused);
+	void FullPausePlayer(bool paused);
 	void TriggerJump(bool forcedJump);
+	bool IsParalyzed() const;
+	bool IsPaused() const;
 
 	bool IsGrounded() const;
 	bool IsTeleporting() const;
-	bool IsParalyzed() const;
-
 	GameObject* GetMovementParticleSystem() const;
 
 	PlayerJumpScript* GetJumpManager() const;
@@ -64,6 +64,7 @@ public:
 
 private:
 	bool isActivePlayer;
+	bool isPaused;
 
 	ModuleInput* input;
 
@@ -72,6 +73,7 @@ private:
 	float playerDefense;
 	float playerSpeed;
 	float playerRotationSpeed;
+	btVector3 playerGravity;
 
 	// All Main PlayerManagers
 	HealthSystem* healthManager;
@@ -80,7 +82,8 @@ private:
 	PlayerAttackScript* attackManager;
 	DebugGame* debugManager;
 	PlayerHackingUseScript* hackingManager;
-	PlayerRotationScript* rotationManager;
+	btVector3 rigidBodyLinearVelocity;
+	btVector3 rigidBodyGravity;
 	btVector3 rigidBodyManager;
 
 	GameObject* movementParticleSystem;

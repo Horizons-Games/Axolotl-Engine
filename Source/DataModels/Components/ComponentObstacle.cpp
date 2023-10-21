@@ -12,8 +12,10 @@
 ComponentObstacle::ComponentObstacle(bool active, GameObject* owner) :
 	Component(ComponentType::OBSTACLE, active, owner, true)
 {
+	transform = GetOwner()->GetComponent<ComponentTransform>();
+
 	//This should be done in the init
-	currentPosition = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
+	currentPosition = transform->GetGlobalPosition();
 	if (IsEnabled())
 	{
 		AddObstacle();
@@ -27,7 +29,11 @@ ComponentObstacle::~ComponentObstacle()
 
 void ComponentObstacle::Update()
 {
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	if (obstacleReference != nullptr && !shouldAddObstacle)
+	{
+		return;
+	}
+
 	float3 newPosition = transform->GetGlobalPosition();
 	float3 newRotation = transform->GetGlobalRotation().ToEulerXYZ();
 	if (!newPosition.Equals(currentPosition) || !newRotation.Equals(currentRotation))
@@ -40,7 +46,6 @@ void ComponentObstacle::Update()
 		}
 	}
 
-	// Try to add the obstacle
 	if (shouldAddObstacle)
 	{
 		AddObstacle();
@@ -51,8 +56,6 @@ void ComponentObstacle::AddObstacle()
 {
 	shouldAddObstacle = true;
 
-	/*if (App->scene->scene != GetOwner().scene)
-		return;*/
 	std::shared_ptr<ResourceNavMesh> navMesh = App->GetModule<ModuleNavigation>()->GetNavMesh();
 	if (navMesh == nullptr || !navMesh->IsGenerated())
 	{
@@ -69,9 +72,10 @@ void ComponentObstacle::AddObstacle()
 
 	obstacleReference = new dtObstacleRef;
 
+	// For some wierd reason, if I use the global transform variable the obstacle doesnt work correctly
 	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 	float3 position = transform->GetGlobalPosition();
-	float posi = position[0];
+	position.y += yOffset;
 
 	switch (obstacleType)
 	{
@@ -109,7 +113,6 @@ void ComponentObstacle::RemoveObstacle()
 	}
 
 	tileCache->removeObstacle(*obstacleReference);
-	//RELEASE(obstacleReference);
 	obstacleReference = nullptr;
 }
 
@@ -167,6 +170,12 @@ void ComponentObstacle::SetDrawGizmo(bool value)
 	AddObstacle();
 }
 
+void ComponentObstacle::SetYOffset(float value)
+{
+	yOffset = value;
+	AddObstacle();
+}
+
 void ComponentObstacle::InternalSave(Json& meta)
 {
 	float3 size = GetBoxSize();
@@ -177,6 +186,7 @@ void ComponentObstacle::InternalSave(Json& meta)
 	meta["height"] = static_cast<float>(GetHeight());
 	meta["obstacleType"] = static_cast<int>(obstacleType);
 	meta["mustBeDrawnGizmo"] = static_cast<bool>(mustBeDrawnGizmo);
+	meta["yOffset"] = static_cast<float>(yOffset);
 }
 
 void ComponentObstacle::InternalLoad(const Json& meta)
@@ -188,6 +198,7 @@ void ComponentObstacle::InternalLoad(const Json& meta)
 	SetHeight(static_cast<float>(meta["height"]));
 	SetObstacleType(static_cast<ObstacleType>(obstacleType));
 	SetDrawGizmo(static_cast<bool>(meta["mustBeDrawnGizmo"]));
+	SetYOffset(static_cast<float>(meta["yOffset"]));
 
-	AddObstacle();
+	RemoveObstacle();
 }

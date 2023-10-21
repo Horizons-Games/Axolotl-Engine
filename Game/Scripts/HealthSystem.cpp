@@ -12,6 +12,7 @@
 #include "../Scripts/PlayerDeathScript.h"
 #include "../Scripts/EnemyDeathScript.h"
 #include "../Scripts/PlayerManagerScript.h"
+#include "../Scripts/ComboManager.h"
 #include "../Scripts/MeshEffect.h"
 
 REGISTERCLASS(HealthSystem);
@@ -68,7 +69,7 @@ void HealthSystem::Update(float deltaTime)
 {
 	meshEffect->DamageEffect();
 
-	if (!EntityIsAlive() && owner->CompareTag("Player"))
+	if (!EntityIsAlive() && owner->CompareTag("Player") && playerManager->IsParalyzed())
 	{
 		meshEffect->ClearEffect();
 		PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
@@ -111,19 +112,17 @@ void HealthSystem::TakeDamage(float damage)
 
 			currentHealth -= actualDamage;
 
-			ModuleInput* input = App->GetModule<ModuleInput>();
-			input->Rumble();
-
-			if (currentHealth - damage <= 0)
+			if (currentHealth <= 0)
 			{
-				PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
-				playerDeathManager->ManagePlayerDeath();
-				componentAnimation->SetParameter("IsDead", true);
+				playerManager->ParalyzePlayer(true);
+				owner->GetComponent<ComboManager>()->SuccessfulAttack(-100.f, AttackType::NONE);
 			}
 			else
 			{
 				componentAnimation->SetParameter("IsTakingDamage", true);
 				damageTaken = true;
+				ModuleInput* input = App->GetModule<ModuleInput>();
+				input->Rumble();
 			}
 		}
 
@@ -148,7 +147,7 @@ void HealthSystem::HealLife(float amountHealed)
 
 bool HealthSystem::EntityIsAlive() const
 {
-	return currentHealth > 0.0f;
+	return currentHealth > 0.0f || isImmortal;
 }
 
 float HealthSystem::GetMaxHealth() const

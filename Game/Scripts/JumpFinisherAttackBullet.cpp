@@ -36,6 +36,7 @@ void JumpFinisherAttackBullet::Start()
 
 void JumpFinisherAttackBullet::Update(float deltaTime)
 {
+	bulletGravity = owner->GetComponent<ComponentRigidBody>()->GetGravity();
 	if (SDL_GetTicks() / 1000.0f > originTime + bulletLifeTime)
 	{
 		DestroyBullet();
@@ -100,4 +101,24 @@ void JumpFinisherAttackBullet::SetAreaPushForce(float newAreaPushForce)
 void JumpFinisherAttackBullet::SetAreaStunTime(float newAreaStunTime)
 {
 	areaStunTime = newAreaStunTime;
+}
+
+void JumpFinisherAttackBullet::SetIsPaused(bool isPaused)
+{
+	btRigidBody* bulletRigidBody = rigidBody->GetRigidBody();
+	this->isPaused = isPaused;
+	if (isPaused)
+	{
+		bulletRigidBody->setLinearVelocity(btVector3(0.f, 0.f, 0.f));
+		bulletRigidBody->setGravity(btVector3(0.f, 0.f, 0.f));
+	}
+	else
+	{
+		bulletRigidBody->setGravity(bulletGravity);
+		bulletRigidBody->setLinearVelocity(
+			btVector3(
+				0.0f,
+				bulletFallForce,
+				0.0f) * bulletVelocity);
+	}
 }
