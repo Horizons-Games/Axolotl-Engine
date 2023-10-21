@@ -9,6 +9,7 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAgent.h"
+#include "Components/ComponentAnimation.h"
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
@@ -17,13 +18,14 @@
 #include "../Scripts/BossShieldAttackScript.h"
 #include "../Scripts/BossMissilesAttackScript.h"
 #include "../Scripts/AIMovement.h"
+#include "../Scripts/EnemyDeathScript.h"
 
 REGISTERCLASS(FinalBossScript);
 
-FinalBossScript::FinalBossScript() : bossPhase(FinalBossPhases::NEUTRAL), patrolScript(nullptr), 
+FinalBossScript::FinalBossScript() : bossPhase(FinalBossPhases::DEFENSIVE), patrolScript(nullptr), 
 	bossHealthSystem(nullptr), rigidBody(nullptr), chargeAttackScript(nullptr),
 	transform(nullptr), targetTransform(nullptr), shockWaveAttackScript(nullptr), bossState(FinalBossStates::IDLE),
-	shieldAttackScript(nullptr), missilesAttackScript(nullptr)
+	shieldAttackScript(nullptr), missilesAttackScript(nullptr), componentAnimation(nullptr), deathScript(nullptr)
 {
 }
 
@@ -38,6 +40,7 @@ void FinalBossScript::Start()
 	target = App->GetModule<ModulePlayer>()->GetPlayer();
 	modulePlayer = App->GetModule<ModulePlayer>();
 	targetTransform = target->GetComponent<ComponentTransform>();
+	componentAnimation = owner->GetComponent<ComponentAnimation>();
 
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 	bossHealthSystem = owner->GetComponent<HealthSystem>();
@@ -47,6 +50,7 @@ void FinalBossScript::Start()
 	missilesAttackScript = owner->GetComponent<BossMissilesAttackScript>();
 	agent = owner->GetComponent<ComponentAgent>();
 	aiMovement = owner->GetComponent<AIMovement>();
+	deathScript = owner->GetComponent<EnemyDeathScript>();
 
 	bossGravity = rigidBody->GetRigidBody()->getGravity();
 
@@ -83,7 +87,7 @@ void FinalBossScript::Update(float deltaTime)
 		isUnpaused = false;
 	}
 
-	if (!target)
+	if (!target || !bossHealthSystem->EntityIsAlive())
 	{
 		return;
 	}
@@ -100,6 +104,24 @@ void FinalBossScript::Update(float deltaTime)
 	// Comment these lines if you uncomment the one above and vice versa
 	ChangeBossPhase();
 	ManageActualPhase(bossPhase);
+}
+
+void FinalBossScript::SetReadyToDie()
+{
+	PauseEnemy(true);
+
+	std::unordered_map<std::string, TypeFieldPairParameter> componentAnimationParameters =
+		componentAnimation->GetStateMachine()->GetParameters();
+	for (const std::pair<std::string, TypeFieldPairParameter>& parameter : componentAnimationParameters)
+	{
+		componentAnimation->SetParameter(parameter.first, false);
+	}
+
+	componentAnimation->SetParameter("IsTakingDamage", true);
+	componentAnimation->SetParameter("IsDead", true);
+	deathScript->ManageEnemyDeath();
+
+	AXO_TODO("Roll the endgame scene when the boss dies (not necessarily here)")
 }
 
 void FinalBossScript::ChangeBossPhase()
