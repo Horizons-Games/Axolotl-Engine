@@ -181,12 +181,13 @@ void BossShieldAttackScript::ManageEnemiesSpawning(float deltaTime)
 
 void BossShieldAttackScript::ManageRespawnOfEnemies()
 {
-	for (int i = 0; i < enemiesNotReadyToSpawn.size(); ++i)
+	for (int i = 0; i < enemiesNotReadyToSpawn.size();)
 	{
 		GameObject* enemy = enemiesNotReadyToSpawn[i];
 		if (enemy->IsEnabled())
 		{
 			continue;
+			++i;
 		}
 
 		EnemyClass* enemyClass = enemy->GetComponent<EnemyClass>();
