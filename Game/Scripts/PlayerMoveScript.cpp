@@ -96,6 +96,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	desiredRotation = owner->GetComponent<ComponentTransform>()->GetGlobalForward();
 
 	btRigidbody->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
+	btRigidbody->setAngularVelocity(btVector3(0.0f, 0.0f, 0.0f));
 
 	btVector3 movement(0, 0, 0);
 
