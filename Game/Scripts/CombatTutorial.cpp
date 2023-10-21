@@ -23,6 +23,11 @@
 #include "..\Game\Scripts\UIImageDisplacementControl.h"
 #include "../Scripts/PowerUpLogicScript.h"
 #include "..\Game\Scripts\PlayerMoveScript.h"
+#include "..\Game\Scripts\JumpFinisherAttack.h"
+#include "..\Game\Scripts\HeavyFinisherAttack.h"
+#include "..\Game\Scripts\LightFinisherAttackScript.h"
+#include "..\Game\Scripts\ComboManager.h"
+
 #include "CameraControllerScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
@@ -30,7 +35,8 @@
 REGISTERCLASS(CombatTutorial);
 
 CombatTutorial::CombatTutorial() : Script(), combatDummy(nullptr), userControllable(false), combatTutorialUI(nullptr), 
-debugPowerUp(nullptr), finalWaitTime(5.0f), finalTotalWaitTime(5.0f),tutorialActivable(false), nextStateActive(true), door(nullptr)
+debugPowerUp(nullptr), finalWaitTime(5.0f), finalTotalWaitTime(5.0f),tutorialActivable(false), nextStateActive(true),
+door(nullptr), heavyFinisher(nullptr), normalAttacksEnded(false)
 {
 	REGISTER_FIELD(combatDummy, GameObject*);
 	REGISTER_FIELD(userControllable, bool);
@@ -38,7 +44,9 @@ debugPowerUp(nullptr), finalWaitTime(5.0f), finalTotalWaitTime(5.0f),tutorialAct
 	REGISTER_FIELD(debugPowerUp, GameObject*);
 	REGISTER_FIELD(finalWaitTime, float);
 	REGISTER_FIELD(finalTotalWaitTime, float);
+	REGISTER_FIELD(heavyFinisher, HeavyFinisherAttack*);
 	REGISTER_FIELD(door, GameObject*);
+	
 
 }
 
@@ -54,7 +62,10 @@ void CombatTutorial::Start()
 	if (combatDummy)
 	{
 		dummyHealthSystem = combatDummy->GetComponent<HealthSystem>();
+		jumpAttack = player->GetComponent<JumpFinisherAttack>();
+		lightFinisher = player->GetComponent<LightFinisherAttackScript>();
 		componentMoveScript = player->GetComponent<PlayerMoveScript>();
+		comboSystem = player->GetComponent<ComboManager>();
 		dummyHealthSystem->SetIsImmortal(true);
 	}
 
@@ -81,6 +92,7 @@ void CombatTutorial::Update(float deltaTime)
 			userControllable = false;
 			nextStateActive = false;
 			componentMoveScript->SetIsParalyzed(false);
+			LOG_INFO("Tutorial:NormalAttacks");
 		}
 	}
 
@@ -91,8 +103,10 @@ void CombatTutorial::Update(float deltaTime)
 		doorRigidbody->Disable();
 
 	}
+
 	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.75f
-		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.50f && !nextStateActive)
+		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.50f && !nextStateActive 
+		&& !normalAttacksEnded)
 	{
 		//JumpAttack
 		LOG_INFO("Tutorial:JumpAttack");
@@ -100,38 +114,83 @@ void CombatTutorial::Update(float deltaTime)
 		tutorialUI->UnDeployUI();
 		dummyHealthSystem->SetIsImmortal(false);
 
+
 		nextStateActive = true;
 	}
 
-	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.50f
-		&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.25f && nextStateActive)
+	else if (jumpAttack->IsActive() && nextStateActive)
 	{
 		//SpecialLightAttack
 		LOG_INFO("Tutorial:SpecialLightAttack");
-
+		normalAttacksEnded = true;
 		tutorialUI->UnDeployUI();
 		dummyHealthSystem->SetIsImmortal(false);
+		comboSystem->FillComboBar();
 
 		nextStateActive = false;
 	}
-	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.25f
-		&& dummyHealthSystem->GetCurrentHealth() > 0.0f && !nextStateActive)
+	else if (lightFinisher->IsAttacking() && !nextStateActive)
 	{
 		//SpecialHeavyAttack
 		LOG_INFO("Tutorial:SpecialHeavyAttack");
 
 		tutorialUI->UnDeployUI();
 		dummyHealthSystem->SetIsImmortal(false);
+		//dummyHealthSystem->TakeDamage(dummyHealthSystem->GetCurrentHealth());
 
 		//tutorialUI->NextState();
 		nextStateActive = true;
 	}
-	else if (dummyHealthSystem->GetCurrentHealth() <= 0.0f && nextStateActive)
+
+
+	//else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.75f
+	//	&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.50f && !nextStateActive)
+	//{
+	//	//JumpAttack
+	//	LOG_INFO("Tutorial:JumpAttack");
+
+	//	tutorialUI->UnDeployUI();
+	//	dummyHealthSystem->SetIsImmortal(false);
+	//	
+
+	//	nextStateActive = true;
+	//}
+
+	//else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.50f
+	//	&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.25f && nextStateActive 
+	//	|| jumpAttack->IsActive() && nextStateActive)
+	//{
+	//	//SpecialLightAttack
+	//	LOG_INFO("Tutorial:SpecialLightAttack");
+
+	//	tutorialUI->UnDeployUI();
+	//	dummyHealthSystem->SetIsImmortal(false);
+	//	
+
+	//	nextStateActive = false;
+	//}
+	//else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.25f
+	//	&& dummyHealthSystem->GetCurrentHealth() > 0.0f && !nextStateActive 
+	//	|| heavyFinisher->IsAttacking() && !nextStateActive)
+	//{
+	//	//SpecialHeavyAttack
+	//	LOG_INFO("Tutorial:SpecialHeavyAttack");
+
+	//	tutorialUI->UnDeployUI();
+	//	dummyHealthSystem->SetIsImmortal(false);
+	//	
+
+	//	//tutorialUI->NextState();
+	//	nextStateActive = true;
+	//}
+
+	else if (heavyFinisher->IsAttacking() && nextStateActive)
 	{
 		//SpecialHeavyAttack
 
 		tutorialUI->UnDeployUI();
 		dummyHealthSystem->SetIsImmortal(false);
+		dummyHealthSystem->TakeDamage(dummyHealthSystem->GetCurrentHealth());
 
 		if (debugPowerUp != nullptr)
 		{
@@ -144,8 +203,11 @@ void CombatTutorial::Update(float deltaTime)
 		userControllable = true;
 		tutorialFinished = true;
 		nextStateActive = false;
+		LOG_INFO("Dummy:Dead");
+		
 	}
 
+	
 	if (tutorialFinished && !nextStateActive)
 	{
 		finalWaitTime -= deltaTime;
@@ -186,6 +248,14 @@ void CombatTutorial::OnCollisionExit(ComponentRigidBody* other)
 	{
 		App->GetModule<ModulePlayer>()->SetInCombat(false);
 		tutorialUI->TutorialEnd();
+
+		if(!tutorialActivable)
+		{
+			owner->Disable();
+			LOG_INFO("TutorialDisabled");
+		}
 		LOG_INFO("TutorialExit");
 	}
+
+	
 }

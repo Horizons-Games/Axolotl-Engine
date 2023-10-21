@@ -150,6 +150,7 @@ void TutorialSystem::TutorialSkip()
 	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
 	currentTutorialUI = tutorialUI[tutorialCurrentState];
 	componentMoveScript->SetIsParalyzed(false);
+	owner->Disable();
 	LOG_INFO("TutorialSkipped");
 }
 

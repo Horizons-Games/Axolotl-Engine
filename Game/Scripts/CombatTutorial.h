@@ -14,6 +14,10 @@ class TutorialSystem;
 class HealthSystem;
 class ModuleInput;
 class PlayerMoveScript;
+class JumpFinisherAttack;
+class HeavyFinisherAttack;
+class LightFinisherAttackScript;
+class ComboManager;
 	
 
 
@@ -35,6 +39,7 @@ private:
 	bool tutorialActivable;
 	bool nextStateActive;
 	bool tutorialFinished;
+	bool normalAttacksEnded;
 	float finalWaitTime;
 	float finalTotalWaitTime;
 
@@ -53,6 +58,10 @@ private:
 
 	TutorialSystem* tutorialUI;
 	HealthSystem* dummyHealthSystem;
+	JumpFinisherAttack* jumpAttack;
+	HeavyFinisherAttack* heavyFinisher;
+	LightFinisherAttackScript* lightFinisher;
+	ComboManager* comboSystem;
 
 	GameObject* combatDummy;
 };
