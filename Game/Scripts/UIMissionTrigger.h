@@ -33,6 +33,8 @@ private:
 	float currentTime;
 	bool wasInside = false;
 	bool hasTimer;
+	bool waitForNotInCombat;
+	bool notInCombat;
 
 	ComponentPlayer* player;
 	ComponentRigidBody* componentRigidBody;
