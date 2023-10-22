@@ -27,7 +27,8 @@
 REGISTERCLASS(ActivationLogic);
 
 ActivationLogic::ActivationLogic() : Script(),
-componentAudio(nullptr), activeState(ActiveActions::INACTIVE), wasActivatedByPlayer(false), isSmallDoor(false)
+componentAudio(nullptr), activeState(ActiveActions::INACTIVE), wasActivatedByPlayer(false),
+wasActivatedByEnemy(false), isSmallDoor(false)
 {
 	REGISTER_FIELD(linkedHackZone, HackZoneScript*);
 	REGISTER_FIELD(interactWithEnemies, bool);
@@ -63,7 +64,8 @@ void ActivationLogic::Start()
 void ActivationLogic::Update(float deltaTime)
 {
 	if (!componentRigidBody->IsEnabled() 
-		&& App->GetModule<ModulePlayer>()->IsInCombat())
+		&& App->GetModule<ModulePlayer>()->IsInCombat() 
+		&& !wasActivatedByEnemy)
 	{
 		CloseDoor();
 	}
@@ -140,6 +142,7 @@ void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 	{
 		if (other->GetOwner()->CompareTag("Enemy"))
 		{
+			wasActivatedByEnemy = false;
 			CloseDoor();
 		}
 	}
@@ -150,6 +153,7 @@ void ActivationLogic::NextInTheList()
 	elevator->SetBooked(true);
 	elevator->SetDisableInteractionsEnemies(enemiesWaiting[0],false, false, false);
 	enemiesWaiting.erase(enemiesWaiting.begin());
+	wasActivatedByEnemy = true;
 	OpenDoor();
 }
 
