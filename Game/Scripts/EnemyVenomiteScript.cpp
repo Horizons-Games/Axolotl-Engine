@@ -70,6 +70,14 @@ void EnemyVenomiteScript::Update(float deltaTime)
 	{
 		return;
 	}
+
+	if (isPaused)
+	{
+		seekScript->DisableMovement();
+		rangedAttackScript->InterruptAttack();
+		venomiteState = VenomiteBehaviours::SEEK;
+		return;
+	}
 	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
 
 	if (stunned)
@@ -293,8 +301,9 @@ void EnemyVenomiteScript::ParalyzeEnemy(bool nparalyzed)
 
 void EnemyVenomiteScript::SetReadyToDie()
 {
+	ParalyzeEnemy(true);
 	componentAnimation->SetParameter("IsDead", true);
-
+	aiMovement->SetMovementStatuses(false, false);
 	deathScript->ManageEnemyDeath();
 }
 
@@ -308,7 +317,8 @@ void EnemyVenomiteScript::ResetValues()
 		componentAnimation->SetParameter(parameter.first, false);
 	}
 
-	componentAnimation->SetParameter("IsRunning", true);
+	ParalyzeEnemy(false);
+	aiMovement->SetMovementStatuses(true, true);
 	venomiteState = VenomiteBehaviours::INPATH;
 	meleeAttackScript->ResetScriptValues();
 	healthScript->HealLife(1000.0f); // It will cap at max health

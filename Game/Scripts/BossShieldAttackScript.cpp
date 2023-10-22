@@ -73,6 +73,11 @@ void BossShieldAttackScript::Start()
 
 void BossShieldAttackScript::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		return;
+	}
+
 	if (bossShieldObject->WasHitBySpecialTarget())
 	{
 		shieldingTime = 0.0f;
@@ -179,7 +184,7 @@ void BossShieldAttackScript::ManageRespawnOfEnemies()
 	for (int i = 0; i < enemiesNotReadyToSpawn.size(); ++i)
 	{
 		GameObject* enemy = enemiesNotReadyToSpawn[i];
-		if (enemy->GetComponent<HealthSystem>()->EntityIsAlive())
+		if (enemy->IsEnabled())
 		{
 			continue;
 		}
@@ -297,4 +302,10 @@ void BossShieldAttackScript::SpawnEnemyInPosition(GameObject* selectedEnemy, con
 	newEnemyRigidBody->Enable();
 	*/
 	// ** UNUSABLE FOR NOW **
+}
+
+void BossShieldAttackScript::SetIsPaused(bool isPaused)
+{
+	this->isPaused = isPaused;
+	bossShieldEnemiesSpawner->SetIsPaused(isPaused);
 }

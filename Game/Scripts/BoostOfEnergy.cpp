@@ -60,6 +60,11 @@ void BoostOfEnergy::Start()
 
 void BoostOfEnergy::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		return;
+	}
+
 	target = owner->GetParent()->GetComponent<SeekBehaviourScript>()->GetTarget();
 
 	damageZone->UpdateRigidBody();
@@ -220,4 +225,9 @@ void BoostOfEnergy::SetCollisionEnter(ComponentRigidBody* other)
 void BoostOfEnergy::SetCollisionExit(ComponentRigidBody* other)
 {
 	isPlayerInDamageZone = false;
+}
+
+void BoostOfEnergy::SetIsPaused(bool isPaused)
+{
+	this->isPaused = isPaused;
 }

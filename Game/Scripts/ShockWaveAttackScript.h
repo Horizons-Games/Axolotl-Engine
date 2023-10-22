@@ -27,6 +27,7 @@ public:
 	bool CanPerformShockWaveAttack() const;
 
 	bool IsAttacking() const;
+	void SetIsPaused(bool isPaused);
 
 private:
 	void ManageAreaBehaviour(float deltaTime);
@@ -61,4 +62,6 @@ private:
 
 	ShockWaveAttackAreaScript* outerArea;
 	ShockWaveAttackAreaScript* innerArea;
+
+	bool isPaused;
 };

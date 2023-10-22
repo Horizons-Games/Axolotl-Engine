@@ -24,6 +24,9 @@
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
+
+#include "Components/UI/ComponentVideo.h"
+
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentTransform2D.h"
 
@@ -57,9 +60,7 @@ Scene::Scene() :
 	ssboSpot(0),
 	rootQuadtree(nullptr),
 	rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE / 2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2),
-						  float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2))),
-	combatMode(false),
-	enemiesToDefeat(0)
+						  float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
 {
 }
 
@@ -397,10 +398,18 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 		case ComponentType::IMAGE:
 			gameObject->CreateComponent<ComponentImage>();
 			break;
+		case ComponentType::VIDEO:
+		{
+			ComponentVideo* video = gameObject->CreateComponent<ComponentVideo>();
+			sceneVideos.push_back(video);
+			break;
+		}
 		case ComponentType::BUTTON:
+		{
 			gameObject->CreateComponent<ComponentImage>();
 			sceneInteractableComponents.push_back(gameObject->CreateComponent<ComponentButton>());
 			break;
+		}
 		case ComponentType::SLIDER:
 		{
 			ComponentSlider* slider = gameObject->CreateComponent<ComponentSlider>();
@@ -409,7 +418,7 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 			ComponentTransform2D* backgroundTransform = background->GetComponentInternal<ComponentTransform2D>();
 			backgroundTransform->SetSize(float2(400, 50));
 			backgroundTransform->CalculateMatrices();
-			background->GetComponentInternal<ComponentImage>()->SetColor(float4(1.0f,0.0f,0.0f,1.0f));
+			background->GetComponentInternal<ComponentImage>()->SetColor(float4(1.0f, 0.0f, 0.0f, 1.0f));
 			slider->SetBackground(background);
 
 			GameObject* fill = CreateUIGameObject("Fill", gameObject, ComponentType::IMAGE);
@@ -639,6 +648,23 @@ GameObject* Scene::SearchGameObjectByID(UID gameObjectID) const
 
 	assert(false && "Wrong GameObjectID introduced, GameObject not found");
 	return nullptr;
+}
+
+std::vector<GameObject*> Scene::SearchGameObjectByTag(const std::string& gameObjectTag) const
+{
+	std::vector<GameObject*> tagGameObjects;
+	for (GameObject* gameObject : sceneGameObjects)
+	{
+		if (gameObject && gameObject->CompareTag(gameObjectTag))
+		{
+			tagGameObjects.push_back(gameObject);
+		}
+	}
+	if (tagGameObjects.empty())
+	{
+		assert(false && "Wrong Tag introduced, GameObject not found");
+	}
+	return tagGameObjects;
 }
 
 GameObject* Scene::FindRootBone(GameObject* node, const std::vector<Bone>& bones)
@@ -1725,7 +1751,7 @@ void Scene::UpdateLightsFromCopiedGameObjects(const int& filter)
 	}
 }
 
-int& Scene::SearchForLights(GameObject* gameObject)
+int Scene::SearchForLights(GameObject* gameObject)
 {
 	int filter = 0;
 	
@@ -1960,19 +1986,6 @@ std::vector<float> Scene::GetNormals()
 	}
 
 	return result;
-}
-
-void Scene::SetCombatMode(bool newCombatMode)
-{
-	combatMode = newCombatMode;
-	//App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<ComponentCameraSample>()->SetCombatCameraEnabled(combatMode);
-}
-
-void Scene::SetEnemiesToDefeat(float newEnemiesToDefeat)
-{
-	enemiesToDefeat = newEnemiesToDefeat;
-	if (newEnemiesToDefeat <= 0.0)
-		SetCombatMode(false);
 }
 
 const SpotLight& Scene::GetSpotLightsStruct(int index) const

@@ -66,6 +66,10 @@ void UITrigger::Update(float deltaTime)
 	if (setPlayer != modulePlayer->GetPlayer())
 	{
 		setPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
+		if (isLoseByDamage)
+		{
+			playerHealthSystem = setPlayer->GetComponent<HealthSystem>();
+		}
 	}
 
 	if(onTriggerState)
@@ -91,7 +95,7 @@ void UITrigger::Update(float deltaTime)
 		}
 		else if (isNextSceneTrigger)
 		{
-			App->GetModule<ModuleScene>()->LoadScene("Lib/Scenes/_LEVEL02_ALFA.axolotl");
+			//App->GetModule<ModuleScene>()->LoadScene("Lib/Scenes/_LEVEL02_ALFA.axolotl");
 		}
 	}
 }

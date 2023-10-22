@@ -70,6 +70,11 @@ void ElevatorCore::Update(float deltaTime)
 {
 	if (activeState == ActiveActionsElevator::ACTIVE)
 	{
+		if (App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->IsPaused())
+		{
+			return;
+		}
+
 		if (positionState == PositionState::UP)
 		{
 			MoveDownElevator(true, deltaTime);
@@ -208,10 +213,10 @@ void ElevatorCore::MoveDownElevator(bool isGOInside, float deltaTime)
 
 void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (!App->GetModule<ModuleScene>()->GetLoadedScene()->GetCombatMode() 
-		&& activeState == ActiveActionsElevator::INACTIVE)
+	if (activeState == ActiveActionsElevator::INACTIVE)
 	{
-		if (other->GetOwner()->CompareTag("Player"))
+		if (!App->GetModule<ModulePlayer>()->IsInCombat()
+			&&  other->GetOwner()->CompareTag("Player"))
 		{
 			go = other->GetOwner();
 			goTransform = go->GetComponentInternal<ComponentTransform>();

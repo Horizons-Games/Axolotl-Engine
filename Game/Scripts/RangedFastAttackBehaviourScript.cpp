@@ -143,6 +143,7 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 	script->SetConstuctor("RangedFastAttackBullet");
 	script->GetScript()->SetOwner(bullet);
 
+	bullet->SetTag("Bullet");
 	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletVelocity(bulletVelocity);
 	bullet->GetComponent<RangedFastAttackBullet>()->SetTargetTag("Player");
 	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletDamage(attackDamage);

@@ -38,6 +38,11 @@ void BossShieldEnemiesSpawner::Start()
 
 void BossShieldEnemiesSpawner::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		return;
+	}
+
 	if (elevatorOne->GetHasEnemies() && elevatorOne->GetPositionState() == PositionState::UP)
 	{
 		elevatorOne->ReleaseEnemies();
@@ -60,12 +65,14 @@ void BossShieldEnemiesSpawner::Update(float deltaTime)
 
 void BossShieldEnemiesSpawner::StartSpawner()
 {
-	if (enemiesReadyToSpawn.size() <= 0)
+	if (enemiesReadyToSpawn.size() < ENEMIES_PER_WAVE)
 	{
 		ReactivateEnemies();
 	}
 
 	animator->SetParameter("IsInvoking", true);
+
+	// VFX Here: Add the yell effect for when the boss invokes enemies
 
 	GameObject* enemy1 = SelectRandomEnemy();
 	GameObject* enemy2 = SelectRandomEnemy();
@@ -119,11 +126,17 @@ void BossShieldEnemiesSpawner::ReactivateEnemies()
 	for (std::vector<GameObject*>::iterator it = (enemiesNotReadyToSpawn).begin(); it < (enemiesNotReadyToSpawn).end();
 		++it)
 	{
-		// TODO: check if there is something else to reset
 		EnemyClass* enemyClass = (*it)->GetComponent<EnemyClass>();
 		enemyClass->ActivateNeedsToBeReset();
 
 		enemiesReadyToSpawn.push_back(*it);
-		enemiesNotReadyToSpawn.erase(it);
 	}
+	enemiesNotReadyToSpawn.clear();
+}
+
+void BossShieldEnemiesSpawner::SetIsPaused(bool isPaused)
+{
+	this->isPaused = isPaused;
+	elevatorOne->SetIsPaused(isPaused);
+	elevatorTwo->SetIsPaused(isPaused);
 }

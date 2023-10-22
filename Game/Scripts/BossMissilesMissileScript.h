@@ -2,6 +2,7 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
+#include "Bullet\LinearMath\btVector3.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -15,6 +16,7 @@ public:
 	void Update(float deltaTime) override;
 
 	void OnCollisionEnter(ComponentRigidBody* other) override;
+	void SetIsPaused(bool isPaused);
 
 private:
 	void TriggerExplosion(float deltaTime);
@@ -30,4 +32,7 @@ private:
 	float explosionTime;
 	float maxSizeExplosion;
 	float areaGrowingFactor;
+
+	bool isPaused;
+	btVector3 missileGravity;
 };

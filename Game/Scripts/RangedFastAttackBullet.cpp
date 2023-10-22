@@ -103,6 +103,28 @@ void RangedFastAttackBullet::DestroyBullet()
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }
 
+void RangedFastAttackBullet::SetPauseBullet(bool isPaused)
+{
+	float3 forward = parentTransform->GetGlobalForward();
+	forward.Normalize();
+	if (isPaused)
+	{
+		rigidBody->GetRigidBody()->setLinearVelocity(
+			btVector3(
+				forward.x,
+				0,
+				forward.z) * 0);
+	}
+	else
+	{
+		rigidBody->GetRigidBody()->setLinearVelocity(
+			btVector3(
+				forward.x,
+				0,
+				forward.z) * velocity);
+	}
+}
+
 void RangedFastAttackBullet::SetBulletVelocity(float nVelocity)
 {
 	velocity = nVelocity;

@@ -44,6 +44,7 @@ public:
 
 	void InitAndStartScriptingComponents();
 	void InitParticlesComponents();
+	void InitVideoComponents();
 
 	void AddGameObjectAndChildren(GameObject* object);
 	void RemoveGameObjectAndChildren(const GameObject* object);
@@ -70,12 +71,14 @@ private:
 	// to store the tmp serialization of the Scene
 	rapidjson::Document tmpDoc;
 
-	std::mutex loadedSceneMutex;
+	// recursive because most graphic Components call GetScene in their destructors,
+	// which can be invoked during the call to SetScene (since the old scene would get destroyed)
+	mutable std::recursive_mutex loadedSceneMutex;
 };
 
 inline Scene* ModuleScene::GetLoadedScene() const
 {
-	std::scoped_lock(loadedSceneMutex);
+	std::scoped_lock lock(loadedSceneMutex);
 	return loadedScene.get();
 }
 

@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/Hangar_sign_DefaultMaterial_AlbedoTransparency.png",
+    "NormalAssetPath": "Assets/Textures/Hangar_sign_DefaultMaterial_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/Hangar_sign_DefaultMaterial_MetallicSmoothness.png",
+    "EmissiveAssetPath": "Assets/Textures/Hangar_sign_DefaultMaterial_Emissive.png"
+}

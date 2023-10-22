@@ -24,9 +24,27 @@ public:
 	bool IsStatic();
 	void CheckIfActivateMouse();
 
+	void SetInCombat(bool newCombat);
+	void SetInBossCombat(bool newBoss);
+	bool IsInCombat();
+	bool IsInBossCombat();
+
+	void SetEnemiesToDefeat(float newEnemiesToDefeat);
+	int GetEnemiesToDefeat();
+
 private:
 	GameObject* player;
 	Camera* cameraPlayer;
 	GameObject* cameraPlayerObject;
 	ComponentPlayer* componentPlayer;
+
+	//Combat
+	bool inCombat;
+	bool inBossCombat;
+	int enemiesToDefeat;
 };
+
+int inline ModulePlayer::GetEnemiesToDefeat()
+{
+	return enemiesToDefeat;
+}

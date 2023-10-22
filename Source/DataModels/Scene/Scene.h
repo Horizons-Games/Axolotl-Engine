@@ -70,6 +70,7 @@ public:
 	void ConvertModelIntoGameObject(const std::string& model);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
+	std::vector<GameObject*> SearchGameObjectByTag(const std::string& gameObjectTag) const;
 
 	void RenderDirectionalLight() const;
 	void RenderPointLights() const;
@@ -120,6 +121,7 @@ public:
 	const std::vector<ComponentCanvas*>& GetSceneCanvas() const;
 	const std::vector<Component*>& GetSceneInteractable() const;
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
+	const std::vector<ComponentVideo*>& GetSceneVideos() const;
 	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
 	const std::vector<ComponentLine*>& GetSceneComponentLines() const;
 	std::vector<ComponentMeshRenderer*> GetMeshRenderers() const;
@@ -160,6 +162,7 @@ public:
 	void RemoveNonStaticObject(const GameObject* gameObject);
 	void AddUpdatableObject(Updatable* updatable);
 	
+	void AddVideoComponent(ComponentVideo* componentVideo);
 	void AddParticleSystem(ComponentParticleSystem* particleSystem);
 	void AddComponentLines(ComponentLine* componentLine);
 	
@@ -185,7 +188,7 @@ private:
 		HAS_LOCAL_IBL = 0X00000010
 	};
 
-	int& SearchForLights(GameObject* gameObject);
+	int SearchForLights(GameObject* gameObject);
 
 	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);
 	const std::vector<GameObject*> CacheBoneHierarchy(GameObject* gameObjectNode, const std::vector<Bone>& bones);
@@ -199,6 +202,7 @@ private:
 	std::vector<GameObject*> sceneGameObjects;
 	std::vector<ComponentCamera*> sceneCameras;
 	std::vector<ComponentCanvas*> sceneCanvas;
+	std::vector<ComponentVideo*> sceneVideos;
 	std::vector<Component*> sceneInteractableComponents;
 	std::vector<Updatable*> sceneUpdatableObjects;
 
@@ -231,9 +235,6 @@ private:
 	unsigned ssboSphere;
 	unsigned ssboTube;
 	unsigned ssboLocalIBL;
-
-	bool combatMode;
-	float enemiesToDefeat;
 
 	AABB rootQuadtreeAABB;
 	// Render Objects
@@ -285,6 +286,12 @@ inline const std::vector<ComponentParticleSystem*>& Scene::GetSceneParticleSyste
 {
 	return sceneParticleSystems;
 }
+
+inline const std::vector<ComponentVideo*>& Scene::GetSceneVideos() const
+{
+	return sceneVideos;
+}
+
 
 inline const std::vector<ComponentLine*>& Scene::GetSceneComponentLines() const
 {
@@ -366,6 +373,11 @@ inline void Scene::AddComponentLines(ComponentLine* componentLine)
 	sceneComponentLines.push_back(componentLine);
 }
 
+inline void Scene::AddVideoComponent(ComponentVideo* componentVideo)
+{
+	sceneVideos.push_back(componentVideo);
+}
+
 inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleSystem)
 {
 	if (this)
@@ -389,16 +401,6 @@ inline void Scene::RemoveComponentLine(const ComponentLine* componentLine)
 			return lines == componentLine;
 		}),
 		std::end(sceneComponentLines));
-}
-
-inline const bool Scene::GetCombatMode() const
-{
-	return combatMode;
-}
-
-inline const float Scene::GetEnemiesToDefeat() const
-{
-	return enemiesToDefeat;
 }
 
 inline const size_t Scene::GetSizeSpotLights() const

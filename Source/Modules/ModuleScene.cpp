@@ -18,6 +18,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
+#include "Components/UI/ComponentVideo.h"
 
 
 #include "DataModels/Resources/ResourceSkyBox.h"
@@ -201,7 +202,7 @@ bool ModuleScene::CleanUp()
 
 void ModuleScene::SetLoadedScene(std::unique_ptr<Scene> newScene)
 {
-	std::scoped_lock(loadedSceneMutex);
+	std::scoped_lock lock(loadedSceneMutex);
 	loadedScene = std::move(newScene);
 	selectedGameObject = loadedScene->GetRoot();
 }
@@ -228,6 +229,7 @@ void ModuleScene::OnPlay()
 
 	InitAndStartScriptingComponents();
 	InitParticlesComponents();
+	InitVideoComponents();
 }
 
 void ModuleScene::OnStop()
@@ -290,6 +292,17 @@ void ModuleScene::InitParticlesComponents()
 		if (componentParticle->GetOwner()->IsActive() && componentParticle->GetPlayAtStart())
 		{
 			componentParticle->Play();
+		}
+	}
+}
+
+void ModuleScene::InitVideoComponents()
+{
+	for (ComponentVideo* componentVideo : loadedScene->GetSceneVideos())
+	{
+		if (componentVideo->GetOwner()->IsActive() && componentVideo->GetPlayAtStart())
+		{
+			componentVideo->Play();
 		}
 	}
 }

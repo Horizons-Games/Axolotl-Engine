@@ -472,12 +472,6 @@
     <ClCompile Include="..\Game\Scripts\PlayerAttackScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp">
-      <Filter>UserScripts\Gameplay\Player\Rotation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerForceUseScript.cpp">
-      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClCompile>
@@ -740,6 +734,21 @@
     <ClCompile Include="Auxiliar\SceneLoader.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceVideo.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\UI\ComponentVideo.cpp">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentVideo.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowVideoInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\Importers\VideoImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
+    </ClCompile>
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="Auxiliar\ConnectedCallback.cpp">
       <Filter>Auxiliar</Filter>
@@ -865,6 +874,21 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIText.cpp">
       <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PauseManager.cpp">
+      <Filter>UserScripts\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossWallChecker.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossChargeAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\PlayerForceUseScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ForceZoneScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\ForceTrigger.cpp">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1343,12 +1367,6 @@
     <ClInclude Include="..\Game\Scripts\PlayerAttackScript.h">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h">
-      <Filter>UserScripts\Gameplay\Player\Rotation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerForceUseScript.h">
-      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClInclude>
@@ -1643,6 +1661,22 @@
     <ClInclude Include="Auxiliar\SceneLoader.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
+    <ClInclude Include="DataModels\Resources\ResourceVideo.h">
+      <Filter>DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\UI\ComponentVideo.h">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentVideo.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowVideoInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Importers\VideoImporter.h">
+      <Filter>FileSystem\Importers</Filter>
+    </ClInclude>
     <ClInclude Include="Scheduler.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
       <Filter>UserScripts</Filter>
@@ -1775,6 +1809,21 @@
     <ClInclude Include="..\Game\Scripts\UIText.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PauseManager.h">
+      <Filter>UserScripts\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossWallChecker.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossChargeAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\PlayerForceUseScript.h">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ForceZoneScript.h">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\ForceTrigger.h">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -1882,9 +1931,6 @@
     <Filter Include="UserScripts\Gameplay\Player\Movement">
       <UniqueIdentifier>{b812ac76-6b1f-47cc-a2da-da0913da9b93}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Gameplay\Player\Rotation">
-      <UniqueIdentifier>{599c1737-d371-4d4d-9b3a-d86d3d749929}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UserScripts\Gameplay\Player\Abilities">
       <UniqueIdentifier>{1b8a3c16-68e9-40de-8361-9466396630ed}</UniqueIdentifier>
     </Filter>
@@ -1989,6 +2035,9 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Tutorials">
       <UniqueIdentifier>{bbb763f3-1b50-4a0f-a40f-2147fb2cf1c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Player\Abilities\Force">
+      <UniqueIdentifier>{37e1f9f3-29cc-4e55-80e7-ef0301bc00af}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
