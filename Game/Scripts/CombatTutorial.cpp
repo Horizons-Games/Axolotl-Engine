@@ -36,7 +36,7 @@
 REGISTERCLASS(CombatTutorial);
 
 CombatTutorial::CombatTutorial() : Script(), combatDummy(nullptr), userControllable(false), combatTutorialUI(nullptr), 
-debugPowerUp(nullptr), finalWaitTime(5.0f), finalTotalWaitTime(5.0f),tutorialActivable(false), nextStateActive(true),
+debugPowerUp(nullptr), finalWaitTime(2.0f), finalTotalWaitTime(5.0f),tutorialActivable(false), nextStateActive(true),
 door(nullptr), heavyFinisher(nullptr), normalAttacksEnded(false)
 {
 	REGISTER_FIELD(combatDummy, GameObject*);
