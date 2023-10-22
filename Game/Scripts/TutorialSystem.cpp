@@ -66,11 +66,11 @@ void TutorialSystem::Update(float deltaTime)
 	{
 		stateWaitTime-= deltaTime;
 		if (stateWaitTime <= 0)
-	        {
-		     isWaiting = false;
-		     stateWaitTime = totalStateWaitTime;
-		     DeployUI();
-	        }
+	    {
+		    isWaiting = false;
+		    stateWaitTime = totalStateWaitTime;
+		    DeployUI();
+	    }
 	}
 }
 
@@ -78,13 +78,22 @@ void TutorialSystem::TutorialStart()
 {
 	tutorialCurrentState = 0;
 	tutorialTotalStates = static_cast<int>(tutorialUI.size()) - 1;
+
+	currentTutorialUI = tutorialUI.front();
+	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
+	transform2D = currentTutorialUI->GetComponent<ComponentTransform2D>();
+
 	currentTutorialUI->Enable();
 	transform2D->SetPosition(initialPos);
 	transform2D->CalculateMatrices();
 	displacementControl->SetMovingToEnd(true);
 	displacementControl->MoveImageToEndPosition();
-	//componentMoveScript->SetIsParalyzed(true);
 
+	if (dummy) 
+	{
+		dummyHealthSystem->IsImmortal();
+		dummyHealthSystem->HealLife(1000.0f);
+	}
 }
 
 void TutorialSystem::DeployUI()
