@@ -51,7 +51,13 @@ void UIImageDisplacementControl::MoveImageToEndPosition()
 			isMoving = false;
 		}
 	}
+}
 
+void UIImageDisplacementControl::SetImageToEndPosition()
+{
+	imageTransform->SetPosition(endPosition);
+	imageTransform->CalculateMatrices();
+	isMoving = false;
 }
 
 void UIImageDisplacementControl::MoveImageToStartPosition()
@@ -74,6 +80,13 @@ void UIImageDisplacementControl::MoveImageToStartPosition()
 		}
 
 	}
+}
+
+void UIImageDisplacementControl::SetImageToStartPosition()
+{
+	imageTransform->SetPosition(startPosition);
+	imageTransform->CalculateMatrices();
+	isMoving = false;
 }
 
 bool UIImageDisplacementControl::IsMovingToEnd() const

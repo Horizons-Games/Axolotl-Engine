@@ -5,8 +5,9 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
-class ComponentPlayer;
 class ComponentRigidBody;
+class UIImageDisplacementControl;
+class ModuleInput;
 
 class UITextTrigger : public Script
 {
@@ -19,12 +20,22 @@ public:
 	void Update(float deltaTime) override;
 
 	void OnCollisionEnter(ComponentRigidBody* other) override;
-	void OnCollisionExit(ComponentRigidBody* other) override;
+	void NextText();
+	void TextEnd();
 
 private:
 	bool wasInside = false;
+	bool dialogueDone;
 
-	ComponentPlayer* player;
+	float textBoxSize;
+	float textBoxCurrent;
+
+	GameObject* currentText;
+
+	GameObject* pauseManager;
 	ComponentRigidBody* componentRigidBody;
-	GameObject* textBox;
+	std::vector<GameObject*> textBox;
+
+	ModuleInput* input;
+	UIImageDisplacementControl* displacementControl;
 };

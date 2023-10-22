@@ -3,15 +3,22 @@
 
 #include "ModulePlayer.h"
 #include "Application.h"
+#include "ModuleInput.h"
 
+#include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentPlayer.h"
 
+#include "PauseManager.h"
+#include "..\Game\Scripts\UIImageDisplacementControl.h"
+
 REGISTERCLASS(UITextTrigger);
 
-UITextTrigger::UITextTrigger() : Script(), textBox(nullptr)
+UITextTrigger::UITextTrigger() : Script(), textBox{}, textBoxCurrent(0),
+	textBoxSize(0), pauseManager(nullptr), dialogueDone(false)
 {
-	REGISTER_FIELD(textBox, GameObject*);
+	REGISTER_FIELD(textBox, std::vector<GameObject*>);
+	REGISTER_FIELD(pauseManager, GameObject*);
 }
 
 UITextTrigger::~UITextTrigger()
@@ -20,41 +27,73 @@ UITextTrigger::~UITextTrigger()
 
 void UITextTrigger::Start()
 {
-	player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();
 	componentRigidBody = owner->GetComponent<ComponentRigidBody>();
+	input = App->GetModule<ModuleInput>();
+
+	textBoxSize = textBox.size() - 1;
+	displacementControl = textBox[textBoxCurrent]->GetComponent<UIImageDisplacementControl>();
 }
 
 void UITextTrigger::Update(float deltaTime)
 {
+	if (dialogueDone)
+	{
+		return;
+	}
 
+	if(textBoxCurrent < textBoxSize)
+	{
+		if (wasInside && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
+		{
+			NextText();
+			displacementControl = textBox[textBoxCurrent]->GetComponent<UIImageDisplacementControl>();
+
+			textBox[textBoxCurrent]->Enable();
+			displacementControl->SetImageToEndPosition();
+		}
+	}
+	else if (wasInside && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
+	{
+		TextEnd();
+	}
 }
 
 void UITextTrigger::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->GetComponent<ComponentPlayer>())
+	if (other->GetOwner()->CompareTag("Player") && !dialogueDone)
 	{
 		if (!wasInside)
 		{
-			if (textBox != nullptr)
+			if (textBox[textBoxCurrent] != nullptr)
 			{
-				textBox->Enable();
+				textBox[textBoxCurrent]->Enable();
+				displacementControl->SetMovingToEnd(true);
+				if(pauseManager->HasComponent<PauseManager>())
+				{
+					pauseManager->GetComponent<PauseManager>()->Pause(true);
+				}
 			}
 			wasInside = true;
 		}
 	}
 }
 
-void UITextTrigger::OnCollisionExit(ComponentRigidBody* other)
+void UITextTrigger::NextText()
 {
-	if (other->GetOwner()->GetComponent<ComponentPlayer>())
+	displacementControl->SetImageToStartPosition();
+	textBox[textBoxCurrent]->Disable();
+
+	textBoxCurrent = textBoxCurrent + 1;
+}
+
+void UITextTrigger::TextEnd()
+{
+	displacementControl->MoveImageToStartPosition();
+	textBox[textBoxCurrent]->Disable();
+	if (pauseManager->HasComponent<PauseManager>())
 	{
-		if (wasInside)
-		{
-			if (textBox != nullptr)
-			{
-				textBox->Disable();
-			}
-			wasInside = true;
-		}
+		pauseManager->GetComponent<PauseManager>()->Pause(false);
 	}
+
+	dialogueDone = true;
 }
