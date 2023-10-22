@@ -9,6 +9,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class GameObject;
 class ComponentRigidBody;
 class ComponentTransform;
+class ComponentAudioSource;
 
 class PatrolBehaviourScript;
 class HealthSystem;
@@ -75,6 +76,7 @@ private:
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* transform;
 	ComponentTransform* targetTransform;
+	ComponentAudioSource* audioSource;
 
 	PatrolBehaviourScript* patrolScript;
 	HealthSystem* bossHealthSystem;

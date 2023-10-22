@@ -150,7 +150,7 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		if (playerAttackScript->IsMelee())
 		{
-			audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT); // Provisional sfx
+			audioSource->PostEvent(AUDIO::SFX::NPC::SHOT_IMPACT); // Provisional sfx
 		}
 		else
 		{
@@ -174,7 +174,7 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		if (playerAttackScript->IsMelee())
 		{
-			audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT); // Provisional sfx
+			audioSource->PostEvent(AUDIO::SFX::NPC::SHOT_IMPACT); // Provisional sfx
 		}
 		else
 		{

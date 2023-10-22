@@ -51,6 +51,7 @@ private:
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* transform;
 	ComponentAnimation* animator;
+	ComponentAudioSource* audioSource;
 	FinalBossScript* finalBossScript;
 
 	float3 initialPosition;

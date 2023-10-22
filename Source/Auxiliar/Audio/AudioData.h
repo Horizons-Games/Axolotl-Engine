@@ -10,6 +10,7 @@ static const wchar_t* FOOTSTEPS = L"";
 static const wchar_t* FOOTSTEPS_STOP = L"";
 static const wchar_t* DEATH = L"";
 static const wchar_t* ALERT = L"";
+static const wchar_t* SHOT_IMPACT = L"sfx_dron_shot_impact_01";
 namespace DRON
 {
 static const wchar_t* SHOT = L"sfx_dron_shot_01";
@@ -17,7 +18,6 @@ static const wchar_t* SHOT_CHARGE = L"sfx_dron_shot_charge";
 static const wchar_t* TIMER = L"sfx_dron_death_timer";
 static const wchar_t* STOP_TIMER = L"sfx_dron_death_timer_stop";
 static const wchar_t* EXPLOSION = L"sfx_drone_death_explosion";
-static const wchar_t* SHOT_IMPACT = L"sfx_dron_shot_impact_01";
 static const wchar_t* PATROL = L"sfx_dron_patrol";
 static const wchar_t* SEEK = L"sfx_dron_alert";
 static const wchar_t* STOP_BEHAVIOURS = L"sfx_dron_behaviours_stop";
@@ -26,7 +26,6 @@ namespace VENOMITE
 {
 static const wchar_t* SHOT = L"";
 static const wchar_t* SHOT_CHARGE = L"";
-static const wchar_t* SHOT_IMPACT = L"";
 } // namespace VENOMITE
 namespace MINIBOSS2
 {

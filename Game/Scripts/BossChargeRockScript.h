@@ -7,6 +7,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentRigidBody;
+class ComponentAudioSource;
 
 enum class RockStates
 {
@@ -43,6 +44,7 @@ private:
 	float despawnTimer;
 
 	ComponentRigidBody* rigidBody;
+	ComponentAudioSource* audioSource;
 
 	bool rockHitAndRemained;
 
