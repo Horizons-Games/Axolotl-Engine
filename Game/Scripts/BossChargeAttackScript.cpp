@@ -53,6 +53,7 @@ void BossChargeAttackScript::Start()
 	transform = owner->GetComponent<ComponentTransform>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	animator = owner->GetComponent<ComponentAnimation>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
 
 	finalBossScript = owner->GetComponent<FinalBossScript>();
 }

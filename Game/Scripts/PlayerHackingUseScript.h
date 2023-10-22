@@ -7,6 +7,7 @@
 
 class ComponentTransform;
 class ComponentRigidBody;
+class ComponentAudioSource;
 
 class HackZoneScript;
 class UIHackingManager;
@@ -53,6 +54,7 @@ private:
 
 	ComponentTransform* transform;
 	ComponentRigidBody* rigidBody;
+	ComponentAudioSource* audioSource;
 
 	std::vector<HackingCommandType> userCommandInputs;
 	std::vector<HackingCommandType> commandCombination;

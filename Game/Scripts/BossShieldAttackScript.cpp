@@ -72,6 +72,7 @@ void BossShieldAttackScript::Start()
 	}
 
 	animator = owner->GetComponent<ComponentAnimation>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
 }
 
 void BossShieldAttackScript::Update(float deltaTime)
