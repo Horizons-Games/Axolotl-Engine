@@ -160,6 +160,8 @@ void EnemyVenomiteScript::CheckState()
 				exclamationParticle->Play();
 			}
 
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::ALERT);
+
 			venomiteState = VenomiteBehaviours::ENEMY_DETECTED;
 		}
 		else if (venomiteState != VenomiteBehaviours::SEEK && venomiteState != VenomiteBehaviours::ENEMY_DETECTED)
@@ -304,6 +306,7 @@ void EnemyVenomiteScript::SetReadyToDie()
 	ParalyzeEnemy(true);
 	componentAnimation->SetParameter("IsDead", true);
 	aiMovement->SetMovementStatuses(false, false);
+	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DEATH);
 	deathScript->ManageEnemyDeath();
 }
 

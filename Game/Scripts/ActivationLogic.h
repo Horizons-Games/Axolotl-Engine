@@ -53,4 +53,6 @@ private:
 	bool interactWithEnemies;
 
 	bool wasActivatedByPlayer;
+
+	bool isSmallDoor;
 };

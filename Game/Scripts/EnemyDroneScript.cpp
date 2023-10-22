@@ -173,6 +173,7 @@ void EnemyDroneScript::CheckState(float deltaTime)
 
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::SEEK);
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::ALERT);
 
 			droneState = DroneBehaviours::ENEMY_DETECTED;
 		}

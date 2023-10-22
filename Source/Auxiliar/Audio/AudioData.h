@@ -88,6 +88,7 @@ static const wchar_t* GENERATOR = L"";
 static const wchar_t* SMALL_DOOR = L"";
 static const wchar_t* SMALL_DOOR_CLOSE = L"";
 static const wchar_t* AMBIENT = L"";
+static const wchar_t* AMBIENT_STOP = L"";
 static const wchar_t* HACKING = L"";
 static const wchar_t* ELEVATOR_START = L"";
 static const wchar_t* ELEVATOR_LOOP = L"";
