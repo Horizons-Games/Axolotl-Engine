@@ -6,6 +6,9 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentParticleSystem.h"
 
+#include "ModulePlayer.h"
+#include "Application.h"
+
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
 #include "../Scripts/RangedFastAttackBehaviourScript.h"
@@ -66,7 +69,7 @@ void EnemyVenomiteScript::Start()
 
 void EnemyVenomiteScript::Update(float deltaTime)
 {
-	if (paralyzed)
+	if (paralyzed || !App->GetModule<ModulePlayer>()->IsInCombat())
 	{
 		return;
 	}
