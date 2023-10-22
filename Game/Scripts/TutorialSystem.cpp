@@ -68,35 +68,27 @@ void TutorialSystem::Update(float deltaTime)
 	{
 		stateWaitTime-= deltaTime;
 		if (stateWaitTime <= 0)
-	        {
-		     isWaiting = false;
-		     stateWaitTime = totalStateWaitTime;
-		     DeployUI();
-	        }
+	    {
+			isWaiting = false;
+			stateWaitTime = totalStateWaitTime;
+			DeployUI();
+	    }
 	}
 }
 
 void TutorialSystem::TutorialStart()
 {
-	//tutorialCurrentState = 0;
-	
 	currentTutorialUI->Enable();
-	//transform2D->SetPosition(initialPos);
-	transform2D->CalculateMatrices();
 	displacementControl->SetMovingToEnd(true);
 	displacementControl->MoveImageToEndPosition();
-	//componentMoveScript->SetIsParalyzed(true);
-
 }
 
 void TutorialSystem::DeployUI()
 {
-	/*transform2D->SetPosition(initialPos);
-	transform2D->CalculateMatrices();*/
 	currentTutorialUI->Enable();
-	
-	/*displacementControl->SetMovingToEnd(true);
-	displacementControl->MoveImageToEndPosition();*/
+	ComponentTransform2D* transform2D = currentTutorialUI->GetComponent<ComponentTransform2D>();
+	transform2D->SetPosition(stayPos);
+	transform2D->CalculateMatrices();
 
 	if (tutorialCurrentState == int(numNotControllableStates) && dummy)
 	{
@@ -110,26 +102,17 @@ void TutorialSystem::UnDeployUI()
 	{
 		totalStateWaitTime = 0.05f;	
 		stateWaitTime = 0.05f;
-		/*transform2D->SetPosition(stayPos);
-		transform2D->CalculateMatrices();*/
 		isWaiting = true;
 		currentTutorialUI->Disable();
-		/*displacementControl->SetMovingToEnd(false);
-		displacementControl->MoveImageToStarPosition();*/
-
-		//displacementControl->SetIsMoving(true);
 
 		tutorialCurrentState++;
 		currentTutorialUI = tutorialUI[tutorialCurrentState];
 		displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
-		//displacementControl->SetIsMoving(true);
 		if (dummy)
 		{
 			dummyHealthSystem->SetIsImmortal(true);
 		}
 	}
-
-
 	else
 	{
 		TutorialEnd();
@@ -141,10 +124,8 @@ void TutorialSystem::TutorialEnd()
 {
 	totalStateWaitTime = 2.0f;
 	stateWaitTime = 2.0f;
-	//displacementControl->SetEndPosition(initialPos);
 	displacementControl->SetMovingToEnd(false);
-	displacementControl->MoveImageToEndPosition();
-	currentTutorialUI = tutorialUI[tutorialCurrentState];
+	displacementControl->MoveImageToStarPosition();
 	componentMoveScript->SetIsParalyzed(false);
 	LOG_INFO("TutorialExit");
 }
@@ -153,14 +134,11 @@ void TutorialSystem::TutorialSkip()
 {
 	totalStateWaitTime = 2.0f;
 	stateWaitTime = 2.0f;
-	//displacementControl->SetEndPosition(initialPos);
 	displacementControl->SetMovingToEnd(false);
 	displacementControl->MoveImageToStarPosition();
-	//currentTutorialUI->Disable();
 	tutorialCurrentState = 0;
 	currentTutorialUI = tutorialUI.front();
 	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
-	currentTutorialUI = tutorialUI[tutorialCurrentState];
 	componentMoveScript->SetIsParalyzed(false);
 	owner->Disable();
 	LOG_INFO("TutorialSkipped");

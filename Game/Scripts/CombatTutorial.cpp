@@ -81,7 +81,6 @@ void CombatTutorial::Update(float deltaTime)
 	//Normal Attacks XXX - XXY
 	if (tutorialActivable && userControllable && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN && !tutorialUI->GetDisplacementControl()->IsMoving())
 	{
-		
 		tutorialUI->UnDeployUI();
 		dummyHealthSystem->SetIsImmortal(true);
 		doorRigidbody->SetIsTrigger(false);
@@ -102,7 +101,6 @@ void CombatTutorial::Update(float deltaTime)
 		tutorialUI->TutorialSkip();
 		componentAnimation->SetParameter("IsActive", true);
 		doorRigidbody->Disable();
-
 	}
 
 	else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.75f
@@ -114,7 +112,6 @@ void CombatTutorial::Update(float deltaTime)
 
 		tutorialUI->UnDeployUI();
 		dummyHealthSystem->SetIsImmortal(false);
-
 
 		nextStateActive = true;
 	}
@@ -231,17 +228,16 @@ void CombatTutorial::Update(float deltaTime)
 
 void CombatTutorial::OnCollisionEnter(ComponentRigidBody* other)
 {
-
-		if (other->GetOwner()->CompareTag("Player"))
-		{
-			PlayerManagerScript* playerManager = other->GetOwner()->GetComponent<PlayerManagerScript>();
-			App->GetModule<ModulePlayer>()->SetInCombat(true);
-			tutorialActivable = true;
-			userControllable = true;
-			//Launches intro
-			tutorialUI->TutorialStart();
-			LOG_INFO("TutorialEntered");
-		}
+	if (other->GetOwner()->CompareTag("Player"))
+	{
+		PlayerManagerScript* playerManager = other->GetOwner()->GetComponent<PlayerManagerScript>();
+		App->GetModule<ModulePlayer>()->SetInCombat(true);
+		tutorialActivable = true;
+		userControllable = true;
+		//Launches intro
+		tutorialUI->TutorialStart();
+		LOG_INFO("TutorialEntered");
+	}
 }
 
 void CombatTutorial::OnCollisionExit(ComponentRigidBody* other)
@@ -254,11 +250,8 @@ void CombatTutorial::OnCollisionExit(ComponentRigidBody* other)
 		if(!tutorialActivable)
 		{
 			combatTutorialUI->Disable();
-			//owner->Disable();
 			LOG_INFO("TutorialDisabled");
 		}
 		LOG_INFO("TutorialExit");
 	}
-
-	
 }
