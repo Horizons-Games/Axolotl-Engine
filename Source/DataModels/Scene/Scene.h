@@ -236,9 +236,6 @@ private:
 	unsigned ssboTube;
 	unsigned ssboLocalIBL;
 
-	bool combatMode;
-	float enemiesToDefeat;
-
 	AABB rootQuadtreeAABB;
 	// Render Objects
 	std::unique_ptr<Quadtree> rootQuadtree;
@@ -404,16 +401,6 @@ inline void Scene::RemoveComponentLine(const ComponentLine* componentLine)
 			return lines == componentLine;
 		}),
 		std::end(sceneComponentLines));
-}
-
-inline const bool Scene::GetCombatMode() const
-{
-	return combatMode;
-}
-
-inline const float Scene::GetEnemiesToDefeat() const
-{
-	return enemiesToDefeat;
 }
 
 inline const size_t Scene::GetSizeSpotLights() const

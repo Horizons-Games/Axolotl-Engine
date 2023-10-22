@@ -17,7 +17,7 @@ public:
 	void Update(float deltaTime) override;
 
 	void MoveImageToEndPosition();
-	void MoveImageToStarPosition();
+	void MoveImageToStartPosition();
 	bool IsMovingToEnd() const;
 	bool IsMoving() const;
 	void SetIsMoving(bool moving);

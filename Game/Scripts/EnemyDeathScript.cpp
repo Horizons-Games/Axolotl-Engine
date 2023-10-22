@@ -65,12 +65,8 @@ void EnemyDeathScript::ManageEnemyDeath()
 	}
 
 	DisableEnemyActions();
-	float enemiesLeft = App->GetModule<ModuleScene>()->GetLoadedScene()->GetEnemiesToDefeat() - 1;
-	App->GetModule<ModuleScene>()->GetLoadedScene()->SetEnemiesToDefeat(enemiesLeft);
-	if (enemiesLeft == 0)
-	{
-		App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->SetInCombat(false);
-	}
+	float enemiesLeft = App->GetModule<ModulePlayer>()->GetEnemiesToDefeat() - 1;
+	App->GetModule<ModulePlayer>()->SetEnemiesToDefeat(enemiesLeft);
 }
 
 void EnemyDeathScript::ResetDespawnTimerAndEnableActions()

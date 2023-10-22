@@ -11,6 +11,7 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidbody.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentObstacle.h"
 
 #include "../Scripts/EnemyClass.h"
 #include "../Scripts/HealthSystem.h"
@@ -265,9 +266,10 @@ void BossChargeAttackScript::SpawnRock(const float3& spawnPosition)
 			App->GetModule<ModuleRandom>()->RandomNumberInRange(360.f),
 			newRockTransform->GetGlobalRotation().z));
 	newRockTransform->RecalculateLocalMatrix();
+	newRockTransform->UpdateTransformMatrices();
 
 	ComponentRigidBody* newRockRigidBody = newRock->GetComponent<ComponentRigidBody>();
-	newRockRigidBody->SetDefaultPosition();
+	newRockRigidBody->UpdateRigidBody();
 	newRockRigidBody->Enable();
 
 	if (!newRock->GetChildren().empty())
@@ -287,6 +289,8 @@ void BossChargeAttackScript::MakeRocksFall() const
 			spawnedRock->GetComponent<BossChargeRockScript>()->DestroyRock();
 			continue;
 		}
+
+		spawnedRock->GetComponent<ComponentObstacle>()->RemoveObstacle();
 
 		ComponentRigidBody* rockRigidBody = spawnedRock->GetComponent<ComponentRigidBody>();
 		rockRigidBody->SetIsTrigger(false);

@@ -54,7 +54,7 @@ UpdateStatus ModuleNavigation::PreUpdate()
 
 UpdateStatus ModuleNavigation::Update()
 {
-	if (navMesh == nullptr || !navMesh->IsGenerated())
+	if (navMesh == nullptr || !navMesh->IsGenerated() || App->GetPlayState() != Application::PlayState::RUNNING)
 	{
 		return UpdateStatus::UPDATE_CONTINUE;
 	}

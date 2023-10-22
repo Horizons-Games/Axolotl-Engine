@@ -22,7 +22,7 @@
 REGISTERCLASS(PlayerHackingUseScript);
 
 PlayerHackingUseScript::PlayerHackingUseScript()
-	: Script(), isHackingActive(false), hackingTag("Hackeable")
+	: Script(), isHackingActive(false), hackingTag("Hackeable"), isHackingButtonPressed(false), hackZone(nullptr)
 {
 	REGISTER_FIELD(hackingManager, UIHackingManager*);
 	REGISTER_FIELD(switchPlayerManager, SwitchPlayerManagerScript*);
@@ -33,9 +33,7 @@ void PlayerHackingUseScript::Start()
 	input = App->GetModule<ModuleInput>();
 	transform = GetOwner()->GetComponent<ComponentTransform>();
 	rigidBody = GetOwner()->GetComponent<ComponentRigidBody>();
-	hackZone = nullptr;
 	playerManager = GetOwner()->GetComponent<PlayerManagerScript>();
-	isHackingButtonPressed = false;
 }
 
 void PlayerHackingUseScript::Update(float deltaTime)
@@ -128,7 +126,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 	}
 }
 
-//DEBUG METHOD
+// DEBUG METHOD
 void PlayerHackingUseScript::PrintCombination()
 {
 	std::string combination;
@@ -175,7 +173,7 @@ void PlayerHackingUseScript::InitHack()
 
 	hackingManager->EnableHackingTimer();
 
-	//PrintCombination();
+	// PrintCombination();
 	LOG_DEBUG("Hacking is active");
 }
 
@@ -214,18 +212,18 @@ void PlayerHackingUseScript::RestartHack()
 
 	hackingManager->EnableHackingTimer();
 
-	//PrintCombination();
+	// PrintCombination();
 	input->Rumble();
 	LOG_DEBUG("Hacking is restarted");
 }
 
-void PlayerHackingUseScript::DisableAllInteractions()
+void PlayerHackingUseScript::DisableAllInteractions() const
 {
 	playerManager->SetPlayerState(PlayerActions::IDLE);
 	playerManager->PausePlayer(true);
 }
 
-void PlayerHackingUseScript::EnableAllInteractions()
+void PlayerHackingUseScript::EnableAllInteractions() const
 {
 	playerManager->SetPlayerState(PlayerActions::IDLE);
 	playerManager->PausePlayer(false);
@@ -299,4 +297,9 @@ void PlayerHackingUseScript::CheckCurrentHackZone()
 			StopHackingParticles();
 		}
 	}
+}
+
+bool PlayerHackingUseScript::IsHackingActive() const
+{
+	return isHackingActive;
 }

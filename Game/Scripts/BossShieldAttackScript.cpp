@@ -184,7 +184,7 @@ void BossShieldAttackScript::ManageRespawnOfEnemies()
 	for (int i = 0; i < enemiesNotReadyToSpawn.size(); ++i)
 	{
 		GameObject* enemy = enemiesNotReadyToSpawn[i];
-		if (enemy->GetComponent<HealthSystem>()->EntityIsAlive())
+		if (enemy->IsEnabled())
 		{
 			continue;
 		}

@@ -51,7 +51,7 @@ bool ComboManager::NextIsSpecialAttack() const
 
 void ComboManager::CheckSpecial(float deltaTime)
 {
-	if (App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->HasComponent<CameraControllerScript>() && !App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat() &&
+	if (App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->HasComponent<CameraControllerScript>() && !App->GetModule<ModulePlayer>()->IsInCombat() &&
 		!uiComboManager->IsCombatActive())
 	{
 		uiComboManager->SetComboBarValue(0);

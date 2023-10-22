@@ -7,6 +7,7 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidbody.h"
+#include "Components/ComponentObstacle.h"
 
 #include "../Scripts/HealthSystem.h"
 
@@ -81,6 +82,7 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 		}
 		else if (other->GetOwner()->CompareTag("Floor"))
 		{
+			owner->GetComponent<ComponentObstacle>()->AddObstacle();
 			// VFX Here: Rock hit the floor
 			rockState = RockStates::FLOOR;
 		}
