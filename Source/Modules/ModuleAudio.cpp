@@ -4,6 +4,7 @@
 
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "AK/MusicEngine/Common/AkMusicEngine.h" // Music Engine
 #include "AK/SoundEngine/Common/AkMemoryMgr.h"	 // Memory Manager interface
@@ -242,4 +243,20 @@ bool ModuleAudio::InitializeBanks()
 	}
 	
 	return true;
+}
+
+void ModuleAudio::SetMasterVolume(float value)
+{
+
+	AK::SoundEngine::SetRTPCValue(AUDIO::CONTROLLERS::MASTERVOLUME, value);
+}
+
+void ModuleAudio::SetMusicVolume(float value)
+{
+	AK::SoundEngine::SetRTPCValue(AUDIO::CONTROLLERS::MUSICVOLUME, value);
+}
+
+void ModuleAudio::SetSFXVolume(float value)
+{
+	AK::SoundEngine::SetRTPCValue(AUDIO::CONTROLLERS::SFXVOLUME, value);
 }

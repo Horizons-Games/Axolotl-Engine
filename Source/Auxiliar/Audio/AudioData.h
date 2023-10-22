@@ -217,4 +217,11 @@ static const wchar_t* NONE = L"None";
 } // namespace ZONE
 } // namespace ID
 } // namespace STATES
+
+namespace CONTROLLERS
+{
+static const wchar_t* MASTERVOLUME = L"MasterVolume";
+static const wchar_t* MUSICVOLUME = L"MusicVolume";
+static const wchar_t* SFXVOLUME = L"SFXVolume";
+} // namespace CONTROLLERS
 }; // namespace AUDIO

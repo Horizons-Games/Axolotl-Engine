@@ -20,6 +20,10 @@ public:
 	void Suspend() const;
 	void WakeUp() const;
 
+	void SetMasterVolume(float value);
+	void SetMusicVolume(float value);
+	void SetSFXVolume(float value);
+
 private:
 	bool InitializeBanks();
 
