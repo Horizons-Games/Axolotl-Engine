@@ -67,6 +67,7 @@ void UITextTrigger::OnCollisionEnter(ComponentRigidBody* other)
 			if (textBox[textBoxCurrent] != nullptr)
 			{
 				textBox[textBoxCurrent]->Enable();
+				displacementControl->SetIsMoving(true);
 				displacementControl->SetMovingToEnd(true);
 				if(pauseManager->HasComponent<PauseManager>())
 				{
