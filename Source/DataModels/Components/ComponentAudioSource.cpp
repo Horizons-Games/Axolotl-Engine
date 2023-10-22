@@ -75,3 +75,8 @@ void ComponentAudioSource::InternalSave(Json& meta)
 void ComponentAudioSource::InternalLoad(const Json& meta)
 {
 }
+
+uint64_t ComponentAudioSource::GetID() const
+{
+	return sourceID;
+}

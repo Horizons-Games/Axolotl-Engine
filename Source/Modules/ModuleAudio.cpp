@@ -260,3 +260,13 @@ void ModuleAudio::SetSFXVolume(float value)
 {
 	AK::SoundEngine::SetRTPCValue(AUDIO::CONTROLLERS::SFXVOLUME, value);
 }
+
+void ModuleAudio::SetMusicID(uint64_t sourceID)
+{
+	musicID = sourceID;
+}
+
+void ModuleAudio::SetMusicSwitch(const wchar_t* switchGroup, const wchar_t* switchSound)
+{
+	AK::SoundEngine::SetSwitch(switchGroup, switchSound, musicID);
+}

@@ -24,8 +24,13 @@ public:
 	void SetMusicVolume(float value);
 	void SetSFXVolume(float value);
 
+	void SetMusicID(uint64_t sourceID);
+	void SetMusicSwitch(const wchar_t* switchGroup, const wchar_t* switchSound);
+
 private:
 	bool InitializeBanks();
 
 	CAkFilePackageLowLevelIOBlocking lowLevelIO;
+
+	uint64_t musicID;
 };
