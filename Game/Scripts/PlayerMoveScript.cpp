@@ -313,7 +313,7 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 		timeSinceLastDash > dashRollCooldown &&
 		(playerManager->GetPlayerState() == PlayerActions::IDLE ||
 		playerManager->GetPlayerState() == PlayerActions::WALKING) &&
-		(input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN ||
+		(input->GetRightTriggerIntensity() > 0.0f ||
 		isTriggeringStoredDash))
 	{
 		// Start a dash
@@ -351,7 +351,7 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 	}
 	else
 	{
-		if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN &&
+		if (input->GetRightTriggerIntensity() > 0.0f &&
 			(playerManager->GetPlayerState() == PlayerActions::IDLE ||
 			playerManager->GetPlayerState() == PlayerActions::WALKING))
 		{
