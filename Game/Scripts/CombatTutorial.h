@@ -18,6 +18,7 @@ class JumpFinisherAttack;
 class HeavyFinisherAttack;
 class LightFinisherAttackScript;
 class ComboManager;
+class PlayerAttackScript;
 	
 
 
@@ -62,6 +63,7 @@ private:
 	HeavyFinisherAttack* heavyFinisher;
 	LightFinisherAttackScript* lightFinisher;
 	ComboManager* comboSystem;
+	PlayerAttackScript* playerAttack;
 
 	GameObject* combatDummy;
 };

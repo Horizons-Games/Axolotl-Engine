@@ -23,6 +23,7 @@
 #include "..\Game\Scripts\UIImageDisplacementControl.h"
 #include "../Scripts/PowerUpLogicScript.h"
 #include "..\Game\Scripts\PlayerMoveScript.h"
+#include "..\Game\Scripts\PlayerAttackScript.h"
 #include "..\Game\Scripts\JumpFinisherAttack.h"
 #include "..\Game\Scripts\HeavyFinisherAttack.h"
 #include "..\Game\Scripts\LightFinisherAttackScript.h"
@@ -55,7 +56,7 @@ void CombatTutorial::Start()
 	input = App->GetModule<ModuleInput>();
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
 	componentAnimation = door->GetComponent<ComponentAnimation>();
-	
+	playerAttack = player->GetComponent<PlayerAttackScript>();
 	tutorialUI = combatTutorialUI->GetComponent<TutorialSystem>();
 	
 
@@ -118,7 +119,7 @@ void CombatTutorial::Update(float deltaTime)
 		nextStateActive = true;
 	}
 
-	else if (jumpAttack->IsActive() && nextStateActive)
+	else if (playerAttack->GetCurrentAttackType() == AttackType::JUMPNORMAL && nextStateActive)
 	{
 		//SpecialLightAttack
 		LOG_INFO("Tutorial:SpecialLightAttack");
@@ -129,7 +130,7 @@ void CombatTutorial::Update(float deltaTime)
 
 		nextStateActive = false;
 	}
-	else if (lightFinisher->IsAttacking() && !nextStateActive)
+	else if (playerAttack->GetCurrentAttackType() == AttackType::LIGHTFINISHER && !nextStateActive)
 	{
 		//SpecialHeavyAttack
 		LOG_INFO("Tutorial:SpecialHeavyAttack");
@@ -184,7 +185,7 @@ void CombatTutorial::Update(float deltaTime)
 	//	nextStateActive = true;
 	//}
 
-	else if (heavyFinisher->IsAttacking() && nextStateActive)
+	else if (playerAttack->GetCurrentAttackType() == AttackType::HEAVYFINISHER && nextStateActive)
 	{
 		//SpecialHeavyAttack
 
@@ -215,7 +216,8 @@ void CombatTutorial::Update(float deltaTime)
 
 	if (tutorialFinished && !nextStateActive && finalWaitTime <= 0.0f)
 	{
-		tutorialUI->UnDeployUI();
+		//tutorialUI->UnDeployUI();
+		tutorialUI->TutorialEnd();
 		tutorialFinished = false;
 		tutorialActivable = false;
 		finalWaitTime = finalTotalWaitTime;
@@ -251,7 +253,8 @@ void CombatTutorial::OnCollisionExit(ComponentRigidBody* other)
 
 		if(!tutorialActivable)
 		{
-			owner->Disable();
+			combatTutorialUI->Disable();
+			//owner->Disable();
 			LOG_INFO("TutorialDisabled");
 		}
 		LOG_INFO("TutorialExit");

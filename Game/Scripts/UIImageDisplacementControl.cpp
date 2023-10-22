@@ -95,3 +95,8 @@ void UIImageDisplacementControl::SetIsMoving(bool moving)
 {
 	this->isMoving = moving;
 }
+
+void UIImageDisplacementControl::SetEndPosition(float3 endPosition)
+{
+	this->endPosition = endPosition;
+}

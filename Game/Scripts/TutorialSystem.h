@@ -58,6 +58,7 @@ private:
 	PlayerMoveScript* componentMoveScript;
 
 	float3 initialPos;
+	float3 stayPos;
 
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;

@@ -21,7 +21,8 @@ public:
 	bool IsMovingToEnd() const;
 	bool IsMoving() const;
 	void SetIsMoving(bool moving);
-	void SetMovingToEnd(bool movingToEnd);
+	void SetMovingToEnd(bool movingToEnd); 
+	void SetEndPosition(float3 endPosition);
 
 private:
 	bool isMovingToEnd = false;
