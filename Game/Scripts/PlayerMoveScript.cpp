@@ -307,13 +307,28 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 	btRigidbody->getMotionState()->setWorldTransform(worldTransform);
 }
 
+bool PlayerMoveScript::CheckRightTrigger() 
+{
+	if (input->GetRightTriggerIntensity() == 0)
+	{
+		rightTrigger = false;
+		return false;
+	}
+	else if (!rightTrigger && input->GetRightTriggerIntensity() > 16.383)
+	{
+		rightTrigger = true;
+		return true;
+	}
+	return false;
+}
+
 void PlayerMoveScript::DashRoll(float deltaTime)
 {
 	if (playerAttackScript->IsAttackAvailable() &&
 		timeSinceLastDash > dashRollCooldown &&
 		(playerManager->GetPlayerState() == PlayerActions::IDLE ||
 		playerManager->GetPlayerState() == PlayerActions::WALKING) &&
-		(input->GetRightTriggerIntensity() > 0.0f ||
+		(CheckRightTrigger() ||
 		isTriggeringStoredDash))
 	{
 		// Start a dash
@@ -351,7 +366,7 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 	}
 	else
 	{
-		if (input->GetRightTriggerIntensity() > 0.0f &&
+		if (CheckRightTrigger() &&
 			(playerManager->GetPlayerState() == PlayerActions::IDLE ||
 			playerManager->GetPlayerState() == PlayerActions::WALKING))
 		{
