@@ -33,8 +33,8 @@ void UITextTrigger::Start()
 	componentRigidBody = owner->GetComponent<ComponentRigidBody>();
 	input = App->GetModule<ModuleInput>();
 
-	textBoxSize = textBox.size() - 1;
-	displacementControl = textBox[textBoxCurrent]->GetComponent<UIImageDisplacementControl>();
+	textBoxSize = static_cast<float>(textBox.size()) - 1.0f;
+	displacementControl = textBox[static_cast<size_t>(textBoxCurrent)]->GetComponent<UIImageDisplacementControl>();
 }
 
 void UITextTrigger::Update(float deltaTime)
@@ -49,9 +49,9 @@ void UITextTrigger::Update(float deltaTime)
 		if (wasInside && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
 		{
 			NextText();
-			displacementControl = textBox[textBoxCurrent]->GetComponent<UIImageDisplacementControl>();
+			displacementControl = textBox[static_cast<size_t>(textBoxCurrent)]->GetComponent<UIImageDisplacementControl>();
 
-			textBox[textBoxCurrent]->Enable();
+			textBox[static_cast<size_t>(textBoxCurrent)]->Enable();
 			displacementControl->SetImageToEndPosition();
 		}
 	}
@@ -67,9 +67,9 @@ void UITextTrigger::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		if (!wasInside)
 		{
-			if (textBox[textBoxCurrent] != nullptr)
+			if (textBox[static_cast<size_t>(textBoxCurrent)])
 			{
-				textBox[textBoxCurrent]->Enable();
+				textBox[static_cast<size_t>(textBoxCurrent)]->Enable();
 				displacementControl->SetIsMoving(true);
 				displacementControl->SetMovingToEnd(true);
 				if(pauseManager->HasComponent<PauseManager>())
@@ -85,7 +85,7 @@ void UITextTrigger::OnCollisionEnter(ComponentRigidBody* other)
 void UITextTrigger::NextText()
 {
 	displacementControl->SetImageToStartPosition();
-	textBox[textBoxCurrent]->Disable();
+	textBox[static_cast<size_t>(textBoxCurrent)]->Disable();
 
 	textBoxCurrent = textBoxCurrent + 1;
 }
@@ -93,7 +93,7 @@ void UITextTrigger::NextText()
 void UITextTrigger::TextEnd()
 {
 	displacementControl->MoveImageToStartPosition();
-	textBox[textBoxCurrent]->Disable();
+	textBox[static_cast<size_t>(textBoxCurrent)]->Disable();
 	if (pauseManager->HasComponent<PauseManager>())
 	{
 		pauseManager->GetComponent<PauseManager>()->PausePlayer(false);
