@@ -69,7 +69,15 @@ void EnemyVenomiteScript::Start()
 
 void EnemyVenomiteScript::Update(float deltaTime)
 {
-	if (paralyzed || !App->GetModule<ModulePlayer>()->IsInCombat())
+	if (!App->GetModule<ModulePlayer>()->IsInCombat())
+	{
+		venomiteState = VenomiteBehaviours::IDLE;
+		componentAnimation->SetParameter("IsRunning", false);
+		aiMovement->SetMovementStatuses(false, false);
+		return;
+	}
+	
+	if (paralyzed)
 	{
 		return;
 	}

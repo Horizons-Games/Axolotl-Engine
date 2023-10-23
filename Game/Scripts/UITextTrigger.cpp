@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "UITextTrigger.h"
 
+#include "UIMissionTrigger.h"
 #include "ModulePlayer.h"
 #include "Application.h"
 #include "ModuleInput.h"
@@ -9,14 +10,18 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentPlayer.h"
 
+#include "PauseManager.h"
 #include "..\Game\Scripts\UIImageDisplacementControl.h"
 
 REGISTERCLASS(UITextTrigger);
 
 UITextTrigger::UITextTrigger() : Script(), textBox{}, textBoxCurrent(0),
-	textBoxSize(0), dialogueDone(false)
+	textBoxSize(0), pauseManager(nullptr), dialogueDone(false),
+	mission(nullptr)
 {
 	REGISTER_FIELD(textBox, std::vector<GameObject*>);
+	REGISTER_FIELD(pauseManager, GameObject*);
+	REGISTER_FIELD(mission, GameObject*);
 }
 
 UITextTrigger::~UITextTrigger()
@@ -67,6 +72,10 @@ void UITextTrigger::OnCollisionEnter(ComponentRigidBody* other)
 				textBox[textBoxCurrent]->Enable();
 				displacementControl->SetIsMoving(true);
 				displacementControl->SetMovingToEnd(true);
+				if(pauseManager->HasComponent<PauseManager>())
+				{
+					pauseManager->GetComponent<PauseManager>()->Pause(true);
+				}
 			}
 			wasInside = true;
 		}
@@ -85,7 +94,14 @@ void UITextTrigger::TextEnd()
 {
 	displacementControl->MoveImageToStartPosition();
 	textBox[textBoxCurrent]->Disable();
-
+	if (pauseManager->HasComponent<PauseManager>())
+	{
+		pauseManager->GetComponent<PauseManager>()->Pause(false);
+	}
+	if (mission)
+	{
+		mission->GetComponent<UIMissionTrigger>()->ActivateTextBoxManually();
+	}
 	App->GetModule<ModulePlayer>()->SetInCombat(true);
 
 	dialogueDone = true;

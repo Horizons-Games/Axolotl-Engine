@@ -179,6 +179,26 @@ void UIMissionTrigger::OnCollisionExit(ComponentRigidBody* other)
 {
 }
 
+void UIMissionTrigger::ActivateTextBoxManually()
+{
+	if (lastMissionLevel != nullptr)
+	{
+		missionImageDisplacementExit->SetMovingToEnd(false);
+		missionImageDisplacementExit->MoveImageToStartPosition();
+	}
+	if (missionLevel != nullptr)
+	{
+		missionImageDisplacement->SetMovingToEnd(true);
+		missionImageDisplacement->MoveImageToEndPosition();
+	}
+
+	if (textBox != nullptr)
+	{
+		textBox->Enable();
+	}
+	wasInside = true;
+}
+
 void UIMissionTrigger::DisableTextBox(float time)
 {
 	currentTime += time;

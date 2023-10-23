@@ -76,6 +76,14 @@ void EnemyDroneScript::Start()
 
 void EnemyDroneScript::Update(float deltaTime)
 {
+	if (!App->GetModule<ModulePlayer>()->IsInCombat())
+	{
+		droneState = DroneBehaviours::IDLE;
+		componentAnimation->SetParameter("IsRunning", false);
+		aiMovement->SetMovementStatuses(false, false);
+		return;
+	}
+
 	if (paralyzed || !App->GetModule<ModulePlayer>()->IsInCombat())
 	{
 		return;

@@ -32,6 +32,8 @@ private:
 
 	GameObject* currentText;
 
+	GameObject* mission;
+	GameObject* pauseManager;
 	ComponentRigidBody* componentRigidBody;
 	std::vector<GameObject*> textBox;
 
