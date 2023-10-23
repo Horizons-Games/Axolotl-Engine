@@ -26,7 +26,7 @@ void UIImageDisplacementControl::Update(float deltaTime)
 		}
 		else
 		{
-			MoveImageToStarPosition();
+			MoveImageToStartPosition();
 		}
 	}
 
@@ -54,7 +54,7 @@ void UIImageDisplacementControl::MoveImageToEndPosition()
 
 }
 
-void UIImageDisplacementControl::MoveImageToStarPosition()
+void UIImageDisplacementControl::MoveImageToStartPosition()
 {
 	if (imageTransform)
 	{
