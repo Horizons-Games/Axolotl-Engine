@@ -103,7 +103,8 @@ void ComponentBreakable::BreakComponent()
 			btVector3 impulsionMul{ impulsionPower.x, impulsionPower.y, impulsionPower.z };
 			impulsion = impulsion.cross(impulsionMul);
 			childRigidBody->GetRigidBody()->applyCentralImpulse(impulsion);
-			//childRigidBody->SetIsKinematic(true);
+			//this both settings are only for the rock in finally level to make more logical, can move it later
+			childRigidBody->SetGravity({ 0,-200,0 });
 			childRigidBody->SetLinearDamping(0.9);
 		}
 	}
