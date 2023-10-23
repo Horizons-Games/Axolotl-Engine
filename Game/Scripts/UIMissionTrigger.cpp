@@ -40,11 +40,11 @@ void UIMissionTrigger::Start()
 	player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();	
 	componentRigidBody = owner->GetComponent<ComponentRigidBody>();
 	
-	if (missionLevel != nullptr)
+	if (missionLevel)
 	{
 		missionImageDisplacement = missionLevel->GetComponent<UIImageDisplacementControl>();
 	}
-	if (lastMissionLevel != nullptr)
+	if (lastMissionLevel)
 	{
 		missionImageDisplacementExit = lastMissionLevel->GetComponent<UIImageDisplacementControl>();
 	}
@@ -52,13 +52,13 @@ void UIMissionTrigger::Start()
 
 void UIMissionTrigger::Update(float deltaTime)
 {
-	if (missionImageDisplacementExit != nullptr && !missionImageDisplacementExit->IsMoving() && wasInside 
+	if (missionImageDisplacementExit && !missionImageDisplacementExit->IsMoving() && wasInside 
 		&& missionImageDisplacement->IsMovingToEnd())
 	{
 		missionImageDisplacement->SetMovingToEnd(true);
 		missionImageDisplacement->MoveImageToEndPosition();
 	}
-	if (textBox != nullptr && textBox->IsEnabled() && hasTimer)
+	if (textBox && textBox->IsEnabled() && hasTimer)
 	{
 		DisableTextBox(deltaTime);
 	}
@@ -66,18 +66,18 @@ void UIMissionTrigger::Update(float deltaTime)
 	if (!missionCondition && !App->GetModule<ModulePlayer>()->IsInCombat() &&
 		wasInside && waitForNotInCombat)
 	{
-		if (lastMissionLevel != nullptr)
+		if (lastMissionLevel)
 		{
 			missionImageDisplacementExit->SetMovingToEnd(false);
 			missionImageDisplacementExit->MoveImageToStartPosition();
 		}
-		if (missionLevel != nullptr)
+		if (missionLevel)
 		{
 			missionImageDisplacement->SetMovingToEnd(true);
 			missionImageDisplacement->MoveImageToEndPosition();
 		}
 
-		if (textBox != nullptr)
+		if (textBox)
 		{
 			textBox->Enable();
 		}
@@ -87,18 +87,18 @@ void UIMissionTrigger::Update(float deltaTime)
 	{
 		if (switchManager->GetComponent<SwitchPlayerManagerScript>()->IsSwitchAvailable())
 		{
-			if (lastMissionLevel != nullptr)
+			if (lastMissionLevel)
 			{
 				missionImageDisplacementExit->SetMovingToEnd(false);
 				missionImageDisplacementExit->MoveImageToStartPosition();
 			}
-			if (missionLevel != nullptr)
+			if (missionLevel)
 			{
 				missionImageDisplacement->SetMovingToEnd(true);
 				missionImageDisplacement->MoveImageToEndPosition();
 			}
 
-			if (textBox != nullptr)
+			if (textBox)
 			{
 				textBox->Enable();
 			}
@@ -113,36 +113,36 @@ void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		if (!waitForNotInCombat && !waitForSwitch)
 		{
-			if (lastMissionLevel != nullptr)
+			if (lastMissionLevel)
 			{
 				missionImageDisplacementExit->SetMovingToEnd(false);
 				missionImageDisplacementExit->MoveImageToStartPosition();
 			}
-			if (missionLevel != nullptr)
+			if (missionLevel)
 			{
 				missionImageDisplacement->SetMovingToEnd(true);
 				missionImageDisplacement->MoveImageToEndPosition();
 			}
 
-			if (textBox != nullptr)
+			if (textBox)
 			{
 				textBox->Enable();
 			}
 		}
 		else if (!App->GetModule<ModulePlayer>()->IsInCombat() && waitForNotInCombat)
 		{
-			if (lastMissionLevel != nullptr)
+			if (lastMissionLevel)
 			{
 				missionImageDisplacementExit->SetMovingToEnd(false);
 				missionImageDisplacementExit->MoveImageToStartPosition();
 			}
-			if (missionLevel != nullptr)
+			if (missionLevel)
 			{
 				missionImageDisplacement->SetMovingToEnd(true);
 				missionImageDisplacement->MoveImageToEndPosition();
 			}
 
-			if (textBox != nullptr)
+			if (textBox)
 			{
 				textBox->Enable();
 			}
@@ -152,18 +152,18 @@ void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 		{
 			if (switchManager->GetComponent<SwitchPlayerManagerScript>()->IsSwitchAvailable())
 			{
-				if (lastMissionLevel != nullptr)
+				if (lastMissionLevel)
 				{
 					missionImageDisplacementExit->SetMovingToEnd(false);
 					missionImageDisplacementExit->MoveImageToStartPosition();
 				}
-				if (missionLevel != nullptr)
+				if (missionLevel)
 				{
 					missionImageDisplacement->SetMovingToEnd(true);
 					missionImageDisplacement->MoveImageToEndPosition();
 				}
 
-				if (textBox != nullptr)
+				if (textBox)
 				{
 					textBox->Enable();
 				}
@@ -181,18 +181,18 @@ void UIMissionTrigger::OnCollisionExit(ComponentRigidBody* other)
 
 void UIMissionTrigger::ActivateTextBoxManually()
 {
-	if (lastMissionLevel != nullptr)
+	if (lastMissionLevel)
 	{
 		missionImageDisplacementExit->SetMovingToEnd(false);
 		missionImageDisplacementExit->MoveImageToStartPosition();
 	}
-	if (missionLevel != nullptr)
+	if (missionLevel)
 	{
 		missionImageDisplacement->SetMovingToEnd(true);
 		missionImageDisplacement->MoveImageToEndPosition();
 	}
 
-	if (textBox != nullptr)
+	if (textBox)
 	{
 		textBox->Enable();
 	}
