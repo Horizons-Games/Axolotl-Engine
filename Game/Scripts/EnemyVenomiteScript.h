@@ -75,4 +75,5 @@ private:
 	GameObject* blasterGameObject;
 
 	bool isFirstPatrolling;
+	math::float3 initialPosition;
 };

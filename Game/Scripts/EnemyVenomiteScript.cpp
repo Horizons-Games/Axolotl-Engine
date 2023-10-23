@@ -44,6 +44,7 @@ void EnemyVenomiteScript::Start()
 	enemyType = EnemyTypes::VENOMITE;
 
 	ownerTransform = owner->GetComponent<ComponentTransform>();
+	initialPosition = ownerTransform->GetGlobalPosition();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	//componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
@@ -74,6 +75,7 @@ void EnemyVenomiteScript::Update(float deltaTime)
 		venomiteState = VenomiteBehaviours::IDLE;
 		componentAnimation->SetParameter("IsRunning", false);
 		aiMovement->SetMovementStatuses(false, false);
+		ownerTransform->SetGlobalPosition(initialPosition);
 		return;
 	}
 	

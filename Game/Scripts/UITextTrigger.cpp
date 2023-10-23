@@ -74,7 +74,7 @@ void UITextTrigger::OnCollisionEnter(ComponentRigidBody* other)
 				displacementControl->SetMovingToEnd(true);
 				if(pauseManager->HasComponent<PauseManager>())
 				{
-					pauseManager->GetComponent<PauseManager>()->Pause(true);
+					pauseManager->GetComponent<PauseManager>()->PausePlayer(true);
 				}
 			}
 			wasInside = true;
@@ -96,7 +96,7 @@ void UITextTrigger::TextEnd()
 	textBox[textBoxCurrent]->Disable();
 	if (pauseManager->HasComponent<PauseManager>())
 	{
-		pauseManager->GetComponent<PauseManager>()->Pause(false);
+		pauseManager->GetComponent<PauseManager>()->PausePlayer(false);
 	}
 	if (mission)
 	{

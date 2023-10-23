@@ -80,4 +80,5 @@ private:
 	PlayerManagerScript* playerManager;
 
 	bool isFirstPatrolling;
+	math::float3 initialPosition;
 };
