@@ -35,6 +35,7 @@ void UITextTrigger::Start()
 
 	textBoxSize = static_cast<float>(textBox.size()) - 1.0f;
 	displacementControl = textBox[static_cast<size_t>(textBoxCurrent)]->GetComponent<UIImageDisplacementControl>();
+	currentText = textBox[static_cast<size_t>(textBoxCurrent)];
 }
 
 void UITextTrigger::Update(float deltaTime)
@@ -49,9 +50,9 @@ void UITextTrigger::Update(float deltaTime)
 		if (wasInside && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
 		{
 			NextText();
-			displacementControl = textBox[static_cast<size_t>(textBoxCurrent)]->GetComponent<UIImageDisplacementControl>();
+			displacementControl = currentText->GetComponent<UIImageDisplacementControl>();
 
-			textBox[static_cast<size_t>(textBoxCurrent)]->Enable();
+			currentText->Enable();
 			displacementControl->SetImageToEndPosition();
 		}
 	}
@@ -67,9 +68,9 @@ void UITextTrigger::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		if (!wasInside)
 		{
-			if (textBox[static_cast<size_t>(textBoxCurrent)])
+			if (currentText)
 			{
-				textBox[static_cast<size_t>(textBoxCurrent)]->Enable();
+				currentText->Enable();
 				displacementControl->SetIsMoving(true);
 				displacementControl->SetMovingToEnd(true);
 				if(pauseManager->HasComponent<PauseManager>())
@@ -85,15 +86,16 @@ void UITextTrigger::OnCollisionEnter(ComponentRigidBody* other)
 void UITextTrigger::NextText()
 {
 	displacementControl->SetImageToStartPosition();
-	textBox[static_cast<size_t>(textBoxCurrent)]->Disable();
+	currentText->Disable();
 
 	textBoxCurrent = textBoxCurrent + 1;
+	currentText = textBox[static_cast<size_t>(textBoxCurrent)];
 }
 
 void UITextTrigger::TextEnd()
 {
 	displacementControl->MoveImageToStartPosition();
-	textBox[static_cast<size_t>(textBoxCurrent)]->Disable();
+	currentText->Disable();
 	if (pauseManager->HasComponent<PauseManager>())
 	{
 		pauseManager->GetComponent<PauseManager>()->PausePlayer(false);
