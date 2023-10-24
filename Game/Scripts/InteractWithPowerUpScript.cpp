@@ -25,8 +25,7 @@ void InteractWithPowerUpScript::Start()
 
 void InteractWithPowerUpScript::Update(float deltaTime)
 {
-
-	if (App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->HasComponent<CameraControllerScript>() && !App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat()) 
+	if (!App->GetModule<ModulePlayer>()->IsInCombat()) 
 	{
 		return;
 	}

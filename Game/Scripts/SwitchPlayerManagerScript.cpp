@@ -100,7 +100,7 @@ void SwitchPlayerManagerScript::Update(float deltaTime)
 	isUnpaused = false;
 	if (!isChangingPlayer)
 	{
-		if (input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE && secondPlayer 
+		if (input->GetKey(SDL_SCANCODE_TAB) != KeyState::IDLE && secondPlayer
 			&& playerManager->IsGrounded()
 			&& playerManager->GetPlayerState() != PlayerActions::DASHING
 			&& playerManager->GetAttackManager()->IsAttackAvailable()
