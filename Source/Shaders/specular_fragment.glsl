@@ -7,27 +7,13 @@
 
 #include "/Common/Functions/srgba_functions.glsl"
 
+#include "/Common/Structs/materials.glsl"
+
 #include "/Common/Structs/lights.glsl"
 
 #include "/Common/Structs/tiling.glsl"
 
 #include "/Common/Structs/effect.glsl"
-
-struct Material {
-    vec4 diffuse_color;         //0  //16
-    vec3 specular_color;        //16 //16
-    int has_diffuse_map;        //32 //4
-    int has_normal_map;         //36 //4
-    int has_specular_map;       //40 //4
-    int has_emissive_map;       //44 //4
-    float smoothness;           //48 //4
-    float normal_strength;      //52 //4
-    sampler2D diffuse_map;      //56 //8
-    sampler2D normal_map;       //64 //8
-    sampler2D specular_map;     //72 //8    
-    sampler2D emissive_map;     //80 //8
-    int padding1, padding2;     //88 //8 --> 96
-};
 
 layout(std140, binding=1) uniform Directional
 {
@@ -36,7 +22,7 @@ layout(std140, binding=1) uniform Directional
 };
 
 readonly layout(std430, binding = 11) buffer Materials {
-    Material materials[];
+    SpecularMaterial materials[];
 };
 
 readonly layout(std430, binding = 12) buffer Tilings {
@@ -81,7 +67,7 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
   
 void main()
 {
-    Material material = materials[InstanceIndex];
+    SpecularMaterial material = materials[InstanceIndex];
     Effect effect = effects[InstanceIndex];
 
     if (effect.discardFrag == 1)
@@ -138,7 +124,7 @@ void main()
     vec3 R = reflect(-viewDir, norm);
     float NdotV = max(dot(norm, viewDir), EPSILON);
     vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, textureMat.rgb, f0, diffuse_IBL, prefiltered_IBL, 
-        environmentBRDF, numLevels_IBL) * cubemap_intensity;
+        environmentBRDF, numLevels_IBL, vec4(0)) * cubemap_intensity;
 
     vec3 Lo = calculateDirectionalLight(norm, viewDir, textureMat.rgb, f0, roughness);
 

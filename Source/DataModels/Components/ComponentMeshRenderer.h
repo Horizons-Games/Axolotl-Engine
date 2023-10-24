@@ -57,6 +57,9 @@ public:
 	bool IsDiscarded();
 	void SetDiscard(bool discard);
 	
+	const bool IsReflective() const;
+	void SetReflective(bool reflective) const;
+
 	// Default shader attributes (setters)
 	void SetMetalness(float metalness);
 
