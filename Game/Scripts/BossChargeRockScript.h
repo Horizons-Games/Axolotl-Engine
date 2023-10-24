@@ -7,6 +7,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentRigidBody;
+class WaypointStateScript;
 
 enum class RockStates
 {
@@ -45,6 +46,8 @@ private:
 	ComponentRigidBody* rigidBody;
 
 	bool rockHitAndRemained;
+
+	WaypointStateScript* waypointCovered;
 
 	// Modifiable values
 	float fallingRockDamage;

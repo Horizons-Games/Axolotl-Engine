@@ -10,11 +10,13 @@
 #include "Components/ComponentObstacle.h"
 
 #include "../Scripts/HealthSystem.h"
+#include "../Scripts/WaypointStateScript.h"
 
 REGISTERCLASS(BossChargeRockScript);
 
 BossChargeRockScript::BossChargeRockScript() : Script(), rockState(RockStates::SKY), fallingRockDamage(10.0f),
-	despawnTimer(0.0f), despawnMaxTimer(30.0f), triggerRockDespawn(false), rockHitAndRemained(false)
+	despawnTimer(0.0f), despawnMaxTimer(30.0f), triggerRockDespawn(false), rockHitAndRemained(false), 
+	waypointCovered(nullptr)
 {
 	REGISTER_FIELD(fallingRockDamage, float);
 	REGISTER_FIELD(despawnMaxTimer, float);
@@ -80,6 +82,11 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 
 			// VFX Here: Rock hit an enemy on the head while falling
 		}
+		else if (other->GetOwner()->CompareTag("Waypoint"))
+		{
+			waypointCovered = other->GetOwner()->GetComponent<WaypointStateScript>();
+			waypointCovered->SetWaypointState(WaypointStates::UNAVAILABLE);
+		}
 		else if (other->GetOwner()->CompareTag("Floor"))
 		{
 			owner->GetComponent<ComponentObstacle>()->AddObstacle();
@@ -119,6 +126,11 @@ void BossChargeRockScript::DeactivateRock()
 	else
 	{
 		owner->Disable();
+	}
+
+	if (waypointCovered)
+	{
+		waypointCovered->SetWaypointState(WaypointStates::AVAILABLE);
 	}
 
 	triggerRockDespawn = true;
