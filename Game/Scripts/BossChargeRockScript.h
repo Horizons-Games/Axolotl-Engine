@@ -42,6 +42,7 @@ private:
 
 	bool triggerRockDespawn;
 	bool triggerBreakTimer;
+	bool triggerRockDespawnbyFalling;
 	float despawnTimer;
 	float breakTimer;
 
@@ -53,6 +54,8 @@ private:
 	float fallingRockDamage;
 	float despawnMaxTimer;
 	float breakMaxTimer;
+	float fallingDespawnMaxTimer;
+	float fallingTimer;
 
 	bool isPaused;
 	btVector3 rockGravity;

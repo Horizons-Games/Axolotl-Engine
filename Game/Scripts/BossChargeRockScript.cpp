@@ -16,11 +16,13 @@
 REGISTERCLASS(BossChargeRockScript);
 
 BossChargeRockScript::BossChargeRockScript() : Script(), rockState(RockStates::SKY), fallingRockDamage(10.0f),
-	despawnTimer(0.0f), despawnMaxTimer(30.0f),breakTimer(0.0f),breakMaxTimer(30.0f), triggerRockDespawn(false),
+	despawnTimer(0.0f), despawnMaxTimer(30.0f), fallingDespawnMaxTimer(30.0f),fallingTimer(0.0f),
+	breakTimer(0.0f),breakMaxTimer(30.0f), triggerRockDespawn(false),
 	rockHitAndRemained(false)
 {
 	REGISTER_FIELD(fallingRockDamage, float);
 	REGISTER_FIELD(despawnMaxTimer, float);
+	REGISTER_FIELD(fallingDespawnMaxTimer, float);
 	REGISTER_FIELD(breakMaxTimer, float);
 }
 
@@ -28,6 +30,7 @@ void BossChargeRockScript::Start()
 {
 	despawnTimer = despawnMaxTimer;
 	breakTimer = breakMaxTimer;
+	fallingTimer = fallingDespawnMaxTimer;
 
 	breakRockVFX = owner->GetComponent<ComponentParticleSystem>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
@@ -52,6 +55,14 @@ void BossChargeRockScript::Update(float deltaTime)
 	{
 		despawnTimer -= deltaTime;
 		if (despawnTimer <= 0.0f)
+		{
+			DestroyRock();
+		}
+	}
+	if (triggerRockDespawnbyFalling)
+	{
+		fallingTimer -= deltaTime;
+		if (fallingTimer <= 0.0f)
 		{
 			DestroyRock();
 		}
@@ -92,8 +103,8 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 		{
 			other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(fallingRockDamage);
 			rockState = RockStates::HIT_ENEMY;
-			DeactivateRock();
-
+			triggerRockDespawnbyFalling = true;
+			owner->GetComponent<ComponentBreakable>()->BreakComponentFalling();
 			// VFX Here: Rock hit an enemy on the head while falling
 		}
 		else if (other->GetOwner()->CompareTag("Floor"))
