@@ -48,7 +48,7 @@ void MeshEffect::ClearEffect()
 	for (auto mesh : meshes)
 	{
 		mesh->SetDiscard(false);
-		mesh->SetEffectColor(float3(0.f, 0.f, 0.f));
+		mesh->SetEffectColor(float4(0.f, 0.f, 0.f, 0.f));
 	}
 }
 
@@ -79,12 +79,12 @@ void MeshEffect::EffectDiscard()
 {
 	for (auto mesh : meshes)
 	{
-		mesh->SetEffectColor(float3(0.f, 0.f, 0.f));
+		mesh->SetEffectColor(float4(0.f, 0.f, 0.f, 0.f));
 		mesh->SetDiscard(true);
 	}
 }
 
-void MeshEffect::EffectColor(float3 color)
+void MeshEffect::EffectColor(float4 color)
 {
 	for (auto mesh : meshes)
 	{
