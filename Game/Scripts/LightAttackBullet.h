@@ -30,6 +30,8 @@ private:
 	float stunTime;
 	float damageAttack;
 	float maxDistanceBullet;
+	float maxLifeTimeBullet;
+	float currentLifeTimeBullet;
 
 	float3 defaultTargetPos;
 
@@ -37,6 +39,8 @@ private:
 	ComponentAudioSource* audioSource;
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
+	ComponentTransform* bulletTransform;
+	ComponentTransform* initPos;
 	ComponentParticleSystem* particleSystem;
 	PlayerAttackScript* playerAttackScript;
 

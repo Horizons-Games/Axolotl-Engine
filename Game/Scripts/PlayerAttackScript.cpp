@@ -387,6 +387,7 @@ void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDama
 
 	bullet->Enable();
 	bullet->SetTag("AlluraBullet");
+	ligthAttackBulletScript->ResetDefaultValues();
 	ligthAttackBulletScript->SetBulletVelocity(bulletVelocity);
 	ligthAttackBulletScript->SetEnemy(enemyDetection->GetEnemySelected());
 	ligthAttackBulletScript->SetStunTime(0);

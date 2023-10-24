@@ -31,6 +31,8 @@ LightAttackBullet::LightAttackBullet() :
 	damageAttack(10.0f),
 	defaultTargetPos(0,0,0),
 	maxDistanceBullet(10.0f),
+	maxLifeTimeBullet(5.0f),
+	currentLifeTimeBullet(0.0f),
 	particleSystem(nullptr), 
 	particleSystemTimer(1.0f), 
 	triggerParticleSystemTimer(false), 
@@ -38,12 +40,15 @@ LightAttackBullet::LightAttackBullet() :
 {
 	REGISTER_FIELD(particleSystemTimer, float);
 	REGISTER_FIELD(maxDistanceBullet, float);
+	REGISTER_FIELD(maxLifeTimeBullet, float);
+	REGISTER_FIELD(initPos, ComponentTransform*);
 }
 
 void LightAttackBullet::Start()
 {
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
+	bulletTransform = owner->GetComponent<ComponentTransform>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	particleSystem = owner->GetComponent<ComponentParticleSystem>();
 	playerAttackScript = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerAttackScript>();
@@ -57,6 +62,7 @@ void LightAttackBullet::Update(float deltaTime)
 	{
 		return;
 	}
+
 	if (enemy != nullptr)
 	{
 		defaultTargetPos = enemy->GetComponent<ComponentTransform>()->GetGlobalPosition();
@@ -71,6 +77,13 @@ void LightAttackBullet::Update(float deltaTime)
 		rigidBody->SetPositionTarget(defaultTargetPos);
 	}
 
+	currentLifeTimeBullet += deltaTime;
+
+	if (maxLifeTimeBullet <= currentLifeTimeBullet)
+	{
+		owner->Disable();
+	}
+
 	if (!triggerParticleSystemTimer)
 	{
 		return;
@@ -78,6 +91,7 @@ void LightAttackBullet::Update(float deltaTime)
 
 	// When the particles are ready to be played, play them and after them, delete the bullet
 	particleSystemCurrentTimer -= deltaTime;
+	
 	if (particleSystemCurrentTimer <= 0.0f)
 	{
 		particleSystemCurrentTimer = particleSystemTimer;
@@ -87,7 +101,6 @@ void LightAttackBullet::Update(float deltaTime)
 		{
 			particleSystem->Stop();
 		}
-
 		owner->Disable();
 	}
 }
@@ -130,12 +143,19 @@ void LightAttackBullet::SetDamage(float nDamageAttack)
 
 void LightAttackBullet::ResetDefaultValues()
 {
+	currentLifeTimeBullet = 0.0f;
+
 	defaultTargetPos = parentTransform->GetGlobalForward();
 	defaultTargetPos.y = 0;
 	defaultTargetPos.Normalize();
 	defaultTargetPos = defaultTargetPos * maxDistanceBullet;
 	defaultTargetPos += parentTransform->GetGlobalPosition();
 
+	bulletTransform->SetGlobalPosition(initPos->GetGlobalPosition());
+	bulletTransform->SetGlobalRotation(initPos->GetGlobalRotation());
+	bulletTransform->RecalculateLocalMatrix();
+
+	rigidBody->UpdateRigidBody();
 	rigidBody->Enable();
 	rigidBody->SetDefaultPosition();
 	rigidBody->SetUseRotationController(true);
@@ -145,6 +165,8 @@ void LightAttackBullet::ResetDefaultValues()
 		particleSystem->Enable();
 		particleSystemCurrentTimer = particleSystemTimer;
 	}
+
+	owner->GetComponent<ComponentMeshRenderer>()->Enable();
 }
 
 void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
