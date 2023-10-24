@@ -133,6 +133,11 @@ void ComponentAnimation::ApplyTransform()
 
 	std::list<GameObject*> children = owner->GetAllDescendants();
 
+	if (initTransition)
+	{
+		LOG_DEBUG("Transitioning");
+	}
+
 	for (auto child : children)
 	{
 		float3 pos;

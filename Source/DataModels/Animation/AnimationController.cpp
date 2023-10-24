@@ -30,18 +30,23 @@ void AnimationController::Play(State* stateResource, bool loop, double duration)
 	else
 	{
 		nextResource = std::dynamic_pointer_cast<ResourceAnimation>(stateResource->resource);
-		lastSampleTime = (currentTime / this->duration);
+		//lastSampleTime = (currentTime / this->duration);
 		this->duration = duration;
 	}
 	isLooping = loop;
 	isPlaying = true;
-	currentTime = 0;
+	currentTime = 0.0f;
+	nextTime = 0.0f;
+	fadeTime = 0.0f;
+	fadeDuration = 2.5f;
 }
 
 void AnimationController::Stop()
 {
 	isPlaying = false;
-	currentTime = 0;
+	currentTime = 0.0f;
+	nextTime = 0.0f;
+	fadeTime = 0.0f;
 }
 
 void AnimationController::Update()
@@ -49,8 +54,10 @@ void AnimationController::Update()
 	if (isPlaying && resource)
 	{
 		float duration = static_cast<float>(this->duration);
+		float delta = App->GetDeltaTime();
 
-		currentTime += App->GetDeltaTime() * stateResource->speed * 10;
+		currentTime += delta * stateResource->speed * 10;
+
 		if (currentTime > duration)
 		{
 			if (isLooping)
@@ -62,6 +69,30 @@ void AnimationController::Update()
 				isPlaying = false;
 			}
 		}
+		
+		if (nextResource)
+		{
+			nextTime += delta * stateResource->speed * 10;
+
+			float fadeLeft = fadeDuration - fadeTime;
+
+			if (nextTime > duration)
+			{
+				if (isLooping)
+				{
+					nextTime = 0.0f;
+				}
+			}
+
+			if (delta <= fadeLeft)
+			{
+				fadeTime += delta;
+			}
+			else
+			{
+				fadeTime = 0.0f;
+			}
+		}
 	}
 }
 
@@ -71,7 +102,7 @@ bool AnimationController::GetTransform(const std::string& name, float3& pos, Qua
 
 	if (channel)
 	{
-		float time = interpolateTransition? lastSampleTime : (currentTime / this->duration);
+		float time = currentTime / this->duration;
 		float currentSample = static_cast<float>(time * (channel->positions.size() - 1));
 
 		int first = static_cast<int>(floor(currentSample));
@@ -87,7 +118,7 @@ bool AnimationController::GetTransform(const std::string& name, float3& pos, Qua
 		pos = Interpolate(firstPos, secondPos, lambda);
 		rot = Interpolate(firstQuat, secondQuat, lambda);
 
-		if (interpolateTransition)
+		if (interpolateTransition & nextResource != nullptr)
 		{
 			ResourceAnimation::Channel* nextChannel = nextResource->GetChannel(name);
 
@@ -96,17 +127,27 @@ bool AnimationController::GetTransform(const std::string& name, float3& pos, Qua
 				return false;
 			}
 
-			currentSample = static_cast<float>((currentTime / this->duration));
+			float time = nextTime / this->duration;
+			currentSample = static_cast<float>(time * (nextChannel->positions.size() - 1));
 
 			first = static_cast<int>(floor(currentSample));
+			second = static_cast<int>(ceil(currentSample));
 
-			secondPos = nextChannel->positions[0];
+			firstPos = channel->positions[first];
+			secondPos = channel->positions[second];
 
-			secondQuat = nextChannel->rotations[0];
+			firstQuat = nextChannel->rotations[first];
+			secondQuat = nextChannel->rotations[second];
+
 			lambda = currentSample - first;
 
-			pos = Interpolate(firstPos, secondPos, lambda);
-			rot = Interpolate(firstQuat, secondQuat, lambda);
+			float3 nextPos = Interpolate(firstPos, secondPos, lambda);
+			Quat nextRot = Interpolate(firstQuat, secondQuat, lambda);
+
+			float blendWeight = fadeTime / fadeDuration;
+
+			pos = Interpolate(pos, nextPos, blendWeight);
+			rot = Interpolate(rot, nextRot, blendWeight);
 
 			//LOG_DEBUG("Difference {}, {}, {}", pos.x - firstPos.x, pos.y - firstPos.y, pos.z - firstPos.z);
 		}

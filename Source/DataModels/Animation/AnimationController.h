@@ -27,14 +27,17 @@ private:
 	Quat Interpolate(const Quat& first, const Quat& second, float lambda);
 
 	float currentTime;
+	float nextTime;
+	float fadeDuration;
+	float fadeTime;
 	bool isLooping;
 	bool isPlaying;
-	const State* stateResource;
-	std::shared_ptr<ResourceAnimation> resource;
-
-	std::shared_ptr<ResourceAnimation> nextResource;
-	float lastSampleTime;
 	double duration;
+
+	std::shared_ptr<ResourceAnimation> resource;
+	std::shared_ptr<ResourceAnimation> nextResource;
+
+	const State* stateResource;
 };
 
 inline bool AnimationController::GetPlay()
