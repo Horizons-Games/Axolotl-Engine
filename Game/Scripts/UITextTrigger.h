@@ -8,6 +8,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentRigidBody;
 class UIImageDisplacementControl;
 class ModuleInput;
+class PlayerManagerScript;
 
 class UITextTrigger : public Script
 {
@@ -33,7 +34,8 @@ private:
 	GameObject* currentText;
 
 	GameObject* mission;
-	GameObject* pauseManager;
+	GameObject* player;
+	PlayerManagerScript* playerManager;
 	ComponentRigidBody* componentRigidBody;
 	std::vector<GameObject*> textBox;
 

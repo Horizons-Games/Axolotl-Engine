@@ -10,17 +10,16 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentPlayer.h"
 
-#include "PauseManager.h"
-#include "..\Game\Scripts\UIImageDisplacementControl.h"
+#include "PlayerManagerScript.h"
+#include "UIImageDisplacementControl.h"
 
 REGISTERCLASS(UITextTrigger);
 
 UITextTrigger::UITextTrigger() : Script(), textBox{}, textBoxCurrent(0),
-	textBoxSize(0), pauseManager(nullptr), dialogueDone(false),
+	textBoxSize(0), dialogueDone(false),
 	mission(nullptr)
 {
 	REGISTER_FIELD(textBox, std::vector<GameObject*>);
-	REGISTER_FIELD(pauseManager, GameObject*);
 	REGISTER_FIELD(mission, GameObject*);
 }
 
@@ -32,6 +31,8 @@ void UITextTrigger::Start()
 {
 	componentRigidBody = owner->GetComponent<ComponentRigidBody>();
 	input = App->GetModule<ModuleInput>();
+	player = App->GetModule<ModulePlayer>()->GetPlayer();
+	playerManager = player->GetComponent<PlayerManagerScript>();
 
 	textBoxSize = static_cast<float>(textBox.size()) - 1.0f;
 	displacementControl = textBox[static_cast<size_t>(textBoxCurrent)]->GetComponent<UIImageDisplacementControl>();
@@ -40,6 +41,12 @@ void UITextTrigger::Start()
 
 void UITextTrigger::Update(float deltaTime)
 {
+	if(player != App->GetModule<ModulePlayer>()->GetPlayer())
+	{
+		player = App->GetModule<ModulePlayer>()->GetPlayer();
+		playerManager = player->GetComponent<PlayerManagerScript>();
+	}
+
 	if (dialogueDone)
 	{
 		return;
@@ -73,10 +80,7 @@ void UITextTrigger::OnCollisionEnter(ComponentRigidBody* other)
 				currentText->Enable();
 				displacementControl->SetIsMoving(true);
 				displacementControl->SetMovingToEnd(true);
-				if(pauseManager->HasComponent<PauseManager>())
-				{
-					pauseManager->GetComponent<PauseManager>()->PausePlayer(true);
-				}
+				playerManager->PausePlayer(true);
 			}
 			wasInside = true;
 		}
@@ -96,10 +100,7 @@ void UITextTrigger::TextEnd()
 {
 	displacementControl->MoveImageToStartPosition();
 	currentText->Disable();
-	if (pauseManager->HasComponent<PauseManager>())
-	{
-		pauseManager->GetComponent<PauseManager>()->PausePlayer(false);
-	}
+	playerManager->PausePlayer(false);
 	if (mission)
 	{
 		mission->GetComponent<UIMissionTrigger>()->ActivateTextBoxManually();
