@@ -19,6 +19,7 @@ public:
 	void PauseRocks(bool paused);
 	void PauseMissiles(bool paused);
 	void PauseEnemies(bool paused);
+	void PausePlayer(bool paused);
 
 private:
 	void Start() override;
