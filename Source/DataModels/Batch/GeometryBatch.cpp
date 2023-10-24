@@ -179,6 +179,7 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasMetallic(),
 				resourceMaterial->HasEmissive(),
+				resourceMaterial->IsReflective(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetMetalness(),
 				resourceMaterial->GetNormalStrength()
@@ -221,6 +222,7 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasSpecular(),
 				resourceMaterial->HasEmissive(),
+				resourceMaterial->IsReflective(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetNormalStrength()
 			};
@@ -775,7 +777,7 @@ void GeometryBatch::BindBatch(bool selected)
 					memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 				}
 
-				Effect effect(component->GetEffectColor(), static_cast<int>(component->IsDiscarded())); AXO_TODO("Change")
+				Effect effect(component->GetEffectColor(), static_cast<int>(component->IsDiscarded()));
 				memcpy(&effectData[paletteIndex], &effect, sizeof(Effect));
 
 				//do a for for all the instaces existing

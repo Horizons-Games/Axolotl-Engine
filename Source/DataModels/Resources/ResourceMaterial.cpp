@@ -37,6 +37,7 @@ void ResourceMaterial::CopyValues(const ResourceMaterial& rhs)
 	this->SetSpecular(rhs.GetSpecular());
 	this->SetMetallic(rhs.GetMetallic());
 	this->SetEmission(rhs.GetEmission());
+	this->SetReflective(rhs.IsReflective());
 }
 
 void ResourceMaterial::SaveLoadOptions(Json& meta)
@@ -61,6 +62,7 @@ void ResourceMaterial::SaveLoadOptions(Json& meta)
 	meta["offsety"] = static_cast<float>(loadOptions.offset.y);
 	meta["percentagex"] = static_cast<float>(loadOptions.percentage.x);
 	meta["percentagey"] = static_cast<float>(loadOptions.percentage.y);
+	meta["reflective"] = static_cast<float>(loadOptions.reflective);
 }
 
 void ResourceMaterial::LoadLoadOptions(Json& meta)
@@ -91,6 +93,7 @@ void ResourceMaterial::LoadLoadOptions(Json& meta)
 		loadOptions.percentage.y = 100.f;
 		loadOptions.percentage.x = 100.f;
 	}
+	loadOptions.reflective = static_cast<float>(meta["reflective"]);
 }
 
 void ResourceMaterial::SavePaths(Json& meta, const std::vector<std::string>& pathTextures)
