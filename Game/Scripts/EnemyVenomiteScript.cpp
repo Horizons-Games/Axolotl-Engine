@@ -2,6 +2,7 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentParticleSystem.h"
@@ -44,6 +45,7 @@ void EnemyVenomiteScript::Start()
 	enemyType = EnemyTypes::VENOMITE;
 
 	ownerTransform = owner->GetComponent<ComponentTransform>();
+	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
 	initialPosition = ownerTransform->GetGlobalPosition();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	//componentAudioSource = owner->GetComponent<ComponentAudioSource>();
@@ -74,8 +76,9 @@ void EnemyVenomiteScript::Update(float deltaTime)
 	{
 		venomiteState = VenomiteBehaviours::IDLE;
 		componentAnimation->SetParameter("IsRunning", false);
-		aiMovement->SetMovementStatuses(false, false);
 		ownerTransform->SetGlobalPosition(initialPosition);
+		ownerRigidBody->UpdateRigidBody();
+		aiMovement->SetMovementStatuses(false, false);
 		return;
 	}
 	

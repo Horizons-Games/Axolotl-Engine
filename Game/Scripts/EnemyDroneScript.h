@@ -9,6 +9,7 @@ class ComponentTransform;
 class ComponentAnimation;
 class ComponentAudioSource;
 class ComponentParticleSystem;
+class ComponentRigidBody;
 
 class PatrolBehaviourScript;
 class SeekBehaviourScript;
@@ -72,6 +73,7 @@ private:
 	GameObject* explosionGameObject;
 
 	ComponentTransform* ownerTransform;
+	ComponentRigidBody* ownerRigidBody;
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
 	ComponentTransform* seekTargetTransform;

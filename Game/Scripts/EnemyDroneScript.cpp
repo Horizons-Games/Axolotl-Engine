@@ -54,6 +54,7 @@ void EnemyDroneScript::Start()
 	}
 
 	ownerTransform = owner->GetComponent<ComponentTransform>();
+	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
 	initialPosition = ownerTransform->GetGlobalPosition();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
@@ -81,8 +82,9 @@ void EnemyDroneScript::Update(float deltaTime)
 	{
 		droneState = DroneBehaviours::IDLE;
 		componentAnimation->SetParameter("IsRunning", false);
-		aiMovement->SetMovementStatuses(false, false);
 		ownerTransform->SetGlobalPosition(initialPosition);
+		ownerRigidBody->UpdateRigidBody();
+		aiMovement->SetMovementStatuses(false, false);
 		return;
 	}
 
