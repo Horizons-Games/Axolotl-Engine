@@ -51,9 +51,13 @@ bool ComboManager::NextIsSpecialAttack() const
 
 void ComboManager::CheckSpecial(float deltaTime)
 {
-	if (App->GetModule<ModulePlayer>()->IsInCombat()) 
+	if (!uiComboManager->IsInCombat() && App->GetModule<ModulePlayer>()->IsInCombat()) 
 	{
-		
+		InitCombo();
+	}
+	else if (uiComboManager->IsInCombat() && !App->GetModule<ModulePlayer>()->IsInCombat())
+	{
+		HideCombo();
 	}
 
 	if (!specialActivated && specialCount == maxSpecialCount)
@@ -197,15 +201,21 @@ UIComboManager* ComboManager::GetUiComboManager() const
 
 void ComboManager::InitCombo()
 {
-	specialCount = 0.0f;
-	comboCount = 0;
-	actualComboTimer = 0.0f;
-	specialActivated = false;
+	if (!uiComboManager->IsInCombat()) 
+	{
+		specialCount = 0.0f;
+		comboCount = 0;
+		actualComboTimer = 0.0f;
+		specialActivated = false;
 
-	uiComboManager->InitComboUI();
+		uiComboManager->InitComboUI();
+	}
 }
 
 void ComboManager::HideCombo()
 {
-	uiComboManager->HideComboUI();
+	if (uiComboManager->IsInCombat()) 
+	{
+		uiComboManager->HideComboUI();
+	}
 }

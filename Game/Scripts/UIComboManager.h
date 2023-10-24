@@ -42,6 +42,8 @@ public:
 
 	void InitFinishComboButtonsEffect();
 
+	bool IsInCombat();
+
 	void InitComboUI();
 	void HideComboUI();
 

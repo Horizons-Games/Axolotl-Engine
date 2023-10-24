@@ -366,6 +366,11 @@ void UIComboManager::InitFinishComboButtonsEffect() //Make a VFX when you get a 
 	}
 }
 
+bool UIComboManager::IsInCombat() 
+{
+	return owner->GetChildren()[0]->IsEnabled();
+}
+
 void UIComboManager::InitComboUI() 
 {
 	owner->GetChildren()[0]->Enable();
