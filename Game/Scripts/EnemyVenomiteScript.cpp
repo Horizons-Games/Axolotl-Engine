@@ -336,6 +336,7 @@ void EnemyVenomiteScript::ResetValues()
 	enemyDeathScript->ResetDespawnTimerAndEnableActions();
 	if (pathScript)
 	{
+		patrolScript->StopPatrol();
 		pathScript->Enable();
 		pathScript->ResetPath();
 	}

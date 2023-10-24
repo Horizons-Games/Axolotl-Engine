@@ -74,6 +74,10 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 		{
 			return;
 		}
+		else
+		{
+			btRigidbody->setAngularVelocity({ 0.0f,0.0f,0.0f });
+		}
 
 		if (isParalyzed)
 		{

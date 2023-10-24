@@ -78,8 +78,8 @@ void PathBehaviourScript::StartPath() const
 		enemyHealth->SetIsImmortal(true);
 	}
 	rigidBody->Enable();
-	rigidBody->SetUpMobility();
 	rigidBody->SetIsKinematic(false);
+	rigidBody->SetUpMobility();
 	agentComp->Disable();
 	agentComp->RemoveAgentFromCrowd();
 	aiMovement->SetMovementSpeed(agentVelocity);
