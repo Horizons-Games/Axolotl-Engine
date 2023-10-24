@@ -378,12 +378,12 @@ void ComponentRigidBody::InternalLoad(const Json& meta)
 	SetZRotationAxisBlocked(static_cast<bool>(meta["zRotationAxisBlocked"]));
 }
 
-void ComponentRigidBody::SignalEnable(bool isSceneLoading)
+void ComponentRigidBody::SignalEnable()
 {
 	AddRigidBodyToDynamics();
 }
 
-void ComponentRigidBody::SignalDisable(bool isSceneLoading)
+void ComponentRigidBody::SignalDisable()
 {
 	RemoveRigidBodyFromDynamics();
 }

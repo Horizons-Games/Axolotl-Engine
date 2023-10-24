@@ -156,6 +156,10 @@ WindowHierarchy::DrawHierarchyResultCode WindowHierarchy::DrawRecursiveHierarchy
 				{
 					loadedScene->CreateLightGameObject("Local IBL", gameObject, LightType::LOCAL_IBL);
 				}
+				if (ImGui::MenuItem("Planar Reflection"))
+				{
+					loadedScene->CreateLightGameObject("Planar Reflection", gameObject, LightType::PLANAR_REFLECTION);
+				}
 				ImGui::EndMenu();
 			}
 

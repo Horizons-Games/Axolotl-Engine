@@ -48,9 +48,14 @@ void PauseManager::Pause(bool paused)
 	PauseBullets(paused);
 	PauseRocks(paused);
 	PauseMissiles(paused);
-	App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->FullPausePlayer(paused);
+	PausePlayer(paused);
 }
 
+void PauseManager::PausePlayer(bool paused)
+{
+	App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->FullPausePlayer(paused);
+}
+	
 void PauseManager::PauseEnemies(bool paused)
 {
 	for (int i = 0; i < enemiesGameObjects.size(); ++i)
