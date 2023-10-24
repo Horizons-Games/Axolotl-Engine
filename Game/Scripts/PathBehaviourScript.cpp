@@ -15,7 +15,7 @@
 REGISTERCLASS(PathBehaviourScript);
 
 PathBehaviourScript::PathBehaviourScript() : Script(),
-		aiMovement(nullptr), currentWayPoint(0), pathFinished(false),
+		aiMovement(nullptr), currentWaypoint(0), pathFinished(false),
 		agentComp(nullptr), agentVelocity(300.0f), isInmortal(true),
 		axisX(false), axisZ(false), axisXMaxPos(0.f), axisZMaxPos(0.f)
 {
@@ -46,7 +46,7 @@ void PathBehaviourScript::Update(float deltaTime)
 {
 	if (aiMovement->GetIsAtDestiny())
 	{
-		if (currentWayPoint != (waypointsPath.size()-1))
+		if (currentWaypoint != (waypointsPath.size()-1))
 		{
 			NextPath();
 		}
@@ -72,7 +72,7 @@ void PathBehaviourScript::Update(float deltaTime)
 
 void PathBehaviourScript::StartPath() const
 {
-	float3 target = waypointsPath[currentWayPoint]->GetGlobalPosition();
+	float3 target = waypointsPath[currentWaypoint]->GetGlobalPosition();
 	if (isInmortal)
 	{
 		enemyHealth->SetIsImmortal(true);
@@ -90,35 +90,35 @@ void PathBehaviourScript::StartPath() const
 
 void PathBehaviourScript::NextPath()
 {
-	currentWayPoint++;
+	currentWaypoint++;
 
 	float3 target;
 
-	if (currentWayPoint == (waypointsPath.size() - 1) && (axisX || axisZ))
+	if (currentWaypoint == (waypointsPath.size() - 1) && (axisX || axisZ))
 	{
 		if (axisX)
 		{
 			float newX = (App->GetModule<ModuleRandom>()->RandomNumberInRange(-axisXMaxPos, axisXMaxPos)
-				+ waypointsPath[currentWayPoint]->GetGlobalPosition().x);
+				+ waypointsPath[currentWaypoint]->GetGlobalPosition().x);
 			
 			target = float3(newX,
-			waypointsPath[currentWayPoint]->GetGlobalPosition().y, 
-			waypointsPath[currentWayPoint]->GetGlobalPosition().z);
+			waypointsPath[currentWaypoint]->GetGlobalPosition().y, 
+			waypointsPath[currentWaypoint]->GetGlobalPosition().z);
 		}
 
 		if (axisZ)
 		{
 			float newZ = (App->GetModule<ModuleRandom>()->RandomNumberInRange(-axisZMaxPos, axisZMaxPos)
-				+ waypointsPath[currentWayPoint]->GetGlobalPosition().z);
+				+ waypointsPath[currentWaypoint]->GetGlobalPosition().z);
 
-			target = float3(waypointsPath[currentWayPoint]->GetGlobalPosition().x,
-				waypointsPath[currentWayPoint]->GetGlobalPosition().y,
+			target = float3(waypointsPath[currentWaypoint]->GetGlobalPosition().x,
+				waypointsPath[currentWaypoint]->GetGlobalPosition().y,
 				newZ);
 		}
 	}
 	else
 	{
-		target = waypointsPath[currentWayPoint]->GetGlobalPosition();
+		target = waypointsPath[currentWaypoint]->GetGlobalPosition();
 	}
 	aiMovement->SetTargetPosition(target);
 	aiMovement->SetRotationTargetPosition(target);
@@ -127,7 +127,7 @@ void PathBehaviourScript::NextPath()
 void PathBehaviourScript::ResetPath()
 {
 	pathFinished = false;
-	currentWayPoint = 0;
+	currentWaypoint = 0;
 	StartPath();
 }
 

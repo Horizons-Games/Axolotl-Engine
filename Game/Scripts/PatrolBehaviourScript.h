@@ -27,7 +27,7 @@ private:
 	ComponentAnimation* componentAnimation;
 	AIMovement* aiMovement;
 	std::vector<ComponentTransform*> waypointsPatrol;
-	int currentWayPoint;
+	int currentWaypoint;
 	bool patrolStateActivated;
 	bool isStoppedAtPatrol;
 	float patrolStopDuration;
