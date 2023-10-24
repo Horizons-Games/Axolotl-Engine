@@ -147,7 +147,7 @@ void HealthSystem::HealLife(float amountHealed)
 
 bool HealthSystem::EntityIsAlive() const
 {
-	return currentHealth > 0.0f;
+	return currentHealth > 0.0f || isImmortal;
 }
 
 float HealthSystem::GetMaxHealth() const

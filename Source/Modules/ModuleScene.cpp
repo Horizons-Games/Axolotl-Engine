@@ -165,6 +165,12 @@ UpdateStatus ModuleScene::Update()
 		particle->Update();
 	}
 
+	// Planar reflection need to be updated
+	for (auto planar : loadedScene->GetScenePlanarReflections())
+	{
+		planar->Update();
+	}
+
 	return UpdateStatus::UPDATE_CONTINUE;
 }
 
@@ -202,7 +208,7 @@ bool ModuleScene::CleanUp()
 
 void ModuleScene::SetLoadedScene(std::unique_ptr<Scene> newScene)
 {
-	std::scoped_lock(loadedSceneMutex);
+	std::scoped_lock lock(loadedSceneMutex);
 	loadedScene = std::move(newScene);
 	selectedGameObject = loadedScene->GetRoot();
 }

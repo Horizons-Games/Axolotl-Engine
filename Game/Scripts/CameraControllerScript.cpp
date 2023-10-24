@@ -27,7 +27,6 @@ CameraControllerScript::CameraControllerScript() : Script(),
 	REGISTER_FIELD(zOffset, float);
 	REGISTER_FIELD(xFocusOffset, float);
 	REGISTER_FIELD(yFocusOffset, float);
-	REGISTER_FIELD(inCombat, bool);
 }
 
 void CameraControllerScript::Start()
@@ -207,7 +206,7 @@ ComponentCameraSample* CameraControllerScript::FindClosestSample(float3 position
 		}
 	}
 
-	if (inCombat && closestCombatSample)
+	if (App->GetModule<ModulePlayer>()->IsInCombat() && closestCombatSample)
 	{
 		return closestCombatSample;
 	}
@@ -216,29 +215,4 @@ ComponentCameraSample* CameraControllerScript::FindClosestSample(float3 position
 		return closestSample;
 	}
 
-}
-
-void CameraControllerScript::SetInCombat(bool newmode)
-{
-	inCombat = newmode;
-	if (inCombat)
-	{
-		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentAudioSource>()->
-			SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::COMBAT);
-		if (App->GetModule<ModulePlayer>()->GetPlayer()->HasComponent<ComboManager>()) 
-		{
-			App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComboManager>()->InitCombo();
-		}
-		
-	}
-	else
-	{
-		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentAudioSource>()->
-			SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
-
-		if (App->GetModule<ModulePlayer>()->GetPlayer()->HasComponent<ComboManager>())
-		{
-			App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComboManager>()->HideCombo();
-		}
-	}
 }

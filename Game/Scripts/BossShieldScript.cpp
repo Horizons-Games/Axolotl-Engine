@@ -46,6 +46,8 @@ void BossShieldScript::ActivateShield() const
 	parentRigidBody->SetUpMobility();
 
 	rigidBody->SetIsTrigger(false);
+
+	// VFX Here: Any effect related to the activation of the shield
 }
 
 void BossShieldScript::DeactivateShield() const
@@ -57,6 +59,8 @@ void BossShieldScript::DeactivateShield() const
 	parentRigidBody->SetUpMobility();
 
 	owner->Disable();
+
+	// VFX Here: Any effect related to the deactivation of the shield
 }
 
 bool BossShieldScript::WasHitBySpecialTarget() const

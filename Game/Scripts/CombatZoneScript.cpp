@@ -19,9 +19,12 @@
 
 REGISTERCLASS(CombatZoneScript);
 
-CombatZoneScript::CombatZoneScript() : Script(), componentAudio(nullptr), enemiesToDefeat(1.0)
+CombatZoneScript::CombatZoneScript() : Script(), componentAudio(nullptr), enemiesToDefeat(1.0),
+fightStraightAway(true)
 {
 	REGISTER_FIELD(enemiesToDefeat, float);
+	REGISTER_FIELD(isBoss, bool);
+	REGISTER_FIELD(fightStraightAway, bool);
 }
 
 CombatZoneScript::~CombatZoneScript()
@@ -47,6 +50,7 @@ void CombatZoneScript::Start()
 	componentRigidBody = (*childWithRigid)->GetComponent<ComponentRigidBody>();
 	componentRigidBody->Disable();
 	*/
+	App->GetModule<ModulePlayer>()->SetInBossCombat(false);
 }
 
 void CombatZoneScript::Update(float deltaTime)
@@ -59,9 +63,18 @@ void CombatZoneScript::OnCollisionEnter(ComponentRigidBody* other)
 	
 	if (other->GetOwner()->CompareTag("Player"))
 	{
-
-		App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->SetInCombat(true);
-		App->GetModule<ModuleScene>()->GetLoadedScene()->SetEnemiesToDefeat(enemiesToDefeat);
+		if (isBoss)
+		{
+			App->GetModule<ModulePlayer>()->SetInBossCombat(true);
+		}
+		else
+		{
+			if (fightStraightAway)
+			{
+				App->GetModule<ModulePlayer>()->SetInCombat(true);
+			}
+			App->GetModule<ModulePlayer>()->SetEnemiesToDefeat(enemiesToDefeat);
+		}
 
 		std::vector<ComponentScript*> gameObjectScripts = owner->GetComponents<ComponentScript>();
 

@@ -71,6 +71,11 @@ EnemyTypes EnemyClass::GetEnemyType() const
 	return enemyType;
 }
 
+void EnemyClass::PauseEnemy(bool isPaused)
+{
+	this->isPaused = isPaused;
+}
+
 void EnemyClass::ParalyzeEnemy(bool nparalyzed)
 {
 	return;

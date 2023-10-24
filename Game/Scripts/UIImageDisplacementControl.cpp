@@ -26,7 +26,7 @@ void UIImageDisplacementControl::Update(float deltaTime)
 		}
 		else
 		{
-			MoveImageToStarPosition();
+			MoveImageToStartPosition();
 		}
 	}
 
@@ -51,10 +51,16 @@ void UIImageDisplacementControl::MoveImageToEndPosition()
 			isMoving = false;
 		}
 	}
-
 }
 
-void UIImageDisplacementControl::MoveImageToStarPosition()
+void UIImageDisplacementControl::SetImageToEndPosition()
+{
+	imageTransform->SetPosition(endPosition);
+	imageTransform->CalculateMatrices();
+	isMoving = false;
+}
+
+void UIImageDisplacementControl::MoveImageToStartPosition()
 {
 	if (imageTransform)
 	{
@@ -74,6 +80,13 @@ void UIImageDisplacementControl::MoveImageToStarPosition()
 		}
 
 	}
+}
+
+void UIImageDisplacementControl::SetImageToStartPosition()
+{
+	imageTransform->SetPosition(startPosition);
+	imageTransform->CalculateMatrices();
+	isMoving = false;
 }
 
 bool UIImageDisplacementControl::IsMovingToEnd() const

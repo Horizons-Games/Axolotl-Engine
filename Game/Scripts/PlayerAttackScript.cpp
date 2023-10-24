@@ -103,6 +103,9 @@ void PlayerAttackScript::Start()
 
 void PlayerAttackScript::Update(float deltaTime)
 {
+	// Mark the enemy that is going to be attacked
+	UpdateEnemyDetection();
+
 	if (!canAttack && !jumpFinisherScript->IsActive())
 	{
 		isNextAttackTriggered = false;
@@ -122,10 +125,6 @@ void PlayerAttackScript::Update(float deltaTime)
 	}
 
 	timeSinceLastJumpAttack += deltaTime;
-
-
-	// Mark the enemy that is going to be attacked
-	UpdateEnemyDetection();
 
 	// Check if the special was activated
 	comboSystem->CheckSpecial(deltaTime);
@@ -384,6 +383,7 @@ void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDama
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
 	LightAttackBullet* ligthAttackBulletScript = bullet->GetComponent<LightAttackBullet>();
 
+	bullet->SetTag("AlluraBullet");
 	ligthAttackBulletScript->SetBulletVelocity(bulletVelocity);
 	ligthAttackBulletScript->SetEnemy(enemyDetection->GetEnemySelected());
 	ligthAttackBulletScript->SetStunTime(0);

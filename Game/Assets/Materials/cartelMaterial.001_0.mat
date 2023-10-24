@@ -1,6 +1,6 @@
 {
-    "DiffuseAssetPath": "",
-    "NormalAssetPath": "",
+    "DiffuseAssetPath": "Assets/Textures/cartel_Material.001_BaseColor.png",
+    "NormalAssetPath": "Assets/Textures/cartel_Material.001_Normal.png",
     "OcclusionAssetPath": "",
     "MetalicAssetPath": "",
     "EmissiveAssetPath": ""

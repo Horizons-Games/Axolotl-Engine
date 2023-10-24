@@ -51,7 +51,12 @@ bool ComboManager::NextIsSpecialAttack() const
 
 void ComboManager::CheckSpecial(float deltaTime)
 {
-	if (!specialActivated && specialCount == maxSpecialCount) //input->GetKey(SDL_SCANCODE_TAB) == KeyState::DOWN && 
+	if (App->GetModule<ModulePlayer>()->IsInCombat()) 
+	{
+		
+	}
+
+	if (!specialActivated && specialCount == maxSpecialCount)
 	{
 		specialActivated = true;
 

@@ -78,8 +78,8 @@ void PathBehaviourScript::StartPath() const
 		enemyHealth->SetIsImmortal(true);
 	}
 	rigidBody->Enable();
-	rigidBody->SetUpMobility();
 	rigidBody->SetIsKinematic(false);
+	rigidBody->SetUpMobility();
 	agentComp->Disable();
 	agentComp->RemoveAgentFromCrowd();
 	aiMovement->SetMovementSpeed(agentVelocity);
@@ -108,8 +108,8 @@ void PathBehaviourScript::NextPath()
 
 		if (axisZ)
 		{
-			float newZ = (App->GetModule<ModuleRandom>()->RandomNumberInRange(-axisXMaxPos, axisXMaxPos)
-				+ waypointsPath[currentWayPoint]->GetGlobalPosition().x);
+			float newZ = (App->GetModule<ModuleRandom>()->RandomNumberInRange(-axisZMaxPos, axisZMaxPos)
+				+ waypointsPath[currentWayPoint]->GetGlobalPosition().z);
 
 			target = float3(waypointsPath[currentWayPoint]->GetGlobalPosition().x,
 				waypointsPath[currentWayPoint]->GetGlobalPosition().y,

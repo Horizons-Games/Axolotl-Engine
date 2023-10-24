@@ -56,3 +56,33 @@ void HackZoneScript::GenerateCombination()
 		commandCombination.push_back(allCommands[distribution(generator)]);
 	}
 }
+
+float HackZoneScript::GetInfluenceRadius() const
+{
+	return influenceRadius;
+}
+
+float HackZoneScript::GetMaxTime() const
+{
+	return maxTime;
+}
+
+float HackZoneScript::GetSequenceSize() const
+{
+	return sequenceSize;
+}
+
+const std::vector<HackingCommandType>& HackZoneScript::GetCommandCombination() const
+{
+	return commandCombination;
+}
+
+bool HackZoneScript::IsCompleted() const
+{
+	return completed;
+}
+
+void HackZoneScript::SetCompleted()
+{
+	completed = true;
+}

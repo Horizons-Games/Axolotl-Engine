@@ -7,6 +7,9 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentRigidBody.h"
 
+#include "Application.h"
+#include "Modules/ModulePlayer.h"
+
 #include "../Scripts/SeekBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/EnemyDeathScript.h"
@@ -47,6 +50,14 @@ void EnemyMiniBossTwo::Update(float deltaTime)
 {
 	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
 
+	boostOfEnergy->SetIsPaused(isPaused);
+	if (isPaused)
+	{
+		seekScript->DisableMovement();
+		rangedAttack->InterruptAttack();
+		return;
+	}
+	
 	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;
@@ -201,6 +212,7 @@ void EnemyMiniBossTwo::UpdateBehaviour(float deltaTime)
 void EnemyMiniBossTwo::SetReadyToDie()
 {
 	componentAnimation->SetParameter("IsDead", true);
+	App->GetModule<ModulePlayer>()->SetInBossCombat(false);
 	blockedDoor->Disable();
 	deathScript->ManageEnemyDeath();
 }
