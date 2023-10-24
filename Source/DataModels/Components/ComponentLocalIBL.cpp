@@ -128,9 +128,6 @@ void ComponentLocalIBL::GenerateMaps()
 	glEnable(GL_DEPTH_TEST);
 	glCullFace(GL_FRONT); // Show front faces
 	glFrontFace(GL_CW); // Clockwise
-
-	App->GetModule<ModuleScene>()->GetLoadedScene()->UpdateSceneLocalIBL(this);
-	App->GetModule<ModuleScene>()->GetLoadedScene()->RenderLocalIBL(this);
 }
 
 void ComponentLocalIBL::Draw() const
@@ -293,27 +290,32 @@ void ComponentLocalIBL::InternalLoad(const Json& meta)
 	originCenterInfluence = influenceAABB.CenterPoint();
 }
 
-void ComponentLocalIBL::SignalEnable(bool isSceneLoading)
+void ComponentLocalIBL::SignalEnable()
 {
-	if (isSceneLoading)
+	ModuleScene* moduleScene = App->GetModule<ModuleScene>();
+
+	if (moduleScene->IsLoading())
 	{
 		return;
 	}
 
-	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	Scene* currentScene = moduleScene->GetLoadedScene();
 
 	currentScene->UpdateSceneLocalIBLs();
 	currentScene->RenderLocalIBLs();
 }
 
-void ComponentLocalIBL::SignalDisable(bool isSceneLoading)
+void ComponentLocalIBL::SignalDisable()
 {
-	if (isSceneLoading)
+	ModuleScene* moduleScene = App->GetModule<ModuleScene>();
+
+	if (moduleScene->IsLoading())
 	{
 		return;
 	}
 
-	Scene* currentScene = App->GetModule<ModuleScene>()->GetLoadedScene();
+	Scene* currentScene = moduleScene->GetLoadedScene();
+
 	currentScene->UpdateSceneLocalIBLs();
 	currentScene->RenderLocalIBLs();
 }
@@ -432,6 +434,9 @@ void ComponentLocalIBL::CreateCubemap()
 	Scene* scene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	ComponentSkybox* skybox = scene->GetRoot()->GetComponentInternal<ComponentSkybox>();
+
+	modRender->BindCubemapToProgram(modProgram->GetProgram(ProgramType::DEFAULT));
+	modRender->BindCubemapToProgram(modProgram->GetProgram(ProgramType::SPECULAR));
 
 	Frustum frustum;
 	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
