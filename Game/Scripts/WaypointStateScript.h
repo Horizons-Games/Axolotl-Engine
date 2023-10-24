@@ -8,7 +8,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 enum class WaypointStates
 {
 	AVAILABLE,
-	UNAVAILABLE // For when the waypoint is covered for another object, so it is unreacheable
+	UNAVAILABLE // For when the waypoint is covered by another object, it becomes unreacheable
 };
 
 class WaypointStateScript : public Script
