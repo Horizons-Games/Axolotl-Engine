@@ -128,7 +128,7 @@ private:
 	LightFinisherAttackScript* lightFinisherScript;
 	HeavyFinisherAttack* heavyFinisherAttack;
 	GameObject* lightWeapon;
-	GameObject* bulletPrefab;
+	GameObject* bulletLoader;
 	GameObject* pistolGameObject;
 
 	Scene* loadedScene;

@@ -62,7 +62,8 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	REGISTER_FIELD(heavyFinisherAttack, HeavyFinisherAttack*);
 	REGISTER_FIELD(lightWeapon, GameObject*);
 
-	REGISTER_FIELD(bulletPrefab, GameObject*);
+	//REGISTER_FIELD(bulletPrefab, GameObject*);
+	REGISTER_FIELD(bulletLoader, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
 
 	REGISTER_FIELD(pistolGameObject, GameObject*);

@@ -43,28 +43,11 @@ void LightAttackBullet::Start()
 {
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
-
 	audioSource = owner->GetComponent<ComponentAudioSource>();
-
-	rigidBody->Enable();
-	rigidBody->SetDefaultPosition();
-	rigidBody->SetUseRotationController(true);
-
-	defaultTargetPos = parentTransform->GetGlobalForward();
-	defaultTargetPos.y = 0;
-	defaultTargetPos.Normalize();
-	defaultTargetPos = defaultTargetPos * maxDistanceBullet;
-	defaultTargetPos += parentTransform->GetGlobalPosition();	
-
 	particleSystem = owner->GetComponent<ComponentParticleSystem>();
-
-	if (particleSystem)
-	{
-		particleSystem->Enable();
-		particleSystemCurrentTimer = particleSystemTimer;
-	}
-
 	playerAttackScript = owner->GetParent()->GetComponent<PlayerAttackScript>();
+
+	ResetDefaultValues();
 }
 
 void LightAttackBullet::Update(float deltaTime)
@@ -104,7 +87,7 @@ void LightAttackBullet::Update(float deltaTime)
 			particleSystem->Stop();
 		}
 
-		DestroyBullet();
+		owner->Disable();
 	}
 }
 
@@ -144,6 +127,25 @@ void LightAttackBullet::SetDamage(float nDamageAttack)
 	damageAttack = nDamageAttack;
 }
 
+void LightAttackBullet::ResetDefaultValues()
+{
+	defaultTargetPos = parentTransform->GetGlobalForward();
+	defaultTargetPos.y = 0;
+	defaultTargetPos.Normalize();
+	defaultTargetPos = defaultTargetPos * maxDistanceBullet;
+	defaultTargetPos += parentTransform->GetGlobalPosition();
+
+	rigidBody->Enable();
+	rigidBody->SetDefaultPosition();
+	rigidBody->SetUseRotationController(true);
+
+	if (particleSystem)
+	{
+		particleSystem->Enable();
+		particleSystemCurrentTimer = particleSystemTimer;
+	}
+}
+
 void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->CompareTag("Enemy"))
@@ -180,12 +182,6 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 		{
 			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ELECTRIC_SHOT); // Provisional sfx
 		}
-		DestroyBullet();
+		owner->Disable();
 	}
-}
-
-void LightAttackBullet::DestroyBullet()
-{
-	App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(particleSystem);
-	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }

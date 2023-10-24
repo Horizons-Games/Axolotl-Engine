@@ -21,10 +21,10 @@ public:
 	void SetEnemy(GameObject* nEnemy);
 	void SetDamage(float nDamageAttack);
 	void SetPauseBullet(bool isPaused);
+	void ResetDefaultValues();
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
-	void DestroyBullet();
 
 	float velocity;
 	float stunTime;
