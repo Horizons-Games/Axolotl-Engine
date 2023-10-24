@@ -2,6 +2,8 @@
 #include "UIEnemyBar.h"
 
 #include "../Scripts/HealthSystem.h"
+#include "../Scripts/UIApearDisapear.h"
+#include "../Scripts/UIImageDisplacementControl.h"
 
 #include "ModulePlayer.h"
 #include "Application.h"
@@ -30,16 +32,34 @@ void UIEnemyBar::Start()
 	slider->SetMaxValue( boss->GetMaxHealth() );
 	slider->ModifyCurrentValue(0);
 	barValue = 0;
-	actualMode = LEVEL1;
+	actualMode = LEVEL4;
 	icons = GetOwner()->GetChildren()[2];
+	if (!alwaysActive)
+	{
+		displacement = GetOwner()->GetComponent<UIImageDisplacementControl>();
+	}
 }
 
 void UIEnemyBar::Update(float deltaTime)
 {
-	if (alwaysActive)
+	if (alwaysActive || App->GetModule<ModulePlayer>()->IsInCombat())
 	{
 		UpdateBar();
 		CheckMode();
+	}
+	if (!alwaysActive && lastTickInCombat != App->GetModule<ModulePlayer>()->IsInCombat())
+	{
+		lastTickInCombat = App->GetModule<ModulePlayer>()->IsInCombat();
+		if (lastTickInCombat)
+		{
+			displacement->SetMovingToEnd(true);
+			displacement->MoveImageToEndPosition();
+		}
+		else
+		{
+			displacement->SetMovingToEnd(false);
+			displacement->MoveImageToStartPosition();
+		}
 	}
 }
 
@@ -89,34 +109,34 @@ void UIEnemyBar::ChangeMode()
 	switch (actualMode)
 	{
 	case LEVEL1:
-		icons->GetChildren()[0]->Enable();
-		icons->GetChildren()[1]->Disable();
-		icons->GetChildren()[2]->Disable();
-		icons->GetChildren()[3]->Disable();
+		icons->GetChildren()[0]->GetComponent<UIApearDisapear>()->SetObjective(1.f);
+		icons->GetChildren()[1]->GetComponent<UIApearDisapear>()->SetObjective(0.f);
+		icons->GetChildren()[2]->GetComponent<UIApearDisapear>()->SetObjective(0.f);
+		icons->GetChildren()[3]->GetComponent<UIApearDisapear>()->SetObjective(0.f);
 		break;
 	case LEVEL2:
-		icons->GetChildren()[0]->Disable();
-		icons->GetChildren()[1]->Enable();
-		icons->GetChildren()[2]->Disable();
-		icons->GetChildren()[3]->Disable();
+		icons->GetChildren()[0]->GetComponent<UIApearDisapear>()->SetObjective(0.f);
+		icons->GetChildren()[1]->GetComponent<UIApearDisapear>()->SetObjective(1.f);
+		icons->GetChildren()[2]->GetComponent<UIApearDisapear>()->SetObjective(0.f);
+		icons->GetChildren()[3]->GetComponent<UIApearDisapear>()->SetObjective(0.f);
 		break;
 	case LEVEL3:
-		icons->GetChildren()[0]->Disable();
-		icons->GetChildren()[1]->Disable();
-		icons->GetChildren()[2]->Enable();
-		icons->GetChildren()[3]->Disable();
+		icons->GetChildren()[0]->GetComponent<UIApearDisapear>()->SetObjective(0.f);
+		icons->GetChildren()[1]->GetComponent<UIApearDisapear>()->SetObjective(0.f);
+		icons->GetChildren()[2]->GetComponent<UIApearDisapear>()->SetObjective(1.f);
+		icons->GetChildren()[3]->GetComponent<UIApearDisapear>()->SetObjective(0.f);
 		break;
 	case LEVEL4:
-		icons->GetChildren()[0]->Disable();
-		icons->GetChildren()[1]->Disable();
-		icons->GetChildren()[2]->Disable();
-		icons->GetChildren()[3]->Enable();
+		icons->GetChildren()[0]->GetComponent<UIApearDisapear>()->SetObjective(0.f);
+		icons->GetChildren()[1]->GetComponent<UIApearDisapear>()->SetObjective(0.f);
+		icons->GetChildren()[2]->GetComponent<UIApearDisapear>()->SetObjective(0.f);
+		icons->GetChildren()[3]->GetComponent<UIApearDisapear>()->SetObjective(1.f);
 		break;
 	default:
-		icons->GetChildren()[0]->Enable();
-		icons->GetChildren()[1]->Disable();
-		icons->GetChildren()[2]->Disable();
-		icons->GetChildren()[3]->Disable();
+		icons->GetChildren()[0]->GetComponent<UIApearDisapear>()->SetObjective(1.f);
+		icons->GetChildren()[1]->GetComponent<UIApearDisapear>()->SetObjective(0.f);
+		icons->GetChildren()[2]->GetComponent<UIApearDisapear>()->SetObjective(0.f);
+		icons->GetChildren()[3]->GetComponent<UIApearDisapear>()->SetObjective(0.f);
 		break;
 	}
 }

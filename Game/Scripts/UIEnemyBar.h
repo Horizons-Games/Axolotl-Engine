@@ -6,6 +6,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class HealthSystem;
+class UIImageDisplacementControl;
 class ComponentSlider;
 
 enum HPMode
@@ -41,4 +42,7 @@ private:
 	bool alwaysActive;
 	int barValue;
 	GameObject* icons;
+	bool lastTickInCombat;
+	UIImageDisplacementControl* displacement;
+
 };
