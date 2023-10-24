@@ -72,6 +72,7 @@ private:
 
 	void DamageEnemy(GameObject* enemyAttacked, float damageAttack);
 	void ThrowBasicAttack(GameObject* enemyAttacked, float nDamage);
+	GameObject* SelectBullet() const;
 
 	bool canAttack;
 	bool isAttacking;

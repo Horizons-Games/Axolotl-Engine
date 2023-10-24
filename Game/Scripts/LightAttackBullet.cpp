@@ -4,6 +4,7 @@
 #include "Application.h"
 
 #include "ModuleScene.h"
+#include "ModulePlayer.h"
 #include "Scene/Scene.h"
 
 #include "Components/ComponentRigidBody.h"
@@ -45,7 +46,7 @@ void LightAttackBullet::Start()
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	particleSystem = owner->GetComponent<ComponentParticleSystem>();
-	playerAttackScript = owner->GetParent()->GetComponent<PlayerAttackScript>();
+	playerAttackScript = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerAttackScript>();
 
 	ResetDefaultValues();
 }

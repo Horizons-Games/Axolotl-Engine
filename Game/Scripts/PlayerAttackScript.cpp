@@ -62,7 +62,6 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	REGISTER_FIELD(heavyFinisherAttack, HeavyFinisherAttack*);
 	REGISTER_FIELD(lightWeapon, GameObject*);
 
-	//REGISTER_FIELD(bulletPrefab, GameObject*);
 	REGISTER_FIELD(bulletLoader, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
 
@@ -380,15 +379,30 @@ void PlayerAttackScript::HeavyNormalAttack()
 
 void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDamage)
 {
+	GameObject* bullet = SelectBullet();
+
+	assert(bullet);
 	// Create a new bullet
-	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
 	LightAttackBullet* ligthAttackBulletScript = bullet->GetComponent<LightAttackBullet>();
 
+	bullet->Enable();
 	bullet->SetTag("AlluraBullet");
 	ligthAttackBulletScript->SetBulletVelocity(bulletVelocity);
 	ligthAttackBulletScript->SetEnemy(enemyDetection->GetEnemySelected());
 	ligthAttackBulletScript->SetStunTime(0);
 	ligthAttackBulletScript->SetDamage(nDamage);
+}
+
+GameObject* PlayerAttackScript::SelectBullet() const
+{
+	for (GameObject* bullet : bulletLoader->GetChildren())
+	{
+		if (!bullet->IsEnabled())
+		{
+			return bullet;
+		}
+	}
+	return nullptr;
 }
 
 void PlayerAttackScript::InitJumpAttack()
