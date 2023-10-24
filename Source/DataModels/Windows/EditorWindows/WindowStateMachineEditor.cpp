@@ -168,10 +168,12 @@ void WindowStateMachineEditor::DrawAddParameterMenu(std::shared_ptr<ResourceStat
 		if (ImGui::MenuItem("New Float"))
 		{
 			stateAsShared->AddParameter("NewFloat", FieldTypeParameter::FLOAT, 0.0f);
+			stateMachine->SetMapParameters(stateAsShared->GetParameters());
 		}
 		if (ImGui::MenuItem("New Bool"))
 		{
 			stateAsShared->AddParameter("NewBool", FieldTypeParameter::BOOL, false);
+			stateMachine->SetMapParameters(stateAsShared->GetParameters());
 		}
 		ImGui::EndMenu();
 	}

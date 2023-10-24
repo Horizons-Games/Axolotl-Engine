@@ -75,6 +75,7 @@ void ComponentObstacle::AddObstacle()
 	// For some wierd reason, if I use the global transform variable the obstacle doesnt work correctly
 	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
 	float3 position = transform->GetGlobalPosition();
+	position.y += yOffset;
 
 	switch (obstacleType)
 	{
@@ -169,6 +170,12 @@ void ComponentObstacle::SetDrawGizmo(bool value)
 	AddObstacle();
 }
 
+void ComponentObstacle::SetYOffset(float value)
+{
+	yOffset = value;
+	AddObstacle();
+}
+
 void ComponentObstacle::InternalSave(Json& meta)
 {
 	float3 size = GetBoxSize();
@@ -179,6 +186,7 @@ void ComponentObstacle::InternalSave(Json& meta)
 	meta["height"] = static_cast<float>(GetHeight());
 	meta["obstacleType"] = static_cast<int>(obstacleType);
 	meta["mustBeDrawnGizmo"] = static_cast<bool>(mustBeDrawnGizmo);
+	meta["yOffset"] = static_cast<float>(yOffset);
 }
 
 void ComponentObstacle::InternalLoad(const Json& meta)
@@ -190,6 +198,7 @@ void ComponentObstacle::InternalLoad(const Json& meta)
 	SetHeight(static_cast<float>(meta["height"]));
 	SetObstacleType(static_cast<ObstacleType>(obstacleType));
 	SetDrawGizmo(static_cast<bool>(meta["mustBeDrawnGizmo"]));
+	SetYOffset(static_cast<float>(meta["yOffset"]));
 
 	RemoveObstacle();
 }

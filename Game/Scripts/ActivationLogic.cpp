@@ -27,7 +27,8 @@
 REGISTERCLASS(ActivationLogic);
 
 ActivationLogic::ActivationLogic() : Script(),
-componentAudio(nullptr), activeState(ActiveActions::INACTIVE), wasActivatedByPlayer(false)
+componentAudio(nullptr), activeState(ActiveActions::INACTIVE), wasActivatedByPlayer(false),
+wasActivatedByEnemy(false)
 {
 	REGISTER_FIELD(linkedHackZone, HackZoneScript*);
 	REGISTER_FIELD(interactWithEnemies, bool);
@@ -62,19 +63,20 @@ void ActivationLogic::Start()
 void ActivationLogic::Update(float deltaTime)
 {
 	if (!componentRigidBody->IsEnabled() 
-		&& App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat())
+		&& App->GetModule<ModulePlayer>()->IsInCombat() 
+		&& !wasActivatedByEnemy)
 	{
 		CloseDoor();
 	}
 
-	if (wasActivatedByPlayer && !App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat())
+	if (wasActivatedByPlayer && !App->GetModule<ModulePlayer>()->IsInCombat())
 	{
 		OpenDoor();
 		wasActivatedByPlayer = false;
 	}
 
 	if ( interactWithEnemies
-		&& !App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat() 
+		&& App->GetModule<ModulePlayer>()->IsInBossCombat() 
 		&& !elevator->GetBooked())
 	{
 		elevator->SetBooked(false);
@@ -107,7 +109,7 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 			return;
 		}
 
-		if (!App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<CameraControllerScript>()->IsInCombat()) 
+		if (!App->GetModule<ModulePlayer>()->IsInCombat()) 
 		{
 			OpenDoor();
 		}
@@ -139,6 +141,7 @@ void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 	{
 		if (other->GetOwner()->CompareTag("Enemy"))
 		{
+			wasActivatedByEnemy = false;
 			CloseDoor();
 		}
 	}
@@ -149,6 +152,7 @@ void ActivationLogic::NextInTheList()
 	elevator->SetBooked(true);
 	elevator->SetDisableInteractionsEnemies(enemiesWaiting[0],false, false, false);
 	enemiesWaiting.erase(enemiesWaiting.begin());
+	wasActivatedByEnemy = true;
 	OpenDoor();
 }
 
