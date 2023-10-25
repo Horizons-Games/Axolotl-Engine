@@ -114,8 +114,7 @@ void EnemyMiniBossTwo::CheckState()
 	{
 		if (bossState != MiniBossTwoBehaviours::IDLE)
 		{
-			aiMovement->SetMovementStatuses(false, false
-			);
+			aiMovement->SetMovementStatuses(false, false);
 			componentAnimation->SetParameter("IsRunning", false);
 			componentAnimation->SetParameter("IsRangedAttacking", false);
 
@@ -137,14 +136,7 @@ void EnemyMiniBossTwo::CheckState()
 		}
 	}
 	else 
-	{
-		if (bossState == MiniBossTwoBehaviours::SEEK)
-		{
-			seekScript->DisableMovement();
-			aiMovement->SetMovementStatuses(false, true);
-			componentAnimation->SetParameter("IsRunning", false);
-		}
-		
+	{	
 		if (bossState != MiniBossTwoBehaviours::RANGEDATTACK)
 		{
 			if (!boostOfEnergy->IsAttacking() && rangedAttack->IsAttackAvailable())

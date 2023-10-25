@@ -58,12 +58,12 @@ void ComponentAudioSource::SetSwitch(const wchar_t* switchGroup, const wchar_t* 
 	AK::SoundEngine::SetSwitch(switchGroup, switchSound, sourceID);
 }
 
-void ComponentAudioSource::SignalEnable(bool isSceneLoading)
+void ComponentAudioSource::SignalEnable()
 {
 	OnTransformChanged();
 }
 
-void ComponentAudioSource::SignalDisable(bool isSceneLoading)
+void ComponentAudioSource::SignalDisable()
 {
 	AK::SoundEngine::StopAll(sourceID);
 }

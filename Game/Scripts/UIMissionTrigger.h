@@ -26,6 +26,7 @@ public:
 	void OnCollisionExit(ComponentRigidBody* other) override;
 
 	void DisableTextBox(float time);
+	void ActivateTextBoxManually();
 
 private:
 

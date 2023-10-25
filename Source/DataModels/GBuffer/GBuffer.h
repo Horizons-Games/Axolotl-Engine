@@ -13,6 +13,7 @@ public :
 	void BindFrameBuffer();
 	void ReadFrameBuffer();
 	void DrawFrameBuffer();
+	void ClearFrameBuffer();
 	void UnBindFrameBuffer();
 
 	void BindTexture();

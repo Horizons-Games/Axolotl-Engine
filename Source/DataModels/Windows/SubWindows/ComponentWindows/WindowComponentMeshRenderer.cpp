@@ -261,6 +261,15 @@ void WindowComponentMeshRenderer::DrawSetMaterial()
 				ImGui::EndCombo();
 			}
 
+			bool reflective = asMeshRenderer->IsReflective();
+			ImGui::Text("Reflective:");
+			ImGui::SameLine();
+			if (ImGui::Checkbox("##Reflective", &reflective))
+			{
+				asMeshRenderer->SetReflective(reflective);
+				updateMaterials = true;
+			}
+
 			bool discard = asMeshRenderer->IsDiscarded();
 			ImGui::Text("Discard:");
 			ImGui::SameLine();

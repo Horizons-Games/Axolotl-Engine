@@ -146,7 +146,7 @@ void LightAttackBullet::SetDamage(float nDamageAttack)
 
 void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->CompareTag("Enemy"))
+	if (other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("PriorityTarget"))
 	{
 		if (playerAttackScript->IsMelee())
 		{

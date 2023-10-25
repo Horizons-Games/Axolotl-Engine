@@ -12,6 +12,7 @@ class PlayerAttackScript;
 class PlayerJumpScript;
 class PlayerMoveScript;
 class PlayerHackingUseScript;
+class PlayerForceUseScript;
 class DebugGame;
 
 enum class PlayerActions
@@ -31,6 +32,8 @@ public:
 	~PlayerManagerScript() override = default;
 
 	void Start() override;
+
+	bool InsideForceOrHackingZone();
 
 	float GetPlayerAttack() const;
 	float GetPlayerDefense() const;
@@ -82,6 +85,7 @@ private:
 	PlayerAttackScript* attackManager;
 	DebugGame* debugManager;
 	PlayerHackingUseScript* hackingManager;
+	PlayerForceUseScript* forceManager;
 	btVector3 rigidBodyLinearVelocity;
 	btVector3 rigidBodyGravity;
 	btVector3 rigidBodyManager;

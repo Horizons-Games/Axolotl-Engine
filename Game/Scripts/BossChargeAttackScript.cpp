@@ -11,6 +11,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidbody.h"
+#include "Components/ComponentBreakable.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentObstacle.h"
 #include "Components/ComponentAudioSource.h"
@@ -282,6 +283,10 @@ void BossChargeAttackScript::SpawnRock(const float3& spawnPosition)
 	ComponentRigidBody* newRockRigidBody = newRock->GetComponent<ComponentRigidBody>();
 	newRockRigidBody->UpdateRigidBody();
 	newRockRigidBody->Enable();
+
+	ComponentBreakable* newRockBreakable = newRock->GetComponent<ComponentBreakable>();
+
+	ComponentParticleSystem* newRockVFX = newRock->GetComponent<ComponentParticleSystem>();
 
 	if (!newRock->GetChildren().empty())
 	{
