@@ -54,7 +54,8 @@ private:
 	FinalBossScript* finalBossScript;
 
 	float3 initialPosition;
-	float3 midJumpPosition;
+	float3 midJumpPositionStart;
+	float3 midJumpPositionBack;
 
 	AttackState missilesAttackState;
 
@@ -63,9 +64,11 @@ private:
 	float missileSpawnTime;
 
 	ComponentTransform* safePositionSelected;
+	ComponentTransform* backPositionSelected;
 
 	//Modifiable values
-	std::vector<ComponentTransform*> safePositionsTransforms;
+	std::vector<ComponentTransform*> safePositionsTransforms; // Places to where the boss jumps for the attack
+	std::vector<ComponentTransform*> backPositionsTransforms; // Places to where the boss gets back after the attack
 	ComponentRigidBody* battleArenaAreaSize;
 
 	float missileAttackMaxDuration;

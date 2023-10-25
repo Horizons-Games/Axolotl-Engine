@@ -16,13 +16,14 @@
 REGISTERCLASS(BossMissilesAttackScript);
 
 BossMissilesAttackScript::BossMissilesAttackScript() : Script(), missilePrefab(nullptr), 
-	safePositionSelected(nullptr), rigidBody(nullptr), initialPosition(float3::zero), midJumpPosition(float3::zero),
+	safePositionSelected(nullptr), rigidBody(nullptr), initialPosition(float3::zero), midJumpPositionStart(float3::zero),
 	transform(nullptr), missilesAttackState(AttackState::NONE), missileAttackDuration(0.0f), 
 	missileAttackMaxDuration(15.0f), missileAttackCooldown(0.0f), missileAttackMaxCooldown(30.0f),
 	missileSpawnTime(0.0f), missileMaxSpawnTime(1.0f), battleArenaAreaSize(nullptr), missileSpawningHeight(10.0f),
-	animator(nullptr)
+	animator(nullptr), backPositionSelected(nullptr), midJumpPositionBack(float3::zero)
 {
 	REGISTER_FIELD(safePositionsTransforms, std::vector<ComponentTransform*>);
+	REGISTER_FIELD(backPositionsTransforms, std::vector<ComponentTransform*>);
 	REGISTER_FIELD(battleArenaAreaSize, ComponentRigidBody*);
 
 	REGISTER_FIELD(missileAttackMaxDuration, float);
@@ -65,11 +66,17 @@ void BossMissilesAttackScript::TriggerMissilesAttack()
 	initialPosition = transform->GetGlobalPosition();
 	safePositionSelected = safePositionsTransforms[rand() % safePositionsTransforms.size()];
 	float3 safePositionGlobalPos = safePositionSelected->GetGlobalPosition();
-	midJumpPosition = float3((initialPosition.x + safePositionGlobalPos.x) / 2.0f,
+	midJumpPositionStart = float3((initialPosition.x + safePositionGlobalPos.x) / 2.0f,
 								15.0f,
 								(initialPosition.z + safePositionGlobalPos.z) / 2.0f);
 
-	MoveUserToPosition(midJumpPosition);
+	backPositionSelected = backPositionsTransforms[rand() % backPositionsTransforms.size()];
+	float3 backPositionGlobalPos = backPositionSelected->GetGlobalPosition();
+	midJumpPositionBack = float3((safePositionGlobalPos.x + backPositionGlobalPos.x) / 2.0f,
+								15.0f,
+								(safePositionGlobalPos.z + backPositionGlobalPos.z) / 2.0f);
+
+	MoveUserToPosition(midJumpPositionStart);
 
 	// VFX Here: The boss started the jump to start the missiles attack
 }
@@ -90,9 +97,9 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 	// Manage the rotation and timers
 	if (missilesAttackState == AttackState::STARTING_SAFE_JUMP)
 	{
-		RotateToTarget(midJumpPosition);
+		RotateToTarget(midJumpPositionStart);
 
-		if (transform->GetGlobalPosition().Equals(midJumpPosition, 0.5f))
+		if (transform->GetGlobalPosition().Equals(midJumpPositionStart, 0.5f))
 		{
 			missilesAttackState = AttackState::ENDING_SAFE_JUMP;
 			animator->SetParameter("IsStartingMissilesJump", false);
@@ -108,12 +115,12 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 		if (transform->GetGlobalPosition().Equals(safePositionSelected->GetGlobalPosition(), 0.5f))
 		{
 			missilesAttackState = AttackState::EXECUTING_ATTACK;
-			RotateToTarget(midJumpPosition);
+			RotateToTarget(midJumpPositionStart);
 		}
 	}
 	else if (missilesAttackState == AttackState::EXECUTING_ATTACK)
 	{
-		RotateToTarget(midJumpPosition);
+		RotateToTarget(midJumpPositionStart);
 		ManageMissileSpawning(deltaTime);
 
 		missileAttackDuration -= deltaTime;
@@ -121,7 +128,7 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 		{
 			missileAttackDuration = missileAttackMaxDuration;
 			missilesAttackState = AttackState::STARTING_BACK_JUMP;
-			MoveUserToPosition(midJumpPosition);
+			MoveUserToPosition(midJumpPositionBack);
 			animator->SetParameter("IsMissilesAttack", false);
 			animator->SetParameter("IsStartingMissilesJump", true);
 			animator->SetParameter("IsEndingMissilesJump", false);
@@ -130,22 +137,22 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 	}
 	else if (missilesAttackState == AttackState::STARTING_BACK_JUMP)
 	{
-		RotateToTarget(midJumpPosition);
+		RotateToTarget(midJumpPositionBack);
 
-		if (transform->GetGlobalPosition().Equals(midJumpPosition, 0.5f))
+		if (transform->GetGlobalPosition().Equals(midJumpPositionBack, 0.5f))
 		{
 			missilesAttackState = AttackState::ENDING_BACK_JUMP;
 			animator->SetParameter("IsStartingMissilesJump", false);
 			animator->SetParameter("IsEndingMissilesJump", true);
 			animator->SetParameter("IsMissilesLanding", true);
-			MoveUserToPosition(initialPosition);
+			MoveUserToPosition(backPositionSelected->GetGlobalPosition());
 		}
 	}
 	else if (missilesAttackState == AttackState::ENDING_BACK_JUMP)
 	{
 		RotateToTarget(initialPosition);
 
-		if (transform->GetGlobalPosition().Equals(initialPosition, 0.5f))
+		if (transform->GetGlobalPosition().Equals(backPositionSelected->GetGlobalPosition(), 0.5f))
 		{
 			missilesAttackState = AttackState::ON_COOLDOWN;
 			animator->SetParameter("IsEndingMissilesJump", false);
