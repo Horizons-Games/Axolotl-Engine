@@ -25,8 +25,6 @@ public:
 
 	bool IsForceActive() const;
 
-	bool IsInsideValidForceZone() const;
-
 	void SetInsideForceZone(bool insideForceZone);
 	bool IsInsideForceZone() const;
 

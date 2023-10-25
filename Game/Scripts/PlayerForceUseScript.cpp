@@ -261,11 +261,6 @@ bool PlayerForceUseScript::IsForceActive() const
 	return isForceActive;
 }
 
-bool PlayerForceUseScript::IsInsideValidForceZone() const
-{
-	return insideForceZone;
-}
-
 void PlayerForceUseScript::SetInsideForceZone(bool insideForceZone)
 {
 	this->insideForceZone = insideForceZone;
