@@ -120,6 +120,7 @@ void FinalBossScript::SetReadyToDie()
 	componentAnimation->SetParameter("IsTakingDamage", true);
 	componentAnimation->SetParameter("IsDead", true);
 	deathScript->ManageEnemyDeath();
+	RemoveAgent();
 
 	AXO_TODO("Roll the endgame scene when the boss dies (not necessarily here)")
 }
