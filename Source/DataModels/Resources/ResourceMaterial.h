@@ -14,10 +14,11 @@ struct LoadOptionsMaterial
 	float2 tiling;
 	float2 offset;
 	float2 percentage;
+	bool reflective;
 
 	unsigned int shaderType; //This is a special option because it's both load and import option
 
-	LoadOptionsMaterial() : 
+	LoadOptionsMaterial() :
 		diffuseColor(float4(1.0f, 1.0f, 0.0f, 1.0f)),
 		specularColor(float3(0.5f, 0.3f, 0.5f)),
 		normalStrength(1.0f),
@@ -27,7 +28,8 @@ struct LoadOptionsMaterial
 		tiling(float2(1.0f)),
 		offset(float2(0.0f)),
 		percentage(float2(100.0f)),
-		shaderType(0)
+		shaderType(0),
+		reflective(false)
 	{
 	}
 };
@@ -80,6 +82,7 @@ public:
 	const float2& GetTiling() const;
 	const float2& GetOffset() const;
 	const float2& GetPercentage() const;
+	const bool IsReflective() const;
 
 	void SetLoadOptions(LoadOptionsMaterial& options);
 	void SetDiffuse(const std::shared_ptr<ResourceTexture>& diffuse);
@@ -98,6 +101,7 @@ public:
 	void SetTiling(const float2& tiling);
 	void SetOffset(const float2& offset);
 	void SetPercentage(const float2& percentage);
+	void SetReflective(const bool reflective);
 	
 protected:
 	void InternalLoad() override{};
@@ -199,6 +203,11 @@ inline const float2& ResourceMaterial::GetOffset() const
 inline const float2& ResourceMaterial::GetPercentage() const
 {
 	return loadOptions.percentage;
+}
+
+inline const bool ResourceMaterial::IsReflective() const
+{
+	return loadOptions.reflective;
 }
 
 inline LoadOptionsMaterial& ResourceMaterial::GetLoadOptions()
@@ -326,4 +335,9 @@ inline void ResourceMaterial::SetOffset(const float2& offset)
 inline void ResourceMaterial::SetPercentage(const float2& percentage)
 {
 	loadOptions.percentage = percentage;
+}
+
+inline void ResourceMaterial::SetReflective(const bool reflective)
+{
+	loadOptions.reflective = reflective;
 }

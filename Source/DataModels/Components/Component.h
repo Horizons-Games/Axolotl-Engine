@@ -35,9 +35,9 @@ public:
 
 private:
 	// Use this to send the necessary signals when the component is enabled
-	virtual void SignalEnable(bool isSceneLoading = false){};
+	virtual void SignalEnable(){};
 	// Use this to send the necessary signals when the component is disabled
-	virtual void SignalDisable(bool isSceneLoading = false){};
+	virtual void SignalDisable(){};
 
 	virtual void InternalSave(Json& meta) = 0;
 	virtual void InternalLoad(const Json& meta) = 0;

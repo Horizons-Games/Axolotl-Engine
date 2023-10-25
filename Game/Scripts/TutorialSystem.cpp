@@ -109,7 +109,7 @@ void TutorialSystem::UnDeployUI()
 		isWaiting = true;
 		currentTutorialUI->Enable();
 		displacementControl->SetMovingToEnd(false);
-		displacementControl->MoveImageToStarPosition();
+		displacementControl->MoveImageToStartPosition();
 
 		displacementControl->SetIsMoving(true);
 
@@ -134,7 +134,7 @@ void TutorialSystem::UnDeployUI()
 void TutorialSystem::TutorialEnd()
 {
 	displacementControl->SetMovingToEnd(false);
-	displacementControl->MoveImageToStarPosition();
+	displacementControl->MoveImageToStartPosition();
 	currentTutorialUI = tutorialUI[tutorialCurrentState];
 	componentMoveScript->SetIsParalyzed(false);
 	LOG_INFO("TutorialExit");
@@ -143,7 +143,7 @@ void TutorialSystem::TutorialEnd()
 void TutorialSystem::TutorialSkip()
 {
 	displacementControl->SetMovingToEnd(false);
-	displacementControl->MoveImageToStarPosition();
+	displacementControl->MoveImageToStartPosition();
 	//currentTutorialUI->Disable();
 	tutorialCurrentState = 0;
 	currentTutorialUI = tutorialUI.front();

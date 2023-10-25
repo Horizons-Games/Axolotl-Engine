@@ -26,6 +26,7 @@ void WindowComponentObstacle::DrawWindowContents()
 		int obstacleType = asObstacle->GetObstacleType();
 		float radius = asObstacle->GetRadius();
 		float height = asObstacle->GetHeight();
+		float yOffset = asObstacle->GetYOffset();
 		float3 size = asObstacle->GetBoxSize();
 		bool mustBeDrawnGizmo = asObstacle->GetDrawGizmo();
 		bool dirty = false;
@@ -87,6 +88,11 @@ void WindowComponentObstacle::DrawWindowContents()
 		if (ImGui::Button("Reset Size"))
 		{
 			asObstacle->ResetSize();
+		}
+
+		if (ImGui::DragFloat("Y offset", &yOffset, 0.5f, 0, inf))
+		{
+			asObstacle->SetYOffset(yOffset);
 		}
 
 		ImGui::Text("");

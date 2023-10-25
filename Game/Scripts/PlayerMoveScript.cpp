@@ -74,6 +74,10 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 		{
 			return;
 		}
+		else
+		{
+			btRigidbody->setAngularVelocity({ 0.0f,0.0f,0.0f });
+		}
 
 		if (isParalyzed)
 		{
@@ -96,6 +100,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	desiredRotation = owner->GetComponent<ComponentTransform>()->GetGlobalForward();
 
 	btRigidbody->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
+	btRigidbody->setAngularVelocity(btVector3(0.0f, 0.0f, 0.0f));
 
 	btVector3 movement(0, 0, 0);
 
@@ -309,13 +314,28 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 	btRigidbody->getMotionState()->setWorldTransform(worldTransform);
 }
 
+bool PlayerMoveScript::CheckRightTrigger() 
+{
+	if (input->GetRightTriggerIntensity() == 0)
+	{
+		rightTrigger = false;
+		return false;
+	}
+	else if (!rightTrigger && input->GetRightTriggerIntensity() > 16.383)
+	{
+		rightTrigger = true;
+		return true;
+	}
+	return false;
+}
+
 void PlayerMoveScript::DashRoll(float deltaTime)
 {
 	if (playerAttackScript->IsAttackAvailable() &&
 		timeSinceLastDash > dashRollCooldown &&
 		(playerManager->GetPlayerState() == PlayerActions::IDLE ||
 		playerManager->GetPlayerState() == PlayerActions::WALKING) &&
-		(input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN ||
+		(CheckRightTrigger() ||
 		isTriggeringStoredDash))
 	{
 		// Start a dash
@@ -353,7 +373,7 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 	}
 	else
 	{
-		if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN &&
+		if (CheckRightTrigger() &&
 			(playerManager->GetPlayerState() == PlayerActions::IDLE ||
 			playerManager->GetPlayerState() == PlayerActions::WALKING))
 		{
@@ -388,7 +408,7 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 
 void PlayerMoveScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	LOG_INFO("Entering RigidBody: " + other->GetOwner()->GetName());
+	
 	if (other->GetOwner()->CompareTag("Water"))
 	{
 		waterCounter++;

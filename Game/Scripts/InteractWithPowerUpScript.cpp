@@ -4,9 +4,12 @@
 #include "Components/ComponentScript.h"
 
 #include "Application.h"
+#include "ModulePlayer.h"
+#include "CameraControllerScript.h"
 
 #include "../Scripts/PowerUpsManagerScript.h"
 #include "../Scripts/PowerUpLogicScript.h"
+#include "../Scripts/PlayerManagerScript.h"
 
 REGISTERCLASS(InteractWithPowerUpScript);
 
@@ -23,8 +26,13 @@ void InteractWithPowerUpScript::Start()
 
 void InteractWithPowerUpScript::Update(float deltaTime)
 {
+	if (App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->InsideForceOrHackingZone())
+	{
+		return;
+	}
+
 	// Press Z to activate a saved powerup
-	if (input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
 	{
 		powerUpsManagerScript->UseSavedPowerUp();
 	}

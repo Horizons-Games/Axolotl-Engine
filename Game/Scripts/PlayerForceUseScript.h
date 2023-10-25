@@ -2,18 +2,17 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
-#include "Math/Quat.h"
+
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ModuleInput;
-class CameraControllerScript;
-class PlayerRotationScript;
 class PlayerManagerScript;
 class PlayerMoveScript;
 class ComponentTransform;
 class ComponentRigidBody;
 class ComponentAnimation;
 class ComponentAudioSource;
+class ForceZoneScript;
 
 class PlayerForceUseScript : public Script
 {
@@ -26,44 +25,39 @@ public:
 
 	bool IsForceActive() const;
 
-private:
+	void SetInsideForceZone(bool insideForceZone);
+	bool IsInsideForceZone() const;
 
+private:
+	void DisableAllInteractions() const;
+	void EnableAllInteractions() const;
+	void InitForce();
+	void FinishForce();
+
+private:
     GameObject* gameObjectAttached;
-    GameObject* gameObjectAttachedParent;
 	float distancePointGameObjectAttached;
-	float maxDistanceForce;
 	float minDistanceForce;
-	float maxTimeForce;
-	float currentTimeForce;
 	float lastHorizontalSensitivity;
 	float lastVerticalSensitivity;
-	float lastMoveSpeed;
+	float gravity;
 	bool isForceActive;
 	bool objectStaticness;
 
-	bool breakForce;
+    std::string forceTag;
+	ForceZoneScript* forceZone;
 
-    std::string tag;
-	std::string tag2;
-	
-	PlayerRotationScript* rotationHorizontalScript;
-	CameraControllerScript* rotationVerticalScript;
-	PlayerManagerScript* playerManagerScript;
+	PlayerManagerScript* playerManager;
 	PlayerMoveScript* moveScript;
-	float3 offsetFromPickedPoint;
-	float3 pickedPlayerPosition;
-	Quat pickedRotation;
 
 	ComponentAudioSource* componentAudioSource;
 	ComponentAnimation* componentAnimation;
 	ComponentTransform* transform;
 	ComponentRigidBody* rigidBody;
 
+	GameObject* forceZoneObject;
 
 	ModuleInput* input;
-};
 
-inline bool PlayerForceUseScript::IsForceActive() const
-{
-	return isForceActive;
-}
+	bool insideForceZone;
+};

@@ -1,6 +1,6 @@
 {
-    "DiffuseAssetPath": "",
-    "NormalAssetPath": "",
+    "DiffuseAssetPath": "Assets/Textures/g_DoorLow_Material_AlbedoTransparency.png",
+    "NormalAssetPath": "Assets/Textures/g_DoorLow_Material_Normal.png",
     "OcclusionAssetPath": "",
     "MetalicAssetPath": "",
     "EmissiveAssetPath": ""

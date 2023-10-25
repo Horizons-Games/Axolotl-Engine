@@ -50,6 +50,8 @@ private:
 
 	float xFocusOffset;
 	float yFocusOffset;
+	float yFocusOffsetBossUp;
+	float actualYFocusOffset;
 
 	float minDistance;
 	float minMultiplier;

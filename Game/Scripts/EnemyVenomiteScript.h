@@ -15,6 +15,7 @@ class EnemyDeathScript;
 class PathBehaviourScript;
 
 class ComponentTransform;
+class ComponentRigidBody;
 class ComponentAnimation;
 class ComponentAudioSource;
 class ComponentParticleSystem;
@@ -60,6 +61,7 @@ private:
 	PathBehaviourScript* pathScript;
 
 	ComponentTransform* ownerTransform;
+	ComponentRigidBody* ownerRigidBody;
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudioSource;
 	ComponentParticleSystem* exclamationParticle;
@@ -75,4 +77,5 @@ private:
 	GameObject* blasterGameObject;
 
 	bool isFirstPatrolling;
+	math::float3 initialPosition;
 };

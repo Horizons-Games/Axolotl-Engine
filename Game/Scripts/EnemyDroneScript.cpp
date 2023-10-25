@@ -7,6 +7,9 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentParticleSystem.h"
 
+#include "ModulePlayer.h"
+#include "Application.h"
+
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
 #include "../Scripts/RangedFastAttackBehaviourScript.h"
@@ -51,6 +54,8 @@ void EnemyDroneScript::Start()
 	}
 
 	ownerTransform = owner->GetComponent<ComponentTransform>();
+	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
+	initialPosition = ownerTransform->GetGlobalPosition();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
@@ -73,6 +78,16 @@ void EnemyDroneScript::Start()
 
 void EnemyDroneScript::Update(float deltaTime)
 {
+	if (!App->GetModule<ModulePlayer>()->IsInCombat())
+	{
+		droneState = DroneBehaviours::IDLE;
+		componentAnimation->SetParameter("IsRunning", false);
+		ownerTransform->SetGlobalPosition(initialPosition);
+		ownerRigidBody->UpdateRigidBody();
+		aiMovement->SetMovementStatuses(false, false);
+		return;
+	}
+
 	if (paralyzed)
 	{
 		return;
@@ -290,8 +305,10 @@ void EnemyDroneScript::UpdateBehaviour(float deltaTime)
 
 	case DroneBehaviours::EXPLOSIONATTACK:
 
-		aiMovement->SetTargetPosition(target);
-		aiMovement->SetRotationTargetPosition(target);
+		if(healthScript->EntityIsAlive()){
+			aiMovement->SetTargetPosition(target);
+			aiMovement->SetRotationTargetPosition(target);
+		}
 
 		break;
 	
@@ -326,6 +343,7 @@ void EnemyDroneScript::ResetValues()
 	droneState = DroneBehaviours::INPATH;
 	fastAttackScript->ResetScriptValues();
 	healthScript->HealLife(1000.0f); // It will cap at max health
+	aiMovement->SetMovementStatuses(true, true);
 	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
 	enemyDeathScript->ResetDespawnTimerAndEnableActions();
 	if(pathScript)
@@ -377,6 +395,7 @@ void EnemyDroneScript::SetReadyToDie()
 {
 	componentAnimation->SetParameter("IsTakingDamage", true);
 	fastAttackScript->InterruptAttack();
+	healthScript->SetIsImmortal(true);
 	droneState = DroneBehaviours::READYTOEXPLODE;
 }
 
