@@ -75,7 +75,7 @@ void ComboManager::CheckSpecial(float deltaTime)
 		if (comboCount > 0)
 		{
 			ClearCombo(false);
-			if (!specialActivated) 
+			if (!specialActivated)
 			{
 				actualComboTimer = comboTime;
 			}

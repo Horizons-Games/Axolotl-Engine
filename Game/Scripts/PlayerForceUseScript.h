@@ -25,6 +25,11 @@ public:
 
 	bool IsForceActive() const;
 
+	bool IsInsideValidForceZone() const;
+
+	void SetInsideForceZone(bool insideForceZone);
+	bool IsInsideForceZone() const;
+
 private:
 	void DisableAllInteractions() const;
 	void EnableAllInteractions() const;
@@ -55,4 +60,6 @@ private:
 	GameObject* forceZoneObject;
 
 	ModuleInput* input;
+
+	bool insideForceZone;
 };

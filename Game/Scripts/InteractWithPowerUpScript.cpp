@@ -9,6 +9,7 @@
 
 #include "../Scripts/PowerUpsManagerScript.h"
 #include "../Scripts/PowerUpLogicScript.h"
+#include "../Scripts/PlayerManagerScript.h"
 
 REGISTERCLASS(InteractWithPowerUpScript);
 
@@ -25,7 +26,7 @@ void InteractWithPowerUpScript::Start()
 
 void InteractWithPowerUpScript::Update(float deltaTime)
 {
-	if (!App->GetModule<ModulePlayer>()->IsInCombat()) 
+	if (App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->InsideForceOrHackingZone())
 	{
 		return;
 	}
