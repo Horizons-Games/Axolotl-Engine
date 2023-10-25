@@ -31,8 +31,8 @@ REGISTERCLASS(TutorialSystem);
 
 TutorialSystem::TutorialSystem() :
 	Script(), tutorialCurrentState(0), tutorialTotalStates(0), stateWaitTime(0.0f), 
-	totalStateWaitTime(0.0f), dummy(nullptr), numNotControllableStates(0.0f), initialPos(45.0f, -195.0f, 0.0f), isWaiting(false),
-	stayPos(45.0f, 195.0f, 0.0f)
+	totalStateWaitTime(0.0f), dummy(nullptr), numNotControllableStates(0.0f), initialPos(-46.0f, -208.665f, 0.0f), isWaiting(false),
+	stayPos(-46.0f, 208.665f, 0.0f)
 {
 	REGISTER_FIELD(totalStateWaitTime, float);
 	REGISTER_FIELD(stateWaitTime, float); 
