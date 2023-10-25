@@ -1,0 +1,11 @@
+{
+    "UID": 12098532324890074419,
+    "Type": "Textures",
+    "flipVertical": true,
+    "flipHorizontal": false,
+    "min": 5,
+    "mag": 1,
+    "wrapS": 0,
+    "wrapT": 0,
+    "mipMap": true
+}

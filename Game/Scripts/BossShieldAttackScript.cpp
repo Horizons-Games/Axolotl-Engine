@@ -18,6 +18,7 @@
 #include "../Scripts/EnemyVenomiteScript.h"
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PathBehaviourScript.h"
+#include "../Scripts/AIMovement.h"
 
 REGISTERCLASS(BossShieldAttackScript);
 
@@ -104,6 +105,7 @@ void BossShieldAttackScript::TriggerShieldAttack()
 	bossShieldObject->ActivateShield();
 	healthSystemScript->SetIsImmortal(true);
 	//bossShieldEnemiesSpawner->StartSpawner();
+	owner->GetComponent< AIMovement>()->SetMovementStatuses(false, false);
 
 	isShielding = true;
 	animator->SetParameter("IsShieldAttack", true);
@@ -208,6 +210,7 @@ void BossShieldAttackScript::DisableShielding()
 	bossShieldObject->DeactivateShield();
 
 	healthSystemScript->SetIsImmortal(false);
+	owner->GetComponent< AIMovement>()->SetMovementStatuses(true, true);
 	if (!manageEnemySpawner)
 	{
 		bossShieldEnemiesSpawner->StopSpawner();

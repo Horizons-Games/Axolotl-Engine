@@ -7,7 +7,9 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidbody.h"
+#include "Components/ComponentBreakable.h"
 #include "Components/ComponentObstacle.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/WaypointStateScript.h"
@@ -15,17 +17,23 @@
 REGISTERCLASS(BossChargeRockScript);
 
 BossChargeRockScript::BossChargeRockScript() : Script(), rockState(RockStates::SKY), fallingRockDamage(10.0f),
-	despawnTimer(0.0f), despawnMaxTimer(30.0f), triggerRockDespawn(false), rockHitAndRemained(false), 
-	waypointCovered(nullptr)
+	despawnTimer(0.0f), despawnMaxTimer(30.0f), fallingDespawnMaxTimer(30.0f),fallingTimer(0.0f),
+	breakTimer(0.0f),breakMaxTimer(30.0f), triggerRockDespawn(false),
+	rockHitAndRemained(false), waypointCovered(nullptr)
 {
 	REGISTER_FIELD(fallingRockDamage, float);
 	REGISTER_FIELD(despawnMaxTimer, float);
+	REGISTER_FIELD(fallingDespawnMaxTimer, float);
+	REGISTER_FIELD(breakMaxTimer, float);
 }
 
 void BossChargeRockScript::Start()
 {
 	despawnTimer = despawnMaxTimer;
+	breakTimer = breakMaxTimer;
+	fallingTimer = fallingDespawnMaxTimer;
 
+	breakRockVFX = owner->GetComponent<ComponentParticleSystem>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	rockGravity = rigidBody->GetRigidBody()->getGravity();
 }
@@ -50,6 +58,24 @@ void BossChargeRockScript::Update(float deltaTime)
 		if (despawnTimer <= 0.0f)
 		{
 			DestroyRock();
+		}
+	}
+	if (triggerRockDespawnbyFalling)
+	{
+		fallingTimer -= deltaTime;
+		if (fallingTimer <= 0.0f)
+		{
+			DestroyRock();
+		}
+	}
+	if (triggerBreakTimer)
+	{
+		breakTimer -= deltaTime;
+		if (breakTimer <= 0.0f)
+		{
+			owner->GetComponent<ComponentBreakable>()->BreakComponent();
+			breakRockVFX->Stop();
+			breakRockVFX->Disable();
 		}
 	}
 }
@@ -78,8 +104,8 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 		{
 			other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(fallingRockDamage);
 			rockState = RockStates::HIT_ENEMY;
-			DeactivateRock();
-
+			triggerRockDespawnbyFalling = true;
+			owner->GetComponent<ComponentBreakable>()->BreakComponentFalling();
 			// VFX Here: Rock hit an enemy on the head while falling
 		}
 		else if (other->GetOwner()->CompareTag("Waypoint"))
@@ -91,6 +117,9 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 		{
 			owner->GetComponent<ComponentObstacle>()->AddObstacle();
 			// VFX Here: Rock hit the floor
+			triggerBreakTimer = true;
+			breakRockVFX->Enable();
+			breakRockVFX->Play();
 			rockState = RockStates::FLOOR;
 		}
 	}
