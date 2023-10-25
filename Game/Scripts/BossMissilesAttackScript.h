@@ -61,7 +61,7 @@ private:
 
 	float missileAttackDuration;
 	float missileAttackCooldown;
-	float missileSpawnTime;
+	float timeSinceLastMissile;
 
 	ComponentTransform* safePositionSelected;
 	ComponentTransform* backPositionSelected;

@@ -19,7 +19,7 @@ BossMissilesAttackScript::BossMissilesAttackScript() : Script(), missilePrefab(n
 	safePositionSelected(nullptr), rigidBody(nullptr), initialPosition(float3::zero), midJumpPositionStart(float3::zero),
 	transform(nullptr), missilesAttackState(AttackState::NONE), missileAttackDuration(0.0f), 
 	missileAttackMaxDuration(15.0f), missileAttackCooldown(0.0f), missileAttackMaxCooldown(30.0f),
-	missileSpawnTime(0.0f), missileMaxSpawnTime(1.0f), battleArenaAreaSize(nullptr), missileSpawningHeight(10.0f),
+	timeSinceLastMissile(0.0f), missileMaxSpawnTime(1.0f), battleArenaAreaSize(nullptr), missileSpawningHeight(10.0f),
 	animator(nullptr), backPositionSelected(nullptr), midJumpPositionBack(float3::zero)
 {
 	REGISTER_FIELD(safePositionsTransforms, std::vector<ComponentTransform*>);
@@ -121,10 +121,13 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 	else if (missilesAttackState == AttackState::EXECUTING_ATTACK)
 	{
 		RotateToTarget(midJumpPositionStart);
-		ManageMissileSpawning(deltaTime);
 
-		missileAttackDuration -= deltaTime;
-		if (missileAttackDuration <= 0.0f)
+		if (animator->GetActualStateName() == "BossMissilesAttackIdle")
+		{
+			ManageMissileSpawning(deltaTime);
+		}
+
+		if (missileAttackDuration <= 7.5f)
 		{
 			missileAttackDuration = missileAttackMaxDuration;
 			missilesAttackState = AttackState::STARTING_BACK_JUMP;
@@ -180,16 +183,18 @@ void BossMissilesAttackScript::MoveUserToPosition(const float3& selectedPosition
 
 void BossMissilesAttackScript::ManageMissileSpawning(float deltaTime)
 {
-	if (missileSpawnTime > 0.0f)
+	missileAttackDuration -= deltaTime;
+
+	if (timeSinceLastMissile > 0.0f)
 	{
-		missileSpawnTime -= deltaTime;
+		timeSinceLastMissile -= deltaTime;
 	}
 	else
 	{
 		float3 selectedPosition = SelectSpawnPosition();
 		SpawnMissileInPosition(missilePrefab, selectedPosition);
 
-		missileSpawnTime = missileMaxSpawnTime;
+		timeSinceLastMissile = missileMaxSpawnTime;
 	}
 }
 
