@@ -19,8 +19,8 @@ public:
 private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
-	void SignalEnable(bool isSceneLoading) override;
-	void SignalDisable(bool isSceneLoading) override;
+	void SignalEnable() override;
+	void SignalDisable() override;
 
 private:
 	uint64_t sourceID;

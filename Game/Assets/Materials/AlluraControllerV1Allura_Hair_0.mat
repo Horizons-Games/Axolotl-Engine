@@ -2,6 +2,6 @@
     "DiffuseAssetPath": "Assets/Textures/AlluraControllerV1_Allura_Hair_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/AlluraControllerV1_Allura_Hair_Normal.png",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/AlluraControllerV1_Allura_Hair_MetallicSmoothness.png",
+    "MetalicAssetPath": "",
     "EmissiveAssetPath": ""
 }

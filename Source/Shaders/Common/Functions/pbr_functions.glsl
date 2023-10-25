@@ -5,13 +5,13 @@
 #define EPSILON 1e-5
 
 vec3 GetAmbientLight(in vec3 normal, in vec3 R, float NdotV, float roughness, in vec3 diffuseColor, in vec3 specularColor,
-samplerCube diffuse, samplerCube prefiltered, sampler2D environmentBRDF, int numLevels)
+samplerCube diffuse, samplerCube prefiltered, sampler2D environmentBRDF, int numLevels, vec4 planarColor)
 {
     vec3 irradiance = texture(diffuse, normal).rgb;
-    vec3 radiance = textureLod(prefiltered, R, roughness * numLevels).rgb;
+    vec3 radiance = mix(textureLod(prefiltered, R, roughness * numLevels).rgb, planarColor.rgb, planarColor.a);
     vec2 fab = texture(environmentBRDF, vec2(NdotV, roughness)).rg;
-    vec3 color = (diffuseColor * (1 - specularColor));
-    return color * irradiance + radiance * (specularColor * fab.x + fab.y);
+    vec3 indirect =  (diffuseColor * (1 - specularColor)) * irradiance + radiance * (specularColor * fab.x + fab.y);
+    return indirect;
 }
 
 mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
@@ -19,6 +19,12 @@ mat3 CreateTangentSpace(const vec3 normal, const vec3 tangent)
     vec3 orthoTangent = normalize(tangent - max(dot(tangent, normal),EPSILON) * normal);
     vec3 bitangent = cross(orthoTangent, normal);
     return mat3(tangent, bitangent, normal); //TBN
+}
+
+mat3 CreateTangentSpace(const vec3 normal) // Plane purpouse
+{
+    vec3 tangent = normalize(vec3(-normal.y, normal.x, normal.z));
+    return CreateTangentSpace(normal, tangent);
 }
 
 vec3 fresnelSchlick(vec3 F0, float dotLH)

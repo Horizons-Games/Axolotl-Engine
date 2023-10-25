@@ -14,7 +14,6 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentParticleSystem.h"
 
@@ -27,7 +26,7 @@ REGISTERCLASS(RangedFastAttackBehaviourScript);
 
 RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), 
 	lastAttackTime(0.f), particleSystemShot(nullptr), particleSystemPreShot(nullptr), audioSource(nullptr), shootPosition(nullptr),
-	particleTransform(nullptr), animation(nullptr), transform(nullptr), loadedScene(nullptr), preShotDuration(0.0f),
+	particleTransform(nullptr), transform(nullptr), loadedScene(nullptr), preShotDuration(0.0f),
 	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0), isPreShooting(false),
 	preShootingTime(0.0f), particlePreShotTransform(nullptr), numConsecutiveShots(0.0f), minTimeConsecutiveShot(0.0f),
 	maxTimeConsecutiveShot(0.0f), currentConsecutiveShots(0.0f), nextShotDuration(0.0f), shotTime(0.0f),
@@ -59,7 +58,6 @@ void RangedFastAttackBehaviourScript::Start()
 	{
 		particlePreShotTransform = particleSystemPreShot->GetOwner()->GetComponent<ComponentTransform>();
 	}
-	animation = owner->GetComponent<ComponentAnimation>();
 	aiMovement = owner->GetComponent<AIMovement>();
 	rb = owner->GetComponent<ComponentRigidBody>();
 
@@ -129,8 +127,6 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 		}
 		particleSystemShot->Play();
 	}
-
-	animation->SetParameter("IsAttacking", true);
 
 	// Create a new bullet
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);

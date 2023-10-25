@@ -24,4 +24,5 @@ private:
 	ComponentRigidBody* componentRigidBody;
 	float enemiesToDefeat;
 	bool isBoss;
+	bool fightStraightAway;
 };
