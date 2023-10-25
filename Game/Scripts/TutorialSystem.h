@@ -17,8 +17,6 @@ class UIImageDisplacementControl;
 class HealthSystem;
 class PlayerMoveScript;
 
-
-
 class TutorialSystem : public Script
 {
 public:
