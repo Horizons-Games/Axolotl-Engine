@@ -32,12 +32,12 @@ void UIApearDisapear::Update(float deltaTime)
 		float4 color = image->GetColor();
 		if (color.w > objectiveAlpha)
 		{
-			color.w -= 0.05;
+			color.w -= 0.05f;
 			image->SetColor(color);
 		}
 		else if(color.w < objectiveAlpha)
 		{
-			color.w += 0.05;
+			color.w += 0.05f;
 			image->SetColor(color);
 		}
 		else
