@@ -2,6 +2,6 @@
     "DiffuseAssetPath": "Assets/Textures/futuristic_wall_Material_BaseColor.png",
     "NormalAssetPath": "Assets/Textures/futuristic_wall_Material_Normal.png",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/futuristic_wall_Material_Metallic.png",
+    "MetalicAssetPath": "",
     "EmissiveAssetPath": "Assets/Textures/futuristic_wall_Material_Emissive.png"
 }
