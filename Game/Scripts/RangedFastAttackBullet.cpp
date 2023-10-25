@@ -25,7 +25,7 @@ REGISTERCLASS(RangedFastAttackBullet);
 
 
 RangedFastAttackBullet::RangedFastAttackBullet() : Script(), parentTransform(nullptr), rigidBody(nullptr), velocity(15.0f), 
-audioSource(nullptr), bulletLifeTime(10.0f), damageAttack(10.0f), rayAttackSize(100.0f), originTime(0.0f), 
+audioSource(nullptr), bulletLifeTime(10.0f), damageAttack(10.0f), rayAttackSize(100.0f), currentBulletLifeTime(0.0f),
 particleSystem(nullptr), waitParticlesToDestroy(false), particlesDuration(1.0f), mesh(nullptr), targetTag("Not Selected")
 {
 }
@@ -42,7 +42,9 @@ void RangedFastAttackBullet::Update(float deltaTime)
 		particlesDuration -= deltaTime;
 	}
 
-	if (SDL_GetTicks() / 1000.0f > originTime + bulletLifeTime || particlesDuration <= 0.0f)
+	currentBulletLifeTime += deltaTime;
+
+	if (currentBulletLifeTime > bulletLifeTime || particlesDuration <= 0.0f)
 	{
 		DestroyBullet();
 	}
@@ -94,12 +96,11 @@ void RangedFastAttackBullet::InitializeBullet()
 			forward.x,
 			0,
 			forward.z) * velocity);
-
-	originTime = SDL_GetTicks() / 1000.0f;
 }
 
 void RangedFastAttackBullet::DestroyBullet()
 {
+	App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(particleSystem);
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }
 

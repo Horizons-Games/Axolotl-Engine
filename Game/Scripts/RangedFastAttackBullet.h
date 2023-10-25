@@ -32,7 +32,7 @@ private:
 	float bulletLifeTime;
 	float damageAttack;
 	float rayAttackSize;
-	float originTime;
+	float currentBulletLifeTime;
 	bool waitParticlesToDestroy;
 	float particlesDuration;
 
