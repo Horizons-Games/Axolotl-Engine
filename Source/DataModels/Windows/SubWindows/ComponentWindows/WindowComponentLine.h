@@ -2,9 +2,10 @@
 #include "ComponentWindow.h"
 
 class ComponentLine;
-struct ImGradientMark;
 class ResourceTexture;
 class WindowLineTexture;
+
+struct ImGradientMark;
 
 class WindowComponentLine : public ComponentWindow
 {

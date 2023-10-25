@@ -2,9 +2,13 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentParticleSystem.h"
+
+#include "ModulePlayer.h"
+#include "Application.h"
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
@@ -41,6 +45,8 @@ void EnemyVenomiteScript::Start()
 	enemyType = EnemyTypes::VENOMITE;
 
 	ownerTransform = owner->GetComponent<ComponentTransform>();
+	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
+	initialPosition = ownerTransform->GetGlobalPosition();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	//componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
@@ -66,6 +72,16 @@ void EnemyVenomiteScript::Start()
 
 void EnemyVenomiteScript::Update(float deltaTime)
 {
+	if (!App->GetModule<ModulePlayer>()->IsInCombat())
+	{
+		venomiteState = VenomiteBehaviours::IDLE;
+		componentAnimation->SetParameter("IsRunning", false);
+		ownerTransform->SetGlobalPosition(initialPosition);
+		ownerRigidBody->UpdateRigidBody();
+		aiMovement->SetMovementStatuses(false, false);
+		return;
+	}
+	
 	if (paralyzed)
 	{
 		return;
@@ -295,8 +311,9 @@ void EnemyVenomiteScript::ParalyzeEnemy(bool nparalyzed)
 
 void EnemyVenomiteScript::SetReadyToDie()
 {
+	ParalyzeEnemy(true);
 	componentAnimation->SetParameter("IsDead", true);
-
+	aiMovement->SetMovementStatuses(false, false);
 	deathScript->ManageEnemyDeath();
 }
 
@@ -310,7 +327,8 @@ void EnemyVenomiteScript::ResetValues()
 		componentAnimation->SetParameter(parameter.first, false);
 	}
 
-	componentAnimation->SetParameter("IsRunning", true);
+	ParalyzeEnemy(false);
+	aiMovement->SetMovementStatuses(true, true);
 	venomiteState = VenomiteBehaviours::INPATH;
 	meleeAttackScript->ResetScriptValues();
 	healthScript->HealLife(1000.0f); // It will cap at max health
@@ -318,6 +336,7 @@ void EnemyVenomiteScript::ResetValues()
 	enemyDeathScript->ResetDespawnTimerAndEnableActions();
 	if (pathScript)
 	{
+		patrolScript->StopPatrol();
 		pathScript->Enable();
 		pathScript->ResetPath();
 	}

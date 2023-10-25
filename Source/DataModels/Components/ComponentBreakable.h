@@ -19,6 +19,7 @@ public:
 
 	void BreakComponentBy(class ComponentRigidBody* other);
 	void BreakComponent();
+	void BreakComponentFalling();
 	bool GetSubscribed();
 
 private:

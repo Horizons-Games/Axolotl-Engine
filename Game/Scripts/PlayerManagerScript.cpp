@@ -6,10 +6,10 @@
 #include "Components/ComponentAnimation.h"
 
 #include "PlayerJumpScript.h"
-#include "PlayerRotationScript.h"
 #include "PlayerMoveScript.h"
 #include "PlayerAttackScript.h"
 #include "PlayerHackingUseScript.h"
+#include "PlayerForceUseScript.h"
 #include "HealthSystem.h"
 
 #include "DebugGame.h"
@@ -38,12 +38,29 @@ void PlayerManagerScript::Start()
 	jumpManager = owner->GetComponent<PlayerJumpScript>();
 	healthManager = owner->GetComponent<HealthSystem>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
-	rotationManager = owner->GetComponent<PlayerRotationScript>();
 	attackManager = owner->GetComponent<PlayerAttackScript>();
 	playerGravity = owner->GetComponent<ComponentRigidBody>()->GetGravity();
+
 	if (owner->HasComponent<PlayerHackingUseScript>())
 	{
 		hackingManager = owner->GetComponent<PlayerHackingUseScript>();
+	}
+
+	if (owner->HasComponent<PlayerForceUseScript>()) 
+	{
+		forceManager = owner->GetComponent<PlayerForceUseScript>();
+	}
+}
+
+bool PlayerManagerScript::InsideForceOrHackingZone() 
+{
+	if (forceManager)
+	{
+		return forceManager->IsInsideForceZone();
+	}
+	else
+	{
+		return hackingManager->IsInsideValidHackingZone();
 	}
 }
 
@@ -199,7 +216,6 @@ void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 {
 	movementManager->SetIsParalyzed(paralyzed);
 	jumpManager->SetCanJump(!paralyzed);
-	rotationManager->SetCanRotate(!paralyzed);
 }
 
 void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)
