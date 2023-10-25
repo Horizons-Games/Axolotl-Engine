@@ -43,6 +43,9 @@ public:
 	void ClearComboForSwitch(bool finisher);
 	UIComboManager* GetUiComboManager() const;
 
+	void InitCombo();
+	void HideCombo();
+
 private:
 
 	UIComboManager* uiComboManager;

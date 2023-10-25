@@ -121,7 +121,7 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 
 	if (interactWithEnemies)
 	{
-		if (other->GetOwner()->CompareTag("Enemy"))
+		if (other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("PriorityTarget"))
 		{
 			enemiesWaiting.push_back(other->GetOwner());
 			elevator->SetDisableInteractionsEnemies(other->GetOwner(), true, false, true);
@@ -139,7 +139,7 @@ void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 
 	if (interactWithEnemies)
 	{
-		if (other->GetOwner()->CompareTag("Enemy"))
+		if (other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("PriorityTarget"))
 		{
 			wasActivatedByEnemy = false;
 			CloseDoor();
