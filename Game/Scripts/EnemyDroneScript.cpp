@@ -7,6 +7,9 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentParticleSystem.h"
 
+#include "ModulePlayer.h"
+#include "Application.h"
+
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
 #include "../Scripts/RangedFastAttackBehaviourScript.h"
@@ -51,6 +54,8 @@ void EnemyDroneScript::Start()
 	}
 
 	ownerTransform = owner->GetComponent<ComponentTransform>();
+	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
+	initialPosition = ownerTransform->GetGlobalPosition();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
@@ -73,6 +78,16 @@ void EnemyDroneScript::Start()
 
 void EnemyDroneScript::Update(float deltaTime)
 {
+	if (!App->GetModule<ModulePlayer>()->IsInCombat())
+	{
+		droneState = DroneBehaviours::IDLE;
+		componentAnimation->SetParameter("IsRunning", false);
+		ownerTransform->SetGlobalPosition(initialPosition);
+		ownerRigidBody->UpdateRigidBody();
+		aiMovement->SetMovementStatuses(false, false);
+		return;
+	}
+
 	if (paralyzed)
 	{
 		return;

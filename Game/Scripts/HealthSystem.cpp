@@ -76,7 +76,7 @@ void HealthSystem::Update(float deltaTime)
 		playerDeathManager->ManagePlayerDeath();
 			
 	}
-	else if (!EntityIsAlive() && owner->CompareTag("Enemy"))
+	else if (!EntityIsAlive() && ( owner->CompareTag("Enemy") || owner->CompareTag("PriorityTarget")))
 	{
 		meshEffect->ClearEffect();
 	}
@@ -92,7 +92,7 @@ void HealthSystem::TakeDamage(float damage)
 {
 	if (!isImmortal) 
 	{
-		if (owner->CompareTag("Enemy"))
+		if (owner->CompareTag("Enemy") || owner->CompareTag("PriorityTarget"))
 		{
 			currentHealth = std::max(currentHealth - damage, 0.0f);
 			if (currentHealth == 0 && deathCallback)

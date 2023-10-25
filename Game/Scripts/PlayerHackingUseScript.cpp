@@ -126,6 +126,11 @@ void PlayerHackingUseScript::Update(float deltaTime)
 	}
 }
 
+bool PlayerHackingUseScript::IsInsideValidHackingZone() const
+{
+	return hackZone && !hackZone->IsCompleted();
+}
+
 // DEBUG METHOD
 void PlayerHackingUseScript::PrintCombination()
 {

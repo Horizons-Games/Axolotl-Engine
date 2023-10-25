@@ -1,8 +1,12 @@
 #include "StdAfx.h"
 #include "ForceTrigger.h"
 
+#include "Application.h"
+#include "ModulePlayer.h"
+#include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentParticleSystem.h"
+#include "PlayerForceUseScript.h"
 
 REGISTERCLASS(ForceTrigger);
 
@@ -30,6 +34,7 @@ void ForceTrigger::OnCollisionEnter(ComponentRigidBody* other)
 		if (owner->GetChildren()[0]->GetChildren()[0]->HasComponent<ComponentParticleSystem>())
 		{
 			owner->GetChildren()[0]->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
+			App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerForceUseScript>()->SetInsideForceZone(true);
 		}
 	}
 }
@@ -41,6 +46,7 @@ void ForceTrigger::OnCollisionExit(ComponentRigidBody* other)
 		if (owner->GetChildren()[0]->GetChildren()[0]->HasComponent<ComponentParticleSystem>())
 		{
 			owner->GetChildren()[0]->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+			App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerForceUseScript>()->SetInsideForceZone(false);
 		}
 	}
 }

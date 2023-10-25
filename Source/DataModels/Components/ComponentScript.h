@@ -42,7 +42,7 @@ private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
-	void SignalEnable(bool isSceneLoading) override;
+	void SignalEnable() override;
 
 public:
 	// When loading a Script, it's possible that it expects to find one in a given game object

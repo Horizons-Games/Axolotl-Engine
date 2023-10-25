@@ -890,6 +890,21 @@
     <ClCompile Include="..\Game\Scripts\ForceTrigger.cpp">
       <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
     </ClCompile>
+    <ClCompile Include="Auxiliar\Utils\UtilBlur.cpp">
+      <Filter>Auxiliar\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\ComponentPlanarReflection.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPlanarReflection.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIEnemyBar.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIApearDisapear.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1823,6 +1838,21 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\ForceTrigger.h">
       <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
+    </ClInclude>
+    <ClInclude Include="Auxiliar\Utils\UtilBlur.h">
+      <Filter>Auxiliar\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\ComponentPlanarReflection.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPlanarReflection.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIEnemyBar.h">
+      <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIApearDisapear.h">
+      <Filter>UserScripts\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

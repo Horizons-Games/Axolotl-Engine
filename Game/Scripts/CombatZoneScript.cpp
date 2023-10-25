@@ -19,10 +19,12 @@
 
 REGISTERCLASS(CombatZoneScript);
 
-CombatZoneScript::CombatZoneScript() : Script(), componentAudio(nullptr), enemiesToDefeat(1.0)
+CombatZoneScript::CombatZoneScript() : Script(), componentAudio(nullptr), enemiesToDefeat(1.0),
+fightStraightAway(true)
 {
 	REGISTER_FIELD(enemiesToDefeat, float);
 	REGISTER_FIELD(isBoss, bool);
+	REGISTER_FIELD(fightStraightAway, bool);
 }
 
 CombatZoneScript::~CombatZoneScript()
@@ -67,7 +69,10 @@ void CombatZoneScript::OnCollisionEnter(ComponentRigidBody* other)
 		}
 		else
 		{
-			App->GetModule<ModulePlayer>()->SetInCombat(true);
+			if (fightStraightAway)
+			{
+				App->GetModule<ModulePlayer>()->SetInCombat(true);
+			}
 			App->GetModule<ModulePlayer>()->SetEnemiesToDefeat(enemiesToDefeat);
 		}
 
