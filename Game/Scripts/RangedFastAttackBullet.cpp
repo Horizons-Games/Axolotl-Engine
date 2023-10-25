@@ -84,6 +84,8 @@ void RangedFastAttackBullet::InitializeBullet()
 	mesh = GetOwner()->GetComponent<ComponentMeshRenderer>();
 
 	rigidBody->Enable();
+	rigidBody->SetIsTrigger(true);
+	rigidBody->SetUpMobility();
 	rigidBody->SetDefaultPosition();
 	rigidBody->SetDrawCollider(false);
 
