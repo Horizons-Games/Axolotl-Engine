@@ -28,7 +28,7 @@ REGISTERCLASS(PlayerJumpScript);
 PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(500.0f), canDoubleJump(false),
 componentAnimation(nullptr), componentAudio(nullptr), canJump(true), rigidbody(nullptr),
 coyoteTime(0.4f), isGrounded(false), attackScript(nullptr), playerManager(nullptr),
-doubleJumpAvailable(true), isFalling(false), timeSinceLastJump(0.0f), playerMove(nullptr)
+isFalling(false), timeSinceLastJump(0.0f), playerMove(nullptr)
 {
 	REGISTER_FIELD(coyoteTime, float);
 	REGISTER_FIELD(isGrounded, bool);
@@ -148,7 +148,6 @@ void PlayerJumpScript::Jump(float deltaTime)
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			if (playerManager->GetPlayerState() == PlayerActions::JUMPING)
 			{
-				doubleJumpAvailable = false;
 				playerManager->SetPlayerState(PlayerActions::DOUBLEJUMPING);
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DOUBLE_JUMP);
 				componentAnimation->SetParameter("IsJumping", false);
