@@ -125,7 +125,7 @@ void TutorialSystem::TutorialEnd()
 	totalStateWaitTime = 2.0f;
 	stateWaitTime = 2.0f;
 	displacementControl->SetMovingToEnd(false);
-	displacementControl->MoveImageToStarPosition();
+	displacementControl->MoveImageToStartPosition();
 	componentMoveScript->SetIsParalyzed(false);
 	LOG_INFO("TutorialExit");
 }
@@ -135,7 +135,7 @@ void TutorialSystem::TutorialSkip()
 	totalStateWaitTime = 2.0f;
 	stateWaitTime = 2.0f;
 	displacementControl->SetMovingToEnd(false);
-	displacementControl->MoveImageToStarPosition();
+	displacementControl->MoveImageToStartPosition();
 	tutorialCurrentState = 0;
 	currentTutorialUI = tutorialUI.front();
 	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
@@ -152,6 +152,11 @@ int TutorialSystem::GetTutorialCurrentState() const
 float TutorialSystem::GetNumControllableState() const
 {
 	return numNotControllableStates;
+}
+
+void TutorialSystem::SetNumControllableState(int controllableState) 
+{
+	numNotControllableStates = controllableState;
 }
 
 int TutorialSystem::GetTutorialSlideSize() const

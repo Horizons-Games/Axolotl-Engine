@@ -94,6 +94,18 @@ void CombatTutorial::Update(float deltaTime)
 			componentMoveScript->SetIsParalyzed(false);
 			LOG_INFO("Tutorial:NormalAttacks");
 		}
+
+		else if (tutorialUI->GetTutorialCurrentState() == static_cast<int>(tutorialUI->GetNumControllableState()) && !nextStateActive)
+		{
+			//SpecialLightAttack
+			LOG_INFO("Tutorial:SpecialLightAttack");
+			tutorialUI->UnDeployUI();
+			dummyHealthSystem->SetIsImmortal(true);
+			componentMoveScript->SetIsParalyzed(false);
+			comboSystem->FillComboBar();
+			userControllable = false;
+			nextStateActive = true;
+		}
 	}
 
 	else if (tutorialActivable && input->GetKey(SDL_SCANCODE_G) == KeyState::DOWN && !tutorialUI->GetDisplacementControl()->IsMoving())
@@ -116,73 +128,34 @@ void CombatTutorial::Update(float deltaTime)
 		nextStateActive = true;
 	}
 
-	else if (playerAttack->GetCurrentAttackType() == AttackType::JUMPNORMAL && nextStateActive)
+	else if (playerAttack->GetCurrentAttackType() == AttackType::JUMPNORMAL || playerAttack->GetCurrentAttackType() == AttackType::JUMPFINISHER 
+		&& nextStateActive)
 	{
-		//SpecialLightAttack
-		LOG_INFO("Tutorial:SpecialLightAttack");
+		//SpecialAttacks
+		LOG_INFO("Tutorial:SpecialAttacks");
 		normalAttacksEnded = true;
 		tutorialUI->UnDeployUI();
 		dummyHealthSystem->SetIsImmortal(false);
 		comboSystem->FillComboBar();
-
+		tutorialUI->SetNumControllableState(tutorialUI->GetNumControllableState() + 3);
+		userControllable = true;
 		nextStateActive = false;
 	}
-	else if (playerAttack->GetCurrentAttackType() == AttackType::LIGHTFINISHER && !nextStateActive)
+
+
+
+	else if (playerAttack->GetCurrentAttackType() == AttackType::LIGHTFINISHER && nextStateActive)
 	{
 		//SpecialHeavyAttack
 		LOG_INFO("Tutorial:SpecialHeavyAttack");
 
 		tutorialUI->UnDeployUI();
 		dummyHealthSystem->SetIsImmortal(false);
-		//dummyHealthSystem->TakeDamage(dummyHealthSystem->GetCurrentHealth());
-
-		//tutorialUI->NextState();
-		nextStateActive = true;
+		
+		nextStateActive = false;
 	}
 
-
-	//else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.75f
-	//	&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.50f && !nextStateActive)
-	//{
-	//	//JumpAttack
-	//	LOG_INFO("Tutorial:JumpAttack");
-
-	//	tutorialUI->UnDeployUI();
-	//	dummyHealthSystem->SetIsImmortal(false);
-	//	
-
-	//	nextStateActive = true;
-	//}
-
-	//else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.50f
-	//	&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.25f && nextStateActive 
-	//	|| jumpAttack->IsActive() && nextStateActive)
-	//{
-	//	//SpecialLightAttack
-	//	LOG_INFO("Tutorial:SpecialLightAttack");
-
-	//	tutorialUI->UnDeployUI();
-	//	dummyHealthSystem->SetIsImmortal(false);
-	//	
-
-	//	nextStateActive = false;
-	//}
-	//else if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.25f
-	//	&& dummyHealthSystem->GetCurrentHealth() > 0.0f && !nextStateActive 
-	//	|| heavyFinisher->IsAttacking() && !nextStateActive)
-	//{
-	//	//SpecialHeavyAttack
-	//	LOG_INFO("Tutorial:SpecialHeavyAttack");
-
-	//	tutorialUI->UnDeployUI();
-	//	dummyHealthSystem->SetIsImmortal(false);
-	//	
-
-	//	//tutorialUI->NextState();
-	//	nextStateActive = true;
-	//}
-
-	else if (playerAttack->GetCurrentAttackType() == AttackType::HEAVYFINISHER && nextStateActive)
+	else if (playerAttack->GetCurrentAttackType() == AttackType::HEAVYFINISHER && !nextStateActive)
 	{
 		//SpecialHeavyAttack
 
@@ -200,18 +173,18 @@ void CombatTutorial::Update(float deltaTime)
 
 		userControllable = true;
 		tutorialFinished = true;
-		nextStateActive = false;
+		nextStateActive = true;
 		LOG_INFO("Dummy:Dead");
 		
 	}
 
 	
-	if (tutorialFinished && !nextStateActive)
+	if (tutorialFinished && nextStateActive)
 	{
 		finalWaitTime -= deltaTime;
 	}
 
-	if (tutorialFinished && !nextStateActive && finalWaitTime <= 0.0f)
+	if (tutorialFinished && nextStateActive && finalWaitTime <= 0.0f)
 	{
 		//tutorialUI->UnDeployUI();
 		tutorialUI->TutorialEnd();

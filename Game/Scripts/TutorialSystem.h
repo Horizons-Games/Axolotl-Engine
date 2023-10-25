@@ -35,6 +35,7 @@ public:
 	void TutorialSkip();
 	int GetTutorialCurrentState() const;
 	float GetNumControllableState() const;
+	void SetNumControllableState(int controllableState);
 
 	int GetTutorialSlideSize() const;
 	void SetTutorialSlideSize(int tutorialTotalStates);
