@@ -2147,7 +2147,7 @@ std::vector<float> Scene::GetNormals()
 	return result;
 }
 
-const SpotLight& Scene::GetSpotLightsStruct(int index) const
+SpotLight Scene::GetSpotLightsStruct(int index) const
 {
 	if (index >= 0 && index < spotLights.size())
 	{
@@ -2160,7 +2160,7 @@ const SpotLight& Scene::GetSpotLightsStruct(int index) const
 	}
 }
 
-const PointLight& Scene::GetPointLightsStruct(int index) const
+PointLight Scene::GetPointLightsStruct(int index) const
 {
 	if (index >= 0 && index < pointLights.size())
 	{
