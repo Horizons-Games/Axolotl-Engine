@@ -48,6 +48,7 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 void BossChargeAttackScript::Start()
 {
 	prepareChargeTime = prepareChargeMaxTime;
+	chargeCooldown = chargeMaxCooldown;
 
 	transform = owner->GetComponent<ComponentTransform>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
