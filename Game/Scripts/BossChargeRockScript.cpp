@@ -100,7 +100,7 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 	}
 	else if (rockState == RockStates::FALLING)
 	{
-		if (other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("Player"))
+		if (other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("PriorityTarget") || other->GetOwner()->CompareTag("Player"))
 		{
 			other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(fallingRockDamage);
 			rockState = RockStates::HIT_ENEMY;
