@@ -26,6 +26,11 @@ finisherClearEffect(false), specialActivated(false)
 	REGISTER_FIELD(noFillBar, GameObject*);
 	REGISTER_FIELD(shinyEffectPrefab, GameObject*);
 	REGISTER_FIELD(shinyEffectBarPrefab, GameObject*);
+
+	REGISTER_FIELD(specialBox.text, GameObject*);
+	REGISTER_FIELD(specialBox.lb, GameObject*);
+	REGISTER_FIELD(specialBox.separator, GameObject*);
+	REGISTER_FIELD(specialBox.rb, GameObject*);
 }
 
 void UIComboManager::Init()
