@@ -1,0 +1,12 @@
+{
+    "UID": 7429160793891816235,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": [
+        "Assets/Textures/Line6.png",
+        "Assets/Textures/MuzzleAnimated.png"
+    ],
+    "ConfigEmitters": [
+        false,
+        false
+    ]
+}

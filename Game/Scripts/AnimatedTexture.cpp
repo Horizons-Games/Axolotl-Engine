@@ -33,12 +33,12 @@ void AnimatedTexture::Update(float deltaTime)
 	}
 
 	currentOffsetX += movementX;
-	if (maxOffsetX < currentOffsetX)
+	if (maxOffsetX < Abs(currentOffsetX))
 	{
 		currentOffsetX = 0.f;
 	}
 	currentOffsetY += movementY;
-	if (maxOffsetY < currentOffsetY)
+	if (maxOffsetY < Abs(currentOffsetY))
 	{
 		currentOffsetY = 0.f;
 	} 
