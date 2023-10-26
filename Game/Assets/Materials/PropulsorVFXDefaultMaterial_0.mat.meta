@@ -1,7 +1,7 @@
 {
     "UID": 8495915856284274462,
     "Type": "Materials",
-    "DiffuseAssetPath": "Assets/Textures/MotionPropulsor.png",
+    "DiffuseAssetPath": "Assets/Textures/Noise43b.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
     "MetalicAssetPath": "",
@@ -19,7 +19,7 @@
     "metalness": 0.0,
     "isTransparent": true,
     "tilingx": 1.0,
-    "tilingy": 2.0,
+    "tilingy": 6.0,
     "offsetx": 0.0,
     "offsety": 0.0,
     "percentagex": 100.0,
