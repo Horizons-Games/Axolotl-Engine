@@ -127,13 +127,13 @@ void FinalBossScript::SetReadyToDie()
 
 void FinalBossScript::ChangeBossPhase()
 {
-	if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.2f && 
+	if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.35f && 
 		bossPhase == FinalBossPhases::DEFENSIVE)
 	{
 		LOG_INFO("Final Boss is in the LAST RESORT PHASE");
 		bossPhase = FinalBossPhases::LAST_RESORT;
 	}
-	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.5f &&
+	else if (bossHealthSystem->GetCurrentHealth() < bossHealthSystem->GetMaxHealth() * 0.6f &&
 		bossPhase == FinalBossPhases::AGGRESSIVE)
 	{
 		LOG_INFO("Final Boss is in the DEFENSIVE PHASE");
@@ -416,6 +416,7 @@ void FinalBossScript::ManageLastResortPhase()
 	if (lastResortMissilesChance && missilesAttackScript->CanPerformMissilesAttack() && 
 		bossState == FinalBossStates::WALKING)
 	{
+		patrolScript->StopPatrol();
 		componentAnimation->SetParameter("IsPatrolling", false);
 		missilesAttackScript->TriggerMissilesAttack();
 		bossState = FinalBossStates::ATTACKING;
