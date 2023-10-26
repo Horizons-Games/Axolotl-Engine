@@ -124,8 +124,8 @@ void PatrolBehaviourScript::RandomPatrolling(bool isFirstPatrolling)
 		while (currentWaypoint == randomWaypointSelected || selectedWaypointState == WaypointStates::UNAVAILABLE)
 		{
 			randomWaypointSelected = rand() % static_cast<int>(waypointsPatrol.size());
-			selectedWaypointState =
-				waypointsPatrol[currentWaypoint]->GetOwner()->GetComponent<WaypointStateScript>()->GetWaypointState();
+			selectedWaypointState = waypointsPatrol[randomWaypointSelected]->
+				GetOwner()->GetComponent<WaypointStateScript>()->GetWaypointState();
 		}
 
 		currentWaypoint = randomWaypointSelected;

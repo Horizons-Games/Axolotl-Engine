@@ -106,6 +106,7 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 			rockState = RockStates::HIT_ENEMY;
 			triggerRockDespawnbyFalling = true;
 			owner->GetComponent<ComponentBreakable>()->BreakComponentFalling();
+
 			// VFX Here: Rock hit an enemy on the head while falling
 		}
 		else if (other->GetOwner()->CompareTag("Waypoint"))
@@ -116,11 +117,12 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 		else if (other->GetOwner()->CompareTag("Floor"))
 		{
 			owner->GetComponent<ComponentObstacle>()->AddObstacle();
-			// VFX Here: Rock hit the floor
 			triggerBreakTimer = true;
 			breakRockVFX->Enable();
 			breakRockVFX->Play();
 			rockState = RockStates::FLOOR;
+
+			// VFX Here: Rock hit the floor
 		}
 	}
 	else
