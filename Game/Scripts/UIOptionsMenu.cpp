@@ -18,7 +18,7 @@ audioOptionCanvas(nullptr), gameOptionHover(nullptr), videoOptionHover(nullptr),
 controlsOptionHover(nullptr), gamepadTriggersImg(nullptr), headerMenuPosition(0), newHeaderMenuPosition(-1),
 selectedOption(-1), actualButton(-1), actualButtonHover(-1), maxButtonsOptions(-1), maxOptions(-1), 
 newSelectedOption(-1), valueSlider(-1), resetButtonIndex(true), applyChangesOnLoad(false), saveOptionsImg(nullptr),
-timerFeedbackOption(5.0f), backToMenuButton(nullptr), isSavingActive(false)
+timerFeedbackOption(1.0f), backToMenuButton(nullptr), isSavingActive(false)
 {
 	REGISTER_FIELD(gameOptionButton, GameObject*);
 	REGISTER_FIELD(videoOptionButton, GameObject*);
@@ -50,7 +50,6 @@ void UIOptionsMenu::Initialize()
 	audio = App->GetModule<ModuleAudio>();
 	
 	buttonBackMenu= backToMenuButton->GetComponent<ComponentButton>();
-	sliderSaveOptions = saveOptionsImg->GetComponent<ComponentSlider>();
 
 	gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
 	videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
@@ -708,17 +707,9 @@ bool UIOptionsMenu::IsApplyChangesOnLoad() const
 
 void UIOptionsMenu::SaveOptionsFeedback(float deltaTime)
 {
-	float difTime = 0.0f;
-
-	if (sliderSaveOptions->GetMaxValue() != 3.0f)
-	{
-		sliderSaveOptions->SetMaxValue(3.0f);
-	}
-
 	if (timerFeedbackOption <= 0.0f)
 	{
-		timerFeedbackOption = 3.0f;
-		sliderSaveOptions->ModifyCurrentValue(0.0f);
+		timerFeedbackOption = 1.0f;
 		saveOptionsImg->Disable();
 		isSavingActive = false;
 		buttonBackMenu->SetClicked(true);
@@ -727,8 +718,6 @@ void UIOptionsMenu::SaveOptionsFeedback(float deltaTime)
 	else
 	{
 		timerFeedbackOption -= deltaTime;
-		difTime = 3.0f - timerFeedbackOption;
-		sliderSaveOptions->ModifyCurrentValue(difTime);
 	}
 }
 

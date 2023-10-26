@@ -132,7 +132,6 @@ private:
 	ComponentButton* controlsOptionComponentButton;
 	ComponentButton* buttonBackMenu;
 	ComponentSlider* slider;
-	ComponentSlider* sliderSaveOptions;
 
 	void UpdateChanges();
 	void ApplyChanges(int headerMenuPosition, int actualButton, int newSelectedOption);
