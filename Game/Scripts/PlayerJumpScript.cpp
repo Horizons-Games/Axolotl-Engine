@@ -103,6 +103,7 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 		componentAnimation->SetParameter("IsFalling", false);
 		componentAnimation->SetParameter("IsJumping", false);
 		componentAnimation->SetParameter("IsDoubleJumping", false);
+		componentAnimation->SetParameter("IsDoubleJumpingAvailable", true);
 		coyoteTimerCount = 0.0f;
 	}
 	else
@@ -120,6 +121,11 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 			componentAnimation->SetParameter("IsFalling", true);
 			componentAnimation->SetParameter("IsJumping", false);
 			componentAnimation->SetParameter("IsDoubleJumping", false);
+		}
+
+		if (playerManager->GetPlayerState() == PlayerActions::DOUBLEJUMPING)
+		{
+			componentAnimation->SetParameter("IsDoubleJumpingAvailable", false);
 		}
 	}
 }
