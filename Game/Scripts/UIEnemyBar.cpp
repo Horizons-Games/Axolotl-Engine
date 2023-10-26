@@ -50,7 +50,6 @@ void UIEnemyBar::Update(float deltaTime)
 	}
 	if (appearNextCombat && !alwaysActive && lastTickInCombat != App->GetModule<ModulePlayer>()->IsInCombat())
 	{
-		appearNextCombat = false;
 		lastTickInCombat = App->GetModule<ModulePlayer>()->IsInCombat();
 		if (lastTickInCombat)
 		{
@@ -59,6 +58,7 @@ void UIEnemyBar::Update(float deltaTime)
 		}
 		else
 		{
+			appearNextCombat = false;
 			displacement->SetMovingToEnd(false);
 			displacement->MoveImageToStartPosition();
 		}
