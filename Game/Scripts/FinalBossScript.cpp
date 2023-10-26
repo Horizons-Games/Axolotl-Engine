@@ -272,19 +272,19 @@ void FinalBossScript::ManageNeutralPhase()
 
 	// If the player gets near the boss, the boss will defend itself with a shockwave if possible
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
-		shockWaveAttackScript->CanPerformShockWaveAttack())
+		shockWaveAttackScript->CanPerformShockWaveAttack() && bossState == FinalBossStates::WALKING)
 	{
-		if (bossState == FinalBossStates::WALKING)
-		{
-			patrolScript->StopPatrol();
-		}
+		patrolScript->StopPatrol();
+		componentAnimation->SetParameter("IsPatrolling", false);
 		shockWaveAttackScript->PrepareShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	// If the player is not near, the boss will have low chance to charge towards them
 	else if (chargeChance && chargeAttackScript->CanPerformChargeAttack() && bossState == FinalBossStates::WALKING)
 	{
-		//patrolScript->StopPatrol();
+		// The TriggerChargeAttack() is responsable to "stopPatrol"
+		// patrolScript->StopPatrol();
+		componentAnimation->SetParameter("IsPatrolling", false);
 		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
@@ -313,29 +313,29 @@ void FinalBossScript::ManageAggressivePhase()
 	bool seekingShockWaveChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(500.0f);
 
 	if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
-		shockWaveAttackScript->CanPerformShockWaveAttack())
+		shockWaveAttackScript->CanPerformShockWaveAttack() && bossState == FinalBossStates::WALKING)
 	{
-		if (bossState == FinalBossStates::WALKING)
-		{
-			patrolScript->StopPatrol();
-		}
+		patrolScript->StopPatrol();
+		componentAnimation->SetParameter("IsPatrolling", false);
 		shockWaveAttackScript->PrepareShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	// In this phase, shockwaves will not only happen when the player gets near the boss,
 	// but also the boss would come and get the player too
-	else if (seekingShockWaveChance && shockWaveAttackScript->CanPerformShockWaveAttack() && bossState == FinalBossStates::WALKING)
+	else if (seekingShockWaveChance && shockWaveAttackScript->CanPerformShockWaveAttack() 
+		&& bossState == FinalBossStates::WALKING)
 	{
 		// We cant do the StopPatrol() here because he'll stop moving immediatelly,
 		// but we want to keep seeking
-		//patrolScript->StopPatrol();
+		// patrolScript->StopPatrol();
 		shockWaveAttackScript->TriggerSeekingShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	else if (chargeChance && chargeAttackScript->CanPerformChargeAttack() && bossState == FinalBossStates::WALKING)
 	{
 		// The TriggerChargeAttack() is responsable to "stopPatrol"
-		//patrolScript->StopPatrol();
+		// patrolScript->StopPatrol();
+		componentAnimation->SetParameter("IsPatrolling", false);
 		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
@@ -367,23 +367,23 @@ void FinalBossScript::ManageDefensivePhase()
 	if (shieldChance && shieldAttackScript->CanPerformShieldAttack() && bossState == FinalBossStates::WALKING)
 	{
 		patrolScript->StopPatrol();
+		componentAnimation->SetParameter("IsPatrolling", false);
 		shieldAttackScript->TriggerShieldAttack();
 		bossState = FinalBossStates::DEFENDING;
 	}
 	else if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
-		shockWaveAttackScript->CanPerformShockWaveAttack())
+		shockWaveAttackScript->CanPerformShockWaveAttack() && bossState == FinalBossStates::WALKING)
 	{
-		if (bossState == FinalBossStates::WALKING)
-		{
-			patrolScript->StopPatrol();
-		}
+		patrolScript->StopPatrol();
+		componentAnimation->SetParameter("IsPatrolling", false);
 		shockWaveAttackScript->PrepareShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	else if (chargeChance && chargeAttackScript->CanPerformChargeAttack() && bossState == FinalBossStates::WALKING)
 	{
 		// The TriggerChargeAttack() is responsable to "stopPatrol"
-		//patrolScript->StopPatrol();
+		// patrolScript->StopPatrol();
+		componentAnimation->SetParameter("IsPatrolling", false);
 		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
@@ -413,18 +413,18 @@ void FinalBossScript::ManageLastResortPhase()
 	bool lastResortMissilesChance = App->GetModule<ModuleRandom>()->RandomChanceNormalized(250.0f);
 
 	// If the missiles attack is ready, trigger it as much as possible
-	if (lastResortMissilesChance && missilesAttackScript->CanPerformMissilesAttack() && bossState == FinalBossStates::WALKING)
+	if (lastResortMissilesChance && missilesAttackScript->CanPerformMissilesAttack() && 
+		bossState == FinalBossStates::WALKING)
 	{
+		componentAnimation->SetParameter("IsPatrolling", false);
 		missilesAttackScript->TriggerMissilesAttack();
 		bossState = FinalBossStates::ATTACKING;
 	}
 	else if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
-		shockWaveAttackScript->CanPerformShockWaveAttack())
+		shockWaveAttackScript->CanPerformShockWaveAttack() && bossState == FinalBossStates::WALKING)
 	{
-		if (bossState == FinalBossStates::WALKING)
-		{
-			patrolScript->StopPatrol();
-		}
+		patrolScript->StopPatrol();
+		componentAnimation->SetParameter("IsPatrolling", false);
 		shockWaveAttackScript->PrepareShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
@@ -432,14 +432,15 @@ void FinalBossScript::ManageLastResortPhase()
 	{
 		// We cant do the StopPatrol() here because he'll stop moving immediatelly
 		// but we want to keep seeking
-		//patrolScript->StopPatrol();
+		// patrolScript->StopPatrol();
 		shockWaveAttackScript->TriggerSeekingShockWaveAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}
 	else if (chargeChance && chargeAttackScript->CanPerformChargeAttack() && bossState == FinalBossStates::WALKING)
 	{
 		// The TriggerChargeAttack() is responsable to "stopPatrol"
-		//patrolScript->StopPatrol();
+		// patrolScript->StopPatrol();
+		componentAnimation->SetParameter("IsPatrolling", false);
 		chargeAttackScript->TriggerChargeAttack(targetTransform);
 		bossState = FinalBossStates::ATTACKING;
 	}

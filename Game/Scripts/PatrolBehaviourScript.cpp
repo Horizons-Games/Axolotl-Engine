@@ -99,7 +99,9 @@ void PatrolBehaviourScript::Patrolling()
 
 		isStoppedAtPatrol = true;
 		if (patrolAnimationParamater != "")
+		{
 			componentAnimation->SetParameter(patrolAnimationParamater, false);
+		}
 	}
 }
 
