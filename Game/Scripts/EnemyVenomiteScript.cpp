@@ -48,7 +48,7 @@ void EnemyVenomiteScript::Start()
 	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
 	initialPosition = ownerTransform->GetGlobalPosition();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
-	//componentAudioSource = owner->GetComponent<ComponentAudioSource>();
+	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
 	
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
@@ -146,6 +146,8 @@ void EnemyVenomiteScript::CheckState()
 		if (venomiteState != VenomiteBehaviours::RANGED_ATTACK && componentAnimation->GetActualStateName() 
 			!= "VenomiteMeleeAttack" && componentAnimation->GetActualStateName() != "VenomiteMeleeAttackEnd")
 		{
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS_STOP);
+
 			batonGameObject->Disable();
 			blasterGameObject->Enable();
 
@@ -174,6 +176,8 @@ void EnemyVenomiteScript::CheckState()
 				exclamationParticle->Play();
 			}
 
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::ALERT);
+
 			venomiteState = VenomiteBehaviours::ENEMY_DETECTED;
 		}
 		else if (venomiteState != VenomiteBehaviours::SEEK && venomiteState != VenomiteBehaviours::ENEMY_DETECTED)
@@ -184,11 +188,15 @@ void EnemyVenomiteScript::CheckState()
 			componentAnimation->SetParameter("IsRangedAttacking", false);
 			componentAnimation->SetParameter("IsMeleeAttacking", false);
 
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS);
+
 			venomiteState = VenomiteBehaviours::SEEK;
 		}
 	}
 	else if (venomiteState != VenomiteBehaviours::PATROL)
 	{
+		componentAudioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS_STOP);
+
 		patrolScript->StartPatrol();
 		batonGameObject->Disable();
 		blasterGameObject->Disable();
@@ -314,6 +322,7 @@ void EnemyVenomiteScript::SetReadyToDie()
 	ParalyzeEnemy(true);
 	componentAnimation->SetParameter("IsDead", true);
 	aiMovement->SetMovementStatuses(false, false);
+	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DEATH);
 	deathScript->ManageEnemyDeath();
 }
 

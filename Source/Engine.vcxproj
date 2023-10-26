@@ -205,7 +205,9 @@
     <ClCompile Include="..\Game\Scripts\EntityDetection.cpp" />
     <ClCompile Include="..\Game\Scripts\FinalBossScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ForceTrigger.cpp" />
+    <ClCompile Include="..\Game\Scripts\GeneratorSpaceStationAudio.cpp" />
     <ClCompile Include="..\Game\Scripts\HackingCommand.cpp" />
+    <ClCompile Include="..\Game\Scripts\HackingMachineAudio.cpp" />
     <ClCompile Include="..\Game\Scripts\HackZoneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ForceZoneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp" />
@@ -926,7 +928,9 @@
     <ClInclude Include="..\Game\Scripts\EntityDetection.h" />
     <ClInclude Include="..\Game\Scripts\FinalBossScript.h" />
     <ClInclude Include="..\Game\Scripts\ForceTrigger.h" />
+    <ClInclude Include="..\Game\Scripts\GeneratorSpaceStationAudio.h" />
     <ClInclude Include="..\Game\Scripts\HackingCommand.h" />
+    <ClInclude Include="..\Game\Scripts\HackingMachineAudio.h" />
     <ClInclude Include="..\Game\Scripts\HackZoneScript.h" />
     <ClInclude Include="..\Game\Scripts\ForceZoneScript.h" />
     <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h" />

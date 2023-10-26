@@ -5,11 +5,13 @@
 #include "Modules/ModuleScene.h"
 #include "Modules/ModuleRandom.h"
 #include "Scene/Scene.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAudioSource.h"
 
 #include "../Scripts/FinalBossScript.h"
 
@@ -20,7 +22,7 @@ BossMissilesAttackScript::BossMissilesAttackScript() : Script(), missilePrefab(n
 	transform(nullptr), missilesAttackState(AttackState::NONE), missileAttackDuration(0.0f), 
 	missileAttackMaxDuration(15.0f), missileAttackCooldown(0.0f), missileAttackMaxCooldown(30.0f),
 	missileSpawnTime(0.0f), missileMaxSpawnTime(1.0f), battleArenaAreaSize(nullptr), missileSpawningHeight(10.0f),
-	animator(nullptr)
+	animator(nullptr), audioSource(nullptr)
 {
 	REGISTER_FIELD(safePositionsTransforms, std::vector<ComponentTransform*>);
 	REGISTER_FIELD(battleArenaAreaSize, ComponentRigidBody*);
@@ -41,6 +43,7 @@ void BossMissilesAttackScript::Start()
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	transform = owner->GetComponent<ComponentTransform>();
 	animator = owner->GetComponent<ComponentAnimation>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
 	finalBossScript = owner->GetComponent<FinalBossScript>();
 }
 
@@ -70,6 +73,8 @@ void BossMissilesAttackScript::TriggerMissilesAttack()
 								(initialPosition.z + safePositionGlobalPos.z) / 2.0f);
 
 	MoveUserToPosition(midJumpPosition);
+
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::JUMP);
 
 	// VFX Here: The boss started the jump to start the missiles attack
 }
@@ -151,6 +156,7 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 			animator->SetParameter("IsEndingMissilesJump", false);
 			animator->SetParameter("IsMissilesLanding", false);
 
+			audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::JUMP_LANDING);
 			// VFX Here: The boss finished the jump to end the missiles attack
 		}
 	}
@@ -223,6 +229,8 @@ void BossMissilesAttackScript::SpawnMissileInPosition(GameObject* selectedEnemy,
 	ComponentRigidBody* newMissileRigidBody = newMissile->GetComponent<ComponentRigidBody>();
 	newMissileRigidBody->SetDefaultPosition();
 	newMissileRigidBody->Enable();
+
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKETS_FALLING);
 }
 
 void BossMissilesAttackScript::SetIsPaused(bool isPaused)

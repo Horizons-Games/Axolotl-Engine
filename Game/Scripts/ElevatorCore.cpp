@@ -137,6 +137,10 @@ void ElevatorCore::MoveUpElevator(bool isGOInside, float deltaTime)
 		activeState = ActiveActionsElevator::INACTIVE;
 		booked = false;
 		currentTime = coolDown;
+
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::ELEVATOR_END);
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::ELEVATOR_LOOP_STOP);
+
 		if (isGOInside)
 		{
 			if (go->CompareTag("Player"))
@@ -186,6 +190,10 @@ void ElevatorCore::MoveDownElevator(bool isGOInside, float deltaTime)
 		activeState = ActiveActionsElevator::INACTIVE;
 		booked = false;
 		currentTime = coolDown;
+
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::ELEVATOR_END);
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::ELEVATOR_LOOP_STOP);
+
 		if (isGOInside)
 		{
 			if (go->CompareTag("Player"))
@@ -230,7 +238,8 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 			{
 				booked = true;
 				//componentAnimation->SetParameter("IsActive", true);
-				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
+				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::ELEVATOR_START);
+				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::ELEVATOR_LOOP);
 				activeState = ActiveActionsElevator::ACTIVE;
 
 				SetDisableInteractions(true);

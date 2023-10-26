@@ -8,6 +8,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentTransform;
 class ComponentRigidBody;
 class ComponentAnimation;
+class ComponentAudioSource;
 
 class FinalBossScript;
 
@@ -51,6 +52,7 @@ private:
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* transform;
 	ComponentAnimation* animator;
+	ComponentAudioSource* audioSource;
 	FinalBossScript* finalBossScript;
 
 	float3 initialPosition;
