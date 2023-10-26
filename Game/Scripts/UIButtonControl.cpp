@@ -13,13 +13,12 @@ REGISTERCLASS(UIButtonControl);
 
 UIButtonControl::UIButtonControl() : Script(), disableObject(nullptr), enableObject(nullptr), 
 buttonComponent(nullptr), buttonHover(nullptr), isGameExit(false), isGameResume(false), 
-setUiGameManagerObject(nullptr), UIGameManagerClass(nullptr), isBackButton(false), isOptionMenuButton(false)
+setUiGameManagerObject(nullptr), UIGameManagerClass(nullptr), isOptionMenuButton(false)
 {
 	REGISTER_FIELD(enableObject, GameObject*);
 	REGISTER_FIELD(disableObject, GameObject*);
 	REGISTER_FIELD(buttonHover, GameObject*);
 	REGISTER_FIELD(setUiGameManagerObject, GameObject*);
-	REGISTER_FIELD(isBackButton, bool);
 	REGISTER_FIELD(isOptionMenuButton, bool);
 	REGISTER_FIELD(isGameResume, bool);
 	REGISTER_FIELD(isGameExit, bool);
@@ -49,12 +48,6 @@ void UIButtonControl::Update(float deltaTime)
 	}
 	else if (enableObject && disableObject)
 	{
-		if (isBackButton && input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
-		{
-			buttonComponent->SetClicked(true);
-			ui->ResetCurrentButtonIndex();
-		}
-
 		if (buttonComponent->IsClicked())
 		{
 			enableObject->Enable();
@@ -74,6 +67,7 @@ void UIButtonControl::Update(float deltaTime)
 				{
 					UIGameManagerClass->SetOptionMenuActive(false);
 				}
+				ui->ResetCurrentButtonIndex();
 			}
 		}
 	}

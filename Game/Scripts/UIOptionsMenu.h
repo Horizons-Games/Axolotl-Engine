@@ -52,8 +52,8 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void ControllerMenuMode();
-	// void KeyboardMenuMode();
+	void ControllerMenuMode(float deltaTime);
+	// void KeyboardMenuMode(float deltaTime);
 	void LoadOptions();
 	
 	void SetApplyChangesOnLoad(bool apply);
@@ -92,11 +92,13 @@ private:
 	int maxOptions;
 	int newSelectedOption;
 	float valueSlider;
+	float timerFeedbackOption;
 
 	bool isSlider;
 	bool optionSizeLock;
 	bool resetButtonIndex;
 	bool applyChangesOnLoad;
+	bool isSavingActive;
 
 	ModuleInput* input;
 	ModuleUI* ui;
@@ -121,12 +123,16 @@ private:
 	GameObject* controlsOptionHover;
 
 	GameObject* gamepadTriggersImg;
+	GameObject* backToMenuButton;
+	GameObject* saveOptionsImg;
 
 	ComponentButton* gameOptionComponentButton;
 	ComponentButton* videoOptionComponentButton;
 	ComponentButton* audioOptionComponentButton;
 	ComponentButton* controlsOptionComponentButton;
+	ComponentButton* buttonBackMenu;
 	ComponentSlider* slider;
+	ComponentSlider* sliderSaveOptions;
 
 	void UpdateChanges();
 	void ApplyChanges(int headerMenuPosition, int actualButton, int newSelectedOption);
@@ -143,4 +149,5 @@ private:
 	bool IsSlider(int header, int button, int option);
 	void IsSizeOptionEnabled();
 	void IsFpsEnabled();
+	void SaveOptionsFeedback(float deltaTime);
 };
