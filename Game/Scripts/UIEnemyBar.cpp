@@ -43,7 +43,7 @@ void UIEnemyBar::Start()
 
 void UIEnemyBar::Update(float deltaTime)
 {
-	if (alwaysActive || App->GetModule<ModulePlayer>()->IsInCombat())
+	if (alwaysActive || (App->GetModule<ModulePlayer>()->IsInCombat() && appearNextCombat))
 	{
 		UpdateBar();
 		CheckMode();
@@ -62,6 +62,13 @@ void UIEnemyBar::Update(float deltaTime)
 			displacement->SetMovingToEnd(false);
 			displacement->MoveImageToStartPosition();
 		}
+	}
+
+	if (lastTickInCombat && boss->GetCurrentHealth() <= 0)
+	{
+		appearNextCombat = false;
+		displacement->SetMovingToEnd(false);
+		displacement->MoveImageToStartPosition();
 	}
 }
 
