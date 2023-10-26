@@ -7,6 +7,7 @@
 #include "Application.h"
 
 #include "Components/ComponentScript.h"
+#include "Components/ComponentRigidBody.h"
 #include "Components/UI/ComponentSlider.h"
 
 REGISTERCLASS(UITriggerEnemyBar);
@@ -24,5 +25,8 @@ UITriggerEnemyBar::~UITriggerEnemyBar()
 	
 void UITriggerEnemyBar::OnCollisionEnter(ComponentRigidBody* other)
 {
-	enemyBar->SetAppearNextCombat(true);
+	if (other->GetOwner()->CompareTag("Player"))
+	{
+		enemyBar->SetAppearNextCombat(true);
+	}
 }
