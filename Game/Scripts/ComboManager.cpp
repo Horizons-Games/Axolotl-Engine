@@ -216,6 +216,11 @@ void ComboManager::HideCombo()
 {
 	if (uiComboManager->IsInCombat()) 
 	{
+		specialCount = 0.0f;
+		comboCount = 0;
+		actualComboTimer = 0.0f;
+		specialActivated = false;
+
 		uiComboManager->HideComboUI();
 	}
 }
