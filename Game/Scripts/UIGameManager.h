@@ -21,8 +21,10 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void SetMenuIsOpen(bool menuState);
-	void MenuIsOpen();
+	void OpenInGameMenu(bool openMenu);
+	bool IsOpenInGameMenu() const;
+	void SetOptionMenuActive(bool optionMenuOpen);
+	bool IsOptionMenuActive() const;
 
 	void LoseGameState(float deltaTime);
 	void WinGameState();
@@ -41,7 +43,8 @@ private:
 	enum class PowerUpType savePwrUp;
 	enum class PowerUpType activePwrUp;
 
-	bool menuIsOpen;
+	bool inGameMenuActive;
+	bool optionMenuActive;
 	bool pwrUpActive;
 	bool inputMethod;
 	bool prevInputMethod;

@@ -18,12 +18,12 @@
 
 REGISTERCLASS(UIGameManager);
 
-UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), manager(nullptr), menuIsOpen(false),
+UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), manager(nullptr), inGameMenuActive(false),
 hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr),
 speedPwrUpObject(nullptr), pwrUpActive(false), savePwrUp(PowerUpType::NONE), sliderHudHealthBixFront(nullptr), 
 sliderHudHealthBixBack(nullptr), sliderHudHealthAlluraFront(nullptr), sliderHudHealthAlluraBack(nullptr),
 debugModeObject(nullptr), imgMouse(nullptr), imgController(nullptr), inputMethod(true), prevInputMethod(true),
-loadRetryScene("Insert here the actual Level")
+optionMenuActive (false), loadRetryScene("Insert here the actual Level")
 {
 	REGISTER_FIELD(manager, GameObject*);
 	REGISTER_FIELD(mainMenuObject, GameObject*);
@@ -89,16 +89,29 @@ void UIGameManager::Update(float deltaTime)
 	}
 	else if (input->GetCurrentInputMethod() == InputMethod::KEYBOARD)
 	{
-		if (menuIsOpen)
+		if (inGameMenuActive)
 		{
-			player->SetMouse(menuIsOpen);
+			player->SetMouse(true);
 		}
 
 		inputMethod = false;
 	}
 	InputMethodImg(inputMethod);
 
-	//Life controller
+	//IN-GAME MENU
+	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && inGameMenuActive)
+	{
+		if (optionMenuActive)
+		{
+			return;
+		}
+		else
+		{
+			OpenInGameMenu(!inGameMenuActive);
+		}
+	}
+
+	//Health Bar Manager
 	if (componentSliderPlayerBack->GetCurrentValue() > 0)
 	{
 		if (healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerBack->GetCurrentValue()
@@ -123,15 +136,8 @@ void UIGameManager::Update(float deltaTime)
 		return;
 	}
 
-	//IN-GAME MENU
-	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::DOWN)
-	{
-		menuIsOpen = !menuIsOpen;
-		MenuIsOpen();
-	}
-
 	// DEBUG MODE
-	if (input->GetKey(SDL_SCANCODE_B) == KeyState::DOWN && debugModeObject != nullptr)
+	if (input->GetKey(SDL_SCANCODE_B) == KeyState::DOWN && debugModeObject)
 	{
 		if (!debugModeObject->IsEnabled())
 		{
@@ -151,15 +157,11 @@ void UIGameManager::Update(float deltaTime)
 }
 
 // In  Game Menu Secction
-void UIGameManager::SetMenuIsOpen(bool menuState)
+void UIGameManager::OpenInGameMenu(bool openMenu)
 {
-	menuIsOpen = menuState;
-	MenuIsOpen();
-}
+	inGameMenuActive = openMenu;
 
-void UIGameManager::MenuIsOpen()
-{
-	if (menuIsOpen)
+	if (openMenu)
 	{
 		if (inputMethod)
 		{
@@ -175,9 +177,24 @@ void UIGameManager::MenuIsOpen()
 		hudCanvasObject->Enable();
 	}
 
-	manager->GetComponent<PauseManager>()->Pause(menuIsOpen);
+	manager->GetComponent<PauseManager>()->Pause(openMenu);
 
-	player->SetMouse(menuIsOpen);
+	player->SetMouse(openMenu);
+}
+
+bool UIGameManager::IsOpenInGameMenu() const
+{
+	return inGameMenuActive;
+}
+
+void UIGameManager::SetOptionMenuActive(bool optionMenuOpen)
+{
+	optionMenuActive = optionMenuOpen;	
+}
+
+bool UIGameManager::IsOptionMenuActive() const
+{
+	return optionMenuActive;
 }
 
 //Power Ups Secction
