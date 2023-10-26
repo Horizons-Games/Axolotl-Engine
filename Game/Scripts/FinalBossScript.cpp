@@ -419,7 +419,7 @@ void FinalBossScript::ManageLastResortPhase()
 		patrolScript->StopPatrol();
 		componentAnimation->SetParameter("IsPatrolling", false);
 
-		if (componentAnimation->GetActualStateName() == "BossIdle")
+		if (componentAnimation->GetActualStateName() == "BossIdle") // Otherwise the boss gets stuck in the platform
 		{
 			missilesAttackScript->TriggerMissilesAttack();
 		}
