@@ -13,6 +13,7 @@ class ComponentRigidBody;
 class ComponentTransform;
 class ComponentAnimation;
 class ComponentAgent;
+class ComponentAudioSource;
 
 class PatrolBehaviourScript;
 class HealthSystem;
@@ -81,6 +82,7 @@ private:
 	ComponentTransform* targetTransform;
 	ComponentAgent* agent;
 	ComponentAnimation* componentAnimation;
+	ComponentAudioSource* audioSource;
 
 	PatrolBehaviourScript* patrolScript;
 	HealthSystem* bossHealthSystem;

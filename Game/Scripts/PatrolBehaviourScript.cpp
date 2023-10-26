@@ -5,10 +5,14 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAudioSource.h"
 
 
 #include "../Scripts/AIMovement.h"
 #include "../Scripts/WaypointStateScript.h"
+#include "../Scripts/EnemyVenomiteScript.h"
+
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "debugdraw.h"
 #include "AxoLog.h"
@@ -16,8 +20,9 @@
 REGISTERCLASS(PatrolBehaviourScript);
 
 PatrolBehaviourScript::PatrolBehaviourScript() : Script(), ownerTransform(nullptr),
-aiMovement(nullptr), currentWaypoint(0), isStoppedAtPatrol(true), patrolStopDuration(5.0f), totalPatrolTime(0.0f),
-patrolStateActivated(false), componentAnimation(nullptr), patrolAnimationParamater("")
+	aiMovement(nullptr), currentWayPoint(0), isStoppedAtPatrol(true), patrolStopDuration(5.0f), totalPatrolTime(0.0f),
+	patrolStateActivated(false), componentAnimation(nullptr), patrolAnimationParamater(""), hasWalkAnim(false),
+	audioSource(nullptr)
 {
 	REGISTER_FIELD(waypointsPatrol, std::vector<ComponentTransform*>);
 	REGISTER_FIELD(patrolStopDuration, float);
@@ -29,12 +34,18 @@ void PatrolBehaviourScript::Start()
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	aiMovement = owner->GetComponent<AIMovement>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
 
 	currentWaypoint = 0;
 
 	if (waypointsPatrol.empty())
 	{
 		waypointsPatrol.push_back(ownerTransform);
+	}
+
+	if (owner->HasComponent<EnemyVenomiteScript>())
+	{
+		hasWalkAnim = true;
 	}
 }
 
@@ -62,6 +73,8 @@ void PatrolBehaviourScript::Update(float deltaTime)
 				aiMovement->SetRotationTargetPosition(target);
 				aiMovement->SetMovementStatuses(true, true);
 
+				audioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS);
+
 				componentAnimation->SetParameter(patrolAnimationParamater, true);
 			}
 		}
@@ -76,6 +89,7 @@ void PatrolBehaviourScript::StartPatrol()
 	aiMovement->SetRotationTargetPosition(target);
 	aiMovement->SetMovementStatuses(true, true);
 	componentAnimation->SetParameter(patrolAnimationParamater, true);
+	audioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS);
 	patrolStateActivated = true;
 	isStoppedAtPatrol = false;
 }
@@ -83,6 +97,7 @@ void PatrolBehaviourScript::StartPatrol()
 void PatrolBehaviourScript::StopPatrol()
 {
 	aiMovement->SetMovementStatuses(false, false);
+	audioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS_STOP);
 	patrolStateActivated = false;
 	CheckNextWaypoint();
 }
@@ -96,6 +111,8 @@ void PatrolBehaviourScript::Patrolling()
 		aiMovement->SetTargetPosition(target);
 		aiMovement->SetRotationTargetPosition(target);
 		aiMovement->SetMovementStatuses(false, false);
+
+		audioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS_STOP);
 
 		isStoppedAtPatrol = true;
 		if (patrolAnimationParamater != "")
