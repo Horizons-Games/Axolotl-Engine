@@ -37,7 +37,7 @@ enum Button
 	BLOOM = 3,
 
 	// AUDIO
-	GENERAL = 0,
+	MASTER = 0,
 	MUSIC = 1,
 	SFX = 2,
 };

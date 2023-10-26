@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "..\Scripts\EnemyClass.h"
 
 class ModuleInput;
 class ComponentAudioSource;
@@ -72,4 +73,6 @@ private:
 	Scene* loadedScene;
 
 	float3 newReposition;
+
+	EnemyTypes enemyType;
 };

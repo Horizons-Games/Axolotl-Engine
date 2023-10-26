@@ -6,6 +6,7 @@
 #include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
 #include "Physics/Physics.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
@@ -13,6 +14,7 @@
 #include "Components/ComponentBreakable.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentObstacle.h"
+#include "Components/ComponentAudioSource.h"
 
 #include "../Scripts/EnemyClass.h"
 #include "../Scripts/HealthSystem.h"
@@ -52,6 +54,7 @@ void BossChargeAttackScript::Start()
 	transform = owner->GetComponent<ComponentTransform>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	animator = owner->GetComponent<ComponentAnimation>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
 
 	finalBossScript = owner->GetComponent<FinalBossScript>();
 }
@@ -95,6 +98,8 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(chargeDamage);
 		chargeHitPlayer = true;
+
+		audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_HIT);
 	}
 	else if (chargeState == ChargeState::BOUNCING_WALL && other->GetOwner()->CompareTag("Floor"))
 	{
@@ -115,6 +120,8 @@ void BossChargeAttackScript::TriggerChargeAttack(ComponentTransform* targetPosit
 
 	chargeThroughPosition = targetPosition;
 	chargeHitPlayer = false;
+
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_LOAD);
 
 	// VFX Here: The boss started the charge attack (going backwards or yelling, whatever you want to add)
 }
@@ -220,6 +227,7 @@ void BossChargeAttackScript::PerformChargeAttack()
 	animator->SetParameter("IsPreparingChargeAttack", false);
 	animator->SetParameter("IsCharging", true);
 
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_ATTACK);
 	// VFX Here: The boss started the charging forward
 }
 
@@ -241,6 +249,9 @@ void BossChargeAttackScript::WallHitAfterCharge() const
 
 	EnemyClass* enemyScript = owner->GetComponent<EnemyClass>();
 	enemyScript->SetStunnedTime(attackStunTime);
+
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_HIT);
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_STUNT);
 }
 
 bool BossChargeAttackScript::CanPerformChargeAttack() const
@@ -283,6 +294,8 @@ void BossChargeAttackScript::SpawnRock(const float3& spawnPosition)
 	}
 
 	rocksSpawned.push_back(newRock);
+
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_ROCKS);
 }
 
 void BossChargeAttackScript::MakeRocksFall() const
