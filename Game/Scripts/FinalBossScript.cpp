@@ -418,7 +418,11 @@ void FinalBossScript::ManageLastResortPhase()
 	{
 		patrolScript->StopPatrol();
 		componentAnimation->SetParameter("IsPatrolling", false);
-		missilesAttackScript->TriggerMissilesAttack();
+
+		if (componentAnimation->GetActualStateName() == "BossIdle")
+		{
+			missilesAttackScript->TriggerMissilesAttack();
+		}
 		bossState = FinalBossStates::ATTACKING;
 	}
 	else if (transform->GetGlobalPosition().Equals(targetTransform->GetGlobalPosition(), 7.5f) &&
