@@ -20,7 +20,7 @@
 REGISTERCLASS(PatrolBehaviourScript);
 
 PatrolBehaviourScript::PatrolBehaviourScript() : Script(), ownerTransform(nullptr),
-	aiMovement(nullptr), currentWayPoint(0), isStoppedAtPatrol(true), patrolStopDuration(5.0f), totalPatrolTime(0.0f),
+	aiMovement(nullptr), currentWaypoint(0), isStoppedAtPatrol(true), patrolStopDuration(5.0f), totalPatrolTime(0.0f),
 	patrolStateActivated(false), componentAnimation(nullptr), patrolAnimationParamater(""), hasWalkAnim(false),
 	audioSource(nullptr)
 {
