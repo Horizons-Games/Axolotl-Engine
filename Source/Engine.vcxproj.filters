@@ -905,6 +905,9 @@
     <ClCompile Include="..\Game\Scripts\UIApearDisapear.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UITriggerEnemyBar.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1853,6 +1856,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIApearDisapear.h">
       <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UITriggerEnemyBar.h">
+      <Filter>UserScripts\Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
