@@ -102,7 +102,6 @@ void BossShieldAttackScript::TriggerShieldAttack()
 {
 	LOG_INFO("The shield attack was triggered");
 
-	bossShieldObject->ActivateShield();
 	healthSystemScript->SetIsImmortal(true);
 	//bossShieldEnemiesSpawner->StartSpawner();
 	owner->GetComponent< AIMovement>()->SetMovementStatuses(false, false);
@@ -128,6 +127,12 @@ void BossShieldAttackScript::ManageShield(float deltaTime)
 {
 	if (isShielding)
 	{
+		if ((animator->GetActualStateName() == "BossShieldIdle" ||
+			animator->GetActualStateName() == "BossShieldInvokeEnemy") && !bossShieldObject->GetOwner()->IsEnabled())
+		{
+			bossShieldObject->ActivateShield();
+		}
+
 		shieldingTime -= deltaTime;
 		healthSystemScript->HealLife(deltaTime * 3);
 
