@@ -58,7 +58,7 @@ bool PlayerManagerScript::InsideForceOrHackingZone()
 	{
 		return forceManager->IsInsideForceZone();
 	}
-	else
+	else if (hackingManager)
 	{
 		return hackingManager->IsInsideValidHackingZone();
 	}
