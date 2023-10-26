@@ -155,6 +155,7 @@ void CombatTutorial::Update(float deltaTime)
 			LOG_INFO("Tutorial:SpecialHeavyAttack");
 
 			tutorialUI->UnDeployUI();
+			comboSystem->FillComboBar();
 			dummyHealthSystem->SetIsImmortal(false);
 
 			nextStateActive = false;
