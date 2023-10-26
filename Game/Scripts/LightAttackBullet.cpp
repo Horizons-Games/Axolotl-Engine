@@ -47,10 +47,9 @@ void LightAttackBullet::Start()
 {
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
+	bulletTransform = owner->GetComponent<ComponentTransform>();
 
-	audioSource = owner->GetComponent<ComponentAudioSource>();
-
-	
+	audioSource = owner->GetComponent<ComponentAudioSource>();	
 
 	defaultTargetPos = parentTransform->GetGlobalForward();
 	defaultTargetPos.y = 0;
@@ -112,11 +111,9 @@ void LightAttackBullet::Update(float deltaTime)
 		{
 			particleSystem->Stop();
 		}
-
 		DestroyBullet();
 	}
 }
-
 
 void LightAttackBullet::StartMoving()
 {
@@ -133,6 +130,10 @@ void LightAttackBullet::StartMoving()
 			forward.x,
 			0,
 			forward.z) * velocity);
+	if (enemy)
+	{
+		RepositionBullet();
+	}
 }
 
 void LightAttackBullet::SetPauseBullet(bool isPaused)
@@ -157,20 +158,18 @@ void LightAttackBullet::SetPauseBullet(bool isPaused)
 }
 
 //Function to reposition the bullet to the front of the player before shooting
-void LightAttackBullet::RepositionBullet(GameObject* shooterObject, GameObject* enemyAttacked)
+void LightAttackBullet::RepositionBullet()
 {
-	ComponentTransform* shooterTransform = shooterObject->GetComponent<ComponentTransform>();
-	ComponentTransform* bulletTransform = owner->GetComponent<ComponentTransform>();
 	float3 currentForward = bulletTransform->GetGlobalForward().Normalized();
 	float3 desiredForward;
 	float3 height = float3(0.0f, 1.0f, 0.0f);
 	// Create a new bullet
-	if (enemyAttacked)
+	if (enemy)
 	{
-		desiredForward = (enemyAttacked->GetComponent<ComponentTransform>()->
-			GetGlobalPosition() - shooterTransform->GetGlobalPosition()).Normalized();
+		desiredForward = (targetTransform->
+			GetGlobalPosition() - parentTransform->GetGlobalPosition()).Normalized();
 
-		bulletTransform->SetGlobalPosition(shooterTransform->GetGlobalPosition() + height
+		bulletTransform->SetGlobalPosition(parentTransform->GetGlobalPosition() + height
 			+ (desiredForward).Normalized());
 
 		float angle = Quat::FromEulerXYZ(currentForward.x, currentForward.y, currentForward.z).
@@ -182,8 +181,8 @@ void LightAttackBullet::RepositionBullet(GameObject* shooterObject, GameObject* 
 	}
 	else
 	{
-		desiredForward = shooterTransform->GetGlobalForward();
-		bulletTransform->SetGlobalPosition(shooterTransform->GetGlobalPosition() + height
+		desiredForward = parentTransform->GetGlobalForward();
+		bulletTransform->SetGlobalPosition(parentTransform->GetGlobalPosition() + height
 			+ (desiredForward).Normalized());
 
 		float angle = Quat::FromEulerXYZ(currentForward.x, currentForward.y, currentForward.z).
@@ -265,8 +264,7 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 }
 
 void LightAttackBullet::DestroyBullet()
-{
-	
+{	
 	App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(particleSystem);
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
 }

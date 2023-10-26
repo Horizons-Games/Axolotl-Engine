@@ -20,7 +20,7 @@ public:
 	void SetEnemy(GameObject* nEnemy);
 	void SetDamage(float nDamageAttack);
 	void StartMoving();
-	void RepositionBullet(GameObject* shooterObject, GameObject* enemyAttacked);
+	void RepositionBullet();
 	void SetPauseBullet(bool isPaused);
 
 private:
@@ -38,6 +38,7 @@ private:
 	GameObject* enemy;
 	ComponentAudioSource* audioSource;
 	ComponentRigidBody* rigidBody;
+	ComponentTransform* bulletTransform;
 	ComponentTransform* parentTransform;
 	ComponentTransform* targetTransform;
 	ComponentParticleSystem* particleSystem;

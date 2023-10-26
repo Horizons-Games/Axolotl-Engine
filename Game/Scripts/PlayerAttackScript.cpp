@@ -378,8 +378,6 @@ void PlayerAttackScript::HeavyNormalAttack()
 
 void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDamage)
 {
-	bulletPrefab->GetComponent<LightAttackBullet>()->RepositionBullet(owner, enemyAttacked);
-
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
 	
 	LightAttackBullet* ligthAttackBulletScript = bullet->GetComponent<LightAttackBullet>();
