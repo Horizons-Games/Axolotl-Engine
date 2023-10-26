@@ -30,6 +30,7 @@ public:
 	void UpdateBar();
 	void CheckMode();
 	void ChangeMode();
+	void SetAppearNextCombat(bool nextCombat);
 
 private:
 
@@ -43,6 +44,7 @@ private:
 	int barValue;
 	GameObject* icons;
 	bool lastTickInCombat;
+	bool appearNextCombat;
 	UIImageDisplacementControl* displacement;
 
 };
