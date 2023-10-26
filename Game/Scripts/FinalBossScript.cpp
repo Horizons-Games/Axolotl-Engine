@@ -98,12 +98,31 @@ void FinalBossScript::Update(float deltaTime)
 		targetTransform = target->GetComponent<ComponentTransform>();
 	}
 
+	CheckIfIsInDamageAnimation();
+
 	// Uncomment this line to check the attacks individually (you have to activate each one of them below)
 	//TryAttacksIndividually();
 	
 	// Comment these lines if you uncomment the one above and vice versa
 	ChangeBossPhase();
 	ManageActualPhase(bossPhase);
+}
+
+void FinalBossScript::CheckIfIsInDamageAnimation()
+{
+	bool isPerformingAnAttack = shockWaveAttackScript->IsAttacking() || chargeAttackScript->IsAttacking() ||
+		shieldAttackScript->IsAttacking() || missilesAttackScript->IsAttacking();
+
+	if (componentAnimation->GetActualStateName() == "BossTakingDamage" && !isPerformingAnAttack)
+	{
+		isInDamageAnimation = true;
+		aiMovement->SetMovementStatuses(false, false);
+	}
+	else if (isInDamageAnimation && !isPerformingAnAttack && componentAnimation->GetActualStateName() != "BossTakingDamage")
+	{
+		aiMovement->SetMovementStatuses(true, true);
+		isInDamageAnimation = false;
+	}
 }
 
 void FinalBossScript::SetReadyToDie()

@@ -66,6 +66,7 @@ private:
 	void ManageActualPhase(FinalBossPhases bossState);
 
 	void TryAttacksIndividually();
+	void CheckIfIsInDamageAnimation();
 
 	void ManageNeutralPhase();
 	void ManageAggressivePhase();
@@ -95,5 +96,6 @@ private:
 	ModulePlayer* modulePlayer;
 
 	bool isUnpaused;
+	bool isInDamageAnimation;
 	btVector3 bossGravity;
 };
