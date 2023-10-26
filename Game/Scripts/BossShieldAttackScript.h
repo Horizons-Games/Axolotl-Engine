@@ -6,6 +6,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAnimation;
+class ComponentAudioSource;
 
 class BossShieldScript;
 class HealthSystem;
@@ -56,6 +57,7 @@ private:
 	BossShieldEnemiesSpawner* bossShieldEnemiesSpawner;
 
 	ComponentAnimation* animator;
+	ComponentAudioSource* audioSource;
 
 	// Modifiable values
 	float shieldingMaxTime;
