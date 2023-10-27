@@ -446,6 +446,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UITriggerEnemyBar.cpp" />
     <ClCompile Include="..\Game\Scripts\WaterfallAudio.cpp" />
     <ClCompile Include="..\Game\Scripts\WaypointStateScript.cpp" />
     <ClCompile Include="Application.cpp" />
@@ -1001,6 +1002,7 @@
     <ClInclude Include="..\Game\Scripts\UITrigger.h" />
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusic.h" />
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusicExit.h" />
+    <ClInclude Include="..\Game\Scripts\UITriggerEnemyBar.h" />
     <ClInclude Include="..\Game\Scripts\WaterfallAudio.h" />
     <ClInclude Include="..\Game\Scripts\WaypointStateScript.h" />
     <ClInclude Include="Application.h" />
