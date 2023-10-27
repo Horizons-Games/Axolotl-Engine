@@ -28,7 +28,7 @@ public:
 	void SetNewPath(GameObject* nPath);
 
 private:
-	unsigned int currentWayPoint;
+	unsigned int currentWaypoint;
 	bool pathFinished;
 	bool isInmortal;
 	float agentVelocity;
