@@ -99,16 +99,10 @@ void UIGameManager::Update(float deltaTime)
 	InputMethodImg(inputMethod);
 
 	//IN-GAME MENU
-	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && inGameMenuActive)
+	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::DOWN && !optionMenuActive ||
+		input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && inGameMenuActive && !optionMenuActive)
 	{
-		if (optionMenuActive)
-		{
-			return;
-		}
-		else
-		{
 			OpenInGameMenu(!inGameMenuActive);
-		}
 	}
 
 	//Health Bar Manager
@@ -117,7 +111,8 @@ void UIGameManager::Update(float deltaTime)
 		if (healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerBack->GetCurrentValue()
 			|| healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerFront->GetCurrentValue())
 		{
-			ModifySliderHealthValue(healthSystemClassBix, componentSliderPlayerBack, componentSliderPlayerFront, deltaTime);
+			ModifySliderHealthValue(healthSystemClassBix, componentSliderPlayerBack, 
+				componentSliderPlayerFront, deltaTime);
 		}
 	}
 	
@@ -126,7 +121,8 @@ void UIGameManager::Update(float deltaTime)
 		if (healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerBack->GetCurrentValue()
 			|| healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerFront->GetCurrentValue())
 		{
-			ModifySliderHealthValue(healthSystemClassAllura, componentSliderSecondPlayerBack, componentSliderSecondPlayerFront, deltaTime);
+			ModifySliderHealthValue(healthSystemClassAllura, 
+				componentSliderSecondPlayerBack, componentSliderSecondPlayerFront, deltaTime);
 		}
 	}
 
@@ -308,7 +304,8 @@ void UIGameManager::SetMaxPowerUpTime(float maxPowerUpTime)
 }
 
 //Healt System Secction
-void UIGameManager::ModifySliderHealthValue(HealthSystem* healthSystemClass, ComponentSlider* componentSliderBack, ComponentSlider* componentSliderFront, float deltaTime)
+void UIGameManager::ModifySliderHealthValue(HealthSystem* healthSystemClass, 
+	ComponentSlider* componentSliderBack, ComponentSlider* componentSliderFront, float deltaTime)
 {
 
 	float currentHealth = healthSystemClass->GetCurrentHealth();
@@ -318,13 +315,17 @@ void UIGameManager::ModifySliderHealthValue(HealthSystem* healthSystemClass, Com
 
 	if (damageBack <= 0.0f && damage <= 0.0f)
 	{
-		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + std::max(damageBack, -25.0f * deltaTime));
-		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + std::max(damage, -100.0f * deltaTime));
+		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + 
+			std::max(damageBack, -25.0f * deltaTime));
+		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + 
+			std::max(damage, -100.0f * deltaTime));
 	}
 	else
 	{
-		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + std::min(damageBack, 100.0f * deltaTime));
-		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + std::min(damage, 100.0f * deltaTime));
+		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + 
+			std::min(damageBack, 100.0f * deltaTime));
+		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + 
+			std::min(damage, 100.0f * deltaTime));
 	}
 
 	if (currentHealth <= 0.0f)
