@@ -6,9 +6,13 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class ModulePlayer;
+
 class GameObject;
 class ComponentRigidBody;
 class ComponentTransform;
+class ComponentAnimation;
+class ComponentAgent;
 class ComponentAudioSource;
 
 class PatrolBehaviourScript;
@@ -17,9 +21,8 @@ class BossChargeAttackScript;
 class ShockWaveAttackScript;
 class BossShieldAttackScript;
 class BossMissilesAttackScript;
-class ComponentAgent;
 class AIMovement;
-class ModulePlayer;
+class EnemyDeathScript;
 
 enum class FinalBossPhases
 {
@@ -54,7 +57,7 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void SetReadyToDie() override {};
+	void SetReadyToDie() override;
 
 	void ReactivateMovement() const;
 	void RemoveAgent() const;
@@ -64,6 +67,7 @@ private:
 	void ManageActualPhase(FinalBossPhases bossState);
 
 	void TryAttacksIndividually();
+	void CheckIfIsInDamageAnimation();
 
 	void ManageNeutralPhase();
 	void ManageAggressivePhase();
@@ -76,6 +80,8 @@ private:
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* transform;
 	ComponentTransform* targetTransform;
+	ComponentAgent* agent;
+	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* audioSource;
 
 	PatrolBehaviourScript* patrolScript;
@@ -84,13 +90,14 @@ private:
 	ShockWaveAttackScript* shockWaveAttackScript;
 	BossShieldAttackScript* shieldAttackScript;
 	BossMissilesAttackScript* missilesAttackScript;
-	ComponentAgent* agent;
 	AIMovement* aiMovement;
+	EnemyDeathScript* deathScript;
 
 	// Modifiable values
 	GameObject* target;
 	ModulePlayer* modulePlayer;
 
 	bool isUnpaused;
+	bool isInDamageAnimation;
 	btVector3 bossGravity;
 };

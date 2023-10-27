@@ -9,6 +9,7 @@
 
 
 #include "../Scripts/AIMovement.h"
+#include "../Scripts/WaypointStateScript.h"
 #include "../Scripts/EnemyVenomiteScript.h"
 
 #include "Auxiliar/Audio/AudioData.h"
@@ -19,9 +20,9 @@
 REGISTERCLASS(PatrolBehaviourScript);
 
 PatrolBehaviourScript::PatrolBehaviourScript() : Script(), ownerTransform(nullptr),
-aiMovement(nullptr), currentWayPoint(0), isStoppedAtPatrol(true), patrolStopDuration(5.0f), totalPatrolTime(0.0f),
-patrolStateActivated(false), componentAnimation(nullptr), patrolAnimationParamater(""), hasWalkAnim(false),
-audioSource(nullptr)
+	aiMovement(nullptr), currentWaypoint(0), isStoppedAtPatrol(true), patrolStopDuration(5.0f), totalPatrolTime(0.0f),
+	patrolStateActivated(false), componentAnimation(nullptr), patrolAnimationParamater(""), hasWalkAnim(false),
+	audioSource(nullptr)
 {
 	REGISTER_FIELD(waypointsPatrol, std::vector<ComponentTransform*>);
 	REGISTER_FIELD(patrolStopDuration, float);
@@ -35,7 +36,7 @@ void PatrolBehaviourScript::Start()
 	aiMovement = owner->GetComponent<AIMovement>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 
-	currentWayPoint = 0;
+	currentWaypoint = 0;
 
 	if (waypointsPatrol.empty())
 	{
@@ -66,7 +67,7 @@ void PatrolBehaviourScript::Update(float deltaTime)
 
 				CheckNextWaypoint();
 
-				float3 target = waypointsPatrol[currentWayPoint]->GetGlobalPosition();
+				float3 target = waypointsPatrol[currentWaypoint]->GetGlobalPosition();
 
 				aiMovement->SetTargetPosition(target);
 				aiMovement->SetRotationTargetPosition(target);
@@ -82,7 +83,7 @@ void PatrolBehaviourScript::Update(float deltaTime)
 
 void PatrolBehaviourScript::StartPatrol()
 {
-	float3 target = waypointsPatrol[currentWayPoint]->GetGlobalPosition();
+	float3 target = waypointsPatrol[currentWaypoint]->GetGlobalPosition();
 
 	aiMovement->SetTargetPosition(target);
 	aiMovement->SetRotationTargetPosition(target);
@@ -115,13 +116,15 @@ void PatrolBehaviourScript::Patrolling()
 
 		isStoppedAtPatrol = true;
 		if (patrolAnimationParamater != "")
+		{
 			componentAnimation->SetParameter(patrolAnimationParamater, false);
+		}
 	}
 }
 
 void PatrolBehaviourScript::CheckNextWaypoint()
 {
-	currentWayPoint = (currentWayPoint + 1) % waypointsPatrol.size();
+	currentWaypoint = (currentWaypoint + 1) % waypointsPatrol.size();
 }
 
 void PatrolBehaviourScript::RandomPatrolling(bool isFirstPatrolling)
@@ -130,17 +133,19 @@ void PatrolBehaviourScript::RandomPatrolling(bool isFirstPatrolling)
 	{
 		GetNearestPatrollingPoint();
 	}
-	else if (ownerTransform->GetGlobalPosition().Equals(waypointsPatrol[currentWayPoint]->GetGlobalPosition(), 2.0f))
+	else if (ownerTransform->GetGlobalPosition().Equals(waypointsPatrol[currentWaypoint]->GetGlobalPosition(), 2.0f))
 	{
-
-		int randomWaypointSelected = currentWayPoint;
+		int randomWaypointSelected = currentWaypoint;
+		WaypointStates selectedWaypointState = WaypointStates::UNAVAILABLE;
 		
-		while (currentWayPoint == randomWaypointSelected)
+		while (currentWaypoint == randomWaypointSelected || selectedWaypointState == WaypointStates::UNAVAILABLE)
 		{
 			randomWaypointSelected = rand() % static_cast<int>(waypointsPatrol.size());
+			selectedWaypointState = waypointsPatrol[randomWaypointSelected]->
+				GetOwner()->GetComponent<WaypointStateScript>()->GetWaypointState();
 		}
 
-		currentWayPoint = randomWaypointSelected;
+		currentWaypoint = randomWaypointSelected;
 	}
 }
 
@@ -148,10 +153,20 @@ void PatrolBehaviourScript::GetNearestPatrollingPoint()
 {
 	for (int i = 0; i < waypointsPatrol.size(); ++i)
 	{
-		if (ownerTransform->GetGlobalPosition().Distance(waypointsPatrol[i]->GetGlobalPosition()) <=
-			ownerTransform->GetGlobalPosition().Distance(waypointsPatrol[currentWayPoint]->GetGlobalPosition()))
+		WaypointStateScript* currentWaypointState = 
+			waypointsPatrol[currentWaypoint]->GetOwner()->GetComponent<WaypointStateScript>();
+		if (currentWaypointState->GetWaypointState() == WaypointStates::UNAVAILABLE)
 		{
-			currentWayPoint = i;
+			continue;
+		}
+
+		float distanceToThisWaypoint = ownerTransform->GetGlobalPosition().Distance(waypointsPatrol[i]->GetGlobalPosition());
+		float distanceToNearestWaypointUntilNow =
+			ownerTransform->GetGlobalPosition().Distance(waypointsPatrol[currentWaypoint]->GetGlobalPosition());
+
+		if (distanceToThisWaypoint <= distanceToNearestWaypointUntilNow)
+		{
+			currentWaypoint = i;
 		}
 	}
 }
