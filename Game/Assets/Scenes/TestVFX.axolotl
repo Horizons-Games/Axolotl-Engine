@@ -269,9 +269,9 @@
                             "type": "Component_Transform",
                             "active": true,
                             "removed": false,
-                            "localPos_X": -4.2473837424950034e-7,
+                            "localPos_X": 2.1053216414657072e-7,
                             "localPos_Y": 0.0,
-                            "localPos_Z": -3.5629637241363525,
+                            "localPos_Z": 1.7660725116729736,
                             "localRot_X": 0.0,
                             "localRot_Y": 90.0,
                             "localRot_Z": 0.0,
@@ -551,7 +551,7 @@
                                 },
                                 {
                                     "name": "MovementY",
-                                    "value": -0.029999999329447746,
+                                    "value": -0.019999999552965164,
                                     "type": 0
                                 },
                                 {

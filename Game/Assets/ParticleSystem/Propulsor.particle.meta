@@ -3,8 +3,8 @@
     "Type": "ParticleSystem",
     "TexturesAssetPaths": [
         "Assets/Textures/Line6.png",
-        "Assets/Textures/MuzzleAnimated.png",
-        "Assets/Textures/MuzzleAnimated2.png"
+        "Assets/Textures/MuzzleAnimated2.png",
+        "Assets/Textures/MuzzleAnimated.png"
     ],
     "ConfigEmitters": [
         false,

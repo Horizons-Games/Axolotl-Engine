@@ -45,6 +45,8 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 	REGISTER_FIELD(isRockAttackVariant, bool);
 
 	REGISTER_FIELD(wallChecker, BossWallChecker*);
+
+	REGISTER_FIELD(propulsorVFX, GameObject*);
 }
 
 void BossChargeAttackScript::Start()
@@ -228,7 +230,12 @@ void BossChargeAttackScript::PerformChargeAttack()
 	animator->SetParameter("IsCharging", true);
 
 	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_ATTACK);
-	// VFX Here: The boss started the charging forward
+	
+	propulsorVFX->GetChildren()[0]->Enable();
+	propulsorVFX->GetChildren()[0]->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
+
+	propulsorVFX->GetChildren()[1]->Enable();
+	propulsorVFX->GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
 }
 
 void BossChargeAttackScript::WallHitAfterCharge() const
@@ -252,6 +259,12 @@ void BossChargeAttackScript::WallHitAfterCharge() const
 
 	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_HIT);
 	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_STUNT);
+
+	propulsorVFX->GetChildren()[0]->Disable();
+	propulsorVFX->GetChildren()[0]->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+
+	propulsorVFX->GetChildren()[1]->Disable();
+	propulsorVFX->GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
 }
 
 bool BossChargeAttackScript::CanPerformChargeAttack() const
