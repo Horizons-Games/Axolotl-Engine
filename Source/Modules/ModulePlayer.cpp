@@ -136,12 +136,12 @@ void ModulePlayer::SetInCombat(bool newmode)
 	inCombat = newmode;
 	if (inCombat)
 	{
-		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentAudioSource>()->SetSwitch(
+		App->GetModule<ModuleAudio>()->SetMusicSwitch(
 			AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::COMBAT);
 	}
 	else
 	{
-		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentAudioSource>()->SetSwitch(
+		App->GetModule<ModuleAudio>()->SetMusicSwitch(
 			AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
 	}
 }

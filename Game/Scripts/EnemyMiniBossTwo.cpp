@@ -9,6 +9,7 @@
 
 #include "Application.h"
 #include "Modules/ModulePlayer.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "../Scripts/SeekBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
@@ -206,5 +207,6 @@ void EnemyMiniBossTwo::SetReadyToDie()
 	componentAnimation->SetParameter("IsDead", true);
 	App->GetModule<ModulePlayer>()->SetInBossCombat(false);
 	blockedDoor->Disable();
+	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DEATH);
 	deathScript->ManageEnemyDeath();
 }

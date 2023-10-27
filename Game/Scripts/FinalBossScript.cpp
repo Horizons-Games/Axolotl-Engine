@@ -9,6 +9,7 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAgent.h"
+#include "Components/ComponentAudioSource.h"
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
@@ -23,7 +24,7 @@ REGISTERCLASS(FinalBossScript);
 FinalBossScript::FinalBossScript() : bossPhase(FinalBossPhases::NEUTRAL), patrolScript(nullptr), 
 	bossHealthSystem(nullptr), rigidBody(nullptr), chargeAttackScript(nullptr),
 	transform(nullptr), targetTransform(nullptr), shockWaveAttackScript(nullptr), bossState(FinalBossStates::IDLE),
-	shieldAttackScript(nullptr), missilesAttackScript(nullptr)
+	shieldAttackScript(nullptr), missilesAttackScript(nullptr), audioSource(nullptr)
 {
 }
 
@@ -34,6 +35,7 @@ void FinalBossScript::Start()
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	rigidBody->SetKpForce(0.25f);
 	transform = owner->GetComponent<ComponentTransform>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
 
 	target = App->GetModule<ModulePlayer>()->GetPlayer();
 	modulePlayer = App->GetModule<ModulePlayer>();

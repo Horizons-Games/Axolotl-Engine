@@ -205,7 +205,9 @@
     <ClCompile Include="..\Game\Scripts\EntityDetection.cpp" />
     <ClCompile Include="..\Game\Scripts\FinalBossScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ForceTrigger.cpp" />
+    <ClCompile Include="..\Game\Scripts\GeneratorSpaceStationAudio.cpp" />
     <ClCompile Include="..\Game\Scripts\HackingCommand.cpp" />
+    <ClCompile Include="..\Game\Scripts\HackingMachineAudio.cpp" />
     <ClCompile Include="..\Game\Scripts\HackZoneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ForceZoneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp" />
@@ -444,6 +446,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UITriggerEnemyBar.cpp" />
     <ClCompile Include="..\Game\Scripts\WaterfallAudio.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Auxiliar\Utils\UtilBlur.cpp" />
@@ -926,7 +929,9 @@
     <ClInclude Include="..\Game\Scripts\EntityDetection.h" />
     <ClInclude Include="..\Game\Scripts\FinalBossScript.h" />
     <ClInclude Include="..\Game\Scripts\ForceTrigger.h" />
+    <ClInclude Include="..\Game\Scripts\GeneratorSpaceStationAudio.h" />
     <ClInclude Include="..\Game\Scripts\HackingCommand.h" />
+    <ClInclude Include="..\Game\Scripts\HackingMachineAudio.h" />
     <ClInclude Include="..\Game\Scripts\HackZoneScript.h" />
     <ClInclude Include="..\Game\Scripts\ForceZoneScript.h" />
     <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h" />
@@ -996,6 +1001,7 @@
     <ClInclude Include="..\Game\Scripts\UITrigger.h" />
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusic.h" />
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusicExit.h" />
+    <ClInclude Include="..\Game\Scripts\UITriggerEnemyBar.h" />
     <ClInclude Include="..\Game\Scripts\WaterfallAudio.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\AddComponentAction.h" />

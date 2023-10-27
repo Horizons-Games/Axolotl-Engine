@@ -8,6 +8,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentRigidBody;
+class ComponentAudioSource;
 
 enum class RockStates
 {
@@ -47,6 +48,7 @@ private:
 	float breakTimer;
 
 	ComponentRigidBody* rigidBody;
+	ComponentAudioSource* audioSource;
 
 	bool rockHitAndRemained;
 

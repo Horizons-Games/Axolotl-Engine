@@ -13,13 +13,14 @@
 
 REGISTERCLASS(UIEnemyBar);
 
-UIEnemyBar::UIEnemyBar() : Script(), firstChange(60), secondChange(30), thirdChange(10), boss(nullptr), alwaysActive(false)
+UIEnemyBar::UIEnemyBar() : Script(), firstChange(60), secondChange(30), thirdChange(10), boss(nullptr), alwaysActive(false), appearNextCombat(true)
 {
 	REGISTER_FIELD(boss, HealthSystem*);
 	REGISTER_FIELD(firstChange, float);
 	REGISTER_FIELD(secondChange, float);
 	REGISTER_FIELD(thirdChange, float);
 	REGISTER_FIELD(alwaysActive, bool);
+	REGISTER_FIELD(appearNextCombat, bool);
 }
 
 UIEnemyBar::~UIEnemyBar()
@@ -42,12 +43,12 @@ void UIEnemyBar::Start()
 
 void UIEnemyBar::Update(float deltaTime)
 {
-	if (alwaysActive || App->GetModule<ModulePlayer>()->IsInCombat())
+	if (alwaysActive || (App->GetModule<ModulePlayer>()->IsInCombat() && appearNextCombat))
 	{
 		UpdateBar();
 		CheckMode();
 	}
-	if (!alwaysActive && lastTickInCombat != App->GetModule<ModulePlayer>()->IsInCombat())
+	if (appearNextCombat && !alwaysActive && lastTickInCombat != App->GetModule<ModulePlayer>()->IsInCombat())
 	{
 		lastTickInCombat = App->GetModule<ModulePlayer>()->IsInCombat();
 		if (lastTickInCombat)
@@ -57,9 +58,17 @@ void UIEnemyBar::Update(float deltaTime)
 		}
 		else
 		{
+			appearNextCombat = false;
 			displacement->SetMovingToEnd(false);
 			displacement->MoveImageToStartPosition();
 		}
+	}
+
+	if (lastTickInCombat && boss->GetCurrentHealth() <= 0)
+	{
+		appearNextCombat = false;
+		displacement->SetMovingToEnd(false);
+		displacement->MoveImageToStartPosition();
 	}
 }
 
@@ -139,4 +148,9 @@ void UIEnemyBar::ChangeMode()
 		icons->GetChildren()[3]->GetComponent<UIApearDisapear>()->SetObjective(0.f);
 		break;
 	}
+}
+
+void UIEnemyBar::SetAppearNextCombat(bool nextCombat)
+{
+	appearNextCombat = nextCombat;
 }

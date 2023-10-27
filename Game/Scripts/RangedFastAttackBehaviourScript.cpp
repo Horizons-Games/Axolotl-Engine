@@ -30,7 +30,8 @@ RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), a
 	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0), isPreShooting(false),
 	preShootingTime(0.0f), particlePreShotTransform(nullptr), numConsecutiveShots(0.0f), minTimeConsecutiveShot(0.0f),
 	maxTimeConsecutiveShot(0.0f), currentConsecutiveShots(0.0f), nextShotDuration(0.0f), shotTime(0.0f),
-	isWaitingForConsecutiveShot(false), isConsecutiveShooting(false), attackDamage(10.0f), aiMovement(nullptr)
+	isWaitingForConsecutiveShot(false), isConsecutiveShooting(false), attackDamage(10.0f), aiMovement(nullptr),
+	enemyType(EnemyTypes::NONE)
 {
 	REGISTER_FIELD(attackCooldown, float);
 
@@ -64,6 +65,11 @@ void RangedFastAttackBehaviourScript::Start()
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	isPreShooting = false;
+
+	if (owner->HasComponent<EnemyClass>())
+	{
+		enemyType = owner->GetComponent<EnemyClass>()->GetEnemyType();
+	}
 }
 
 void RangedFastAttackBehaviourScript::Update(float deltaTime)
@@ -96,6 +102,17 @@ void RangedFastAttackBehaviourScript::Update(float deltaTime)
 			if (particleSystemPreShot)
 			{
 				particleSystemPreShot->Play();
+			}
+
+			switch (enemyType)
+			{
+			case EnemyTypes::DRONE:
+				audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_CHARGE);
+				break;
+			case EnemyTypes::VENOMITE:
+			case EnemyTypes::MINI_BOSS:
+				audioSource->PostEvent(AUDIO::SFX::NPC::VENOMITE::SHOT_CHARGE);
+				break;
 			}
 		}
 	}
@@ -147,7 +164,17 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 	// Once the engine automatically runs the Start() for newly created objects, delete this line
 	script->Start();
 
-	audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
+
+	switch (enemyType)
+	{
+	case EnemyTypes::DRONE:
+		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT);
+		break;
+	case EnemyTypes::VENOMITE:
+	case EnemyTypes::MINI_BOSS:
+		audioSource->PostEvent(AUDIO::SFX::NPC::VENOMITE::SHOT);
+		break;
+	}
 
 	currentConsecutiveShots += 1.0f;
 	if (currentConsecutiveShots < numConsecutiveShots)
