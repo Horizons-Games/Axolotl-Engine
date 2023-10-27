@@ -83,7 +83,7 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 		playerManager->GetPlayerState() != PlayerActions::DOUBLEJUMPING) ||
 		isFalling))
 	{
-		if (!isGrounded)
+		if (!isGrounded && playerManager->GetPlayerState() != PlayerActions::DASHING)
 		{
 			isGrounded = true;
 			componentAnimation->SetParameter("IsGrounded", true);
