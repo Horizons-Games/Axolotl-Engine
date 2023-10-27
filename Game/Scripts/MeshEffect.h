@@ -21,11 +21,16 @@ public:
 	void ReserveSpace(int space);
 	void AddColor(float4 color);
 	void AddColors(std::vector<float4> colors);
+	void CleanColors();
 
 	void StartEffect(float maxTime, float timeBetween);
 	void ClearEffect();
 
 	void DamageEffect();
+
+	void DisappearBodyEffect();
+
+	void EnableDisableMeshes(bool enable);
 
 	void SetTimeBetween(float timeBetween);
 	
@@ -57,6 +62,11 @@ inline void MeshEffect::AddColor(float4 color)
 inline void MeshEffect::AddColors(std::vector<float4> colors)
 {
 	this->colors = colors;
+}
+
+inline void MeshEffect::CleanColors()
+{
+	colors.clear();
 }
 
 inline void MeshEffect::SetTimeBetween(float timeBetween)

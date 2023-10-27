@@ -59,6 +59,11 @@ void MeshEffect::DamageEffect()
 		return;
 	}
 
+	if (meshes.empty())
+	{
+		FillMeshes(owner);
+	}
+
 	if (effectTime == 0.f)
 	{
 		EffectColor(colors[0]);
@@ -72,6 +77,50 @@ void MeshEffect::DamageEffect()
 	{
 		activateEffect = false;
 		ClearEffect();
+	}
+}
+
+void MeshEffect::DisappearBodyEffect()
+{
+	if (!activateEffect)
+	{
+		return;
+	}
+
+	if (meshes.empty())
+	{
+		FillMeshes(owner);
+	}
+	
+	colors[0] = float4(colors[0].xyz(), colors[0].w - 0.005f);
+	EffectColor(colors[0]);
+	
+	effectTime += App->GetDeltaTime();
+	
+	if (effectTime > maxTime)
+	{
+		activateEffect = false;
+		ClearEffect();
+	}
+}
+
+void MeshEffect::EnableDisableMeshes(bool enable)
+{
+	if (meshes.empty())
+	{
+		FillMeshes(owner);
+	}
+
+	for (auto mesh : meshes)
+	{
+		if (!enable)
+		{
+			mesh->Disable();
+		}
+		else
+		{
+			mesh->Enable();
+		}
 	}
 }
 
