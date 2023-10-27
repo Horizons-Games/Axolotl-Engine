@@ -56,7 +56,7 @@ public:
 	void SetOriginScaling(const float3& originScaling);
 	void SetOriginCenter(const float3& originCenter);
 	void SetUniformScale(const float3& scale, Axis modifiedScaleAxis);
-	void SetGlobalTransform(const float4x4& transform);
+	void SetGlobalMatrix(const float4x4& transform);
 
 	void ScaleLocalAABB(float3& scaling);
 
@@ -285,7 +285,7 @@ inline void ComponentTransform::Encapsule(const vec* vertices, unsigned numVerti
 	localAABB = localAABB.MinimalEnclosingAABB(vertices, numVertices);
 }
 
-inline void ComponentTransform::SetGlobalTransform(const float4x4& transform)
+inline void ComponentTransform::SetGlobalMatrix(const float4x4& transform)
 {
 	globalMatrix = transform;
 }
