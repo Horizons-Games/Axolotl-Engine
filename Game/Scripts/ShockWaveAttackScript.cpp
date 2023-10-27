@@ -106,7 +106,7 @@ void ShockWaveAttackScript::ManageAreaBehaviour(float deltaTime)
 	}
 	else if (outerArea->GetAreaState() == AreaState::EXPANDING && innerArea->GetAreaState() == AreaState::EXPANDING)
 	{
-		RotateToTarget(targetPosition);
+		//RotateToTarget(targetPosition);
 		CheckPlayerDetected();
 	}
 	else if (outerArea->GetAreaState() == AreaState::ON_COOLDOWN && 
@@ -154,12 +154,7 @@ void ShockWaveAttackScript::CheckPlayerDetected()
 
 void ShockWaveAttackScript::RotateToTarget(ComponentTransform* target) const
 {
-	/*Quat errorRotation =
-		Quat::RotateFromTo(transform->GetGlobalForward().Normalized(),
-			(target->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized());*/
-
 	aiMovement->SetRotationTargetPosition(target->GetGlobalPosition());
-	//rigidBody->SetRotationTarget(errorRotation);
 }
 
 void ShockWaveAttackScript::ResetAreas()

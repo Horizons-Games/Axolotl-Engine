@@ -7,6 +7,7 @@
 
 class ComponentTransform;
 class ComponentRigidBody;
+class ComponentAudioSource;
 
 class HackZoneScript;
 class UIHackingManager;
@@ -21,6 +22,8 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
+
+	bool IsInsideValidHackingZone() const;
 
 	bool IsHackingActive() const;
 
@@ -53,6 +56,7 @@ private:
 
 	ComponentTransform* transform;
 	ComponentRigidBody* rigidBody;
+	ComponentAudioSource* audioSource;
 
 	std::vector<HackingCommandType> userCommandInputs;
 	std::vector<HackingCommandType> commandCombination;

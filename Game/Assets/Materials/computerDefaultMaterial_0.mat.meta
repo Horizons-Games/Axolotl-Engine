@@ -4,7 +4,7 @@
     "DiffuseAssetPath": "Assets/Textures/ComputerJoint_DefaultMaterial_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/ComputerJoint_DefaultMaterial_Normal.png",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/ComputerJoint_DefaultMaterial_MetallicSmoothness.png",
+    "MetalicAssetPath": "",
     "EmissiveAssetPath": "Assets/Textures/ComputerJoint_DefaultMaterial_Emission.png",
     "shaderType": 0,
     "diffuseColor_x": 1.0,
@@ -15,11 +15,14 @@
     "specularColor_y": 0.30000001192092896,
     "specularColor_z": 0.5,
     "normalStrength": 1.0,
-    "smoothness": 0.5,
-    "metalness": 0.0,
+    "smoothness": 0.5799999833106995,
+    "metalness": 0.3199999928474426,
     "isTransparent": false,
     "tilingx": 1.0,
     "tilingy": 1.0,
     "offsetx": 0.0,
-    "offsety": 0.0
+    "offsety": 0.0,
+    "percentagex": 100.0,
+    "percentagey": 100.0,
+    "reflective": 0.0
 }

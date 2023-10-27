@@ -663,12 +663,14 @@ void UIOptionsMenu::AudioOption(int button, int option)
 {
 	switch (button)
 	{
-	case Button::GENERAL:
-		// audio-> this is ModuleAudio
+	case Button::MASTER:
+		audio->SetMasterVolume((float)option);
 		break;
 	case Button::MUSIC:
+		audio->SetMusicVolume((float)option);
 		break;
 	case Button::SFX:
+		audio->SetSFXVolume((float)option);
 		break;
 	default:
 		break;

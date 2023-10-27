@@ -137,13 +137,17 @@ void ElevatorCore::MoveUpElevator(bool isGOInside, float deltaTime)
 		activeState = ActiveActionsElevator::INACTIVE;
 		booked = false;
 		currentTime = coolDown;
+
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::ELEVATOR_END);
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::ELEVATOR_LOOP_STOP);
+
 		if (isGOInside)
 		{
 			if (go->CompareTag("Player"))
 			{
 				SetDisableInteractions(false);
 			}
-			else if (go->CompareTag("Enemy"))
+			else if (go->CompareTag("Enemy") || go->CompareTag("PriorityTarget"))
 			{
 				SetDisableInteractionsEnemies(go, false, false, false);
 			}
@@ -186,13 +190,17 @@ void ElevatorCore::MoveDownElevator(bool isGOInside, float deltaTime)
 		activeState = ActiveActionsElevator::INACTIVE;
 		booked = false;
 		currentTime = coolDown;
+
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::ELEVATOR_END);
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::ELEVATOR_LOOP_STOP);
+
 		if (isGOInside)
 		{
 			if (go->CompareTag("Player"))
 			{
 				SetDisableInteractions(false);
 			}
-			else if (go->CompareTag("Enemy"))
+			else if (go->CompareTag("Enemy") || go->CompareTag("PriorityTarget"))
 			{
 				SetDisableInteractionsEnemies(go, false, false, false);
 			}
@@ -230,13 +238,15 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 			{
 				booked = true;
 				//componentAnimation->SetParameter("IsActive", true);
-				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
+				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::ELEVATOR_START);
+				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::ELEVATOR_LOOP);
 				activeState = ActiveActionsElevator::ACTIVE;
 
 				SetDisableInteractions(true);
 			}
 		}
-		else if (other->GetOwner()->CompareTag("Enemy") && currentTime <= 0.0f)
+		else if ((other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("PriorityTarget")) 
+			&& currentTime <= 0.0f)
 		{
 			go = other->GetOwner();
 			goTransform = go->GetComponentInternal<ComponentTransform>();

@@ -107,7 +107,7 @@ void ComponentBreakable::BreakComponent()
 				impulsion = impulsion.cross(impulsionMul);
 				childRigidBody->GetRigidBody()->applyCentralImpulse(impulsion);
 				//this both settings are only for the rock in finally level to make more logical, can move it later
-				childRigidBody->SetLinearDamping(0.9);
+				childRigidBody->SetLinearDamping(0.9f);
 				childRigidBody->RemoveRigidBodyFromSimulation();
 		}
 	}
@@ -145,7 +145,7 @@ void ComponentBreakable::BreakComponentFalling()
 			childRigidBody->UpdateRigidBody();
 			//this both settings are only for the rock in finally level to make more logical, can move it later
 			childRigidBody->SetGravity({ 0,-30,0 });
-			childRigidBody->SetLinearDamping(0.9);
+			childRigidBody->SetLinearDamping(0.9f);
 			childRigidBody->RemoveRigidBodyFromSimulation();
 		}
 	}

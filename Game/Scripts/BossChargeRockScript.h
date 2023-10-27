@@ -9,6 +9,9 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentRigidBody;
+class ComponentAudioSource;
+
+class WaypointStateScript;
 
 enum class RockStates
 {
@@ -49,8 +52,11 @@ private:
 
 	ComponentRigidBody* rigidBody;
 	MeshEffect* meshEffect;
+	ComponentAudioSource* audioSource;
 
 	bool rockHitAndRemained;
+
+	WaypointStateScript* waypointCovered;
 
 	// Modifiable values
 	float fallingRockDamage;

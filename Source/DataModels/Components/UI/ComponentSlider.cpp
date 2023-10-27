@@ -258,8 +258,12 @@ GameObject* ComponentSlider::LoadGameObject(const Json& meta, const char* name)
 	return nullptr;
 }
 
-void ComponentSlider::SetFill(GameObject* fill)
+void ComponentSlider::SetFill(GameObject* fill, int direction)
 {
+	if (direction != -1)
+	{
+		fill->GetComponentInternal<ComponentImage>()->SetDirection(direction);
+	}
 	if (fill != nullptr)
 	{
 		fill->GetComponentInternal<ComponentImage>()->SetRenderPercentage(CalculateNormalizedValue());

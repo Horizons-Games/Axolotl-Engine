@@ -8,6 +8,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentTransform;
 class ComponentRigidBody;
 class ComponentAnimation;
+class ComponentAudioSource;
 
 class FinalBossScript;
 class BossWallChecker;
@@ -54,6 +55,7 @@ private:
 	ComponentTransform* transform;
 	ComponentRigidBody* rigidBody;
 	ComponentAnimation* animator;
+	ComponentAudioSource* audioSource;
 	FinalBossScript* finalBossScript;
 
 	ComponentTransform* chargeThroughPosition;
