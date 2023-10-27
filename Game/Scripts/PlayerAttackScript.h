@@ -94,6 +94,7 @@ private:
 	float jumpBeforeJumpAttackCooldown;
 
 	bool isHeavyFinisherReceivedAux;
+	bool isHeavyFinisherAvailable;
 
 	bool isDeathTouched;
 
