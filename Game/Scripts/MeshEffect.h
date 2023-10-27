@@ -27,6 +27,8 @@ public:
 
 	void DamageEffect();
 
+	void FadeEffect();
+
 	void SetTimeBetween(float timeBetween);
 	
 	void SetMaxTime(float maxTime);

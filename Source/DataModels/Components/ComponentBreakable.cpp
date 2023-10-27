@@ -93,6 +93,11 @@ void ComponentBreakable::BreakComponent()
 			{
 				continue;
 			}
+			//It's a brute way to do it but it's to much specific so it's the faster way
+			if (child->GetName() == "HOD_Rubble.Cylinder.087_0" || child->GetName() == "HOD_Rubble.Cylinder.070_0")
+			{
+				child->Disable();
+			}
 				child->CreateComponent<ComponentRigidBody>();
 				ComponentRigidBody* childRigidBody = child->GetComponentInternal<ComponentRigidBody>();
 				childRigidBody->UpdateRigidBody();
@@ -103,7 +108,7 @@ void ComponentBreakable::BreakComponent()
 				childRigidBody->GetRigidBody()->applyCentralImpulse(impulsion);
 				//this both settings are only for the rock in finally level to make more logical, can move it later
 				childRigidBody->SetLinearDamping(0.9);
-				childRigidBody->SetIsInCollisionWorld(false);
+				childRigidBody->RemoveRigidBodyFromSimulation();
 		}
 	}
 }
@@ -130,13 +135,18 @@ void ComponentBreakable::BreakComponentFalling()
 			{
 				continue;
 			}
+			//It's a brute way to do it but it's to much specific so it's the faster way
+			if (child->GetName() == "HOD_Rubble.Cylinder.087_0" || child->GetName() == "HOD_Rubble.Cylinder.070_0")
+			{
+				child->Disable();
+			}
 			child->CreateComponent<ComponentRigidBody>();
 			ComponentRigidBody* childRigidBody = child->GetComponentInternal<ComponentRigidBody>();
 			childRigidBody->UpdateRigidBody();
 			//this both settings are only for the rock in finally level to make more logical, can move it later
 			childRigidBody->SetGravity({ 0,-30,0 });
 			childRigidBody->SetLinearDamping(0.9);
-			childRigidBody->SetIsInCollisionWorld(false);
+			childRigidBody->RemoveRigidBodyFromSimulation();
 		}
 	}
 }

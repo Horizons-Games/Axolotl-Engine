@@ -75,6 +75,24 @@ void MeshEffect::DamageEffect()
 	}
 }
 
+void MeshEffect::FadeEffect()
+{
+	if (!activateEffect)
+	{
+		return;
+	}
+
+	effectTime += App->GetDeltaTime();
+	float step = 0.1 / maxTime;
+	colors[0].w -= step;
+	EffectColor(colors[0]);
+	if (effectTime >= maxTime)
+	{
+		activateEffect = false;
+		ClearEffect();
+	}
+}
+
 void MeshEffect::EffectDiscard()
 {
 	for (auto mesh : meshes)
