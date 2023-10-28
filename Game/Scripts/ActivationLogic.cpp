@@ -28,12 +28,13 @@ REGISTERCLASS(ActivationLogic);
 
 ActivationLogic::ActivationLogic() : Script(),
 componentAudio(nullptr), activeState(ActiveActions::INACTIVE), wasActivatedByPlayer(false),
-wasActivatedByEnemy(false)
+wasActivatedByEnemy(false), isSmallDoor(false)
 {
 	REGISTER_FIELD(linkedHackZone, HackZoneScript*);
 	REGISTER_FIELD(interactWithEnemies, bool);
 	REGISTER_FIELD(enemiesToSpawn, GameObject*);
 	REGISTER_FIELD(elevator, ElevatorCore*);
+	REGISTER_FIELD(isSmallDoor, bool);
 }
 
 ActivationLogic::~ActivationLogic()
@@ -121,7 +122,7 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 
 	if (interactWithEnemies)
 	{
-		if (other->GetOwner()->CompareTag("Enemy"))
+		if (other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("PriorityTarget"))
 		{
 			enemiesWaiting.push_back(other->GetOwner());
 			elevator->SetDisableInteractionsEnemies(other->GetOwner(), true, false, true);
@@ -139,7 +140,7 @@ void ActivationLogic::OnCollisionExit(ComponentRigidBody* other)
 
 	if (interactWithEnemies)
 	{
-		if (other->GetOwner()->CompareTag("Enemy"))
+		if (other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("PriorityTarget"))
 		{
 			wasActivatedByEnemy = false;
 			CloseDoor();
@@ -161,12 +162,26 @@ void ActivationLogic::OpenDoor()
 {
 	componentAnimation->SetParameter("IsActive", true);
 	componentRigidBody->Disable();
-	componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
+	if (!isSmallDoor)
+	{
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
+	}
+	else
+	{
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::SMALL_DOOR);
+	}
 }
 
 void ActivationLogic::CloseDoor() 
 {
 	componentAnimation->SetParameter("IsActive", false);
 	componentRigidBody->Enable();
-	componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
+	if (!isSmallDoor)
+	{
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_CLOSE);
+	}
+	else
+	{
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::SMALL_DOOR_CLOSE);
+	}
 }

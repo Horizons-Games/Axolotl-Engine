@@ -99,7 +99,7 @@ void EnemyDeathScript::ManageEnemyDeath()
 	}
 
 	DisableEnemyActions();
-	float enemiesLeft = App->GetModule<ModulePlayer>()->GetEnemiesToDefeat() - 1;
+	float enemiesLeft = static_cast<float>(App->GetModule<ModulePlayer>()->GetEnemiesToDefeat()) - 1.f;
 	App->GetModule<ModulePlayer>()->SetEnemiesToDefeat(enemiesLeft);
 }
 

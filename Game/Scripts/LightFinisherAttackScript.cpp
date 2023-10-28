@@ -45,3 +45,8 @@ void LightFinisherAttackScript::ThrowStunItem()
 	bullet->GetComponent<LightAttackBullet>()->SetEnemy(enemyDetection->GetEnemySelected());
 	bullet->GetComponent<LightAttackBullet>()->SetStunTime(stunTime);
 }
+
+bool LightFinisherAttackScript::IsAttacking()
+{
+	return isActivated;
+}

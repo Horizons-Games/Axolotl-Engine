@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleScene.h"
+#include "ModulePlayer.h"
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
@@ -53,7 +54,7 @@ void PlayerForceUseScript::Start()
 
 void PlayerForceUseScript::Update(float deltaTime)
 {
-	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && playerManager->IsGrounded() &&
+	if (insideForceZone && !App->GetModule<ModulePlayer>()->IsInCombat() && input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && playerManager->IsGrounded() &&
 		playerManager->GetPlayerState() != PlayerActions::DASHING)
 	{
 		if (!gameObjectAttached)
@@ -258,4 +259,14 @@ void PlayerForceUseScript::EnableAllInteractions() const
 bool PlayerForceUseScript::IsForceActive() const
 {
 	return isForceActive;
+}
+
+void PlayerForceUseScript::SetInsideForceZone(bool insideForceZone)
+{
+	this->insideForceZone = insideForceZone;
+}
+
+bool PlayerForceUseScript::IsInsideForceZone() const
+{
+	return insideForceZone;
 }

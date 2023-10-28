@@ -18,12 +18,12 @@
 
 REGISTERCLASS(UIGameManager);
 
-UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), manager(nullptr), menuIsOpen(false),
+UIGameManager::UIGameManager() : Script(), mainMenuObject(nullptr), manager(nullptr), inGameMenuActive(false),
 hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), defensePwrUpObject(nullptr),
 speedPwrUpObject(nullptr), pwrUpActive(false), savePwrUp(PowerUpType::NONE), sliderHudHealthBixFront(nullptr), 
 sliderHudHealthBixBack(nullptr), sliderHudHealthAlluraFront(nullptr), sliderHudHealthAlluraBack(nullptr),
 debugModeObject(nullptr), imgMouse(nullptr), imgController(nullptr), inputMethod(true), prevInputMethod(true),
-loadRetryScene("Insert here the actual Level")
+optionMenuActive (false), loadRetryScene("Insert here the actual Level")
 {
 	REGISTER_FIELD(manager, GameObject*);
 	REGISTER_FIELD(mainMenuObject, GameObject*);
@@ -89,22 +89,30 @@ void UIGameManager::Update(float deltaTime)
 	}
 	else if (input->GetCurrentInputMethod() == InputMethod::KEYBOARD)
 	{
-		if (menuIsOpen)
+		if (inGameMenuActive)
 		{
-			player->SetMouse(menuIsOpen);
+			player->SetMouse(true);
 		}
 
 		inputMethod = false;
 	}
 	InputMethodImg(inputMethod);
 
-	//Life controller
+	//IN-GAME MENU
+	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::DOWN && !optionMenuActive ||
+		input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && inGameMenuActive && !optionMenuActive)
+	{
+			OpenInGameMenu(!inGameMenuActive);
+	}
+
+	//Health Bar Manager
 	if (componentSliderPlayerBack->GetCurrentValue() > 0)
 	{
 		if (healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerBack->GetCurrentValue()
 			|| healthSystemClassBix->GetCurrentHealth() != componentSliderPlayerFront->GetCurrentValue())
 		{
-			ModifySliderHealthValue(healthSystemClassBix, componentSliderPlayerBack, componentSliderPlayerFront, deltaTime);
+			ModifySliderHealthValue(healthSystemClassBix, componentSliderPlayerBack, 
+				componentSliderPlayerFront, deltaTime);
 		}
 	}
 	
@@ -113,7 +121,8 @@ void UIGameManager::Update(float deltaTime)
 		if (healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerBack->GetCurrentValue()
 			|| healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerFront->GetCurrentValue())
 		{
-			ModifySliderHealthValue(healthSystemClassAllura, componentSliderSecondPlayerBack, componentSliderSecondPlayerFront, deltaTime);
+			ModifySliderHealthValue(healthSystemClassAllura, 
+				componentSliderSecondPlayerBack, componentSliderSecondPlayerFront, deltaTime);
 		}
 	}
 
@@ -123,15 +132,8 @@ void UIGameManager::Update(float deltaTime)
 		return;
 	}
 
-	//IN-GAME MENU
-	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::DOWN)
-	{
-		menuIsOpen = !menuIsOpen;
-		MenuIsOpen();
-	}
-
 	// DEBUG MODE
-	if (input->GetKey(SDL_SCANCODE_B) == KeyState::DOWN && debugModeObject != nullptr)
+	if (input->GetKey(SDL_SCANCODE_B) == KeyState::DOWN && debugModeObject)
 	{
 		if (!debugModeObject->IsEnabled())
 		{
@@ -151,15 +153,11 @@ void UIGameManager::Update(float deltaTime)
 }
 
 // In  Game Menu Secction
-void UIGameManager::SetMenuIsOpen(bool menuState)
+void UIGameManager::OpenInGameMenu(bool openMenu)
 {
-	menuIsOpen = menuState;
-	MenuIsOpen();
-}
+	inGameMenuActive = openMenu;
 
-void UIGameManager::MenuIsOpen()
-{
-	if (menuIsOpen)
+	if (openMenu)
 	{
 		if (inputMethod)
 		{
@@ -175,9 +173,24 @@ void UIGameManager::MenuIsOpen()
 		hudCanvasObject->Enable();
 	}
 
-	manager->GetComponent<PauseManager>()->Pause(menuIsOpen);
+	manager->GetComponent<PauseManager>()->Pause(openMenu);
 
-	player->SetMouse(menuIsOpen);
+	player->SetMouse(openMenu);
+}
+
+bool UIGameManager::IsOpenInGameMenu() const
+{
+	return inGameMenuActive;
+}
+
+void UIGameManager::SetOptionMenuActive(bool optionMenuOpen)
+{
+	optionMenuActive = optionMenuOpen;	
+}
+
+bool UIGameManager::IsOptionMenuActive() const
+{
+	return optionMenuActive;
 }
 
 //Power Ups Secction
@@ -291,7 +304,8 @@ void UIGameManager::SetMaxPowerUpTime(float maxPowerUpTime)
 }
 
 //Healt System Secction
-void UIGameManager::ModifySliderHealthValue(HealthSystem* healthSystemClass, ComponentSlider* componentSliderBack, ComponentSlider* componentSliderFront, float deltaTime)
+void UIGameManager::ModifySliderHealthValue(HealthSystem* healthSystemClass, 
+	ComponentSlider* componentSliderBack, ComponentSlider* componentSliderFront, float deltaTime)
 {
 
 	float currentHealth = healthSystemClass->GetCurrentHealth();
@@ -301,13 +315,17 @@ void UIGameManager::ModifySliderHealthValue(HealthSystem* healthSystemClass, Com
 
 	if (damageBack <= 0.0f && damage <= 0.0f)
 	{
-		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + std::max(damageBack, -25.0f * deltaTime));
-		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + std::max(damage, -100.0f * deltaTime));
+		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + 
+			std::max(damageBack, -25.0f * deltaTime));
+		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + 
+			std::max(damage, -100.0f * deltaTime));
 	}
 	else
 	{
-		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + std::min(damageBack, 100.0f * deltaTime));
-		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + std::min(damage, 100.0f * deltaTime));
+		componentSliderBack->ModifyCurrentValue(componentSliderBack->GetCurrentValue() + 
+			std::min(damageBack, 100.0f * deltaTime));
+		componentSliderFront->ModifyCurrentValue(componentSliderFront->GetCurrentValue() + 
+			std::min(damage, 100.0f * deltaTime));
 	}
 
 	if (currentHealth <= 0.0f)

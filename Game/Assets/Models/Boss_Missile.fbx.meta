@@ -1,0 +1,11 @@
+{
+    "UID": 12978566696323816224,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Boss_Missile.Rocket.L_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Boss_MissileDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

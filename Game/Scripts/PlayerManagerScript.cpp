@@ -9,6 +9,7 @@
 #include "PlayerMoveScript.h"
 #include "PlayerAttackScript.h"
 #include "PlayerHackingUseScript.h"
+#include "PlayerForceUseScript.h"
 #include "HealthSystem.h"
 
 #include "DebugGame.h"
@@ -39,10 +40,30 @@ void PlayerManagerScript::Start()
 	movementManager = owner->GetComponent<PlayerMoveScript>();
 	attackManager = owner->GetComponent<PlayerAttackScript>();
 	playerGravity = owner->GetComponent<ComponentRigidBody>()->GetGravity();
+
 	if (owner->HasComponent<PlayerHackingUseScript>())
 	{
 		hackingManager = owner->GetComponent<PlayerHackingUseScript>();
 	}
+
+	if (owner->HasComponent<PlayerForceUseScript>()) 
+	{
+		forceManager = owner->GetComponent<PlayerForceUseScript>();
+	}
+}
+
+bool PlayerManagerScript::InsideForceOrHackingZone() 
+{
+	if (forceManager)
+	{
+		return forceManager->IsInsideForceZone();
+	}
+	else if (hackingManager)
+	{
+		return hackingManager->IsInsideValidHackingZone();
+	}
+
+	return false;
 }
 
 bool PlayerManagerScript::IsGrounded() const

@@ -176,7 +176,7 @@ void HeavyFinisherAttack::HitEnemy()
 	}
 	else
 	{
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CANNON_SHOT_IMPACT); // Provisional sfx
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ELECTRIC_SHOT_IMPACT); // Provisional sfx
 	}
 	vfx->SetPlayAtStart(true);
 	vfx->Play();
@@ -297,7 +297,7 @@ void HeavyFinisherAttack::OnCollisionEnter(ComponentRigidBody* other)
 		return;
 	}
 
-	if (other->GetOwner()->CompareTag("Enemy") && other->GetOwner()->IsEnabled())
+	if ((other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("PriorityTarget")) && other->GetOwner()->IsEnabled())
 	{
 		enemiesInTheArea.push_back(other->GetOwner()->GetComponent<ComponentTransform>());
 	}
