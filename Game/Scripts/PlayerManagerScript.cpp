@@ -58,10 +58,12 @@ bool PlayerManagerScript::InsideForceOrHackingZone()
 	{
 		return forceManager->IsInsideForceZone();
 	}
-	else
+	else if (hackingManager)
 	{
 		return hackingManager->IsInsideValidHackingZone();
 	}
+
+	return false;
 }
 
 bool PlayerManagerScript::IsGrounded() const

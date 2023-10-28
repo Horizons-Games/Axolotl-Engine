@@ -6,6 +6,7 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class GameObject;
 class Camera;
 class ModuleInput;
 class ComponentAudioSource;
@@ -94,4 +95,7 @@ private:
 
 	bool rightTrigger;
 	void DashRoll(float deltaTime);
+	GameObject* dashBix;
+	GameObject* rollAllura;
+	bool ghostBixDashing;
 };

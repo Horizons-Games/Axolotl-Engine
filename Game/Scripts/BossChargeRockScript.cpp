@@ -14,13 +14,14 @@
 #include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/HealthSystem.h"
+#include "../Scripts/WaypointStateScript.h"
 
 REGISTERCLASS(BossChargeRockScript);
 
 BossChargeRockScript::BossChargeRockScript() : Script(), rockState(RockStates::SKY), fallingRockDamage(10.0f),
 	despawnTimer(0.0f), despawnMaxTimer(30.0f), fallingDespawnMaxTimer(30.0f),fallingTimer(0.0f),
 	breakTimer(0.0f),breakMaxTimer(30.0f), triggerRockDespawn(false),
-	rockHitAndRemained(false), audioSource(nullptr)
+	rockHitAndRemained(false), waypointCovered(nullptr), audioSource(nullptr)
 {
 	REGISTER_FIELD(fallingRockDamage, float);
 	REGISTER_FIELD(despawnMaxTimer, float);
@@ -108,16 +109,23 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 			rockState = RockStates::HIT_ENEMY;
 			triggerRockDespawnbyFalling = true;
 			owner->GetComponent<ComponentBreakable>()->BreakComponentFalling();
+
 			// VFX Here: Rock hit an enemy on the head while falling
+		}
+		else if (other->GetOwner()->CompareTag("Waypoint"))
+		{
+			waypointCovered = other->GetOwner()->GetComponent<WaypointStateScript>();
+			waypointCovered->SetWaypointState(WaypointStates::UNAVAILABLE);
 		}
 		else if (other->GetOwner()->CompareTag("Floor"))
 		{
 			owner->GetComponent<ComponentObstacle>()->AddObstacle();
-			// VFX Here: Rock hit the floor
 			triggerBreakTimer = true;
 			breakRockVFX->Enable();
 			breakRockVFX->Play();
 			rockState = RockStates::FLOOR;
+
+			// VFX Here: Rock hit the floor
 		}
 	}
 	else
@@ -152,6 +160,11 @@ void BossChargeRockScript::DeactivateRock()
 	else
 	{
 		owner->Disable();
+	}
+
+	if (waypointCovered)
+	{
+		waypointCovered->SetWaypointState(WaypointStates::AVAILABLE);
 	}
 
 	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_ROCKS_IMPACT);
