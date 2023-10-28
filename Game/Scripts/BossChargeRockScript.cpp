@@ -35,6 +35,9 @@ void BossChargeRockScript::Start()
 	breakTimer = breakMaxTimer;
 	fallingTimer = fallingDespawnMaxTimer;
 
+	meshEffect = owner->GetComponent<MeshEffect>();
+	meshEffect->FillMeshes(owner);
+	meshEffect->AddColor(float4(0.f, 0.f, 0.f, 1.f));
 	breakRockVFX = owner->GetComponent<ComponentParticleSystem>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
@@ -58,16 +61,20 @@ void BossChargeRockScript::Update(float deltaTime)
 	if (triggerRockDespawn)
 	{
 		despawnTimer -= deltaTime;
+		meshEffect->FadeEffect();
 		if (despawnTimer <= 0.0f)
 		{
+			//meshEffect->ClearEffect();
 			DestroyRock();
 		}
 	}
 	if (triggerRockDespawnbyFalling)
 	{
+		meshEffect->FadeEffect();
 		fallingTimer -= deltaTime;
 		if (fallingTimer <= 0.0f)
 		{
+			//meshEffect->ClearEffect();
 			DestroyRock();
 		}
 	}
@@ -76,6 +83,7 @@ void BossChargeRockScript::Update(float deltaTime)
 		breakTimer -= deltaTime;
 		if (breakTimer <= 0.0f)
 		{
+			meshEffect->StartEffect(despawnMaxTimer-breakMaxTimer, 0);
 			owner->GetComponent<ComponentBreakable>()->BreakComponent();
 			breakRockVFX->Stop();
 			breakRockVFX->Disable();
@@ -109,7 +117,7 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 			rockState = RockStates::HIT_ENEMY;
 			triggerRockDespawnbyFalling = true;
 			owner->GetComponent<ComponentBreakable>()->BreakComponentFalling();
-
+			meshEffect->StartEffect(fallingTimer*2.5,0);
 			// VFX Here: Rock hit an enemy on the head while falling
 		}
 		else if (other->GetOwner()->CompareTag("Waypoint"))

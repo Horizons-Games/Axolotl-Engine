@@ -114,8 +114,10 @@ private:
 
 	struct Effect
 	{
-		float3 color;
+		float4 color;
 		int discard; // works like a boolean
+		int padding1;
+		float2 padding2;
 	};
 
 	struct uint4

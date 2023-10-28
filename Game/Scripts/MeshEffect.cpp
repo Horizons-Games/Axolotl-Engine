@@ -48,7 +48,7 @@ void MeshEffect::ClearEffect()
 	for (auto mesh : meshes)
 	{
 		mesh->SetDiscard(false);
-		mesh->SetEffectColor(float3(0.f, 0.f, 0.f));
+		mesh->SetEffectColor(float4(0.f, 0.f, 0.f, 0.f));
 	}
 }
 
@@ -75,16 +75,34 @@ void MeshEffect::DamageEffect()
 	}
 }
 
+void MeshEffect::FadeEffect()
+{
+	if (!activateEffect)
+	{
+		return;
+	}
+
+	effectTime += App->GetDeltaTime();
+	float step = 0.1 / maxTime;
+	colors[0].w -= step;
+	EffectColor(colors[0]);
+	if (effectTime >= maxTime)
+	{
+		activateEffect = false;
+		ClearEffect();
+	}
+}
+
 void MeshEffect::EffectDiscard()
 {
 	for (auto mesh : meshes)
 	{
-		mesh->SetEffectColor(float3(0.f, 0.f, 0.f));
+		mesh->SetEffectColor(float4(0.f, 0.f, 0.f, 0.f));
 		mesh->SetDiscard(true);
 	}
 }
 
-void MeshEffect::EffectColor(float3 color)
+void MeshEffect::EffectColor(float4 color)
 {
 	for (auto mesh : meshes)
 	{
