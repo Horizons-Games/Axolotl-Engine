@@ -29,7 +29,7 @@ private:
 
 	bool isGameExit;
 	bool isGameResume;
-	bool isBackButton;
+	bool isOptionMenuButton;
 
 	GameObject* disableObject;
 	GameObject* enableObject;
