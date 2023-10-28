@@ -28,6 +28,8 @@ public:
 
 	void DamageEffect();
 
+	void FadeEffect();
+	
 	void DisappearBodyEffect();
 
 	void EnableDisableMeshes(bool enable);
