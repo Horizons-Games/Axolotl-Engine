@@ -4,7 +4,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3449466020	sfx_button_hover_01			\SFX\UI\sfx_button_hover_01	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	48055455	sfx_button_hover_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ui_buttonHover_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\sfx_button_hover_01		51876
-	872873447	sfx_button_back_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ui_buttonBack_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\sfx_button_back_01		51876
-	979155077	sfx_button_press_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ui_buttonPress_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\sfx_button_press_01		68840
+	48055455	sfx_button_hover	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ui_buttonHover_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\MenuButtons\sfx_button_hover		51876
+	872873447	sfx_button_cancel	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ui_buttonBack_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\MenuButtons\sfx_button_cancel		51876
+	979155077	sfx_button_confirm	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ui_buttonPress_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\MenuButtons\sfx_button_confirm		68840
 

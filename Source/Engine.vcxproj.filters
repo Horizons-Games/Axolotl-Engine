@@ -899,11 +899,23 @@
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPlanarReflection.cpp">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\WaypointStateScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIEnemyBar.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIApearDisapear.cpp">
       <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UITriggerEnemyBar.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\GeneratorSpaceStationAudio.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\HackingMachineAudio.cpp">
+      <Filter>UserScripts\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1848,11 +1860,23 @@
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPlanarReflection.h">
       <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\WaypointStateScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIEnemyBar.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIApearDisapear.h">
       <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UITriggerEnemyBar.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\HackingMachineAudio.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\GeneratorSpaceStationAudio.h">
+      <Filter>UserScripts\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
