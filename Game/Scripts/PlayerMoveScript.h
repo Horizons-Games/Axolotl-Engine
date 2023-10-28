@@ -44,6 +44,8 @@ public:
 	void Move(float deltaTime);
 	void MoveRotate(float deltaTime);
 
+	bool CheckRightTrigger();
+
 	bool IsTriggeringStoredDash() const;
 	void SetIsTriggeringStoredDash(bool isTriggeringStoredDash);
 
@@ -91,6 +93,7 @@ private:
 
 	int waterCounter;
 
+	bool rightTrigger;
 	void DashRoll(float deltaTime);
 	GameObject* dashBix;
 	GameObject* rollAllura;

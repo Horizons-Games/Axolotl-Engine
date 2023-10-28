@@ -113,7 +113,7 @@ private:
 	float comboCountHeavy;
 	float comboCountJump;
 
-	float attackSoftDamage;
+	float attackLightDamage;
 	float attackHeavyDamage;
 	float bulletVelocity;
 

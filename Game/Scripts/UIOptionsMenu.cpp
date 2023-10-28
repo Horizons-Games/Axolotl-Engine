@@ -10,8 +10,6 @@
 #include "Application.h"
 #include "UIGameManager.h"
 
-
-
 REGISTERCLASS(UIOptionsMenu);
 
 UIOptionsMenu::UIOptionsMenu() : Script(), gameOptionButton(nullptr), videoOptionButton(nullptr), 
@@ -19,7 +17,8 @@ audioOptionButton(nullptr), controlsOptionButton(nullptr), gameOptionCanvas(null
 audioOptionCanvas(nullptr), gameOptionHover(nullptr), videoOptionHover(nullptr), audioOptionHover(nullptr), 
 controlsOptionHover(nullptr), gamepadTriggersImg(nullptr), headerMenuPosition(0), newHeaderMenuPosition(-1),
 selectedOption(-1), actualButton(-1), actualButtonHover(-1), maxButtonsOptions(-1), maxOptions(-1), 
-newSelectedOption(-1), valueSlider(-1), resetButtonIndex(true), applyChangesOnLoad(false)
+newSelectedOption(-1), valueSlider(-1), resetButtonIndex(true), applyChangesOnLoad(false), saveOptionsImg(nullptr),
+timerFeedbackOption(1.0f), backToMenuButton(nullptr), isSavingActive(false)
 {
 	REGISTER_FIELD(gameOptionButton, GameObject*);
 	REGISTER_FIELD(videoOptionButton, GameObject*);
@@ -37,6 +36,9 @@ newSelectedOption(-1), valueSlider(-1), resetButtonIndex(true), applyChangesOnLo
 	REGISTER_FIELD(controlsOptionHover, GameObject*);
 
 	REGISTER_FIELD(gamepadTriggersImg, GameObject*);
+
+	REGISTER_FIELD(backToMenuButton, GameObject*);
+	REGISTER_FIELD(saveOptionsImg, GameObject*);
 }
 
 void UIOptionsMenu::Initialize()
@@ -46,6 +48,8 @@ void UIOptionsMenu::Initialize()
 	ui = App->GetModule<ModuleUI>();
 	render = App->GetModule<ModuleRender>();
 	audio = App->GetModule<ModuleAudio>();
+	
+	buttonBackMenu= backToMenuButton->GetComponent<ComponentButton>();
 
 	gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
 	videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
@@ -77,10 +81,10 @@ void UIOptionsMenu::Start()
 
 void UIOptionsMenu::Update(float deltaTime)
 {
-	ControllerMenuMode();
+	ControllerMenuMode(deltaTime);
 }
 
-void UIOptionsMenu::ControllerMenuMode()
+void UIOptionsMenu::ControllerMenuMode(float deltaTime)
 {
 	if (resetButtonIndex)
 	{
@@ -89,11 +93,16 @@ void UIOptionsMenu::ControllerMenuMode()
 	}
 
 	// BACK TO MAIN MENU
-	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN || isSavingActive)
 	{
-		BackToLastSavedOption();
-		SaveOptions();
-		resetButtonIndex = true;
+		if (!isSavingActive)
+		{
+			BackToLastSavedOption();
+			SaveOptions();
+			resetButtonIndex = true;
+			isSavingActive = true;
+		}
+		SaveOptionsFeedback(deltaTime);
 		return;
 	}
 
@@ -149,13 +158,14 @@ void UIOptionsMenu::ControllerMenuMode()
 
 	// IF YOU DONT SAVE ANY OPTIONS THIS GO BACK TO THE LAST SAVED OPTION
 	verticalDirection = input->GetLeftJoystickDirection().verticalDirection;
-	if (verticalDirection == JoystickVerticalDirection::FORWARD || 
-		verticalDirection == JoystickVerticalDirection::BACK)
+	if (verticalDirection != JoystickVerticalDirection::NONE ||
+		input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE ||
+		input->GetKey(SDL_SCANCODE_TAB) != KeyState::IDLE)
 	{
 		BackToLastSavedOption();
 	}
 
-	maxButtonsOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren().size() - 1;
+	maxButtonsOptions = static_cast<int>(buttonsAndCanvas[headerMenuPosition].canvas->GetChildren().size() - 1);
 
 	// LOOK FOR THE CURRENT SELECTED BUTTON
 	for (actualButton = 0; actualButton < maxButtonsOptions; ++actualButton)
@@ -167,7 +177,7 @@ void UIOptionsMenu::ControllerMenuMode()
 		}
 	}
 
-	// IF THE BUTTON IS LOCKED BLOCK THE OPTIONS SELECCTION
+	// IF THE BUTTON IS LOCKED BLOCK THE OPTIONS SELECTION
 	if (actualConfig[headerMenuPosition].options.size() == 0 || 
 		actualConfig[headerMenuPosition].options[actualButton].locked)
 	{
@@ -177,8 +187,8 @@ void UIOptionsMenu::ControllerMenuMode()
 	// MOVE LEFT OR RIGHT THE OPTIONS
 	if (input->GetKey(SDL_SCANCODE_LEFT) == KeyState::DOWN || input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN)
 	{
-		maxOptions = buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->
-			GetChildren()[1]->GetChildren().size() - 1;
+		maxOptions = static_cast<int>(buttonsAndCanvas[headerMenuPosition].canvas->GetChildren()[actualButton]->
+			GetChildren()[1]->GetChildren().size() - 1);
 
 		if (maxOptions >= 0)
 		{
@@ -217,7 +227,7 @@ void UIOptionsMenu::ControllerMenuMode()
 				if (valueSlider >= 0.0f && valueSlider <= 100.0f)
 				{
 					slider->ModifyCurrentValue(valueSlider);
-					newSelectedOption = valueSlider;
+					newSelectedOption = static_cast<int>(valueSlider);
 					LOG_INFO("SLIDER {}", valueSlider);
 				}
 			}
@@ -240,7 +250,7 @@ void UIOptionsMenu::ControllerMenuMode()
 					}
 				}
 
-				//.ACTUAL CANVAS -> HOVERED BUTTON -> ALWAYS SECOND CHILDREN -> SELECTED OPTION
+				// ACTUAL CANVAS -> HOVERED BUTTON -> ALWAYS SECOND CHILDREN -> SELECTED OPTION
 				// THINK THE IF IS USELESS BUT ITS WORKING GOOD SO DONT DELETE
 				if (newSelectedOption != -1 && newSelectedOption != selectedOption)
 				{
@@ -270,6 +280,7 @@ void UIOptionsMenu::UpdateChanges()
 
 	actualConfig[headerMenuPosition].options[actualButton].actualOption = newSelectedOption;
 	ApplyChanges(headerMenuPosition, actualButton, newSelectedOption);
+	newSelectedOption = -1;
 }
 
 void UIOptionsMenu::ApplyChanges(int headerMenuPosition, int actualButton, int newSelectedOption)
@@ -292,6 +303,7 @@ void UIOptionsMenu::ApplyChanges(int headerMenuPosition, int actualButton, int n
 		break;
 	}
 }
+
 void UIOptionsMenu::InitOptionMenu()
 {
 	CanvasOptionInfo gameCanvas;
@@ -318,7 +330,6 @@ void UIOptionsMenu::InitOptionMenu()
 	CanvasOptionInfo controllerCanvas;
 	actualConfig.push_back(controllerCanvas);
 }
- 
 
 void UIOptionsMenu::LoadOptions()
 {
@@ -333,31 +344,30 @@ void UIOptionsMenu::LoadOptions()
 	optionsMenu.fromBuffer(buffer);
 	delete buffer;
 
-	for (int canvasIndex = 0; canvasIndex < optionsMenu.Size(); ++canvasIndex)
+	for (unsigned int canvasIndex = 0; canvasIndex < optionsMenu.Size(); ++canvasIndex)
 	{
 		Json canvas = optionsMenu[canvasIndex];
 		CanvasOptionInfo canvasInfo;
-		for (int optionsIndex = 0; optionsIndex < canvas.Size(); ++optionsIndex)
+		for (unsigned int optionsIndex = 0; optionsIndex < canvas.Size(); ++optionsIndex)
 		{
 			ButtonOptionInfo buttonInfo;
 			buttonInfo.actualOption = canvas[optionsIndex]["Actual_Option"];
 			buttonInfo.defaultOption = canvas[optionsIndex]["Default_Option"];
 			buttonInfo.locked = canvas[optionsIndex]["Locked_Option"];
 			canvasInfo.options.push_back(buttonInfo);
-			
-				if (!IsSlider(canvasIndex, optionsIndex, 0))
-				{
-					buttonsAndCanvas[canvasIndex].canvas->GetChildren()[optionsIndex]->GetChildren()[1]->
-						GetChildren()[buttonInfo.actualOption]->Enable();
-				}
-				else
-				{
-					ComponentSlider* sliderLoad;
-					sliderLoad = buttonsAndCanvas[canvasIndex].canvas->GetChildren()[optionsIndex]->
-						GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentSlider>();
-					sliderLoad->ModifyCurrentValue(buttonInfo.actualOption);
-				}
-			
+
+			if (!IsSlider(canvasIndex, optionsIndex, 0))
+			{
+				buttonsAndCanvas[canvasIndex].canvas->GetChildren()[optionsIndex]->GetChildren()[1]->
+					GetChildren()[buttonInfo.actualOption]->Enable();
+			}
+			else
+			{
+				ComponentSlider* sliderLoad;
+				sliderLoad = buttonsAndCanvas[canvasIndex].canvas->GetChildren()[optionsIndex]->
+					GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentSlider>();
+				sliderLoad->ModifyCurrentValue(static_cast<float>(buttonInfo.actualOption));
+			}
 		}
 		actualConfig.push_back(canvasInfo);
 	}
@@ -398,7 +408,8 @@ void UIOptionsMenu::LoadDefaultOptions()
 				ComponentSlider* sliderLoad;
 				sliderLoad = buttonsAndCanvas[canvasIndex].canvas->GetChildren()[optionsIndex]->
 					GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentSlider>();
-				sliderLoad->ModifyCurrentValue(actualConfig[canvasIndex].options[optionsIndex].defaultOption);
+				sliderLoad->ModifyCurrentValue
+					(static_cast<float>(actualConfig[canvasIndex].options[optionsIndex].defaultOption));
 			}
 
 			actualConfig[canvasIndex].options[optionsIndex].actualOption = actualConfig[canvasIndex].options[optionsIndex].defaultOption;
@@ -409,13 +420,12 @@ void UIOptionsMenu::LoadDefaultOptions()
 
 void UIOptionsMenu::SaveOptions()
 {
-
 	std::string optionMenuPath = "Settings/OptionsConfig.txt";
 	rapidjson::Document doc;
 	Json optionsMenu(doc, doc);
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 
-	for (int canvasIndex = 0; canvasIndex < actualConfig.size()-1; ++canvasIndex)
+	for (int canvasIndex = 0; canvasIndex < actualConfig.size() - 1; ++canvasIndex)
 	{
 		Json canvas = optionsMenu[canvasIndex];
 		for (int optionsIndex = 0; optionsIndex < actualConfig[canvasIndex].options.size(); ++optionsIndex)
@@ -429,6 +439,8 @@ void UIOptionsMenu::SaveOptions()
 	rapidjson::StringBuffer buffer;
 	optionsMenu.toBuffer(buffer);
 	fileSystem->Save(optionMenuPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+
+	saveOptionsImg->Enable();
 }
 
 void UIOptionsMenu::BackToLastSavedOption()
@@ -442,7 +454,7 @@ void UIOptionsMenu::BackToLastSavedOption()
 	
 	if (isSlider)
 	{
-		slider->ModifyCurrentValue(saveSelectedOption);
+		slider->ModifyCurrentValue(static_cast<float>(saveSelectedOption));
 		isSlider = false;
 	}
 	else
@@ -465,60 +477,53 @@ bool UIOptionsMenu::IsSlider(int header, int button, int option)
 void UIOptionsMenu::IsSizeOptionEnabled()
 {
 	float4 colorSet;
+	int gameOptionWindowsMode = actualConfig[Canvas::GAME_CANVAS].options[Button::WINDOWSMODE].actualOption;
 
-	int gameOptionWindowsMode = actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[static_cast<int>(Button::WINDOWSMODE)].actualOption;
-
+	GameObject* screenResolutionButton = buttonsAndCanvas[Canvas::GAME_CANVAS].canvas->
+		GetChildren()[Button::RESOLUTION]->GetChildren()[1];
+	
 	if (gameOptionWindowsMode == 0 || gameOptionWindowsMode == 1)
 	{
 		colorSet = { 0.5f, 0.5f, 0.5f, 1.0f };
-		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->
-			GetChildren()[static_cast<int>(Button::RESOLUTION)]->GetChildren()[1]->GetChildren()[1]->Disable();
-		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->
-			GetChildren()[static_cast<int>(Button::RESOLUTION)]->GetChildren()[1]->GetChildren()[2]->Disable();
-		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->
-			GetChildren()[static_cast<int>(Button::RESOLUTION)]->GetChildren()[1]->GetChildren()[3]->Disable();
-		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->
-			GetChildren()[static_cast<int>(Button::RESOLUTION)]->GetChildren()[1]->GetChildren()[4]->Disable();
-		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->
-			GetChildren()[static_cast<int>(Button::RESOLUTION)]->GetChildren()[1]->GetChildren()[0]->Enable();
-		actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[static_cast<int>(Button::RESOLUTION)].locked = true;
+		for (int i = 1; i < 5; ++i)
+		{
+			screenResolutionButton->GetChildren()[i]->Disable();
+		}
+		screenResolutionButton->GetChildren()[0]->Enable();
+		actualConfig[Canvas::GAME_CANVAS].options[Button::RESOLUTION].locked = true;
 	}
 	else
 	{
 		colorSet = { 1.0f, 1.0f, 1.0f, 1.0f };
-		actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[static_cast<int>(Button::RESOLUTION)].locked = false;
-
+		actualConfig[Canvas::GAME_CANVAS].options[Button::RESOLUTION].locked = false;
 	}
 
-	buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->GetChildren()[static_cast<int>(Button::RESOLUTION)]->
-		GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(colorSet);
+	screenResolutionButton->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(colorSet);
 }
 
 void UIOptionsMenu::IsFpsEnabled()
 {
 	float4 colorSet;
-	if (actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[(int)Button::VSYNC].actualOption == 1)
+
+	GameObject* fpsButton = buttonsAndCanvas[Canvas::GAME_CANVAS].canvas->GetChildren()[Button::FPS]->GetChildren()[1];
+	
+	if (actualConfig[Canvas::GAME_CANVAS].options[Button::VSYNC].actualOption == 1)
 	{
 		colorSet = { 0.5f, 0.5f, 0.5f, 1.0f };
-		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->GetChildren()[static_cast<int>(Button::FPS)]->
-			GetChildren()[1]->GetChildren()[1]->Disable();
-		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->GetChildren()[static_cast<int>(Button::FPS)]->
-			GetChildren()[1]->GetChildren()[2]->Disable();
-		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->GetChildren()[static_cast<int>(Button::FPS)]->
-			GetChildren()[1]->GetChildren()[3]->Disable();
-		buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->GetChildren()[static_cast<int>(Button::FPS)]->
-			GetChildren()[1]->GetChildren()[0]->Enable();
-		actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[static_cast<int>(Button::FPS)].locked = true;
+		for (int i = 1; i < 4; ++i)
+		{
+			fpsButton->GetChildren()[i]->Disable();
+		}
+		fpsButton->GetChildren()[0]->Enable();
+		actualConfig[Canvas::GAME_CANVAS].options[Button::FPS].locked = true;
 	}
 	else
 	{
 		colorSet = { 1.0f, 1.0f, 1.0f, 1.0f };
-		actualConfig[static_cast<int>(Canvas::GAME_CANVAS)].options[static_cast<int>(Button::FPS)].locked = false;
-
+		actualConfig[Canvas::GAME_CANVAS].options[Button::FPS].locked = false;
 	}
 
-	buttonsAndCanvas[static_cast<int>(Canvas::GAME_CANVAS)].canvas->GetChildren()[static_cast<int>(Button::FPS)]->
-		GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(colorSet);
+	fpsButton->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(colorSet);
 }
 
 void UIOptionsMenu::GameOption(int button, int option)
@@ -526,7 +531,7 @@ void UIOptionsMenu::GameOption(int button, int option)
 	switch (button)
 	{
 	float brightnessToShow;
-	case 0: //FPS LIMIT
+	case Button::FPS:
 		switch (option)
 		{
 		case 0:
@@ -549,7 +554,8 @@ void UIOptionsMenu::GameOption(int button, int option)
 			break;
 		}
 		break;
-	case 1: //VSYNC
+
+	case Button::VSYNC:
 		switch (option)
 		{
 		case 0:
@@ -563,10 +569,11 @@ void UIOptionsMenu::GameOption(int button, int option)
 		default:
 			break;
 		}
-			IsFpsEnabled();
+		IsFpsEnabled();
 		break;
-	case 2: //BRIGHTNESS
-		brightnessToShow = option;
+
+	case Button::BRIGHTNESS:
+		brightnessToShow = static_cast<float>(option);
 		if (brightnessToShow * 0.01f < 0.3f)
 		{
 			window->SetBrightness(0.3f);
@@ -577,7 +584,8 @@ void UIOptionsMenu::GameOption(int button, int option)
 		}
 		LOG_INFO("BRIGHTNESS {}", brightnessToShow * 0.01f);
 		break;
-	case 3: //RESOLUTION
+
+	case Button::RESOLUTION:
 		switch (option)
 		{
 		case 0:
@@ -598,13 +606,14 @@ void UIOptionsMenu::GameOption(int button, int option)
 			break;
 		}
 		break;
-	case 4: //WINDOWS MODE
+
+	case Button::WINDOWSMODE:
 		switch (option)
 		{
 		case 0:
-
 			window->SetDesktopFullscreen(true);
-			//window->SetFullscreen(true); // NOT WORKING PROPRERLY WE NEED TO FIX IT
+			AXO_TODO("Fix SetFullscreen")
+			// window->SetFullscreen(true);
 			LOG_INFO("Windows Mode: Fullscreen");
 			break;
 		case 1:
@@ -624,35 +633,36 @@ void UIOptionsMenu::GameOption(int button, int option)
 		}
 		IsSizeOptionEnabled();
 		break;
+
 	default:
 		break;
 	}
-
 }
-void UIOptionsMenu::VideoOption(int button, int option)
+
+void UIOptionsMenu::VideoOption(int button, int option) // option should have been a bool. not an int
 {
 	switch (button)
 	{
-	case 0:
-		if (render->IsShadowsEnabled() != option)
+	case Button::SHADOWS:
+		if (render->IsShadowsEnabled() != static_cast<bool>(option))
 		{
 			render->ToggleShadows();
 		}
 		break;
-	case 1:
-		if (render->IsSsaoEnabled() != option)
+	case Button::SSAO:
+		if (render->IsSsaoEnabled() != static_cast<bool>(option))
 		{
 			render->ToggleSSAO();
 		}
 		break;
-	case 2:
-		if (render->IsVSMEnabled() != option)
+	case Button::VSM:
+		if (render->IsVSMEnabled() != static_cast<bool>(option))
 		{
 			render->ToggleVSM();
 		}
 		break;
-	case 3:
-		if (render->IsBloomEnabled() != option)
+	case Button::BLOOM:
+		if (render->IsBloomEnabled() != static_cast<bool>(option))
 		{
 			render->SwitchBloomActivation();
 		}
@@ -666,21 +676,23 @@ void UIOptionsMenu::AudioOption(int button, int option)
 {
 	switch (button)
 	{
-	case 0: //MASTER
-		// audio-> this is ModuleAudio
+	case Button::MASTER:
+		audio->SetMasterVolume((float)option);
 		break;
-	case 1: //MUSIC
+	case Button::MUSIC:
+		audio->SetMusicVolume((float)option);
 		break;
-	case 2: // SFX
+	case Button::SFX:
+		audio->SetSFXVolume((float)option);
 		break;
 	default:
 		break;
 	}
-
 }
+
 void UIOptionsMenu::ControlsOption()
 {
-	//Function reserved to the control canvas options
+	// Function reserved to the control canvas options
 }
 
 void UIOptionsMenu::SetApplyChangesOnLoad(bool apply)
@@ -693,8 +705,24 @@ bool UIOptionsMenu::IsApplyChangesOnLoad() const
 	return applyChangesOnLoad;
 }
 
+void UIOptionsMenu::SaveOptionsFeedback(float deltaTime)
+{
+	if (timerFeedbackOption <= 0.0f)
+	{
+		timerFeedbackOption = 1.0f;
+		saveOptionsImg->Disable();
+		isSavingActive = false;
+		buttonBackMenu->SetClicked(true);
+		return;
+	}
+	else
+	{
+		timerFeedbackOption -= deltaTime;
+	}
+}
+
 /*
-void UIOptionsMenu::KeyboardMenuMode()
+void UIOptionsMenu::KeyboardMenuMode(float deltaTime)
 {
 	gameOptionComponentButton->Enable();
 	videoOptionComponentButton->Enable();
@@ -728,4 +756,3 @@ void UIOptionsMenu::KeyboardMenuMode()
 	}
 }
 */
-

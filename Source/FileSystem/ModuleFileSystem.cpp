@@ -300,6 +300,7 @@ void ModuleFileSystem::ZipLibFolder() const
 	zip_t* zip = zip_open("Assets.zip", ZIP_DEFAULT_COMPRESSION_LEVEL, 'w');
 	ZipFolder(zip, "Lib");
 	ZipFolder(zip, "WwiseProject");
+	ZipFolder(zip, "Settings");
 	zip_close(zip);
 }
 

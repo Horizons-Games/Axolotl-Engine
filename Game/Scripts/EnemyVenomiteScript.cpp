@@ -2,9 +2,13 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
+#include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentParticleSystem.h"
+
+#include "ModulePlayer.h"
+#include "Application.h"
 
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
@@ -41,8 +45,10 @@ void EnemyVenomiteScript::Start()
 	enemyType = EnemyTypes::VENOMITE;
 
 	ownerTransform = owner->GetComponent<ComponentTransform>();
+	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
+	initialPosition = ownerTransform->GetGlobalPosition();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
-	//componentAudioSource = owner->GetComponent<ComponentAudioSource>();
+	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
 	
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
@@ -66,8 +72,26 @@ void EnemyVenomiteScript::Start()
 
 void EnemyVenomiteScript::Update(float deltaTime)
 {
+	if (!App->GetModule<ModulePlayer>()->IsInCombat())
+	{
+		venomiteState = VenomiteBehaviours::IDLE;
+		componentAnimation->SetParameter("IsRunning", false);
+		ownerTransform->SetGlobalPosition(initialPosition);
+		ownerRigidBody->UpdateRigidBody();
+		aiMovement->SetMovementStatuses(false, false);
+		return;
+	}
+	
 	if (paralyzed)
 	{
+		return;
+	}
+
+	if (isPaused)
+	{
+		seekScript->DisableMovement();
+		rangedAttackScript->InterruptAttack();
+		venomiteState = VenomiteBehaviours::SEEK;
 		return;
 	}
 	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
@@ -122,6 +146,8 @@ void EnemyVenomiteScript::CheckState()
 		if (venomiteState != VenomiteBehaviours::RANGED_ATTACK && componentAnimation->GetActualStateName() 
 			!= "VenomiteMeleeAttack" && componentAnimation->GetActualStateName() != "VenomiteMeleeAttackEnd")
 		{
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS_STOP);
+
 			batonGameObject->Disable();
 			blasterGameObject->Enable();
 
@@ -150,6 +176,8 @@ void EnemyVenomiteScript::CheckState()
 				exclamationParticle->Play();
 			}
 
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::ALERT);
+
 			venomiteState = VenomiteBehaviours::ENEMY_DETECTED;
 		}
 		else if (venomiteState != VenomiteBehaviours::SEEK && venomiteState != VenomiteBehaviours::ENEMY_DETECTED)
@@ -160,11 +188,15 @@ void EnemyVenomiteScript::CheckState()
 			componentAnimation->SetParameter("IsRangedAttacking", false);
 			componentAnimation->SetParameter("IsMeleeAttacking", false);
 
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS);
+
 			venomiteState = VenomiteBehaviours::SEEK;
 		}
 	}
 	else if (venomiteState != VenomiteBehaviours::PATROL)
 	{
+		componentAudioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS_STOP);
+
 		patrolScript->StartPatrol();
 		batonGameObject->Disable();
 		blasterGameObject->Disable();
@@ -287,8 +319,10 @@ void EnemyVenomiteScript::ParalyzeEnemy(bool nparalyzed)
 
 void EnemyVenomiteScript::SetReadyToDie()
 {
+	ParalyzeEnemy(true);
 	componentAnimation->SetParameter("IsDead", true);
-
+	aiMovement->SetMovementStatuses(false, false);
+	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DEATH);
 	deathScript->ManageEnemyDeath();
 }
 
@@ -302,7 +336,8 @@ void EnemyVenomiteScript::ResetValues()
 		componentAnimation->SetParameter(parameter.first, false);
 	}
 
-	componentAnimation->SetParameter("IsRunning", true);
+	ParalyzeEnemy(false);
+	aiMovement->SetMovementStatuses(true, true);
 	venomiteState = VenomiteBehaviours::INPATH;
 	meleeAttackScript->ResetScriptValues();
 	healthScript->HealLife(1000.0f); // It will cap at max health
@@ -310,6 +345,7 @@ void EnemyVenomiteScript::ResetValues()
 	enemyDeathScript->ResetDespawnTimerAndEnableActions();
 	if (pathScript)
 	{
+		patrolScript->StopPatrol();
 		pathScript->Enable();
 		pathScript->ResetPath();
 	}

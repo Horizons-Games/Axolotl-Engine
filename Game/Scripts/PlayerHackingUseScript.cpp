@@ -15,14 +15,17 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentAudioSource.h"
 #include "Physics/Physics.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "MathGeoLib/Include/Geometry/Ray.h"
 
 REGISTERCLASS(PlayerHackingUseScript);
 
 PlayerHackingUseScript::PlayerHackingUseScript()
-	: Script(), isHackingActive(false), hackingTag("Hackeable")
+	: Script(), isHackingActive(false), hackingTag("Hackeable"), isHackingButtonPressed(false), hackZone(nullptr),
+	audioSource(nullptr)
 {
 	REGISTER_FIELD(hackingManager, UIHackingManager*);
 	REGISTER_FIELD(switchPlayerManager, SwitchPlayerManagerScript*);
@@ -33,13 +36,16 @@ void PlayerHackingUseScript::Start()
 	input = App->GetModule<ModuleInput>();
 	transform = GetOwner()->GetComponent<ComponentTransform>();
 	rigidBody = GetOwner()->GetComponent<ComponentRigidBody>();
-	hackZone = nullptr;
+	audioSource = GetOwner()->GetComponent<ComponentAudioSource>();
 	playerManager = GetOwner()->GetComponent<PlayerManagerScript>();
-	isHackingButtonPressed = false;
 }
 
 void PlayerHackingUseScript::Update(float deltaTime)
 {
+	if (playerManager->IsPaused())
+	{
+		return;
+	}
 	currentTime += deltaTime;
 	hackingManager->SetHackingTimerValue(maxHackTime, currentTime);
 
@@ -91,6 +97,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 				{
 					userCommandInputs.push_back(command);
 					LOG_DEBUG("User add key/button to combination");
+					audioSource->PostEvent(AUDIO::SFX::UI::HACKING::CORRECT);
 
 					hackingManager->RemoveInputVisuals();
 					break;
@@ -111,11 +118,14 @@ void PlayerHackingUseScript::Update(float deltaTime)
 			{
 				LOG_DEBUG("Mismatch detected. Hacking will fail.");
 				RestartHack();
+
+				audioSource->PostEvent(AUDIO::SFX::UI::HACKING::WRONG);
 			}
 
 			if (userCommandInputs == commandCombination)
 			{
 				LOG_DEBUG("Hacking completed");
+				audioSource->PostEvent(AUDIO::SFX::UI::HACKING::FINISHED);
 				hackZone->SetCompleted();
 				FinishHack();
 			}
@@ -124,7 +134,12 @@ void PlayerHackingUseScript::Update(float deltaTime)
 	}
 }
 
-//DEBUG METHOD
+bool PlayerHackingUseScript::IsInsideValidHackingZone() const
+{
+	return hackZone && !hackZone->IsCompleted();
+}
+
+// DEBUG METHOD
 void PlayerHackingUseScript::PrintCombination()
 {
 	std::string combination;
@@ -171,7 +186,7 @@ void PlayerHackingUseScript::InitHack()
 
 	hackingManager->EnableHackingTimer();
 
-	//PrintCombination();
+	// PrintCombination();
 	LOG_DEBUG("Hacking is active");
 }
 
@@ -210,18 +225,18 @@ void PlayerHackingUseScript::RestartHack()
 
 	hackingManager->EnableHackingTimer();
 
-	//PrintCombination();
+	// PrintCombination();
 	input->Rumble();
 	LOG_DEBUG("Hacking is restarted");
 }
 
-void PlayerHackingUseScript::DisableAllInteractions()
+void PlayerHackingUseScript::DisableAllInteractions() const
 {
 	playerManager->SetPlayerState(PlayerActions::IDLE);
 	playerManager->PausePlayer(true);
 }
 
-void PlayerHackingUseScript::EnableAllInteractions()
+void PlayerHackingUseScript::EnableAllInteractions() const
 {
 	playerManager->SetPlayerState(PlayerActions::IDLE);
 	playerManager->PausePlayer(false);
@@ -295,4 +310,9 @@ void PlayerHackingUseScript::CheckCurrentHackZone()
 			StopHackingParticles();
 		}
 	}
+}
+
+bool PlayerHackingUseScript::IsHackingActive() const
+{
+	return isHackingActive;
 }

@@ -3,12 +3,13 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentAnimation.h"
 
 #include "PlayerJumpScript.h"
-#include "PlayerRotationScript.h"
 #include "PlayerMoveScript.h"
 #include "PlayerAttackScript.h"
 #include "PlayerHackingUseScript.h"
+#include "PlayerForceUseScript.h"
 #include "HealthSystem.h"
 
 #include "DebugGame.h"
@@ -32,16 +33,37 @@ void PlayerManagerScript::Start()
 {
 	input = App->GetModule<ModuleInput>();
 
-	rigidBodyManager = owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->getLinearVelocity();
+	rigidBodyLinearVelocity = owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->getLinearVelocity();
+	rigidBodyGravity = owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->getGravity();
 	jumpManager = owner->GetComponent<PlayerJumpScript>();
 	healthManager = owner->GetComponent<HealthSystem>();
 	movementManager = owner->GetComponent<PlayerMoveScript>();
-	rotationManager = owner->GetComponent<PlayerRotationScript>();
 	attackManager = owner->GetComponent<PlayerAttackScript>();
+	playerGravity = owner->GetComponent<ComponentRigidBody>()->GetGravity();
+
 	if (owner->HasComponent<PlayerHackingUseScript>())
 	{
 		hackingManager = owner->GetComponent<PlayerHackingUseScript>();
 	}
+
+	if (owner->HasComponent<PlayerForceUseScript>()) 
+	{
+		forceManager = owner->GetComponent<PlayerForceUseScript>();
+	}
+}
+
+bool PlayerManagerScript::InsideForceOrHackingZone() 
+{
+	if (forceManager)
+	{
+		return forceManager->IsInsideForceZone();
+	}
+	else if (hackingManager)
+	{
+		return hackingManager->IsInsideValidHackingZone();
+	}
+
+	return false;
 }
 
 bool PlayerManagerScript::IsGrounded() const
@@ -62,6 +84,11 @@ bool PlayerManagerScript::IsTeleporting() const
 bool PlayerManagerScript::IsParalyzed() const
 {
 	return movementManager->IsParalyzed();
+}
+
+bool PlayerManagerScript::IsPaused() const
+{
+	return isPaused;
 }
 
 GameObject* PlayerManagerScript::GetMovementParticleSystem() const
@@ -128,6 +155,34 @@ void PlayerManagerScript::TriggerJump(bool forcedJump)
 	jumpManager->SetCanJump(forcedJump);
 }
 
+void PlayerManagerScript::FullPausePlayer(bool paused)
+{
+	btVector3 gravityPlayer(0.f, 0.f, 0.f);
+	isPaused = paused;
+
+	if (hackingManager && !hackingManager->IsHackingActive())
+	{
+		PausePlayer(paused);
+	}
+	else if (!hackingManager)
+	{
+		PausePlayer(paused);
+	}
+	
+	if (!paused)
+	{
+		gravityPlayer = rigidBodyGravity;
+		owner->GetComponent<ComponentAnimation>()->Enable();
+	}
+	else
+	{
+		owner->GetComponent<ComponentAnimation>()->Disable();
+	}
+
+	owner->GetComponent<ComponentRigidBody>()->SetGravity(gravityPlayer);
+	owner->GetComponent<ComponentRigidBody>()->UpdateRigidBody();
+}
+
 void PlayerManagerScript::StopHackingParticles() const
 {
 	if (hackingManager)
@@ -145,9 +200,12 @@ void PlayerManagerScript::PausePlayer(bool paused)
 
 	if (!paused)
 	{
-		linearVelocityPlayer = rigidBodyManager;
+		linearVelocityPlayer = rigidBodyLinearVelocity;
 	}
-
+	else
+	{
+		rigidBodyLinearVelocity = owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->getLinearVelocity();
+	}
 	owner->GetComponent<ComponentRigidBody>()->GetRigidBody()->setLinearVelocity(linearVelocityPlayer);
 }
 
@@ -160,7 +218,6 @@ void PlayerManagerScript::ParalyzePlayer(bool paralyzed)
 {
 	movementManager->SetIsParalyzed(paralyzed);
 	jumpManager->SetCanJump(!paralyzed);
-	rotationManager->SetCanRotate(!paralyzed);
 }
 
 void PlayerManagerScript::SetPlayerSpeed(float playerSpeed)

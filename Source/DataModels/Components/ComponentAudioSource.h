@@ -16,11 +16,13 @@ public:
 	void PostEvent(const wchar_t* sound); // Use this function to play a sound
 	void SetSwitch(const wchar_t* switchGroup, const wchar_t* switchSound);
 
+	uint64_t GetID() const;
+
 private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
-	void SignalEnable(bool isSceneLoading) override;
-	void SignalDisable(bool isSceneLoading) override;
+	void SignalEnable() override;
+	void SignalDisable() override;
 
 private:
 	uint64_t sourceID;

@@ -49,9 +49,9 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	comboCountHeavy(3.0f), comboCountLight(7.0f), comboCountJump(5.0f), triggerNextAttackDuration(0.5f), 
 	triggerNextAttackTimer(0.0f), isNextAttackTriggered(false), currentAttackAnimation(""),
 	numAttackComboAnimation(0.0f), isHeavyFinisherReceivedAux(false), jumpAttackCooldown(0.8f), timeSinceLastJumpAttack(0.0f),
-	jumpBeforeJumpAttackCooldown(0.1f), isGroundParalyzed(false), attackSoftDamage(10.0f), attackHeavyDamage(20.0f)
+	jumpBeforeJumpAttackCooldown(0.1f), isGroundParalyzed(false), attackLightDamage(10.0f), attackHeavyDamage(20.0f)
 {
-	REGISTER_FIELD(attackSoftDamage, float);
+	REGISTER_FIELD(attackLightDamage, float);
 	REGISTER_FIELD(attackHeavyDamage, float);
 	REGISTER_FIELD(normalAttackDistance, float);
 
@@ -103,6 +103,9 @@ void PlayerAttackScript::Start()
 
 void PlayerAttackScript::Update(float deltaTime)
 {
+	// Mark the enemy that is going to be attacked
+	UpdateEnemyDetection();
+
 	if (!canAttack && !jumpFinisherScript->IsActive())
 	{
 		isNextAttackTriggered = false;
@@ -122,10 +125,6 @@ void PlayerAttackScript::Update(float deltaTime)
 	}
 
 	timeSinceLastJumpAttack += deltaTime;
-
-
-	// Mark the enemy that is going to be attacked
-	UpdateEnemyDetection();
 
 	// Check if the special was activated
 	comboSystem->CheckSpecial(deltaTime);
@@ -248,7 +247,7 @@ void PlayerAttackScript::PerformCombos()
 			case AttackType::LIGHTNORMAL:
 				if (!isNextAttackTriggered) //Calling only when is not currently attacking
 				{
-					LOG_VERBOSE("Normal Normal Attack Soft");
+					LOG_VERBOSE("Normal Light Attack");
 					numAttackComboAnimation = 0.0f;
 					animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
 					LightNormalAttack();
@@ -261,7 +260,7 @@ void PlayerAttackScript::PerformCombos()
 			case AttackType::HEAVYNORMAL:
 				if (!isNextAttackTriggered) //Calling only when is not currently attacking
 				{
-					LOG_VERBOSE("Normal Normal Attack Soft");
+					LOG_VERBOSE("Normal Heavy Attack");
 					numAttackComboAnimation = 0.0f;
 					animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
 					HeavyNormalAttack();
@@ -272,28 +271,28 @@ void PlayerAttackScript::PerformCombos()
 				break;
 
 			case AttackType::JUMPNORMAL:
-				LOG_VERBOSE("Normal Attack Jump");
+				LOG_VERBOSE("Normal Jump Attack");
 				InitJumpAttack();
 				lastAttack = currentAttack;
 				currentAttackAnimation = "JumpAttack";
 				break;
 
 			case AttackType::LIGHTFINISHER:
-				LOG_VERBOSE("Finisher Soft");
+				LOG_VERBOSE("Light Finisher");
 				LightFinisher();
 				lastAttack = currentAttack;
 				currentAttackAnimation = "LightAttackFinish";
 				break;
 
 			case AttackType::HEAVYFINISHER:
-				LOG_VERBOSE("Finisher Heavy");
+				LOG_VERBOSE("Heavy Finisher");
 				HeavyFinisher();
 				lastAttack = currentAttack;
 				currentAttackAnimation = "HeavyAttackFinish";
 				break;
 
 			case AttackType::JUMPFINISHER:
-				LOG_VERBOSE("Finisher Jump");
+				LOG_VERBOSE("Jump Finisher");
 				InitJumpAttack();
 				lastAttack = currentAttack;
 				currentAttackAnimation = "JumpAttack";
@@ -321,7 +320,7 @@ void PlayerAttackScript::LightNormalAttack()
 			LOG_VERBOSE("Enemy hit with light attack");
 			comboSystem->SuccessfulAttack(comboCountLight * 
 				(comboSystem->GetComboCount() + 1.f), AttackType::LIGHTNORMAL);
-			DamageEnemy(enemyAttacked, attackSoftDamage);
+			DamageEnemy(enemyAttacked, attackLightDamage);
 		}
 		else
 		{
@@ -336,7 +335,7 @@ void PlayerAttackScript::LightNormalAttack()
 			comboSystem->SuccessfulAttack(comboCountLight * 
 				(comboSystem->GetComboCount() + 1.f), AttackType::LIGHTNORMAL);
 		}
-		ThrowBasicAttack(enemyAttacked, attackSoftDamage);
+		ThrowBasicAttack(enemyAttacked, attackLightDamage);
 	}
 	isAttacking = true;
 }
@@ -384,6 +383,7 @@ void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDama
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
 	LightAttackBullet* ligthAttackBulletScript = bullet->GetComponent<LightAttackBullet>();
 
+	bullet->SetTag("AlluraBullet");
 	ligthAttackBulletScript->SetBulletVelocity(bulletVelocity);
 	ligthAttackBulletScript->SetEnemy(enemyDetection->GetEnemySelected());
 	ligthAttackBulletScript->SetStunTime(0);
@@ -559,7 +559,7 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 				if (isNextAttackTriggered)
 				{
 					currentAttackAnimation = animation->GetController()->GetStateName();
-					LOG_VERBOSE("Normal Attack Soft");
+					LOG_VERBOSE("Normal Basic Attack");
 					if (lastAttack == AttackType::LIGHTNORMAL)
 					{
 						LightNormalAttack();

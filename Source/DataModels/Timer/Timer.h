@@ -11,10 +11,13 @@ public:
 	void Start();
 	float Read();
 	float Stop();
+	void Pause();
+	void Play();
 
 private:
 	Uint32 startTick;
 	Uint32 stopTick;
+	Uint32 pauseTick;
 
 	bool stopped;
 };

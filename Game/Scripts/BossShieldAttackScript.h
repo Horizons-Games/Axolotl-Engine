@@ -6,6 +6,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAnimation;
+class ComponentAudioSource;
 
 class BossShieldScript;
 class HealthSystem;
@@ -25,6 +26,7 @@ public:
 	bool CanPerformShieldAttack() const;
 
 	bool IsAttacking() const;
+	void SetIsPaused(bool isPaused);
 
 private:
 	void ManageShield(float deltaTime);
@@ -55,6 +57,7 @@ private:
 	BossShieldEnemiesSpawner* bossShieldEnemiesSpawner;
 
 	ComponentAnimation* animator;
+	ComponentAudioSource* audioSource;
 
 	// Modifiable values
 	float shieldingMaxTime;
@@ -68,4 +71,5 @@ private:
 	GameObject* enemiesToSpawnParent;
 
 	ComponentRigidBody* battleArenaAreaSize;
+	bool isPaused;
 };

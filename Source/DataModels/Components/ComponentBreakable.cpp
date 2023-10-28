@@ -78,6 +78,7 @@ void ComponentBreakable::BreakComponent()
 		if (auto rb = GetOwner()->GetComponentInternal<ComponentRigidBody>())
 		{
 			rb->RemoveRigidBodyFromSimulation();
+			rb->Disable();
 			subscribed = false;
 		}
 
@@ -86,22 +87,56 @@ void ComponentBreakable::BreakComponent()
 																  {
 																	  return child->GetChildren().empty();
 																  });
-
 		for (auto child : lastChildren)
 		{
 			if (child->GetComponentInternal<ComponentRigidBody>())
 			{
 				continue;
 			}
+				child->CreateComponent<ComponentRigidBody>();
+				ComponentRigidBody* childRigidBody = child->GetComponentInternal<ComponentRigidBody>();
+				childRigidBody->UpdateRigidBody();
+				// randomize the impulsion
+				float3 impulsionPower = impulsionPower.RandomDir(lcg, impulsionForce);
+				btVector3 impulsionMul{ impulsionPower.x, impulsionPower.y, impulsionPower.z };
+				impulsion = impulsion.cross(impulsionMul);
+				childRigidBody->GetRigidBody()->applyCentralImpulse(impulsion);
+				//this both settings are only for the rock in finally level to make more logical, can move it later
+				childRigidBody->SetLinearDamping(0.9f);
+				childRigidBody->SetIsInCollisionWorld(false);
+		}
+	}
+}
 
+void ComponentBreakable::BreakComponentFalling()
+{
+	if (subscribed)
+	{
+		if (auto rb = GetOwner()->GetComponentInternal<ComponentRigidBody>())
+		{
+			rb->RemoveRigidBodyFromSimulation();
+			rb->Disable();
+			subscribed = false;
+		}
+
+		auto lastChildren = GetOwner()->GetAllDescendants() | std::views::filter(
+			[](const GameObject* child)
+			{
+				return child->GetChildren().empty();
+			});
+		for (auto child : lastChildren)
+		{
+			if (child->GetComponentInternal<ComponentRigidBody>())
+			{
+				continue;
+			}
 			child->CreateComponent<ComponentRigidBody>();
 			ComponentRigidBody* childRigidBody = child->GetComponentInternal<ComponentRigidBody>();
 			childRigidBody->UpdateRigidBody();
-			// randomize the impulsion
-			float3 impulsionPower = impulsionPower.RandomDir(lcg, impulsionForce);
-			btVector3 impulsionMul{ impulsionPower.x, impulsionPower.y, impulsionPower.z };
-			impulsion = impulsion.cross(impulsionMul);
-			childRigidBody->GetRigidBody()->applyCentralImpulse(impulsion);
+			//this both settings are only for the rock in finally level to make more logical, can move it later
+			childRigidBody->SetGravity({ 0,-30,0 });
+			childRigidBody->SetLinearDamping(0.9f);
+			childRigidBody->SetIsInCollisionWorld(false);
 		}
 	}
 }

@@ -36,6 +36,8 @@ public:
 	bool IsAttacking();
 	void InterruptAttack();
 
+	void SetIsPaused(bool isPaused);
+
 	BoostOfEnergyStates attackState;
 
 private:
@@ -76,4 +78,6 @@ private:
 	ComponentLight* light;
 	ComponentTransform* shootingPosition;
 	ComponentAudioSource* audioSource;
+
+	bool isPaused;
 };

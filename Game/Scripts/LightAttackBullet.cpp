@@ -69,6 +69,10 @@ void LightAttackBullet::Start()
 
 void LightAttackBullet::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		return;
+	}
 	if (enemy != nullptr)
 	{
 		defaultTargetPos = enemy->GetComponent<ComponentTransform>()->GetGlobalPosition();
@@ -104,6 +108,21 @@ void LightAttackBullet::Update(float deltaTime)
 	}
 }
 
+void LightAttackBullet::SetPauseBullet(bool isPaused)
+{
+	this->isPaused = isPaused;
+	float3 forward = parentTransform->GetGlobalForward();
+	forward.Normalize();
+	if (isPaused)
+	{
+		rigidBody->SetKpForce(0);
+	}
+	else
+	{
+		rigidBody->SetKpForce(velocity);
+	}
+}
+
 void LightAttackBullet::SetBulletVelocity(float nVelocity)
 {
 	velocity = nVelocity;
@@ -127,11 +146,11 @@ void LightAttackBullet::SetDamage(float nDamageAttack)
 
 void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->CompareTag("Enemy"))
+	if (other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("PriorityTarget"))
 	{
 		if (playerAttackScript->IsMelee())
 		{
-			audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
+			audioSource->PostEvent(AUDIO::SFX::NPC::SHOT_IMPACT); // Provisional sfx
 		}
 		else
 		{
@@ -155,7 +174,7 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		if (playerAttackScript->IsMelee())
 		{
-			audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
+			audioSource->PostEvent(AUDIO::SFX::NPC::SHOT_IMPACT); // Provisional sfx
 		}
 		else
 		{

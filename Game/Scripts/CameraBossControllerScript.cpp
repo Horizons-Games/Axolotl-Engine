@@ -25,6 +25,7 @@ CameraBossControllerScript::CameraBossControllerScript() : Script(),
 	REGISTER_FIELD(zOffset, float);
 	REGISTER_FIELD(xFocusOffset, float);
 	REGISTER_FIELD(yFocusOffset, float);
+	REGISTER_FIELD(yFocusOffsetBossUp, float);
 	REGISTER_FIELD(minDistance, float);
 	REGISTER_FIELD(minMultiplier, float);
 	REGISTER_FIELD(maxDistance, float);
@@ -41,6 +42,7 @@ void CameraBossControllerScript::Start()
 	camera = GetOwner()->GetComponentInternal<ComponentCamera>();
 	player = App->GetModule<ModulePlayer>()->GetPlayer();
 	playerTransform = player->GetComponent<ComponentTransform>();
+	actualYFocusOffset = yFocusOffset;
 	if (boss)
 	{
 		bossTransform = boss->GetComponent<ComponentTransform>();
@@ -129,7 +131,7 @@ void CameraBossControllerScript::CalculateFocusOffsetVector()
 	float3 currentFocus = (playerTransform->GetGlobalPosition() - camera->GetCamera()->GetPosition()).Normalized();
 	float3 rightVector = currentFocus.Cross(float3::unitY);
 	defaultFocusOffsetVector = rightVector * xFocusOffset
-		+ float3::unitY * yFocusOffset;
+		+ float3::unitY * actualYFocusOffset;
 }
 
 void CameraBossControllerScript::CalculateFocusOffsetVector(float2 offset)
@@ -144,24 +146,29 @@ void CameraBossControllerScript::CalculateCameraPositionByBoss()
 {
 	float3 playerPos = playerTransform->GetGlobalPosition();
 	float3 bossPos = bossTransform->GetGlobalPosition();
-	float3 vector = (playerPos - bossPos).Normalized();
+
+	float2 playerPosXZ = float2(playerPos.x, playerPos.z);
+	float2 bossPosXZ = float2(bossPos.x, bossPos.z);
+
+	float2 vectorBossPlayerXZ = playerPosXZ - bossPosXZ;
+	float2 vectorBossPlayerXZNorm = vectorBossPlayerXZ.Normalized();
 	float newyOffset = yOffset;
 
-	float distance = vector.Length();
+	float distanceBossPlayerXZ = vectorBossPlayerXZ.Length();
 
 	float multiplier;
-	if (distance <= minDistance) 
+	if (distanceBossPlayerXZ <= minDistance)
 	{
 		multiplier = minMultiplier;
 	}
 
-	else if (distance >= maxDistance)
+	else if (distanceBossPlayerXZ >= maxDistance)
 	{
 		multiplier = maxMultiplier;
 	}
 	else
 	{
-		float t = (distance - minDistance)/ (maxDistance - minDistance);
+		float t = (distanceBossPlayerXZ - minDistance)/ (maxDistance - minDistance);
 		multiplier = (1 - t) * minMultiplier + t * maxMultiplier;
 	}
 
@@ -169,8 +176,13 @@ void CameraBossControllerScript::CalculateCameraPositionByBoss()
 	{
 		newyOffset += Heightmultiplier;
 		multiplier += multiplierWithHeight;
+		actualYFocusOffset = yFocusOffsetBossUp;
+	}
+	else
+	{
+		actualYFocusOffset = yFocusOffset;
 	}
 
-	float3 offset = float3(vector.x * multiplier, newyOffset, vector.z * multiplier);
+	float3 offset = float3(vectorBossPlayerXZNorm.x * multiplier, newyOffset, vectorBossPlayerXZNorm.y * multiplier);
 	CalculateOffsetVector(offset);
 }
