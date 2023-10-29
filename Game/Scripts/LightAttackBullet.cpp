@@ -74,20 +74,15 @@ void LightAttackBullet::Update(float deltaTime)
 	{
 		return;
 	}
-	float angleInDegrees = 20.0f;
-	Quat rotationZ = Quat::RotateZ(DegToRad(angleInDegrees));
 
-	// Obtiene la rotación actual del objeto
-	Quat currentRotation = GetOwner()->GetComponent<ComponentTransform>()->GetLocalRotation();
-
-	// Combina la rotación actual con la nueva rotación alrededor del eje Z
-	Quat newRotation = currentRotation * rotationZ;
-
-	// Establece la nueva rotación para el objeto
-	GetOwner()->GetComponent<ComponentTransform>()->SetLocalRotation(newRotation);
-	LOG_DEBUG("Rotation Z: {},{},{}", currentRotation.x, currentRotation.y, currentRotation.z);
 	if (enemy != nullptr)
 	{
+		if (!enemy->IsEnabled()) 
+		{
+			DestroyBullet();
+			return;
+		}
+
 		float3 targetPos = targetTransform->GetGlobalPosition();
 		targetPos.y += 1; 
 		float3 forward = targetPos - owner->GetComponent<ComponentTransform>()->GetGlobalPosition();
@@ -142,10 +137,8 @@ void LightAttackBullet::StartMoving()
 			forward.x,
 			0,
 			forward.z) * velocity);
-	if (enemy)
-	{
-		RepositionBullet();
-	}
+
+	RepositionBullet();
 }
 
 void LightAttackBullet::SetPauseBullet(bool isPaused)
@@ -207,8 +200,9 @@ void LightAttackBullet::RepositionBullet()
 
 	bulletTransform->RecalculateLocalMatrix();
 	bulletTransform->UpdateTransformMatrices();
-}
 
+	bulletTransform->GetOwner()->GetComponent<ComponentRigidBody>()->UpdateRigidBody();
+}
 
 void LightAttackBullet::SetStunTime(float nStunTime)
 {
