@@ -56,7 +56,7 @@ void HealthSystem::Start()
 
 	meshEffect->FillMeshes(owner);
 	meshEffect->ReserveSpace(1);
-	meshEffect->AddColor(float3(1.f, 0.f, 0.f));
+	meshEffect->AddColor(float4(1.f, 0.f, 0.f, 0.f));
 
 	if (owner->CompareTag("Player"))
 	{

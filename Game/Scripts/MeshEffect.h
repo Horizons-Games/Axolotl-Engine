@@ -19,13 +19,15 @@ public:
 	void FillMeshes(GameObject* parent);
 
 	void ReserveSpace(int space);
-	void AddColor(float3 color);
-	void AddColors(std::vector<float3> colors);
+	void AddColor(float4 color);
+	void AddColors(std::vector<float4> colors);
 
 	void StartEffect(float maxTime, float timeBetween);
 	void ClearEffect();
 
 	void DamageEffect();
+
+	void FadeEffect();
 
 	void SetTimeBetween(float timeBetween);
 	
@@ -33,11 +35,11 @@ public:
 
 private:
 	void EffectDiscard();
-	void EffectColor(float3 color);
+	void EffectColor(float4 color);
 
 	std::vector<ComponentMeshRenderer*> meshes;
 
-	std::vector<float3> colors;
+	std::vector<float4> colors;
 	bool activateEffect;
 	float timeBetween;
 	float maxTime;
@@ -49,12 +51,12 @@ inline void MeshEffect::ReserveSpace(int space)
 	colors.reserve(space);
 }
 
-inline void MeshEffect::AddColor(float3 color)
+inline void MeshEffect::AddColor(float4 color)
 {
 	colors.push_back(color);
 }
 
-inline void MeshEffect::AddColors(std::vector<float3> colors)
+inline void MeshEffect::AddColors(std::vector<float4> colors)
 {
 	this->colors = colors;
 }
