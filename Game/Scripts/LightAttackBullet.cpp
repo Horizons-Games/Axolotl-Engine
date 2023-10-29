@@ -85,7 +85,7 @@ void LightAttackBullet::Update(float deltaTime)
 
 	// Establece la nueva rotación para el objeto
 	GetOwner()->GetComponent<ComponentTransform>()->SetLocalRotation(newRotation);
-	LOG_DEBUG("Rotation Z: {},{},{}", currentRotation.x, currentRotation.y, currentRotation.z);
+	//LOG_DEBUG("Rotation Z: {},{},{}", currentRotation.x, currentRotation.y, currentRotation.z);
 	if (enemy != nullptr)
 	{
 		float3 targetPos = targetTransform->GetGlobalPosition();
