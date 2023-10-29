@@ -73,6 +73,18 @@ void LightAttackBullet::Update(float deltaTime)
 	{
 		return;
 	}
+	float angleInDegrees = 20.0f;
+	Quat rotationZ = Quat::RotateZ(DegToRad(angleInDegrees));
+
+	// Obtiene la rotación actual del objeto
+	Quat currentRotation = GetOwner()->GetComponent<ComponentTransform>()->GetLocalRotation();
+
+	// Combina la rotación actual con la nueva rotación alrededor del eje Z
+	Quat newRotation = currentRotation * rotationZ;
+
+	// Establece la nueva rotación para el objeto
+	GetOwner()->GetComponent<ComponentTransform>()->SetLocalRotation(newRotation);
+	LOG_DEBUG("Rotation Z: {},{},{}", currentRotation.x, currentRotation.y, currentRotation.z);
 	if (enemy != nullptr)
 	{
 		defaultTargetPos = enemy->GetComponent<ComponentTransform>()->GetGlobalPosition();
@@ -82,7 +94,7 @@ void LightAttackBullet::Update(float deltaTime)
 
 	else
 	{
-		rigidBody->SetKpForce(2.0f);
+		//rigidBody->SetKpForce(2.0f);
 
 		rigidBody->SetPositionTarget(defaultTargetPos);
 	}
@@ -91,7 +103,7 @@ void LightAttackBullet::Update(float deltaTime)
 	{
 		return;
 	}
-
+	
 	// When the particles are ready to be played, play them and after them, delete the bullet
 	particleSystemCurrentTimer -= deltaTime;
 	if (particleSystemCurrentTimer <= 0.0f)
