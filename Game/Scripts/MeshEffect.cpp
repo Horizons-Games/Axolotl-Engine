@@ -110,7 +110,7 @@ void MeshEffect::DisappearBodyEffect()
 		FillMeshes(owner);
 	}
 	
-	colors[0] = float4(colors[0].xyz(), colors[0].w - 0.005f);
+	colors[0].w -= 0.02f;
 	EffectColor(colors[0]);
 	
 	effectTime += App->GetDeltaTime();
