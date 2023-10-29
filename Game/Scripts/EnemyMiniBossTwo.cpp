@@ -81,7 +81,7 @@ void EnemyMiniBossTwo::CheckState()
 		componentAnimation->SetParameter("IsRunning", false);
 		componentAnimation->SetParameter("IsRangedAttacking", false);
 
-		shield->TriggerShieldAttack();
+		shield->TriggerShieldAttack(false);
 		bossState = MiniBossTwoBehaviours::SHIELD;
 	}
 	if (!secondShieldUsed && healthScript->GetCurrentHealth() <= 1.0f/3.0f*healthScript->GetMaxHealth())
@@ -93,7 +93,7 @@ void EnemyMiniBossTwo::CheckState()
 		componentAnimation->SetParameter("IsRunning", false);
 		componentAnimation->SetParameter("IsRangedAttacking", false);
 
-		shield->TriggerShieldAttack();
+		shield->TriggerShieldAttack(false);
 		bossState = MiniBossTwoBehaviours::SHIELD;
 	}
 	if (bossState == MiniBossTwoBehaviours::SHIELD)

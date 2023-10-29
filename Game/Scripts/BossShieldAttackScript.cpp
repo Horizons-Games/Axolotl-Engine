@@ -29,7 +29,7 @@ BossShieldAttackScript::BossShieldAttackScript() : Script(), bossShieldObject(nu
 	shieldingTime(0.0f), shieldingMaxTime(20.0f), triggerShieldAttackCooldown(false), shieldAttackCooldown(0.0f),
 	shieldAttackMaxCooldown(50.0f), triggerEnemySpawning(false), enemiesToSpawnParent(nullptr),
 	enemySpawnTime(0.0f), enemyMaxSpawnTime(2.0f), battleArenaAreaSize(nullptr), healthSystemScript(nullptr),
-	currentPath(0), animator(nullptr), audioSource(nullptr)
+	currentPath(0), animator(nullptr), audioSource(nullptr), needsToSyncAnims(true)
 {
 	REGISTER_FIELD(shieldingMaxTime, float);
 	REGISTER_FIELD(shieldAttackMaxCooldown, float);
@@ -102,7 +102,7 @@ void BossShieldAttackScript::Update(float deltaTime)
 	}
 }
 
-void BossShieldAttackScript::TriggerShieldAttack()
+void BossShieldAttackScript::TriggerShieldAttack(bool needsToSyncAnims)
 {
 	LOG_INFO("The shield attack was triggered");
 
@@ -117,6 +117,7 @@ void BossShieldAttackScript::TriggerShieldAttack()
 	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ENERGYSHIELD);
 
 	triggerEnemySpawning = true;
+	this->needsToSyncAnims = needsToSyncAnims;
 }
 
 bool BossShieldAttackScript::CanPerformShieldAttack() const
@@ -133,8 +134,11 @@ void BossShieldAttackScript::ManageShield(float deltaTime)
 {
 	if (isShielding)
 	{
-		if ((animator->GetActualStateName() == "BossShieldIdle" ||
-			animator->GetActualStateName() == "BossShieldInvokeEnemy") && !bossShieldObject->GetOwner()->IsEnabled())
+		bool isFinalBossShieldAnimReady = animator->GetActualStateName() == "BossShieldIdle" ||
+			animator->GetActualStateName() == "BossShieldInvokeEnemy";
+
+		if ((isFinalBossShieldAnimReady || !needsToSyncAnims) // Miniboss does not need to wait to sync animations
+			&& !bossShieldObject->GetOwner()->IsEnabled())
 		{
 			bossShieldObject->ActivateShield();
 		}
@@ -194,13 +198,12 @@ void BossShieldAttackScript::ManageEnemiesSpawning(float deltaTime)
 
 void BossShieldAttackScript::ManageRespawnOfEnemies()
 {
-	for (int i = 0; i < enemiesNotReadyToSpawn.size();)
+	for (int i = 0; i < enemiesNotReadyToSpawn.size(); ++i)
 	{
 		GameObject* enemy = enemiesNotReadyToSpawn[i];
 		if (enemy->IsEnabled())
 		{
 			continue;
-			++i;
 		}
 
 		EnemyClass* enemyClass = enemy->GetComponent<EnemyClass>();
@@ -208,6 +211,7 @@ void BossShieldAttackScript::ManageRespawnOfEnemies()
 
 		enemiesReadyToSpawn.push_back(enemy);
 		enemiesNotReadyToSpawn.erase(enemiesNotReadyToSpawn.begin() + i);
+		--i;
 	}
 }
 
