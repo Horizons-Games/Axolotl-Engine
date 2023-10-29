@@ -90,7 +90,7 @@ void main()
         //textureMat = pow(textureMat, vec3(2.2));
     }
     textureMat = SRGBA(textureMat);
-    textureMat.rgb += effect.color;
+    textureMat += effect.color;
     
     //Transparency
     textureMat.a = material.has_diffuse_map * textureMat.a + 

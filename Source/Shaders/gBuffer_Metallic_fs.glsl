@@ -80,7 +80,7 @@ void main()
     {
         gDiffuse = SRGBA(texture(material.diffuse_map, newTexCoord));
     }
-    gDiffuse.rgb += effect.color;
+    gDiffuse += effect.color;
 
     //Metallic and Smoothness
     gSpecular.a = material.smoothness;
