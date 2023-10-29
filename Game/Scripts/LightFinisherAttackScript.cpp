@@ -44,3 +44,8 @@ void LightFinisherAttackScript::ThrowStunItem()
 	ligthAttackBulletScript->SetStunTime(stunTime);
 	ligthAttackBulletScript->StartMoving();
 }
+
+bool LightFinisherAttackScript::IsAttacking()
+{
+	return isActivated;
+}

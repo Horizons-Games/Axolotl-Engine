@@ -74,6 +74,18 @@ void LightAttackBullet::Update(float deltaTime)
 	{
 		return;
 	}
+	float angleInDegrees = 20.0f;
+	Quat rotationZ = Quat::RotateZ(DegToRad(angleInDegrees));
+
+	// Obtiene la rotación actual del objeto
+	Quat currentRotation = GetOwner()->GetComponent<ComponentTransform>()->GetLocalRotation();
+
+	// Combina la rotación actual con la nueva rotación alrededor del eje Z
+	Quat newRotation = currentRotation * rotationZ;
+
+	// Establece la nueva rotación para el objeto
+	GetOwner()->GetComponent<ComponentTransform>()->SetLocalRotation(newRotation);
+	LOG_DEBUG("Rotation Z: {},{},{}", currentRotation.x, currentRotation.y, currentRotation.z);
 	if (enemy != nullptr)
 	{
 		float3 targetPos = targetTransform->GetGlobalPosition();
@@ -99,7 +111,7 @@ void LightAttackBullet::Update(float deltaTime)
 	{
 		return;
 	}
-
+	
 	// When the particles are ready to be played, play them and after them, delete the bullet
 	particleSystemCurrentTimer -= deltaTime;
 	if (particleSystemCurrentTimer <= 0.0f)
@@ -223,7 +235,7 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		if (playerAttackScript->IsMelee())
 		{
-			audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
+			audioSource->PostEvent(AUDIO::SFX::NPC::SHOT_IMPACT); // Provisional sfx
 		}
 		else
 		{
@@ -253,7 +265,7 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		if (playerAttackScript->IsMelee())
 		{
-			audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
+			audioSource->PostEvent(AUDIO::SFX::NPC::SHOT_IMPACT); // Provisional sfx
 		}
 		else
 		{

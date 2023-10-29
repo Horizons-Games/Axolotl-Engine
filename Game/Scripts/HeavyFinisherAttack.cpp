@@ -176,7 +176,7 @@ void HeavyFinisherAttack::HitEnemy()
 	}
 	else
 	{
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CANNON_SHOT_IMPACT); // Provisional sfx
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ELECTRIC_SHOT_IMPACT); // Provisional sfx
 	}
 	vfx->SetPlayAtStart(true);
 	vfx->Play();

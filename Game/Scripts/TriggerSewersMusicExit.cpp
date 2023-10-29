@@ -1,5 +1,7 @@
 #include "TriggerSewersMusicExit.h"
 
+#include "Application.h"
+
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentScript.h"
@@ -39,7 +41,7 @@ void TriggerSewersMusicExit::OnCollisionEnter(ComponentRigidBody* other)
 
 		AK::SoundEngine::SetState(AUDIO::STATES::GROUP::ZONE, AUDIO::STATES::ID::ZONE::CANTINA);
 		AK::SoundEngine::SetState(AUDIO::STATES::GROUP::LIFE, AUDIO::STATES::ID::PLAYERLIFE::ALIVE);
-		componentAudio->SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY,
+		App->GetModule<ModuleAudio>()->SetMusicSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY,
 			AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
 
 		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::AMBIENT_STOP);

@@ -14,12 +14,15 @@ public:
 	void Start() override;
 
 	void ThrowStunItem();
+	bool IsAttacking();
+	
 
 private:
 	GameObject* bulletPrefab;
 	float stunTime;
 	float currentCooldown;
 	float cooldown;
+	bool isActivated;
 
 	Scene* loadedScene;
 	EntityDetection* enemyDetection;

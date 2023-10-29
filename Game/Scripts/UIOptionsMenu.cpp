@@ -17,7 +17,8 @@ audioOptionButton(nullptr), controlsOptionButton(nullptr), gameOptionCanvas(null
 audioOptionCanvas(nullptr), gameOptionHover(nullptr), videoOptionHover(nullptr), audioOptionHover(nullptr), 
 controlsOptionHover(nullptr), gamepadTriggersImg(nullptr), headerMenuPosition(0), newHeaderMenuPosition(-1),
 selectedOption(-1), actualButton(-1), actualButtonHover(-1), maxButtonsOptions(-1), maxOptions(-1), 
-newSelectedOption(-1), valueSlider(-1), resetButtonIndex(true), applyChangesOnLoad(false)
+newSelectedOption(-1), valueSlider(-1), resetButtonIndex(true), applyChangesOnLoad(false), saveOptionsImg(nullptr),
+timerFeedbackOption(1.0f), backToMenuButton(nullptr), isSavingActive(false)
 {
 	REGISTER_FIELD(gameOptionButton, GameObject*);
 	REGISTER_FIELD(videoOptionButton, GameObject*);
@@ -35,6 +36,9 @@ newSelectedOption(-1), valueSlider(-1), resetButtonIndex(true), applyChangesOnLo
 	REGISTER_FIELD(controlsOptionHover, GameObject*);
 
 	REGISTER_FIELD(gamepadTriggersImg, GameObject*);
+
+	REGISTER_FIELD(backToMenuButton, GameObject*);
+	REGISTER_FIELD(saveOptionsImg, GameObject*);
 }
 
 void UIOptionsMenu::Initialize()
@@ -44,6 +48,8 @@ void UIOptionsMenu::Initialize()
 	ui = App->GetModule<ModuleUI>();
 	render = App->GetModule<ModuleRender>();
 	audio = App->GetModule<ModuleAudio>();
+	
+	buttonBackMenu= backToMenuButton->GetComponent<ComponentButton>();
 
 	gameOptionComponentButton = gameOptionButton->GetComponent<ComponentButton>();
 	videoOptionComponentButton = videoOptionButton->GetComponent<ComponentButton>();
@@ -75,10 +81,10 @@ void UIOptionsMenu::Start()
 
 void UIOptionsMenu::Update(float deltaTime)
 {
-	ControllerMenuMode();
+	ControllerMenuMode(deltaTime);
 }
 
-void UIOptionsMenu::ControllerMenuMode()
+void UIOptionsMenu::ControllerMenuMode(float deltaTime)
 {
 	if (resetButtonIndex)
 	{
@@ -87,11 +93,16 @@ void UIOptionsMenu::ControllerMenuMode()
 	}
 
 	// BACK TO MAIN MENU
-	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN || isSavingActive)
 	{
-		BackToLastSavedOption();
-		SaveOptions();
-		resetButtonIndex = true;
+		if (!isSavingActive)
+		{
+			BackToLastSavedOption();
+			SaveOptions();
+			resetButtonIndex = true;
+			isSavingActive = true;
+		}
+		SaveOptionsFeedback(deltaTime);
 		return;
 	}
 
@@ -428,6 +439,8 @@ void UIOptionsMenu::SaveOptions()
 	rapidjson::StringBuffer buffer;
 	optionsMenu.toBuffer(buffer);
 	fileSystem->Save(optionMenuPath.c_str(), buffer.GetString(), (unsigned int)buffer.GetSize());
+
+	saveOptionsImg->Enable();
 }
 
 void UIOptionsMenu::BackToLastSavedOption()
@@ -663,12 +676,14 @@ void UIOptionsMenu::AudioOption(int button, int option)
 {
 	switch (button)
 	{
-	case Button::GENERAL:
-		// audio-> this is ModuleAudio
+	case Button::MASTER:
+		audio->SetMasterVolume((float)option);
 		break;
 	case Button::MUSIC:
+		audio->SetMusicVolume((float)option);
 		break;
 	case Button::SFX:
+		audio->SetSFXVolume((float)option);
 		break;
 	default:
 		break;
@@ -690,8 +705,24 @@ bool UIOptionsMenu::IsApplyChangesOnLoad() const
 	return applyChangesOnLoad;
 }
 
+void UIOptionsMenu::SaveOptionsFeedback(float deltaTime)
+{
+	if (timerFeedbackOption <= 0.0f)
+	{
+		timerFeedbackOption = 1.0f;
+		saveOptionsImg->Disable();
+		isSavingActive = false;
+		buttonBackMenu->SetClicked(true);
+		return;
+	}
+	else
+	{
+		timerFeedbackOption -= deltaTime;
+	}
+}
+
 /*
-void UIOptionsMenu::KeyboardMenuMode()
+void UIOptionsMenu::KeyboardMenuMode(float deltaTime)
 {
 	gameOptionComponentButton->Enable();
 	videoOptionComponentButton->Enable();
