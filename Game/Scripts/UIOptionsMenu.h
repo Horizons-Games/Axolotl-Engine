@@ -11,26 +11,33 @@
 class ComponentButton;
 class ComponentSlider;
 
-enum class Canvas
+// using enum instead of enum class on purpose to avoid static_cast to int
+enum Canvas
 {
 	GAME_CANVAS = 0,
 	VIDEO_CANVAS = 1,
 	AUDIO_CANVAS = 2,
 	CONTROLS_CANVAS = 3
 };
-enum class Button
+
+// using enum instead of enum class on purpose to avoid static_cast to int
+enum Button
 {
-	//GAME
+	// GAME
 	FPS = 0,
 	VSYNC = 1,
 	BRIGHTNESS = 2,
 	RESOLUTION = 3,
 	WINDOWSMODE = 4,
 
-	//VIDEO
+	// VIDEO
+	SHADOWS = 0,
+	SSAO = 1,
+	VSM = 2,
+	BLOOM = 3,
 
-	//AUDIO
-	GENERAL = 0,
+	// AUDIO
+	MASTER = 0,
 	MUSIC = 1,
 	SFX = 2,
 };
@@ -41,16 +48,16 @@ public:
 	UIOptionsMenu();
 	~UIOptionsMenu() override = default;
 
-	void Init();
+	void Initialize();
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void ControllerMenuMode();
-	//void KeyboardMenuMode();
+	void ControllerMenuMode(float deltaTime);
+	// void KeyboardMenuMode(float deltaTime);
 	void LoadOptions();
 	
-	void SetLoadFromMainMenu(bool fromMainMenu);
-	bool IsLoadFromMainMenu() const;
+	void SetApplyChangesOnLoad(bool apply);
+	bool IsApplyChangesOnLoad() const;
 
 private:
 
@@ -67,6 +74,7 @@ private:
 		int defaultOption;
 		bool locked;
 	};
+
 	struct CanvasOptionInfo
 	{
 		std::vector<ButtonOptionInfo> options;
@@ -84,11 +92,13 @@ private:
 	int maxOptions;
 	int newSelectedOption;
 	float valueSlider;
+	float timerFeedbackOption;
 
 	bool isSlider;
 	bool optionSizeLock;
 	bool resetButtonIndex;
-	bool loadFromMainMenu;
+	bool applyChangesOnLoad;
+	bool isSavingActive;
 
 	ModuleInput* input;
 	ModuleUI* ui;
@@ -113,11 +123,14 @@ private:
 	GameObject* controlsOptionHover;
 
 	GameObject* gamepadTriggersImg;
+	GameObject* backToMenuButton;
+	GameObject* saveOptionsImg;
 
 	ComponentButton* gameOptionComponentButton;
 	ComponentButton* videoOptionComponentButton;
 	ComponentButton* audioOptionComponentButton;
 	ComponentButton* controlsOptionComponentButton;
+	ComponentButton* buttonBackMenu;
 	ComponentSlider* slider;
 
 	void UpdateChanges();
@@ -135,12 +148,5 @@ private:
 	bool IsSlider(int header, int button, int option);
 	void IsSizeOptionEnabled();
 	void IsFpsEnabled();
-
+	void SaveOptionsFeedback(float deltaTime);
 };
-
-
-
-
-
-
-

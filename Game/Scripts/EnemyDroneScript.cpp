@@ -7,6 +7,9 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentParticleSystem.h"
 
+#include "ModulePlayer.h"
+#include "Application.h"
+
 #include "../Scripts/PatrolBehaviourScript.h"
 #include "../Scripts/SeekBehaviourScript.h"
 #include "../Scripts/RangedFastAttackBehaviourScript.h"
@@ -51,6 +54,8 @@ void EnemyDroneScript::Start()
 	}
 
 	ownerTransform = owner->GetComponent<ComponentTransform>();
+	ownerRigidBody = owner->GetComponent<ComponentRigidBody>();
+	initialPosition = ownerTransform->GetGlobalPosition();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 
@@ -73,6 +78,16 @@ void EnemyDroneScript::Start()
 
 void EnemyDroneScript::Update(float deltaTime)
 {
+	if (!App->GetModule<ModulePlayer>()->IsInCombat())
+	{
+		droneState = DroneBehaviours::IDLE;
+		componentAnimation->SetParameter("IsRunning", false);
+		ownerTransform->SetGlobalPosition(initialPosition);
+		ownerRigidBody->UpdateRigidBody();
+		aiMovement->SetMovementStatuses(false, false);
+		return;
+	}
+
 	if (paralyzed)
 	{
 		return;
@@ -80,6 +95,15 @@ void EnemyDroneScript::Update(float deltaTime)
 	seekTarget = seekScript->GetTarget();
 	seekTargetTransform = seekTarget->GetComponent<ComponentTransform>();
 	playerManager = seekTarget->GetComponent<PlayerManagerScript>();
+
+	heavyAttackScript->SetIsPaused(isPaused);
+	if (isPaused) 
+	{
+		seekScript->DisableMovement();
+		fastAttackScript->InterruptAttack();
+		droneState = DroneBehaviours::SEEK;
+		return;
+	}
 
 	if (stunned && droneState != DroneBehaviours::READYTOEXPLODE && droneState != DroneBehaviours::EXPLOSIONATTACK)
 	{
@@ -111,7 +135,7 @@ void EnemyDroneScript::CheckState(float deltaTime)
 	if (droneState == DroneBehaviours::READYTOEXPLODE)
 	{
 		if (droneState != DroneBehaviours::EXPLOSIONATTACK && componentAnimation->GetActualStateName() != "Flinch"
-			&& flinchAnimationOffset == true)
+			&& flinchAnimationOffset)
 		{
 			componentAnimation->SetParameter("IsSeeking", false);
 			componentAnimation->SetParameter("IsAttacking", false);
@@ -163,7 +187,8 @@ void EnemyDroneScript::CheckState(float deltaTime)
 			}
 
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
-			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::ALERT);
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::SEEK);
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::ALERT);
 
 			droneState = DroneBehaviours::ENEMY_DETECTED;
 		}
@@ -191,7 +216,7 @@ void EnemyDroneScript::CheckState(float deltaTime)
 
 					if (droneState == DroneBehaviours::PATROL)//Play alert only when coming from patrol
 					{
-						componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::ALERT);
+						componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::SEEK);
 					}
 
 					droneState = DroneBehaviours::SEEK;
@@ -281,18 +306,24 @@ void EnemyDroneScript::UpdateBehaviour(float deltaTime)
 
 	case DroneBehaviours::EXPLOSIONATTACK:
 
-		aiMovement->SetTargetPosition(target);
-		aiMovement->SetRotationTargetPosition(target);
+		if(healthScript->EntityIsAlive()){
+			aiMovement->SetTargetPosition(target);
+			aiMovement->SetRotationTargetPosition(target);
+		}
 
 		break;
 	
 	case DroneBehaviours::INPATH:
-
-		if (pathScript->IsPathFinished())
+		if (pathScript && pathScript->IsPathFinished())
 		{
 			droneState = DroneBehaviours::IDLE;
 			componentAnimation->SetParameter("IsRunning", false);
 			pathScript->Disable();
+		}
+		else if (!pathScript)
+		{
+			droneState = DroneBehaviours::IDLE;
+			componentAnimation->SetParameter("IsRunning", false);
 		}
 
 		break;
@@ -313,6 +344,7 @@ void EnemyDroneScript::ResetValues()
 	droneState = DroneBehaviours::INPATH;
 	fastAttackScript->ResetScriptValues();
 	healthScript->HealLife(1000.0f); // It will cap at max health
+	aiMovement->SetMovementStatuses(true, true);
 	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
 	enemyDeathScript->ResetDespawnTimerAndEnableActions();
 	if(pathScript)
@@ -364,6 +396,7 @@ void EnemyDroneScript::SetReadyToDie()
 {
 	componentAnimation->SetParameter("IsTakingDamage", true);
 	fastAttackScript->InterruptAttack();
+	healthScript->SetIsImmortal(true);
 	droneState = DroneBehaviours::READYTOEXPLODE;
 }
 

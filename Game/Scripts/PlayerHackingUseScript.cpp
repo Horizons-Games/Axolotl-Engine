@@ -14,14 +14,18 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentAudioSource.h"
 #include "Physics/Physics.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "MathGeoLib/Include/Geometry/Ray.h"
 
 REGISTERCLASS(PlayerHackingUseScript);
 
 PlayerHackingUseScript::PlayerHackingUseScript()
-	: Script(), isHackingActive(false), hackingTag("Hackeable")
+	: Script(), isHackingActive(false), hackingTag("Hackeable"), isHackingButtonPressed(false), hackZone(nullptr),
+	audioSource(nullptr)
 {
 	REGISTER_FIELD(hackingManager, UIHackingManager*);
 	REGISTER_FIELD(switchPlayerManager, SwitchPlayerManagerScript*);
@@ -32,13 +36,16 @@ void PlayerHackingUseScript::Start()
 	input = App->GetModule<ModuleInput>();
 	transform = GetOwner()->GetComponent<ComponentTransform>();
 	rigidBody = GetOwner()->GetComponent<ComponentRigidBody>();
-	hackZone = nullptr;
+	audioSource = GetOwner()->GetComponent<ComponentAudioSource>();
 	playerManager = GetOwner()->GetComponent<PlayerManagerScript>();
-	isHackingButtonPressed = false;
 }
 
 void PlayerHackingUseScript::Update(float deltaTime)
 {
+	if (playerManager->IsPaused())
+	{
+		return;
+	}
 	currentTime += deltaTime;
 	hackingManager->SetHackingTimerValue(maxHackTime, currentTime);
 
@@ -47,10 +54,12 @@ void PlayerHackingUseScript::Update(float deltaTime)
 		currentAction == PlayerActions::DOUBLEJUMPING;
 
 	bool isAttacking = playerManager->GetAttackManager()->IsInAttackAnimation();
-		
-	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingActive && !isJumping && !isAttacking)
+	FindHackZone(hackingTag);
+	CheckCurrentHackZone();
+
+	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && !isHackingActive &&
+		!isJumping && !isAttacking && !playerManager->GetAttackManager()->IsMelee())
 	{
-		FindHackZone(hackingTag);
 		if (hackZone && !hackZone->IsCompleted() && !playerManager->IsParalyzed())
 		{
 			InitHack();
@@ -88,6 +97,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 				{
 					userCommandInputs.push_back(command);
 					LOG_DEBUG("User add key/button to combination");
+					audioSource->PostEvent(AUDIO::SFX::UI::HACKING::CORRECT);
 
 					hackingManager->RemoveInputVisuals();
 					break;
@@ -108,11 +118,14 @@ void PlayerHackingUseScript::Update(float deltaTime)
 			{
 				LOG_DEBUG("Mismatch detected. Hacking will fail.");
 				RestartHack();
+
+				audioSource->PostEvent(AUDIO::SFX::UI::HACKING::WRONG);
 			}
 
 			if (userCommandInputs == commandCombination)
 			{
 				LOG_DEBUG("Hacking completed");
+				audioSource->PostEvent(AUDIO::SFX::UI::HACKING::FINISHED);
 				hackZone->SetCompleted();
 				FinishHack();
 			}
@@ -121,7 +134,12 @@ void PlayerHackingUseScript::Update(float deltaTime)
 	}
 }
 
-//DEBUG METHOD
+bool PlayerHackingUseScript::IsInsideValidHackingZone() const
+{
+	return hackZone && !hackZone->IsCompleted();
+}
+
+// DEBUG METHOD
 void PlayerHackingUseScript::PrintCombination()
 {
 	std::string combination;
@@ -158,6 +176,7 @@ void PlayerHackingUseScript::InitHack()
 	switchPlayerManager->SetIsSwitchAvailable(false);
 
 	userCommandInputs.reserve(static_cast<size_t>(hackZone->GetSequenceSize()));
+	hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
 
 	commandCombination = hackZone->GetCommandCombination();
 	for (auto command : commandCombination)
@@ -167,7 +186,7 @@ void PlayerHackingUseScript::InitHack()
 
 	hackingManager->EnableHackingTimer();
 
-	//PrintCombination();
+	// PrintCombination();
 	LOG_DEBUG("Hacking is active");
 }
 
@@ -206,18 +225,18 @@ void PlayerHackingUseScript::RestartHack()
 
 	hackingManager->EnableHackingTimer();
 
-	//PrintCombination();
+	// PrintCombination();
 	input->Rumble();
 	LOG_DEBUG("Hacking is restarted");
 }
 
-void PlayerHackingUseScript::DisableAllInteractions()
+void PlayerHackingUseScript::DisableAllInteractions() const
 {
 	playerManager->SetPlayerState(PlayerActions::IDLE);
 	playerManager->PausePlayer(true);
 }
 
-void PlayerHackingUseScript::EnableAllInteractions()
+void PlayerHackingUseScript::EnableAllInteractions() const
 {
 	playerManager->SetPlayerState(PlayerActions::IDLE);
 	playerManager->PausePlayer(false);
@@ -247,11 +266,53 @@ void PlayerHackingUseScript::FindHackZone(const std::string& tag)
 
 			float distance = (playerPosition - hackZonePosition).Length();
 
-			if (distance < hackZoneScript->GetInfluenceRadius())
+			if (distance < hackZoneScript->GetInfluenceRadius() && !hackZoneScript->IsCompleted())
 			{
 				hackZone = hackZoneScript;
+				if (playerManager->GetAttackManager()->IsMelee())
+				{	
+					hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+					hackZone->GetOwner()->GetChildren()[1]->GetComponent<ComponentParticleSystem>()->Play();
+					hackZone->GetOwner()->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Play();
+				}
+				else
+				{
+					hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
+					hackZone->GetOwner()->GetChildren()[1]->GetComponent<ComponentParticleSystem>()->Stop();
+					hackZone->GetOwner()->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Stop();
+				}
 			}
-
 		}
 	}
+}
+
+void PlayerHackingUseScript::StopHackingParticles()
+{
+	if (hackZone)
+	{
+		hackZone->GetOwner()->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+		hackZone->GetOwner()->GetChildren()[1]->GetComponent<ComponentParticleSystem>()->Stop();
+		hackZone->GetOwner()->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Stop();
+		hackZone = nullptr;
+	}
+}
+
+void PlayerHackingUseScript::CheckCurrentHackZone()
+{
+	if (hackZone)
+	{
+		float3 hackZonePosition = hackZone->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
+		float3 playerPosition = transform->GetGlobalPosition();
+		float distance = (playerPosition - hackZonePosition).Length();
+
+		if (distance > hackZone->GetInfluenceRadius())
+		{
+			StopHackingParticles();
+		}
+	}
+}
+
+bool PlayerHackingUseScript::IsHackingActive() const
+{
+	return isHackingActive;
 }

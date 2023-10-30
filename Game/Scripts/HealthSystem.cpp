@@ -13,6 +13,7 @@
 #include "../Scripts/SpaceshipDeathManager.h"
 #include "../Scripts/EnemyDeathScript.h"
 #include "../Scripts/PlayerManagerScript.h"
+#include "../Scripts/ComboManager.h"
 #include "../Scripts/MeshEffect.h"
 
 REGISTERCLASS(HealthSystem);
@@ -57,7 +58,7 @@ void HealthSystem::Start()
 
 	meshEffect->FillMeshes(owner);
 	meshEffect->ReserveSpace(1);
-	meshEffect->AddColor(float3(1.f, 0.f, 0.f));
+	meshEffect->AddColor(float4(1.f, 0.f, 0.f, 0.f));
 
 	if (owner->CompareTag("Player"))
 	{
@@ -70,14 +71,14 @@ void HealthSystem::Update(float deltaTime)
 {
 	meshEffect->DamageEffect();
 
-	if (!EntityIsAlive() && owner->CompareTag("Player"))
+	if (!EntityIsAlive() && owner->CompareTag("Player") && playerManager->IsParalyzed())
 	{
 		meshEffect->ClearEffect();
 		PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
 		playerDeathManager->ManagePlayerDeath();
 			
 	}
-	else if (!EntityIsAlive() && owner->CompareTag("Enemy"))
+	else if (!EntityIsAlive() && ( owner->CompareTag("Enemy") || owner->CompareTag("PriorityTarget")))
 	{
 		meshEffect->ClearEffect();
 	}
@@ -102,7 +103,7 @@ void HealthSystem::TakeDamage(float damage)
 {
 	if (!isImmortal) 
 	{
-		if (owner->CompareTag("Enemy"))
+		if (owner->CompareTag("Enemy") || owner->CompareTag("PriorityTarget"))
 		{
 			currentHealth = std::max(currentHealth - damage, 0.0f);
 			if (currentHealth == 0 && deathCallback)
@@ -122,19 +123,17 @@ void HealthSystem::TakeDamage(float damage)
 
 			currentHealth -= actualDamage;
 
-			ModuleInput* input = App->GetModule<ModuleInput>();
-			input->Rumble();
-
-			if (currentHealth - damage <= 0)
+			if (currentHealth <= 0)
 			{
-				PlayerDeathScript* playerDeathManager = owner->GetComponent<PlayerDeathScript>();
-				playerDeathManager->ManagePlayerDeath();
-				componentAnimation->SetParameter("IsDead", true);
+				playerManager->ParalyzePlayer(true);
+				owner->GetComponent<ComboManager>()->SuccessfulAttack(-100.f, AttackType::NONE);
 			}
 			else
 			{
 				componentAnimation->SetParameter("IsTakingDamage", true);
 				damageTaken = true;
+				ModuleInput* input = App->GetModule<ModuleInput>();
+				input->Rumble();
 			}
 		}
 		else if (owner->CompareTag("PlayerSpaceship"))
@@ -169,7 +168,7 @@ void HealthSystem::HealLife(float amountHealed)
 
 bool HealthSystem::EntityIsAlive() const
 {
-	return currentHealth > 0.0f;
+	return currentHealth > 0.0f || isImmortal;
 }
 
 float HealthSystem::GetMaxHealth() const

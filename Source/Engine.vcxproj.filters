@@ -472,12 +472,6 @@
     <ClCompile Include="..\Game\Scripts\PlayerAttackScript.cpp">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp">
-      <Filter>UserScripts\Gameplay\Player\Rotation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerForceUseScript.cpp">
-      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PlayerManagerScript.cpp">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClCompile>
@@ -740,6 +734,21 @@
     <ClCompile Include="Auxiliar\SceneLoader.cpp">
       <Filter>Auxiliar</Filter>
     </ClCompile>
+    <ClCompile Include="DataModels\Resources\ResourceVideo.cpp">
+      <Filter>DataModels\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Components\UI\ComponentVideo.cpp">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentVideo.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowVideoInput.cpp">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\Importers\VideoImporter.cpp">
+      <Filter>FileSystem\Importers</Filter>
+    </ClCompile>
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="Auxiliar\ConnectedCallback.cpp">
       <Filter>Auxiliar</Filter>
@@ -833,11 +842,14 @@
     <ClCompile Include="..\Game\Scripts\CombatTutorial.cpp">
       <Filter>UserScripts\Gameplay\Tutorials</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\SwitchTutorial.cpp">
-      <Filter>UserScripts\Gameplay\Tutorials</Filter>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\PathBehaviourScript.cpp">
       <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossShieldEnemiesSpawner.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\BossLevelElevator.cpp">
+      <Filter>UserScripts\Level</Filter>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\BossMusic.cpp">
       <Filter>UserScripts\Audio</Filter>
@@ -857,29 +869,56 @@
     <ClCompile Include="..\Game\Scripts\UILoadSavedSettings.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SwitchTutorial.cpp">
+      <Filter>UserScripts\Gameplay\Tutorials</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIText.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\SpaceshipMovement.cpp">
-      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    <ClCompile Include="..\Game\Scripts\PauseManager.cpp">
+      <Filter>UserScripts\Gameplay</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\SpaceshipDeathManager.cpp">
-      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    <ClCompile Include="..\Game\Scripts\BossWallChecker.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossChargeAttack</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\FireMovingObstacle.cpp">
-      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    <ClCompile Include="..\Game\Scripts\PlayerForceUseScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\MultipleFireObstacle.cpp">
-      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    <ClCompile Include="..\Game\Scripts\ForceZoneScript.cpp">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\SpaceshipObstacle.cpp">
-      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    <ClCompile Include="..\Game\Scripts\ForceTrigger.cpp">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\TurbineObstacle.cpp">
-      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    <ClCompile Include="Auxiliar\Utils\UtilBlur.cpp">
+      <Filter>Auxiliar\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\UIGameManagerSpaceship.cpp">
+    <ClCompile Include="DataModels\Components\ComponentPlanarReflection.cpp">
+      <Filter>DataModels\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPlanarReflection.cpp">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\TurnDisable.cpp">
+      <Filter>UserScripts\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\WaypointStateScript.cpp">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIEnemyBar.cpp">
       <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIApearDisapear.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UITriggerEnemyBar.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\GeneratorSpaceStationAudio.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\HackingMachineAudio.cpp">
+      <Filter>UserScripts\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1358,12 +1397,6 @@
     <ClInclude Include="..\Game\Scripts\PlayerAttackScript.h">
       <Filter>UserScripts\Gameplay\Player\Attack</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h">
-      <Filter>UserScripts\Gameplay\Player\Rotation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\PlayerForceUseScript.h">
-      <Filter>UserScripts\Gameplay\Player\Abilities</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PlayerManagerScript.h">
       <Filter>UserScripts\Gameplay\Player</Filter>
     </ClInclude>
@@ -1658,6 +1691,22 @@
     <ClInclude Include="Auxiliar\SceneLoader.h">
       <Filter>Auxiliar</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\DefaultScript.h" />
+    <ClInclude Include="DataModels\Resources\ResourceVideo.h">
+      <Filter>DataModels\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Components\UI\ComponentVideo.h">
+      <Filter>DataModels\Components\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentVideo.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowVideoInput.h">
+      <Filter>DataModels\Windows\EditorWindows\ImporterWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\Importers\VideoImporter.h">
+      <Filter>FileSystem\Importers</Filter>
+    </ClInclude>
     <ClInclude Include="Scheduler.h" />
     <ClInclude Include="..\Game\Scripts\DefaultScript.h">
       <Filter>UserScripts</Filter>
@@ -1757,11 +1806,14 @@
     <ClInclude Include="..\Game\Scripts\CombatTutorial.h">
       <Filter>UserScripts\Gameplay\Tutorials</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\SwitchTutorial.h">
-      <Filter>UserScripts\Gameplay\Tutorials</Filter>
-    </ClInclude>
     <ClInclude Include="..\Game\Scripts\PathBehaviourScript.h">
       <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossShieldEnemiesSpawner.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossShieldAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\BossLevelElevator.h">
+      <Filter>UserScripts\Level</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\BossMusic.h">
       <Filter>UserScripts\Audio</Filter>
@@ -1781,29 +1833,56 @@
     <ClInclude Include="..\Game\Scripts\UILoadSavedSettings.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SwitchTutorial.h">
+      <Filter>UserScripts\Gameplay\Tutorials</Filter>
+    </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIText.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\SpaceshipDeathManager.h">
-      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    <ClInclude Include="..\Game\Scripts\PauseManager.h">
+      <Filter>UserScripts\Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\SpaceshipMovement.h">
-      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    <ClInclude Include="..\Game\Scripts\BossWallChecker.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Attack Behaviours\Bosses\BossChargeAttack</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\FireMovingObstacle.h">
-      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    <ClInclude Include="..\Game\Scripts\PlayerForceUseScript.h">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\MultipleFireObstacle.h">
-      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    <ClInclude Include="..\Game\Scripts\ForceZoneScript.h">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\SpaceshipObstacle.h">
-      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    <ClInclude Include="..\Game\Scripts\ForceTrigger.h">
+      <Filter>UserScripts\Gameplay\Player\Abilities\Force</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\TurbineObstacle.h">
-      <Filter>UserScripts\Gameplay\Spaceship\Obstacles</Filter>
+    <ClInclude Include="Auxiliar\Utils\UtilBlur.h">
+      <Filter>Auxiliar\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\UIGameManagerSpaceship.h">
+    <ClInclude Include="DataModels\Components\ComponentPlanarReflection.h">
+      <Filter>DataModels\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPlanarReflection.h">
+      <Filter>DataModels\Windows\SubWindows\ComponentWindows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\TurnDisable.h">
+      <Filter>UserScripts\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\WaypointStateScript.h">
+      <Filter>UserScripts\Gameplay\Behaviours\Movement Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIEnemyBar.h">
       <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIApearDisapear.h">
+      <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UITriggerEnemyBar.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\HackingMachineAudio.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\GeneratorSpaceStationAudio.h">
+      <Filter>UserScripts\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1912,9 +1991,6 @@
     <Filter Include="UserScripts\Gameplay\Player\Movement">
       <UniqueIdentifier>{b812ac76-6b1f-47cc-a2da-da0913da9b93}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Gameplay\Player\Rotation">
-      <UniqueIdentifier>{599c1737-d371-4d4d-9b3a-d86d3d749929}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UserScripts\Gameplay\Player\Abilities">
       <UniqueIdentifier>{1b8a3c16-68e9-40de-8361-9466396630ed}</UniqueIdentifier>
     </Filter>
@@ -2020,11 +2096,8 @@
     <Filter Include="UserScripts\Gameplay\Tutorials">
       <UniqueIdentifier>{bbb763f3-1b50-4a0f-a40f-2147fb2cf1c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserScripts\Gameplay\Spaceship">
-      <UniqueIdentifier>{38fc498b-29ed-407a-9327-265fc43194b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserScripts\Gameplay\Spaceship\Obstacles">
-      <UniqueIdentifier>{ed42bdf9-c2d4-4e8d-b5d2-8e82b4905eec}</UniqueIdentifier>
+    <Filter Include="UserScripts\Gameplay\Player\Abilities\Force">
+      <UniqueIdentifier>{37e1f9f3-29cc-4e55-80e7-ef0301bc00af}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

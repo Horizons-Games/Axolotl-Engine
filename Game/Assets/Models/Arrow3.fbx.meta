@@ -1,0 +1,13 @@
+{
+    "UID": 6668476298850864792,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Arrow3.Cylinder_0.mesh",
+        "Assets/Meshes/Arrow3.Cylinder.001_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Arrow3DefaultMaterial_0.mat",
+        "Assets/Materials/Arrow3DefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

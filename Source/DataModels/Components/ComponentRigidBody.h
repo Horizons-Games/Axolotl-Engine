@@ -171,8 +171,8 @@ private:
 	void InternalSave(Json& meta) override;
 	void InternalLoad(const Json& meta) override;
 
-	void SignalEnable(bool isSceneLoading) override;
-	void SignalDisable(bool isSceneLoading) override;
+	void SignalEnable() override;
+	void SignalDisable() override;
 
 private:
 	int GenerateId() const;
@@ -397,6 +397,7 @@ inline void ComponentRigidBody::SetKpTorque(float newKpTorque)
 {
 	KpTorque = newKpTorque;
 }
+
 inline float3 ComponentRigidBody::GetBoxSize() const
 {
 	return boxSize;

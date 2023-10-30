@@ -36,7 +36,7 @@ public:
 	void SetMaxValue(float maxValue);
 	void SetMinValue(float minValue);
 	void SetBackground(GameObject* background);
-	void SetFill(GameObject* fill);
+	void SetFill(GameObject* fill, int direction = -1);
 	void SetHandle(GameObject* handle);
 	void SetDirection(int direction);
 
@@ -108,11 +108,6 @@ inline DirectionSlider ComponentSlider::GetDirection() const
 inline void ComponentSlider::SetBackground(GameObject* background)
 {
 	this->background = background;
-}
-
-inline void ComponentSlider::SetFill(GameObject* fill)
-{
-	this->fill = fill;
 }
 
 inline void ComponentSlider::SetHandle(GameObject* handle)

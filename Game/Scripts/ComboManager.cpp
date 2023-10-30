@@ -5,6 +5,8 @@
 
 #include "Components/ComponentScript.h"
 #include "UIComboManager.h"
+#include "CameraControllerScript.h"
+#include "ModulePlayer.h"
 
 REGISTERCLASS(ComboManager);
 
@@ -49,24 +51,36 @@ bool ComboManager::NextIsSpecialAttack() const
 
 void ComboManager::CheckSpecial(float deltaTime)
 {
-	if (input->GetKey(SDL_SCANCODE_TAB) == KeyState::DOWN && specialCount == maxSpecialCount)
+	if (!uiComboManager->IsInCombat() && App->GetModule<ModulePlayer>()->IsInCombat()) 
+	{
+		InitCombo();
+	}
+	else if (uiComboManager->IsInCombat() && !App->GetModule<ModulePlayer>()->IsInCombat())
+	{
+		HideCombo();
+	}
+
+	if (!specialActivated && specialCount == maxSpecialCount)
 	{
 		specialActivated = true;
 
 		uiComboManager->SetActivateSpecial(true);
-
+		actualComboTimer = comboTime;
+		uiComboManager->UpdateFadeOut(1.0f);
 		ClearCombo(false);
 	}
 
-	if (actualComboTimer <= 0)
+	if (actualComboTimer <= 0.0f)
 	{
 		if (comboCount > 0)
 		{
 			ClearCombo(false);
-			actualComboTimer = comboTime;
+			if (!specialActivated)
+			{
+				actualComboTimer = comboTime;
+			}
 		}
-
-		else if (specialCount > 0 && specialCount < maxSpecialCount)
+		else if (specialCount > 0 && specialCount < maxSpecialCount && !specialActivated)
 		{
 			specialCount = std::max(0.0f, specialCount - 5.0f * deltaTime);
 			uiComboManager->SetComboBarValue(specialCount);
@@ -74,9 +88,12 @@ void ComboManager::CheckSpecial(float deltaTime)
 	}
 	else if (comboCount > 0)
 	{
-		
 		uiComboManager->UpdateFadeOut(actualComboTimer / comboTime);
 		actualComboTimer -= deltaTime;
+		if (actualComboTimer < 1.0f)
+		{
+			actualComboTimer = 0.0f;
+		}
 	}
 }
 
@@ -98,35 +115,39 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 {
 	bool leftClick = input->GetMouseButton(SDL_BUTTON_LEFT) == KeyState::DOWN;
 	bool rightClick = input->GetMouseButton(SDL_BUTTON_RIGHT) == KeyState::DOWN;
+	bool lightSpecialInput = input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN;
+	bool heavySpecialInput = input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN;
 
-	if (jumping && (leftClick || rightClick))
+	if (jumping && leftClick)
 	{
-		if (specialActivated && comboCount == maxComboCount - 1)
+		if (specialActivated)
 		{
 			return AttackType::JUMPFINISHER;
 		}
-
 		return AttackType::JUMPNORMAL;
 	}
 
 	if (leftClick)
 	{
-		if (specialActivated && comboCount == maxComboCount - 1)
+		return AttackType::LIGHTNORMAL;
+	}
+
+	if (rightClick) 
+	{
+		return AttackType::HEAVYNORMAL;
+	}
+
+	if (specialActivated) 
+	{
+		if (lightSpecialInput) 
 		{
 			return AttackType::LIGHTFINISHER;
 		}
 
-		return AttackType::LIGHTNORMAL;
-	}
-
-	if (rightClick)
-	{
-		if (specialActivated && comboCount == maxComboCount - 1)
+		if (heavySpecialInput) 
 		{
 			return AttackType::HEAVYFINISHER;
 		}
-
-		return AttackType::HEAVYNORMAL;
 	}
 
 	return AttackType::NONE;
@@ -134,10 +155,22 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 
 void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 {
+	actualComboTimer = comboTime;
 	uiComboManager->UpdateFadeOut(1.0f);
+
+	comboCount++;
+
+	uiComboManager->AddInputVisuals(type);
+
+	if (comboCount == 3 || type == AttackType::JUMPNORMAL || type == AttackType::JUMPFINISHER 
+		|| type == AttackType::HEAVYFINISHER || type == AttackType::LIGHTFINISHER)
+	{
+		ClearCombo(true);
+	}
+
 	if (specialCount < 0 || !specialActivated)
 	{
-		this->specialCount = 
+		this->specialCount =
 			std::clamp(this->specialCount + specialCount, 0.0f, maxSpecialCount);
 
 		if (this->specialCount <= 0.0f && specialActivated)
@@ -147,29 +180,6 @@ void ComboManager::SuccessfulAttack(float specialCount, AttackType type)
 
 		uiComboManager->SetComboBarValue(this->specialCount);
 
-		actualComboTimer = comboTime;
-	}
-
-	comboCount++;
-	if (type == AttackType::HEAVYNORMAL || type == AttackType::HEAVYFINISHER)
-	{
-		uiComboManager->AddInputVisuals(InputVisualType::HEAVY);
-	}
-
-	else if (type == AttackType::LIGHTNORMAL || type == AttackType::LIGHTFINISHER)
-	{
-		uiComboManager->AddInputVisuals(InputVisualType::LIGHT);
-	}
-
-	else if (type == AttackType::JUMPNORMAL || type == AttackType::JUMPFINISHER)
-	{
-		uiComboManager->AddInputVisuals(InputVisualType::JUMP);
-	}
-
-	if (comboCount == 3) 
-	{
-		uiComboManager->SetEffectEnable(true);
-		ClearCombo(true);
 	}
 }
 
@@ -187,4 +197,30 @@ void ComboManager::FillComboBar()
 UIComboManager* ComboManager::GetUiComboManager() const
 {
 	return uiComboManager;
+}
+
+void ComboManager::InitCombo()
+{
+	if (!uiComboManager->IsInCombat()) 
+	{
+		specialCount = 0.0f;
+		comboCount = 0;
+		actualComboTimer = 0.0f;
+		specialActivated = false;
+
+		uiComboManager->InitComboUI();
+	}
+}
+
+void ComboManager::HideCombo()
+{
+	if (uiComboManager->IsInCombat()) 
+	{
+		specialCount = 0.0f;
+		comboCount = 0;
+		actualComboTimer = 0.0f;
+		specialActivated = false;
+
+		uiComboManager->HideComboUI();
+	}
 }

@@ -24,6 +24,7 @@
 #include "DataModels/Components/ComponentTransform.h"
 #include "DataModels/Components/ComponentTrail.h"
 #include "DataModels/Components/ComponentLocalIBL.h"
+#include "DataModels/Components/ComponentPlanarReflection.h"
 #include "DataModels/Components/ComponentLine.h"
 #include "DataModels/Components/ComponentCameraSample.h"
 #include "DataModels/Components/ComponentAgent.h"
@@ -31,6 +32,7 @@
 #include "DataModels/Components/UI/ComponentButton.h"
 #include "DataModels/Components/UI/ComponentCanvas.h"
 #include "DataModels/Components/UI/ComponentImage.h"
+#include "DataModels/Components/UI/ComponentVideo.h"
 #include "DataModels/Components/UI/ComponentTransform2D.h"
 #include "DataModels/Components/UI/ComponentSlider.h"
 
@@ -377,6 +379,12 @@ void GameObject::CopyComponent(Component* component)
 			newComponent = std::make_unique<ComponentImage>(*static_cast<ComponentImage*>(component));
 			break;
 		}
+		 
+		case ComponentType::VIDEO:
+		{
+			newComponent = std::make_unique<ComponentVideo>(*static_cast<ComponentVideo*>(component));
+			break;
+		}
 
 		case ComponentType::BUTTON:
 		{
@@ -496,6 +504,9 @@ void GameObject::CopyComponentLight(LightType type, Component* component)
 		case LightType::LOCAL_IBL:
 			newComponent = std::make_unique<ComponentLocalIBL>(static_cast<ComponentLocalIBL&>(*component));
 			break;
+		case LightType::PLANAR_REFLECTION:
+			newComponent = std::make_unique<ComponentPlanarReflection>(static_cast<ComponentPlanarReflection&>(*component));
+			break;
 	}
 
 	if (newComponent)
@@ -505,25 +516,25 @@ void GameObject::CopyComponentLight(LightType type, Component* component)
 	}
 }
 
-void GameObject::Enable(bool isSceneLoading)
+void GameObject::Enable()
 {
 	assert(parent != nullptr);
 
 	enabled = true;
 
-	this->Activate(isSceneLoading);
+	this->Activate();
 }
 
-void GameObject::Disable(bool isSceneLoading)
+void GameObject::Disable()
 {
 	assert(parent != nullptr);
 
 	enabled = false;
 
-	this->Deactivate(isSceneLoading);
+	this->Deactivate();
 }
 
-void GameObject::Activate(bool isSceneLoading)
+void GameObject::Activate()
 {
 	active = parent->IsActive();
 
@@ -534,7 +545,7 @@ void GameObject::Activate(bool isSceneLoading)
 
 	for (std::unique_ptr<GameObject>& child : children)
 	{
-		child->Activate(isSceneLoading);
+		child->Activate();
 	}
 
 	for (std::unique_ptr<Component>& component : components)
@@ -542,24 +553,24 @@ void GameObject::Activate(bool isSceneLoading)
 		// If the Component is currently disabled itself, avoid sending the signal
 		if (component->IsEnabled())
 		{
-			component->SignalEnable(isSceneLoading);
+			component->SignalEnable();
 		}
 	}
 }
 
-void GameObject::Deactivate(bool isSceneLoading)
+void GameObject::Deactivate()
 {
 	active = false;
 
 	for (std::unique_ptr<GameObject>& child : children)
 	{
-		child->Deactivate(isSceneLoading);
+		child->Deactivate();
 	}
 
 	for (std::unique_ptr<Component>& component : components)
 	{
 		// No need to check, we know component->IsEnabled will return false
-		component->SignalDisable(isSceneLoading);
+		component->SignalDisable();
 	}
 }
 
@@ -640,11 +651,19 @@ Component* GameObject::CreateComponent(ComponentType type)
 			break;
 		}
 
+		case ComponentType::VIDEO:
+		{
+			newComponent = std::make_unique<ComponentVideo>(true, this);
+			break;
+		}
+
 		case ComponentType::BUTTON:
 		{
 			newComponent = std::make_unique<ComponentButton>(true, this);
 			break;
 		}
+
+
 
 		case ComponentType::SLIDER:
 		{
@@ -754,6 +773,10 @@ Component* GameObject::CreateComponent(ComponentType type)
 					AddComponentLines(static_cast<ComponentLine*>(referenceBeforeMove));
 				break;
 
+			case ComponentType::VIDEO:
+				App->GetModule<ModuleScene>()->GetLoadedScene()->AddVideoComponent(
+					static_cast<ComponentVideo*>(referenceBeforeMove));
+				break;
 			default:
 				break;
 			}
@@ -788,6 +811,12 @@ Component* GameObject::CreateComponentLight(LightType lightType, AreaType areaTy
 			break;
 		case LightType::LOCAL_IBL:
 			newComponent = std::make_unique<ComponentLocalIBL>(this);
+			break;
+		case LightType::PLANAR_REFLECTION:
+			newComponent = std::make_unique<ComponentPlanarReflection>(this);
+			App->GetModule<ModuleScene>()->GetLoadedScene()->
+				AddPlanarReflection(static_cast<ComponentPlanarReflection*>(
+					static_cast<ComponentLight*>(newComponent.get())), updateLights);
 			break;
 	}
 
@@ -865,6 +894,17 @@ bool GameObject::RemoveComponent(const Component* component)
 		App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveComponentLine(
 			static_cast<const ComponentLine*>(component));
 		break;
+	case ComponentType::LIGHT:
+	{
+		const ComponentLight* light = static_cast<const ComponentLight*>(component);
+		if (light->GetLightType() == LightType::PLANAR_REFLECTION)
+		{
+			App->GetModule<ModuleScene>()->GetLoadedScene()->RemovePlanarReflection(
+				static_cast<const ComponentPlanarReflection*>(component));
+		}
+		break;
+	}
+	
 	default:
 		break;
 	}

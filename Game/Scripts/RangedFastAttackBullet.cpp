@@ -61,7 +61,7 @@ void RangedFastAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 		playerHealthScript->TakeDamage(damageAttack);
 	}
 
-	audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); //Provisional sfx
+	audioSource->PostEvent(AUDIO::SFX::NPC::SHOT_IMPACT); //Provisional sfx
 
 	mesh->Disable();
 	rigidBody->Disable();
@@ -101,6 +101,28 @@ void RangedFastAttackBullet::InitializeBullet()
 void RangedFastAttackBullet::DestroyBullet()
 {
 	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+}
+
+void RangedFastAttackBullet::SetPauseBullet(bool isPaused)
+{
+	float3 forward = parentTransform->GetGlobalForward();
+	forward.Normalize();
+	if (isPaused)
+	{
+		rigidBody->GetRigidBody()->setLinearVelocity(
+			btVector3(
+				forward.x,
+				0,
+				forward.z) * 0);
+	}
+	else
+	{
+		rigidBody->GetRigidBody()->setLinearVelocity(
+			btVector3(
+				forward.x,
+				0,
+				forward.z) * velocity);
+	}
 }
 
 void RangedFastAttackBullet::SetBulletVelocity(float nVelocity)

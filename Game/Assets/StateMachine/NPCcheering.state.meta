@@ -1,0 +1,9 @@
+{
+    "UID": 7078274082897105089,
+    "Type": "StateMachine",
+    "ResourcesAssetPaths": [
+        "Assets/Animation/VenomiteCheering.Armature_CheeringAlter.anim",
+        "Assets/Animation/VenomiteCheering2.Armature_Cheering.anim",
+        "Assets/Animation/NewVenomiteMoreAnimations.Armature_Cheering.anim"
+    ]
+}

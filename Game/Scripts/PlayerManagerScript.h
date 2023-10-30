@@ -11,8 +11,9 @@ class HealthSystem;
 class PlayerAttackScript;
 class PlayerJumpScript;
 class PlayerMoveScript;
+class PlayerHackingUseScript;
+class PlayerForceUseScript;
 class DebugGame;
-class PlayerRotationScript;
 
 enum class PlayerActions
 {
@@ -32,6 +33,8 @@ public:
 
 	void Start() override;
 
+	bool InsideForceOrHackingZone();
+
 	float GetPlayerAttack() const;
 	float GetPlayerDefense() const;
 	float GetPlayerSpeed() const;
@@ -43,20 +46,28 @@ public:
 
 	void ParalyzePlayer(bool paralyzed);
 	void PausePlayer(bool paused);
+	void FullPausePlayer(bool paused);
 	void TriggerJump(bool forcedJump);
+	bool IsParalyzed() const;
+	bool IsPaused() const;
 
 	bool IsGrounded() const;
 	bool IsTeleporting() const;
-	bool IsParalyzed() const;
+	GameObject* GetMovementParticleSystem() const;
+
 	PlayerJumpScript* GetJumpManager() const;
 	PlayerMoveScript* GetMovementManager() const;
 	PlayerAttackScript* GetAttackManager() const;
+
+	void StopHackingParticles() const;
+
 	void SetPlayerSpeed(float playerSpeed);
 	PlayerActions GetPlayerState() const;
 	void SetPlayerState(PlayerActions playerState);
 
 private:
 	bool isActivePlayer;
+	bool isPaused;
 
 	ModuleInput* input;
 
@@ -65,6 +76,7 @@ private:
 	float playerDefense;
 	float playerSpeed;
 	float playerRotationSpeed;
+	btVector3 playerGravity;
 
 	// All Main PlayerManagers
 	HealthSystem* healthManager;
@@ -72,6 +84,11 @@ private:
 	PlayerJumpScript* jumpManager;
 	PlayerAttackScript* attackManager;
 	DebugGame* debugManager;
-	PlayerRotationScript* rotationManager;
+	PlayerHackingUseScript* hackingManager;
+	PlayerForceUseScript* forceManager;
+	btVector3 rigidBodyLinearVelocity;
+	btVector3 rigidBodyGravity;
 	btVector3 rigidBodyManager;
+
+	GameObject* movementParticleSystem;
 };

@@ -7,6 +7,10 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentRigidBody.h"
 
+#include "Application.h"
+#include "Modules/ModulePlayer.h"
+#include "Auxiliar/Audio/AudioData.h"
+
 #include "../Scripts/SeekBehaviourScript.h"
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/EnemyDeathScript.h"
@@ -20,11 +24,12 @@ REGISTERCLASS(EnemyMiniBossTwo);
 EnemyMiniBossTwo::EnemyMiniBossTwo() : seekScript(nullptr), bossState(MiniBossTwoBehaviours::IDLE),
 ownerTransform(nullptr), attackDistance(8.0f), boostOfEnergy(nullptr), shield(nullptr),
 componentAnimation(nullptr), componentAudioSource(nullptr), rangedAttack(nullptr), aiMovement(nullptr),
-firstShieldUsed(false), secondShieldUsed(false), seekDistance(15.0f)
+firstShieldUsed(false), secondShieldUsed(false), seekDistance(15.0f), blockedDoor(nullptr)
 {
 	REGISTER_FIELD(seekDistance, float);
 	REGISTER_FIELD(attackDistance, float);
 	REGISTER_FIELD(boostOfEnergy, BoostOfEnergy*);
+	REGISTER_FIELD(blockedDoor, GameObject*);
 }
 
 void EnemyMiniBossTwo::Start()
@@ -46,6 +51,14 @@ void EnemyMiniBossTwo::Update(float deltaTime)
 {
 	seekTargetTransform = seekScript->GetTarget()->GetComponent<ComponentTransform>();
 
+	boostOfEnergy->SetIsPaused(isPaused);
+	if (isPaused)
+	{
+		seekScript->DisableMovement();
+		rangedAttack->InterruptAttack();
+		return;
+	}
+	
 	if (healthScript && !healthScript->EntityIsAlive())
 	{
 		return;
@@ -68,7 +81,7 @@ void EnemyMiniBossTwo::CheckState()
 		componentAnimation->SetParameter("IsRunning", false);
 		componentAnimation->SetParameter("IsRangedAttacking", false);
 
-		shield->TriggerShieldAttack();
+		shield->TriggerShieldAttack(false);
 		bossState = MiniBossTwoBehaviours::SHIELD;
 	}
 	if (!secondShieldUsed && healthScript->GetCurrentHealth() <= 1.0f/3.0f*healthScript->GetMaxHealth())
@@ -80,7 +93,7 @@ void EnemyMiniBossTwo::CheckState()
 		componentAnimation->SetParameter("IsRunning", false);
 		componentAnimation->SetParameter("IsRangedAttacking", false);
 
-		shield->TriggerShieldAttack();
+		shield->TriggerShieldAttack(false);
 		bossState = MiniBossTwoBehaviours::SHIELD;
 	}
 	if (bossState == MiniBossTwoBehaviours::SHIELD)
@@ -101,8 +114,7 @@ void EnemyMiniBossTwo::CheckState()
 	{
 		if (bossState != MiniBossTwoBehaviours::IDLE)
 		{
-			aiMovement->SetMovementStatuses(false, false
-			);
+			aiMovement->SetMovementStatuses(false, false);
 			componentAnimation->SetParameter("IsRunning", false);
 			componentAnimation->SetParameter("IsRangedAttacking", false);
 
@@ -124,14 +136,7 @@ void EnemyMiniBossTwo::CheckState()
 		}
 	}
 	else 
-	{
-		if (bossState == MiniBossTwoBehaviours::SEEK)
-		{
-			seekScript->DisableMovement();
-			aiMovement->SetMovementStatuses(false, true);
-			componentAnimation->SetParameter("IsRunning", false);
-		}
-		
+	{	
 		if (bossState != MiniBossTwoBehaviours::RANGEDATTACK)
 		{
 			if (!boostOfEnergy->IsAttacking() && rangedAttack->IsAttackAvailable())
@@ -200,6 +205,8 @@ void EnemyMiniBossTwo::UpdateBehaviour(float deltaTime)
 void EnemyMiniBossTwo::SetReadyToDie()
 {
 	componentAnimation->SetParameter("IsDead", true);
-
+	App->GetModule<ModulePlayer>()->SetInBossCombat(false);
+	blockedDoor->Disable();
+	componentAudioSource->PostEvent(AUDIO::SFX::NPC::DEATH);
 	deathScript->ManageEnemyDeath();
 }

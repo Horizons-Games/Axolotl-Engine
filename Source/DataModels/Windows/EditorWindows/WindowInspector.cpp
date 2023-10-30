@@ -74,6 +74,11 @@ WindowInspector::WindowInspector() :
 		&GameObjectDoesNotHaveComponent<ComponentLight>,
 		ComponentFunctionality::GRAPHICS));
 
+	actions.push_back(AddComponentAction("Create Planar Reflection Component",
+		std::bind(&WindowInspector::AddComponentLight, this, LightType::PLANAR_REFLECTION, AreaType::NONE), 
+		&GameObjectDoesNotHaveComponent<ComponentLight>,
+		ComponentFunctionality::GRAPHICS));
+		
 	actions.emplace_back("Create Particle System Component",
 						 std::bind(&WindowInspector::AddComponentParticle, this),
 						 &GameObjectDoesNotHaveComponent<ComponentParticleSystem>,
@@ -227,13 +232,7 @@ void WindowInspector::InspectSelectedGameObject()
 			ImGui::SameLine();
 			if (ImGui::InputText("##Tag", tag.data(), 32))
 			{
-				std::string previousTag = lastSelectedGameObject->GetTag();
 				lastSelectedGameObject->SetTag(tag.c_str());
-				if (previousTag == "Player" || previousTag == "Enemy" || 
-					lastSelectedGameObject->GetTag() == "Player" || lastSelectedGameObject->GetTag() == "Enemy")
-				{
-					App->GetModule<ModuleRender>()->RelocateGOInBatches(lastSelectedGameObject);
-				}
 			}
 		}
 
@@ -382,7 +381,7 @@ void WindowInspector::DrawSkyboxOptions()
 		ImGui::SameLine();
 		std::vector<std::shared_ptr<ResourceTexture>> textures = resourceSkybox->GetTextures();
 
-		for (size_t i = 0; i < textures.size(); i++)
+		for (size_t i = 0; i < textures.size(); ++i)
 		{
 			ImGui::Text(names[i].c_str());
 			ImGui::Image(reinterpret_cast<void*>(static_cast<uintptr_t>(textures[i]->GetGlTexture())),

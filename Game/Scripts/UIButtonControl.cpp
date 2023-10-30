@@ -13,13 +13,13 @@ REGISTERCLASS(UIButtonControl);
 
 UIButtonControl::UIButtonControl() : Script(), disableObject(nullptr), enableObject(nullptr), 
 buttonComponent(nullptr), buttonHover(nullptr), isGameExit(false), isGameResume(false), 
-setUiGameManagerObject(nullptr), UIGameManagerClass(nullptr), isBackButton(false)
+setUiGameManagerObject(nullptr), UIGameManagerClass(nullptr), isOptionMenuButton(false)
 {
 	REGISTER_FIELD(enableObject, GameObject*);
 	REGISTER_FIELD(disableObject, GameObject*);
 	REGISTER_FIELD(buttonHover, GameObject*);
 	REGISTER_FIELD(setUiGameManagerObject, GameObject*);
-	REGISTER_FIELD(isBackButton, bool);
+	REGISTER_FIELD(isOptionMenuButton, bool);
 	REGISTER_FIELD(isGameResume, bool);
 	REGISTER_FIELD(isGameExit, bool);
 	REGISTER_FIELD(loadingScreenScript, SceneLoadingScript*);
@@ -31,7 +31,7 @@ void UIButtonControl::Start()
 	input = App->GetModule<ModuleInput>();
 	ui = App->GetModule<ModuleUI>();
 	
-	if (isGameResume)
+	if (isGameResume || isOptionMenuButton)
 	{
 		UIGameManagerClass = setUiGameManagerObject->GetComponent<UIGameManager>();
 	}
@@ -39,36 +39,41 @@ void UIButtonControl::Start()
 
 void UIButtonControl::Update(float deltaTime)
 {
-	if (isGameExit != false)
+	if (isGameExit)
 	{
 		if (buttonComponent->IsClicked())
 		{
 			App->SetCloseGame(true);
 		}		
 	}
-	else if (enableObject != nullptr && disableObject != nullptr)
+	else if (enableObject && disableObject)
 	{
-		if (isBackButton && input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
-		{
-			buttonComponent->SetClicked(true);
-			ui->ResetCurrentButtonIndex();
-		}
-
 		if (buttonComponent->IsClicked())
 		{
 			enableObject->Enable();
 			disableObject->Disable();
 
-			if (isGameResume != false)
+			if (isGameResume)
 			{
-				UIGameManagerClass->SetMenuIsOpen(false);
-				UIGameManagerClass->MenuIsOpen();
+				UIGameManagerClass->OpenInGameMenu(false);
+			}
+			else if (isOptionMenuButton)
+			{
+				if (!UIGameManagerClass->IsOptionMenuActive())
+				{
+					UIGameManagerClass->SetOptionMenuActive(true);
+				}
+				else
+				{
+					UIGameManagerClass->SetOptionMenuActive(false);
+				}
+				ui->ResetCurrentButtonIndex();
 			}
 		}
 	}
-	if (buttonHover != nullptr)
+	if (buttonHover)
 	{
-		if (loadingScreenScript != nullptr && buttonComponent->IsClicked())
+		if (loadingScreenScript && buttonComponent->IsClicked())
 		{
 			loadingScreenScript->StartLoad();
 		}

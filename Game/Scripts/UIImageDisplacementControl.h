@@ -17,11 +17,14 @@ public:
 	void Update(float deltaTime) override;
 
 	void MoveImageToEndPosition();
-	void MoveImageToStarPosition();
+	void SetImageToEndPosition();
+	void MoveImageToStartPosition();
+	void SetImageToStartPosition();
 	bool IsMovingToEnd() const;
 	bool IsMoving() const;
 	void SetIsMoving(bool moving);
-	void SetMovingToEnd(bool movingToEnd);
+	void SetMovingToEnd(bool movingToEnd); 
+	void SetEndPosition(float3 endPosition);
 
 private:
 	bool isMovingToEnd = false;

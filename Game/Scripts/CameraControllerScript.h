@@ -13,9 +13,6 @@ public:
 	void Start() override;
     void PreUpdate(float deltaTime) override;
 
-	void SetInCombat(bool newCombat);
-	bool IsInCombat();
-
 	void ToggleCameraState();
 	void ChangeCurrentPlayer(ComponentTransform* currentPlayer);
 
@@ -49,11 +46,6 @@ private:
 	float xFocusOffset;
 	float yFocusOffset;
 
-	bool inCombat;
 	bool stopped;
 };
 
-inline bool CameraControllerScript::IsInCombat()
-{
-	return inCombat;
-}

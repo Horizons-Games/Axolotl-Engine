@@ -2,6 +2,6 @@
     "DiffuseAssetPath": "Assets/Textures/wall_core_windows_DefaultMaterial_BaseColor.png",
     "NormalAssetPath": "Assets/Textures/wall_core_windows_DefaultMaterial_Normal.png",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/wall_core_windows_DefaultMaterial_Metallic.png",
+    "MetalicAssetPath": "",
     "EmissiveAssetPath": "Assets/Textures/wall_core_windows_DefaultMaterial_Emissive.png"
 }

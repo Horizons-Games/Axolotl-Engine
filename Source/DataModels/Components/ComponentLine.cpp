@@ -313,7 +313,7 @@ void ComponentLine::InternalLoad(const Json& meta)
 
 	Json jsonColors = meta["ColorsGradient"];
 
-	for (int i = 0; i < numberOfMarks; i++)
+	for (int i = 0; i < numberOfMarks; ++i)
 	{
 		
 		gradient->addMark(static_cast<float>(jsonColors[i]["pos"]), 

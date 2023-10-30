@@ -9,6 +9,7 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/PlayerManagerScript.h"
@@ -27,7 +28,7 @@ REGISTERCLASS(PlayerJumpScript);
 PlayerJumpScript::PlayerJumpScript() : Script(), jumpParameter(500.0f), canDoubleJump(false),
 componentAnimation(nullptr), componentAudio(nullptr), canJump(true), rigidbody(nullptr),
 coyoteTime(0.4f), isGrounded(false), attackScript(nullptr), playerManager(nullptr),
-doubleJumpAvailable(true), isFalling(false), timeSinceLastJump(0.0f), playerMove(nullptr)
+isFalling(false), timeSinceLastJump(0.0f), playerMove(nullptr)
 {
 	REGISTER_FIELD(coyoteTime, float);
 	REGISTER_FIELD(isGrounded, bool);
@@ -51,6 +52,8 @@ void PlayerJumpScript::Start()
 	attackScript = owner->GetComponent<PlayerAttackScript>();
 	playerManager = owner->GetComponent<PlayerManagerScript>();
 	playerMove = owner->GetComponent<PlayerMoveScript>();
+
+	landingParticle = playerManager->GetMovementParticleSystem()->GetChildren()[0]->GetComponent<ComponentParticleSystem>();
 }
 
 void PlayerJumpScript::PreUpdate(float deltaTime)
@@ -80,7 +83,7 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 		playerManager->GetPlayerState() != PlayerActions::DOUBLEJUMPING) ||
 		isFalling))
 	{
-		if (!isGrounded)
+		if (!isGrounded && playerManager->GetPlayerState() != PlayerActions::DASHING)
 		{
 			isGrounded = true;
 			componentAnimation->SetParameter("IsGrounded", true);
@@ -91,6 +94,7 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 			}
 			else
 			{
+				landingParticle->Play();
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FALLING_METAL);
 			}
 		}
@@ -99,6 +103,7 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 		componentAnimation->SetParameter("IsFalling", false);
 		componentAnimation->SetParameter("IsJumping", false);
 		componentAnimation->SetParameter("IsDoubleJumping", false);
+		componentAnimation->SetParameter("IsDoubleJumpingAvailable", true);
 		coyoteTimerCount = 0.0f;
 	}
 	else
@@ -116,6 +121,11 @@ void PlayerJumpScript::CheckGround(float deltaTime)
 			componentAnimation->SetParameter("IsFalling", true);
 			componentAnimation->SetParameter("IsJumping", false);
 			componentAnimation->SetParameter("IsDoubleJumping", false);
+		}
+
+		if (playerManager->GetPlayerState() == PlayerActions::DOUBLEJUMPING)
+		{
+			componentAnimation->SetParameter("IsDoubleJumpingAvailable", false);
 		}
 	}
 }
@@ -144,7 +154,6 @@ void PlayerJumpScript::Jump(float deltaTime)
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			if (playerManager->GetPlayerState() == PlayerActions::JUMPING)
 			{
-				doubleJumpAvailable = false;
 				playerManager->SetPlayerState(PlayerActions::DOUBLEJUMPING);
 				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DOUBLE_JUMP);
 				componentAnimation->SetParameter("IsJumping", false);

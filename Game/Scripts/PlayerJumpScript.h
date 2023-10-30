@@ -10,6 +10,7 @@ class GameObject;
 class ComponentAnimation;
 class ComponentAudioSource;
 class ComponentRigidBody;
+class ComponentParticleSystem;
 
 class PlayerAttackScript;
 class PlayerManagerScript;
@@ -41,7 +42,6 @@ private:
 
 	bool isFalling;
 	bool isGrounded;
-	bool doubleJumpAvailable;
 	float coyoteTime;
 	float coyoteTimerCount;
 	float jumpParameter;
@@ -53,6 +53,8 @@ private:
 	ComponentRigidBody* rigidbody;
 	ComponentAnimation* componentAnimation;
 	ComponentAudioSource* componentAudio;
+	ComponentParticleSystem* landingParticle;
+
 
 	PlayerAttackScript* attackScript;
 	PlayerManagerScript* playerManager;

@@ -63,5 +63,5 @@ private:
 	void DeregisterFileZippedCallback(UID callbackUID);
 
 	std::map<UID, FileZippedCallback> callbacks;
-	std::mutex callbacksMutex;
+	mutable std::mutex callbacksMutex;
 };

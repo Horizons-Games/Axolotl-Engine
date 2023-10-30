@@ -83,7 +83,7 @@ GeometryBatch::~GeometryBatch()
 
 	CleanUp();
 	
-	for (int i = 0; i < DOUBLE_BUFFERS; i++)
+	for (int i = 0; i < DOUBLE_BUFFERS; ++i)
 	{
 		if (gSync[i])
 		{
@@ -165,7 +165,7 @@ void GeometryBatch::FillMaterial()
 {
 	fillMaterials = false;
 
-	for (int i = 0; i < instanceData.size(); i++)
+	for (int i = 0; i < instanceData.size(); ++i)
 	{
 		int materialIndex = instanceData[i];
 		std::shared_ptr<ResourceMaterial> resourceMaterial = resourcesMaterial[materialIndex];
@@ -179,6 +179,7 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasMetallic(),
 				resourceMaterial->HasEmissive(),
+				resourceMaterial->IsReflective(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetMetalness(),
 				resourceMaterial->GetNormalStrength()
@@ -221,6 +222,7 @@ void GeometryBatch::FillMaterial()
 				resourceMaterial->HasNormal(),
 				resourceMaterial->HasSpecular(),
 				resourceMaterial->HasEmissive(),
+				resourceMaterial->IsReflective(),
 				resourceMaterial->GetSmoothness(),
 				resourceMaterial->GetNormalStrength()
 			};
@@ -266,7 +268,7 @@ void GeometryBatch::FillEBO()
 
 	for (auto info : resourcesInfo)
 	{
-		for (unsigned int i = 0; i < info->resourceMesh->GetNumFaces(); i++)
+		for (unsigned int i = 0; i < info->resourceMesh->GetNumFaces(); ++i)
 		{
 			assert(info->resourceMesh->GetFacesIndices()[i].size() == 3); // note: assume triangles = 3 indices per face
 			*(indices++) = info->resourceMesh->GetFacesIndices()[i][0];
@@ -357,7 +359,7 @@ void GeometryBatch::CreateVAO()
 	glBindBuffer(GL_DRAW_INDIRECT_BUFFER, indirectBuffer);
 	//glBufferData(GL_DRAW_INDIRECT_BUFFER, 0 * sizeof(Command), nullptr, GL_DYNAMIC_DRAW);
 
-	for (int i = 0; i < DOUBLE_BUFFERS; i++)
+	for (int i = 0; i < DOUBLE_BUFFERS; ++i)
 	{
 		if (transforms[i] == 0)
 		{
@@ -425,7 +427,7 @@ void GeometryBatch::CreateVAO()
 	}
 
 	// Palettes
-	for (int i = 0; i < DOUBLE_BUFFERS; i++)
+	for (int i = 0; i < DOUBLE_BUFFERS; ++i)
 	{
 		if (palettes[i] == 0)
 		{
@@ -541,7 +543,7 @@ void GeometryBatch::DeleteComponent(ComponentMeshRenderer* componentToDelete)
 	if (!findMesh)
 	{
 #ifdef ENGINE
-		for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); it++) {
+		for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); ++it) {
 			if ((*it)->resourceMesh == componentToDelete->GetMesh())
 			{
 				delete (*it);
@@ -598,7 +600,7 @@ std::vector<ComponentMeshRenderer*> GeometryBatch::ChangeBatch(const ComponentMe
 		if (findMaterial)
 		{
 			componentToMove.push_back(compare);
-			for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); it++)
+			for (auto it = resourcesInfo.begin(); it != resourcesInfo.end(); ++it)
 			{
 				if ((*it)->resourceMesh == compare->GetMesh())
 				{
@@ -775,7 +777,7 @@ void GeometryBatch::BindBatch(bool selected)
 					memcpy(&tilingData[paletteIndex], &tiling, sizeof(Tiling));
 				}
 
-				Effect effect(component->GetEffectColor(), static_cast<int>(component->IsDiscarded())); AXO_TODO("Change")
+				Effect effect(component->GetEffectColor(), static_cast<int>(component->IsDiscarded()));
 				memcpy(&effectData[paletteIndex], &effect, sizeof(Effect));
 
 				//do a for for all the instaces existing

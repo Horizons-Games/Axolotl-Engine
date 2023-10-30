@@ -23,4 +23,6 @@ private:
 	ComponentAudioSource* componentAudio;
 	ComponentRigidBody* componentRigidBody;
 	float enemiesToDefeat;
+	bool isBoss;
+	bool fightStraightAway;
 };

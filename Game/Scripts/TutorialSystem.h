@@ -15,8 +15,7 @@ class ComponentVideo;
 class ComponentTransform2D;
 class UIImageDisplacementControl;
 class HealthSystem;
-
-
+class PlayerMoveScript;
 
 class TutorialSystem : public Script
 {
@@ -31,8 +30,10 @@ public:
 	void DeployUI();
 	void UnDeployUI();
 	void TutorialEnd();
+	void TutorialSkip();
 	int GetTutorialCurrentState() const;
 	float GetNumControllableState() const;
+	void SetNumControllableState(int controllableState);
 
 	int GetTutorialSlideSize() const;
 	void SetTutorialSlideSize(int tutorialTotalStates);
@@ -50,10 +51,13 @@ private:
 	std::vector<GameObject*> tutorialUI;
 	GameObject* currentTutorialUI;
 	GameObject* NextTutorialUI;
+	GameObject* player;
 	GameObject* dummy;
 	HealthSystem* dummyHealthSystem;
+	PlayerMoveScript* componentMoveScript;
 
 	float3 initialPos;
+	float3 stayPos;
 
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;

@@ -19,12 +19,10 @@ UIHackingManager::UIHackingManager() : Script()
 
 void UIHackingManager::Init()
 {
-	inputPositions.push_back(owner->GetChildren()[0]->GetChildren()[0]);
-	inputPositions.push_back(owner->GetChildren()[0]->GetChildren()[1]);
-	inputPositions.push_back(owner->GetChildren()[0]->GetChildren()[2]);
-	inputPositions.push_back(owner->GetChildren()[0]->GetChildren()[3]);
-	inputPositions.push_back(owner->GetChildren()[0]->GetChildren()[4]);
-	inputPositions.push_back(owner->GetChildren()[0]->GetChildren()[5]);
+	for (int i = 0; i < 6; ++i)
+	{
+		inputPositions.push_back(owner->GetChildren()[0]->GetChildren()[i]);
+	}
 }
 
 void UIHackingManager::AddInputVisuals(HackingCommandType type)
@@ -53,7 +51,7 @@ void UIHackingManager::AddInputVisuals(HackingCommandType type)
 		newInput->Enable();
 
 		inputVisuals.push_front(newInput);
-		for (int i = 1; i < inputVisuals.size(); i++)
+		for (int i = 1; i < inputVisuals.size(); ++i)
 		{
 			inputVisuals[i]->SetParent(inputPositions[i]);
 		}

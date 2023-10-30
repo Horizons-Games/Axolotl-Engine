@@ -6,12 +6,15 @@
 
 REGISTERCLASS(AnimatedTexture);
 
-AnimatedTexture::AnimatedTexture() : Script(), movementX(0.004f), movementY(0.004f), maxOffsetX(1.0f), maxOffsetY(1.0f)
+AnimatedTexture::AnimatedTexture() : Script(), movementX(0.004f), movementY(0.004f), maxOffsetX(1.0f), maxOffsetY(1.0f), 
+activeTimer(false), waitTimer(0.0f), waitTimerCount(0.0f)
 {
 	REGISTER_FIELD(movementX, float);
 	REGISTER_FIELD(movementY, float);
 	REGISTER_FIELD(maxOffsetX, float);
 	REGISTER_FIELD(maxOffsetY, float);
+	REGISTER_FIELD(activeTimer, bool);
+	REGISTER_FIELD(waitTimer, float);
 }
 
 void AnimatedTexture::Start()
@@ -23,6 +26,12 @@ void AnimatedTexture::Start()
 
 void AnimatedTexture::Update(float deltaTime)
 {
+	if (activeTimer && waitTimerCount > 0.0f)
+	{
+		waitTimerCount -= deltaTime;
+		return;
+	}
+
 	currentOffsetX += movementX;
 	if (maxOffsetX < currentOffsetX)
 	{
@@ -34,4 +43,9 @@ void AnimatedTexture::Update(float deltaTime)
 		currentOffsetY = 0.f;
 	} 
 	mesh->SetOffset(float2(currentOffsetX, currentOffsetY));
+
+	if (activeTimer) 
+	{
+		waitTimerCount = waitTimer;
+	}
 }

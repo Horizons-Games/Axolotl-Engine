@@ -10,6 +10,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentPlayer;
 class ComponentSlider;
 class HealthSystem;
+class ModuleUI;
 
 class UIGameManager : public Script
 {
@@ -20,25 +21,30 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void SetMenuIsOpen(bool menuState);
-	void MenuIsOpen();
+	void OpenInGameMenu(bool openMenu);
+	bool IsOpenInGameMenu() const;
+	void SetOptionMenuActive(bool optionMenuOpen);
+	bool IsOptionMenuActive() const;
+
+	void LoseGameState(float deltaTime);
+	void WinGameState();
 
 	void EnableUIPwrUp(enum class PowerUpType pwrUp);
 	void ActiveUIPwrUP(float currentPowerUpTimer);
 	void ActiveSliderUIPwrUP(float time);
 	void DisableUIPwrUP();
 
-	void ModifySliderHealthValue(HealthSystem* healthSystemClass, ComponentSlider* componentSliderFront, ComponentSlider* componentSliderBack);
-
+	void ModifySliderHealthValue(HealthSystem* healthSystemClass, ComponentSlider* componentSliderFront,
+								ComponentSlider* componentSliderBack, float deltaTime);
 	void SetMaxPowerUpTime(float maxPowerUpTime);
-
 	void InputMethodImg(bool input);
 
 protected:
 	enum class PowerUpType savePwrUp;
 	enum class PowerUpType activePwrUp;
 
-	bool menuIsOpen;
+	bool inGameMenuActive;
+	bool optionMenuActive;
 	bool pwrUpActive;
 	bool inputMethod;
 	bool prevInputMethod;
@@ -51,6 +57,7 @@ protected:
 	float maxSliderValue = 0.0f;
 	float uiTime = 0.0f;
 	float currentInputTime = 0.0f;
+	float gameOverTimer = 0.0f;
 
 	int selectedPositon = -1;
 
@@ -59,6 +66,9 @@ protected:
 	GameObject* debugModeObject;
 	GameObject* imgMouse;
 	GameObject* imgController;
+
+	GameObject* gameStates;
+	std::string loadRetryScene;
 
 	GameObject* sliderHudHealthBixFront;
 	GameObject* sliderHudHealthBixBack;
@@ -74,6 +84,7 @@ protected:
 	ComponentPlayer* player;
 	ComponentPlayer* secondPlayer;
 	ModuleInput* input;
+	ModuleUI* ui;
 	ComponentSlider* componentSliderPlayerFront;
 	ComponentSlider* componentSliderPlayerBack;
 	ComponentSlider* componentSliderSecondPlayerFront;

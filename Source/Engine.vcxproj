@@ -91,7 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>ENGINE;DEBUG;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);PAR_SHAPES_IMPLEMENTATION</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\Scripting;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\wwise\include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick;..\External\Bullet\include;..\External\recastnavigation</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\Scripting;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\wwise\include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick;..\External\Bullet\include;..\External\recast\include\DebugUtils;..\External\recast\include\Detour;..\External\recast\include\DetourCrowd;..\External\recast\include\DetourTileCache;..\External\recast\include\Recast;..\External\libav\include;..\External\recastnavigation</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatSpecificWarningsAsErrors>4834</TreatSpecificWarningsAsErrors>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -101,8 +101,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>.\x64\$(Configuration);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ExternalDependencies.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\x64\$(Configuration);..\External\libav\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>avcodec.lib;avformat.lib;avutil.lib;swscale.lib;swresample.lib;ExternalDependencies.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
@@ -111,7 +111,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>DEBUG;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);PAR_SHAPES_IMPLEMENTATION</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\Scripting;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\wwise\include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick;..\External\Bullet\include;..\External\recastnavigation</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\Scripting;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\wwise\include;..\External\rapidjson\include;..\External\physfs\src;..\External\Zip\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Optick;..\External\Bullet\include;..\External\recast\include\DebugUtils;..\External\recast\include\Detour;..\External\recast\include\DetourCrowd;..\External\recast\include\DetourTileCache;..\External\recast\include\Recast;..\External\libav\include;..\External\recastnavigation</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatSpecificWarningsAsErrors>4834</TreatSpecificWarningsAsErrors>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -133,7 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>AK_OPTIMIZED;ENGINE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;NDEBUG;_CONSOLE;PAR_SHAPES_IMPLEMENTATION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\Scripting;..\Source\FileSystem;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\wwise\include;..\External\physfs\src;..\External\Zip\include;..\External\rapidjson\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Bullet\include;..\External\recastnavigation</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\Scripting;..\Source\FileSystem;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\wwise\include;..\External\physfs\src;..\External\Zip\include;..\External\rapidjson\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Bullet\include;..\External\recast\include\DebugUtils;..\External\recast\include\Detour;..\External\recast\include\DetourCrowd;..\External\recast\include\DetourTileCache;..\External\recast\include\Recast;..\External\libav\include;..\External\recastnavigation</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatSpecificWarningsAsErrors>4834</TreatSpecificWarningsAsErrors>
@@ -146,8 +146,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>.\x64\$(Configuration);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ExternalDependencies.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\x64\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ExternalDependencies.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
@@ -158,7 +158,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>AK_OPTIMIZED;NOMINMAX;_CRT_SECURE_NO_WARNINGS;_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);PAR_SHAPES_IMPLEMENTATION</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\Scripting;..\Source\FileSystem;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\wwise\include;..\External\physfs\src;..\External\Zip\include;..\External\rapidjson\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Bullet\include;..\External\recastnavigation</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\Source\DataModels;..\Source\Modules;..\Source\Scripting;..\Source\FileSystem;..\External\;..\External\DirectXTex;..\External\ImGui;..\External\glew-2.1.0\include;..\External\SDL\include;..\External\MathGeoLib\Include;..\External\wwise\include;..\External\physfs\src;..\External\Zip\include;..\External\rapidjson\include;..\External\RuntimeCompiler\Include;..\External\RuntimeObjectSystem;..\External\Bullet\include;..\External\recast\include\DebugUtils;..\External\recast\include\Detour;..\External\recast\include\DetourCrowd;..\External\recast\include\DetourTileCache;..\External\recast\include\Recast;..\External\libav\include;..\External\recastnavigation</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatSpecificWarningsAsErrors>4834</TreatSpecificWarningsAsErrors>
@@ -171,8 +171,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>.\x64\$(Configuration);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ExternalDependencies.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\x64\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ExternalDependencies.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -182,11 +182,14 @@
     <ClCompile Include="..\Game\Scripts\BoostOfEnergy.cpp" />
     <ClCompile Include="..\Game\Scripts\BossChargeAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossChargeRockScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\BossLevelElevator.cpp" />
     <ClCompile Include="..\Game\Scripts\BossMissilesAttackScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossMissilesMissileScript.cpp" />
     <ClCompile Include="..\Game\Scripts\BossMusic.cpp" />
     <ClCompile Include="..\Game\Scripts\BossShieldAttackScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\BossShieldEnemiesSpawner.cpp" />
     <ClCompile Include="..\Game\Scripts\BossShieldScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\BossWallChecker.cpp" />
     <ClCompile Include="..\Game\Scripts\CombatTutorial.cpp" />
     <ClCompile Include="..\Game\Scripts\CameraBossControllerScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp" />
@@ -201,9 +204,12 @@
     <ClCompile Include="..\Game\Scripts\EnemyMiniBossTwo.cpp" />
     <ClCompile Include="..\Game\Scripts\EntityDetection.cpp" />
     <ClCompile Include="..\Game\Scripts\FinalBossScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\FireMovingObstacle.cpp" />
+    <ClCompile Include="..\Game\Scripts\ForceTrigger.cpp" />
+    <ClCompile Include="..\Game\Scripts\GeneratorSpaceStationAudio.cpp" />
     <ClCompile Include="..\Game\Scripts\HackingCommand.cpp" />
+    <ClCompile Include="..\Game\Scripts\HackingMachineAudio.cpp" />
     <ClCompile Include="..\Game\Scripts\HackZoneScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\ForceZoneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\HeavyFinisherAttack.cpp" />
     <ClCompile Include="..\Game\Scripts\LightAttackBullet.cpp" />
     <ClCompile Include="..\Game\Scripts\LightFinisherAttackScript.cpp" />
@@ -239,9 +245,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\MinMaxForce.cpp" />
-    <ClCompile Include="..\Game\Scripts\MultipleFireObstacle.cpp" />
     <ClCompile Include="..\Game\Scripts\ParticleBillboardAssistance.cpp" />
     <ClCompile Include="..\Game\Scripts\PathBehaviourScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\PauseManager.cpp" />
     <ClCompile Include="..\Game\Scripts\PlayerAttackScript.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -322,16 +328,14 @@
     <ClCompile Include="..\Game\Scripts\SendTriggerCollision.cpp" />
     <ClCompile Include="..\Game\Scripts\ShockWaveAttackAreaScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ShockWaveAttackScript.cpp" />
-    <ClCompile Include="..\Game\Scripts\SpaceshipDeathManager.cpp" />
-    <ClCompile Include="..\Game\Scripts\SpaceshipMovement.cpp" />
-    <ClCompile Include="..\Game\Scripts\SpaceshipObstacle.cpp" />
-    <ClCompile Include="..\Game\Scripts\SwitchTutorial.cpp" />
     <ClCompile Include="..\Game\Scripts\SpaceshipEscapeMusic.cpp" />
     <ClCompile Include="..\Game\Scripts\SpaceStationMusic.cpp" />
-    <ClCompile Include="..\Game\Scripts\TurbineObstacle.cpp" />
+    <ClCompile Include="..\Game\Scripts\SwitchTutorial.cpp" />
     <ClCompile Include="..\Game\Scripts\TurbineSewersAudio.cpp" />
+    <ClCompile Include="..\Game\Scripts\TurnDisable.cpp" />
     <ClCompile Include="..\Game\Scripts\TutorialSystem.cpp" />
     <ClCompile Include="..\Game\Scripts\SwitchPlayerManagerScript.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIApearDisapear.cpp" />
     <ClCompile Include="..\Game\Scripts\UIButtonControl.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -404,12 +408,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\PlayerRotationScript.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="..\Game\Scripts\SeekBehaviourScript.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">NotUsing</PrecompiledHeader>
@@ -417,8 +415,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UIComboManager.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIEnemyBar.cpp" />
     <ClCompile Include="..\Game\Scripts\UIGameManager.cpp" />
-    <ClCompile Include="..\Game\Scripts\UIGameManagerSpaceship.cpp" />
     <ClCompile Include="..\Game\Scripts\UIHackingManager.cpp" />
     <ClCompile Include="..\Game\Scripts\UIImageDisplacementControl.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
@@ -449,10 +447,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UITriggerEnemyBar.cpp" />
     <ClCompile Include="..\Game\Scripts\WaterfallAudio.cpp" />
+    <ClCompile Include="..\Game\Scripts\WaypointStateScript.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Auxiliar\Utils\UtilBlur.cpp" />
     <ClCompile Include="DataModels\Components\ComponentAgent.cpp" />
     <ClCompile Include="DataModels\Components\ComponentObstacle.cpp" />
+    <ClCompile Include="DataModels\Components\ComponentPlanarReflection.cpp" />
     <ClCompile Include="DataModels\PostProcess\SSAO.cpp" />
     <ClCompile Include="DataModels\Render\Shadows.cpp" />
     <ClCompile Include="DataModels\Resources\ResourceNavMesh.cpp" />
@@ -465,6 +467,12 @@
     <ClCompile Include="DataModels\Components\ComponentLocalIBL.cpp" />
     <ClCompile Include="DataModels\Components\ComponentSkybox.cpp" />
     <ClCompile Include="DataModels\Components\UI\ComponentSlider.cpp" />
+    <ClCompile Include="DataModels\Components\UI\ComponentVideo.cpp" />
+    <ClCompile Include="DataModels\Resources\ResourceVideo.cpp" />
+    <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowVideoInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="DataModels\Schedulable\Schedulable.cpp" />
     <ClCompile Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowCubemapInput.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -539,6 +547,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPlanarReflection.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSkybox.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -548,6 +560,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSlider.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentVideo.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -806,6 +822,7 @@
     <ClCompile Include="FileSystem\Importers\SkyBoxImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\StateMachineImporter.cpp" />
     <ClCompile Include="FileSystem\Importers\TextureImporter.cpp" />
+    <ClCompile Include="FileSystem\Importers\VideoImporter.cpp" />
     <ClCompile Include="FileSystem\Json.cpp" />
     <ClCompile Include="FileSystem\ModuleFileSystem.cpp" />
     <ClCompile Include="FileSystem\ModuleResources.cpp" />
@@ -896,11 +913,14 @@
     <ClInclude Include="..\Game\Scripts\BoostOfEnergy.h" />
     <ClInclude Include="..\Game\Scripts\BossChargeAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\BossChargeRockScript.h" />
+    <ClInclude Include="..\Game\Scripts\BossLevelElevator.h" />
     <ClInclude Include="..\Game\Scripts\BossMissilesAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\BossMissilesMissileScript.h" />
     <ClInclude Include="..\Game\Scripts\BossMusic.h" />
     <ClInclude Include="..\Game\Scripts\BossShieldAttackScript.h" />
+    <ClInclude Include="..\Game\Scripts\BossShieldEnemiesSpawner.h" />
     <ClInclude Include="..\Game\Scripts\BossShieldScript.h" />
+    <ClInclude Include="..\Game\Scripts\BossWallChecker.h" />
     <ClInclude Include="..\Game\Scripts\CombatTutorial.h" />
     <ClInclude Include="..\Game\Scripts\CameraBossControllerScript.h" />
     <ClInclude Include="..\Game\Scripts\CombatZoneScript.h" />
@@ -910,9 +930,12 @@
     <ClInclude Include="..\Game\Scripts\EnemyMiniBossTwo.h" />
     <ClInclude Include="..\Game\Scripts\EntityDetection.h" />
     <ClInclude Include="..\Game\Scripts\FinalBossScript.h" />
-    <ClInclude Include="..\Game\Scripts\FireMovingObstacle.h" />
+    <ClInclude Include="..\Game\Scripts\ForceTrigger.h" />
+    <ClInclude Include="..\Game\Scripts\GeneratorSpaceStationAudio.h" />
     <ClInclude Include="..\Game\Scripts\HackingCommand.h" />
+    <ClInclude Include="..\Game\Scripts\HackingMachineAudio.h" />
     <ClInclude Include="..\Game\Scripts\HackZoneScript.h" />
+    <ClInclude Include="..\Game\Scripts\ForceZoneScript.h" />
     <ClInclude Include="..\Game\Scripts\HeavyFinisherAttack.h" />
     <ClInclude Include="..\Game\Scripts\LightAttackBullet.h" />
     <ClInclude Include="..\Game\Scripts\LightFinisherAttackScript.h" />
@@ -923,9 +946,9 @@
     <ClInclude Include="..\Game\Scripts\EnemyVenomiteScript.h" />
     <ClInclude Include="..\Game\Scripts\CameraControllerScript.h" />
     <ClInclude Include="..\Game\Scripts\MinMaxForce.h" />
-    <ClInclude Include="..\Game\Scripts\MultipleFireObstacle.h" />
     <ClInclude Include="..\Game\Scripts\ParticleBillboardAssistance.h" />
     <ClInclude Include="..\Game\Scripts\PathBehaviourScript.h" />
+    <ClInclude Include="..\Game\Scripts\PauseManager.h" />
     <ClInclude Include="..\Game\Scripts\PlayerAttackScript.h" />
     <ClInclude Include="..\Game\Scripts\ButtonSoundScript.h" />
     <ClInclude Include="..\Game\Scripts\CantinaMusicScript.h" />
@@ -948,16 +971,14 @@
     <ClInclude Include="..\Game\Scripts\SendTriggerCollision.h" />
     <ClInclude Include="..\Game\Scripts\ShockWaveAttackAreaScript.h" />
     <ClInclude Include="..\Game\Scripts\ShockWaveAttackScript.h" />
-    <ClInclude Include="..\Game\Scripts\SpaceshipDeathManager.h" />
-    <ClInclude Include="..\Game\Scripts\SpaceshipMovement.h" />
-    <ClInclude Include="..\Game\Scripts\SpaceshipObstacle.h" />
-    <ClInclude Include="..\Game\Scripts\SwitchTutorial.h" />
     <ClInclude Include="..\Game\Scripts\SpaceshipEscapeMusic.h" />
     <ClInclude Include="..\Game\Scripts\SpaceStationMusic.h" />
-    <ClInclude Include="..\Game\Scripts\TurbineObstacle.h" />
+    <ClInclude Include="..\Game\Scripts\SwitchTutorial.h" />
     <ClInclude Include="..\Game\Scripts\TurbineSewersAudio.h" />
+    <ClInclude Include="..\Game\Scripts\TurnDisable.h" />
     <ClInclude Include="..\Game\Scripts\TutorialSystem.h" />
     <ClInclude Include="..\Game\Scripts\SwitchPlayerManagerScript.h" />
+    <ClInclude Include="..\Game\Scripts\UIApearDisapear.h" />
     <ClInclude Include="..\Game\Scripts\UIButtonControl.h" />
     <ClInclude Include="..\Game\Scripts\RangedFastAttackBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\RangedFastAttackBullet.h" />
@@ -969,11 +990,10 @@
     <ClInclude Include="..\Game\Scripts\PlayerForceUseScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerJumpScript.h" />
     <ClInclude Include="..\Game\Scripts\PlayerMoveScript.h" />
-    <ClInclude Include="..\Game\Scripts\PlayerRotationScript.h" />
     <ClInclude Include="..\Game\Scripts\SeekBehaviourScript.h" />
     <ClInclude Include="..\Game\Scripts\UIComboManager.h" />
+    <ClInclude Include="..\Game\Scripts\UIEnemyBar.h" />
     <ClInclude Include="..\Game\Scripts\UIGameManager.h" />
-    <ClInclude Include="..\Game\Scripts\UIGameManagerSpaceship.h" />
     <ClInclude Include="..\Game\Scripts\UIHackingManager.h" />
     <ClInclude Include="..\Game\Scripts\UIImageDisplacementControl.h" />
     <ClInclude Include="..\Game\Scripts\UILoadSavedSettings.h" />
@@ -984,12 +1004,15 @@
     <ClInclude Include="..\Game\Scripts\UITrigger.h" />
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusic.h" />
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusicExit.h" />
+    <ClInclude Include="..\Game\Scripts\UITriggerEnemyBar.h" />
     <ClInclude Include="..\Game\Scripts\WaterfallAudio.h" />
+    <ClInclude Include="..\Game\Scripts\WaypointStateScript.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Auxiliar\AddComponentAction.h" />
     <ClInclude Include="Auxiliar\SceneLoader.h" />
     <ClInclude Include="Auxiliar\Audio\AudioData.h" />
     <ClInclude Include="Auxiliar\ConnectedCallback.h" />
+    <ClInclude Include="Auxiliar\Utils\UtilBlur.h" />
     <ClInclude Include="DataModels\Components\ComponentAgent.h" />
     <ClInclude Include="DataModels\Components\ComponentObstacle.h" />
     <ClInclude Include="DataModels\Animation\StateMachine.h" />
@@ -1012,6 +1035,9 @@
     <ClInclude Include="Auxiliar\Generics\Drawable.h" />
     <ClInclude Include="Auxiliar\Generics\Updatable.h" />
     <ClInclude Include="Auxiliar\Utils\ConvertU8String.h" />
+    <ClInclude Include="DataModels\Components\ComponentPlanarReflection.h" />
+    <ClInclude Include="DataModels\Components\UI\ComponentVideo.h" />
+    <ClInclude Include="DataModels\Resources\ResourceVideo.h" />
     <ClInclude Include="DataModels\Components\ComponentSkybox.h" />
     <ClInclude Include="DataModels\Components\ComponentRender.h" />
     <ClInclude Include="DataModels\Components\ComponentTrail.h" />
@@ -1036,6 +1062,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Components\UI\ComponentSlider.h" />
+    <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowVideoInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowSkyboxInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -1076,6 +1106,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentPlanarReflection.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSkybox.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
@@ -1085,6 +1119,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentSlider.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentVideo.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -1169,10 +1207,8 @@
     <ClInclude Include="DataModels\Resources\ResourceTexture.h" />
     <ClInclude Include="DataModels\Timer\Timer.h" />
     <ClInclude Include="DataModels\Windows\EditorWindows\EditorWindow.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">
-      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseGame|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="DataModels\Windows\EditorWindows\ImporterWindows\WindowImportScene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
@@ -1393,6 +1429,7 @@
     <ClInclude Include="FileSystem\Importers\SkyBoxImporter.h" />
     <ClInclude Include="FileSystem\Importers\StateMachineImporter.h" />
     <ClInclude Include="FileSystem\Importers\TextureImporter.h" />
+    <ClInclude Include="FileSystem\Importers\VideoImporter.h" />
     <ClInclude Include="FileSystem\Json.h" />
     <ClInclude Include="FileSystem\ModuleFileSystem.h" />
     <ClInclude Include="FileSystem\ModuleResources.h" />

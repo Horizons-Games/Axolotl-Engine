@@ -5,7 +5,7 @@
 namespace
 {
 const std::vector<size_t> consoleLineLengths{ 10U, 25U, 50U, 100U };
-std::optional<size_t> selectedMaxLinesIndex = std::nullopt;
+std::optional<size_t> selectedMaxLinesIndex = 3U; // default to 50 lines max
 } // namespace
 
 WindowConsole::WindowConsole() : EditorWindow("Console")

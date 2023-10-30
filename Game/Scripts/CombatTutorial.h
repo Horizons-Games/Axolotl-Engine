@@ -13,6 +13,12 @@ class ComponentRigidBody;
 class TutorialSystem;
 class HealthSystem;
 class ModuleInput;
+class PlayerMoveScript;
+class JumpFinisherAttack;
+class HeavyFinisherAttack;
+class LightFinisherAttackScript;
+class ComboManager;
+class PlayerAttackScript;
 	
 
 
@@ -26,7 +32,6 @@ public:
 	void Update(float deltaTime) override;
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void OnCollisionExit(ComponentRigidBody* other) override;
-	
 
 private:
 
@@ -34,21 +39,30 @@ private:
 	bool tutorialActivable;
 	bool nextStateActive;
 	bool tutorialFinished;
+	bool normalAttacksEnded;
 	float finalWaitTime;
 	float finalTotalWaitTime;
 
 	GameObject* player;
 	GameObject* combatTutorialUI;
 	GameObject* debugPowerUp;
+	GameObject* door;
 	
 
 	ModuleInput* input;
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;
 	ComponentRigidBody* componentRigidBody;
+	ComponentRigidBody* doorRigidbody;
+	PlayerMoveScript* componentMoveScript;
 
 	TutorialSystem* tutorialUI;
 	HealthSystem* dummyHealthSystem;
+	JumpFinisherAttack* jumpAttack;
+	HeavyFinisherAttack* heavyFinisher;
+	LightFinisherAttackScript* lightFinisher;
+	ComboManager* comboSystem;
+	PlayerAttackScript* playerAttack;
 
 	GameObject* combatDummy;
 };

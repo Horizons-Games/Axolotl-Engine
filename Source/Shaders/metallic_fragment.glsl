@@ -9,24 +9,11 @@
 
 #include "/Common/Structs/lights.glsl"
 
+#include "/Common/Structs/materials.glsl"
+
 #include "/Common/Structs/effect.glsl"
 
 #include "/Common/Structs/tiling.glsl"
-
-struct Material {
-    vec4 diffuse_color;         //0 //16
-    int has_diffuse_map;        //16 //4
-    int has_normal_map;         //20 //4
-    int has_metallic_map;       //24 //4
-    int has_emissive_map;       //28 //4
-    float smoothness;           //32 //4
-    float metalness;            //36 //4
-    float normal_strength;      //40 //4
-    sampler2D diffuse_map;      //48 //8
-    sampler2D normal_map;       //56 //8
-    sampler2D metallic_map;     //64 //8 
-    sampler2D emissive_map;     //72 //8 --> 80
-};
 
 layout(std140, binding=1) uniform Directional
 {
@@ -35,7 +22,7 @@ layout(std140, binding=1) uniform Directional
 };
 
 readonly layout(std430, binding = 11) buffer Materials {
-    Material materials[];
+    MetallicMaterial materials[];
 };
 
 readonly layout(std430, binding = 12) buffer Tilings {
@@ -80,7 +67,7 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
   
 void main()
 {
-    Material material = materials[InstanceIndex];
+    MetallicMaterial material = materials[InstanceIndex];
     Effect effect = effects[InstanceIndex];
 
     if (effect.discardFrag == 1)
@@ -103,7 +90,7 @@ void main()
         textureMat = texture(material.diffuse_map, newTexCoord);
     }
     textureMat = SRGBA(textureMat);
-    textureMat.rgb += effect.color;
+    textureMat += effect.color;
     
     if(textureMat.a < 0.01)
     {
@@ -147,7 +134,7 @@ void main()
     vec3 R = reflect(-viewDir, norm);
     float NdotV = max(dot(norm, viewDir), EPSILON);
     vec3 ambient = GetAmbientLight(norm, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, environmentBRDF, 
-        numLevels_IBL) * cubemap_intensity;
+        numLevels_IBL, vec4(0)) * cubemap_intensity;
     vec3 color = ambient + Lo;
     
     //Emissive

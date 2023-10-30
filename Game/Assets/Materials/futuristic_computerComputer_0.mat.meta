@@ -4,7 +4,7 @@
     "DiffuseAssetPath": "Assets/Textures/futuristic_computer_Material_BaseColor.png",
     "NormalAssetPath": "Assets/Textures/futuristic_computer_Material_Normal.png",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/futuristic_computer_Material_Metallic.png",
+    "MetalicAssetPath": "",
     "EmissiveAssetPath": "",
     "shaderType": 0,
     "diffuseColor_x": 1.0,
@@ -15,11 +15,13 @@
     "specularColor_y": 0.30000001192092896,
     "specularColor_z": 0.5,
     "normalStrength": 1.0,
-    "smoothness": 0.5,
+    "smoothness": 0.7599999904632568,
     "metalness": 0.0,
     "isTransparent": false,
     "tilingx": 1.0,
     "tilingy": 1.0,
     "offsetx": 0.0,
-    "offsety": 0.0
+    "offsety": 0.0,
+    "percentagex": 100.0,
+    "percentagey": 100.0
 }

@@ -7,6 +7,9 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform;
 class ComponentRigidBody;
+class ComponentAnimation;
+class ComponentAudioSource;
+
 class FinalBossScript;
 
 enum class AttackState
@@ -33,6 +36,7 @@ public:
 	bool CanPerformMissilesAttack() const;
 
 	bool IsAttacking() const;
+	void SetIsPaused(bool isPaused);
 
 private:
 	void SwapBetweenAttackStates(float deltaTime);
@@ -47,21 +51,26 @@ private:
 
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* transform;
+	ComponentAnimation* animator;
+	ComponentAudioSource* audioSource;
 	FinalBossScript* finalBossScript;
 
 	float3 initialPosition;
-	float3 midJumpPosition;
+	float3 midJumpPositionStart;
+	float3 midJumpPositionBack;
 
 	AttackState missilesAttackState;
 
 	float missileAttackDuration;
 	float missileAttackCooldown;
-	float missileSpawnTime;
+	float timeSinceLastMissile;
 
 	ComponentTransform* safePositionSelected;
+	ComponentTransform* backPositionSelected;
 
 	//Modifiable values
-	std::vector<ComponentTransform*> safePositionsTransforms;
+	std::vector<ComponentTransform*> safePositionsTransforms; // Places to where the boss jumps for the attack
+	std::vector<ComponentTransform*> backPositionsTransforms; // Places to where the boss gets back after the attack
 	ComponentRigidBody* battleArenaAreaSize;
 
 	float missileAttackMaxDuration;
@@ -70,4 +79,5 @@ private:
 	float missileSpawningHeight;
 
 	GameObject* missilePrefab;
+	bool isPaused;
 };

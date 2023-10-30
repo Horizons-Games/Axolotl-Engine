@@ -25,7 +25,6 @@ void WindowComponentImage::DrawWindowContents()
 	DrawEnableAndDeleteComponent();
 	ImGui::Text("");
 	ComponentImage* asImage = static_cast<ComponentImage*>(component);
-
 	if (!asImage)
 	{
 		return;

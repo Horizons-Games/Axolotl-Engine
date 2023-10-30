@@ -66,6 +66,10 @@ void UITrigger::Update(float deltaTime)
 	if (setPlayer != modulePlayer->GetPlayer())
 	{
 		setPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
+		if (isLoseByDamage)
+		{
+			playerHealthSystem = setPlayer->GetComponent<HealthSystem>();
+		}
 	}
 
 	if(onTriggerState)
@@ -91,14 +95,7 @@ void UITrigger::Update(float deltaTime)
 		}
 		else if (isNextSceneTrigger)
 		{
-			if (App->GetModule<ModuleScene>()->GetLoadedScene()->GetRoot()->GetName() == "SpaceshipLevel")
-			{
-				App->GetModule<ModuleScene>()->LoadScene("Lib/Scenes/_LEVEL02_ALFA.axolotl");
-			}
-			else
-			{
-				App->GetModule<ModuleScene>()->LoadScene("Lib/Scenes/SpaceshipLevel.axolotl");
-			}
+			//App->GetModule<ModuleScene>()->LoadScene("Lib/Scenes/_LEVEL02_ALFA.axolotl");
 		}
 	}
 }

@@ -45,7 +45,7 @@ void WindowComponentPointLight::DrawWindowContents()
 
 			if (ImGui::BeginCombo("##combo", currentType))
 			{
-				for (int i = 0; i < IM_ARRAYSIZE(lightTypes); i++)
+				for (int i = 0; i < IM_ARRAYSIZE(lightTypes); ++i)
 				{
 					bool isSelected = (currentType == lightTypes[i]);
 
