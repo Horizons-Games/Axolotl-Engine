@@ -125,6 +125,9 @@ void LightAttackBullet::Update(float deltaTime)
 void LightAttackBullet::StartMoving()
 {
 	rigidBody->Enable();
+
+	RepositionBullet();
+
 	rigidBody->SetDefaultPosition();
 	rigidBody->SetUseRotationController(true);
 
@@ -138,7 +141,6 @@ void LightAttackBullet::StartMoving()
 			0,
 			forward.z) * velocity);
 
-	RepositionBullet();
 }
 
 void LightAttackBullet::SetPauseBullet(bool isPaused)
@@ -200,8 +202,6 @@ void LightAttackBullet::RepositionBullet()
 
 	bulletTransform->RecalculateLocalMatrix();
 	bulletTransform->UpdateTransformMatrices();
-
-	bulletTransform->GetOwner()->GetComponent<ComponentRigidBody>()->UpdateRigidBody();
 }
 
 void LightAttackBullet::SetStunTime(float nStunTime)
