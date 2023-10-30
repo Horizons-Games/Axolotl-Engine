@@ -51,7 +51,7 @@ private:
 
 inline void UIGameManagerSpaceship::SetMenuIsOpen(bool menuState)
 {
-	menuIsOpen = menuState;
+	inGameMenuActive = menuState;
 	MenuIsOpen();
 }
 

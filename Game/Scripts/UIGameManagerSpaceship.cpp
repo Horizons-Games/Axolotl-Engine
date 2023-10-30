@@ -36,7 +36,7 @@ void UIGameManagerSpaceship::Update(float deltaTime)
 
 	if (input->GetKey(SDL_SCANCODE_ESCAPE) == KeyState::DOWN)
 	{
-		menuIsOpen = !menuIsOpen;
+		inGameMenuActive = !inGameMenuActive;
 		MenuIsOpen();
 	}
 
@@ -50,14 +50,14 @@ void UIGameManagerSpaceship::Update(float deltaTime)
 
 void UIGameManagerSpaceship::MenuIsOpen()
 {
-	if (menuIsOpen == false)
+	if (inGameMenuActive == false)
 	{
 		mainMenuObject->Disable();
 		hudCanvasObject->Enable();
 		player->SetMouse(false);
 	}
 
-	if (menuIsOpen == true)
+	if (inGameMenuActive == true)
 	{
 		mainMenuObject->Enable();
 		hudCanvasObject->Disable();

@@ -118,12 +118,12 @@ void ActivationLogic::OnCollisionEnter(ComponentRigidBody* other)
 		{
 			wasActivatedByPlayer = true;
 		}
-		else if (other->GetOwner()->CompareTag("PlayerSpaceshipMesh"))
-		{
-			componentAnimation->SetParameter("IsActive", true);
-			componentRigidBody->Disable();
-			componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
-		}
+	}
+	else if (other->GetOwner()->CompareTag("PlayerSpaceshipMesh"))
+	{
+		componentAnimation->SetParameter("IsActive", true);
+		componentRigidBody->Disable();
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
 	}
 
 	if (interactWithEnemies)
