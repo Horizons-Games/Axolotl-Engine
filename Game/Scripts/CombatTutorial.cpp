@@ -37,7 +37,7 @@ REGISTERCLASS(CombatTutorial);
 
 CombatTutorial::CombatTutorial() : Script(), combatDummy(nullptr), userControllable(false), combatTutorialUI(nullptr),
 debugPowerUp(nullptr), finalWaitTime(2.0f), finalTotalWaitTime(5.0f), tutorialActivable(false), nextStateActive(true),
-door(nullptr), heavyFinisher(nullptr), normalAttacksEnded(false)
+door(nullptr), heavyFinisher(nullptr), normalAttacksEnded(false), tutorialStay(false)
 {
 	REGISTER_FIELD(combatDummy, GameObject*);
 	REGISTER_FIELD(userControllable, bool);
@@ -115,7 +115,7 @@ void CombatTutorial::Update(float deltaTime)
 	else if (tutorialUI->GetTutorialCurrentState() == 2)
 	{
 		if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.75f && !nextStateActive
-			&& !normalAttacksEnded)
+			&& !normalAttacksEnded && tutorialStay)
 		{
 			//JumpAttack
 			LOG_INFO("Tutorial:JumpAttack");
@@ -130,7 +130,7 @@ void CombatTutorial::Update(float deltaTime)
 	else if (tutorialUI->GetTutorialCurrentState() == 3)
 	{
 		if (nextStateActive && (playerAttack->GetCurrentAttackType() == AttackType::JUMPNORMAL
-			|| playerAttack->GetCurrentAttackType() == AttackType::JUMPFINISHER))
+			|| playerAttack->GetCurrentAttackType() == AttackType::JUMPFINISHER) && tutorialStay)
 		{
 			//SpecialAttacks
 			LOG_INFO("Tutorial:SpecialAttacks");
@@ -145,7 +145,7 @@ void CombatTutorial::Update(float deltaTime)
 
 	else if (tutorialUI->GetTutorialCurrentState() == 5) 
 	{
-		if (playerAttack->GetCurrentAttackType() == AttackType::LIGHTFINISHER && nextStateActive)
+		if (playerAttack->GetCurrentAttackType() == AttackType::LIGHTFINISHER && nextStateActive && tutorialStay)
 		{
 			//SpecialHeavyAttack
 			
@@ -159,7 +159,7 @@ void CombatTutorial::Update(float deltaTime)
 		
 	else if (tutorialUI->GetTutorialCurrentState() == 6) 
 	{
-		if (playerAttack->GetCurrentAttackType() == AttackType::HEAVYFINISHER && !nextStateActive)
+		if (playerAttack->GetCurrentAttackType() == AttackType::HEAVYFINISHER && !nextStateActive && tutorialStay)
 		{
 			//SpecialHeavyAttack
 			
@@ -208,6 +208,7 @@ void CombatTutorial::OnCollisionEnter(ComponentRigidBody* other)
 		App->GetModule<ModulePlayer>()->SetInCombat(true);
 		tutorialActivable = true;
 		userControllable = true;
+		tutorialStay = true;
 		//Launches intro
 		tutorialUI->TutorialStart();
 		LOG_INFO("TutorialEntered");
@@ -220,6 +221,7 @@ void CombatTutorial::OnCollisionExit(ComponentRigidBody* other)
 	{
 		App->GetModule<ModulePlayer>()->SetInCombat(false);
 		tutorialUI->TutorialEnd();
+		tutorialStay = false;
 
 		if(!tutorialActivable)
 		{
