@@ -582,6 +582,11 @@
                                     "type": 5
                                 },
                                 {
+                                    "name": "IsButtonB",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "LoadingScreenScript",
                                     "value": 0,
                                     "type": 2
@@ -770,6 +775,11 @@
                                     "type": 5
                                 },
                                 {
+                                    "name": "IsButtonB",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "LoadingScreenScript",
                                     "value": 0,
                                     "type": 2
@@ -901,6 +911,11 @@
                                 },
                                 {
                                     "name": "IsGameExit",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsButtonB",
                                     "value": false,
                                     "type": 5
                                 },
@@ -1037,6 +1052,11 @@
                                 {
                                     "name": "IsGameExit",
                                     "value": true,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsButtonB",
+                                    "value": false,
                                     "type": 5
                                 },
                                 {
@@ -1598,6 +1618,11 @@
                                 {
                                     "name": "IsGameExit",
                                     "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsButtonB",
+                                    "value": true,
                                     "type": 5
                                 },
                                 {
@@ -2648,6 +2673,11 @@
                                     "type": 5
                                 },
                                 {
+                                    "name": "IsButtonB",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "LoadingScreenScript",
                                     "value": 0,
                                     "type": 2
@@ -2795,6 +2825,11 @@
                                 },
                                 {
                                     "name": "IsGameExit",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsButtonB",
                                     "value": false,
                                     "type": 5
                                 },
@@ -4422,6 +4457,11 @@
                                     "type": 5
                                 },
                                 {
+                                    "name": "IsButtonB",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "LoadingScreenScript",
                                     "value": 0,
                                     "type": 2
@@ -5256,6 +5296,11 @@
                                     "type": 5
                                 },
                                 {
+                                    "name": "IsButtonB",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "LoadingScreenScript",
                                     "value": 0,
                                     "type": 2
@@ -5799,6 +5844,11 @@
                                 },
                                 {
                                     "name": "IsGameExit",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsButtonB",
                                     "value": false,
                                     "type": 5
                                 },
@@ -6579,6 +6629,11 @@
                                 },
                                 {
                                     "name": "IsGameExit",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsButtonB",
                                     "value": false,
                                     "type": 5
                                 },
@@ -7364,6 +7419,11 @@
                                     "type": 5
                                 },
                                 {
+                                    "name": "IsButtonB",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "LoadingScreenScript",
                                     "value": 0,
                                     "type": 2
@@ -7911,6 +7971,11 @@
                                     "type": 5
                                 },
                                 {
+                                    "name": "IsButtonB",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "LoadingScreenScript",
                                     "value": 0,
                                     "type": 2
@@ -8422,6 +8487,11 @@
                                 },
                                 {
                                     "name": "IsGameExit",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsButtonB",
                                     "value": false,
                                     "type": 5
                                 },
@@ -9638,6 +9708,11 @@
                                     "type": 5
                                 },
                                 {
+                                    "name": "IsButtonB",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "LoadingScreenScript",
                                     "value": 0,
                                     "type": 2
@@ -10291,6 +10366,11 @@
                                     "type": 5
                                 },
                                 {
+                                    "name": "IsButtonB",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "LoadingScreenScript",
                                     "value": 0,
                                     "type": 2
@@ -10912,6 +10992,11 @@
                                     "type": 5
                                 },
                                 {
+                                    "name": "IsButtonB",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
                                     "name": "LoadingScreenScript",
                                     "value": 0,
                                     "type": 2
@@ -11455,6 +11540,11 @@
                                 },
                                 {
                                     "name": "IsGameExit",
+                                    "value": false,
+                                    "type": 5
+                                },
+                                {
+                                    "name": "IsButtonB",
                                     "value": false,
                                     "type": 5
                                 },

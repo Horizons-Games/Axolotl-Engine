@@ -78,7 +78,6 @@ void UIGameManager::Start()
 void UIGameManager::Update(float deltaTime)
 {
 	uiTime += deltaTime;
-
 	input = App->GetModule<ModuleInput>();
 
 	// Player input method true=GAMEPAD false=KEYBOARD
@@ -174,7 +173,6 @@ void UIGameManager::OpenInGameMenu(bool openMenu)
 	}
 
 	manager->GetComponent<PauseManager>()->Pause(openMenu);
-
 	player->SetMouse(openMenu);
 }
 
@@ -392,7 +390,6 @@ void UIGameManager::WinGameState()
 	}
 }
 
-
 //Input method used by player
 void UIGameManager::InputMethodImg(bool input)
 {
@@ -439,5 +436,4 @@ void UIGameManager::InputMethodImg(bool input)
 	}
 
 }
-
 
