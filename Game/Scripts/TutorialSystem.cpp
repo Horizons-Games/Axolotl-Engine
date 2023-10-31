@@ -30,12 +30,13 @@
 REGISTERCLASS(TutorialSystem);
 
 TutorialSystem::TutorialSystem() :
-	Script(), tutorialCurrentState(0), tutorialTotalStates(0), stateWaitTime(0.0f), 
+	Script(), tutorialCurrentState(1), tutorialTotalStates(0), stateWaitTime(0.0f), 
 	totalStateWaitTime(0.0f), dummy(nullptr), numNotControllableStates(0.0f), initialPos(-46.0f, -208.665f, 0.0f), isWaiting(false),
 	stayPos(-46.0f, 208.665f, 0.0f)
 {
 	REGISTER_FIELD(totalStateWaitTime, float);
 	REGISTER_FIELD(stateWaitTime, float); 
+	REGISTER_FIELD(tutorialCurrentState, float);
 	REGISTER_FIELD(tutorialTotalStates, float);
 
 	REGISTER_FIELD(numNotControllableStates, float);
@@ -90,10 +91,10 @@ void TutorialSystem::DeployUI()
 	transform2D->SetPosition(stayPos);
 	transform2D->CalculateMatrices();
 
-	if (tutorialCurrentState == int(numNotControllableStates) && dummy)
+	/*if (tutorialCurrentState == int(numNotControllableStates) && dummy)
 	{
 		dummyHealthSystem->SetIsImmortal(false);
-	}	
+	}	*/
 }
 
 void TutorialSystem::UnDeployUI()
@@ -108,10 +109,10 @@ void TutorialSystem::UnDeployUI()
 		tutorialCurrentState++;
 		currentTutorialUI = tutorialUI[tutorialCurrentState];
 		displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
-		if (dummy)
+		/*if (dummy)
 		{
 			dummyHealthSystem->SetIsImmortal(true);
-		}
+		}*/
 	}
 	else
 	{

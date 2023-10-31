@@ -40,6 +40,7 @@ private:
 	bool nextStateActive;
 	bool tutorialFinished;
 	bool normalAttacksEnded;
+	bool tutorialStay;
 	float finalWaitTime;
 	float finalTotalWaitTime;
 
