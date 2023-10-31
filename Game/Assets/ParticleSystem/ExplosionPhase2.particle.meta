@@ -1,0 +1,16 @@
+{
+    "UID": 10489468920885397525,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": [
+        "Assets/Textures/Flash20.png",
+        "Assets/Textures/Impact11-b.png",
+        "Assets/Textures/Circle27.png",
+        "Assets/Textures/Impact7.png"
+    ],
+    "ConfigEmitters": [
+        false,
+        false,
+        false,
+        false
+    ]
+}
