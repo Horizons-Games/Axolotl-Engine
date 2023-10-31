@@ -90,10 +90,10 @@ void TutorialSystem::DeployUI()
 	transform2D->SetPosition(stayPos);
 	transform2D->CalculateMatrices();
 
-	if (tutorialCurrentState == int(numNotControllableStates) && dummy)
+	/*if (tutorialCurrentState == int(numNotControllableStates) && dummy)
 	{
 		dummyHealthSystem->SetIsImmortal(false);
-	}	
+	}	*/
 }
 
 void TutorialSystem::UnDeployUI()
@@ -108,10 +108,10 @@ void TutorialSystem::UnDeployUI()
 		tutorialCurrentState++;
 		currentTutorialUI = tutorialUI[tutorialCurrentState];
 		displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
-		if (dummy)
+		/*if (dummy)
 		{
 			dummyHealthSystem->SetIsImmortal(true);
-		}
+		}*/
 	}
 	else
 	{

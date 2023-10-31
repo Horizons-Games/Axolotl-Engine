@@ -81,7 +81,6 @@ void CombatTutorial::Update(float deltaTime)
 	//Normal Attacks XXX - XXY
 	if (tutorialActivable && userControllable && input->GetKey(SDL_SCANCODE_F) == KeyState::DOWN && !tutorialUI->GetDisplacementControl()->IsMoving())
 	{
-		dummyHealthSystem->SetIsImmortal(true);
 		doorRigidbody->SetIsTrigger(false);
 		componentMoveScript->SetIsParalyzed(true);
 
@@ -97,7 +96,6 @@ void CombatTutorial::Update(float deltaTime)
 		{
 			//SpecialLightAttack
 			LOG_INFO("Tutorial:SpecialLightAttack");
-			dummyHealthSystem->SetIsImmortal(true);
 			componentMoveScript->SetIsParalyzed(false);
 			comboSystem->FillComboBar();
 			userControllable = false;
@@ -116,16 +114,15 @@ void CombatTutorial::Update(float deltaTime)
 
 	else if (tutorialUI->GetTutorialCurrentState() == 2)
 	{
-		if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.75f
-			&& dummyHealthSystem->GetCurrentHealth() > dummyHealthSystem->GetMaxHealth() * 0.50f && !nextStateActive
+		if (dummyHealthSystem->GetCurrentHealth() <= dummyHealthSystem->GetMaxHealth() * 0.75f && !nextStateActive
 			&& !normalAttacksEnded)
 		{
 			//JumpAttack
 			LOG_INFO("Tutorial:JumpAttack");
-
-			tutorialUI->UnDeployUI();
 			dummyHealthSystem->SetIsImmortal(false);
-
+			tutorialUI->UnDeployUI();
+			dummyHealthSystem->SetMaxHealth(2000.0f);
+			dummyHealthSystem->HealLife(dummyHealthSystem->GetMaxHealth());
 			nextStateActive = true;
 		}
 	}
@@ -139,7 +136,6 @@ void CombatTutorial::Update(float deltaTime)
 			LOG_INFO("Tutorial:SpecialAttacks");
 			normalAttacksEnded = true;
 			tutorialUI->UnDeployUI();
-			dummyHealthSystem->SetIsImmortal(false);
 			comboSystem->FillComboBar();
 			tutorialUI->SetNumControllableState(tutorialUI->GetNumControllableState() + 3);
 			userControllable = true;
@@ -152,12 +148,11 @@ void CombatTutorial::Update(float deltaTime)
 		if (playerAttack->GetCurrentAttackType() == AttackType::LIGHTFINISHER && nextStateActive)
 		{
 			//SpecialHeavyAttack
+			
 			LOG_INFO("Tutorial:SpecialHeavyAttack");
 
 			tutorialUI->UnDeployUI();
 			comboSystem->FillComboBar();
-			dummyHealthSystem->SetIsImmortal(false);
-
 			nextStateActive = false;
 		}
 	}
@@ -167,10 +162,13 @@ void CombatTutorial::Update(float deltaTime)
 		if (playerAttack->GetCurrentAttackType() == AttackType::HEAVYFINISHER && !nextStateActive)
 		{
 			//SpecialHeavyAttack
-
+			
 			tutorialUI->UnDeployUI();
-			dummyHealthSystem->SetIsImmortal(false);
 			dummyHealthSystem->TakeDamage(dummyHealthSystem->GetCurrentHealth());
+
+			userControllable = true;
+			tutorialFinished = true;
+			nextStateActive = true;
 
 			if (debugPowerUp != nullptr)
 			{
@@ -179,12 +177,7 @@ void CombatTutorial::Update(float deltaTime)
 
 				newPowerUpLogic->ActivatePowerUp(ownerTransform->GetOwner());
 			}
-
-			userControllable = true;
-			tutorialFinished = true;
-			nextStateActive = true;
 			LOG_INFO("Dummy:Dead");
-
 		}
 	}
 	
