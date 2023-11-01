@@ -25,16 +25,3 @@ private:
 	GameObject* optionMenuObject;
 	ComponentTransform2D* imageTransform;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
