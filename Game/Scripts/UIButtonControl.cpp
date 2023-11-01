@@ -13,7 +13,7 @@ REGISTERCLASS(UIButtonControl);
 
 UIButtonControl::UIButtonControl() : Script(), disableObject(nullptr), enableObject(nullptr), 
 buttonComponent(nullptr), buttonHover(nullptr), isGameExit(false), isGameResume(false), 
-setUiGameManagerObject(nullptr), UIGameManagerClass(nullptr), isOptionMenuButton(false)
+setUiGameManagerObject(nullptr), UIGameManagerClass(nullptr), isOptionMenuButton(false), isButtonB(nullptr)
 {
 	REGISTER_FIELD(enableObject, GameObject*);
 	REGISTER_FIELD(disableObject, GameObject*);
@@ -22,6 +22,7 @@ setUiGameManagerObject(nullptr), UIGameManagerClass(nullptr), isOptionMenuButton
 	REGISTER_FIELD(isOptionMenuButton, bool);
 	REGISTER_FIELD(isGameResume, bool);
 	REGISTER_FIELD(isGameExit, bool);
+	REGISTER_FIELD(isButtonB, bool);
 	REGISTER_FIELD(loadingScreenScript, SceneLoadingScript*);
 }
 
@@ -48,7 +49,7 @@ void UIButtonControl::Update(float deltaTime)
 	}
 	else if (enableObject && disableObject)
 	{
-		if (buttonComponent->IsClicked())
+		if (buttonComponent->IsClicked() || input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && isButtonB)
 		{
 			enableObject->Enable();
 			disableObject->Disable();
