@@ -162,13 +162,9 @@ void CombatTutorial::Update(float deltaTime)
 		if (playerAttack->GetCurrentAttackType() == AttackType::HEAVYFINISHER && !nextStateActive && tutorialStay)
 		{
 			//SpecialHeavyAttack
-			
 			tutorialUI->UnDeployUI();
+			
 			dummyHealthSystem->TakeDamage(dummyHealthSystem->GetCurrentHealth());
-
-			userControllable = true;
-			tutorialFinished = true;
-			nextStateActive = true;
 
 			if (debugPowerUp != nullptr)
 			{
@@ -177,16 +173,34 @@ void CombatTutorial::Update(float deltaTime)
 
 				newPowerUpLogic->ActivatePowerUp(ownerTransform->GetOwner());
 			}
+
+			nextStateActive = true;
 			LOG_INFO("Dummy:Dead");
 		}
 	}
+
+	else if (tutorialUI->GetTutorialCurrentState() == 7)
+	{
+		if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && nextStateActive && tutorialStay)
+		{
+			//PowerUps
+			tutorialUI->UnDeployUI();
+
+			userControllable = true;
+			tutorialFinished = true;
+		
+			nextStateActive = false;
+
+		LOG_INFO("PowerUps");
+		}
+	}
 	
-	if (tutorialFinished && nextStateActive)
+	if (tutorialFinished && !nextStateActive)
 	{
 		finalWaitTime -= deltaTime;
 	}
 
-	if (tutorialFinished && nextStateActive && finalWaitTime <= 0.0f)
+	if (tutorialFinished && !nextStateActive && finalWaitTime <= 0.0f)
 	{
 		//tutorialUI->UnDeployUI();
 		tutorialUI->TutorialEnd();
