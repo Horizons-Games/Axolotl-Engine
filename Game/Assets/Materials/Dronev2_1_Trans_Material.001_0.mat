@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/Drone_Material.003_AlbedoTransparency.png",
+    "NormalAssetPath": "Assets/Textures/Drone_Material.003_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "",
+    "EmissiveAssetPath": "Assets/Textures/Drone_Material.003_Emission.png"
+}

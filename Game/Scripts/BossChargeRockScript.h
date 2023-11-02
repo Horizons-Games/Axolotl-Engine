@@ -4,6 +4,7 @@
 #include "RuntimeInclude.h"
 #include "Bullet\LinearMath\btVector3.h"
 #include "Components/ComponentParticleSystem.h"
+#include "../Scripts/MeshEffect.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -50,6 +51,7 @@ private:
 	float breakTimer;
 
 	ComponentRigidBody* rigidBody;
+	MeshEffect* meshEffect;
 	ComponentAudioSource* audioSource;
 
 	bool rockHitAndRemained;

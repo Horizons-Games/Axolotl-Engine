@@ -30,12 +30,13 @@ componentAudio(nullptr), componentAnimation(nullptr), dashForce(30.0f),
 playerManager(nullptr), isParalyzed(false), desiredRotation(float3::zero), waterCounter(0),
 lightAttacksMoveFactor(2.0f), heavyAttacksMoveFactor(3.0f), dashRollTime(0.0f), 
 dashRollCooldown(0.1f), timeSinceLastDash(0.0f), dashRollDuration(0.2f), totalDirection(float3::zero),
-isTriggeringStoredDash(false), dashBix(nullptr), ghostBixDashing(false), rollAllura(nullptr)
+isTriggeringStoredDash(false), rotationAttackVelocity(100.0f), dashBix(nullptr), ghostBixDashing(false), rollAllura(nullptr)
 {
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(isParalyzed, bool);
 	REGISTER_FIELD(lightAttacksMoveFactor, float);
 	REGISTER_FIELD(heavyAttacksMoveFactor, float);
+	REGISTER_FIELD(rotationAttackVelocity, float);
 	REGISTER_FIELD(dashRollCooldown, float);
 	REGISTER_FIELD(dashRollDuration, float);
 	REGISTER_FIELD(dashBix, GameObject*);
@@ -205,9 +206,14 @@ void PlayerMoveScript::Move(float deltaTime)
 
 			totalDirection.y = 0;
 			totalDirection = totalDirection.Normalized();
-			desiredRotation = totalDirection;
 
-			movement = btVector3(desiredRotation.x, desiredRotation.y, desiredRotation.z) * deltaTime * newSpeed;
+			if (!IsMovementAttacking())
+			{
+				desiredRotation = totalDirection;
+			}
+
+			
+			movement = btVector3(totalDirection.x, totalDirection.y, totalDirection.z) * deltaTime * newSpeed;
 		}
 	}
 	else if (playerManager->GetPlayerState() == PlayerActions::IDLE && !totalDirection.IsZero())
@@ -247,22 +253,17 @@ void PlayerMoveScript::Move(float deltaTime)
 
 void PlayerMoveScript::MoveRotate(float deltaTime)
 {
-	// Look at enemy selected while attacking
-	AttackType currentAttack = playerAttackScript->GetCurrentAttackType();
-	GameObject* enemyGO = playerAttackScript->GetEnemyDetected();
-	if (enemyGO != nullptr && currentAttack != AttackType::NONE)
+	float desiredVelocity = playerManager->GetPlayerRotationSpeed();
+	//Look at enemy selected while attacking
+	if (IsMovementAttacking())
 	{
+		GameObject* enemyGO = playerAttackScript->GetEnemyDetected();
 		ComponentTransform* enemy = enemyGO->GetComponent<ComponentTransform>();
-		float3 vecForward = componentTransform->GetGlobalForward().Normalized();
+
 		float3 vecTowardsEnemy = (enemy->GetGlobalPosition() - componentTransform->GetGlobalPosition()).Normalized();
-		switch (currentAttack)
-		{
-		case AttackType::LIGHTNORMAL:
-		case AttackType::HEAVYNORMAL:
-		case AttackType::LIGHTFINISHER:
-			desiredRotation = vecForward + vecTowardsEnemy;
-			break;
-		}
+		desiredRotation = vecTowardsEnemy;
+
+		desiredVelocity *= rotationAttackVelocity * deltaTime;
 	}
 
 	desiredRotation.y = 0;
@@ -283,7 +284,7 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 		rotationError.ToAxisAngle(axis, angle);
 		axis.Normalize();
 
-		float3 velocityRotation = axis * angle * playerManager->GetPlayerRotationSpeed();
+		float3 velocityRotation = axis * angle * desiredVelocity;
 		Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
 		Quat wq_0 = angularVelocityQuat * rotation;
 
@@ -314,6 +315,11 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 				nextRotation.w });
 		}
 	}
+
+	btMatrix3x3 rbmatrix = worldTransform.getBasis();
+
+	btQuaternion quat;
+	rbmatrix.extractRotation(quat);
 
 	btRigidbody->setWorldTransform(worldTransform);
 	btRigidbody->getMotionState()->setWorldTransform(worldTransform);
@@ -502,6 +508,22 @@ PlayerJumpScript* PlayerMoveScript::GetJumpScript() const
 	return jumpScript;
 }
 
+bool PlayerMoveScript::IsMovementAttacking() const
+{
+	AttackType currentAttack = playerAttackScript->GetCurrentAttackType();
+	GameObject* enemyGO = playerAttackScript->GetEnemyDetected();
+	if (enemyGO != nullptr && currentAttack != AttackType::NONE)
+	{
+		switch (currentAttack)
+		{
+		case AttackType::LIGHTNORMAL:
+		case AttackType::HEAVYNORMAL:
+		case AttackType::LIGHTFINISHER:
+			return true;
+		}
+	}
+	return false;
+}
 bool PlayerMoveScript::IsTriggeringStoredDash() const
 {
 	return isTriggeringStoredDash;

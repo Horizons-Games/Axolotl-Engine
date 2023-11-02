@@ -49,7 +49,8 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	comboCountHeavy(3.0f), comboCountLight(7.0f), comboCountJump(5.0f), triggerNextAttackDuration(0.5f), 
 	triggerNextAttackTimer(0.0f), isNextAttackTriggered(false), currentAttackAnimation(""),
 	numAttackComboAnimation(0.0f), isHeavyFinisherReceivedAux(false), jumpAttackCooldown(0.8f), timeSinceLastJumpAttack(0.0f),
-	jumpBeforeJumpAttackCooldown(0.1f), isGroundParalyzed(false), attackLightDamage(10.0f), attackHeavyDamage(20.0f)
+	jumpBeforeJumpAttackCooldown(0.1f), isGroundParalyzed(false), attackLightDamage(10.0f), attackHeavyDamage(20.0f),
+	isHeavyFinisherAvailable(true)
 {
 	REGISTER_FIELD(attackLightDamage, float);
 	REGISTER_FIELD(attackHeavyDamage, float);
@@ -63,7 +64,6 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	REGISTER_FIELD(lightWeapon, GameObject*);
 
 	REGISTER_FIELD(bulletPrefab, GameObject*);
-	REGISTER_FIELD(bulletVelocity, float);
 
 	REGISTER_FIELD(pistolGameObject, GameObject*);
 
@@ -216,12 +216,15 @@ void PlayerAttackScript::PerformCombos()
 				break;
 
 			case AttackType::HEAVYFINISHER:
-				triggerNextAttackTimer = triggerNextAttackDuration;
-				currentAttackAnimation = animation->GetController()->GetStateName();
-				numAttackComboAnimation = 0.0f;
-				animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
-				animation->SetParameter("HeavyFinisherInit", true);
-				isAttacking = false;
+				if(isHeavyFinisherAvailable)
+				{
+					triggerNextAttackTimer = triggerNextAttackDuration;
+					currentAttackAnimation = animation->GetController()->GetStateName();
+					numAttackComboAnimation = 0.0f;
+					animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
+					animation->SetParameter("HeavyFinisherInit", true);
+					isAttacking = false;
+				}
 				break;
 			case AttackType::JUMPFINISHER:
 				break;
@@ -289,6 +292,7 @@ void PlayerAttackScript::PerformCombos()
 				HeavyFinisher();
 				lastAttack = currentAttack;
 				currentAttackAnimation = "HeavyAttackFinish";
+				isHeavyFinisherAvailable = false;
 				break;
 
 			case AttackType::JUMPFINISHER:
@@ -379,15 +383,15 @@ void PlayerAttackScript::HeavyNormalAttack()
 
 void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDamage)
 {
-	// Create a new bullet
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
+	
 	LightAttackBullet* ligthAttackBulletScript = bullet->GetComponent<LightAttackBullet>();
 
 	bullet->SetTag("AlluraBullet");
-	ligthAttackBulletScript->SetBulletVelocity(bulletVelocity);
 	ligthAttackBulletScript->SetEnemy(enemyDetection->GetEnemySelected());
 	ligthAttackBulletScript->SetStunTime(0);
 	ligthAttackBulletScript->SetDamage(nDamage);
+	ligthAttackBulletScript->StartMoving();
 }
 
 void PlayerAttackScript::InitJumpAttack()
@@ -653,6 +657,7 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 						isAttacking = false;
 						lastAttack = AttackType::NONE;
 						isHeavyFinisherReceivedAux = false;
+						isHeavyFinisherAvailable = true;
 						break;
 					}
 				}

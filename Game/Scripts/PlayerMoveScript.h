@@ -90,9 +90,11 @@ private:
 	int currentMovements;
 
 	float3 desiredRotation;
-
+	float rotationAttackVelocity;
+	
 	int waterCounter;
 
+	bool IsMovementAttacking() const;
 	bool rightTrigger;
 	void DashRoll(float deltaTime);
 	GameObject* dashBix;
