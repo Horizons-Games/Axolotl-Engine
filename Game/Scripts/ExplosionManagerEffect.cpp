@@ -29,6 +29,7 @@ ExplosionManagerEffect::~ExplosionManagerEffect()
 void ExplosionManagerEffect::Start()
 {
 	phase1 = owner->GetChildren()[1];
+	phase2 = owner->GetChildren()[2];
 	light = static_cast<ComponentPointLight*>(owner->GetChildren()[0]->GetComponent<ComponentLight>());
 }
 
@@ -83,7 +84,8 @@ void ExplosionManagerEffect::Update(float deltaTime)
 			//phase2->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
 
 			light->GetOwner()->Disable();
-
+			phase2->GetChildren()[0]->Enable();
+			phase2->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
 			initFase = false;
 		}
 
@@ -94,7 +96,10 @@ void ExplosionManagerEffect::Update(float deltaTime)
 
 		float4 diffuseColor = sphereMesh->GetDiffuseColor();
 		diffuseColor.y -= (deltaTime * lightGrowFactor);
-		if (diffuseColor.y < 0.0f) diffuseColor.y = 0.0f;
+		if (diffuseColor.y < 0.0f) 
+		{
+			diffuseColor.y = 0.0f;
+		}
 		diffuseColor.w -= (deltaTime * lightGrowFactor);
 		sphereMesh->SetDiffuseColor(diffuseColor);
 		sphereMesh->GetBatch()->SetFillMaterials(true);
@@ -102,8 +107,12 @@ void ExplosionManagerEffect::Update(float deltaTime)
 		break;
 	}
 	case 2:
-		//Cuando la Bola y Sparks han desaparecido lo quitamos y ponemos humo en el centro
-		//El impacto crece un poco, las lineas de acción desaparecen las grandes y la expansión tambien. La luz es apenas visible y roja
+
+		if (initFase) 
+		{
+			phase1->GetChildren()[0]->Disable();
+			initFase = false;
+		}
 		break;
 	default:
 		break;

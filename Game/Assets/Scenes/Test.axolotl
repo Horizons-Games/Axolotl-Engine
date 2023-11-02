@@ -296,50 +296,6 @@
         },
         {
             "GameObject": {
-                "name": "Empty GameObject",
-                "tag": "",
-                "uid": 14298052687302477127,
-                "parentUID": 1111172761556514998,
-                "enabled": true,
-                "static": false,
-                "Components": [
-                    {
-                        "Component": {
-                            "type": "Component_Transform",
-                            "active": true,
-                            "removed": false,
-                            "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
-                            "localRot_Y": 0.0,
-                            "localRot_Z": 0.0,
-                            "localSca_X": 1.0,
-                            "localSca_Y": 1.0,
-                            "localSca_Z": 1.0,
-                            "boudingBoxSca_X": 1.0,
-                            "boudingBoxSca_Y": 1.0,
-                            "boudingBoxSca_Z": 1.0,
-                            "boudingBoxPos_X": 0.0,
-                            "boudingBoxPos_Y": 0.0,
-                            "boudingBoxPos_Z": 0.0
-                        }
-                    },
-                    {
-                        "Component": {
-                            "type": "Component_Particle",
-                            "active": true,
-                            "removed": true,
-                            "particleSystemUID": 16423267522800977363,
-                            "assetPathParticleSystem": "Assets/ParticleSystem/ExplosionMiddle.particle",
-                            "playAtStart": false
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "GameObject": {
                 "name": "Explosion",
                 "tag": "",
                 "uid": 14533257351594919538,
@@ -394,7 +350,10 @@
                                             "value": 0.5
                                         },
                                         {
-                                            "value": 1.0
+                                            "value": 0.05999999865889549
+                                        },
+                                        {
+                                            "value": 0.10000000149011612
                                         }
                                     ],
                                     "innerType": 0
@@ -577,9 +536,9 @@
                             "active": true,
                             "removed": false,
                             "localPos_X": 0.0,
-                            "localPos_Y": 0.0,
-                            "localPos_Z": 0.0,
-                            "localRot_X": 0.0,
+                            "localPos_Y": 0.08020398765802383,
+                            "localPos_Z": -9.56105861149581e-9,
+                            "localRot_X": -90.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
                             "localSca_X": 1.100000023841858,
@@ -598,8 +557,8 @@
                             "type": "Component_Particle",
                             "active": true,
                             "removed": true,
-                            "particleSystemUID": 10489468920885397525,
-                            "assetPathParticleSystem": "Assets/ParticleSystem/ExplosionPhase2.particle",
+                            "particleSystemUID": 9718287656992733420,
+                            "assetPathParticleSystem": "Assets/ParticleSystem/ExplosionFinal.particle",
                             "playAtStart": false
                         }
                     }
