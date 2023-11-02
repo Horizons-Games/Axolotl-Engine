@@ -88,7 +88,7 @@ void MeshEffect::FadeEffect()
 	}
 
 	effectTime += App->GetDeltaTime();
-	float step = 0.1 / maxTime;
+	float step = 0.1f / maxTime;
 	colors[0].w -= step;
 	EffectColor(colors[0]);
 	if (effectTime >= maxTime)

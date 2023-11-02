@@ -53,7 +53,7 @@ void TutorialSystem::Start()
 	currentTutorialUI = tutorialUI.front();
 	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
 	transform2D = currentTutorialUI->GetComponent<ComponentTransform2D>();
-	tutorialTotalStates = static_cast<int>(tutorialUI.size()) - 1;
+	tutorialTotalStates = static_cast<float>(tutorialUI.size()) - 1.f;
 	stateWaitTime = totalStateWaitTime;
 
 	if (dummy)
@@ -107,7 +107,7 @@ void TutorialSystem::UnDeployUI()
 		currentTutorialUI->Disable();
 
 		tutorialCurrentState++;
-		currentTutorialUI = tutorialUI[tutorialCurrentState];
+		currentTutorialUI = tutorialUI[static_cast<size_t>(tutorialCurrentState)];
 		displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
 		/*if (dummy)
 		{
@@ -147,7 +147,7 @@ void TutorialSystem::TutorialSkip()
 
 int TutorialSystem::GetTutorialCurrentState() const
 {
-	return tutorialCurrentState;
+	return static_cast<int>(tutorialCurrentState);
 }
 
 float TutorialSystem::GetNumControllableState() const
@@ -157,17 +157,17 @@ float TutorialSystem::GetNumControllableState() const
 
 void TutorialSystem::SetNumControllableState(int controllableState) 
 {
-	numNotControllableStates = controllableState;
+	numNotControllableStates = static_cast<float>(controllableState);
 }
 
 int TutorialSystem::GetTutorialSlideSize() const
 {
-	return tutorialTotalStates;
+	return static_cast<int>(tutorialTotalStates);
 }
 
 void TutorialSystem::SetTutorialSlideSize(int tutorialTotalStates)
 {
-	this->tutorialTotalStates = tutorialTotalStates;
+	this->tutorialTotalStates = static_cast<float>(tutorialTotalStates);
 }
 
 

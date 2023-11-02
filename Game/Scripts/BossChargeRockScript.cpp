@@ -117,7 +117,7 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 			rockState = RockStates::HIT_ENEMY;
 			triggerRockDespawnbyFalling = true;
 			owner->GetComponent<ComponentBreakable>()->BreakComponentFalling();
-			meshEffect->StartEffect(fallingTimer*2.5,0);
+			meshEffect->StartEffect(fallingTimer*2.5f,0.f);
 			// VFX Here: Rock hit an enemy on the head while falling
 		}
 		else if (other->GetOwner()->CompareTag("Waypoint"))
