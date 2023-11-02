@@ -287,7 +287,7 @@ void BossChargeAttackScript::SpawnRock(const float3& spawnPosition)
 
 	ComponentBreakable* newRockBreakable = newRock->GetComponent<ComponentBreakable>();
 
-	ComponentParticleSystem* newRockVFX = newRock->GetComponent<ComponentParticleSystem>();
+	
 
 	if (!newRock->GetChildren().empty())
 	{
