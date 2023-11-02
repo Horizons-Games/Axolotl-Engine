@@ -2,6 +2,6 @@
     "DiffuseAssetPath": "Assets/Textures/Sewer_Archv1_DefaultMaterial_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/Sewer_Archv1_DefaultMaterial_Normal.png",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/Sewer_Archv1_DefaultMaterial_MetallicSmoothness.png",
+    "MetalicAssetPath": "",
     "EmissiveAssetPath": "Assets/Textures/Sewer_Archv1_DefaultMaterial_Emission.png"
 }

@@ -95,6 +95,7 @@ private:
 	float jumpBeforeJumpAttackCooldown;
 
 	bool isHeavyFinisherReceivedAux;
+	bool isHeavyFinisherAvailable;
 
 	bool isDeathTouched;
 
@@ -114,7 +115,7 @@ private:
 	float comboCountHeavy;
 	float comboCountJump;
 
-	float attackSoftDamage;
+	float attackLightDamage;
 	float attackHeavyDamage;
 	float bulletVelocity;
 

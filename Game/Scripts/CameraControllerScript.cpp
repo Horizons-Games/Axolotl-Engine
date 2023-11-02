@@ -11,7 +11,6 @@
 #include "Auxiliar/Audio/AudioData.h"
 
 #include "Camera/CameraGameObject.h"
-
 #include "Application.h"
 
 REGISTERCLASS(CameraControllerScript);

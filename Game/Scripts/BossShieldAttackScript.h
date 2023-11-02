@@ -6,6 +6,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAnimation;
+class ComponentAudioSource;
 
 class BossShieldScript;
 class HealthSystem;
@@ -21,7 +22,7 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void TriggerShieldAttack();
+	void TriggerShieldAttack(bool needsToSyncAnims = true);
 	bool CanPerformShieldAttack() const;
 
 	bool IsAttacking() const;
@@ -56,6 +57,9 @@ private:
 	BossShieldEnemiesSpawner* bossShieldEnemiesSpawner;
 
 	ComponentAnimation* animator;
+	ComponentAudioSource* audioSource;
+
+	bool needsToSyncAnims;
 
 	// Modifiable values
 	float shieldingMaxTime;

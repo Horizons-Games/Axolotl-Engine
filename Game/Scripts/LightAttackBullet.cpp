@@ -171,11 +171,11 @@ void LightAttackBullet::ResetDefaultValues()
 
 void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->CompareTag("Enemy"))
+	if (other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("PriorityTarget"))
 	{
 		if (playerAttackScript->IsMelee())
 		{
-			audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
+			audioSource->PostEvent(AUDIO::SFX::NPC::SHOT_IMPACT); // Provisional sfx
 		}
 		else
 		{
@@ -199,7 +199,7 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 	{
 		if (playerAttackScript->IsMelee())
 		{
-			audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_IMPACT_01); // Provisional sfx
+			audioSource->PostEvent(AUDIO::SFX::NPC::SHOT_IMPACT); // Provisional sfx
 		}
 		else
 		{

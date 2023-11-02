@@ -187,7 +187,8 @@ void EnemyDroneScript::CheckState(float deltaTime)
 			}
 
 			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::STOP_BEHAVIOURS);
-			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::ALERT);
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::SEEK);
+			componentAudioSource->PostEvent(AUDIO::SFX::NPC::ALERT);
 
 			droneState = DroneBehaviours::ENEMY_DETECTED;
 		}
@@ -215,7 +216,7 @@ void EnemyDroneScript::CheckState(float deltaTime)
 
 					if (droneState == DroneBehaviours::PATROL)//Play alert only when coming from patrol
 					{
-						componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::ALERT);
+						componentAudioSource->PostEvent(AUDIO::SFX::NPC::DRON::SEEK);
 					}
 
 					droneState = DroneBehaviours::SEEK;

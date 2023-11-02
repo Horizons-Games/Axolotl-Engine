@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "..\Scripts\EnemyClass.h"
 
 class ModuleInput;
 class ComponentAudioSource;
 class ComponentTransform;
-class ComponentAnimation;
 class Scene;
 class ComponentParticleSystem;
 class ComponentAgent;
@@ -46,7 +46,6 @@ private:
 
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
-	ComponentAnimation* animation;
 	AIMovement* aiMovement;
 	ComponentRigidBody* rb;
 	ComponentParticleSystem* particleSystemShot;
@@ -75,4 +74,6 @@ private:
 	Scene* loadedScene;
 
 	float3 newReposition;
+
+	EnemyTypes enemyType;
 };

@@ -56,7 +56,7 @@ void HealthSystem::Start()
 
 	meshEffect->FillMeshes(owner);
 	meshEffect->ReserveSpace(1);
-	meshEffect->AddColor(float3(1.f, 0.f, 0.f));
+	meshEffect->AddColor(float4(1.f, 0.f, 0.f, 0.f));
 
 	if (owner->CompareTag("Player"))
 	{
@@ -76,7 +76,7 @@ void HealthSystem::Update(float deltaTime)
 		playerDeathManager->ManagePlayerDeath();
 			
 	}
-	else if (!EntityIsAlive() && owner->CompareTag("Enemy"))
+	else if (!EntityIsAlive() && ( owner->CompareTag("Enemy") || owner->CompareTag("PriorityTarget")))
 	{
 		meshEffect->ClearEffect();
 	}
@@ -92,7 +92,7 @@ void HealthSystem::TakeDamage(float damage)
 {
 	if (!isImmortal) 
 	{
-		if (owner->CompareTag("Enemy"))
+		if (owner->CompareTag("Enemy") || owner->CompareTag("PriorityTarget"))
 		{
 			currentHealth = std::max(currentHealth - damage, 0.0f);
 			if (currentHealth == 0 && deathCallback)
@@ -153,6 +153,11 @@ bool HealthSystem::EntityIsAlive() const
 float HealthSystem::GetMaxHealth() const
 {
 	return maxHealth;
+}
+
+void HealthSystem::SetMaxHealth(float maxHealth)
+{
+	this->maxHealth = maxHealth;
 }
 
 bool HealthSystem::IsImmortal() const
