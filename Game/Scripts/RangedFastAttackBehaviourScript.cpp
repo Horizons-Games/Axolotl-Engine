@@ -28,14 +28,15 @@ REGISTERCLASS(RangedFastAttackBehaviourScript);
 RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), 
 	lastAttackTime(0.f), particleSystemShot(nullptr), particleSystemPreShot(nullptr), audioSource(nullptr), shootPosition(nullptr),
 	particleTransform(nullptr), animation(nullptr), transform(nullptr), loadedScene(nullptr), preShotDuration(0.0f),
-	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0), isPreShooting(false),
+	bulletVelocity(0.2f), bulletLoader(nullptr), needReposition(false), newReposition(0,0,0), isPreShooting(false),
 	preShootingTime(0.0f), particlePreShotTransform(nullptr), numConsecutiveShots(0.0f), minTimeConsecutiveShot(0.0f),
 	maxTimeConsecutiveShot(0.0f), currentConsecutiveShots(0.0f), nextShotDuration(0.0f), shotTime(0.0f),
 	isWaitingForConsecutiveShot(false), isConsecutiveShooting(false), attackDamage(10.0f), aiMovement(nullptr)
 {
 	REGISTER_FIELD(attackCooldown, float);
 
-	REGISTER_FIELD(bulletPrefab, GameObject*);
+	REGISTER_FIELD(bulletLoader, GameObject*);
+
 	REGISTER_FIELD(bulletVelocity, float);
 	REGISTER_FIELD(attackDamage, float);
 	REGISTER_FIELD(shootPosition, ComponentTransform*);
@@ -132,8 +133,8 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 
 	animation->SetParameter("IsAttacking", true);
 
-	// Create a new bullet
-	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
+	// Select a new bullet
+	GameObject* bullet = SelectBullet();
 	
 	bullet->GetComponent<ComponentTransform>()->SetGlobalPosition(shootPosition->GetGlobalPosition());
 
@@ -166,6 +167,18 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 		currentConsecutiveShots = 0.0f;
 		lastAttackTime = SDL_GetTicks() / 1000.0f;
 	}
+}
+
+GameObject* RangedFastAttackBehaviourScript::SelectBullet() const
+{
+	for (GameObject* bullet : bulletLoader->GetChildren())
+	{
+		if (!bullet->IsEnabled())
+		{
+			return bullet;
+		}
+	}
+	return nullptr;
 }
 
 void RangedFastAttackBehaviourScript::Reposition(float3 nextPosition)

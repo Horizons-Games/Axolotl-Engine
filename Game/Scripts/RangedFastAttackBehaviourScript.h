@@ -36,6 +36,7 @@ public:
 
 private:
 	void ShootBullet();
+	GameObject* SelectBullet() const;
 
 	float attackCooldown;
 	float lastAttackTime;
@@ -54,7 +55,7 @@ private:
 	ComponentTransform* particlePreShotTransform;
 	ComponentTransform* shootPosition;
 
-	GameObject* bulletPrefab;
+	GameObject* bulletLoader;
 	float bulletVelocity;
 	float attackDamage;
 
