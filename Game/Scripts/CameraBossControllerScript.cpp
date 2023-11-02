@@ -72,9 +72,13 @@ void CameraBossControllerScript::PreUpdate(float deltaTime)
 		camera->RestoreKpRotation();
 
 		float3 sourceDirection = camera->GetCamera()->GetFrustum()->Front().Normalized();
-		float3 targetDirection = (playerTransform->GetGlobalPosition()
+
+		float3 directionalTargetVector = playerTransform->GetGlobalPosition()
 			+ defaultFocusOffsetVector
-			- camera->GetCamera()->GetPosition()).Normalized();
+			- camera->GetCamera()->GetPosition();
+		directionalTargetVector.y = 0.0f;
+
+		float3 targetDirection = directionalTargetVector.Normalized();
 
 		Quat orientationOffset = Quat::identity;
 

@@ -203,10 +203,10 @@ void BossChargeAttackScript::PrepareCharge() const
 	float3 forward = transform->GetGlobalForward();
 	forward.Normalize();
 
+
+
 	rigidBody->SetKpForce(0.5f);
-	rigidBody->SetPositionTarget(float3(forward.x * -5.0f + transform->GetGlobalPosition().x,
-										transform->GetGlobalPosition().y,
-										forward.z * -5.0f + transform->GetGlobalPosition().z));
+	rigidBody->SetPositionTarget(transform->GetGlobalPosition() - 5.0f*forward);
 }
 
 void BossChargeAttackScript::PerformChargeAttack()
@@ -219,9 +219,7 @@ void BossChargeAttackScript::PerformChargeAttack()
 	rigidBody->SetZRotationAxisBlocked(true);*/
 
 	rigidBody->SetKpForce(chargeForce);
-	rigidBody->SetPositionTarget(float3(forward.x * 50.0f,
-										transform->GetGlobalPosition().y,
-										forward.z * 50.0f));
+	rigidBody->SetPositionTarget(transform->GetGlobalPosition() + 150.0f *forward);
 
 	prepareChargeTime = prepareChargeMaxTime;
 	chargeState = ChargeState::CHARGING;
