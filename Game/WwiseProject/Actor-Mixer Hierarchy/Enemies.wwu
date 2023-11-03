@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{FB93C944-6051-4C4C-9714-5FAA354E7D11}" SchemaVersion="110" RootDocumentID="{4D2D502C-0683-46CA-93AE-C19E110AB138}" ParentDocumentID="{C302772C-A0A9-4317-9387-4E1FA6616738}">
+	<AudioObjects>
+		<WorkUnit Name="Enemies" ID="{FB93C944-6051-4C4C-9714-5FAA354E7D11}" OwnerID="{C302772C-A0A9-4317-9387-4E1FA6616738}" PersistMode="Nested">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="9"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
+			<ChildrenList>
+				<WorkUnit Name="MiniBoss2" ID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}" PersistMode="Reference"/>
+				<WorkUnit Name="FinalBoss" ID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}" PersistMode="Reference"/>
+				<WorkUnit Name="Drone" ID="{A93C175F-EF6A-48E6-BC20-B69C81300DDB}" PersistMode="Reference"/>
+				<WorkUnit Name="Venomite" ID="{26EE286D-9253-4C5F-974D-225C23F53581}" PersistMode="Reference"/>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

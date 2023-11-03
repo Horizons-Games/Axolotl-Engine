@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{A74EBD9D-DC2D-41B8-863C-F31104A35D3F}" SchemaVersion="110" RootDocumentID="{4D2D502C-0683-46CA-93AE-C19E110AB138}" ParentDocumentID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}">
+<WwiseDocument Type="WorkUnit" ID="{A74EBD9D-DC2D-41B8-863C-F31104A35D3F}" SchemaVersion="110" RootDocumentID="{4D2D502C-0683-46CA-93AE-C19E110AB138}" ParentDocumentID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}">
 	<AudioObjects>
-		<WorkUnit Name="NPCsCantina" ID="{A74EBD9D-DC2D-41B8-863C-F31104A35D3F}" OwnerID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}" PersistMode="Nested">
+		<WorkUnit Name="NPCsCantina" ID="{A74EBD9D-DC2D-41B8-863C-F31104A35D3F}" OwnerID="{5A677EDC-CCF4-4DA5-83DD-83AA3B4455D2}" PersistMode="Nested">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="13"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
 			<ChildrenList>
-				<ActorMixer Name="NPCsCantina" ID="{BDDDA164-D8B0-40A8-ADA8-BF0D045FAD13}" ShortID="570386944">
+				<RandomSequenceContainer Name="NPC_Drunk" ID="{CF5AA75F-4C2D-4A92-BEDB-7BFCF7E53944}" ShortID="743334271">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+						<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="3"/>
+					</PropertyList>
 					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+						</Reference>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="NPCMaster" ID="{972B9C9F-6B1E-4B0E-8EE7-1CF44D5BEE6D}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<RandomSequenceContainer Name="sfx_drunkNPC_sound" ID="{CF5AA75F-4C2D-4A92-BEDB-7BFCF7E53944}" ShortID="743334271">
-							<PropertyList>
-								<Property Name="3DSpatialization" Type="int16" Value="1"/>
-								<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="3"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-10</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
+						<Sound Name="sfx_drunkNPC_sound-005" ID="{BE5A0CA5-8022-4B0D-B3DC-DDF92B533CCB}" ShortID="438572975">
 							<ReferenceList>
-								<Reference Name="Attenuation">
-									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
-								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
 								</Reference>
@@ -35,241 +34,534 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<Sound Name="sfx_drunkNPC_sound-005" ID="{BE5A0CA5-8022-4B0D-B3DC-DDF92B533CCB}" ShortID="438572975">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="496565-Theresa-Cheer-Shout-Happy-3" ID="{8F2A90C4-344B-41C6-95DF-52ED0EC7D07B}">
-											<Language>SFX</Language>
-											<AudioFile>496565-Theresa-Cheer-Shout-Happy-3.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="240754137"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="496565-Theresa-Cheer-Shout-Happy-3" ID="{8F2A90C4-344B-41C6-95DF-52ED0EC7D07B}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="sfx_drunkNPC_sound-006" ID="{19589471-AC7F-400D-A254-262E604263ED}" ShortID="788259864">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="496612-Theresa-Drunk-Gibber_Talk-5" ID="{33A64FDF-84CA-4896-A692-14815B5CAE2C}">
-											<Language>SFX</Language>
-											<AudioFile>496612-Theresa-Drunk-Gibber_Talk-5.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="99956401"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="496612-Theresa-Drunk-Gibber_Talk-5" ID="{33A64FDF-84CA-4896-A692-14815B5CAE2C}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="sfx_drunkNPC_sound-003" ID="{16D27AE8-5603-4245-943C-6B18DF2DAE1C}" ShortID="60102985">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="496397-Theresa-Attack-Shout_Long-Straight-Fatal-3" ID="{82316710-44CD-4B3A-AF4B-5CC7087146A3}">
-											<Language>SFX</Language>
-											<AudioFile>496397-Theresa-Attack-Shout_Long-Straight-Fatal-3.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="886104202"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="496397-Theresa-Attack-Shout_Long-Straight-Fatal-3" ID="{82316710-44CD-4B3A-AF4B-5CC7087146A3}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="sfx_drunkNPC_sound-002" ID="{2456D367-3FE5-48A6-A8B7-31D448062FB3}" ShortID="711930776">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="495963-Theresa_Cartoon-Growl-Beastie-Angry-4" ID="{97C8A5E3-ADEB-44A4-A297-ECF0F11888CE}">
-											<Language>SFX</Language>
-											<AudioFile>495963-Theresa_Cartoon-Growl-Beastie-Angry-4.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="778130062"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="495963-Theresa_Cartoon-Growl-Beastie-Angry-4" ID="{97C8A5E3-ADEB-44A4-A297-ECF0F11888CE}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="sfx_drunkNPC_sound-007" ID="{FEA8D81F-A5B3-4ACB-8C52-8D1F8FBB0E5D}" ShortID="184485182">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="496629-Theresa-Effort-Pant-Shout-Work-Push-Move-3" ID="{C53A12F0-F94F-4E35-A732-96E6910AD5DB}">
-											<Language>SFX</Language>
-											<AudioFile>496629-Theresa-Effort-Pant-Shout-Work-Push-Move-3.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="1008892742"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="496629-Theresa-Effort-Pant-Shout-Work-Push-Move-3" ID="{C53A12F0-F94F-4E35-A732-96E6910AD5DB}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="sfx_drunkNPC_sound-008" ID="{9BF89CFE-99C9-451D-AD77-AAE2B3278D72}" ShortID="154951082">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="496687-Theresa-Relief-Moan-Intense-Pleasure-Satisfaction-10" ID="{BD43D29C-85B8-4680-89BD-8DA78106B62F}">
-											<Language>SFX</Language>
-											<AudioFile>496687-Theresa-Relief-Moan-Intense-Pleasure-Satisfaction-10.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="922607347"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="496687-Theresa-Relief-Moan-Intense-Pleasure-Satisfaction-10" ID="{BD43D29C-85B8-4680-89BD-8DA78106B62F}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="sfx_drunkNPC_sound-004" ID="{F3ED5852-76A5-4745-9068-01B8C9F79FEE}" ShortID="275632064">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="496525-Theresa-Pain-Shout_Short-Blazing-6" ID="{204308E2-5567-4410-9F26-7E167717F002}">
-											<Language>SFX</Language>
-											<AudioFile>496525-Theresa-Pain-Shout_Short-Blazing-6.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="566423542"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="496525-Theresa-Pain-Shout_Short-Blazing-6" ID="{204308E2-5567-4410-9F26-7E167717F002}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="sfx_drunkNPC_sound-001" ID="{75BA00F6-DDB2-4BD0-B8DB-FA8C58522A3B}" ShortID="971004403">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="373772-Suzy_Character-Gibberish_Talk-Angry-Edgy-3" ID="{C6248C81-6490-4593-9892-6B0784D38B82}">
-											<Language>SFX</Language>
-											<AudioFile>373772-Suzy_Character-Gibberish_Talk-Angry-Edgy-3.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="915073461"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="373772-Suzy_Character-Gibberish_Talk-Angry-Edgy-3" ID="{C6248C81-6490-4593-9892-6B0784D38B82}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="sfx_drunkNPC_sound-009" ID="{58747471-CFBE-4DDD-81D5-516F391EEB0B}" ShortID="513910498">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="496644-Theresa-Laugh-Hard-13" ID="{AEA878F6-DD02-4279-8ACF-4D58A601B9E1}">
-											<Language>SFX</Language>
-											<AudioFile>496644-Theresa-Laugh-Hard-13.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="76274568"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="496644-Theresa-Laugh-Hard-13" ID="{AEA878F6-DD02-4279-8ACF-4D58A601B9E1}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-							</ChildrenList>
-						</RandomSequenceContainer>
-						<Sound Name="sfx_NPC_deepVoiceTalk-001" ID="{5D7A336A-E935-498E-A7F4-9C1D553543EB}" ShortID="432948759">
-							<PropertyList>
-								<Property Name="3DSpatialization" Type="int16" Value="1"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-10</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Attenuation">
-									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
-								</Reference>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="374140-White_Knight-Gibber_Talk-Half_Speed_at_Full_Quality-Sanken_CO100K-5" ID="{A460D903-625E-4276-8CD4-ED8D117AC9D3}">
+								<AudioFileSource Name="496565-Theresa-Cheer-Shout-Happy-3" ID="{8F2A90C4-344B-41C6-95DF-52ED0EC7D07B}">
 									<Language>SFX</Language>
-									<AudioFile>374140-White_Knight-Gibber_Talk-Half_Speed_at_Full_Quality-Sanken_CO100K-5.wav</AudioFile>
+									<AudioFile>496565-Theresa-Cheer-Shout-Happy-3.wav</AudioFile>
 									<MediaIDList>
-										<MediaID ID="734658739"/>
+										<MediaID ID="240754137"/>
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
 							<ActiveSourceList>
-								<ActiveSource Name="374140-White_Knight-Gibber_Talk-Half_Speed_at_Full_Quality-Sanken_CO100K-5" ID="{A460D903-625E-4276-8CD4-ED8D117AC9D3}" Platform="Linked"/>
+								<ActiveSource Name="496565-Theresa-Cheer-Shout-Happy-3" ID="{8F2A90C4-344B-41C6-95DF-52ED0EC7D07B}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_drunkNPC_sound-006" ID="{19589471-AC7F-400D-A254-262E604263ED}" ShortID="788259864">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="496612-Theresa-Drunk-Gibber_Talk-5" ID="{33A64FDF-84CA-4896-A692-14815B5CAE2C}">
+									<Language>SFX</Language>
+									<AudioFile>496612-Theresa-Drunk-Gibber_Talk-5.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="99956401"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="496612-Theresa-Drunk-Gibber_Talk-5" ID="{33A64FDF-84CA-4896-A692-14815B5CAE2C}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_drunkNPC_sound-003" ID="{16D27AE8-5603-4245-943C-6B18DF2DAE1C}" ShortID="60102985">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="496397-Theresa-Attack-Shout_Long-Straight-Fatal-3" ID="{82316710-44CD-4B3A-AF4B-5CC7087146A3}">
+									<Language>SFX</Language>
+									<AudioFile>496397-Theresa-Attack-Shout_Long-Straight-Fatal-3.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="886104202"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="496397-Theresa-Attack-Shout_Long-Straight-Fatal-3" ID="{82316710-44CD-4B3A-AF4B-5CC7087146A3}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_drunkNPC_sound-002" ID="{2456D367-3FE5-48A6-A8B7-31D448062FB3}" ShortID="711930776">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="495963-Theresa_Cartoon-Growl-Beastie-Angry-4" ID="{97C8A5E3-ADEB-44A4-A297-ECF0F11888CE}">
+									<Language>SFX</Language>
+									<AudioFile>495963-Theresa_Cartoon-Growl-Beastie-Angry-4.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="778130062"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="495963-Theresa_Cartoon-Growl-Beastie-Angry-4" ID="{97C8A5E3-ADEB-44A4-A297-ECF0F11888CE}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_drunkNPC_sound-007" ID="{FEA8D81F-A5B3-4ACB-8C52-8D1F8FBB0E5D}" ShortID="184485182">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="496629-Theresa-Effort-Pant-Shout-Work-Push-Move-3" ID="{C53A12F0-F94F-4E35-A732-96E6910AD5DB}">
+									<Language>SFX</Language>
+									<AudioFile>496629-Theresa-Effort-Pant-Shout-Work-Push-Move-3.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1008892742"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="496629-Theresa-Effort-Pant-Shout-Work-Push-Move-3" ID="{C53A12F0-F94F-4E35-A732-96E6910AD5DB}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_drunkNPC_sound-008" ID="{9BF89CFE-99C9-451D-AD77-AAE2B3278D72}" ShortID="154951082">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="496687-Theresa-Relief-Moan-Intense-Pleasure-Satisfaction-10" ID="{BD43D29C-85B8-4680-89BD-8DA78106B62F}">
+									<Language>SFX</Language>
+									<AudioFile>496687-Theresa-Relief-Moan-Intense-Pleasure-Satisfaction-10.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="922607347"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="496687-Theresa-Relief-Moan-Intense-Pleasure-Satisfaction-10" ID="{BD43D29C-85B8-4680-89BD-8DA78106B62F}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_drunkNPC_sound-001" ID="{75BA00F6-DDB2-4BD0-B8DB-FA8C58522A3B}" ShortID="971004403">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="373772-Suzy_Character-Gibberish_Talk-Angry-Edgy-3" ID="{C6248C81-6490-4593-9892-6B0784D38B82}">
+									<Language>SFX</Language>
+									<AudioFile>373772-Suzy_Character-Gibberish_Talk-Angry-Edgy-3.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="915073461"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="373772-Suzy_Character-Gibberish_Talk-Angry-Edgy-3" ID="{C6248C81-6490-4593-9892-6B0784D38B82}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
-				</ActorMixer>
+				</RandomSequenceContainer>
+				<RandomSequenceContainer Name="NPC_Laughing" ID="{22A6BF8A-3F16-4755-9A76-3BF9B51886B6}" ShortID="503765040">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+						</Reference>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="as_ab_ao_npc_laughing_rr01" ID="{2EA47710-CE5D-4F2B-8B61-950AFDADE659}" ShortID="287454288">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_ab_ao_npc_laughing_rr01" ID="{810570B5-0F0C-465A-9F3A-5FF08C7C99E3}">
+									<Language>SFX</Language>
+									<AudioFile>as_ab_ao_npc_laughing_rr01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="13656630"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_ab_ao_npc_laughing_rr01" ID="{810570B5-0F0C-465A-9F3A-5FF08C7C99E3}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_ab_ao_npc_laughing_rr02" ID="{59DF1D7D-3E80-4214-8E69-F30B0AE8880C}" ShortID="911965421">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_ab_ao_npc_laughing_rr02" ID="{5F39DFBC-ADEA-434B-96DB-CFD8D1C86521}">
+									<Language>SFX</Language>
+									<AudioFile>as_ab_ao_npc_laughing_rr02.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="773770551"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_ab_ao_npc_laughing_rr02" ID="{5F39DFBC-ADEA-434B-96DB-CFD8D1C86521}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_ab_ao_npc_laughing_rr03" ID="{D7E22E23-0142-406B-AB62-13F12A9A56E5}" ShortID="608788292">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_ab_ao_npc_laughing_rr03" ID="{612BAD16-18D5-42A7-91A2-FC27B21FF506}">
+									<Language>SFX</Language>
+									<AudioFile>as_ab_ao_npc_laughing_rr03.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="476104330"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_ab_ao_npc_laughing_rr03" ID="{612BAD16-18D5-42A7-91A2-FC27B21FF506}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_ab_ao_npc_laughing_rr04" ID="{78881A27-8827-4F82-98C9-376F5DA45994}" ShortID="620290100">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_ab_ao_npc_laughing_rr04" ID="{5F724906-A027-4283-A240-26F8B3545ED5}">
+									<Language>SFX</Language>
+									<AudioFile>as_ab_ao_npc_laughing_rr04.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="465077020"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_ab_ao_npc_laughing_rr04" ID="{5F724906-A027-4283-A240-26F8B3545ED5}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_ab_ao_npc_laughing_rr05" ID="{7CD6D7D7-3D26-46A0-9545-F337D95D534C}" ShortID="46149525">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_ab_ao_npc_laughing_rr05" ID="{79F2E700-F55B-4DD1-B16F-44E34EE6CD59}">
+									<Language>SFX</Language>
+									<AudioFile>as_ab_ao_npc_laughing_rr05.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="320278939"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_ab_ao_npc_laughing_rr05" ID="{79F2E700-F55B-4DD1-B16F-44E34EE6CD59}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_ab_ao_npc_laughing_rr06" ID="{84D6ECF1-7113-44C0-B4EF-41BEFF0B9B3D}" ShortID="1046067103">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_ab_ao_npc_laughing_rr06" ID="{D7ADDFCF-A2E3-4F51-818C-B1C9895EF4EA}">
+									<Language>SFX</Language>
+									<AudioFile>as_ab_ao_npc_laughing_rr06.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="327506266"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_ab_ao_npc_laughing_rr06" ID="{D7ADDFCF-A2E3-4F51-818C-B1C9895EF4EA}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_ab_ao_npc_laughing_rr07" ID="{E57EA138-1619-4805-89F3-6FAD72BB5696}" ShortID="559803343">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_ab_ao_npc_laughing_rr07" ID="{BC53E148-791D-40C2-8133-3D3BDC282135}">
+									<Language>SFX</Language>
+									<AudioFile>as_ab_ao_npc_laughing_rr07.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="807607474"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_ab_ao_npc_laughing_rr07" ID="{BC53E148-791D-40C2-8133-3D3BDC282135}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_ab_ao_npc_laughing_rr08" ID="{B057A20A-0C8B-4F21-B3CA-49C24B06ABC8}" ShortID="89939115">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_ab_ao_npc_laughing_rr08" ID="{52345B95-9FA4-4F6D-9868-EE28E269DD28}">
+									<Language>SFX</Language>
+									<AudioFile>as_ab_ao_npc_laughing_rr08.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="303606523"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_ab_ao_npc_laughing_rr08" ID="{52345B95-9FA4-4F6D-9868-EE28E269DD28}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_ab_ao_npc_laughing_rr09" ID="{B059E89B-65F6-4437-94CE-DCA7DEFE1597}" ShortID="1018578627">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_ab_ao_npc_laughing_rr09" ID="{AA3DC3FF-C5D0-498D-954C-DFB71C61E5AC}">
+									<Language>SFX</Language>
+									<AudioFile>as_ab_ao_npc_laughing_rr09.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="765371400"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_ab_ao_npc_laughing_rr09" ID="{AA3DC3FF-C5D0-498D-954C-DFB71C61E5AC}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_ab_ao_npc_laughing_rr10" ID="{B785CBBF-BA90-4D10-AE2C-F5E4BEF81034}" ShortID="4130271">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_ab_ao_npc_laughing_rr10" ID="{1E7245E1-7AB6-4B5B-BA55-83BECB631C6F}">
+									<Language>SFX</Language>
+									<AudioFile>as_ab_ao_npc_laughing_rr10.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="826552508"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_ab_ao_npc_laughing_rr10" ID="{1E7245E1-7AB6-4B5B-BA55-83BECB631C6F}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_ab_ao_npc_laughing_rr11" ID="{3FD841D0-ACBB-4EB3-B736-28083ED0C993}" ShortID="1031496283">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_ab_ao_npc_laughing_rr11" ID="{A26024BF-F409-4249-B43A-E322A956F1B0}">
+									<Language>SFX</Language>
+									<AudioFile>as_ab_ao_npc_laughing_rr11.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="513050302"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_ab_ao_npc_laughing_rr11" ID="{A26024BF-F409-4249-B43A-E322A956F1B0}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_ab_ao_npc_laughing_rr12" ID="{325E2939-20FA-49CA-9BB9-88B3C03D2DD0}" ShortID="126166825">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_ab_ao_npc_laughing_rr12" ID="{9217CB98-B152-4827-B575-DBB7A2118470}">
+									<Language>SFX</Language>
+									<AudioFile>as_ab_ao_npc_laughing_rr12.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="662178918"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_ab_ao_npc_laughing_rr12" ID="{9217CB98-B152-4827-B575-DBB7A2118470}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="sfx_drunkNPC_sound-009" ID="{58747471-CFBE-4DDD-81D5-516F391EEB0B}" ShortID="513910498">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="496644-Theresa-Laugh-Hard-13" ID="{AEA878F6-DD02-4279-8ACF-4D58A601B9E1}">
+									<Language>SFX</Language>
+									<AudioFile>496644-Theresa-Laugh-Hard-13.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="76274568"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="496644-Theresa-Laugh-Hard-13" ID="{AEA878F6-DD02-4279-8ACF-4D58A601B9E1}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</RandomSequenceContainer>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>

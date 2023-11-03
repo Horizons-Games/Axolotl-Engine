@@ -1,0 +1,3325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}" SchemaVersion="110" RootDocumentID="{4D2D502C-0683-46CA-93AE-C19E110AB138}" ParentDocumentID="{FB93C944-6051-4C4C-9714-5FAA354E7D11}">
+	<AudioObjects>
+		<WorkUnit Name="FinalBoss" ID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}" OwnerID="{FB93C944-6051-4C4C-9714-5FAA354E7D11}" PersistMode="Nested">
+			<ChildrenList>
+				<Sound Name="as_npc_sl_boss_energy_shield" ID="{A00A918E-DEAF-4542-92DC-CE0BC568EDAF}" ShortID="614991756">
+					<PropertyList>
+						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-6</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="as_npc_sl_boss_energy_shield" ID="{807268F7-55DF-40BC-82E6-C7C51FAE25E5}">
+							<Language>SFX</Language>
+							<AudioFile>as_npc_sl_boss_energy_shield.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="885553945"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="as_npc_sl_boss_energy_shield" ID="{807268F7-55DF-40BC-82E6-C7C51FAE25E5}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<RandomSequenceContainer Name="FinalBoss_ChargeAttack" ID="{B08B91A7-2B62-41AC-9C3C-019F60980746}" ShortID="126475533">
+					<PropertyList>
+						<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
+						<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="2"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="av_npc_so_boss_charge_attack_rr01" ID="{1F4E1203-6B1F-4C35-B2EE-156F89420892}" ShortID="1071551751">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="av_npc_so_boss_charge_attack_rr01" ID="{2FAC0B75-B1CC-4E77-A274-620EAB5B3C2B}">
+									<PropertyList>
+										<Property Name="FadeOutDuration" Type="Real64" Value="0.340414435519857"/>
+										<Property Name="LoopBegin" Type="Real64" Value="0"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>av_npc_so_boss_charge_attack_rr01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="685467574"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="av_npc_so_boss_charge_attack_rr01" ID="{2FAC0B75-B1CC-4E77-A274-620EAB5B3C2B}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="av_npc_so_boss_charge_attack_rr02" ID="{D679B9E5-E5D3-4CDE-9FE4-D5AA0FF31C76}" ShortID="290738672">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="av_npc_so_boss_charge_attack_rr02" ID="{142D1B51-B537-482D-9977-B5AF6AD10B0F}">
+									<PropertyList>
+										<Property Name="FadeOutDuration" Type="Real64" Value="0.443572735385988"/>
+										<Property Name="LoopBegin" Type="Real64" Value="0"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>av_npc_so_boss_charge_attack_rr02.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="699063910"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="av_npc_so_boss_charge_attack_rr02" ID="{142D1B51-B537-482D-9977-B5AF6AD10B0F}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="av_npc_so_boss_charge_attack_rr03" ID="{08B45657-49C7-4A83-9035-9A13C69F8E4E}" ShortID="151407872">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="av_npc_so_boss_charge_attack_rr03" ID="{B14011E7-AAB8-429B-A8A4-314EF7EEE746}">
+									<PropertyList>
+										<Property Name="FadeOutDuration" Type="Real64" Value="0.652626840696118"/>
+										<Property Name="LoopBegin" Type="Real64" Value="0"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>av_npc_so_boss_charge_attack_rr03.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="204478159"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="av_npc_so_boss_charge_attack_rr03" ID="{B14011E7-AAB8-429B-A8A4-314EF7EEE746}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</RandomSequenceContainer>
+				<Sound Name="as_npc_so_boss_charge_wall_stunt_rr" ID="{AB1EDEE3-9FCF-4FA1-97D7-083922439EFB}" ShortID="954351533">
+					<PropertyList>
+						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-3</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="as_npc_so_boss_charge_wall_stunt_rr" ID="{13D99D59-2410-42F8-90A5-A2D99F3FF395}">
+							<Language>SFX</Language>
+							<AudioFile>as_npc_so_boss_charge_wall_stunt_rr.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="961760128"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="as_npc_so_boss_charge_wall_stunt_rr" ID="{13D99D59-2410-42F8-90A5-A2D99F3FF395}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<BlendContainer Name="FinalBoss_RockSlide" ID="{2820D458-A5A1-4706-8D4A-F01310E88A99}" ShortID="241411142">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<RandomSequenceContainer Name="FinalBoss_RockStress" ID="{B6F93B76-32F1-4898-AE64-1B3329C5D983}" ShortID="123834602">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="as_npc_so_boss_charge_rocks_stress_rr01" ID="{ED71A80E-BD26-4A5B-8EC2-B72BAAA81414}" ShortID="558870777">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_charge_rocks_stress_rr01" ID="{BD3F8FA5-F11E-477B-BEFC-B35EFC21336D}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_boss_charge_rocks_stress_rr01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="485224371"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_charge_rocks_stress_rr01" ID="{BD3F8FA5-F11E-477B-BEFC-B35EFC21336D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_so_boss_charge_rocks_stress_rr02" ID="{F0F82685-B96D-457F-98EF-C4ED119EC8BA}" ShortID="764908913">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_charge_rocks_stress_rr02" ID="{1EDF1957-1A0C-4A70-B62A-F123D91F8EA7}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_boss_charge_rocks_stress_rr02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="679038742"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_charge_rocks_stress_rr02" ID="{1EDF1957-1A0C-4A70-B62A-F123D91F8EA7}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_so_boss_charge_rocks_stress_rr03" ID="{D5B4C928-058C-4FC9-ABFE-11BFB39C1BC8}" ShortID="780598238">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_charge_rocks_stress_rr03" ID="{5BAEA3C5-30A2-44D0-827A-F154BB834EE3}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_boss_charge_rocks_stress_rr03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="649686129"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_charge_rocks_stress_rr03" ID="{5BAEA3C5-30A2-44D0-827A-F154BB834EE3}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_so_boss_charge_rocks_stress_rr04" ID="{0E0562C3-63DE-422D-AC1F-6CD266601E24}" ShortID="326962063">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_charge_rocks_stress_rr04" ID="{EBE328D8-845E-4E22-AAD9-E7FFB5195E8C}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_boss_charge_rocks_stress_rr04.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="903818326"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_charge_rocks_stress_rr04" ID="{EBE328D8-845E-4E22-AAD9-E7FFB5195E8C}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="FinalBoss_RockSlide" ID="{A613BE18-0D29-4863-B147-7E202B345205}" ShortID="146442085">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="as_npc_so_boss_charge_rocks_slide_rr01" ID="{1ACD3DA2-22CF-4D9D-87B3-8383F5B744C8}" ShortID="244082929">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_charge_rocks_slide_rr01" ID="{4418475C-858E-4478-AB67-26E8DC253F10}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_boss_charge_rocks_slide_rr01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="662924116"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_charge_rocks_slide_rr01" ID="{4418475C-858E-4478-AB67-26E8DC253F10}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_so_boss_charge_rocks_slide_rr02" ID="{E42F7569-F5B2-4646-83AB-122BF4FB678B}" ShortID="406365872">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_charge_rocks_slide_rr02" ID="{37838423-6C56-46A4-AA85-C717884EB335}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_boss_charge_rocks_slide_rr02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="902432818"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_charge_rocks_slide_rr02" ID="{37838423-6C56-46A4-AA85-C717884EB335}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_so_boss_charge_rocks_slide_rr03" ID="{A3D39EA0-BC20-4600-A1CF-6AAE54AE9F08}" ShortID="487119331">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_charge_rocks_slide_rr03" ID="{1D450337-EF16-40A9-8A0A-CD6F6BF97576}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_boss_charge_rocks_slide_rr03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="869174116"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_charge_rocks_slide_rr03" ID="{1D450337-EF16-40A9-8A0A-CD6F6BF97576}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_so_boss_charge_rocks_slide_rr04" ID="{6D3ABCAC-C6D3-4992-9066-58AEEBE41EEF}" ShortID="134596633">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_charge_rocks_slide_rr04" ID="{8E290C13-11E2-4CBD-BC9F-2DEB8E38B051}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_boss_charge_rocks_slide_rr04.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="444108963"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_charge_rocks_slide_rr04" ID="{8E290C13-11E2-4CBD-BC9F-2DEB8E38B051}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+					</ChildrenList>
+				</BlendContainer>
+				<RandomSequenceContainer Name="FinalBoss_RockImpact" ID="{29FD5106-9961-4B46-AC0C-AF9295E97892}" ShortID="889912654">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="as_npc_so_boss_charge_rocks_impact_rr01" ID="{1FD71E64-FBD5-466D-8EB5-1CA77474C08A}" ShortID="464450939">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_npc_so_boss_charge_rocks_impact_rr01" ID="{CF1DF5DF-70DA-4C14-920C-5FF7F19D17C5}">
+									<Language>SFX</Language>
+									<AudioFile>as_npc_so_boss_charge_rocks_impact_rr01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="35359544"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_npc_so_boss_charge_rocks_impact_rr01" ID="{CF1DF5DF-70DA-4C14-920C-5FF7F19D17C5}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_npc_so_boss_charge_rocks_impact_rr02" ID="{312E2DAD-95F2-400A-B234-9E5FC15B8612}" ShortID="801632421">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_npc_so_boss_charge_rocks_impact_rr02" ID="{9B5DE2A1-1E62-4217-B7F0-77247C8BC438}">
+									<Language>SFX</Language>
+									<AudioFile>as_npc_so_boss_charge_rocks_impact_rr02.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1047880910"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_npc_so_boss_charge_rocks_impact_rr02" ID="{9B5DE2A1-1E62-4217-B7F0-77247C8BC438}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_npc_so_boss_charge_rocks_impact_rr03" ID="{74B67759-128D-4F0C-A712-18ACF9AE8107}" ShortID="254471462">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_npc_so_boss_charge_rocks_impact_rr03" ID="{8AE36CE4-97B3-48C9-899D-EDB3B750DC73}">
+									<Language>SFX</Language>
+									<AudioFile>as_npc_so_boss_charge_rocks_impact_rr03.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="367203673"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_npc_so_boss_charge_rocks_impact_rr03" ID="{8AE36CE4-97B3-48C9-899D-EDB3B750DC73}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_npc_so_boss_charge_rocks_impact_rr04" ID="{C3F591BE-35CF-4D81-A842-C4200069A539}" ShortID="984172526">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_npc_so_boss_charge_rocks_impact_rr04" ID="{156BBD99-72CE-41FA-AAF1-8800D35E22CC}">
+									<Language>SFX</Language>
+									<AudioFile>as_npc_so_boss_charge_rocks_impact_rr04.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="396322365"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_npc_so_boss_charge_rocks_impact_rr04" ID="{156BBD99-72CE-41FA-AAF1-8800D35E22CC}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</RandomSequenceContainer>
+				<Folder Name="FinalBossHammer" ID="{63F9D2E7-4809-4429-8F39-B8A71E751BE0}" ShortID="179644963">
+					<ChildrenList>
+						<RandomSequenceContainer Name="FinalBoss_HammerOnFire" ID="{179C1389-24C8-4BFA-A676-19DBA19A02A0}" ShortID="395674093">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="as_npc_so_boss_hammer_fire_on_rr01" ID="{B1E47867-E1EF-492F-ABC4-D43359B94D04}" ShortID="897651176">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_hammer_fire_on_rr01" ID="{D92E6D23-0412-49E4-A8D7-72188F0E2CF1}">
+											<Language>SFX</Language>
+											<AudioFile>Bounces\as_npc_so_boss_hammer_fire_on_rr01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="835869860"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_hammer_fire_on_rr01" ID="{D92E6D23-0412-49E4-A8D7-72188F0E2CF1}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_so_boss_hammer_fire_on_rr02" ID="{646A6869-32B3-4355-A3D6-CF3FE3BB8404}" ShortID="463516272">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_hammer_fire_on_rr02" ID="{D4A2C53D-EF4C-4EE6-B44B-E62CF9191D43}">
+											<Language>SFX</Language>
+											<AudioFile>Bounces\as_npc_so_boss_hammer_fire_on_rr02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="406541766"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_hammer_fire_on_rr02" ID="{D4A2C53D-EF4C-4EE6-B44B-E62CF9191D43}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_so_boss_hammer_fire_on_rr03" ID="{A808F5DF-F736-40BD-9669-110D4DCDC861}" ShortID="18515580">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_hammer_fire_on_rr03" ID="{B0557F4E-B70B-4597-82D1-82ED06F5409D}">
+											<Language>SFX</Language>
+											<AudioFile>Bounces\as_npc_so_boss_hammer_fire_on_rr03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="582275596"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_hammer_fire_on_rr03" ID="{B0557F4E-B70B-4597-82D1-82ED06F5409D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<BlendContainer Name="FinalBoss_Hammer" ID="{D6C04BC8-A315-4E80-A6E8-1BFF7FEFEF34}" ShortID="678846746">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<RandomSequenceContainer Name="FinalBoss_HammerWhoosh" ID="{4FAB28EF-BDF4-4D10-B23D-8D85BA339904}" ShortID="889440191">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-3</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="as_npc_so_boss_hammer_hit_whoosh_rr01" ID="{A777F87A-E995-4820-80FC-2A7D603A2838}" ShortID="676138160">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_hit_whoosh_rr01" ID="{A62ABA6C-6931-481A-AF39-6E4433181328}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.0264412929495761"/>
+														<Property Name="LoopBegin" Type="Real64" Value="0"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_hit_whoosh_rr01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="314198263"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_hit_whoosh_rr01" ID="{A62ABA6C-6931-481A-AF39-6E4433181328}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_hammer_hit_whoosh_rr02" ID="{9C7B4656-4B60-4CC5-A95B-3A7CDDB04B8F}" ShortID="1044307727">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_hit_whoosh_rr02" ID="{744C7DD8-C649-49CC-9268-9BA58A4B90F6}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.0308914825970549"/>
+														<Property Name="LoopBegin" Type="Real64" Value="0"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_hit_whoosh_rr02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="752376447"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_hit_whoosh_rr02" ID="{744C7DD8-C649-49CC-9268-9BA58A4B90F6}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_hammer_hit_whoosh_rr03" ID="{40528DC9-215E-40F2-9BAE-0586B312CE8E}" ShortID="804103036">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_hit_whoosh_rr03" ID="{575DBDF9-1EAA-4E93-9211-EBB31261AF80}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.0287967425256582"/>
+														<Property Name="LoopBegin" Type="Real64" Value="0"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_hit_whoosh_rr03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="124584803"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_hit_whoosh_rr03" ID="{575DBDF9-1EAA-4E93-9211-EBB31261AF80}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<BlendContainer Name="FinalBoss_HammerHit" ID="{ECC5F927-E3B2-4867-8999-958E8BA359CE}" ShortID="179157945">
+									<PropertyList>
+										<Property Name="InitialDelay" Type="Real64">
+											<ValueList>
+												<Value>0.2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<RandomSequenceContainer Name="FinalBoss_HammerHigh" ID="{A588F0B3-95A0-485E-A333-9C6548C61ACD}" ShortID="215356713">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-3</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="as_npc_so_boss_hammer_hit_high_rr01" ID="{253C9FD2-CC16-4425-9E10-098671BB5F65}" ShortID="748600095">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_high_rr01" ID="{DF3E9E8A-C6A8-4F83-B781-A2B9296ED046}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_high_rr01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="707825087"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_high_rr01" ID="{DF3E9E8A-C6A8-4F83-B781-A2B9296ED046}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_npc_so_boss_hammer_hit_high_rr02" ID="{27EECCFE-D6B7-4A39-987F-FBA1A8C34B4E}" ShortID="290498795">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_high_rr02" ID="{14192A1B-425C-4236-B13F-5B0190956E7E}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_high_rr02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="169695181"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_high_rr02" ID="{14192A1B-425C-4236-B13F-5B0190956E7E}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_npc_so_boss_hammer_hit_high_rr03" ID="{509C17A3-AF54-452F-A554-5FBEC7DC98D2}" ShortID="462051115">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_high_rr03" ID="{33E3928F-CC8C-469E-9899-8217526FC497}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_high_rr03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="394606631"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_high_rr03" ID="{33E3928F-CC8C-469E-9899-8217526FC497}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<RandomSequenceContainer Name="FinalBoss_HammerLow" ID="{5A87481E-06AA-489E-8D30-345C22AB4E18}" ShortID="995625729">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-6</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="as_npc_so_boss_hammer_hit_low_rr01" ID="{B920420A-3CA7-44E7-9732-BD4578A2B745}" ShortID="916942831">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_low_rr01" ID="{8500E9CF-67EC-4D7B-A2B1-1D34A4060042}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_low_rr01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="997296687"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_low_rr01" ID="{8500E9CF-67EC-4D7B-A2B1-1D34A4060042}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_npc_so_boss_hammer_hit_low_rr02" ID="{8EC9AD6E-D257-4C4B-85C1-D8D0153E2181}" ShortID="896681972">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_low_rr02" ID="{B10E84AE-CED1-4339-A84E-392DD6CA1D72}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_low_rr02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="681580044"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_low_rr02" ID="{B10E84AE-CED1-4339-A84E-392DD6CA1D72}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_npc_so_boss_hammer_hit_low_rr03" ID="{CFC84C04-A098-4FB4-A8AE-8217BB93E793}" ShortID="978028856">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_low_rr03" ID="{CD003E7E-A956-478A-B8B4-833B2BD6B302}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_low_rr03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="1016068349"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_low_rr03" ID="{CD003E7E-A956-478A-B8B4-833B2BD6B302}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<RandomSequenceContainer Name="FinalBoss_HammerMed" ID="{FC7D9874-F68C-4CFB-991C-82016137C0CF}" ShortID="290929320">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-6</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="as_npc_so_boss_hammer_hit_med_rr01" ID="{D0FEA1E5-66A6-4A0B-B09F-812998B4241E}" ShortID="901061590">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_med_rr01" ID="{A0C1F6D6-8E2A-4F12-A6B1-66521AC311DF}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_med_rr01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="260181969"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_med_rr01" ID="{A0C1F6D6-8E2A-4F12-A6B1-66521AC311DF}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_npc_so_boss_hammer_hit_med_rr02" ID="{B26EEA05-BE96-4B8C-AC42-41C72D795B91}" ShortID="248244389">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_med_rr02" ID="{48178D0B-9CA2-429F-BA08-E49DFA5D2328}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_med_rr02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="439325556"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_med_rr02" ID="{48178D0B-9CA2-429F-BA08-E49DFA5D2328}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_npc_so_boss_hammer_hit_med_rr03" ID="{4FAF1EF1-4068-4FDD-BFAB-6D5AFC97A8EA}" ShortID="951055228">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_med_rr03" ID="{BB72F3CF-94C9-45E3-B5AC-0D78A0FC9B0B}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_med_rr03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="905988079"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_med_rr03" ID="{BB72F3CF-94C9-45E3-B5AC-0D78A0FC9B0B}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<RandomSequenceContainer Name="FinalBoss_HammerSweetLow" ID="{ABB9E7A7-1C9C-4315-B7E8-C6DF5782425F}" ShortID="958660703">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-6</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="as_npc_so_boss_hammer_sweetener_rr01" ID="{621912F3-9EF5-4A81-BC1B-411D7BEF6E19}" ShortID="769957876">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_sweetener_rr01" ID="{CA21BE37-8533-4AA0-9B51-1BC7E4CA13CE}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_sweetener_rr01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="462369917"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_sweetener_rr01" ID="{CA21BE37-8533-4AA0-9B51-1BC7E4CA13CE}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_npc_so_boss_hammer_sweetener_rr02" ID="{AF7438DB-6D94-4ABB-9611-05EBC03654A2}" ShortID="752504726">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_sweetener_rr02" ID="{823B2EE0-9B26-4F89-B65E-334F59262F54}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_sweetener_rr02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="65346419"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_sweetener_rr02" ID="{823B2EE0-9B26-4F89-B65E-334F59262F54}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_npc_so_boss_hammer_sweetener_rr03" ID="{2209560E-ABB3-45E9-BCAF-AFFE5BC9F6B0}" ShortID="648465135">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_sweetener_rr03" ID="{11956D9C-991E-4FC3-B05F-29CA3D82CC21}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_sweetener_rr03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="38529310"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_sweetener_rr03" ID="{11956D9C-991E-4FC3-B05F-29CA3D82CC21}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+									</ChildrenList>
+								</BlendContainer>
+							</ChildrenList>
+						</BlendContainer>
+					</ChildrenList>
+				</Folder>
+				<BlendContainer Name="FinalBoss_WallHit" ID="{05F06FB8-EDAF-432E-ABEB-569025F51F06}" ShortID="233127181">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<BlendContainer Name="FinalBoss_WallHit" ID="{DDE994B7-DC19-4634-B3FD-8D3B9549BE1E}" ShortID="438582009">
+							<PropertyList>
+								<Property Name="InitialDelay" Type="Real64">
+									<ValueList>
+										<Value>0.15</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<RandomSequenceContainer Name="FinalBossWallHit" ID="{7DA9FC75-422B-4CBB-852C-AD16DE8F2ACB}" ShortID="71155423">
+									<PropertyList>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{CB7AE278-53BD-4C18-A97B-630D09D9CB9B}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="150"/>
+															<Property Name="Min" Type="Real64" Value="-150"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="as_npc_so_boss_charge_wall_hit_rr01" ID="{5E35A676-E3F6-4177-AC89-FE504E1B9730}" ShortID="923238113">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_charge_wall_hit_rr01" ID="{CB1FB1D3-C0D9-4D0C-87F2-B44F1228909B}">
+													<Language>SFX</Language>
+													<AudioFile>as_npc_so_boss_charge_wall_hit_rr01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="407388254"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_charge_wall_hit_rr01" ID="{CB1FB1D3-C0D9-4D0C-87F2-B44F1228909B}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_charge_wall_hit_rr02" ID="{EE4338CD-18B1-45F6-9205-3998F6BF31C4}" ShortID="1013221938">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_charge_wall_hit_rr02" ID="{6536CD14-EC8A-4A57-A940-C335A944066B}">
+													<Language>SFX</Language>
+													<AudioFile>as_npc_so_boss_charge_wall_hit_rr02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="582988521"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_charge_wall_hit_rr02" ID="{6536CD14-EC8A-4A57-A940-C335A944066B}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_charge_wall_hit_rr03" ID="{7268F80B-D78C-479D-8429-B696ABB1789C}" ShortID="1018814934">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_charge_wall_hit_rr03" ID="{6F6D7070-1CB3-4FF0-85D2-15D5F328569E}">
+													<Language>SFX</Language>
+													<AudioFile>as_npc_so_boss_charge_wall_hit_rr03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="688247891"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_charge_wall_hit_rr03" ID="{6F6D7070-1CB3-4FF0-85D2-15D5F328569E}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="FinalBoss_HammerLow" ID="{50244B90-5BA7-4DB4-AB35-4A013BB99E66}" ShortID="811929125">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-6</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="as_npc_so_boss_hammer_hit_low_rr01" ID="{283C8C9D-A26D-41E2-9ABA-55B7F216E293}" ShortID="507318822">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_hit_low_rr01" ID="{4C93B5EA-75A5-452F-A687-2F958D95FE4C}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_hit_low_rr01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="997296687"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_hit_low_rr01" ID="{4C93B5EA-75A5-452F-A687-2F958D95FE4C}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_hammer_hit_low_rr02" ID="{242DC536-F7D0-4D48-8738-B3852BB90429}" ShortID="909856800">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_hit_low_rr02" ID="{E26283B8-DE5B-49C0-A0D8-0414ED0598C5}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_hit_low_rr02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="681580044"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_hit_low_rr02" ID="{E26283B8-DE5B-49C0-A0D8-0414ED0598C5}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_hammer_hit_low_rr03" ID="{D1B2184A-34BB-4DB0-B4E9-91CED1D226D9}" ShortID="150924092">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_hit_low_rr03" ID="{D8B508A8-5BAC-41CA-8E07-1D356D7403C0}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_hit_low_rr03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1016068349"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_hit_low_rr03" ID="{D8B508A8-5BAC-41CA-8E07-1D356D7403C0}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="FinalBoss_HammerMed" ID="{ACFBAD87-573B-408B-87AC-B75DC4F0BACF}" ShortID="916641919">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-6</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="as_npc_so_boss_hammer_hit_med_rr01" ID="{45AFA72B-0156-4822-A946-A3C05CA5C2C8}" ShortID="957135385">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_hit_med_rr01" ID="{53672E4B-DE59-4D7D-B100-A31BA6E07D0D}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_hit_med_rr01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="260181969"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_hit_med_rr01" ID="{53672E4B-DE59-4D7D-B100-A31BA6E07D0D}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_hammer_hit_med_rr02" ID="{F8A72BA9-8D86-45E3-9283-E6154E03D2D5}" ShortID="212803394">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_hit_med_rr02" ID="{630D1958-6933-45B0-A215-089C7E0072B9}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_hit_med_rr02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="439325556"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_hit_med_rr02" ID="{630D1958-6933-45B0-A215-089C7E0072B9}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_hammer_hit_med_rr03" ID="{45B6C01F-452A-4793-A5B1-4A60C7DE05E8}" ShortID="23700557">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_hit_med_rr03" ID="{470E12D0-E9D4-4E62-89D4-12529C72F44D}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_hit_med_rr03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="905988079"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_hit_med_rr03" ID="{470E12D0-E9D4-4E62-89D4-12529C72F44D}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="FinalBoss_HammerSweetLow" ID="{0671907F-498D-4C9F-8452-6DCAF43E2AC3}" ShortID="972700291">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-6</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="as_npc_so_boss_hammer_sweetener_rr01" ID="{1BAB3C08-BFAA-4A7F-A5F0-C8445EB70F8E}" ShortID="412274584">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_sweetener_rr01" ID="{8F54D106-6B30-45BA-97BD-2FD06A0A0AD0}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_sweetener_rr01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="462369917"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_sweetener_rr01" ID="{8F54D106-6B30-45BA-97BD-2FD06A0A0AD0}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_hammer_sweetener_rr02" ID="{AAAB77FD-C169-4C5F-B207-FB624C3B939C}" ShortID="355115992">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_sweetener_rr02" ID="{3A53D859-DE45-4C8B-B2B5-456B7FB6A0C1}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_sweetener_rr02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="65346419"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_sweetener_rr02" ID="{3A53D859-DE45-4C8B-B2B5-456B7FB6A0C1}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_hammer_sweetener_rr03" ID="{1BBB4DC1-DB83-4740-AFEA-5EEAC1BDC79C}" ShortID="606062938">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_sweetener_rr03" ID="{7255C3A1-BF44-4D49-8822-421588BD2725}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_sweetener_rr03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="38529310"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_sweetener_rr03" ID="{7255C3A1-BF44-4D49-8822-421588BD2725}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+							</ChildrenList>
+						</BlendContainer>
+						<RandomSequenceContainer Name="FinalBoss_HammerWhoosh" ID="{B211472E-1BF5-43DA-B285-70AF1CF2F4CE}" ShortID="41327006">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ValueList>
+										<Value>-500</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="as_npc_so_boss_hammer_hit_whoosh_rr01" ID="{1C9C9000-15D6-427B-B48A-0D988CA8DFA7}" ShortID="839172854">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_hammer_hit_whoosh_rr01" ID="{6BF8260F-B47A-4DA3-BD7F-3929971C6223}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0264412929495761"/>
+												<Property Name="LoopBegin" Type="Real64" Value="0"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Bounces\as_npc_so_boss_hammer_hit_whoosh_rr01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="314198263"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_hammer_hit_whoosh_rr01" ID="{6BF8260F-B47A-4DA3-BD7F-3929971C6223}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_so_boss_hammer_hit_whoosh_rr02" ID="{A253338B-1210-4B2F-8E70-61693DF99486}" ShortID="123318018">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_hammer_hit_whoosh_rr02" ID="{730A68E3-E3C8-4BED-BA8F-D3E1D14FC753}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0308914825970549"/>
+												<Property Name="LoopBegin" Type="Real64" Value="0"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Bounces\as_npc_so_boss_hammer_hit_whoosh_rr02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="752376447"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_hammer_hit_whoosh_rr02" ID="{730A68E3-E3C8-4BED-BA8F-D3E1D14FC753}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_so_boss_hammer_hit_whoosh_rr03" ID="{5EDA7F1D-6DAC-4BD8-B1D3-33E4704B407C}" ShortID="718480009">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_hammer_hit_whoosh_rr03" ID="{738EBAFD-8EA3-40FE-80E1-EA90008B1C50}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0287967425256582"/>
+												<Property Name="LoopBegin" Type="Real64" Value="0"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Bounces\as_npc_so_boss_hammer_hit_whoosh_rr03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="124584803"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_hammer_hit_whoosh_rr03" ID="{738EBAFD-8EA3-40FE-80E1-EA90008B1C50}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+					</ChildrenList>
+				</BlendContainer>
+				<RandomSequenceContainer Name="FinalBoss_HammerShout" ID="{ADF7AFDD-1B37-44DF-BD9E-518879651AC1}" ShortID="745622549">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="av_npc_so_boss_hammer_shout_rr01" ID="{DBE03A7B-496A-4228-A3DF-F0367B1CFA81}" ShortID="1003436450">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="av_npc_so_boss_hammer_shout_rr01" ID="{412EA5C9-054E-4B35-A4D9-C735E68E92D3}">
+									<Language>SFX</Language>
+									<AudioFile>av_npc_so_boss_hammer_shout_rr01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="326193898"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="av_npc_so_boss_hammer_shout_rr01" ID="{412EA5C9-054E-4B35-A4D9-C735E68E92D3}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="av_npc_so_boss_hammer_shout_rr02" ID="{05218663-8FC0-48C7-878C-3C8CB7F1055C}" ShortID="440279251">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="av_npc_so_boss_hammer_shout_rr02" ID="{E7A7A7B2-4AC5-487E-8CFE-885EA163C88E}">
+									<Language>SFX</Language>
+									<AudioFile>av_npc_so_boss_hammer_shout_rr02.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="468287434"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="av_npc_so_boss_hammer_shout_rr02" ID="{E7A7A7B2-4AC5-487E-8CFE-885EA163C88E}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="av_npc_so_boss_hammer_shout_rr03" ID="{C414A62D-6475-4503-807B-7D7BA2209C66}" ShortID="1012696387">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="av_npc_so_boss_hammer_shout_rr03" ID="{8E818791-6794-49A4-837C-8307429D5980}">
+									<Language>SFX</Language>
+									<AudioFile>av_npc_so_boss_hammer_shout_rr03.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="315208379"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="av_npc_so_boss_hammer_shout_rr03" ID="{8E818791-6794-49A4-837C-8307429D5980}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="av_npc_so_boss_hammer_shout_rr04" ID="{F00C07DA-CD0B-4F27-BA45-D93A4DC90AD8}" ShortID="589642335">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="av_npc_so_boss_hammer_shout_rr04" ID="{20F67ED2-4EB4-4EA2-A484-B97F44C34CD8}">
+									<Language>SFX</Language>
+									<AudioFile>av_npc_so_boss_hammer_shout_rr04.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="517629634"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="av_npc_so_boss_hammer_shout_rr04" ID="{20F67ED2-4EB4-4EA2-A484-B97F44C34CD8}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="av_npc_so_boss_hammer_shout_rr05" ID="{95DBB7A1-3ABB-434D-8C2C-5C779C6C3D5B}" ShortID="79977961">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="av_npc_so_boss_hammer_shout_rr05" ID="{A6D02BFE-2944-4C09-B7A0-84C6D4DDD3EA}">
+									<Language>SFX</Language>
+									<AudioFile>av_npc_so_boss_hammer_shout_rr05.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="755821479"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="av_npc_so_boss_hammer_shout_rr05" ID="{A6D02BFE-2944-4C09-B7A0-84C6D4DDD3EA}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="av_npc_so_boss_hammer_shout_rr06" ID="{BB0EA3CE-4304-4CBD-AF9B-F19E40AFB236}" ShortID="180842547">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="av_npc_so_boss_hammer_shout_rr06" ID="{221B530F-63A2-4B61-8434-EB6652AA2055}">
+									<Language>SFX</Language>
+									<AudioFile>av_npc_so_boss_hammer_shout_rr06.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="9404377"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="av_npc_so_boss_hammer_shout_rr06" ID="{221B530F-63A2-4B61-8434-EB6652AA2055}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</RandomSequenceContainer>
+				<RandomSequenceContainer Name="FinalBoss_HammerFire" ID="{3C53338E-0C2B-4C91-A7FD-B79B0D298318}" ShortID="218852213">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="as_npc_so_boss_hammer_fire_on_rr01" ID="{9781C12D-6AF8-4A95-BB62-1FF6CEC22643}" ShortID="543039141">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_npc_so_boss_hammer_fire_on_rr01" ID="{55B82164-6FBA-45D0-9892-21AB55FF7EFB}">
+									<Language>SFX</Language>
+									<AudioFile>as_npc_so_boss_hammer_fire_on_rr01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="178441624"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_npc_so_boss_hammer_fire_on_rr01" ID="{55B82164-6FBA-45D0-9892-21AB55FF7EFB}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_npc_so_boss_hammer_fire_on_rr02" ID="{97D6DDB5-103D-4B8B-8122-7917776AB2A9}" ShortID="72414680">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_npc_so_boss_hammer_fire_on_rr02" ID="{02A4DF85-0EAF-4376-B73A-F2CC244921D1}">
+									<Language>SFX</Language>
+									<AudioFile>as_npc_so_boss_hammer_fire_on_rr02.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="157866284"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_npc_so_boss_hammer_fire_on_rr02" ID="{02A4DF85-0EAF-4376-B73A-F2CC244921D1}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_npc_so_boss_hammer_fire_on_rr03" ID="{92A047FC-70B5-4FF3-8AE5-C83875D777DB}" ShortID="1033667376">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_npc_so_boss_hammer_fire_on_rr03" ID="{6F616474-7093-412A-992E-11EF1056D5FE}">
+									<Language>SFX</Language>
+									<AudioFile>as_npc_so_boss_hammer_fire_on_rr03.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="211341305"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_npc_so_boss_hammer_fire_on_rr03" ID="{6F616474-7093-412A-992E-11EF1056D5FE}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</RandomSequenceContainer>
+				<RandomSequenceContainer Name="FinalBoss_RocketLaunch" ID="{87BAE332-ECFB-4C70-B6E6-8ABF7A32BF23}" ShortID="61318719">
+					<PropertyList>
+						<Property Name="PlayMechanismSpecialTransitions" Type="bool" Value="True"/>
+						<Property Name="PlayMechanismSpecialTransitionsType" Type="int16" Value="3"/>
+						<Property Name="PlayMechanismSpecialTransitionsValue" Type="Real64" Value="0.45"/>
+						<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+						<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<BlendContainer Name="FinalBoss_RocketLaunch" ID="{C7378F34-FFB8-450E-A75A-A453A0F96F9F}" ShortID="570165663">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-6</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<RandomSequenceContainer Name="FinalBoss_RocketLaunchBurst" ID="{2305565F-AF4B-4E5B-B462-1B85E18E9CF5}" ShortID="151943162">
+									<PropertyList>
+										<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
+										<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="as_npc_so_boss_rocket_launch_burst_rr01" ID="{36E9B4E6-9833-4CF1-BCD0-C7BAB7F6969A}" ShortID="746655820">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_rocket_launch_burst_rr01" ID="{50E502AC-27A6-42F9-B1FE-B018F21013E9}">
+													<Language>SFX</Language>
+													<AudioFile>as_npc_so_boss_rocket_launch_burst_rr01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="194971156"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_rocket_launch_burst_rr01" ID="{50E502AC-27A6-42F9-B1FE-B018F21013E9}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_rocket_launch_burst_rr02" ID="{D1961F4F-ACDC-4D91-AD97-006CB83A6A1E}" ShortID="462002783">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_rocket_launch_burst_rr02" ID="{A4694156-3C59-4067-8453-238C27FE3D9D}">
+													<Language>SFX</Language>
+													<AudioFile>as_npc_so_boss_rocket_launch_burst_rr02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="460540990"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_rocket_launch_burst_rr02" ID="{A4694156-3C59-4067-8453-238C27FE3D9D}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_rocket_launch_burst_rr03" ID="{C32B9A58-A807-4194-8050-9F7F8E2B8B83}" ShortID="714554089">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_rocket_launch_burst_rr03" ID="{BBD8E311-F1EE-4CD4-929D-D2949F03E97E}">
+													<Language>SFX</Language>
+													<AudioFile>as_npc_so_boss_rocket_launch_burst_rr03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="984921379"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_rocket_launch_burst_rr03" ID="{BBD8E311-F1EE-4CD4-929D-D2949F03E97E}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_rocket_launch_burst_rr04" ID="{F0518E35-8D29-491E-B58E-AF06ED5C5E66}" ShortID="125216499">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_rocket_launch_burst_rr04" ID="{1B758D9D-91F5-49FF-8A9C-120841B411D7}">
+													<Language>SFX</Language>
+													<AudioFile>as_npc_so_boss_rocket_launch_burst_rr04.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="51893008"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_rocket_launch_burst_rr04" ID="{1B758D9D-91F5-49FF-8A9C-120841B411D7}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<Sound Name="as_npc_so_boss_rocket_launch_mechanical" ID="{99F0853F-3E51-483A-B26D-929A5477353F}" ShortID="176588082">
+									<PropertyList>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{32BDDBB7-47B7-44C3-A742-0043DDDD0510}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="300"/>
+															<Property Name="Min" Type="Real64" Value="-150"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_rocket_launch_mechanical" ID="{763F8E70-0C91-4207-B1BB-AF3EA81872E3}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_boss_rocket_launch_mechanical.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="759558227"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_rocket_launch_mechanical" ID="{763F8E70-0C91-4207-B1BB-AF3EA81872E3}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</BlendContainer>
+					</ChildrenList>
+					<Playlist>
+						<ItemRef Name="FinalBoss_RocketLaunch" ID="{C7378F34-FFB8-450E-A75A-A453A0F96F9F}"/>
+						<ItemRef Name="FinalBoss_RocketLaunch" ID="{C7378F34-FFB8-450E-A75A-A453A0F96F9F}"/>
+						<ItemRef Name="FinalBoss_RocketLaunch" ID="{C7378F34-FFB8-450E-A75A-A453A0F96F9F}"/>
+						<ItemRef Name="FinalBoss_RocketLaunch" ID="{C7378F34-FFB8-450E-A75A-A453A0F96F9F}"/>
+						<ItemRef Name="FinalBoss_RocketLaunch" ID="{C7378F34-FFB8-450E-A75A-A453A0F96F9F}"/>
+						<ItemRef Name="FinalBoss_RocketLaunch" ID="{C7378F34-FFB8-450E-A75A-A453A0F96F9F}"/>
+					</Playlist>
+				</RandomSequenceContainer>
+				<BlendContainer Name="FinalBoss_RocketImpact" ID="{99E5E9FA-5191-4303-8BB5-D3B54F0F6C54}" ShortID="179950088">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-6</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<RandomSequenceContainer Name="FinalBoss_RocketImpact" ID="{E0FDFE39-6D03-4838-BBBF-6EE41556C747}" ShortID="106781199">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="as_npc_so_boss_rocket_impact_rr01" ID="{6E9578CB-4FFF-496A-9C47-81F90CCBC298}" ShortID="706849806">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_rocket_impact_rr01" ID="{6F9B16CB-21D6-4FD3-A28A-2CFCCFD16520}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_boss_rocket_impact_rr01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="712982293"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_rocket_impact_rr01" ID="{6F9B16CB-21D6-4FD3-A28A-2CFCCFD16520}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_so_boss_rocket_impact_rr02" ID="{4CD777A3-98E5-4A7C-B905-2C807A9CC842}" ShortID="40125286">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_rocket_impact_rr02" ID="{9B634D98-0468-42B0-941C-C898DAEE06FE}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_boss_rocket_impact_rr02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="672374377"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_rocket_impact_rr02" ID="{9B634D98-0468-42B0-941C-C898DAEE06FE}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_so_boss_rocket_impact_rr03" ID="{CD204E2B-6BF8-438D-B10E-12FCF3889405}" ShortID="652517351">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_rocket_impact_rr03" ID="{A94C6ED7-1B34-49B5-A2F5-6BB1031F476F}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_boss_rocket_impact_rr03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="660535226"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_rocket_impact_rr03" ID="{A94C6ED7-1B34-49B5-A2F5-6BB1031F476F}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="FinalBoss_RocketLaunchBurst" ID="{66C725AD-00DC-49C2-B622-869B32E3524B}" ShortID="155992306">
+							<PropertyList>
+								<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
+								<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="as_npc_so_boss_rocket_launch_burst_rr01" ID="{B13FAC94-807E-4D52-8979-57B40FCD9080}" ShortID="128709146">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_rocket_launch_burst_rr01" ID="{04F80780-0157-418E-BD26-16DDB503FF4F}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_boss_rocket_launch_burst_rr01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="194971156"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_rocket_launch_burst_rr01" ID="{04F80780-0157-418E-BD26-16DDB503FF4F}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_so_boss_rocket_launch_burst_rr02" ID="{DE09E3C0-2922-4904-AF2E-4936EBA8391F}" ShortID="987244">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_rocket_launch_burst_rr02" ID="{EEF1F5E4-40EB-47B1-8CA9-5335DEF5FD67}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_boss_rocket_launch_burst_rr02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="460540990"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_rocket_launch_burst_rr02" ID="{EEF1F5E4-40EB-47B1-8CA9-5335DEF5FD67}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_so_boss_rocket_launch_burst_rr03" ID="{DE0A3185-4EFA-4EC3-81F3-C4D1AE53590B}" ShortID="604139743">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_rocket_launch_burst_rr03" ID="{0B2330CF-9DFB-4752-8B47-F6290306F25F}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_boss_rocket_launch_burst_rr03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="984921379"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_rocket_launch_burst_rr03" ID="{0B2330CF-9DFB-4752-8B47-F6290306F25F}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_so_boss_rocket_launch_burst_rr04" ID="{455F4DFF-672F-40EE-8618-51C204FD9E5D}" ShortID="411323396">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_boss_rocket_launch_burst_rr04" ID="{E269D2CE-1A2F-4D2A-9117-3C169AC6B257}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_boss_rocket_launch_burst_rr04.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="51893008"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_boss_rocket_launch_burst_rr04" ID="{E269D2CE-1A2F-4D2A-9117-3C169AC6B257}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+					</ChildrenList>
+				</BlendContainer>
+				<BlendContainer Name="FinalBoss_RocketFalling" ID="{80DA7495-5B12-4813-9C35-328112A2C5BB}" ShortID="796926100">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<RandomSequenceContainer Name="FinalBoss_RocketFlyBy" ID="{0E5F538B-9312-4BDA-8676-6034460ABA81}" ShortID="291086979">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="as_npc_sl_boss_rocket_flyby_rr01" ID="{760E046F-4D98-4A78-92B8-0A4D2BC4A868}" ShortID="317314843">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_sl_boss_rocket_flyby_rr01" ID="{69ADEEA1-6F4D-4F6F-9E07-E2BEAF154562}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_sl_boss_rocket_flyby_rr01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="713152987"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_sl_boss_rocket_flyby_rr01" ID="{69ADEEA1-6F4D-4F6F-9E07-E2BEAF154562}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_sl_boss_rocket_flyby_rr02" ID="{1528D0A7-018B-4932-B6B0-A8B8A949BAF2}" ShortID="698772131">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_sl_boss_rocket_flyby_rr02" ID="{575DBB3B-5C14-4210-A47A-B7BA9AC57C2D}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_sl_boss_rocket_flyby_rr02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="783907754"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_sl_boss_rocket_flyby_rr02" ID="{575DBB3B-5C14-4210-A47A-B7BA9AC57C2D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_sl_boss_rocket_flyby_rr03" ID="{10FA07B1-0E09-45D7-BDE9-8101FD7BEC07}" ShortID="508089655">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_sl_boss_rocket_flyby_rr03" ID="{2BF3A3C7-7BDC-4928-A272-9703225437DC}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_sl_boss_rocket_flyby_rr03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="763759609"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_sl_boss_rocket_flyby_rr03" ID="{2BF3A3C7-7BDC-4928-A272-9703225437DC}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_sl_boss_rocket_flyby_rr04" ID="{8A703B3A-534A-4C8B-B175-E602964A3624}" ShortID="846315559">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_sl_boss_rocket_flyby_rr04" ID="{EE3F3FFA-6824-4797-BCB0-7D415793CDA7}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_sl_boss_rocket_flyby_rr04.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="879210882"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_sl_boss_rocket_flyby_rr04" ID="{EE3F3FFA-6824-4797-BCB0-7D415793CDA7}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<BlendContainer Name="FinalBoss_RocketDistortion" ID="{E4EB22A8-CC85-4E45-8E79-DB1100ABD597}" ShortID="900177379">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="as_npc_sl_boss_rocket_distortion_low" ID="{73966755-A7C3-4169-8F97-67A488846811}" ShortID="534092919">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-6</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_sl_boss_rocket_distortion_low" ID="{5B13CB76-76EB-4B2B-AE6A-173CBDE1C5A3}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_sl_boss_rocket_distortion_low.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="5939166"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_sl_boss_rocket_distortion_low" ID="{5B13CB76-76EB-4B2B-AE6A-173CBDE1C5A3}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_sl_boss_rocket_distortion_med" ID="{C4C5EFD4-0757-4218-AC6E-19ED644B5DD6}" ShortID="811224727">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_sl_boss_rocket_distortion_med" ID="{D15FEBDA-05B5-40D0-8269-CF50071F7530}">
+											<Language>SFX</Language>
+											<AudioFile>as_npc_sl_boss_rocket_distortion_med.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="123879843"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_sl_boss_rocket_distortion_med" ID="{D15FEBDA-05B5-40D0-8269-CF50071F7530}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</BlendContainer>
+					</ChildrenList>
+				</BlendContainer>
+				<Sound Name="av_npc_so_boss_summon_enemies" ID="{43D0AF69-150B-4BC9-A176-661854B5D8D5}" ShortID="1047332475">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="av_npc_so_boss_summon_enemies" ID="{6181FD2A-D9A7-4F95-910E-A6F842D2C0E6}">
+							<Language>SFX</Language>
+							<AudioFile>av_npc_so_boss_summon_enemies.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="355633358"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="av_npc_so_boss_summon_enemies" ID="{6181FD2A-D9A7-4F95-910E-A6F842D2C0E6}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<RandomSequenceContainer Name="FinalBoss_Damage" ID="{71090AD0-95BB-4282-881D-19703FB9A4D3}" ShortID="889930360">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="av_npc_so_boss_damage_rr01" ID="{4796EEB8-F264-4DDD-875B-653CD2CE4200}" ShortID="481508033">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="av_npc_so_boss_damage_rr01" ID="{D2B03248-F0EA-4F14-B347-4331C9F142CF}">
+									<Language>SFX</Language>
+									<AudioFile>av_npc_so_boss_damage_rr01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="674907955"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="av_npc_so_boss_damage_rr01" ID="{D2B03248-F0EA-4F14-B347-4331C9F142CF}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="av_npc_so_boss_damage_rr02" ID="{F8FF30E1-DFCD-4952-BCFF-677FD9AF7EB8}" ShortID="759515145">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="av_npc_so_boss_damage_rr02" ID="{225AEDDF-0D66-4861-96B5-6A43577FB276}">
+									<Language>SFX</Language>
+									<AudioFile>av_npc_so_boss_damage_rr02.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="472850294"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="av_npc_so_boss_damage_rr02" ID="{225AEDDF-0D66-4861-96B5-6A43577FB276}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="av_npc_so_boss_damage_rr03" ID="{9DCC52B2-5004-4A3E-9F35-8F5F7AB52308}" ShortID="926091849">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="av_npc_so_boss_damage_rr03" ID="{704FAB59-6FA7-4995-A719-CA527C8BF169}">
+									<Language>SFX</Language>
+									<AudioFile>av_npc_so_boss_damage_rr03.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="564953347"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="av_npc_so_boss_damage_rr03" ID="{704FAB59-6FA7-4995-A719-CA527C8BF169}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="av_npc_so_boss_damage_rr04" ID="{92ADC94C-2E0E-4AB2-B356-21F4DFCF78DE}" ShortID="264449894">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="av_npc_so_boss_damage_rr04" ID="{E66CDCB7-9065-4213-9DF7-52895A77CC5E}">
+									<Language>SFX</Language>
+									<AudioFile>av_npc_so_boss_damage_rr04.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="587415098"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="av_npc_so_boss_damage_rr04" ID="{E66CDCB7-9065-4213-9DF7-52895A77CC5E}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="av_npc_so_boss_damage_rr05" ID="{CE591ACD-6E5E-445A-90CE-B2DF7BE28683}" ShortID="897260632">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="av_npc_so_boss_damage_rr05" ID="{2402AB1D-907D-4D35-9C31-6C94E88CD9CE}">
+									<Language>SFX</Language>
+									<AudioFile>av_npc_so_boss_damage_rr05.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="67660003"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="av_npc_so_boss_damage_rr05" ID="{2402AB1D-907D-4D35-9C31-6C94E88CD9CE}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="av_npc_so_boss_damage_rr06" ID="{91D01AFB-274F-486A-B124-29D96BAE4F96}" ShortID="169077110">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="av_npc_so_boss_damage_rr06" ID="{39924134-FA2E-4389-9456-88899BC057BD}">
+									<Language>SFX</Language>
+									<AudioFile>av_npc_so_boss_damage_rr06.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="136299656"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="av_npc_so_boss_damage_rr06" ID="{39924134-FA2E-4389-9456-88899BC057BD}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</RandomSequenceContainer>
+				<Sound Name="av_npc_so_boss_death" ID="{BAF59663-73F6-45CA-8E5F-C1ABF48A48B1}" ShortID="446456201">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="av_npc_so_boss_death" ID="{CFBA82A6-005F-4D12-9AF8-21C1A99B6992}">
+							<Language>SFX</Language>
+							<AudioFile>av_npc_so_boss_death.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="601538458"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="av_npc_so_boss_death" ID="{CFBA82A6-005F-4D12-9AF8-21C1A99B6992}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+				<Folder Name="FinalBoss_JumpLand" ID="{DDC50403-BB6A-4170-96DA-EB890F9AFC9F}" ShortID="1030973315">
+					<ChildrenList>
+						<BlendContainer Name="FinalBoss_Land" ID="{E137B3E2-432E-4E13-BAAB-364BCE1E25EF}" ShortID="47039933">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<RandomSequenceContainer Name="FinalBoss_HammerWhoosh" ID="{C436F600-C301-462F-BDB4-3EC66E5B3AA2}" ShortID="718082355">
+									<PropertyList>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>-300</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-3</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="as_npc_so_boss_hammer_hit_whoosh_rr01" ID="{5CFEADA6-7AB9-401C-9A57-8D4FDE90464D}" ShortID="286715796">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_hit_whoosh_rr01" ID="{C9674E65-AFF3-4225-B0B4-D65BD40B08DE}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.0264412929495761"/>
+														<Property Name="LoopBegin" Type="Real64" Value="0"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_hit_whoosh_rr01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="314198263"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_hit_whoosh_rr01" ID="{C9674E65-AFF3-4225-B0B4-D65BD40B08DE}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_hammer_hit_whoosh_rr02" ID="{2BC067DA-11EE-4ADD-9680-18502EFABDDE}" ShortID="8932376">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_hit_whoosh_rr02" ID="{D786A1D7-8FED-45F3-8A98-5885F139A043}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.0308914825970549"/>
+														<Property Name="LoopBegin" Type="Real64" Value="0"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_hit_whoosh_rr02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="752376447"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_hit_whoosh_rr02" ID="{D786A1D7-8FED-45F3-8A98-5885F139A043}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_hammer_hit_whoosh_rr03" ID="{1103A706-D637-4D92-94E7-E51057FA7B51}" ShortID="716849981">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_hit_whoosh_rr03" ID="{FE7E711D-25E2-4413-9EE9-8124961DC56D}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.0287967425256582"/>
+														<Property Name="LoopBegin" Type="Real64" Value="0"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_hit_whoosh_rr03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="124584803"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_hit_whoosh_rr03" ID="{FE7E711D-25E2-4413-9EE9-8124961DC56D}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<BlendContainer Name="FinalBoss_HammerHit" ID="{6231D067-5811-48C1-8E74-C876C941B63D}" ShortID="681215747">
+									<PropertyList>
+										<Property Name="InitialDelay" Type="Real64">
+											<ValueList>
+												<Value>0.2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<RandomSequenceContainer Name="FinalBoss_HammerHigh" ID="{0441BB0C-E636-4142-B67F-7113E6C23F33}" ShortID="998695840">
+											<PropertyList>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>-500</Value>
+													</ValueList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-3</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="as_npc_so_boss_hammer_hit_high_rr01" ID="{3599D4A6-E202-4982-AB2D-24D76022674D}" ShortID="774217172">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_high_rr01" ID="{8AD3B86F-D8A2-49CE-9CC1-088829BFD916}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_high_rr01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="707825087"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_high_rr01" ID="{8AD3B86F-D8A2-49CE-9CC1-088829BFD916}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_npc_so_boss_hammer_hit_high_rr02" ID="{4250328E-F83F-4FEE-BAC4-D0DE439B1360}" ShortID="48040178">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_high_rr02" ID="{9DA38E5F-F6AF-4201-8E60-1B2F1AF1BEFC}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_high_rr02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="169695181"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_high_rr02" ID="{9DA38E5F-F6AF-4201-8E60-1B2F1AF1BEFC}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_npc_so_boss_hammer_hit_high_rr03" ID="{DB212F96-C75E-42B3-99A5-8AF4193FE13F}" ShortID="1017873441">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_high_rr03" ID="{B0513909-0763-4A6D-8E21-A2575F6CBAD3}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_high_rr03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="394606631"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_high_rr03" ID="{B0513909-0763-4A6D-8E21-A2575F6CBAD3}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<RandomSequenceContainer Name="FinalBoss_HammerLow" ID="{C3E2A371-DC90-4DD5-9BB1-63DB07984A4B}" ShortID="21635010">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-6</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="as_npc_so_boss_hammer_hit_low_rr01" ID="{AE61FEBC-B2E1-4D95-95EF-1D7D27AAEFCA}" ShortID="829272929">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_low_rr01" ID="{321FF5CD-1298-4319-8E75-01C07E506CFB}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_low_rr01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="997296687"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_low_rr01" ID="{321FF5CD-1298-4319-8E75-01C07E506CFB}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_npc_so_boss_hammer_hit_low_rr02" ID="{7E8C578F-0025-4B79-8626-349ED0B5D120}" ShortID="9593183">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_low_rr02" ID="{99A117D0-D9BA-44D7-8C7C-AE4A8EA53FA3}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_low_rr02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="681580044"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_low_rr02" ID="{99A117D0-D9BA-44D7-8C7C-AE4A8EA53FA3}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_npc_so_boss_hammer_hit_low_rr03" ID="{4B70C53C-48DF-4AED-BEE1-50E7E3369085}" ShortID="173588097">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_low_rr03" ID="{9F17B5DA-6A55-4D4D-983E-17CEC723C650}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_low_rr03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="1016068349"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_low_rr03" ID="{9F17B5DA-6A55-4D4D-983E-17CEC723C650}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<RandomSequenceContainer Name="FinalBoss_HammerMed" ID="{9B365496-019F-4FB9-A292-A5AF0B71C67D}" ShortID="485971008">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-6</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="as_npc_so_boss_hammer_hit_med_rr01" ID="{2C15D733-813A-4D3E-BF72-9BBCD38FCFC9}" ShortID="821018366">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_med_rr01" ID="{2465C23F-40F0-4B65-BF2B-49E2296FF89A}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_med_rr01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="260181969"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_med_rr01" ID="{2465C23F-40F0-4B65-BF2B-49E2296FF89A}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_npc_so_boss_hammer_hit_med_rr02" ID="{423F232B-A206-4A6A-BB7D-3ED90B7C0991}" ShortID="50190882">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_med_rr02" ID="{E037D57E-4743-458C-9079-6B0AABAB2FD9}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_med_rr02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="439325556"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_med_rr02" ID="{E037D57E-4743-458C-9079-6B0AABAB2FD9}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_npc_so_boss_hammer_hit_med_rr03" ID="{7ED2D1CC-8AE5-4B63-9A49-9B6D1F083B9B}" ShortID="621860261">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_hit_med_rr03" ID="{F9AA0BE1-B512-42FE-9AD0-9C90BCE04CB1}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_hit_med_rr03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="905988079"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_hit_med_rr03" ID="{F9AA0BE1-B512-42FE-9AD0-9C90BCE04CB1}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<RandomSequenceContainer Name="FinalBoss_HammerSweetLow" ID="{166956FB-4FB8-4C0A-8204-F60741B62B28}" ShortID="695650193">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-6</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="as_npc_so_boss_hammer_sweetener_rr01" ID="{4E42DFD7-2063-473A-B57C-BBB787EDA7D7}" ShortID="395552851">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_sweetener_rr01" ID="{456C63C2-69AA-4042-9E80-56DDCEC939BE}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_sweetener_rr01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="462369917"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_sweetener_rr01" ID="{456C63C2-69AA-4042-9E80-56DDCEC939BE}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_npc_so_boss_hammer_sweetener_rr02" ID="{DF2CCE4F-2327-4ED3-8FD4-324DAE381742}" ShortID="336630890">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_sweetener_rr02" ID="{0E1C5889-F8FC-4842-85CF-F04C17ED4B3E}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_sweetener_rr02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="65346419"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_sweetener_rr02" ID="{0E1C5889-F8FC-4842-85CF-F04C17ED4B3E}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_npc_so_boss_hammer_sweetener_rr03" ID="{DC7A156B-2579-4BE4-A478-E22B44DA5B6E}" ShortID="667509876">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_npc_so_boss_hammer_sweetener_rr03" ID="{7A2FC624-B83D-46D2-9C86-D2388DFBE338}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_npc_so_boss_hammer_sweetener_rr03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="38529310"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_npc_so_boss_hammer_sweetener_rr03" ID="{7A2FC624-B83D-46D2-9C86-D2388DFBE338}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+									</ChildrenList>
+								</BlendContainer>
+							</ChildrenList>
+						</BlendContainer>
+						<BlendContainer Name="FinalBoss_Jump" ID="{5B1C359E-AC94-4550-BC4F-1AD5022F6FDE}" ShortID="211435523">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<RandomSequenceContainer Name="FinalBoss_JumpHigh" ID="{566DD96E-8BA4-44CF-BB0A-E35230E96B8A}" ShortID="847460478">
+									<PropertyList>
+										<Property Name="InitialDelay" Type="Real64">
+											<ValueList>
+												<Value>0.3</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="as_npc_so_boss_jump_high_rr01" ID="{E17BD9F8-A91A-455A-98BB-7FA5436477E7}" ShortID="396522716">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_jump_high_rr01" ID="{005B778C-26C6-4FBD-93E1-ABC5BA376E97}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_jump_high_rr01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="821118892"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_jump_high_rr01" ID="{005B778C-26C6-4FBD-93E1-ABC5BA376E97}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_jump_high_rr02" ID="{5119BBD6-3B9E-4DFA-BEE5-618145E23762}" ShortID="193618356">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_jump_high_rr02" ID="{371D90B7-BE8E-4C82-A09B-2000C79756B7}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_jump_high_rr02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="206277085"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_jump_high_rr02" ID="{371D90B7-BE8E-4C82-A09B-2000C79756B7}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_jump_high_rr03" ID="{588656A9-D72C-4E8C-AF85-A7E5F294A3FB}" ShortID="565978448">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_jump_high_rr03" ID="{E173D2A9-0EC8-4135-97B5-E60884FF2DDE}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_jump_high_rr03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="410693033"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_jump_high_rr03" ID="{E173D2A9-0EC8-4135-97B5-E60884FF2DDE}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_jump_high_rr04" ID="{26E4E296-0404-4670-B451-98C4506608B7}" ShortID="406718183">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_jump_high_rr04" ID="{A18F1EFE-5140-4198-8681-91E2E3329C8B}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_jump_high_rr04.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="399590808"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_jump_high_rr04" ID="{A18F1EFE-5140-4198-8681-91E2E3329C8B}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="FinalBoss_JumpWhoosh" ID="{2A4DBDB3-D220-488D-A796-DB2F5ABCD44A}" ShortID="66986958">
+									<PropertyList>
+										<Property Name="InitialDelay" Type="Real64">
+											<ValueList>
+												<Value>0.5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="as_npc_so_boss_jump_whoosh_rr01" ID="{18D49D37-4C05-472D-907F-0B85D2C3676E}" ShortID="19242355">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_jump_whoosh_rr01" ID="{14A0368F-DA78-4246-98DD-D23480C0204E}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_jump_whoosh_rr01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="881968189"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_jump_whoosh_rr01" ID="{14A0368F-DA78-4246-98DD-D23480C0204E}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_jump_whoosh_rr02" ID="{7D0596F3-2520-4A7B-B518-683DBE492C22}" ShortID="49194986">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_jump_whoosh_rr02" ID="{6BF0ED81-6A20-4521-A6F2-E226EE9E6D74}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_jump_whoosh_rr02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="49062843"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_jump_whoosh_rr02" ID="{6BF0ED81-6A20-4521-A6F2-E226EE9E6D74}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_jump_whoosh_rr03" ID="{4A9D3D79-DBB7-4076-AB46-2750591AC01A}" ShortID="510526749">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_jump_whoosh_rr03" ID="{1DB1C086-CA91-4B9B-805B-110620359B24}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_jump_whoosh_rr03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="737812338"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_jump_whoosh_rr03" ID="{1DB1C086-CA91-4B9B-805B-110620359B24}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_jump_whoosh_rr04" ID="{6AABCE6F-C809-48AE-8BE4-E9FE73214115}" ShortID="599766269">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_jump_whoosh_rr04" ID="{2F9AAF93-9C82-4860-8666-9956923C81F9}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_jump_whoosh_rr04.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="465508131"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_jump_whoosh_rr04" ID="{2F9AAF93-9C82-4860-8666-9956923C81F9}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="FinalBoss_HammerSweetLow" ID="{588B4E0C-0198-4D20-A9FB-50D2938A495B}" ShortID="854753306">
+									<PropertyList>
+										<Property Name="InitialDelay" Type="Real64">
+											<ValueList>
+												<Value>0.5</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-6</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="as_npc_so_boss_hammer_sweetener_rr01" ID="{DD702DA9-D7BA-4285-A774-767EF7221B9F}" ShortID="261199013">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_sweetener_rr01" ID="{4487555B-172D-4B00-824D-5EA9FB111452}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.796812749003984"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimEnd" Type="Real64" Value="1.25365205843293"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_sweetener_rr01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="141482393"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_sweetener_rr01" ID="{4487555B-172D-4B00-824D-5EA9FB111452}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_hammer_sweetener_rr02" ID="{6E676B1C-4CB0-47F7-8BE7-27FA3B93BD0E}" ShortID="96948096">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_sweetener_rr02" ID="{B2785D80-FEFD-468C-93C0-F1ED01C2B8C2}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.554156706507304"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimEnd" Type="Real64" Value="1.27802390438247"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_sweetener_rr02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="126039653"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_sweetener_rr02" ID="{B2785D80-FEFD-468C-93C0-F1ED01C2B8C2}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_npc_so_boss_hammer_sweetener_rr03" ID="{875B3224-DBDF-4CE4-80BA-874878CB85B4}" ShortID="25962547">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_npc_so_boss_hammer_sweetener_rr03" ID="{33578281-4409-4306-B66C-6AED741EBB10}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.765138556883576"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimEnd" Type="Real64" Value="1.23573262505533"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_npc_so_boss_hammer_sweetener_rr03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="365158890"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_npc_so_boss_hammer_sweetener_rr03" ID="{33578281-4409-4306-B66C-6AED741EBB10}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+							</ChildrenList>
+						</BlendContainer>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>
