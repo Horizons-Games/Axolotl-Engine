@@ -123,5 +123,8 @@ void BossMissilesMissileScript::DestroyMissile() const
 void BossMissilesMissileScript::SetIsPaused(bool isPaused)
 {
 	this->isPaused = isPaused;
-	areaEffectParticle->Pause();
+	if (areaEffectParticle)	
+	{
+		areaEffectParticle->Pause();
+	}
 }
