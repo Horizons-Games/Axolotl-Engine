@@ -26,7 +26,7 @@ REGISTERCLASS(RangedFastAttackBehaviourScript);
 
 RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), 
 	lastAttackTime(0.f), particleSystemShot(nullptr), particleSystemPreShot(nullptr), audioSource(nullptr), shootPosition(nullptr),
-	particleTransform(nullptr), animation(nullptr), transform(nullptr), loadedScene(nullptr), preShotDuration(0.0f),
+	particleTransform(nullptr), transform(nullptr), loadedScene(nullptr), preShotDuration(0.0f),
 	bulletVelocity(0.2f), bulletLoader(nullptr), needReposition(false), newReposition(0,0,0), isPreShooting(false),
 	preShootingTime(0.0f), particlePreShotTransform(nullptr), numConsecutiveShots(0.0f), minTimeConsecutiveShot(0.0f),
 	maxTimeConsecutiveShot(0.0f), currentConsecutiveShots(0.0f), nextShotDuration(0.0f), shotTime(0.0f),
@@ -145,8 +145,6 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 		}
 		particleSystemShot->Play();
 	}
-
-	animation->SetParameter("IsAttacking", true);
 
 	// Select a new bullet
 	GameObject* bullet = SelectBullet();
