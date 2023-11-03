@@ -27,6 +27,7 @@ public:
 private:
 	bool wasInside = false;
 	bool dialogueDone;
+	bool finalBoss;
 
 	float textBoxSize;
 	float textBoxCurrent;

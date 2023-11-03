@@ -2,6 +2,7 @@
 #include "UITextTrigger.h"
 
 #include "UIMissionTrigger.h"
+#include "UIEnemyBar.h"
 #include "ModulePlayer.h"
 #include "Application.h"
 #include "ModuleInput.h"
@@ -17,8 +18,9 @@ REGISTERCLASS(UITextTrigger);
 
 UITextTrigger::UITextTrigger() : Script(), textBox{}, textBoxCurrent(0),
 	textBoxSize(0), dialogueDone(false),
-	mission(nullptr)
+	mission(nullptr), finalBoss(false)
 {
+	REGISTER_FIELD(finalBoss, bool);
 	REGISTER_FIELD(textBox, std::vector<GameObject*>);
 	REGISTER_FIELD(mission, GameObject*);
 }
@@ -103,9 +105,22 @@ void UITextTrigger::TextEnd()
 	playerManager->PausePlayer(false);
 	if (mission)
 	{
-		mission->GetComponent<UIMissionTrigger>()->ActivateTextBoxManually();
+		if (mission->HasComponent<UIMissionTrigger>())
+		{
+			mission->GetComponent<UIMissionTrigger>()->ActivateTextBoxManually();
+		}
+		else
+		{
+			mission->GetComponent<UIEnemyBar>()->SetAppearNextCombat(true);
+		}
 	}
-	App->GetModule<ModulePlayer>()->SetInCombat(true);
-
+	if (!finalBoss)
+	{
+		App->GetModule<ModulePlayer>()->SetInCombat(true);
+	}
+	else
+	{
+		App->GetModule<ModulePlayer>()->SetInBossCombat(true);
+	}
 	dialogueDone = true;
 }
