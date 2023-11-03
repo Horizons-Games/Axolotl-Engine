@@ -47,11 +47,12 @@ void ExplosionManagerEffect::Update(float deltaTime)
 		//Poner bola, luz y sparks y crecen ligeramente, sobretodo la luz se intensifica a algo naranjoso
 		ComponentTransform* sphere = phase1->GetChildren()[0]->GetComponent<ComponentTransform>();
 		ComponentMeshRenderer* sphereMesh = sphere->GetOwner()->GetComponent<ComponentMeshRenderer>();
-		ComponentTransform* particles = phase1->GetChildren()[1]->GetComponent<ComponentTransform>();
 		if (initFase)
 		{
 			sphere->GetOwner()->GetParent()->Enable();
-			phase1->GetChildren()[1]->GetComponent<ComponentParticleSystem>()->Play();
+			ComponentParticleSystem* particlesGO = phase1->GetChildren()[1]->GetComponent<ComponentParticleSystem>();
+			particlesGO->Enable();
+			particlesGO->Play();
 			light->GetOwner()->Enable();
 			initFase = false;
 		}
@@ -76,16 +77,13 @@ void ExplosionManagerEffect::Update(float deltaTime)
 		//Entran sombra en el suelo del impacto, algunas lineas de acción y una expansión muy transparente
 		ComponentTransform* sphere = phase1->GetChildren()[0]->GetComponent<ComponentTransform>();
 		ComponentMeshRenderer* sphereMesh = sphere->GetOwner()->GetComponent<ComponentMeshRenderer>();
-		ComponentTransform* particles = phase1->GetChildren()[1]->GetComponent<ComponentTransform>();
 		if (initFase)
 		{
-			//phase1->GetChildren()[1]->GetComponent<ComponentParticleSystem>()->Stop();
-			//phase2->Enable();
-			//phase2->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
-
 			light->GetOwner()->Disable();
-			phase2->GetChildren()[0]->Enable();
-			phase2->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
+			ComponentParticleSystem* particleGO = phase2->GetChildren()[0]->GetComponent<ComponentParticleSystem>();
+			particleGO->GetOwner()->Enable();
+			particleGO->Enable();
+			particleGO->Play();
 			initFase = false;
 		}
 
@@ -96,7 +94,7 @@ void ExplosionManagerEffect::Update(float deltaTime)
 
 		float4 diffuseColor = sphereMesh->GetDiffuseColor();
 		diffuseColor.y -= (deltaTime * lightGrowFactor);
-		if (diffuseColor.y < 0.0f) 
+		if (diffuseColor.y < 0.0f)
 		{
 			diffuseColor.y = 0.0f;
 		}

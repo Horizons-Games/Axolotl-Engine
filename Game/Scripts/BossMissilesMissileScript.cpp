@@ -35,6 +35,7 @@ void BossMissilesMissileScript::Start()
 	// VFX Here: Missile falling warning (the missile spawns on top of where it is going to fall, 
 										// that's why its in the Start)
 	areaEffectParticle = owner->GetChildren()[1]->GetComponent<ComponentParticleSystem>();
+	explosionEffect = owner->GetChildren()[2];
 	areaEffectParticle->Enable();
 	areaEffectParticle->Play();
 }
@@ -110,6 +111,7 @@ void BossMissilesMissileScript::TriggerExplosion(float deltaTime)
 
 	// VFX Here: Trigger explosion particles for the missile explosion (when it triggers the floor)
 	areaEffectParticle->Stop();
+	explosionEffect->Enable();
 }
 
 void BossMissilesMissileScript::DestroyMissile() const

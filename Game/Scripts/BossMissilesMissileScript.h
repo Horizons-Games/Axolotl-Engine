@@ -27,6 +27,7 @@ private:
 
 	ComponentRigidBody* rigidBody;
 	ComponentParticleSystem* areaEffectParticle;
+	GameObject* explosionEffect;
 	float hasHitPlayer;
 	float hasHitGround;
 
