@@ -19,7 +19,6 @@ public:
 
 private:
 	GameObject* bulletPrefab;
-	float bulletVelocity;	
 	float stunTime;
 	float currentCooldown;
 	float cooldown;

@@ -13,6 +13,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentLine.h"
 
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/EnemyClass.h"
@@ -25,7 +26,7 @@ REGISTERCLASS(LightAttackBullet);
 LightAttackBullet::LightAttackBullet() :
 	Script(),
 	enemy(nullptr),
-	velocity(15.0f),
+	velocity(25.0f),
 	audioSource(nullptr),
 	stunTime(10.0f),
 	damageAttack(10.0f),
@@ -33,15 +34,20 @@ LightAttackBullet::LightAttackBullet() :
 	maxDistanceBullet(10.0f),
 	maxLifeTimeBullet(5.0f),
 	currentLifeTimeBullet(0.0f),
+	maxDistanceBullet(100.0f),
 	particleSystem(nullptr), 
 	particleSystemTimer(1.0f), 
 	triggerParticleSystemTimer(false), 
-	particleSystemCurrentTimer(0.0f)
+	particleSystemCurrentTimer(0.0f),
+	lifeTime(12.0f),
+	parentTransform(nullptr),
+	targetTransform(nullptr)
 {
 	REGISTER_FIELD(particleSystemTimer, float);
 	REGISTER_FIELD(maxDistanceBullet, float);
 	REGISTER_FIELD(maxLifeTimeBullet, float);
 	REGISTER_FIELD(initPos, ComponentTransform*);
+	REGISTER_FIELD(velocity, float);
 }
 
 void LightAttackBullet::Start()
@@ -49,7 +55,15 @@ void LightAttackBullet::Start()
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	parentTransform = owner->GetParent()->GetComponent<ComponentTransform>();
 	bulletTransform = owner->GetComponent<ComponentTransform>();
-	audioSource = owner->GetComponent<ComponentAudioSource>();
+
+	audioSource = owner->GetComponent<ComponentAudioSource>();	
+
+	defaultTargetPos = parentTransform->GetGlobalForward();
+	defaultTargetPos.y = 0;
+	defaultTargetPos.Normalize();
+	defaultTargetPos = defaultTargetPos * maxDistanceBullet;
+	defaultTargetPos += parentTransform->GetGlobalPosition();	
+
 	particleSystem = owner->GetComponent<ComponentParticleSystem>();
 	playerAttackScript = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerAttackScript>();
 
@@ -65,16 +79,29 @@ void LightAttackBullet::Update(float deltaTime)
 
 	if (enemy != nullptr)
 	{
-		defaultTargetPos = enemy->GetComponent<ComponentTransform>()->GetGlobalPosition();
-		defaultTargetPos.y += 1;
-		rigidBody->SetPositionTarget(defaultTargetPos);
+		if (!enemy->IsEnabled()) 
+		{
+			DestroyBullet();
+			return;
+		}
+
+		float3 targetPos = targetTransform->GetGlobalPosition();
+		targetPos.y += 1; 
+		float3 forward = targetPos - owner->GetComponent<ComponentTransform>()->GetGlobalPosition();
+		forward.Normalize();
+
+		btRigidBody* btRb = rigidBody->GetRigidBody();
+		btRb->setLinearVelocity(
+			btVector3(
+				forward.x,
+				0,
+				forward.z) * velocity);
 	}
 
-	else
+	lifeTime -= deltaTime;
+	if (lifeTime <= 0.0f)
 	{
-		rigidBody->SetKpForce(2.0f);
-
-		rigidBody->SetPositionTarget(defaultTargetPos);
+		DestroyBullet();
 	}
 
 	currentLifeTimeBullet += deltaTime;
@@ -88,7 +115,7 @@ void LightAttackBullet::Update(float deltaTime)
 	{
 		return;
 	}
-
+	
 	// When the particles are ready to be played, play them and after them, delete the bullet
 	particleSystemCurrentTimer -= deltaTime;
 	
@@ -101,8 +128,29 @@ void LightAttackBullet::Update(float deltaTime)
 		{
 			particleSystem->Stop();
 		}
-		owner->Disable();
+		DestroyBullet();
 	}
+}
+
+void LightAttackBullet::StartMoving()
+{
+	rigidBody->Enable();
+
+	RepositionBullet();
+
+	rigidBody->SetDefaultPosition();
+	rigidBody->SetUseRotationController(true);
+
+	float3 forward = parentTransform->GetGlobalForward();
+	forward.Normalize();
+
+	btRigidBody* btRb = rigidBody->GetRigidBody();
+	btRb->setLinearVelocity(
+		btVector3(
+			forward.x,
+			0,
+			forward.z) * velocity);
+
 }
 
 void LightAttackBullet::SetPauseBullet(bool isPaused)
@@ -110,20 +158,60 @@ void LightAttackBullet::SetPauseBullet(bool isPaused)
 	this->isPaused = isPaused;
 	float3 forward = parentTransform->GetGlobalForward();
 	forward.Normalize();
+	btRigidBody* btRb = rigidBody->GetRigidBody();
+
 	if (isPaused)
 	{
-		rigidBody->SetKpForce(0);
+		btRb->setLinearVelocity(btVector3(0.f, 0.f, 0.f));
 	}
 	else
 	{
-		rigidBody->SetKpForce(velocity);
+		btRb->setLinearVelocity(
+			btVector3(
+				forward.x,
+				0,
+				forward.z) * velocity);
 	}
 }
 
-void LightAttackBullet::SetBulletVelocity(float nVelocity)
+//Function to reposition the bullet to the front of the player before shooting
+void LightAttackBullet::RepositionBullet()
 {
-	velocity = nVelocity;
-	rigidBody->SetKpForce(velocity);
+	float3 currentForward = bulletTransform->GetGlobalForward().Normalized();
+	float3 desiredForward;
+	float3 height = float3(0.0f, 1.0f, 0.0f);
+	// Create a new bullet
+	if (enemy)
+	{
+		desiredForward = (targetTransform->
+			GetGlobalPosition() - parentTransform->GetGlobalPosition()).Normalized();
+
+		bulletTransform->SetGlobalPosition(parentTransform->GetGlobalPosition() + height
+			+ (desiredForward).Normalized());
+
+		float angle = Quat::FromEulerXYZ(currentForward.x, currentForward.y, currentForward.z).
+			AngleBetween(Quat::FromEulerXYZ(desiredForward.x, desiredForward.y, desiredForward.z));
+		angle = math::Abs(math::RadToDeg(angle));
+
+		bulletTransform->SetGlobalRotation(bulletTransform->GetGlobalRotation().LookAt(currentForward, desiredForward,
+			float3::unitZ, float3::unitY));
+	}
+	else
+	{
+		desiredForward = parentTransform->GetGlobalForward();
+		bulletTransform->SetGlobalPosition(parentTransform->GetGlobalPosition() + height
+			+ (desiredForward).Normalized());
+
+		float angle = Quat::FromEulerXYZ(currentForward.x, currentForward.y, currentForward.z).
+			AngleBetween(Quat::FromEulerXYZ(desiredForward.x, desiredForward.y, desiredForward.z));
+		angle = math::Abs(math::RadToDeg(angle));
+
+		bulletTransform->SetGlobalRotation(bulletTransform->GetGlobalRotation().LookAt(currentForward, desiredForward,
+			float3::unitZ, float3::unitY));
+	}
+
+	bulletTransform->RecalculateLocalMatrix();
+	bulletTransform->UpdateTransformMatrices();
 }
 
 void LightAttackBullet::SetStunTime(float nStunTime)
@@ -134,6 +222,10 @@ void LightAttackBullet::SetStunTime(float nStunTime)
 void LightAttackBullet::SetEnemy(GameObject* nEnemy)
 {
 	enemy = nEnemy;
+	if (enemy)
+	{
+		targetTransform = enemy->GetComponent<ComponentTransform>();
+	}
 }
 
 void LightAttackBullet::SetDamage(float nDamageAttack)
@@ -185,8 +277,14 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 		other->GetOwner()->GetComponent<EnemyClass>()->SetStunnedTime(stunTime);
 
 		// Disable the visuals and the rigidbody while the particles are being played
-		rigidBody->SetIsTrigger(true);
+		//rigidBody->SetIsTrigger(true);
+		
 		owner->GetComponent<ComponentMeshRenderer>()->Disable();
+
+		if (owner->HasComponent<ComponentLine>())
+		{
+			owner->GetComponent<ComponentLine>()->Disable();
+		}
 
 		if (particleSystem)
 		{
@@ -208,3 +306,10 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 		owner->Disable();
 	}
 }
+
+void LightAttackBullet::DestroyBullet()
+{	
+	App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(particleSystem);
+	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+}
+

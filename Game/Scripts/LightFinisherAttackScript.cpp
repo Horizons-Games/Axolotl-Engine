@@ -19,14 +19,12 @@ LightFinisherAttackScript::LightFinisherAttackScript()
 	: Script(), 
 	loadedScene(nullptr), 
 	bulletPrefab(nullptr),
-	bulletVelocity(15.0f),
 	stunTime(2.0f),
 	enemyDetection(nullptr),
 	currentCooldown(0.0f),
 	cooldown(2.0f)
 {
 	REGISTER_FIELD(bulletPrefab, GameObject*);
-	REGISTER_FIELD(bulletVelocity, float);
 	REGISTER_FIELD(stunTime, float);
 	REGISTER_FIELD(enemyDetection, EntityDetection*);
 }
@@ -41,9 +39,10 @@ void LightFinisherAttackScript::ThrowStunItem()
 	// Create a new bullet
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
 
-	bullet->GetComponent<LightAttackBullet>()->SetBulletVelocity(bulletVelocity);
-	bullet->GetComponent<LightAttackBullet>()->SetEnemy(enemyDetection->GetEnemySelected());
-	bullet->GetComponent<LightAttackBullet>()->SetStunTime(stunTime);
+	LightAttackBullet* ligthAttackBulletScript = bullet->GetComponent<LightAttackBullet>();
+	ligthAttackBulletScript->SetEnemy(enemyDetection->GetEnemySelected());
+	ligthAttackBulletScript->SetStunTime(stunTime);
+	ligthAttackBulletScript->StartMoving();
 }
 
 bool LightFinisherAttackScript::IsAttacking()

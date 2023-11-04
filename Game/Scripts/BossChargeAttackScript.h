@@ -84,4 +84,6 @@ private:
 
 	bool isPaused;
 	BossWallChecker* wallChecker;
+
+	GameObject* propulsorVFX;
 };

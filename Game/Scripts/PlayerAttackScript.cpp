@@ -397,6 +397,7 @@ void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDama
 	ligthAttackBulletScript->SetEnemy(enemyDetection->GetEnemySelected());
 	ligthAttackBulletScript->SetStunTime(0);
 	ligthAttackBulletScript->SetDamage(nDamage);
+	ligthAttackBulletScript->StartMoving();
 }
 
 GameObject* PlayerAttackScript::SelectBullet() const

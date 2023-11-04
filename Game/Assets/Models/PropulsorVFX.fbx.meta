@@ -1,0 +1,11 @@
+{
+    "UID": 1381926678005484805,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/PropulsorVFX.Cylinder_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/PropulsorVFXDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
