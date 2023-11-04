@@ -149,22 +149,16 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 	// Select a new bullet
 	GameObject* bullet = SelectBullet();
 	
-	bullet->GetComponent<ComponentTransform>()->SetGlobalPosition(shootPosition->GetGlobalPosition());
+	bullet->Enable();
 
-	// Attach the RangedFastAttackBullet script to the new bullet to give it its logic
-	ComponentScript* script = bullet->CreateComponent<ComponentScript>();
-	script->SetScript(App->GetScriptFactory()->ConstructScript("RangedFastAttackBullet"));
-	script->SetConstuctor("RangedFastAttackBullet");
-	script->GetScript()->SetOwner(bullet);
+	RangedFastAttackBullet* bulletScript = bullet->GetComponent<RangedFastAttackBullet>();
 
-	bullet->SetTag("Bullet");
-	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletVelocity(bulletVelocity);
-	bullet->GetComponent<RangedFastAttackBullet>()->SetTargetTag("Player");
-	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletDamage(attackDamage);
-
-	// Once the engine automatically runs the Start() for newly created objects, delete this line
-	script->Start();
-
+	bulletScript->SetInitPos(shootPosition);
+	bulletScript->SetBulletVelocity(bulletVelocity);
+	bulletScript->SetTargetTag("Player");
+	bulletScript->SetBulletDamage(attackDamage);
+	bulletScript->ResetValues();
+	bulletScript->ShotBullet(transform->GetGlobalForward());
 
 	switch (enemyType)
 	{

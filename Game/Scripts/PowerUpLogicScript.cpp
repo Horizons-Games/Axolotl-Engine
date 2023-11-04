@@ -11,6 +11,7 @@
 #include "../Scripts/PowerUpsManagerScript.h"
 
 #include "debugdraw.h"
+#include "Math/Quat.h"
 
 REGISTERCLASS(PowerUpLogicScript);
 
@@ -29,6 +30,31 @@ void PowerUpLogicScript::Start()
 
 	GameObject* player = App->GetModule<ModulePlayer>()->GetPlayer();
 	playerTransform = player->GetComponent<ComponentTransform>();
+
+	for (GameObject* child : owner->GetChildren())
+	{
+		if (child->CompareTag("HEAL"))
+		{
+			healPowerUp = child;
+			healPowerUp->Disable();
+		}
+		else if (child->CompareTag("SHIELD"))
+		{
+			shieldPowerUp = child;
+			shieldPowerUp->Disable();
+		}
+		else if (child->CompareTag("SPEED"))
+		{
+			speedPowerUp = child;
+			speedPowerUp->Disable();
+		}
+		else if (child->CompareTag("DMG"))
+		{
+			dmgPowerUp = child;
+			dmgPowerUp->Disable();
+		}
+	}
+
 	DisablePowerUp();
 }
 
@@ -36,6 +62,7 @@ void PowerUpLogicScript::Update(float deltaTime)
 {
 	if (owner->IsEnabled())
 	{
+		RotateMesh(deltaTime);
 		timer += deltaTime;
 
 		if (timer >= SPAWN_LIFE)
@@ -85,6 +112,30 @@ void PowerUpLogicScript::ActivatePowerUp(GameObject* newParent)
 	ownerRb->UpdateRigidBody();
 
 	owner->Enable();
+
+	if (type == PowerUpType::HEAL)
+	{
+		healPowerUp->Enable();
+	}
+	else if (type == PowerUpType::DEFENSE)
+	{
+		shieldPowerUp->Enable();
+	}
+	else if (type == PowerUpType::SPEED)
+	{
+		speedPowerUp->Enable();
+	}
+	else if (type == PowerUpType::ATTACK)
+	{
+		dmgPowerUp->Enable();
+	}
+}
+
+void PowerUpLogicScript::RotateMesh(float deltatime)
+{
+	Quat newRotation = ownerTransform->GetGlobalRotation();
+	newRotation.y = 2 * deltatime;
+	ownerRb->SetRotationTarget(newRotation);
 }
 
 void PowerUpLogicScript::OnCollisionEnter(ComponentRigidBody* other)
@@ -106,6 +157,23 @@ void PowerUpLogicScript::DisablePowerUp() const
 	ownerTransform->UpdateTransformMatrices();
 
 	ownerRb->UpdateRigidBody();
+
+	if (type == PowerUpType::HEAL)
+	{
+		healPowerUp->Disable();
+	}
+	else if (type == PowerUpType::DEFENSE)
+	{
+		shieldPowerUp->Disable();
+	}
+	else if (type == PowerUpType::SPEED)
+	{
+		speedPowerUp->Disable();
+	}
+	else if (type == PowerUpType::ATTACK)
+	{
+		dmgPowerUp->Disable();
+	}
 
 	owner->Disable();
 }
