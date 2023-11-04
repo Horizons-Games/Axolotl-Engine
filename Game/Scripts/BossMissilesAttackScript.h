@@ -11,6 +11,7 @@ class ComponentAnimation;
 class ComponentAudioSource;
 
 class FinalBossScript;
+class HealthSystem;
 
 enum class AttackState
 {
@@ -54,6 +55,7 @@ private:
 	ComponentAnimation* animator;
 	ComponentAudioSource* audioSource;
 	FinalBossScript* finalBossScript;
+	HealthSystem* healthSystem;
 
 	float3 initialPosition;
 	float3 midJumpPositionStart;

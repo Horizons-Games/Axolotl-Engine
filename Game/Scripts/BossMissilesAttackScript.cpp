@@ -14,6 +14,7 @@
 #include "Components/ComponentAudioSource.h"
 
 #include "../Scripts/FinalBossScript.h"
+#include "../Scripts/HealthSystem.h"
 
 REGISTERCLASS(BossMissilesAttackScript);
 
@@ -45,7 +46,9 @@ void BossMissilesAttackScript::Start()
 	transform = owner->GetComponent<ComponentTransform>();
 	animator = owner->GetComponent<ComponentAnimation>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
+
 	finalBossScript = owner->GetComponent<FinalBossScript>();
+	healthSystem = owner->GetComponent<HealthSystem>();
 }
 
 void BossMissilesAttackScript::Update(float deltaTime)
@@ -62,6 +65,7 @@ void BossMissilesAttackScript::TriggerMissilesAttack()
 	LOG_INFO("The missiles attack was triggered");
 
 	missilesAttackState = AttackState::STARTING_SAFE_JUMP;
+	healthSystem->SetIsImmortal(true);
 	animator->SetParameter("IsStartingMissilesJump", true);
 	animator->SetParameter("IsMissilesAttack", true);
 	finalBossScript->RemoveAgent();
@@ -163,6 +167,7 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 		if (transform->GetGlobalPosition().Equals(backPositionSelected->GetGlobalPosition(), 0.5f))
 		{
 			missilesAttackState = AttackState::ON_COOLDOWN;
+			healthSystem->SetIsImmortal(false);
 			animator->SetParameter("IsEndingMissilesJump", false);
 			animator->SetParameter("IsMissilesLanding", false);
 
