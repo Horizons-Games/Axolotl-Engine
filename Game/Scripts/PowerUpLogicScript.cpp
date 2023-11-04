@@ -15,7 +15,7 @@
 
 REGISTERCLASS(PowerUpLogicScript);
 
-#define SPAWN_LIFE 10.f
+#define SPAWN_LIFE 20.f
 
 PowerUpLogicScript::PowerUpLogicScript() : Script(), isSeeking(false), timer(0.f)
 {
@@ -69,7 +69,9 @@ void PowerUpLogicScript::Update(float deltaTime)
 		{
 			DisablePowerUp();
 		}
+
 		float radius = powerUpManagerScript->GetRadiusSeeking();
+
 		if (!isSeeking && ownerTransform->GetGlobalPosition().Equals(playerTransform->GetGlobalPosition(), radius)
 			&& powerUpManagerScript->GetSavedPowerUpType() == PowerUpType::NONE)
 		{
@@ -78,10 +80,7 @@ void PowerUpLogicScript::Update(float deltaTime)
 		else if (isSeeking)
 		{
 			ownerRb->SetPositionTarget(playerTransform->GetGlobalPosition());
-			Quat errorRotation =
-				Quat::RotateFromTo(ownerTransform->GetGlobalForward().Normalized(),
-					(playerTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
-			ownerRb->SetRotationTarget(errorRotation.Normalized());
+			
 			if (powerUpManagerScript->GetSavedPowerUpType() != PowerUpType::NONE)
 			{
 				btRigidBody* btRigidbody = ownerRb->GetRigidBody();
@@ -133,9 +132,11 @@ void PowerUpLogicScript::ActivatePowerUp(GameObject* newParent)
 
 void PowerUpLogicScript::RotateMesh(float deltatime)
 {
-	Quat newRotation = ownerTransform->GetGlobalRotation();
-	newRotation.y = 2 * deltatime;
-	ownerRb->SetRotationTarget(newRotation);
+	float3 newRotation = ownerTransform->GetRotationXYZ();
+	newRotation.y = newRotation.y + (50.0f * deltatime);
+
+	ownerTransform->SetLocalRotation(newRotation);
+	ownerTransform->UpdateTransformMatrices();
 }
 
 void PowerUpLogicScript::OnCollisionEnter(ComponentRigidBody* other)

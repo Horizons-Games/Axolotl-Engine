@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/PowerUpV1SPEED_Material_AlbedoTransparency.png",
+    "NormalAssetPath": "Assets/Textures/PowerUpV1SPEED_Material_Normal.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/PowerUpV1SPEED_Material_MetallicSmoothness.png",
+    "EmissiveAssetPath": "Assets/Textures/PowerUpV1SPEED_Material_Emission.png"
+}
