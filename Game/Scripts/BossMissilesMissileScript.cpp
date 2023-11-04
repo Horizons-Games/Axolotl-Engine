@@ -36,6 +36,7 @@ void BossMissilesMissileScript::Start()
 										// that's why its in the Start)
 	areaEffectParticle = owner->GetChildren()[1]->GetComponent<ComponentParticleSystem>();
 	explosionEffect = owner->GetChildren()[2];
+	explosionEffect->Disable();
 	areaEffectParticle->Enable();
 	areaEffectParticle->Play();
 }

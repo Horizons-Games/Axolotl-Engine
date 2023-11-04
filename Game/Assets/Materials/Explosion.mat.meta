@@ -1,7 +1,7 @@
 {
     "UID": 15934273498720349515,
     "Type": "Materials",
-    "DiffuseAssetPath": "",
+    "DiffuseAssetPath": "Assets/Textures/PanelKeyWhite_Normal.png",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
     "MetalicAssetPath": "",
@@ -10,7 +10,7 @@
     "diffuseColor_x": 1.0,
     "diffuseColor_y": 1.0,
     "diffuseColor_z": 1.0,
-    "diffuseColor_w": 0.48627451062202454,
+    "diffuseColor_w": 1.0,
     "specularColor_x": 0.5,
     "specularColor_y": 0.30000001192092896,
     "specularColor_z": 0.5,

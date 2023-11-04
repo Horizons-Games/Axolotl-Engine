@@ -53,6 +53,9 @@ void ExplosionManagerEffect::Update(float deltaTime)
 			ComponentParticleSystem* particlesGO = phase1->GetChildren()[1]->GetComponent<ComponentParticleSystem>();
 			particlesGO->Enable();
 			particlesGO->Play();
+
+			//sphereMesh->SetEffectColor(float4(0.0f, 0.0f, 0.0f, 1.0f));
+
 			light->GetOwner()->Enable();
 			initFase = false;
 		}
@@ -62,12 +65,12 @@ void ExplosionManagerEffect::Update(float deltaTime)
 		sphere->SetLocalScale(scale);
 		sphere->UpdateTransformMatrices();
 
-		float4 diffuseColor = sphereMesh->GetDiffuseColor();
-		diffuseColor.y -= (deltaTime * lightGrowFactor/4);
-		if (diffuseColor.y < 0.0f) diffuseColor.y = 0.0f;
-		diffuseColor.w -= (deltaTime * lightGrowFactor/4);
-		sphereMesh->SetDiffuseColor(diffuseColor);
-		sphereMesh->GetBatch()->SetFillMaterials(true);
+		float4 effectColor = sphereMesh->GetEffectColor();
+		effectColor.y -= (deltaTime * lightGrowFactor/4);
+		if (effectColor.y < 0.0f) effectColor.y = 0.0f;
+		effectColor.w -= (deltaTime * lightGrowFactor/4);
+		sphereMesh->SetDiscard(false);
+		sphereMesh->SetEffectColor(effectColor);
 
 		break;
 	}
@@ -92,15 +95,15 @@ void ExplosionManagerEffect::Update(float deltaTime)
 		sphere->SetLocalScale(scale);
 		sphere->UpdateTransformMatrices();
 
-		float4 diffuseColor = sphereMesh->GetDiffuseColor();
-		diffuseColor.y -= (deltaTime * lightGrowFactor);
-		if (diffuseColor.y < 0.0f)
+		float4 effectColor = sphereMesh->GetEffectColor();
+		effectColor.y -= (deltaTime * lightGrowFactor);
+		if (effectColor.y < 0.0f)
 		{
-			diffuseColor.y = 0.0f;
+			effectColor.y = 0.0f;
 		}
-		diffuseColor.w -= (deltaTime * lightGrowFactor);
-		sphereMesh->SetDiffuseColor(diffuseColor);
-		sphereMesh->GetBatch()->SetFillMaterials(true);
+		effectColor.w -= (deltaTime * lightGrowFactor);
+		sphereMesh->SetDiscard(false);
+		sphereMesh->SetEffectColor(effectColor);
 
 		break;
 	}
