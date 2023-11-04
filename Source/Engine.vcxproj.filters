@@ -923,6 +923,9 @@
     <ClCompile Include="..\Game\Scripts\ExplosionManagerEffect.cpp">
       <Filter>UserScripts\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIVideoControl.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1889,6 +1892,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\ExplosionManagerEffect.h">
       <Filter>UserScripts\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIVideoControl.h">
+      <Filter>UserScripts\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

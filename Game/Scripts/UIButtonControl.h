@@ -30,6 +30,7 @@ private:
 	bool isGameExit;
 	bool isGameResume;
 	bool isOptionMenuButton;
+	bool isButtonB;
 
 	GameObject* disableObject;
 	GameObject* enableObject;
