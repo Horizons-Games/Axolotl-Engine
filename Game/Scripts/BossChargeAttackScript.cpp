@@ -28,7 +28,7 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NONE),
 	chargeHitPlayer(false), bounceBackForce(5.0f), prepareChargeMaxTime(2.0f), chargeMaxCooldown(5.0f),
 	attackStunTime(4.0f), chargeDamage(20.0f), rockPrefab(nullptr), spawningRockChance(5.0f), rockSpawningHeight(7.0f),
-	isRockAttackVariant(false), animator(nullptr), chargeForce(1.25f), wallChecker(nullptr)
+	isRockAttackVariant(false), animator(nullptr), chargeForce(1.25f), wallChecker(nullptr), healthSystem(nullptr)
 {
 	REGISTER_FIELD(bounceBackForce, float);
 	REGISTER_FIELD(prepareChargeMaxTime, float);
@@ -56,6 +56,7 @@ void BossChargeAttackScript::Start()
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	animator = owner->GetComponent<ComponentAnimation>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
+	healthSystem = owner->GetComponent<HealthSystem>();
 
 	finalBossScript = owner->GetComponent<FinalBossScript>();
 }
@@ -187,6 +188,7 @@ void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
 			rocksSpawned.clear();
 
 			chargeState = ChargeState::NONE;
+			healthSystem->SetIsImmortal(false);
 		}
 		else
 		{
@@ -223,6 +225,7 @@ void BossChargeAttackScript::PerformChargeAttack()
 
 	prepareChargeTime = prepareChargeMaxTime;
 	chargeState = ChargeState::CHARGING;
+	healthSystem->SetIsImmortal(true);
 	animator->SetParameter("IsPreparingChargeAttack", false);
 	animator->SetParameter("IsCharging", true);
 
