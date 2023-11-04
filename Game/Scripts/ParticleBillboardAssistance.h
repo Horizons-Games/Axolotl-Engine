@@ -20,6 +20,7 @@ public:
 
 private:
 	ComponentTransform* ownerTransform;
+	bool blockY;
 };
 
 

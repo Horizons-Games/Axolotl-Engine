@@ -38,7 +38,7 @@ void BossChargeRockScript::Start()
 	meshEffect = owner->GetComponent<MeshEffect>();
 	meshEffect->FillMeshes(owner);
 	meshEffect->AddColor(float4(0.f, 0.f, 0.f, 1.f));
-	breakRockVFX = owner->GetComponent<ComponentParticleSystem>();
+	//breakRockVFX = owner->GetComponent<ComponentParticleSystem>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	rockGravity = rigidBody->GetRigidBody()->getGravity();
@@ -85,8 +85,8 @@ void BossChargeRockScript::Update(float deltaTime)
 		{
 			meshEffect->StartEffect(despawnMaxTimer-breakMaxTimer, 0);
 			owner->GetComponent<ComponentBreakable>()->BreakComponent();
-			breakRockVFX->Stop();
-			breakRockVFX->Disable();
+			/*breakRockVFX->Stop();
+			breakRockVFX->Disable();*/
 		}
 	}
 }
@@ -129,8 +129,8 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 		{
 			owner->GetComponent<ComponentObstacle>()->AddObstacle();
 			triggerBreakTimer = true;
-			breakRockVFX->Enable();
-			breakRockVFX->Play();
+			/*breakRockVFX->Enable();
+			breakRockVFX->Play();*/
 			rockState = RockStates::FLOOR;
 
 			// VFX Here: Rock hit the floor
