@@ -9,6 +9,7 @@
 #include "Scene/Scene.h"
 
 #include "Components/ComponentScript.h"
+#include "Components/ComponentTransform.h"
 
 #include "../Scripts/LightAttackBullet.h"
 #include "../Scripts/EntityDetection.h"
@@ -40,8 +41,13 @@ void LightFinisherAttackScript::ThrowStunItem()
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
 
 	LightAttackBullet* ligthAttackBulletScript = bullet->GetComponent<LightAttackBullet>();
+
+	ligthAttackBulletScript->SetInitPos(bullet->GetComponent<ComponentTransform>());
+	ligthAttackBulletScript->ResetDefaultValues();
 	ligthAttackBulletScript->SetEnemy(enemyDetection->GetEnemySelected());
 	ligthAttackBulletScript->SetStunTime(stunTime);
+	ligthAttackBulletScript->SetVelocity(50);
+	ligthAttackBulletScript->SetDamage(10);
 	ligthAttackBulletScript->StartMoving();
 }
 

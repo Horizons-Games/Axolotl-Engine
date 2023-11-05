@@ -96,6 +96,7 @@ void EnemyDeathScript::ManageEnemyDeath()
 
 			newPowerUpLogic->ActivatePowerUp(ownerTransform->GetOwner());
 		}
+		chanceToGivePowerUp = false;
 	}
 
 	DisableEnemyActions();
@@ -109,13 +110,18 @@ void EnemyDeathScript::ResetDespawnTimerAndEnableActions()
 	EnableEnemyActions();
 }
 
+void EnemyDeathScript::SetChanceToGivePowerUp(bool nChanceToGivePowerUp)
+{
+	chanceToGivePowerUp = nChanceToGivePowerUp;
+}
+
 GameObject* EnemyDeathScript::RequestPowerUp() const
 {
 	for (GameObject* selectedPowerUp : powerUpParent->GetChildren())
 	{
 		// Make that the enemies don't always drop a powerup (20% chance)
 		srand(static_cast<unsigned int>(time(0)));
-		bool randomActivation = App->GetModule<ModuleRandom>()->RandomChance(5.0f);
+		bool randomActivation = App->GetModule<ModuleRandom>()->RandomChance(0.20f);
 
 		if (!selectedPowerUp->IsEnabled() && randomActivation)
 		{

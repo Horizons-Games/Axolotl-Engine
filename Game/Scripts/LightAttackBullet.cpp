@@ -53,8 +53,6 @@ void LightAttackBullet::Start()
 
 	particleSystem = owner->GetComponent<ComponentParticleSystem>();
 	playerAttackScript = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerAttackScript>();
-
-	ResetDefaultValues();
 }
 
 void LightAttackBullet::Update(float deltaTime)
