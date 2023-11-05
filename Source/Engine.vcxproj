@@ -203,6 +203,7 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\EnemyMiniBossTwo.cpp" />
     <ClCompile Include="..\Game\Scripts\EntityDetection.cpp" />
+    <ClCompile Include="..\Game\Scripts\ExplosionManagerEffect.cpp" />
     <ClCompile Include="..\Game\Scripts\FinalBossScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ForceTrigger.cpp" />
     <ClCompile Include="..\Game\Scripts\GeneratorSpaceStationAudio.cpp" />
@@ -930,6 +931,7 @@
     <ClInclude Include="..\Game\Scripts\EnemyClass.h" />
     <ClInclude Include="..\Game\Scripts\EnemyMiniBossTwo.h" />
     <ClInclude Include="..\Game\Scripts\EntityDetection.h" />
+    <ClInclude Include="..\Game\Scripts\ExplosionManagerEffect.h" />
     <ClInclude Include="..\Game\Scripts\FinalBossScript.h" />
     <ClInclude Include="..\Game\Scripts\ForceTrigger.h" />
     <ClInclude Include="..\Game\Scripts\GeneratorSpaceStationAudio.h" />

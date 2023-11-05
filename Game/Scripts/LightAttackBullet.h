@@ -16,10 +16,11 @@ public:
 	void Start() override;
 	void Update(float deltaTime) override;
 
-	void SetBulletVelocity(float nVelocity);
 	void SetStunTime(float nStunTime);
 	void SetEnemy(GameObject* nEnemy);
 	void SetDamage(float nDamageAttack);
+	void StartMoving();
+	void RepositionBullet();
 	void SetPauseBullet(bool isPaused);
 
 private:
@@ -30,13 +31,16 @@ private:
 	float stunTime;
 	float damageAttack;
 	float maxDistanceBullet;
+	float lifeTime;
 
 	float3 defaultTargetPos;
 
 	GameObject* enemy;
 	ComponentAudioSource* audioSource;
 	ComponentRigidBody* rigidBody;
+	ComponentTransform* bulletTransform;
 	ComponentTransform* parentTransform;
+	ComponentTransform* targetTransform;
 	ComponentParticleSystem* particleSystem;
 	PlayerAttackScript* playerAttackScript;
 

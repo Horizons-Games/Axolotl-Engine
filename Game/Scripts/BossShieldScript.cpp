@@ -3,6 +3,7 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentParticleSystem.h"
 
 REGISTERCLASS(BossShieldScript);
 
@@ -50,6 +51,9 @@ void BossShieldScript::ActivateShield() const
 	rigidBody->SetIsTrigger(false);
 
 	// VFX Here: Any effect related to the activation of the shield
+	owner->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Enable();
+	owner->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Play();
+
 }
 
 void BossShieldScript::DeactivateShield() const
@@ -61,6 +65,7 @@ void BossShieldScript::DeactivateShield() const
 	parentRigidBody->SetUpMobility();
 
 	owner->Disable();
+	owner->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Stop();
 
 	// VFX Here: Any effect related to the deactivation of the shield
 }
