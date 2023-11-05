@@ -33,9 +33,9 @@ private:
 
 	float velocity;
 	float bulletLifeTime;
+	float originTime;
 	float damageAttack;
 	float rayAttackSize;
-	float currentBulletLifeTime;
 	bool waitParticlesToDestroy;
 	float particlesDuration;
 	float3 currentForward;

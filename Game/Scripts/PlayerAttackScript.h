@@ -132,6 +132,7 @@ private:
 	GameObject* lightWeapon;
 	GameObject* bulletLoader;
 	GameObject* pistolGameObject;
+	ComponentTransform* bulletInitPosition;
 
 	Scene* loadedScene;
 };

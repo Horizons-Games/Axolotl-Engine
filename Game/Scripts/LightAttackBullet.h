@@ -19,6 +19,8 @@ public:
 	void SetStunTime(float nStunTime);
 	void SetEnemy(GameObject* nEnemy);
 	void SetDamage(float nDamageAttack);
+	void SetVelocity(float nVelocity);
+	void SetInitPos(ComponentTransform* nInitPos);
 	void StartMoving();
 	void RepositionBullet();
 	void SetPauseBullet(bool isPaused);
@@ -32,19 +34,15 @@ private:
 	float velocity;
 	float stunTime;
 	float damageAttack;
-	float maxDistanceBullet;
 	float maxLifeTimeBullet;
 	float currentLifeTimeBullet;
 	float lifeTime;
-
-	float3 defaultTargetPos;
 
 	GameObject* enemy;
 	ComponentAudioSource* audioSource;
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* bulletTransform;
 	ComponentTransform* parentTransform;
-	ComponentTransform* bulletTransform;
 	ComponentTransform* initPos;
 	
 	ComponentTransform* targetTransform;
