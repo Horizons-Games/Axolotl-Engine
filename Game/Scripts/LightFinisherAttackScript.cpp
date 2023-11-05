@@ -40,8 +40,10 @@ void LightFinisherAttackScript::ThrowStunItem()
 	// Create a new bullet
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
 
+	bullet->Enable();
 	LightAttackBullet* ligthAttackBulletScript = bullet->GetComponent<LightAttackBullet>();
 
+	ligthAttackBulletScript->Start();
 	ligthAttackBulletScript->SetInitPos(bullet->GetComponent<ComponentTransform>());
 	ligthAttackBulletScript->ResetDefaultValues();
 	ligthAttackBulletScript->SetEnemy(enemyDetection->GetEnemySelected());
