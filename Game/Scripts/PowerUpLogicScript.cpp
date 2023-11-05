@@ -105,7 +105,9 @@ void PowerUpLogicScript::ActivatePowerUp(GameObject* newParent)
 	timer = 0.f;
 
 	ownerTransform->SetLocalPosition(float3::zero);
-	ownerTransform->SetGlobalPosition(newParent->GetComponent<ComponentTransform>()->GetGlobalPosition());
+	float3 nPos = newParent->GetComponent<ComponentTransform>()->GetGlobalPosition();
+	nPos.y += 1;
+	ownerTransform->SetGlobalPosition(nPos);
 	ownerTransform->RecalculateLocalMatrix();
 
 	ownerRb->UpdateRigidBody();

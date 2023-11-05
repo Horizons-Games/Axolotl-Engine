@@ -35,7 +35,6 @@ private:
 	float stunTime;
 	float damageAttack;
 	float maxLifeTimeBullet;
-	float currentLifeTimeBullet;
 	float lifeTime;
 
 	GameObject* enemy;
