@@ -7,8 +7,9 @@
 
 REGISTERCLASS(BossShieldScript);
 
-BossShieldScript::BossShieldScript() : Script(), rigidBody(nullptr), parentRigidBody(nullptr)
+BossShieldScript::BossShieldScript() : Script(), rigidBody(nullptr), parentRigidBody(nullptr), particleSystem(nullptr)
 {
+	REGISTER_FIELD(particleSystem, ComponentParticleSystem*);
 }
 
 void BossShieldScript::Start()
@@ -51,9 +52,11 @@ void BossShieldScript::ActivateShield() const
 	rigidBody->SetIsTrigger(false);
 
 	// VFX Here: Any effect related to the activation of the shield
-	owner->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Enable();
-	owner->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Play();
-
+	if (particleSystem)
+	{
+		particleSystem->Enable();
+		particleSystem->Play();
+	}
 }
 
 void BossShieldScript::DeactivateShield() const
@@ -65,9 +68,12 @@ void BossShieldScript::DeactivateShield() const
 	parentRigidBody->SetUpMobility();
 
 	owner->Disable();
-	owner->GetChildren()[2]->GetComponent<ComponentParticleSystem>()->Stop();
 
 	// VFX Here: Any effect related to the deactivation of the shield
+	if (particleSystem)
+	{
+		particleSystem->Stop();
+	}
 }
 
 bool BossShieldScript::WasHitBySpecialTarget() const

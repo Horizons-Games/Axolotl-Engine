@@ -63,7 +63,9 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	REGISTER_FIELD(heavyFinisherAttack, HeavyFinisherAttack*);
 	REGISTER_FIELD(lightWeapon, GameObject*);
 
-	REGISTER_FIELD(bulletPrefab, GameObject*);
+	REGISTER_FIELD(bulletInitPosition, ComponentTransform*);
+	REGISTER_FIELD(bulletLoader, GameObject*);
+	REGISTER_FIELD(bulletVelocity, float);
 
 	REGISTER_FIELD(pistolGameObject, GameObject*);
 
@@ -383,15 +385,32 @@ void PlayerAttackScript::HeavyNormalAttack()
 
 void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDamage)
 {
-	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
-	
+	GameObject* bullet = SelectBullet();
+
+	assert(bullet);
 	LightAttackBullet* ligthAttackBulletScript = bullet->GetComponent<LightAttackBullet>();
 
+	bullet->Enable();
 	bullet->SetTag("AlluraBullet");
-	ligthAttackBulletScript->SetEnemy(enemyDetection->GetEnemySelected());
+	ligthAttackBulletScript->SetInitPos(bulletInitPosition);
+	ligthAttackBulletScript->ResetDefaultValues();
+	ligthAttackBulletScript->SetEnemy(enemyAttacked);
 	ligthAttackBulletScript->SetStunTime(0);
+	ligthAttackBulletScript->SetVelocity(bulletVelocity);
 	ligthAttackBulletScript->SetDamage(nDamage);
 	ligthAttackBulletScript->StartMoving();
+}
+
+GameObject* PlayerAttackScript::SelectBullet() const
+{
+	for (GameObject* bullet : bulletLoader->GetChildren())
+	{
+		if (!bullet->IsEnabled())
+		{
+			return bullet;
+		}
+	}
+	return nullptr;
 }
 
 void PlayerAttackScript::InitJumpAttack()

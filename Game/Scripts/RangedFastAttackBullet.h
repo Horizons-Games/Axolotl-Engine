@@ -22,7 +22,10 @@ public:
 	void SetBulletVelocity(float nVelocity);
 	void SetTargetTag(std::string nTag);
 	void SetBulletDamage(float damage);
+	void SetInitPos(ComponentTransform* nInitTransform);
 	void SetPauseBullet(bool isPaused);
+	void ResetValues();
+	void ShotBullet(float3 nForward);
 
 private:
 	void InitializeBullet();
@@ -30,16 +33,19 @@ private:
 
 	float velocity;
 	float bulletLifeTime;
+	float originTime;
 	float damageAttack;
 	float rayAttackSize;
-	float currentBulletLifeTime;
 	bool waitParticlesToDestroy;
 	float particlesDuration;
+	float3 currentForward;
 
 	std::string targetTag;
 
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* parentTransform;
+	ComponentTransform* bulletTransform;
+	ComponentTransform* initPos;
 	ComponentAudioSource* audioSource;
 	ComponentParticleSystem* particleSystem;
 	ComponentMeshRenderer* mesh;

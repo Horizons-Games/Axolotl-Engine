@@ -4,6 +4,7 @@
 #include "Application.h"
 
 #include "ModuleScene.h"
+#include "ModulePlayer.h"
 #include "Scene/Scene.h"
 
 #include "Components/ComponentRigidBody.h"
@@ -29,18 +30,17 @@ LightAttackBullet::LightAttackBullet() :
 	audioSource(nullptr),
 	stunTime(10.0f),
 	damageAttack(10.0f),
-	defaultTargetPos(0,0,0),
-	maxDistanceBullet(100.0f),
+	maxLifeTimeBullet(6.0f),
 	particleSystem(nullptr), 
 	particleSystemTimer(1.0f), 
 	triggerParticleSystemTimer(false), 
 	particleSystemCurrentTimer(0.0f),
-	lifeTime(12.0f),
+	lifeTime(0.0f),
 	parentTransform(nullptr),
 	targetTransform(nullptr)
 {
 	REGISTER_FIELD(particleSystemTimer, float);
-	REGISTER_FIELD(velocity, float);
+	REGISTER_FIELD(maxLifeTimeBullet, float);
 }
 
 void LightAttackBullet::Start()
@@ -51,21 +51,8 @@ void LightAttackBullet::Start()
 
 	audioSource = owner->GetComponent<ComponentAudioSource>();	
 
-	defaultTargetPos = parentTransform->GetGlobalForward();
-	defaultTargetPos.y = 0;
-	defaultTargetPos.Normalize();
-	defaultTargetPos = defaultTargetPos * maxDistanceBullet;
-	defaultTargetPos += parentTransform->GetGlobalPosition();	
-
 	particleSystem = owner->GetComponent<ComponentParticleSystem>();
-
-	if (particleSystem)
-	{
-		particleSystem->Enable();
-		particleSystemCurrentTimer = particleSystemTimer;
-	}
-
-	playerAttackScript = owner->GetParent()->GetComponent<PlayerAttackScript>();
+	playerAttackScript = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerAttackScript>();
 }
 
 void LightAttackBullet::Update(float deltaTime)
@@ -96,8 +83,8 @@ void LightAttackBullet::Update(float deltaTime)
 				forward.z) * velocity);
 	}
 
-	lifeTime -= deltaTime;
-	if (lifeTime <= 0.0f)
+	lifeTime += deltaTime;
+	if (lifeTime > maxLifeTimeBullet)
 	{
 		DestroyBullet();
 	}
@@ -109,6 +96,7 @@ void LightAttackBullet::Update(float deltaTime)
 	
 	// When the particles are ready to be played, play them and after them, delete the bullet
 	particleSystemCurrentTimer -= deltaTime;
+	
 	if (particleSystemCurrentTimer <= 0.0f)
 	{
 		particleSystemCurrentTimer = particleSystemTimer;
@@ -223,6 +211,38 @@ void LightAttackBullet::SetDamage(float nDamageAttack)
 	damageAttack = nDamageAttack;
 }
 
+void LightAttackBullet::SetVelocity(float nVelocity)
+{
+	velocity = nVelocity;
+}
+
+void LightAttackBullet::SetInitPos(ComponentTransform* nInitPos)
+{
+	initPos = nInitPos;
+}
+
+void LightAttackBullet::ResetDefaultValues()
+{
+	lifeTime = 0.0f;
+
+	bulletTransform->SetGlobalPosition(initPos->GetGlobalPosition());
+	bulletTransform->SetGlobalRotation(initPos->GetGlobalRotation());
+	bulletTransform->RecalculateLocalMatrix();
+
+	rigidBody->UpdateRigidBody();
+	rigidBody->Enable();
+	rigidBody->SetDefaultPosition();
+	rigidBody->SetUseRotationController(true);
+
+	if (particleSystem)
+	{
+		particleSystem->Enable();
+		particleSystemCurrentTimer = particleSystemTimer;
+	}
+
+	owner->GetComponent<ComponentMeshRenderer>()->Enable();
+}
+
 void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if (other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("PriorityTarget"))
@@ -265,12 +285,16 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 		{
 			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ELECTRIC_SHOT); // Provisional sfx
 		}
-		DestroyBullet();
+		owner->Disable();
 	}
 }
 
 void LightAttackBullet::DestroyBullet()
 {	
-	App->GetModule<ModuleScene>()->GetLoadedScene()->RemoveParticleSystem(particleSystem);
-	App->GetModule<ModuleScene>()->GetLoadedScene()->DestroyGameObject(owner);
+	if (particleSystem)
+	{
+		particleSystem->Disable();
+	}
+	owner->Disable();
 }
+

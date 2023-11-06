@@ -84,6 +84,7 @@ void PowerUpsManagerScript::UseSavedPowerUp()
 	{
 		HealthSystem* healthScript = player->GetComponent<HealthSystem>();
 		healthScript->HealLife(amountHealed);
+		currentPowerUpTimer = maxPowerUpTimer;
 	}
 
 	else if (activePowerUp == PowerUpType::ATTACK)
