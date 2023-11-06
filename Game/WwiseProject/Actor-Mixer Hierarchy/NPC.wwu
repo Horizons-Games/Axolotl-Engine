@@ -1295,6 +1295,9 @@
 				<Sound Name="as_npc_so_alert" ID="{5FB37BD3-19CD-4812-9FA8-1FF1D26E3247}" ShortID="146961679">
 					<PropertyList>
 						<Property Name="Pitch" Type="int32">
+							<ValueList>
+								<Value>200</Value>
+							</ValueList>
 							<ModifierList>
 								<ModifierInfo>
 									<Modifier Name="" ID="{7EA66460-285A-4D63-982F-F2F13637EE4D}">
@@ -1306,6 +1309,11 @@
 									</Modifier>
 								</ModifierInfo>
 							</ModifierList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-6</Value>
+							</ValueList>
 						</Property>
 					</PropertyList>
 					<ReferenceList>

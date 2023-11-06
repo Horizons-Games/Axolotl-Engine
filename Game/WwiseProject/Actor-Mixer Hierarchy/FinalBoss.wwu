@@ -135,7 +135,7 @@
 						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-3</Value>
+								<Value>-8</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -161,6 +161,13 @@
 					</ActiveSourceList>
 				</Sound>
 				<BlendContainer Name="FinalBoss_RockSlide" ID="{2820D458-A5A1-4706-8D4A-F01310E88A99}" ShortID="241411142">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-7</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -393,6 +400,11 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="as_npc_so_boss_charge_rocks_impact_rr01" ID="{CF1DF5DF-70DA-4C14-920C-5FF7F19D17C5}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.258776831345826"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.431294718909711"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>as_npc_so_boss_charge_rocks_impact_rr01.wav</AudioFile>
 									<MediaIDList>
@@ -415,6 +427,11 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="as_npc_so_boss_charge_rocks_impact_rr02" ID="{9B5DE2A1-1E62-4217-B7F0-77247C8BC438}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.167449034639409"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.586071621237932"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>as_npc_so_boss_charge_rocks_impact_rr02.wav</AudioFile>
 									<MediaIDList>
@@ -437,6 +454,11 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="as_npc_so_boss_charge_rocks_impact_rr03" ID="{8AE36CE4-97B3-48C9-899D-EDB3B750DC73}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.227578683986371"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.556841460817718"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>as_npc_so_boss_charge_rocks_impact_rr03.wav</AudioFile>
 									<MediaIDList>
@@ -459,6 +481,11 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="as_npc_so_boss_charge_rocks_impact_rr04" ID="{156BBD99-72CE-41FA-AAF1-8800D35E22CC}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.447058134582623"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.524327441794434"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>as_npc_so_boss_charge_rocks_impact_rr04.wav</AudioFile>
 									<MediaIDList>
@@ -475,6 +502,13 @@
 				<Folder Name="FinalBossHammer" ID="{63F9D2E7-4809-4429-8F39-B8A71E751BE0}" ShortID="179644963">
 					<ChildrenList>
 						<RandomSequenceContainer Name="FinalBoss_HammerOnFire" ID="{179C1389-24C8-4BFA-A676-19DBA19A02A0}" ShortID="395674093">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-4</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -556,7 +590,7 @@
 							<PropertyList>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-3</Value>
+										<Value>-7</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -690,7 +724,7 @@
 											<PropertyList>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>-3</Value>
+														<Value>2</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -1033,6 +1067,13 @@
 					</ChildrenList>
 				</Folder>
 				<BlendContainer Name="FinalBoss_WallHit" ID="{05F06FB8-EDAF-432E-ABEB-569025F51F06}" ShortID="233127181">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-7</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -1660,84 +1701,6 @@
 						</Sound>
 					</ChildrenList>
 				</RandomSequenceContainer>
-				<RandomSequenceContainer Name="FinalBoss_HammerFire" ID="{3C53338E-0C2B-4C91-A7FD-B79B0D298318}" ShortID="218852213">
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<Sound Name="as_npc_so_boss_hammer_fire_on_rr01" ID="{9781C12D-6AF8-4A95-BB62-1FF6CEC22643}" ShortID="543039141">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="as_npc_so_boss_hammer_fire_on_rr01" ID="{55B82164-6FBA-45D0-9892-21AB55FF7EFB}">
-									<Language>SFX</Language>
-									<AudioFile>as_npc_so_boss_hammer_fire_on_rr01.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="178441624"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="as_npc_so_boss_hammer_fire_on_rr01" ID="{55B82164-6FBA-45D0-9892-21AB55FF7EFB}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="as_npc_so_boss_hammer_fire_on_rr02" ID="{97D6DDB5-103D-4B8B-8122-7917776AB2A9}" ShortID="72414680">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="as_npc_so_boss_hammer_fire_on_rr02" ID="{02A4DF85-0EAF-4376-B73A-F2CC244921D1}">
-									<Language>SFX</Language>
-									<AudioFile>as_npc_so_boss_hammer_fire_on_rr02.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="157866284"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="as_npc_so_boss_hammer_fire_on_rr02" ID="{02A4DF85-0EAF-4376-B73A-F2CC244921D1}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="as_npc_so_boss_hammer_fire_on_rr03" ID="{92A047FC-70B5-4FF3-8AE5-C83875D777DB}" ShortID="1033667376">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="as_npc_so_boss_hammer_fire_on_rr03" ID="{6F616474-7093-412A-992E-11EF1056D5FE}">
-									<Language>SFX</Language>
-									<AudioFile>as_npc_so_boss_hammer_fire_on_rr03.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="211341305"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="as_npc_so_boss_hammer_fire_on_rr03" ID="{6F616474-7093-412A-992E-11EF1056D5FE}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-					</ChildrenList>
-				</RandomSequenceContainer>
 				<RandomSequenceContainer Name="FinalBoss_RocketLaunch" ID="{87BAE332-ECFB-4C70-B6E6-8ABF7A32BF23}" ShortID="61318719">
 					<PropertyList>
 						<Property Name="PlayMechanismSpecialTransitions" Type="bool" Value="True"/>
@@ -1745,6 +1708,11 @@
 						<Property Name="PlayMechanismSpecialTransitionsValue" Type="Real64" Value="0.45"/>
 						<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
 						<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-11</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -1929,7 +1897,7 @@
 					<PropertyList>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-6</Value>
+								<Value>-11</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -2144,6 +2112,13 @@
 					</ReferenceList>
 					<ChildrenList>
 						<RandomSequenceContainer Name="FinalBoss_RocketFlyBy" ID="{0E5F538B-9312-4BDA-8676-6034460ABA81}" ShortID="291086979">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-8</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -2502,7 +2477,7 @@
 							<PropertyList>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-3</Value>
+										<Value>-10</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -2987,6 +2962,13 @@
 							</ChildrenList>
 						</BlendContainer>
 						<BlendContainer Name="FinalBoss_Jump" ID="{5B1C359E-AC94-4550-BC4F-1AD5022F6FDE}" ShortID="211435523">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-5</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>

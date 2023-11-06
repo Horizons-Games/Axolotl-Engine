@@ -8,7 +8,18 @@
 						<Action Name="" ID="{57BC892E-236F-4631-9953-A8D47D29003E}" ShortID="750639741">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_drunkNPC_sound" ID="{CF5AA75F-4C2D-4A92-BEDB-7BFCF7E53944}" WorkUnitID="{A74EBD9D-DC2D-41B8-863C-F31104A35D3F}"/>
+									<ObjectRef Name="NPC_Drunk" ID="{CF5AA75F-4C2D-4A92-BEDB-7BFCF7E53944}" WorkUnitID="{A74EBD9D-DC2D-41B8-863C-F31104A35D3F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="sfx_crowdNPC_laughing" ID="{FAA4AE29-B9D4-4785-B585-A9E92DF231F9}">
+					<ChildrenList>
+						<Action Name="" ID="{E4ABA066-F9C0-495C-ABEB-47649FC4036F}" ShortID="992190181">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="NPC_Laughing" ID="{22A6BF8A-3F16-4755-9A76-3BF9B51886B6}" WorkUnitID="{A74EBD9D-DC2D-41B8-863C-F31104A35D3F}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

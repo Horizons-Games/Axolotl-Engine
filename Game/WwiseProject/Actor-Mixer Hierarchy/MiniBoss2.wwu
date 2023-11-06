@@ -10,6 +10,11 @@
 				<Sound Name="as_npc_sl_miniboss_2_aiming" ID="{6904FEDC-AA6B-4D3C-A02D-DCCF85171C0B}" ShortID="1034314593">
 					<PropertyList>
 						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-6</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -33,6 +38,13 @@
 					</ActiveSourceList>
 				</Sound>
 				<Sound Name="as_npc_so_miniboss_2_laser_shot_end" ID="{2061F4FD-0F2E-422F-9818-29A3E734ABAD}" ShortID="974272326">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-6</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -55,6 +67,13 @@
 					</ActiveSourceList>
 				</Sound>
 				<BlendContainer Name="MinibossLaserShot" ID="{55FCFD9E-69A6-4D8B-B9A8-29C7EC4AE496}" ShortID="375281756">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-5</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>

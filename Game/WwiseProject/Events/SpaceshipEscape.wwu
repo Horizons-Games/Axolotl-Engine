@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{DCD13B3B-8923-4849-AF54-492C69AB2C95}" SchemaVersion="110" RootDocumentID="{AA397C40-3770-4439-AC7E-10F711A90387}" ParentDocumentID="{3220227D-B782-4EAB-9D58-F9E0C5F8F212}">
+	<Events>
+		<WorkUnit Name="SpaceshipEscape" ID="{DCD13B3B-8923-4849-AF54-492C69AB2C95}" OwnerID="{3220227D-B782-4EAB-9D58-F9E0C5F8F212}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="FireThrowerBurst" ID="{A7D5D060-B369-4317-9C76-49AD167514E3}">
+					<ChildrenList>
+						<Action Name="" ID="{82BC75F5-C28B-4912-85FB-E264B039CEF1}" ShortID="641703150">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FireThrowerBurst" ID="{4CB1CC47-ECCC-44AA-8E62-5EF25A8F9C04}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{924E89CC-8434-4196-942F-E27D6AC9D349}" ShortID="273858928">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FireThrowerLoop" ID="{C3D5B616-2359-42A4-8A96-8CDE99099116}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="BigTurbine" ID="{DB86C735-D996-42AC-ADEF-E667E2155260}">
+					<ChildrenList>
+						<Action Name="" ID="{9BBA1965-315C-47C0-9EAC-1696E4767A98}" ShortID="282706160">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Turbine" ID="{85CABD46-C6EF-4B07-A521-778F1E53F30C}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="WindAmbient" ID="{DBE7A4CC-7CC5-432D-98C1-102A6225EB95}">
+					<ChildrenList>
+						<Action Name="" ID="{5F3AC72E-A7B4-4C3D-B331-1597AADBE308}" ShortID="961124125">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_ab_ao_wind" ID="{412042C0-058F-4AE2-81FA-E9B43F593872}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

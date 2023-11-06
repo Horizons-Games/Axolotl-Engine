@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{D386B685-0AD3-493F-AD8D-D822FB0FFB8C}" SchemaVersion="110" RootDocumentID="{AA397C40-3770-4439-AC7E-10F711A90387}" ParentDocumentID="{DA6DFEB4-9E33-4AA8-8321-65EA7BC79F93}">
+	<Events>
+		<WorkUnit Name="FinalBoss" ID="{D386B685-0AD3-493F-AD8D-D822FB0FFB8C}" OwnerID="{DA6DFEB4-9E33-4AA8-8321-65EA7BC79F93}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="FinalBoss_Jump" ID="{84BFEB87-2A03-4CAD-95AA-7344A3DDD698}">
+					<ChildrenList>
+						<Action Name="" ID="{49C7AE21-5A93-44B5-98C4-0AA43AF6E461}" ShortID="910808473">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FinalBoss_Jump" ID="{5B1C359E-AC94-4550-BC4F-1AD5022F6FDE}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="FinalBoss_Land" ID="{7715721D-730A-4CB6-9A06-3584A1555905}">
+					<ChildrenList>
+						<Action Name="" ID="{2992F102-B5DD-4F63-8073-6F21A3F7521E}" ShortID="361695652">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FinalBoss_Land" ID="{E137B3E2-432E-4E13-BAAB-364BCE1E25EF}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="FinalBoss_HammerAttack" ID="{D1938923-D21C-4BA5-8F01-FEDB135D77EF}">
+					<ChildrenList>
+						<Action Name="" ID="{4148F0EE-15E4-4B37-AA05-64C0FEE66CBA}" ShortID="998907760">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FinalBoss_Hammer" ID="{D6C04BC8-A315-4E80-A6E8-1BFF7FEFEF34}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{A4C34E5C-44CD-4F25-81BF-FD41EE4168B2}" ShortID="911301691">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FinalBoss_HammerShout" ID="{ADF7AFDD-1B37-44DF-BD9E-518879651AC1}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="FinalBoss_HammeOnFire" ID="{5381CF66-CF19-40CE-BFFC-11B9AAFE32A0}">
+					<ChildrenList>
+						<Action Name="" ID="{5D2FFE35-3408-4F7A-B44B-EA40CEF517DE}" ShortID="111370111">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FinalBoss_HammerOnFire" ID="{179C1389-24C8-4BFA-A676-19DBA19A02A0}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="FinalBoss_ChargeAttack" ID="{977515B2-0116-4365-979D-588DB86A2110}">
+					<ChildrenList>
+						<Action Name="" ID="{8D08E116-407C-4C40-B376-D7483D1EEAB5}" ShortID="902989341">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FinalBoss_ChargeAttack" ID="{B08B91A7-2B62-41AC-9C3C-019F60980746}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="FinalBoss_Damage" ID="{1AC23CE4-143F-4F1B-8047-9BF5D1213880}">
+					<ChildrenList>
+						<Action Name="" ID="{9B0C1A83-1419-4363-8071-CF87AF44ADE5}" ShortID="666938055">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FinalBoss_Damage" ID="{71090AD0-95BB-4282-881D-19703FB9A4D3}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="FinalBoss_RocketLaunch" ID="{F3F3C49B-51C1-4556-AD8C-5F36A0D73CBE}">
+					<ChildrenList>
+						<Action Name="" ID="{F29DB309-4D95-47E0-B7E8-EC9B3C6F3D4D}" ShortID="451550749">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FinalBoss_RocketLaunch" ID="{87BAE332-ECFB-4C70-B6E6-8ABF7A32BF23}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="FinalBoss_RocksImpact" ID="{52CF83A6-577B-4167-923C-B496A09B229E}">
+					<ChildrenList>
+						<Action Name="" ID="{FD548A48-A402-49B7-A517-376E2846FAAE}" ShortID="1055886939">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FinalBoss_RockImpact" ID="{29FD5106-9961-4B46-AC0C-AF9295E97892}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="FinalBoss_RocketFalling" ID="{5039C03E-D494-4025-906C-F25ECD833740}">
+					<ChildrenList>
+						<Action Name="" ID="{A816D22F-FEC9-4977-BBDA-C2215F0EAB68}" ShortID="1057887977">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FinalBoss_RocketFalling" ID="{80DA7495-5B12-4813-9C35-328112A2C5BB}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="FinalBoss_RocketImpact" ID="{F85BF892-B9DF-4FCE-8E92-EA17DB0D3784}">
+					<ChildrenList>
+						<Action Name="" ID="{2B664E72-F219-4964-843C-A5FCEFB8A8D8}" ShortID="682204466">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FinalBoss_RocketImpact" ID="{99E5E9FA-5191-4303-8BB5-D3B54F0F6C54}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{305F32E9-B56A-409E-A5E3-E3157208BF3E}" ShortID="625431305">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FinalBoss_RocketFalling" ID="{80DA7495-5B12-4813-9C35-328112A2C5BB}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="FinalBoss_RocksFalling" ID="{A56824DE-A394-4085-81F0-CADDEF6397AE}">
+					<ChildrenList>
+						<Action Name="" ID="{10CA3A35-D9E9-4FBB-B537-B8BF52D8BE97}" ShortID="125047194">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FinalBoss_RockSlide" ID="{2820D458-A5A1-4706-8D4A-F01310E88A99}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="FinalBoss_WallHit" ID="{F3AFC509-812C-4111-AFE7-178925895F51}">
+					<ChildrenList>
+						<Action Name="" ID="{450DB8AB-2519-4761-90BC-D256C352BA88}" ShortID="476909868">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FinalBoss_WallHit" ID="{05F06FB8-EDAF-432E-ABEB-569025F51F06}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="FinalBoss_EnergyShield" ID="{5E1F5FF5-E9E8-42CC-B517-2178E942F233}">
+					<ChildrenList>
+						<Action Name="" ID="{CC1A6E2D-89AB-4AD7-85CB-91B15761F38F}" ShortID="516221842">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_npc_sl_boss_energy_shield" ID="{A00A918E-DEAF-4542-92DC-CE0BC568EDAF}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="FinalBoss_SummonEnemies" ID="{D42D54CC-1672-451A-B84C-154BFDAFCE0A}">
+					<ChildrenList>
+						<Action Name="" ID="{9396C613-C22D-4BFD-96E5-D3C525840EA6}" ShortID="65713988">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="av_npc_so_boss_summon_enemies" ID="{43D0AF69-150B-4BC9-A176-661854B5D8D5}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="FinalBoss_EnergyShieldStop" ID="{FA275322-EE03-43B6-8EE1-AC7F6D8CBC7D}">
+					<ChildrenList>
+						<Action Name="" ID="{89B1AD01-E80C-40A7-8033-7270CD4CC785}" ShortID="367724214">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_npc_sl_boss_energy_shield" ID="{A00A918E-DEAF-4542-92DC-CE0BC568EDAF}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="FinalBoss_Stunned" ID="{658ECFC0-CBDB-4127-BB48-6D08643DD1EE}">
+					<ChildrenList>
+						<Action Name="" ID="{BE849E76-1251-4258-9797-ED5C1400B8B8}" ShortID="361759908">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_npc_so_boss_charge_wall_stunt_rr" ID="{AB1EDEE3-9FCF-4FA1-97D7-083922439EFB}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="FinalBoss_Death" ID="{3C4C6CDB-0109-493C-96B8-FDF23C2C2686}">
+					<ChildrenList>
+						<Action Name="" ID="{49732454-FAF5-49B4-8669-F61BFA1246FD}" ShortID="320405366">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="av_npc_so_boss_death" ID="{BAF59663-73F6-45CA-8E5F-C1ABF48A48B1}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

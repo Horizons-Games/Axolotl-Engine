@@ -36,6 +36,39 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="HackingCorrect" ID="{87A3DF7C-CE38-4EC1-97C6-C31891C409FD}">
+					<ChildrenList>
+						<Action Name="" ID="{2B1F23B2-DEA2-4CBE-8ACC-05DAC97EDAAC}" ShortID="399583873">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="HackingCorrect" ID="{8583EC19-2176-4CEB-9C74-AF2160E59379}" WorkUnitID="{C66BB8FA-DA9D-4378-B7F0-9AD5A14F1C2E}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="HackingWrong" ID="{EAE542D3-AAA0-4973-B69C-915CAE98C1E0}">
+					<ChildrenList>
+						<Action Name="" ID="{9BF37997-AB0D-4874-B3AE-797A22837C2D}" ShortID="410570280">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="HackingWrong" ID="{C9F5B375-0F76-478A-B91E-D6156B092CB4}" WorkUnitID="{C66BB8FA-DA9D-4378-B7F0-9AD5A14F1C2E}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="HackingFinished" ID="{7FB96996-6440-48D5-83C4-1C10724A72CB}">
+					<ChildrenList>
+						<Action Name="" ID="{20FB9AF7-AC1A-47D3-971E-D7A913A01CAD}" ShortID="455915118">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_ui_so_hacking_finished" ID="{FBFBA592-FABD-4D11-9356-70533E1001ED}" WorkUnitID="{C66BB8FA-DA9D-4378-B7F0-9AD5A14F1C2E}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

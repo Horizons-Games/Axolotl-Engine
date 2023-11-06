@@ -262,11 +262,7 @@
 								<Property Name="OverrideColor" Type="bool" Value="True"/>
 							</PropertyList>
 							<ChildrenList>
-								<RandomSequenceContainer Name="BigMechanicalDoorClose" ID="{1824F256-2ECB-4603-B6CA-7D132279F449}" ShortID="98247963">
-									<PropertyList>
-										<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
-										<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="2"/>
-									</PropertyList>
+								<BlendContainer Name="BigDoorOpen" ID="{5A916723-D076-4423-BD02-77E5E15044C0}" ShortID="658273128">
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -276,9 +272,117 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<Sound Name="as_ab_ao_big_mechanical_door_close_rr01" ID="{AC9E9F14-4AA2-4ABE-A240-B4DC57FE1089}" ShortID="908701838">
+										<RandomSequenceContainer Name="BigMechanicalDoorOpen" ID="{12BFE746-A9B2-421E-8582-1F407229AE32}" ShortID="545337714">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-5</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="as_ab_ao_big_mechanical_door_open_rr01" ID="{DA220147-F873-4EB2-9CE0-76A110F3B7A8}" ShortID="918503946">
+													<PropertyList>
+														<Property Name="3DSpatialization" Type="int16" Value="1"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Attenuation">
+															<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+														</Reference>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_ab_ao_big_mechanical_door_open_rr01" ID="{5EFF542B-565A-4410-A551-59E2EF9AF8F7}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_ab_ao_big_mechanical_door_open_rr01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="10014200"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_ab_ao_big_mechanical_door_open_rr01" ID="{5EFF542B-565A-4410-A551-59E2EF9AF8F7}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_ab_ao_big_mechanical_door_open_rr02" ID="{62EF99A2-B3EE-45E7-A23A-DAF83CE9ED63}" ShortID="434401810">
+													<PropertyList>
+														<Property Name="3DSpatialization" Type="int16" Value="1"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Attenuation">
+															<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+														</Reference>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_ab_ao_big_mechanical_door_open_rr02" ID="{E8300AF3-892D-4DBC-93AE-F74850B6B053}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_ab_ao_big_mechanical_door_open_rr02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="1006298303"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_ab_ao_big_mechanical_door_open_rr02" ID="{E8300AF3-892D-4DBC-93AE-F74850B6B053}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_ab_ao_big_mechanical_door_open_rr03" ID="{DE3E2BE0-52C2-4BE8-889C-916AC9122B9B}" ShortID="677686044">
+													<PropertyList>
+														<Property Name="3DSpatialization" Type="int16" Value="1"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Attenuation">
+															<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+														</Reference>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_ab_ao_big_mechanical_door_open_rr03" ID="{94F7AC0C-5A94-4F90-A3FC-75B8B19408BD}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_ab_ao_big_mechanical_door_open_rr03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="910790262"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_ab_ao_big_mechanical_door_open_rr03" ID="{94F7AC0C-5A94-4F90-A3FC-75B8B19408BD}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<Sound Name="sfx_bigDoor_open-001" ID="{F0C08361-2CFD-406E-A5A6-BF1D97ACD646}" ShortID="294423801">
 											<PropertyList>
 												<Property Name="3DSpatialization" Type="int16" Value="1"/>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-13</Value>
+													</ValueList>
+												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Attenuation">
@@ -292,77 +396,21 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="as_ab_ao_big_mechanical_door_close_rr01" ID="{53CE534E-AD0B-4D84-BA65-39A1315A5425}">
+												<AudioFileSource Name="sfx_bigDoor_open-001" ID="{7971E084-E2FE-4119-B16F-A1D228437ED5}">
 													<Language>SFX</Language>
-													<AudioFile>Bounces\as_ab_ao_big_mechanical_door_close_rr01.wav</AudioFile>
+													<AudioFile>sfx_bigDoor_open-001.wav</AudioFile>
 													<MediaIDList>
-														<MediaID ID="637370873"/>
+														<MediaID ID="789177941"/>
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
-												<ActiveSource Name="as_ab_ao_big_mechanical_door_close_rr01" ID="{53CE534E-AD0B-4D84-BA65-39A1315A5425}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ab_ao_big_mechanical_door_close_rr02" ID="{1C89A11F-F39C-4890-ACFE-AFA223897D52}" ShortID="834790146">
-											<PropertyList>
-												<Property Name="3DSpatialization" Type="int16" Value="1"/>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Attenuation">
-													<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
-												</Reference>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ab_ao_big_mechanical_door_close_rr02" ID="{76F46C8B-659A-400F-9D14-3094FC176B99}">
-													<Language>SFX</Language>
-													<AudioFile>Bounces\as_ab_ao_big_mechanical_door_close_rr02.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="281062720"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ab_ao_big_mechanical_door_close_rr02" ID="{76F46C8B-659A-400F-9D14-3094FC176B99}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ab_ao_big_mechanical_door_close_rr03" ID="{27F72A70-33BD-4BB6-AAB4-0AE3910407D8}" ShortID="342337811">
-											<PropertyList>
-												<Property Name="3DSpatialization" Type="int16" Value="1"/>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Attenuation">
-													<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
-												</Reference>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ab_ao_big_mechanical_door_close_rr03" ID="{EA01D6B6-6663-421B-A748-A9C330C1D416}">
-													<Language>SFX</Language>
-													<AudioFile>Bounces\as_ab_ao_big_mechanical_door_close_rr03.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="628217826"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ab_ao_big_mechanical_door_close_rr03" ID="{EA01D6B6-6663-421B-A748-A9C330C1D416}" Platform="Linked"/>
+												<ActiveSource Name="sfx_bigDoor_open-001" ID="{7971E084-E2FE-4119-B16F-A1D228437ED5}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>
-								</RandomSequenceContainer>
-								<RandomSequenceContainer Name="BigMechanicalDoorOpen" ID="{12BFE746-A9B2-421E-8582-1F407229AE32}" ShortID="545337714">
+								</BlendContainer>
+								<BlendContainer Name="BigDoorClose" ID="{771BDBCC-887C-48D1-803A-DA084AD91990}" ShortID="707212254">
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -372,9 +420,119 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<Sound Name="as_ab_ao_big_mechanical_door_open_rr01" ID="{DA220147-F873-4EB2-9CE0-76A110F3B7A8}" ShortID="918503946">
+										<RandomSequenceContainer Name="BigMechanicalDoorClose" ID="{1824F256-2ECB-4603-B6CA-7D132279F449}" ShortID="98247963">
+											<PropertyList>
+												<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
+												<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="2"/>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-5</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="as_ab_ao_big_mechanical_door_close_rr01" ID="{AC9E9F14-4AA2-4ABE-A240-B4DC57FE1089}" ShortID="908701838">
+													<PropertyList>
+														<Property Name="3DSpatialization" Type="int16" Value="1"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Attenuation">
+															<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+														</Reference>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_ab_ao_big_mechanical_door_close_rr01" ID="{53CE534E-AD0B-4D84-BA65-39A1315A5425}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_ab_ao_big_mechanical_door_close_rr01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="637370873"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_ab_ao_big_mechanical_door_close_rr01" ID="{53CE534E-AD0B-4D84-BA65-39A1315A5425}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_ab_ao_big_mechanical_door_close_rr02" ID="{1C89A11F-F39C-4890-ACFE-AFA223897D52}" ShortID="834790146">
+													<PropertyList>
+														<Property Name="3DSpatialization" Type="int16" Value="1"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Attenuation">
+															<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+														</Reference>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_ab_ao_big_mechanical_door_close_rr02" ID="{76F46C8B-659A-400F-9D14-3094FC176B99}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_ab_ao_big_mechanical_door_close_rr02.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="281062720"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_ab_ao_big_mechanical_door_close_rr02" ID="{76F46C8B-659A-400F-9D14-3094FC176B99}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="as_ab_ao_big_mechanical_door_close_rr03" ID="{27F72A70-33BD-4BB6-AAB4-0AE3910407D8}" ShortID="342337811">
+													<PropertyList>
+														<Property Name="3DSpatialization" Type="int16" Value="1"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Attenuation">
+															<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+														</Reference>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="as_ab_ao_big_mechanical_door_close_rr03" ID="{EA01D6B6-6663-421B-A748-A9C330C1D416}">
+															<Language>SFX</Language>
+															<AudioFile>Bounces\as_ab_ao_big_mechanical_door_close_rr03.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="628217826"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="as_ab_ao_big_mechanical_door_close_rr03" ID="{EA01D6B6-6663-421B-A748-A9C330C1D416}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+										</RandomSequenceContainer>
+										<Sound Name="sfx_bigDoor_close-001" ID="{CF511A10-B55B-4C80-A206-019537BB15D7}" ShortID="1066118985">
 											<PropertyList>
 												<Property Name="3DSpatialization" Type="int16" Value="1"/>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-13</Value>
+													</ValueList>
+												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Attenuation">
@@ -388,76 +546,20 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="as_ab_ao_big_mechanical_door_open_rr01" ID="{5EFF542B-565A-4410-A551-59E2EF9AF8F7}">
+												<AudioFileSource Name="sfx_bigDoor_close-001" ID="{FFACABF7-EADC-4760-BF39-1DC1A5BDB500}">
 													<Language>SFX</Language>
-													<AudioFile>Bounces\as_ab_ao_big_mechanical_door_open_rr01.wav</AudioFile>
+													<AudioFile>sfx_bigDoor_close-001.wav</AudioFile>
 													<MediaIDList>
-														<MediaID ID="10014200"/>
+														<MediaID ID="649108800"/>
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
 											<ActiveSourceList>
-												<ActiveSource Name="as_ab_ao_big_mechanical_door_open_rr01" ID="{5EFF542B-565A-4410-A551-59E2EF9AF8F7}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ab_ao_big_mechanical_door_open_rr02" ID="{62EF99A2-B3EE-45E7-A23A-DAF83CE9ED63}" ShortID="434401810">
-											<PropertyList>
-												<Property Name="3DSpatialization" Type="int16" Value="1"/>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Attenuation">
-													<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
-												</Reference>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ab_ao_big_mechanical_door_open_rr02" ID="{E8300AF3-892D-4DBC-93AE-F74850B6B053}">
-													<Language>SFX</Language>
-													<AudioFile>Bounces\as_ab_ao_big_mechanical_door_open_rr02.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="1006298303"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ab_ao_big_mechanical_door_open_rr02" ID="{E8300AF3-892D-4DBC-93AE-F74850B6B053}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ab_ao_big_mechanical_door_open_rr03" ID="{DE3E2BE0-52C2-4BE8-889C-916AC9122B9B}" ShortID="677686044">
-											<PropertyList>
-												<Property Name="3DSpatialization" Type="int16" Value="1"/>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Attenuation">
-													<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
-												</Reference>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ab_ao_big_mechanical_door_open_rr03" ID="{94F7AC0C-5A94-4F90-A3FC-75B8B19408BD}">
-													<Language>SFX</Language>
-													<AudioFile>Bounces\as_ab_ao_big_mechanical_door_open_rr03.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="910790262"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ab_ao_big_mechanical_door_open_rr03" ID="{94F7AC0C-5A94-4F90-A3FC-75B8B19408BD}" Platform="Linked"/>
+												<ActiveSource Name="sfx_bigDoor_close-001" ID="{FFACABF7-EADC-4760-BF39-1DC1A5BDB500}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>
-								</RandomSequenceContainer>
+								</BlendContainer>
 							</ChildrenList>
 						</Folder>
 						<Sound Name="as_ab_al_water_fall" ID="{D6903838-2624-410D-AAAA-BA42F370F95E}" ShortID="931862167">
@@ -538,6 +640,11 @@
 								<Property Name="NormalOrShuffle" Type="int16" Value="0"/>
 								<Property Name="OverrideColor" Type="bool" Value="True"/>
 								<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="3"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-10</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Attenuation">
@@ -660,6 +767,11 @@
 								<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
 								<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
 								<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-7</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -681,6 +793,9 @@
 									</ReferenceList>
 									<ChildrenList>
 										<SourcePlugin Name="Silence" ID="{10051CEC-23A7-46F2-9C84-B913E37BF4AA}" ShortID="762925611" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+											<PropertyList>
+												<Property Name="Length" Type="Real32" Value="0.4"/>
+											</PropertyList>
 											<Language>SFX</Language>
 										</SourcePlugin>
 									</ChildrenList>
@@ -981,6 +1096,11 @@
 						<Sound Name="as_ab_al_generator" ID="{5B1450DA-FAD3-4A9D-B0CD-04913CD6E0CD}" ShortID="953500139">
 							<PropertyList>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-5</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1041,6 +1161,11 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="as_ab_ao_small_automatic_door_close_rr_01" ID="{287FC0D3-29E5-49B6-80E3-A13ED5C0E2D2}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.472402877697843"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.957928057553959"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>Bounces\as_ab_ao_small_automatic_door_close_rr_01.wav</AudioFile>
 													<MediaIDList>
@@ -1063,6 +1188,10 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="as_ab_ao_small_automatic_door_close_rr_02" ID="{07B85911-2A39-48D4-8BEF-8A976CC43A84}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.841229376498802"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>Bounces\as_ab_ao_small_automatic_door_close_rr_02.wav</AudioFile>
 													<MediaIDList>
@@ -1085,6 +1214,11 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="as_ab_ao_small_automatic_door_close_rr_03" ID="{2836C567-1339-426C-B5BE-8C5F29B85290}">
+													<PropertyList>
+														<Property Name="FadeOutDuration" Type="Real64" Value="0.885764088729019"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimEnd" Type="Real64" Value="0.987710521582731"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>Bounces\as_ab_ao_small_automatic_door_close_rr_03.wav</AudioFile>
 													<MediaIDList>
@@ -1112,6 +1246,11 @@
 													</Modifier>
 												</ModifierInfo>
 											</ModifierList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-7</Value>
+											</ValueList>
 										</Property>
 									</PropertyList>
 									<ReferenceList>
@@ -1226,6 +1365,11 @@
 						<Sound Name="as_ab_sl_hacking" ID="{8DC18156-4869-4928-907E-88C4B9157924}" ShortID="924616516">
 							<PropertyList>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-6</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1253,6 +1397,11 @@
 								<Sound Name="as_ab_sl_elevator" ID="{51299214-33C7-44D8-BDDA-D4E3D268E206}" ShortID="567762694">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-9</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -1456,6 +1605,9 @@
 									</ChildrenList>
 								</RandomSequenceContainer>
 								<RandomSequenceContainer Name="FireThrowerBurst" ID="{4CB1CC47-ECCC-44AA-8E62-5EF25A8F9C04}" ShortID="226729539">
+									<PropertyList>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>

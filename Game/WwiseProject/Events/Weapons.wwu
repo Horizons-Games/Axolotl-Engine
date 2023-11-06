@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{11CF1323-72F0-431C-A7E7-A93C3C9B200D}" SchemaVersion="110" RootDocumentID="{AA397C40-3770-4439-AC7E-10F711A90387}" ParentDocumentID="{D2E727CD-A752-4B9A-A2A8-295D76DD76A9}">
+	<Events>
+		<WorkUnit Name="Weapons" ID="{11CF1323-72F0-431C-A7E7-A93C3C9B200D}" OwnerID="{D2E727CD-A752-4B9A-A2A8-295D76DD76A9}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="Bix_LightAttackFinisher" ID="{F9436EAA-3BC6-49E2-9DE8-4FC9E229A6BB}">
+					<ChildrenList>
+						<Action Name="" ID="{44916F4D-029F-4904-A09E-0FD29564EAF5}" ShortID="112778677">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Bix_LightAttackFinisher_Start" ID="{530F78A0-6562-42B3-95C1-5E9BCD8DE949}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{13CF6418-43D3-4F06-824F-1BF47EBA855B}" ShortID="444069483">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Bix_LightAttackFinisher_Loop" ID="{5682E2CC-05CE-4DDA-A149-EA6EB833A3D8}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{682CE77F-76F3-4E69-A146-95F35B45485B}" ShortID="401774191">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BixHeavyAttack" ID="{59235564-0FD3-41E8-B905-858433938D52}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Bix_LightAttackFinisherImpact" ID="{77AB0EB3-75F1-4C2C-921C-CC6491005087}">
+					<ChildrenList>
+						<Action Name="" ID="{8451EE73-1BA9-4547-A374-F85D3B2BB58D}" ShortID="519065500">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Bix_LightAttackFinisher_Loop" ID="{5682E2CC-05CE-4DDA-A149-EA6EB833A3D8}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{42653BDA-A3EB-4102-A007-EBD8DB78AFC1}" ShortID="204284181">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Bix_LightAttackFinisher_Impact" ID="{312C9B74-B7F4-4513-BAA0-D0B4621A6AE8}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Bix_LightAttackFinisherStop" ID="{EBF8939D-AFD2-4631-A816-04469E7A34DA}">
+					<ChildrenList>
+						<Action Name="" ID="{CDC47AB1-05E0-4C87-B01A-C558313D16F8}" ShortID="219552406">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Bix_LightAttackFinisher_Loop" ID="{5682E2CC-05CE-4DDA-A149-EA6EB833A3D8}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Allura_DownAttack" ID="{A57A1850-B666-4C42-BC97-D198784024B8}">
+					<ChildrenList>
+						<Action Name="" ID="{0EB129EA-D33F-4A02-A595-FA2F460825D8}" ShortID="465101899">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AlluraDownAttack" ID="{C3A92920-2163-4CF3-BEEA-6C9E63EFD64B}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{81090CCE-455F-460F-8F31-5D406D1B3166}" ShortID="476625831">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AlluraHeavyAttack" ID="{9B447FDE-38A0-45AB-A55D-A881F499848F}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Allura_HeavyAttackFinisher" ID="{79259D17-2243-46D9-A92B-C031657A1CD4}">
+					<ChildrenList>
+						<Action Name="" ID="{8662DC69-C7DC-446B-935F-D9F166DDA79A}" ShortID="949486815">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AlluraHeavyAttackFinisher" ID="{C892F88B-12BC-410A-8C2E-B32DB531A232}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{211F93E9-2196-41E8-8F56-B0AF303AC15A}" ShortID="448681941">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AlluraHeavyAttack" ID="{9B447FDE-38A0-45AB-A55D-A881F499848F}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Allura_HeavyAttackFinisherImpact" ID="{11728AFC-4104-4430-90F5-EF88833F9937}">
+					<ChildrenList>
+						<Action Name="" ID="{C68B99E6-0404-4F83-BDDB-890CEB363300}" ShortID="567379695">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AlluraHeavyAttackImpact" ID="{AC38C289-966E-465E-839E-A7044DD98BAF}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Allura_ShotImpact" ID="{3917D3C1-B45A-4F60-AC65-5465BBF25350}">
+					<ChildrenList>
+						<Action Name="" ID="{8ABECFD8-56C1-490D-827E-169A63166F36}" ShortID="29515469">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AlluraShotImpact" ID="{5C57A8C1-6F05-47C3-AB94-77CC082C6971}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Allura_WeaponShot" ID="{506CF4AC-CF1D-4B91-B842-220C19B75811}">
+					<ChildrenList>
+						<Action Name="" ID="{24A11B02-92E1-49AF-A38E-D42DE2A7FB59}" ShortID="515431451">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AlluraWeaponShot" ID="{9FC94676-6C14-47F3-BDA1-05CFD8D3303A}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{20386BB6-51BB-4EFE-8B92-83FE22A5813D}" ShortID="587481048">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AlluraLightAttack" ID="{1218B45B-FB9B-4762-AF89-A474E9050D9A}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Bix_DownAttack" ID="{1A39B4E7-33E1-4FD1-A57D-1D1575F5025E}">
+					<ChildrenList>
+						<Action Name="" ID="{DED9058D-9349-4DDE-8F75-34045518CED4}" ShortID="657874408">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BixDownAttack" ID="{68FCBC9C-F0A0-4CBF-93DA-C91961491E2C}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{3F312C37-FDDE-420D-9E8D-1FEBE5752FA9}" ShortID="408132695">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BixHeavyAttack" ID="{59235564-0FD3-41E8-B905-858433938D52}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Bix_LightsaberImpact" ID="{706B2F04-AE19-4ACD-96D7-FFA13210D4A6}">
+					<ChildrenList>
+						<Action Name="" ID="{87FFC410-DB43-408F-A4F5-75D68A2EF2B6}" ShortID="264792676">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BixLightsaberImpact" ID="{5A23A194-7F3D-4389-ACD8-B738C4DD4482}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Allura_LightAttackFinisher" ID="{1DEAEE6B-80AE-43AD-9B1A-C6897F92E89F}">
+					<ChildrenList>
+						<Action Name="" ID="{C8BA0E06-59D5-45CA-8C6A-307B826C4BCB}" ShortID="777996148">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Allura_LightAttackFinisher" ID="{8AFAA677-B171-425F-8E95-C066F0E83F32}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{648C8EB3-DFBA-42F7-8557-BD004103808D}" ShortID="710223888">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AlluraHeavyAttack" ID="{9B447FDE-38A0-45AB-A55D-A881F499848F}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Allura_LightAttackFinisherImpact" ID="{EFE10F2E-5B6D-426A-B6F4-931D6664269A}">
+					<ChildrenList>
+						<Action Name="" ID="{0D2FF58F-5BF5-40F8-AD68-774EC8A40DC0}" ShortID="892325366">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Allura_LightAttackImpact" ID="{2A3ED62D-4F9F-417B-A1FF-96E9B75D0E6D}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Bix_HeavyAttackFinisher" ID="{B3703197-F2A5-4B21-B523-61660EF90FCF}">
+					<ChildrenList>
+						<Action Name="" ID="{AC43A175-D1A3-4446-BB0B-2E903079382D}" ShortID="685782329">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BixHeavyAttackFinisher" ID="{5573D82F-A585-4B80-888B-6EDDA1A654BF}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{03E2CA6A-CB21-4610-B731-3297A459F0EA}" ShortID="789460564">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BixLightAttack" ID="{E79D5B25-30C6-4584-86C8-905C6D99083B}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Bix_HeavyAttackFinisherStop" ID="{202CD241-9B01-4FD1-AF2A-F871DAE1D077}">
+					<ChildrenList>
+						<Action Name="" ID="{92621F86-D8E1-4996-B58C-A84B7CC76A4D}" ShortID="230523995">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BixHeavyAttackFinisher" ID="{5573D82F-A585-4B80-888B-6EDDA1A654BF}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Bix_LightsaberAttack" ID="{9DB0ED1F-938A-4941-AAAF-8858EDF205A5}">
+					<ChildrenList>
+						<Action Name="" ID="{CE41A7A4-1B9B-49DE-8339-991FFE116AA5}" ShortID="501666420">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BixLightsaberAttack" ID="{C22D9399-1633-4AA1-B3A1-5B826973A0A7}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{3E121F87-C982-4FE8-93E7-C799D0C79AE2}" ShortID="761536145">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BixLightAttack" ID="{E79D5B25-30C6-4584-86C8-905C6D99083B}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

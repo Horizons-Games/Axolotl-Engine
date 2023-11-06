@@ -3,88 +3,12 @@
 	<Events>
 		<WorkUnit Name="Player" ID="{D2E727CD-A752-4B9A-A2A8-295D76DD76A9}" OwnerID="{AA397C40-3770-4439-AC7E-10F711A90387}" PersistMode="Nested">
 			<ChildrenList>
-				<Event Name="sfx_lightsaber_hum_01" ID="{9D53F046-160C-496C-88D4-7A9B02719068}">
-					<ChildrenList>
-						<Action Name="" ID="{04F7D749-7A8B-4178-BFBE-67CC13E3D3DA}" ShortID="246076101">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="sfx_lightsaber_hum_01" ID="{100F7C43-6EB0-4020-BC3B-F3493B6160A8}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="sfx_lightsaber_clash" ID="{C6BFC0E5-EDF6-4D43-B6B4-D7F91DEFA39B}">
-					<ChildrenList>
-						<Action Name="" ID="{4DF4F3C2-955D-4F4A-913F-05E6D2CE3D5C}" ShortID="324150238">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="sfx_lightsaber_clash_01" ID="{614ADAAA-AE98-4457-BF88-EE410E966C0E}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="sfx_lightsaber_swing" ID="{512358A5-1FF3-4548-8026-6C2DC8DA12EB}">
-					<ChildrenList>
-						<Action Name="" ID="{B2F4DD12-0035-4CEA-99CF-E095E1785C45}" ShortID="898903840">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="sfx_lightsaber_swing" ID="{3A3B7B84-14B1-4B04-9E19-95288A5ABCC9}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{FCE7E2AD-3BC3-4264-A823-4B27E4BED837}" ShortID="678153772">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="sfx_attack_voice_bix" ID="{8A3D40DA-67EA-441C-B0E9-645C48895EC9}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
 				<Event Name="sfx_footsteps_walk_Bix_metal" ID="{77156415-AFB6-4CE3-B635-9FB4A0B4857C}">
 					<ChildrenList>
 						<Action Name="" ID="{01B02B41-B3C4-4D7A-8D98-B5B57CAA3E54}" ShortID="268502392">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_footsteps_Bix_walk_metal" ID="{74F88098-4FB0-46F2-A08C-D637D3825EE7}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="sfx_lightsaber_close_01" ID="{AD4E674B-8A93-4925-98C1-1370427A31FE}">
-					<ChildrenList>
-						<Action Name="" ID="{F3DC8CA5-FC08-481E-813B-A670CED42A78}" ShortID="55371555">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="sfx_lightsaber_close_01" ID="{032482E1-90A0-4160-A198-8728744956C7}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="sfx_lightsaber_open_01" ID="{5EC08D07-AEC5-4D92-ADA8-9F273E8817F5}">
-					<ChildrenList>
-						<Action Name="" ID="{1CCDE41C-B285-41D4-A256-502267B384F1}" ShortID="721448205">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="sfx_lightsaber_open_01" ID="{5600818C-8FDD-44B7-83FE-F5D4EA8553BA}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="sfx_lightsaber_hum_stop" ID="{3B602DB9-4FDA-4DF5-9CBC-FBB63502C511}">
-					<ChildrenList>
-						<Action Name="" ID="{DD94B4BA-B26E-48B1-9D71-47E783B54CAB}" ShortID="1035932864">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="sfx_lightsaber_hum_01" ID="{100F7C43-6EB0-4020-BC3B-F3493B6160A8}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="BixFootstepsMetal" ID="{74F88098-4FB0-46F2-A08C-D637D3825EE7}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -98,7 +22,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_footsteps_Allura_walk_metal" ID="{91A29D3B-D6ED-4A57-B037-35FD2C644FAC}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="AlluraFootstepsMetal" ID="{91A29D3B-D6ED-4A57-B037-35FD2C644FAC}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -108,7 +32,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_footsteps_Bix_walk_metal" ID="{74F88098-4FB0-46F2-A08C-D637D3825EE7}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="BixFootstepsMetal" ID="{74F88098-4FB0-46F2-A08C-D637D3825EE7}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -118,7 +42,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_footsteps_Allura_walk_water" ID="{C946361C-BCE3-4609-A7E8-BA60D8190CE5}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="AlluraFootstepsWater" ID="{C946361C-BCE3-4609-A7E8-BA60D8190CE5}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -128,7 +52,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_footsteps_Bix_walk_water" ID="{C5DA4015-1A4D-454F-A02C-03809BFED41F}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="BixFootstepsWater" ID="{C5DA4015-1A4D-454F-A02C-03809BFED41F}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -143,21 +67,35 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{7F801E5F-0018-4F63-A248-2E96A791DA94}" ShortID="974579847">
+						<Action Name="" ID="{EC5591E2-B4F6-4010-A853-AA287EE2ECB4}" ShortID="929572517">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_forceWoosh-001" ID="{D6D491B2-C13B-4B59-85E8-34DCF4CAC1C8}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="as_ch_sl_bix_force" ID="{083C2938-B539-4ED6-821D-1E03CBAE348C}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{18899C97-EE74-420E-AF02-770630FB3AC1}" ShortID="999529894">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BixForceStartUse" ID="{6C75F1F7-CAED-40F8-BB60-51478B99B28C}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="sfx_jump_01" ID="{327C9E20-7B06-460D-8AA7-78AC17987075}">
+				<Event Name="Allura_Jump" ID="{327C9E20-7B06-460D-8AA7-78AC17987075}">
 					<ChildrenList>
-						<Action Name="" ID="{7142225C-0CDA-47E7-B15C-C61F5B5D883D}" ShortID="265547644">
+						<Action Name="" ID="{2E2F1D8E-0509-41BB-A484-C3B3755939C1}" ShortID="90700257">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_jump_whoosh-001" ID="{F55E066A-2E29-4774-A2AA-1DCADCDEB9D6}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="AlluraJump" ID="{A19B2F35-0105-48DB-AAD3-D8C97F710CDA}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{8845B1C6-3B46-4CDA-8D7E-69AAA26DDD09}" ShortID="245840554">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="JumpWhoosh" ID="{3A75A18F-FDB2-4286-9033-4C48F71D5B8B}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -168,7 +106,7 @@
 						<Action Name="" ID="{8040306A-5A1A-423B-9848-59D0B49C12C6}" ShortID="723581742">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_doubleJump_whoosh-001" ID="{78D28486-0A38-4D4D-9365-4A7B3421397E}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="sfx_doubleJump_whoosh-001" ID="{78D28486-0A38-4D4D-9365-4A7B3421397E}" WorkUnitID="{C302772C-A0A9-4317-9387-4E1FA6616738}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -176,10 +114,17 @@
 				</Event>
 				<Event Name="sfx_dash_01" ID="{1F0B3F52-1BAB-48F4-A762-63146135EC3D}">
 					<ChildrenList>
-						<Action Name="" ID="{DD99CE5B-4C9C-4B6D-8828-6B48B2CF5F0A}" ShortID="68045622">
+						<Action Name="" ID="{678F3C61-971F-4EC6-A5D3-2835F5180BE5}" ShortID="726237746">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_dash_whoosh-001" ID="{243ADB21-8CF4-47B0-BE59-0D20C02A3BC9}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="DashWhoosh" ID="{1A24D4F0-01D3-4D7F-86A4-4A478BE05C44}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{01628B8A-AA7A-4068-98D3-AFE6FCC638C1}" ShortID="1064920538">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BixJump" ID="{1FBD0985-06AA-4541-B23A-C84B2017AE2C}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -197,90 +142,31 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
+						<Action Name="" ID="{46B0D5E1-3009-4FEE-B7F8-0B74E458A942}" ShortID="422128319">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_ch_sl_bix_force" ID="{083C2938-B539-4ED6-821D-1E03CBAE348C}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
 					</ChildrenList>
 				</Event>
 				<Event Name="sfx_roll_01" ID="{0F1A7706-D804-4F28-A85F-1CC791D7801D}">
 					<ChildrenList>
-						<Action Name="" ID="{C1FB5497-524C-44CC-8F6E-904B551068BE}" ShortID="37575768">
+						<Action Name="" ID="{008C5B73-042E-4D17-B583-43361CACDE15}" ShortID="37152035">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_dash_roll-001" ID="{26BABE3F-E7D4-4E2B-B3B8-F975481BC600}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="AlluraJump" ID="{A19B2F35-0105-48DB-AAD3-D8C97F710CDA}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="sfx_electricShot_shot_01" ID="{783C2F06-362B-4717-99AE-DF4A69EFE4E9}">
-					<ChildrenList>
-						<Action Name="" ID="{535E2DBD-97C3-458C-B954-2F30D4F35FC3}" ShortID="338497220">
+						<Action Name="" ID="{5A1D2A12-F981-4C80-A8A9-6F64102FA4A9}" ShortID="419895319">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_electricShot_shot_01" ID="{E2A51A68-FB78-4491-874C-8B5F7BCBB4CB}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{5ED70761-DF6A-4194-8A29-BA4EB36F079A}" ShortID="28767044">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="sfx_attack_voice_allura" ID="{715F733C-1E5E-4A12-BE39-0B3D5311A0AD}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="sfx_electricShot_impact_01" ID="{24A4E1E0-81F4-4118-9CE8-1E2F669853A6}">
-					<ChildrenList>
-						<Action Name="" ID="{A832B9A5-C8E5-4F0B-980F-4232E80C4197}" ShortID="253804522">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="sfx_electricShot_impact_01" ID="{1460ED26-30FA-452E-A20F-22E0A7B8918D}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="sfx_chargedShot_01" ID="{3E349E13-FC42-4F91-AEC1-071EE38D6CAD}">
-					<ChildrenList>
-						<Action Name="" ID="{7EDF53A7-3547-4626-ACD1-B936F3EDAD0C}" ShortID="116030545">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="sfx_shot_charged_01" ID="{0C7D3D08-7461-40A4-838A-B27360F0D443}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{D94DC933-09A4-47AE-9CA0-2AABF9EA1EA0}" ShortID="680192891">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="sfx_attack_voice_allura" ID="{715F733C-1E5E-4A12-BE39-0B3D5311A0AD}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="sfx_cannonShot_01" ID="{D69DF8A8-C576-4C1E-A7D5-4F0B69B32DB4}">
-					<ChildrenList>
-						<Action Name="" ID="{06920E06-C445-4766-A827-EABDADFBD03B}" ShortID="25478146">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="sfx_cannon_shot" ID="{A5B02CF9-761F-4C91-AF53-4172A36C6639}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{86353D2E-B884-400B-B023-90B0EF9413C3}" ShortID="791750555">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="sfx_attack_voice_allura" ID="{715F733C-1E5E-4A12-BE39-0B3D5311A0AD}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="sfx_shot_impact_01" ID="{437219AD-0E4D-4D95-9232-8F152F1805A2}">
-					<ChildrenList>
-						<Action Name="" ID="{1D0238E2-3455-47E9-93D1-C25DB0608E2A}" ShortID="421565999">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="sfx_shot_impact" ID="{5C57A8C1-6F05-47C3-AB94-77CC082C6971}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="DashRoll" ID="{F46C928B-DBB4-495A-B7FD-63FCD36E2EC9}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -291,7 +177,7 @@
 						<Action Name="" ID="{6A666618-7267-4B37-9535-8C3449720866}" ShortID="444124074">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_footsteps_Allura_walk_metal" ID="{91A29D3B-D6ED-4A57-B037-35FD2C644FAC}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="AlluraFootstepsMetal" ID="{91A29D3B-D6ED-4A57-B037-35FD2C644FAC}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -302,7 +188,7 @@
 						<Action Name="" ID="{5877D778-5894-4759-9B82-212A47DC833C}" ShortID="46912826">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_footsteps_Allura_walk_water" ID="{C946361C-BCE3-4609-A7E8-BA60D8190CE5}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="AlluraFootstepsWater" ID="{C946361C-BCE3-4609-A7E8-BA60D8190CE5}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -313,7 +199,7 @@
 						<Action Name="" ID="{81391B8F-A1D6-4D8C-8D4B-13B964CF5661}" ShortID="72241175">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_footsteps_Bix_walk_water" ID="{C5DA4015-1A4D-454F-A02C-03809BFED41F}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="BixFootstepsWater" ID="{C5DA4015-1A4D-454F-A02C-03809BFED41F}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -321,10 +207,10 @@
 				</Event>
 				<Event Name="sfx_falling_metal" ID="{E32ED2A2-4267-41A2-BF17-9E6E503F5ACC}">
 					<ChildrenList>
-						<Action Name="" ID="{660A0E81-6F8A-4FDE-86F1-C4321E42B91B}" ShortID="256793185">
+						<Action Name="" ID="{FCD646C7-F910-43EB-97F3-1A2EACCAB24D}" ShortID="766907967">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_falling_metal" ID="{2A95C836-6FC6-4DFF-B5D9-073C36620EA4}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="FallingMetal" ID="{16F0DC34-84C1-46EC-B6B8-2F02C5897F94}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -332,32 +218,87 @@
 				</Event>
 				<Event Name="sfx_falling_water" ID="{99135B92-A608-4E45-A074-39BC6D633C30}">
 					<ChildrenList>
-						<Action Name="" ID="{9ABB7998-E4FF-45DA-8AEE-7BE2560E1A66}" ShortID="414168992">
+						<Action Name="" ID="{A1F3E23D-CACB-4047-8609-41A02B157FF0}" ShortID="178097377">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_falling_water" ID="{5D94EA10-5458-4663-8948-8FAC29D66B97}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="FallingWater" ID="{7DE87899-FEF3-4F37-9950-06685F7C3024}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="sfx_receiveDamage_voice_Allura" ID="{7C392103-4949-4F6A-9617-5387FF6809A1}">
+				<WorkUnit Name="Weapons" ID="{11CF1323-72F0-431C-A7E7-A93C3C9B200D}" PersistMode="Reference"/>
+				<Event Name="Bix_Jump" ID="{47F46EC5-7433-4543-95D5-215CDB92F2C9}">
 					<ChildrenList>
-						<Action Name="" ID="{69399F47-69FF-4E46-A196-E6EF0F71485E}" ShortID="474918615">
+						<Action Name="" ID="{C40E74ED-A1D0-4997-8BC0-AC3DDF383155}" ShortID="123798496">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_receiveDamage_voice_bix" ID="{77B407EF-1895-4311-995A-A1114B2FD4FA}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="BixJump" ID="{1FBD0985-06AA-4541-B23A-C84B2017AE2C}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{9B171CA2-4BED-4528-BEBF-A7A17AEA0C5A}" ShortID="421375673">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="JumpWhoosh" ID="{3A75A18F-FDB2-4286-9033-4C48F71D5B8B}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="sfx_receiveDamage_voice_Bix" ID="{DAC7D401-259F-44BE-8BA9-832DF1341E20}">
+				<Event Name="Bix_ReceiveDamage" ID="{05B6B3FE-1734-4C58-A71E-7BCA702CEB7D}">
 					<ChildrenList>
-						<Action Name="" ID="{B2B6FE3E-A9C1-4A4E-8CDB-C4A9010C5655}" ShortID="902295215">
+						<Action Name="" ID="{DE59AD65-CC07-483E-A898-1434D3BA9D98}" ShortID="727883686">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_receiveDamage_voice_bix" ID="{77B407EF-1895-4311-995A-A1114B2FD4FA}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+									<ObjectRef Name="ReceiveDamageBix" ID="{77B407EF-1895-4311-995A-A1114B2FD4FA}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Allura_ReceiveDamage" ID="{EE416DE2-AD04-46B1-8092-C0A2E59CDA92}">
+					<ChildrenList>
+						<Action Name="" ID="{B1275075-64CB-444C-AB28-8ECB3D05F7D7}" ShortID="773368355">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="ReceiveDamageAllura" ID="{2098AB34-416B-41DC-A220-3BD1EA974524}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Allura_DoubleJump" ID="{DD7081F5-AB69-4DFD-9EA6-910F4251E22D}">
+					<ChildrenList>
+						<Action Name="" ID="{E1B414EA-A136-4317-8D57-2ED5B30934F1}" ShortID="757390958">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AlluraJump" ID="{A19B2F35-0105-48DB-AAD3-D8C97F710CDA}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{1A40A42D-8B70-4585-AD75-03A85ACFE629}" ShortID="316726381">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="DoubleJumpWhoosh" ID="{3FABAAF3-E88C-4091-B7C0-8FBD075802F7}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Bix_DoubleJump" ID="{FAC8D868-5536-4847-9234-69B81131ACEB}">
+					<ChildrenList>
+						<Action Name="" ID="{CB60A72C-88ED-4EE6-BEBC-9410269ECC83}" ShortID="999848043">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BixJump" ID="{1FBD0985-06AA-4541-B23A-C84B2017AE2C}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{27FC3A02-3C2D-4D7D-BA12-DB03F844874A}" ShortID="640725888">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="DoubleJumpWhoosh" ID="{3FABAAF3-E88C-4091-B7C0-8FBD075802F7}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
