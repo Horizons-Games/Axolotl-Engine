@@ -20,4 +20,5 @@ private:
 
 private:
 	std::string sceneToLoad;
+	std::string loadingScreenScene;
 };

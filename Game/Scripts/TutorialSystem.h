@@ -41,8 +41,8 @@ public:
 	UIImageDisplacementControl* GetDisplacementControl();
 
 private:
-	int tutorialCurrentState;
-	int tutorialTotalStates;
+	float tutorialCurrentState;
+	float tutorialTotalStates;
 	bool userControllable;
 	bool isWaiting;
 	float numNotControllableStates;
