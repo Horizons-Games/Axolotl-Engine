@@ -3,7 +3,6 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
-#include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentParticleSystem.h"
 
 REGISTERCLASS(BossShieldScript);
@@ -34,7 +33,10 @@ void BossShieldScript::OnCollisionEnter(ComponentRigidBody* other)
 	else if (other->GetOwner()->CompareTag("Rock"))
 	{
 		other->GetOwner()->GetComponent<ComponentRigidBody>()->Disable();
-		other->GetOwner()->GetComponent<ComponentMeshRenderer>()->Disable();
+		if (!owner->GetChildren().empty())
+		{
+			owner->GetChildren().front()->Disable();
+		}
 	}
 }
 

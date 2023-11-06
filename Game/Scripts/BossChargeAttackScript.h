@@ -12,6 +12,7 @@ class ComponentAudioSource;
 
 class FinalBossScript;
 class BossWallChecker;
+class HealthSystem;
 
 enum class ChargeState
 {
@@ -57,6 +58,7 @@ private:
 	ComponentAnimation* animator;
 	ComponentAudioSource* audioSource;
 	FinalBossScript* finalBossScript;
+	HealthSystem* healthSystem;
 
 	ComponentTransform* chargeThroughPosition;
 
