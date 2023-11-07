@@ -122,7 +122,7 @@ void BossChargeAttackScript::TriggerChargeAttack(ComponentTransform* targetPosit
 	chargeThroughPosition = targetPosition;
 	chargeHitPlayer = false;
 
-	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_LOAD);
+	//audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_LOAD);
 
 	// VFX Here: The boss started the charge attack (going backwards or yelling, whatever you want to add)
 }
@@ -250,7 +250,7 @@ void BossChargeAttackScript::WallHitAfterCharge() const
 	enemyScript->SetStunnedTime(attackStunTime);
 
 	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_HIT);
-	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_STUNT);
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_STUNNED);
 }
 
 bool BossChargeAttackScript::CanPerformChargeAttack() const

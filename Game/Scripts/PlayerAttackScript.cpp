@@ -334,7 +334,7 @@ void PlayerAttackScript::LightNormalAttack()
 	}
 	else
 	{
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CANNON_SHOT);
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::SHOT);
 		if (enemyAttacked != nullptr)
 		{
 			comboSystem->SuccessfulAttack(comboCountLight * 
@@ -521,7 +521,7 @@ void PlayerAttackScript::HeavyFinisher()
 	animation->SetParameter("HeavyFinisherEnd", false);
 	animation->SetParameter("HeavyFinisherInit", true);
 	isAttacking = true;
-	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CANNON_SHOT);
+	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::SHOT);
 	if (enemyAttacked != nullptr)
 	{
 		heavyFinisherAttack->PerformHeavyFinisher(enemyAttacked->GetComponent<ComponentTransform>(), 
@@ -737,7 +737,7 @@ void PlayerAttackScript::PlayWeaponSounds() const
 {
 	if (isMelee)
 	{
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_OPEN);
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);
+		/*audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_OPEN);
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);*/
 	}
 }

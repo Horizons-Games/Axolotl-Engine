@@ -242,7 +242,7 @@ void BossMissilesAttackScript::SpawnMissileInPosition(GameObject* selectedEnemy,
 	newMissileRigidBody->SetDefaultPosition();
 	newMissileRigidBody->Enable();
 
-	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKETS_FALLING);
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKET_FALLING);
 }
 
 void BossMissilesAttackScript::SetIsPaused(bool isPaused)

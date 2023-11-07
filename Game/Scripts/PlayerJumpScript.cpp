@@ -155,7 +155,7 @@ void PlayerJumpScript::Jump(float deltaTime)
 			if (playerManager->GetPlayerState() == PlayerActions::JUMPING)
 			{
 				playerManager->SetPlayerState(PlayerActions::DOUBLEJUMPING);
-				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::DOUBLE_JUMP);
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::BIX_DOUBLE_JUMP);
 				componentAnimation->SetParameter("IsJumping", false);
 				componentAnimation->SetParameter("IsDoubleJumping", true);
 			}
@@ -163,7 +163,7 @@ void PlayerJumpScript::Jump(float deltaTime)
 			{
 				playerManager->SetPlayerState(PlayerActions::JUMPING);
 				componentAnimation->SetParameter("IsJumping", true);
-				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::JUMP);
+				componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::BIX_JUMP);
 			}
 			componentAnimation->SetParameter("IsFalling", false);
 			componentAnimation->SetParameter("IsGrounded", false);
