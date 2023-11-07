@@ -52,6 +52,20 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="EnemyFootstepsStop" ID="{6FF60E85-9207-42E8-A052-2E7B70A29769}">
+					<ChildrenList>
+						<Action Name="" ID="{D9E62FCF-F76B-4B41-BF19-A85011144C78}" ShortID="973401061">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Footsteps" ID="{220E0B33-D068-494D-A318-B927D14CE84F}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

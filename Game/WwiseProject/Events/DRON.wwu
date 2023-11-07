@@ -3,17 +3,6 @@
 	<Events>
 		<WorkUnit Name="DRON" ID="{8BF6C5A8-C367-42AE-8C83-BAE60E304659}" OwnerID="{DA6DFEB4-9E33-4AA8-8321-65EA7BC79F93}" PersistMode="Nested">
 			<ChildrenList>
-				<Event Name="sfx_dron_shot_impact_01" ID="{ABFC1ACE-7A71-4CD7-91DE-77641751687E}">
-					<ChildrenList>
-						<Action Name="" ID="{5068EF63-F8FA-4F37-A72C-5C192A1B724C}" ShortID="69119051">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="sfx_drone_shot_impact-001" ID="{3C9C8811-026F-4A69-84B1-6EDDE7387FD0}" WorkUnitID="{C302772C-A0A9-4317-9387-4E1FA6616738}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
 				<Event Name="sfx_dron_alert" ID="{E17BE6B3-01C7-449F-B203-EDFDD8BB57E7}">
 					<ChildrenList>
 						<Action Name="" ID="{2C89B8C1-7EFF-42BB-810A-A258E9F5B3EA}" ShortID="915582037">
@@ -117,7 +106,7 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="DronePreShot" ID="{A1DC2236-2B09-45F0-B8DC-5FA51C585534}">
+				<Event Name="DronPreShot" ID="{A1DC2236-2B09-45F0-B8DC-5FA51C585534}">
 					<ChildrenList>
 						<Action Name="" ID="{E2BA37C3-FB96-40D2-A0F5-EB1C83B34B73}" ShortID="112842183">
 							<ReferenceList>

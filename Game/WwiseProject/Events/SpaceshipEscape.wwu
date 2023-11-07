@@ -43,6 +43,20 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="FireThrowerBurstStop" ID="{155FCDAC-0F7B-4CBC-B600-E21D908C7AFD}">
+					<ChildrenList>
+						<Action Name="" ID="{A0F4D091-69F8-4200-8D2F-8F900BFCD839}" ShortID="731324123">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FireThrowerLoop" ID="{C3D5B616-2359-42A4-8A96-8CDE99099116}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

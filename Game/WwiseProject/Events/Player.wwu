@@ -101,17 +101,6 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="sfx_doubleJump_01" ID="{C87BD2D4-14AB-4ECC-835A-F5F34C01E872}">
-					<ChildrenList>
-						<Action Name="" ID="{8040306A-5A1A-423B-9848-59D0B49C12C6}" ShortID="723581742">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="sfx_doubleJump_whoosh-001" ID="{78D28486-0A38-4D4D-9365-4A7B3421397E}" WorkUnitID="{C302772C-A0A9-4317-9387-4E1FA6616738}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
 				<Event Name="sfx_dash_01" ID="{1F0B3F52-1BAB-48F4-A762-63146135EC3D}">
 					<ChildrenList>
 						<Action Name="" ID="{678F3C61-971F-4EC6-A5D3-2835F5180BE5}" ShortID="726237746">

@@ -65,10 +65,10 @@
 				</Event>
 				<Event Name="sfx_ambient_crowd_talking_01" ID="{0CB3B3B2-9711-47F0-BB07-938839E77AAE}">
 					<ChildrenList>
-						<Action Name="" ID="{ED4E8A02-EA91-41EF-A491-3B38E9D62CBD}" ShortID="254834309">
+						<Action Name="" ID="{7792E6DA-EC68-489E-A3E9-E1F708D1601F}" ShortID="28772042">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_ambient_crowd_talking_01" ID="{BB9C59FB-7F07-418F-8020-2840DA77F0B3}" WorkUnitID="{C302772C-A0A9-4317-9387-4E1FA6616738}"/>
+									<ObjectRef Name="as_ab_al_crowd_talking" ID="{B11D6BF3-F67C-4F1D-A448-E209C7404341}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

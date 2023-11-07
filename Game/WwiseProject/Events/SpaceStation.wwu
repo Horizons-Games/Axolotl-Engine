@@ -97,6 +97,20 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="SpaceStationAmbientStop" ID="{37194794-E31E-4E0D-A4E5-CFD850736E48}">
+					<ChildrenList>
+						<Action Name="" ID="{6CC3670A-CDF4-4B13-964F-A502897FFEE8}" ShortID="680921989">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_ab_al_space" ID="{644C159E-615D-4666-A92D-0B0E0C3D65DF}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
