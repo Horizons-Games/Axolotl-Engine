@@ -224,62 +224,6 @@
 								<ActiveSource Name="as_ab_ao_npc_laughing_rr01" ID="{810570B5-0F0C-465A-9F3A-5FF08C7C99E3}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
-						<Sound Name="as_ab_ao_npc_laughing_rr02" ID="{59DF1D7D-3E80-4214-8E69-F30B0AE8880C}" ShortID="911965421">
-							<PropertyList>
-								<Property Name="3DSpatialization" Type="int16" Value="1"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Attenuation">
-									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
-								</Reference>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="as_ab_ao_npc_laughing_rr02" ID="{5F39DFBC-ADEA-434B-96DB-CFD8D1C86521}">
-									<Language>SFX</Language>
-									<AudioFile>as_ab_ao_npc_laughing_rr02.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="773770551"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="as_ab_ao_npc_laughing_rr02" ID="{5F39DFBC-ADEA-434B-96DB-CFD8D1C86521}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="as_ab_ao_npc_laughing_rr03" ID="{D7E22E23-0142-406B-AB62-13F12A9A56E5}" ShortID="608788292">
-							<PropertyList>
-								<Property Name="3DSpatialization" Type="int16" Value="1"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Attenuation">
-									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
-								</Reference>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="as_ab_ao_npc_laughing_rr03" ID="{612BAD16-18D5-42A7-91A2-FC27B21FF506}">
-									<Language>SFX</Language>
-									<AudioFile>as_ab_ao_npc_laughing_rr03.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="476104330"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="as_ab_ao_npc_laughing_rr03" ID="{612BAD16-18D5-42A7-91A2-FC27B21FF506}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
 						<Sound Name="as_ab_ao_npc_laughing_rr04" ID="{78881A27-8827-4F82-98C9-376F5DA45994}" ShortID="620290100">
 							<PropertyList>
 								<Property Name="3DSpatialization" Type="int16" Value="1"/>
@@ -306,34 +250,6 @@
 							</ChildrenList>
 							<ActiveSourceList>
 								<ActiveSource Name="as_ab_ao_npc_laughing_rr04" ID="{5F724906-A027-4283-A240-26F8B3545ED5}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="as_ab_ao_npc_laughing_rr05" ID="{7CD6D7D7-3D26-46A0-9545-F337D95D534C}" ShortID="46149525">
-							<PropertyList>
-								<Property Name="3DSpatialization" Type="int16" Value="1"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Attenuation">
-									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
-								</Reference>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="as_ab_ao_npc_laughing_rr05" ID="{79F2E700-F55B-4DD1-B16F-44E34EE6CD59}">
-									<Language>SFX</Language>
-									<AudioFile>as_ab_ao_npc_laughing_rr05.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="320278939"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="as_ab_ao_npc_laughing_rr05" ID="{79F2E700-F55B-4DD1-B16F-44E34EE6CD59}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="as_ab_ao_npc_laughing_rr06" ID="{84D6ECF1-7113-44C0-B4EF-41BEFF0B9B3D}" ShortID="1046067103">
@@ -392,34 +308,6 @@
 								<ActiveSource Name="as_ab_ao_npc_laughing_rr07" ID="{BC53E148-791D-40C2-8133-3D3BDC282135}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
-						<Sound Name="as_ab_ao_npc_laughing_rr08" ID="{B057A20A-0C8B-4F21-B3CA-49C24B06ABC8}" ShortID="89939115">
-							<PropertyList>
-								<Property Name="3DSpatialization" Type="int16" Value="1"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Attenuation">
-									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
-								</Reference>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="as_ab_ao_npc_laughing_rr08" ID="{52345B95-9FA4-4F6D-9868-EE28E269DD28}">
-									<Language>SFX</Language>
-									<AudioFile>as_ab_ao_npc_laughing_rr08.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="303606523"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="as_ab_ao_npc_laughing_rr08" ID="{52345B95-9FA4-4F6D-9868-EE28E269DD28}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
 						<Sound Name="as_ab_ao_npc_laughing_rr09" ID="{B059E89B-65F6-4437-94CE-DCA7DEFE1597}" ShortID="1018578627">
 							<PropertyList>
 								<Property Name="3DSpatialization" Type="int16" Value="1"/>
@@ -474,34 +362,6 @@
 							</ChildrenList>
 							<ActiveSourceList>
 								<ActiveSource Name="as_ab_ao_npc_laughing_rr10" ID="{1E7245E1-7AB6-4B5B-BA55-83BECB631C6F}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="as_ab_ao_npc_laughing_rr11" ID="{3FD841D0-ACBB-4EB3-B736-28083ED0C993}" ShortID="1031496283">
-							<PropertyList>
-								<Property Name="3DSpatialization" Type="int16" Value="1"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Attenuation">
-									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
-								</Reference>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="as_ab_ao_npc_laughing_rr11" ID="{A26024BF-F409-4249-B43A-E322A956F1B0}">
-									<Language>SFX</Language>
-									<AudioFile>as_ab_ao_npc_laughing_rr11.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="513050302"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="as_ab_ao_npc_laughing_rr11" ID="{A26024BF-F409-4249-B43A-E322A956F1B0}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="as_ab_ao_npc_laughing_rr12" ID="{325E2939-20FA-49CA-9BB9-88B3C03D2DD0}" ShortID="126166825">

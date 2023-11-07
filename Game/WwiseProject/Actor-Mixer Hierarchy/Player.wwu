@@ -173,62 +173,6 @@
 												<ActiveSource Name="sfx_character_walk_on_metal_1" ID="{73EF80C8-ED0B-4008-BEF5-8C905495F603}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
-										<Sound Name="as_ch_so_footsteps_metal_rr05" ID="{EEA06C1D-C4D1-4629-B31E-AEE449AC97FE}" ShortID="593492746">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerLocomotion" ID="{9F7B4B32-4533-412D-8864-E845576EF321}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="sfx_character_walk_on_metal_5" ID="{6C836A53-15C3-4E73-B739-6749C2CC18F8}">
-													<PropertyList>
-														<Property Name="FadeOutDuration" Type="Real64" Value="0.0957554681065251"/>
-														<Property Name="LoopBegin" Type="Real64" Value="0"/>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-														<Property Name="TrimEnd" Type="Real64" Value="0.3356"/>
-													</PropertyList>
-													<Language>SFX</Language>
-													<AudioFile>sfx_character_walk_on_metal_5.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="440364367"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="sfx_character_walk_on_metal_5" ID="{6C836A53-15C3-4E73-B739-6749C2CC18F8}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_footsteps_metal_rr06" ID="{1DF6C362-CC9F-4101-83D7-400311B2ECEB}" ShortID="323168846">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerLocomotion" ID="{9F7B4B32-4533-412D-8864-E845576EF321}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="sfx_character_walk_on_metal_6" ID="{7B9C15EC-A060-49B1-A703-F8364F7353BF}">
-													<PropertyList>
-														<Property Name="FadeOutDuration" Type="Real64" Value="0.0754559043348281"/>
-														<Property Name="LoopBegin" Type="Real64" Value="0"/>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-														<Property Name="TrimEnd" Type="Real64" Value="0.3356"/>
-													</PropertyList>
-													<Language>SFX</Language>
-													<AudioFile>sfx_character_walk_on_metal_6.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="71884831"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="sfx_character_walk_on_metal_6" ID="{7B9C15EC-A060-49B1-A703-F8364F7353BF}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 									</ChildrenList>
 								</RandomSequenceContainer>
 								<RandomSequenceContainer Name="AlluraFootstepsMetal" ID="{91A29D3B-D6ED-4A57-B037-35FD2C644FAC}" ShortID="167583330">
@@ -373,60 +317,6 @@
 												<ActiveSource Name="sfx_character_walk_on_metal_6" ID="{366DD610-4F8A-4E8B-9C63-C08C11442F86}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
-										<Sound Name="as_ch_so_footsteps_metal_rr05" ID="{7AEF2BB2-A7B1-47A4-B160-AB63DA09B992}" ShortID="818164182">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerLocomotion" ID="{9F7B4B32-4533-412D-8864-E845576EF321}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="sfx_character_walk_on_metal_5" ID="{B6A54E7E-FF78-43EF-8DB1-453AAE40212F}">
-													<PropertyList>
-														<Property Name="FadeOutDuration" Type="Real64" Value="0.0639476764904862"/>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-														<Property Name="TrimEnd" Type="Real64" Value="0.57"/>
-													</PropertyList>
-													<Language>SFX</Language>
-													<AudioFile>sfx_character_walk_on_metal_5.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="586915511"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="sfx_character_walk_on_metal_5" ID="{B6A54E7E-FF78-43EF-8DB1-453AAE40212F}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_footsteps_metal_rr06" ID="{4A795AE2-15C4-42C9-855F-163671DF9309}" ShortID="734475668">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerLocomotion" ID="{9F7B4B32-4533-412D-8864-E845576EF321}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="sfx_character_walk_on_metal_6" ID="{1AD85A9E-FE35-4A68-8BC6-650DC9444CDD}">
-													<PropertyList>
-														<Property Name="FadeOutDuration" Type="Real64" Value="0.0540760440675133"/>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-														<Property Name="TrimEnd" Type="Real64" Value="0.57"/>
-													</PropertyList>
-													<Language>SFX</Language>
-													<AudioFile>sfx_character_walk_on_metal_6.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="141647910"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="sfx_character_walk_on_metal_6" ID="{1AD85A9E-FE35-4A68-8BC6-650DC9444CDD}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 									</ChildrenList>
 								</RandomSequenceContainer>
 								<RandomSequenceContainer Name="BixFootstepsWater" ID="{C5DA4015-1A4D-454F-A02C-03809BFED41F}" ShortID="917760767">
@@ -541,87 +431,6 @@
 											</ChildrenList>
 											<ActiveSourceList>
 												<ActiveSource Name="sfx_character_walk_on_water_3" ID="{2BE83019-E538-4E43-8B20-D8C7BCDC0EE8}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_footsteps_water_rr04" ID="{1CFA0EF9-73B3-4418-9BD7-0BF238291524}" ShortID="870189692">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="sfx_character_walk_on_water_4" ID="{F90CF14D-D90F-4DC2-A4F6-14C6F7EF3C69}">
-													<PropertyList>
-														<Property Name="FadeOutDuration" Type="Real64" Value="0.0523061462130417"/>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-														<Property Name="TrimEnd" Type="Real64" Value="0.3356"/>
-													</PropertyList>
-													<Language>SFX</Language>
-													<AudioFile>sfx_character_walk_on_water_4.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="632838757"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="sfx_character_walk_on_water_4" ID="{F90CF14D-D90F-4DC2-A4F6-14C6F7EF3C69}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_footsteps_water_rr05" ID="{CDFDF61B-EB67-496D-AED6-2A2112066F34}" ShortID="629701681">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="sfx_character_walk_on_water_5" ID="{C9386A86-2763-4255-A99B-37C2E19DA810}">
-													<PropertyList>
-														<Property Name="FadeOutDuration" Type="Real64" Value="0.0593745443499392"/>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-														<Property Name="TrimEnd" Type="Real64" Value="0.3356"/>
-													</PropertyList>
-													<Language>SFX</Language>
-													<AudioFile>sfx_character_walk_on_water_5.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="905786169"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="sfx_character_walk_on_water_5" ID="{C9386A86-2763-4255-A99B-37C2E19DA810}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_footsteps_water_rr06" ID="{B50685AD-71C2-4F01-9E24-5B529664F3E8}" ShortID="743745541">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="sfx_character_walk_on_water_6" ID="{228BEEDE-72FF-4375-B1BD-B4F6C1EA600C}">
-													<PropertyList>
-														<Property Name="FadeOutDuration" Type="Real64" Value="0.0551335054678007"/>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-														<Property Name="TrimEnd" Type="Real64" Value="0.3356"/>
-													</PropertyList>
-													<Language>SFX</Language>
-													<AudioFile>sfx_character_walk_on_water_6.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="476744453"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="sfx_character_walk_on_water_6" ID="{228BEEDE-72FF-4375-B1BD-B4F6C1EA600C}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>
@@ -740,87 +549,6 @@
 												<ActiveSource Name="sfx_character_walk_on_water_3" ID="{E973667E-FDB9-435B-B5C1-3C48A293F875}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
-										<Sound Name="as_ch_so_footsteps_water_rr04" ID="{AE51ED22-F337-44C3-AF19-E87BC8E0ECEB}" ShortID="414352525">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="sfx_character_walk_on_water_4" ID="{DC89CCAE-0B33-425F-8A59-67A1F274B049}">
-													<PropertyList>
-														<Property Name="FadeOutDuration" Type="Real64" Value="0.0643224230457675"/>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-														<Property Name="TrimEnd" Type="Real64" Value="0.57"/>
-													</PropertyList>
-													<Language>SFX</Language>
-													<AudioFile>sfx_character_walk_on_water_4.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="864397673"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="sfx_character_walk_on_water_4" ID="{DC89CCAE-0B33-425F-8A59-67A1F274B049}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_footsteps_water_rr05" ID="{94A83975-22A8-4291-A9ED-69164E538BF3}" ShortID="854540387">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="sfx_character_walk_on_water_5" ID="{B80F1204-B5CB-412E-A4D7-BB9739975F39}">
-													<PropertyList>
-														<Property Name="FadeOutDuration" Type="Real64" Value="0.0728045008100445"/>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-														<Property Name="TrimEnd" Type="Real64" Value="0.57"/>
-													</PropertyList>
-													<Language>SFX</Language>
-													<AudioFile>sfx_character_walk_on_water_5.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="181365515"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="sfx_character_walk_on_water_5" ID="{B80F1204-B5CB-412E-A4D7-BB9739975F39}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_footsteps_water_rr06" ID="{E2BE38D4-5460-4709-9F17-EDF1CE1EB8E4}" ShortID="47565866">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="sfx_character_walk_on_water_6" ID="{112EB53B-F4E4-456C-97A7-E54EB98271E3}">
-													<PropertyList>
-														<Property Name="FadeOutDuration" Type="Real64" Value="0.0692703017415958"/>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-														<Property Name="TrimEnd" Type="Real64" Value="0.57"/>
-													</PropertyList>
-													<Language>SFX</Language>
-													<AudioFile>sfx_character_walk_on_water_6.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="273760872"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="sfx_character_walk_on_water_6" ID="{112EB53B-F4E4-456C-97A7-E54EB98271E3}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 									</ChildrenList>
 								</RandomSequenceContainer>
 							</ChildrenList>
@@ -856,28 +584,6 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<Sound Name="as_ch_so_jump_whoosh_rr01" ID="{AEF2566B-CE34-4D18-A6C8-07B3EBB5904D}" ShortID="631193090">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerLocomotion" ID="{9F7B4B32-4533-412D-8864-E845576EF321}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_jump_whoosh_rr01" ID="{7FD30CA3-537C-4EC0-9AE3-D32EDE9104BB}">
-													<Language>SFX</Language>
-													<AudioFile>as_ch_so_jump_whoosh_rr01.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="88072815"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_jump_whoosh_rr01" ID="{7FD30CA3-537C-4EC0-9AE3-D32EDE9104BB}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 										<Sound Name="as_ch_so_jump_whoosh_rr02" ID="{76A4D0B5-CC60-4BBA-826D-7FE491DF514B}" ShortID="800926931">
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -922,28 +628,6 @@
 												<ActiveSource Name="as_ch_so_jump_whoosh_rr03" ID="{DD0EB16A-F340-49A7-BB55-9D5F160132BD}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
-										<Sound Name="as_ch_so_jump_whoosh_rr04" ID="{3AF15D48-D902-4FB8-A7CF-1E98EC6555D6}" ShortID="902313762">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerLocomotion" ID="{9F7B4B32-4533-412D-8864-E845576EF321}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_jump_whoosh_rr04" ID="{3492CD90-85A4-4310-ADF7-184DF4018BE7}">
-													<Language>SFX</Language>
-													<AudioFile>as_ch_so_jump_whoosh_rr04.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="577353436"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_jump_whoosh_rr04" ID="{3492CD90-85A4-4310-ADF7-184DF4018BE7}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 									</ChildrenList>
 								</RandomSequenceContainer>
 								<RandomSequenceContainer Name="DoubleJumpWhoosh" ID="{3FABAAF3-E88C-4091-B7C0-8FBD075802F7}" ShortID="607711931">
@@ -971,50 +655,6 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<Sound Name="as_ch_so_double_jump_whoosh_rr01" ID="{1CE10A5E-1165-41F7-8209-2AF12C16A1C9}" ShortID="306285756">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerLocomotion" ID="{9F7B4B32-4533-412D-8864-E845576EF321}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_double_jump_whoosh_rr01" ID="{592500AB-9FCE-402B-950D-9AFC630F731A}">
-													<Language>SFX</Language>
-													<AudioFile>as_ch_so_double_jump_whoosh_rr01.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="655790262"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_double_jump_whoosh_rr01" ID="{592500AB-9FCE-402B-950D-9AFC630F731A}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_double_jump_whoosh_rr02" ID="{437A301D-E3E7-4F11-9558-75984F74ABC2}" ShortID="672538145">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerLocomotion" ID="{9F7B4B32-4533-412D-8864-E845576EF321}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_double_jump_whoosh_rr02" ID="{97F96EDD-3584-400C-ACD8-0BD07A410E48}">
-													<Language>SFX</Language>
-													<AudioFile>as_ch_so_double_jump_whoosh_rr02.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="108751462"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_double_jump_whoosh_rr02" ID="{97F96EDD-3584-400C-ACD8-0BD07A410E48}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 										<Sound Name="as_ch_so_double_jump_whoosh_rr03" ID="{637F1C05-D724-4E2C-AD95-20C4828558FF}" ShortID="1053911043">
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -1091,28 +731,6 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<Sound Name="as_ch_so_dash_rr01" ID="{DD09F63F-8CC1-4E29-B599-1E36E1440178}" ShortID="673817908">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerLocomotion" ID="{9F7B4B32-4533-412D-8864-E845576EF321}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_dash_rr01" ID="{9E231590-EC13-4CEA-8607-4F0F6F595A79}">
-													<Language>SFX</Language>
-													<AudioFile>as_ch_so_dash_rr01.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="825196251"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_dash_rr01" ID="{9E231590-EC13-4CEA-8607-4F0F6F595A79}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 										<Sound Name="as_ch_so_dash_rr02" ID="{FF33AF5F-D095-4290-9A56-C400CD4B97D0}" ShortID="657031610">
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -1279,28 +897,6 @@
 												<ActiveSource Name="as_ch_so_roll_rr03" ID="{272E4ECF-4FC5-4F61-9D41-46A727A1F43C}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
-										<Sound Name="as_ch_so_roll_rr04" ID="{1AA43FA4-39D8-4D23-90A5-0309A4F9616E}" ShortID="254700150">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerLocomotion" ID="{9F7B4B32-4533-412D-8864-E845576EF321}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_roll_rr04" ID="{264A053A-197F-43F9-B105-2FD94EE6BBAD}">
-													<Language>SFX</Language>
-													<AudioFile>as_ch_so_roll_rr04.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="189599241"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_roll_rr04" ID="{264A053A-197F-43F9-B105-2FD94EE6BBAD}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 									</ChildrenList>
 								</RandomSequenceContainer>
 							</ChildrenList>
@@ -1402,72 +998,6 @@
 												<ActiveSource Name="as_ch_so_falling_on_metal_rr03" ID="{8C4641F4-5356-405E-9AED-B71E0837B295}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
-										<Sound Name="as_ch_so_falling_on_metal_rr04" ID="{E8F1242F-0FF5-4616-9D0E-4B4EE847B565}" ShortID="747534726">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_falling_on_metal_rr04" ID="{FDD1F496-B274-4CE8-9BB8-10ED21D1BC59}">
-													<Language>SFX</Language>
-													<AudioFile>as_ch_so_falling_on_metal_rr04.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="131515996"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_falling_on_metal_rr04" ID="{FDD1F496-B274-4CE8-9BB8-10ED21D1BC59}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_falling_on_metal_rr05" ID="{29F0C773-30BA-43C0-9A15-F18EC38E45F3}" ShortID="910257424">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_falling_on_metal_rr05" ID="{98E5D674-FA27-4FBE-B6F9-DA8C9521221C}">
-													<Language>SFX</Language>
-													<AudioFile>as_ch_so_falling_on_metal_rr05.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="722956706"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_falling_on_metal_rr05" ID="{98E5D674-FA27-4FBE-B6F9-DA8C9521221C}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_falling_on_metal_rr06" ID="{11C264BE-FC50-4672-88A4-B29D6D9920EB}" ShortID="1024877571">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_falling_on_metal_rr06" ID="{FA15AA7B-5EBF-4714-921C-73E69BD12455}">
-													<Language>SFX</Language>
-													<AudioFile>as_ch_so_falling_on_metal_rr06.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="393993437"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_falling_on_metal_rr06" ID="{FA15AA7B-5EBF-4714-921C-73E69BD12455}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 									</ChildrenList>
 								</RandomSequenceContainer>
 								<RandomSequenceContainer Name="FallingWater" ID="{7DE87899-FEF3-4F37-9950-06685F7C3024}" ShortID="66153214">
@@ -1559,72 +1089,6 @@
 											</ChildrenList>
 											<ActiveSourceList>
 												<ActiveSource Name="as_ch_so_falling_on_water_rr03" ID="{6355533C-70DF-4649-9F46-8B553657C8A5}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_falling_on_water_rr04" ID="{04F2D01B-B512-408F-965F-E1435E539F20}" ShortID="202569992">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_falling_on_water_rr04" ID="{C1A55DAA-3008-4C10-AE1D-90EFEF23C110}">
-													<Language>SFX</Language>
-													<AudioFile>as_ch_so_falling_on_water_rr04.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="420731324"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_falling_on_water_rr04" ID="{C1A55DAA-3008-4C10-AE1D-90EFEF23C110}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_falling_on_water_rr05" ID="{167CB374-8EBC-47B4-93A9-21EC88FDFC9E}" ShortID="995508837">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_falling_on_water_rr05" ID="{D8776C01-83CF-4874-8C5C-01C5CD76D621}">
-													<Language>SFX</Language>
-													<AudioFile>as_ch_so_falling_on_water_rr05.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="95097323"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_falling_on_water_rr05" ID="{D8776C01-83CF-4874-8C5C-01C5CD76D621}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_falling_on_water_rr06" ID="{43B8F14A-499A-4A34-BAB7-66692E4F3516}" ShortID="496486042">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_falling_on_water_rr06" ID="{CD498B45-3174-4EB6-AF48-9A357EF53E14}">
-													<Language>SFX</Language>
-													<AudioFile>as_ch_so_falling_on_water_rr06.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="454926621"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_falling_on_water_rr06" ID="{CD498B45-3174-4EB6-AF48-9A357EF53E14}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>
@@ -1744,28 +1208,6 @@
 										<ActiveSource Name="as_ch_so_allura_weapon_impact_rr02" ID="{6BE944BE-269F-4575-B268-244099A9AEF5}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="as_ch_so_allura_weapon_impact_rr03" ID="{2B47F35B-6818-4D75-9453-E8F0A86E27A8}" ShortID="49838681">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="as_ch_so_allura_weapon_impact_rr03" ID="{43DD4442-6780-4C53-AB47-EBFFE90F5596}">
-											<Language>SFX</Language>
-											<AudioFile>as_ch_so_allura_weapon_impact_rr03.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="104293671"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="as_ch_so_allura_weapon_impact_rr03" ID="{43DD4442-6780-4C53-AB47-EBFFE90F5596}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
 								<Sound Name="as_ch_so_allura_weapon_impact_rr04" ID="{08AF2291-804C-496F-9AC5-BD27630DEDB0}" ShortID="76888519">
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -1786,28 +1228,6 @@
 									</ChildrenList>
 									<ActiveSourceList>
 										<ActiveSource Name="as_ch_so_allura_weapon_impact_rr04" ID="{A40A249E-66D6-4747-A1FA-A762AE7EEEFC}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="as_ch_so_allura_weapon_impact_rr05" ID="{74F91CA2-E0D2-4605-A813-EE255DED8F5D}" ShortID="750017171">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="as_ch_so_allura_weapon_impact_rr05" ID="{00F5D90E-9001-4C20-836A-F63818176A33}">
-											<Language>SFX</Language>
-											<AudioFile>as_ch_so_allura_weapon_impact_rr05.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="438465019"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="as_ch_so_allura_weapon_impact_rr05" ID="{00F5D90E-9001-4C20-836A-F63818176A33}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="as_ch_so_allura_weapon_impact_rr06" ID="{1F4340E8-C0D1-4587-90B7-31EC7602D563}" ShortID="354566093">
@@ -1934,28 +1354,6 @@
 										<ActiveSource Name="as_ch_so_bix_down_attack_rr03" ID="{C5CCCCC2-30F4-4F3E-B612-CEBDEB38B6E9}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="as_ch_so_bix_down_attack_rr04" ID="{139D085A-8A49-4E6E-B652-B59459668BE3}" ShortID="9182419">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="as_ch_so_bix_down_attack_rr04" ID="{DFFDE8F3-1556-43E6-BE6F-9C0B4ADA0C55}">
-											<Language>SFX</Language>
-											<AudioFile>as_ch_so_bix_down_attack_rr04.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="929621008"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="as_ch_so_bix_down_attack_rr04" ID="{DFFDE8F3-1556-43E6-BE6F-9C0B4ADA0C55}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
 							</ChildrenList>
 						</RandomSequenceContainer>
 						<RandomSequenceContainer Name="BixLightsaberImpact" ID="{5A23A194-7F3D-4389-ACD8-B738C4DD4482}" ShortID="525365728">
@@ -1997,28 +1395,6 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<Sound Name="as_ch_so_bix_lightsaber_impact_rr01" ID="{F9809B23-441A-40D5-86EC-671D813A568A}" ShortID="935614421">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="as_ch_so_bix_lightsaber_impact_rr01" ID="{679B2C3D-F4E3-4B77-A47B-18144ACDB69B}">
-											<Language>SFX</Language>
-											<AudioFile>Bounces\as_ch_so_bix_lightsaber_impact_rr01.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="759095254"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="as_ch_so_bix_lightsaber_impact_rr01" ID="{679B2C3D-F4E3-4B77-A47B-18144ACDB69B}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
 								<Sound Name="as_ch_so_bix_lightsaber_impact_rr02" ID="{C54DB1AB-F96A-4A50-825D-C4DE90643077}" ShortID="756420152">
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -2085,28 +1461,6 @@
 										<ActiveSource Name="as_ch_so_bix_lightsaber_impact_rr04" ID="{AFE71669-1671-4262-9EE9-AB21360949FE}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="as_ch_so_bix_lightsaber_impact_rr05" ID="{CFE061FE-984A-4D5F-BDBA-1284F5F27D9A}" ShortID="794992865">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="as_ch_so_bix_lightsaber_impact_rr05" ID="{B4C4FF56-FCA1-4B2A-8F66-E4A144023F24}">
-											<Language>SFX</Language>
-											<AudioFile>Bounces\as_ch_so_bix_lightsaber_impact_rr05.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="652876529"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="as_ch_so_bix_lightsaber_impact_rr05" ID="{B4C4FF56-FCA1-4B2A-8F66-E4A144023F24}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
 								<Sound Name="as_ch_so_bix_lightsaber_impact_rr06" ID="{1C1CC9B1-3E70-4666-8AE3-D2A483463781}" ShortID="934550129">
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -2160,50 +1514,6 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<Sound Name="as_ch_so_bix_force_start_use_rr01" ID="{1B92B480-BFAC-438C-BC13-878064F2C1CA}" ShortID="54464373">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="as_ch_so_bix_force_start_use_rr01" ID="{18CDC439-0D51-4622-A456-2FC906F8052B}">
-											<Language>SFX</Language>
-											<AudioFile>Bounces\as_ch_so_bix_force_start_use_rr01.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="822562117"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="as_ch_so_bix_force_start_use_rr01" ID="{18CDC439-0D51-4622-A456-2FC906F8052B}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="as_ch_so_bix_force_start_use_rr02" ID="{A5C37883-DF3C-4261-A490-350C52D15D07}" ShortID="121421023">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="as_ch_so_bix_force_start_use_rr02" ID="{EB3E557F-6A36-4F53-8102-0E35D5A377CB}">
-											<Language>SFX</Language>
-											<AudioFile>Bounces\as_ch_so_bix_force_start_use_rr02.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="307482312"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="as_ch_so_bix_force_start_use_rr02" ID="{EB3E557F-6A36-4F53-8102-0E35D5A377CB}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
 								<Sound Name="as_ch_so_bix_force_start_use_rr03" ID="{9FB7230D-AE12-4B40-878D-86A5720A265C}" ShortID="292630527">
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -2461,50 +1771,6 @@
 										<ActiveSource Name="as_ch_so_allura_weapon_shot_rr04" ID="{D13230E1-9A02-4186-8D1C-6408AC588508}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="as_ch_so_allura_weapon_shot_rr05" ID="{68B3D7D5-2D61-4D14-91EC-37594603961B}" ShortID="790379232">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="as_ch_so_allura_weapon_shot_rr05" ID="{D5D90CAD-BD04-4DF9-9671-166DE3138EF5}">
-											<Language>SFX</Language>
-											<AudioFile>Bounces\as_ch_so_allura_weapon_shot_rr05.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="662115494"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="as_ch_so_allura_weapon_shot_rr05" ID="{D5D90CAD-BD04-4DF9-9671-166DE3138EF5}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="as_ch_so_allura_weapon_shot_rr06" ID="{68E69D4B-82B7-4403-AD4E-848C78BE1705}" ShortID="981773439">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="as_ch_so_allura_weapon_shot_rr06" ID="{6E6B0ABF-980F-4024-90EF-356269875EE1}">
-											<Language>SFX</Language>
-											<AudioFile>Bounces\as_ch_so_allura_weapon_shot_rr06.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="615472858"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="as_ch_so_allura_weapon_shot_rr06" ID="{6E6B0ABF-980F-4024-90EF-356269875EE1}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
 							</ChildrenList>
 						</RandomSequenceContainer>
 						<RandomSequenceContainer Name="AlluraHeavyAttackFinisher" ID="{C892F88B-12BC-410A-8C2E-B32DB531A232}" ShortID="855170973">
@@ -2585,28 +1851,6 @@
 										<ActiveSource Name="as_ch_so_allura_heavy_attack_finisher_rr02" ID="{A0915A2A-5A2E-4CDD-8E47-A4FE6DB9041E}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="as_ch_so_allura_heavy_attack_finisher_rr03" ID="{112C2CBA-211D-46A2-A9E6-72C03C635E2E}" ShortID="378934496">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="as_ch_so_allura_heavy_attack_finisher_rr03" ID="{7DA22BBE-C820-4F00-ABB1-A80257EA98FB}">
-											<Language>SFX</Language>
-											<AudioFile>as_ch_so_allura_heavy_attack_finisher_rr03.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="404369398"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="as_ch_so_allura_heavy_attack_finisher_rr03" ID="{7DA22BBE-C820-4F00-ABB1-A80257EA98FB}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
 								<Sound Name="as_ch_so_allura_heavy_attack_finisher_rr04" ID="{D14C23C9-E0EC-4A64-8071-990AC12CA3DC}" ShortID="295819288">
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -2627,28 +1871,6 @@
 									</ChildrenList>
 									<ActiveSourceList>
 										<ActiveSource Name="as_ch_so_allura_heavy_attack_finisher_rr04" ID="{6CF0DE5D-47AD-4041-A292-31BE9359928D}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="as_ch_so_allura_heavy_attack_finisher_rr05" ID="{F2712F15-BE49-4964-B92B-C02D440A5DD9}" ShortID="1048714457">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="as_ch_so_allura_heavy_attack_finisher_rr05" ID="{59413B09-3E45-4324-824F-6CC2139362C1}">
-											<Language>SFX</Language>
-											<AudioFile>as_ch_so_allura_heavy_attack_finisher_rr05.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="441089571"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="as_ch_so_allura_heavy_attack_finisher_rr05" ID="{59413B09-3E45-4324-824F-6CC2139362C1}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="as_ch_so_allura_heavy_attack_finisher_rr06" ID="{AB93111C-F17D-4942-95FE-7515B8FBDE92}" ShortID="882662654">
@@ -2758,28 +1980,6 @@
 										<ActiveSource Name="as_ch_so_allura_light_attack_impact_rr02" ID="{99C81CF7-B2B8-411A-B854-14DC97C8DC2E}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="as_ch_so_allura_light_attack_impact_rr03" ID="{F33AD0B2-E296-4B72-B552-2223572B0FA1}" ShortID="370765181">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="as_ch_so_allura_light_attack_impact_rr03" ID="{6959BADC-8849-4AAF-B808-3F0F51415B0D}">
-											<Language>SFX</Language>
-											<AudioFile>Bounces\as_ch_so_allura_light_attack_impact_rr03.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="976842746"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="as_ch_so_allura_light_attack_impact_rr03" ID="{6959BADC-8849-4AAF-B808-3F0F51415B0D}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
 								<Sound Name="as_ch_so_allura_light_attack_impact_rr04" ID="{F65EB9EA-3EF4-46AB-8B66-F23D5D0F6846}" ShortID="226603411">
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -2822,28 +2022,6 @@
 									</ChildrenList>
 									<ActiveSourceList>
 										<ActiveSource Name="as_ch_so_allura_light_attack_impact_rr05" ID="{11441685-E939-4680-B86B-096141D77CC1}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="as_ch_so_allura_light_attack_impact_rr06" ID="{594A31F3-B97F-4E37-8652-90732128FC75}" ShortID="212257555">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="as_ch_so_allura_light_attack_impact_rr06" ID="{D8589279-43D5-4F18-A4BE-C5E721C30B65}">
-											<Language>SFX</Language>
-											<AudioFile>Bounces\as_ch_so_allura_light_attack_impact_rr06.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="1004682214"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="as_ch_so_allura_light_attack_impact_rr06" ID="{D8589279-43D5-4F18-A4BE-C5E721C30B65}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 							</ChildrenList>
@@ -2917,28 +2095,6 @@
 									</ChildrenList>
 									<ActiveSourceList>
 										<ActiveSource Name="as_ch_so_allura_down_attack_rr02" ID="{A814D146-C636-42C8-B834-0716330E1305}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="as_ch_so_allura_down_attack_rr03" ID="{32A13278-2FD4-415D-B4A6-0CC6F18FF3B7}" ShortID="910565089">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="as_ch_so_allura_down_attack_rr03" ID="{539A7837-FEAA-4328-A686-21BB648C6DDC}">
-											<Language>SFX</Language>
-											<AudioFile>Bounces\as_ch_so_allura_down_attack_rr03.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="1019471679"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="as_ch_so_allura_down_attack_rr03" ID="{539A7837-FEAA-4328-A686-21BB648C6DDC}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 							</ChildrenList>
@@ -3039,138 +2195,6 @@
 														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr23" ID="{660F1DBE-111D-4B1A-AFFC-B3E5735C5F6E}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr24" ID="{D187FC40-11D7-4288-95D6-64A533CEC3D7}" ShortID="331400815">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr24" ID="{993E8013-1237-4E64-BD27-995DFCF7D843}">
-															<Language>SFX</Language>
-															<AudioFile>V_02\as_ch_so_bix_lightsaber_attack_rr24.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="709860243"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr24" ID="{993E8013-1237-4E64-BD27-995DFCF7D843}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr25" ID="{8DE01F28-2ECC-4E38-BE00-E160365BFEBD}" ShortID="11921312">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr25" ID="{C214DC52-FDDB-4F41-8EA3-A55953CBD426}">
-															<Language>SFX</Language>
-															<AudioFile>V_02\as_ch_so_bix_lightsaber_attack_rr25.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="412892717"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr25" ID="{C214DC52-FDDB-4F41-8EA3-A55953CBD426}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr26" ID="{E2A22D12-465F-480E-8AB9-DF8E2B8A1C11}" ShortID="962185390">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr26" ID="{61C3E0B7-37EB-4AD7-9F8C-1CD56488650B}">
-															<Language>SFX</Language>
-															<AudioFile>V_02\as_ch_so_bix_lightsaber_attack_rr26.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="544976312"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr26" ID="{61C3E0B7-37EB-4AD7-9F8C-1CD56488650B}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr27" ID="{AA33A338-6166-4A83-9DE0-FF33E5B975AF}" ShortID="242175026">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr27" ID="{4A1C130C-AF11-4544-ADF1-AE561053E484}">
-															<Language>SFX</Language>
-															<AudioFile>V_02\as_ch_so_bix_lightsaber_attack_rr27.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="1019036370"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr27" ID="{4A1C130C-AF11-4544-ADF1-AE561053E484}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr28" ID="{CD9E7737-B6C5-4642-9EF3-D51C69795054}" ShortID="297109416">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr28" ID="{57016CE2-7361-415B-8673-D39A12A8EB62}">
-															<Language>SFX</Language>
-															<AudioFile>V_02\as_ch_so_bix_lightsaber_attack_rr28.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="270232559"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr28" ID="{57016CE2-7361-415B-8673-D39A12A8EB62}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr29" ID="{5CCBC4F5-4FA5-40E8-B7D1-3C1C17DA490B}" ShortID="853982768">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr29" ID="{817B1178-0C26-4D87-845F-484C901E602B}">
-															<Language>SFX</Language>
-															<AudioFile>V_02\as_ch_so_bix_lightsaber_attack_rr29.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="187396669"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr29" ID="{817B1178-0C26-4D87-845F-484C901E602B}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
 											</ChildrenList>
 										</RandomSequenceContainer>
 										<RandomSequenceContainer Name="V_03" ID="{EA6C63A8-0F83-412B-97B9-B27858ED35DD}" ShortID="455181103">
@@ -3247,138 +2271,6 @@
 													</ChildrenList>
 													<ActiveSourceList>
 														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr33" ID="{1175B20F-3083-4A65-91AA-0132E2BEBDDE}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr34" ID="{898AF13E-732A-4165-9B29-F8C17C1B38F4}" ShortID="667796518">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr34" ID="{F70789F7-F4CE-40B4-B0AB-F52588D53195}">
-															<Language>SFX</Language>
-															<AudioFile>V_03\as_ch_so_bix_lightsaber_attack_rr34.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="879259292"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr34" ID="{F70789F7-F4CE-40B4-B0AB-F52588D53195}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr35" ID="{0A2E0775-9B85-4688-9612-4122868082A4}" ShortID="870415956">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr35" ID="{A93F69AA-8701-4477-8801-66BCE3223A3E}">
-															<Language>SFX</Language>
-															<AudioFile>V_03\as_ch_so_bix_lightsaber_attack_rr35.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="327125400"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr35" ID="{A93F69AA-8701-4477-8801-66BCE3223A3E}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr36" ID="{25F221ED-91EE-4EA7-B33D-522126FD8779}" ShortID="911133202">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr36" ID="{080C9CC1-E579-42D2-9C06-63F466B1016E}">
-															<Language>SFX</Language>
-															<AudioFile>V_03\as_ch_so_bix_lightsaber_attack_rr36.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="533299903"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr36" ID="{080C9CC1-E579-42D2-9C06-63F466B1016E}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr37" ID="{9EAB8532-4B6B-447B-9F27-CDB59449379D}" ShortID="994129295">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr37" ID="{ABAEAD5D-2829-4765-9056-B1E5660A947A}">
-															<Language>SFX</Language>
-															<AudioFile>V_03\as_ch_so_bix_lightsaber_attack_rr37.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="784719606"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr37" ID="{ABAEAD5D-2829-4765-9056-B1E5660A947A}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr38" ID="{73C9B630-26CA-4732-AC35-DCFF1CCDCEA5}" ShortID="932568256">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr38" ID="{59852B39-EBB5-4313-AD00-620E21D6002F}">
-															<Language>SFX</Language>
-															<AudioFile>V_03\as_ch_so_bix_lightsaber_attack_rr38.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="640209847"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr38" ID="{59852B39-EBB5-4313-AD00-620E21D6002F}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr39" ID="{5FCF23AF-FFA4-4D2A-BE8A-DF0E24556F54}" ShortID="743427159">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr39" ID="{CFDF3316-76B7-46BD-A231-1E10B15D6214}">
-															<Language>SFX</Language>
-															<AudioFile>V_03\as_ch_so_bix_lightsaber_attack_rr39.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="648712326"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr39" ID="{CFDF3316-76B7-46BD-A231-1E10B15D6214}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
 											</ChildrenList>
@@ -3459,138 +2351,6 @@
 														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr43" ID="{57FDE7AA-4F1D-4293-8C38-203922177142}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr44" ID="{A25519D8-272B-4079-9B0B-A9A2DA25555C}" ShortID="141885213">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr44" ID="{BB86A94E-DF14-47FC-B645-9A91C35CC620}">
-															<Language>SFX</Language>
-															<AudioFile>V_04\as_ch_so_bix_lightsaber_attack_rr44.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="641747390"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr44" ID="{BB86A94E-DF14-47FC-B645-9A91C35CC620}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr45" ID="{800564E6-9C95-4932-8FA0-8A1EED80D7F5}" ShortID="254169927">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr45" ID="{9A172639-3C34-44A1-A67E-B7C882343C53}">
-															<Language>SFX</Language>
-															<AudioFile>V_04\as_ch_so_bix_lightsaber_attack_rr45.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="991430782"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr45" ID="{9A172639-3C34-44A1-A67E-B7C882343C53}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr46" ID="{5D1B1F42-D5A4-4633-8705-CBEE440D7544}" ShortID="761484910">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr46" ID="{15D8C82B-A099-4569-A77D-24580F3D5C6F}">
-															<Language>SFX</Language>
-															<AudioFile>V_04\as_ch_so_bix_lightsaber_attack_rr46.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="964601874"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr46" ID="{15D8C82B-A099-4569-A77D-24580F3D5C6F}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr47" ID="{A6B362B4-DA50-451F-8F01-7F67510737AE}" ShortID="689879846">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr47" ID="{67E4FEFF-489F-4A86-8649-776D5190C166}">
-															<Language>SFX</Language>
-															<AudioFile>V_04\as_ch_so_bix_lightsaber_attack_rr47.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="382121050"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr47" ID="{67E4FEFF-489F-4A86-8649-776D5190C166}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr48" ID="{FDB0AEF9-66CD-4208-8D0E-C4CBF5AC3DDB}" ShortID="1005692346">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr48" ID="{6AFC6BF1-5205-4DC5-B9DC-024D8C8BEE3B}">
-															<Language>SFX</Language>
-															<AudioFile>V_04\as_ch_so_bix_lightsaber_attack_rr48.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="197553788"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr48" ID="{6AFC6BF1-5205-4DC5-B9DC-024D8C8BEE3B}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr49" ID="{EEB24276-9243-4ED5-8BA2-C2DEE13F3D42}" ShortID="157958485">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr49" ID="{A9C6E75C-B94A-425C-ABA0-DA8C74ECC157}">
-															<Language>SFX</Language>
-															<AudioFile>V_04\as_ch_so_bix_lightsaber_attack_rr49.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="554916945"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr49" ID="{A9C6E75C-B94A-425C-ABA0-DA8C74ECC157}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
 											</ChildrenList>
 										</RandomSequenceContainer>
 										<RandomSequenceContainer Name="V_05" ID="{36AE9BDC-79E3-4749-8C73-CDCACD928B81}" ShortID="907589123">
@@ -3669,138 +2429,6 @@
 														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr53" ID="{C3651DDD-8682-4CE8-A59A-522752A5CCA2}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr54" ID="{D8A1E06C-EA7A-426B-AEA8-96643C7D1BA3}" ShortID="118931619">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr54" ID="{C8949C58-771B-4E62-8677-227C0BB36E59}">
-															<Language>SFX</Language>
-															<AudioFile>V_05\as_ch_so_bix_lightsaber_attack_rr54.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="266679583"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr54" ID="{C8949C58-771B-4E62-8677-227C0BB36E59}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr55" ID="{BB2DA00D-A2FF-4BC1-A27D-A90DDFD590DC}" ShortID="45579024">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr55" ID="{4DE9CA1C-48EE-4060-B917-616E62FA39B1}">
-															<Language>SFX</Language>
-															<AudioFile>V_05\as_ch_so_bix_lightsaber_attack_rr55.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="170187179"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr55" ID="{4DE9CA1C-48EE-4060-B917-616E62FA39B1}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr56" ID="{AAED28FC-9B90-4DF8-924B-1FA54C910902}" ShortID="943253518">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr56" ID="{0F4B1650-9353-4DD9-A98F-699962C47689}">
-															<Language>SFX</Language>
-															<AudioFile>V_05\as_ch_so_bix_lightsaber_attack_rr56.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="652460202"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr56" ID="{0F4B1650-9353-4DD9-A98F-699962C47689}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr57" ID="{CE0E4D18-1DC3-4D43-B196-D9257B3EC5F4}" ShortID="1018539153">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr57" ID="{504057DA-31B3-4368-95C5-7310DF7D57D0}">
-															<Language>SFX</Language>
-															<AudioFile>V_05\as_ch_so_bix_lightsaber_attack_rr57.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="640283471"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr57" ID="{504057DA-31B3-4368-95C5-7310DF7D57D0}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr58" ID="{EBC83D06-2906-42F7-9B5E-D376CDE79910}" ShortID="828130477">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr58" ID="{5AD957BB-631B-4F65-84A8-67A17E3CA0FF}">
-															<Language>SFX</Language>
-															<AudioFile>V_05\as_ch_so_bix_lightsaber_attack_rr58.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="2082343"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr58" ID="{5AD957BB-631B-4F65-84A8-67A17E3CA0FF}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr59" ID="{3EE7692F-A34F-4292-9344-79D84BC8E655}" ShortID="321516130">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr59" ID="{FCA27D2B-CD10-46F2-BEFF-74C7350B03AA}">
-															<Language>SFX</Language>
-															<AudioFile>V_05\as_ch_so_bix_lightsaber_attack_rr59.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="56457907"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr59" ID="{FCA27D2B-CD10-46F2-BEFF-74C7350B03AA}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
 											</ChildrenList>
 										</RandomSequenceContainer>
 										<RandomSequenceContainer Name="V_06" ID="{C5DE76DF-E644-429E-93DD-B3C8B7FCA082}" ShortID="225963172">
@@ -3877,138 +2505,6 @@
 													</ChildrenList>
 													<ActiveSourceList>
 														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr63" ID="{D81A8625-610E-483C-88F3-E6E6B72B7A94}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr64" ID="{A5054CDC-1D5F-4898-9EE6-0DA3990EB69D}" ShortID="743410632">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr64" ID="{CB0E2AF3-028E-4575-858A-956A39C54117}">
-															<Language>SFX</Language>
-															<AudioFile>V_06\as_ch_so_bix_lightsaber_attack_rr64.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="258093761"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr64" ID="{CB0E2AF3-028E-4575-858A-956A39C54117}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr65" ID="{88E6BC31-DE64-4F2B-9BEE-D54BD9E9DACD}" ShortID="792593480">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr65" ID="{B0CDED8F-C342-4AF7-9944-AD32349CE723}">
-															<Language>SFX</Language>
-															<AudioFile>V_06\as_ch_so_bix_lightsaber_attack_rr65.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="844690466"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr65" ID="{B0CDED8F-C342-4AF7-9944-AD32349CE723}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr66" ID="{A9B8E8AF-4DE2-49B0-B997-030C83049B6D}" ShortID="821247739">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr66" ID="{86DAB443-E87B-4824-BC74-73206DA08ADB}">
-															<Language>SFX</Language>
-															<AudioFile>V_06\as_ch_so_bix_lightsaber_attack_rr66.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="999335491"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr66" ID="{86DAB443-E87B-4824-BC74-73206DA08ADB}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr67" ID="{FCF02D79-F12F-4D8D-885F-476BD82FAA02}" ShortID="101892953">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr67" ID="{8017A922-C8E1-45C2-ADBF-2D771E4EBF62}">
-															<Language>SFX</Language>
-															<AudioFile>V_06\as_ch_so_bix_lightsaber_attack_rr67.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="1019754436"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr67" ID="{8017A922-C8E1-45C2-ADBF-2D771E4EBF62}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr68" ID="{0DA2D1AF-1412-437F-8C1C-D595EAFF8D4E}" ShortID="1039288843">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr68" ID="{99377719-DF74-4CA7-BED6-4F0D7E86AB44}">
-															<Language>SFX</Language>
-															<AudioFile>V_06\as_ch_so_bix_lightsaber_attack_rr68.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="1068347664"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr68" ID="{99377719-DF74-4CA7-BED6-4F0D7E86AB44}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_lightsaber_attack_rr69" ID="{D59F528E-0370-439A-A941-4F34CA3B3273}" ShortID="2930531">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_lightsaber_attack_rr69" ID="{B78F9FA1-7BC1-43B3-B195-31B97C1D9FF6}">
-															<Language>SFX</Language>
-															<AudioFile>V_06\as_ch_so_bix_lightsaber_attack_rr69.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="710373529"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_lightsaber_attack_rr69" ID="{B78F9FA1-7BC1-43B3-B195-31B97C1D9FF6}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
 											</ChildrenList>
@@ -4123,116 +2619,6 @@
 											</ChildrenList>
 											<ActiveSourceList>
 												<ActiveSource Name="as_ch_so_bix_lightsaber_swish_rr04" ID="{AAC48A8D-DB8E-417E-9272-A15AF61F518E}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_bix_lightsaber_swish_rr05" ID="{EA091000-2F8A-44AF-BE05-6F555A21FE60}" ShortID="843159696">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_bix_lightsaber_swish_rr05" ID="{B0238874-1A12-4F34-BF5A-5AC25C31E3E7}">
-													<Language>SFX</Language>
-													<AudioFile>New\Swishes\as_ch_so_bix_lightsaber_swish_rr05.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="868759280"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_bix_lightsaber_swish_rr05" ID="{B0238874-1A12-4F34-BF5A-5AC25C31E3E7}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_bix_lightsaber_swish_rr06" ID="{5E0A526A-6A07-4837-8B0F-EC968A201E82}" ShortID="945132649">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_bix_lightsaber_swish_rr06" ID="{F2493973-C132-4152-A9A1-29D71285E3A9}">
-													<Language>SFX</Language>
-													<AudioFile>New\Swishes\as_ch_so_bix_lightsaber_swish_rr06.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="92764782"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_bix_lightsaber_swish_rr06" ID="{F2493973-C132-4152-A9A1-29D71285E3A9}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_bix_lightsaber_swish_rr07" ID="{B6632369-E412-40CD-877E-09EAFEC742CB}" ShortID="893353648">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_bix_lightsaber_swish_rr07" ID="{567A4C73-FAB7-48F7-B7AA-218BE7A2B114}">
-													<Language>SFX</Language>
-													<AudioFile>New\Swishes\as_ch_so_bix_lightsaber_swish_rr07.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="812254918"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_bix_lightsaber_swish_rr07" ID="{567A4C73-FAB7-48F7-B7AA-218BE7A2B114}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_bix_lightsaber_swish_rr08" ID="{CC23BF42-7879-4DB6-886F-964E3E2F15E2}" ShortID="78273140">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_bix_lightsaber_swish_rr08" ID="{58B9029B-C357-4865-A9C0-D512983F2503}">
-													<Language>SFX</Language>
-													<AudioFile>New\Swishes\as_ch_so_bix_lightsaber_swish_rr08.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="992397706"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_bix_lightsaber_swish_rr08" ID="{58B9029B-C357-4865-A9C0-D512983F2503}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_bix_lightsaber_swish_rr09" ID="{B7FD53F7-EE77-40DD-BC3D-A1E9C128CEFC}" ShortID="125913772">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_bix_lightsaber_swish_rr09" ID="{9CCB0A10-ACA7-41E1-A1EE-C1DFD9398A54}">
-													<Language>SFX</Language>
-													<AudioFile>New\Swishes\as_ch_so_bix_lightsaber_swish_rr09.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="744474070"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_bix_lightsaber_swish_rr09" ID="{9CCB0A10-ACA7-41E1-A1EE-C1DFD9398A54}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>
@@ -4431,28 +2817,6 @@
 														<ActiveSource Name="as_ch_so_bix_light_attack_finisher_end_rr03" ID="{A43EE953-4985-4E0F-85F8-7B3991564FDF}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
-												<Sound Name="as_ch_so_bix_light_attack_finisher_end_rr04" ID="{7A105E8A-EDDA-42D9-BC3A-75F94C49613F}" ShortID="845110687">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_light_attack_finisher_end_rr04" ID="{8AE2B46C-9C76-4B33-ACC1-5F0C7451691E}">
-															<Language>SFX</Language>
-															<AudioFile>Bounces\as_ch_so_bix_light_attack_finisher_end_rr04.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="812866006"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_light_attack_finisher_end_rr04" ID="{8AE2B46C-9C76-4B33-ACC1-5F0C7451691E}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
 											</ChildrenList>
 										</RandomSequenceContainer>
 										<RandomSequenceContainer Name="Bix_LightAttackFinisher_ImpactForce" ID="{161204F2-794C-4CAA-BD5A-7130F9BCD175}" ShortID="555238297">
@@ -4507,50 +2871,6 @@
 													</ChildrenList>
 													<ActiveSourceList>
 														<ActiveSource Name="as_ch_so_bix_light_attack_finisher_force_rr02" ID="{7729EBE2-0163-43EA-8FC0-F18EF8FEF796}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_light_attack_finisher_force_rr03" ID="{7E437655-C5B1-4B70-80FB-9D5A9E2EE614}" ShortID="960049424">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_light_attack_finisher_force_rr03" ID="{0228CE27-586C-4B2C-86EA-84A0814A022D}">
-															<Language>SFX</Language>
-															<AudioFile>Bounces\as_ch_so_bix_light_attack_finisher_force_rr03.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="224753094"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_light_attack_finisher_force_rr03" ID="{0228CE27-586C-4B2C-86EA-84A0814A022D}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_light_attack_finisher_force_rr04" ID="{DA947109-E40F-4083-BA62-CDA968990404}" ShortID="290678094">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_light_attack_finisher_force_rr04" ID="{5668C214-41C1-4C72-8BF4-430F6106A446}">
-															<Language>SFX</Language>
-															<AudioFile>Bounces\as_ch_so_bix_light_attack_finisher_force_rr04.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="859463557"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_light_attack_finisher_force_rr04" ID="{5668C214-41C1-4C72-8BF4-430F6106A446}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
 											</ChildrenList>
@@ -4667,28 +2987,6 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<Sound Name="as_ch_so_bix_light_attack_finisher_start_rr01" ID="{849B8EB4-3223-44BF-A1D1-8E886626830A}" ShortID="115285188">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_light_attack_finisher_start_rr01" ID="{667D49C1-D03A-4AAC-89A9-93E6556D5304}">
-															<Language>SFX</Language>
-															<AudioFile>Bounces\as_ch_so_bix_light_attack_finisher_start_rr01.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="44805606"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_light_attack_finisher_start_rr01" ID="{667D49C1-D03A-4AAC-89A9-93E6556D5304}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
 												<Sound Name="as_ch_so_bix_light_attack_finisher_start_rr02" ID="{59B977B8-514E-4941-869C-6B7EDA78D1A1}" ShortID="954168814">
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -4764,50 +3062,6 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<Sound Name="as_ch_so_bix_force_start_use_rr01" ID="{538DFE52-7E3E-43AC-A691-8069E46CDD5F}" ShortID="851182388">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_force_start_use_rr01" ID="{24396B17-ADB0-43A7-B1F1-69B2B70519A6}">
-															<Language>SFX</Language>
-															<AudioFile>Bounces\as_ch_so_bix_force_start_use_rr01.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="822562117"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_force_start_use_rr01" ID="{24396B17-ADB0-43A7-B1F1-69B2B70519A6}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="as_ch_so_bix_force_start_use_rr02" ID="{9BE01380-9521-459B-81BA-597BE3ECF4FA}" ShortID="492051541">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_ch_so_bix_force_start_use_rr02" ID="{BD4FD9A8-826E-4D1B-A9D1-EEF323AEFFB3}">
-															<Language>SFX</Language>
-															<AudioFile>Bounces\as_ch_so_bix_force_start_use_rr02.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="307482312"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_ch_so_bix_force_start_use_rr02" ID="{BD4FD9A8-826E-4D1B-A9D1-EEF323AEFFB3}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
 												<Sound Name="as_ch_so_bix_force_start_use_rr03" ID="{C9709FB7-A0F5-44CF-9651-601BE36CE15A}" ShortID="565163189">
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -5286,94 +3540,6 @@
 											</ChildrenList>
 											<ActiveSourceList>
 												<ActiveSource Name="as_ch_so_allura_light_attack_impact_rr04" ID="{AE2B2DCD-2D3F-45CF-B291-014FAFEBCC31}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_allura_light_attack_impact_rr05" ID="{88707136-6E5A-45E6-B016-FB30E1F11F99}" ShortID="316602638">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_allura_light_attack_impact_rr05" ID="{DC88C69F-30B2-47E9-A1A0-B3BE15E820A7}">
-													<Language>SFX</Language>
-													<AudioFile>as_ch_so_allura_light_attack_impact_rr05.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="496476138"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_allura_light_attack_impact_rr05" ID="{DC88C69F-30B2-47E9-A1A0-B3BE15E820A7}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_allura_light_attack_impact_rr06" ID="{DC516B79-0072-49C1-B58A-100F3A96165D}" ShortID="981998749">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_allura_light_attack_impact_rr06" ID="{64B7A581-DEB7-4DB9-A898-AEB69E83A0E3}">
-													<Language>SFX</Language>
-													<AudioFile>as_ch_so_allura_light_attack_impact_rr06.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="88407937"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_allura_light_attack_impact_rr06" ID="{64B7A581-DEB7-4DB9-A898-AEB69E83A0E3}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_allura_light_attack_impact_rr07" ID="{2D28122D-DF15-4769-A7C1-F8ED7B6371D7}" ShortID="407760805">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_allura_light_attack_impact_rr07" ID="{8F8A3979-DF9B-4589-9426-075890E25708}">
-													<Language>SFX</Language>
-													<AudioFile>as_ch_so_allura_light_attack_impact_rr07.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="88220254"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_allura_light_attack_impact_rr07" ID="{8F8A3979-DF9B-4589-9426-075890E25708}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="as_ch_so_allura_light_attack_impact_rr08" ID="{B99E4888-6287-4A5F-BB63-0F0AA030F5F5}" ShortID="1062356973">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="PlayerWeapons" ID="{33AF3D43-5BA2-43A0-9920-C85A57389A9E}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="as_ch_so_allura_light_attack_impact_rr08" ID="{9806A84C-DA8E-4F7D-ACE9-39D8B57044E2}">
-													<Language>SFX</Language>
-													<AudioFile>as_ch_so_allura_light_attack_impact_rr08.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="527079556"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="as_ch_so_allura_light_attack_impact_rr08" ID="{9806A84C-DA8E-4F7D-ACE9-39D8B57044E2}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>

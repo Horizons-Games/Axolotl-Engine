@@ -150,28 +150,6 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<Sound Name="as_npc_so_drone_explosion_rr01" ID="{21E1998A-3F09-4702-9C4E-60A456697575}" ShortID="487137669">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="as_npc_so_drone_explosion_rr01" ID="{08F09D38-B583-4D84-8A8B-9D4A7E556CBD}">
-											<Language>SFX</Language>
-											<AudioFile>as_npc_so_drone_explosion_rr01.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="465879216"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="as_npc_so_drone_explosion_rr01" ID="{08F09D38-B583-4D84-8A8B-9D4A7E556CBD}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
 								<Sound Name="as_npc_so_drone_explosion_rr02" ID="{DE7C6F56-F2FA-486C-83DC-D51E8D762A28}" ShortID="1032999161">
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -773,50 +751,6 @@
 									</ChildrenList>
 									<ActiveSourceList>
 										<ActiveSource Name="as_npc_so_drone_shot_rr05" ID="{6BBC9553-520B-4FC4-8A04-74106C8AE8E6}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="as_npc_so_drone_shot_rr06" ID="{2F598BAF-C4AD-467B-A329-BB1460EE32B7}" ShortID="621067418">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="as_npc_so_drone_shot_rr06" ID="{493EB9D5-F1FE-4439-86C1-0B3CE6BCF44C}">
-											<Language>SFX</Language>
-											<AudioFile>as_npc_so_drone_shot_rr06.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="408320057"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="as_npc_so_drone_shot_rr06" ID="{493EB9D5-F1FE-4439-86C1-0B3CE6BCF44C}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="as_npc_so_drone_shot_rr07" ID="{A77022A7-50C2-4BDD-A22F-94D795CAD92F}" ShortID="711528000">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="as_npc_so_drone_shot_rr07" ID="{5CC083CD-A17C-49FD-8B93-80A2A463CB0E}">
-											<Language>SFX</Language>
-											<AudioFile>as_npc_so_drone_shot_rr07.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="682824389"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="as_npc_so_drone_shot_rr07" ID="{5CC083CD-A17C-49FD-8B93-80A2A463CB0E}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 							</ChildrenList>

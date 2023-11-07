@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{EDA5B647-2A8D-A9E0-709D-127CB1378C1C}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{A0171585-E6A2-438E-E802-3F0191D4F48E}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
@@ -21,33 +21,13 @@
 					<ShortName>cantina_music.wav</ShortName>
 					<CachePath>SFX/cantina_music_D79FB2B7.wem</CachePath>
 				</File>
-				<File Id="263142635" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_ambient_water_falling.wav</ShortName>
-					<CachePath>SFX/sfx_ambient_water_falling_7A8F70FB.wem</CachePath>
-				</File>
 				<File Id="397861920" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>182680-amb-doomdrones-ripley-hall.wav</ShortName>
 					<CachePath>SFX/182680-amb-doomdrones-ripley-hall_D79FB2B7.wem</CachePath>
 				</File>
-				<File Id="649108800" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_bigDoor_close-001.wav</ShortName>
-					<CachePath>SFX/sfx_bigDoor_close-001_10C4C929.wem</CachePath>
-				</File>
-				<File Id="652056130" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_ambient_crowd_talking_01.wav</ShortName>
-					<CachePath>SFX/sfx_ambient_crowd_talking_01_D79FB2B7.wem</CachePath>
-				</File>
 				<File Id="699998174" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_ambient_sewers_002.wav</ShortName>
 					<CachePath>SFX/sfx_ambient_sewers_002_D79FB2B7.wem</CachePath>
-				</File>
-				<File Id="739829471" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_ambient_turbine.wav</ShortName>
-					<CachePath>SFX/sfx_ambient_turbine_D79FB2B7.wem</CachePath>
-				</File>
-				<File Id="789177941" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_bigDoor_open-001.wav</ShortName>
-					<CachePath>SFX/sfx_bigDoor_open-001_10C4C929.wem</CachePath>
 				</File>
 			</Media>
 			<Plugins>
@@ -59,50 +39,9 @@
 				</ShareSets>
 			</Plugins>
 			<Events>
-				<Event Id="3747747529" Name="ambient_cantina_stop">
-					<MediaRefs>
-						<MediaRef Id="68185993"/>
-						<MediaRef Id="652056130"/>
-					</MediaRefs>
-					<PluginRefs>
-						<ShareSets>
-							<PluginRef Id="1904434771"/>
-						</ShareSets>
-					</PluginRefs>
-				</Event>
-				<Event Id="2455846751" Name="cantina_music">
-					<MediaRefs>
-						<MediaRef Id="68185993"/>
-					</MediaRefs>
-					<PluginRefs>
-						<ShareSets>
-							<PluginRef Id="1904434771"/>
-						</ShareSets>
-					</PluginRefs>
-				</Event>
-				<Event Id="3718347529" Name="sewers_ambient">
-					<MediaRefs>
-						<MediaRef Id="397861920"/>
-					</MediaRefs>
-				</Event>
 				<Event Id="4136005308" Name="sewers_ambient_stop">
 					<MediaRefs>
 						<MediaRef Id="397861920"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="2073224732" Name="sfx_ambient_crowd_talking_01">
-					<MediaRefs>
-						<MediaRef Id="652056130"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="611136124" Name="sfx_bigDoor_close">
-					<MediaRefs>
-						<MediaRef Id="649108800"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="3108491752" Name="sfx_bigDoor_open">
-					<MediaRefs>
-						<MediaRef Id="789177941"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="3620056585" Name="sfx_sewers_ambient">
@@ -117,25 +56,23 @@
 						<MediaRef Id="699998174"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="109215266" Name="sfx_turbine">
-					<MediaRefs>
-						<MediaRef Id="739829471"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="4023591154" Name="sfx_water_falling">
-					<MediaRefs>
-						<MediaRef Id="263142635"/>
-					</MediaRefs>
-				</Event>
 			</Events>
 			<GameParameters>
 				<GameParameter Id="2427480993" Name="ListenerOrientation"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{4002280A-5E89-2F35-0163-ACFC1D0F18E1}">
+		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{91466F08-55D2-5295-64CB-2C05C1B55BD7}">
 			<ShortName>NPC</ShortName>
 			<Path>NPC.bnk</Path>
 			<Media>
+				<File Id="5640303" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_so_fire_burst_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_so_fire_burst_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="13656630" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ab_ao_npc_laughing_rr01.wav</ShortName>
+					<CachePath>SFX/as_ab_ao_npc_laughing_rr01_10C4C929.wem</CachePath>
+				</File>
 				<File Id="76274568" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>496644-Theresa-Laugh-Hard-13.wav</ShortName>
 					<CachePath>SFX/496644-Theresa-Laugh-Hard-13_10C4C929.wem</CachePath>
@@ -144,9 +81,9 @@
 					<ShortName>496612-Theresa-Drunk-Gibber_Talk-5.wav</ShortName>
 					<CachePath>SFX/496612-Theresa-Drunk-Gibber_Talk-5_10C4C929.wem</CachePath>
 				</File>
-				<File Id="107111808" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_drone_death_timer-001.wav</ShortName>
-					<CachePath>SFX/sfx_drone_death_timer-001_D79FB2B7.wem</CachePath>
+				<File Id="183939974" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_so_fire_burst_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_so_fire_burst_rr02_10C4C929.wem</CachePath>
 				</File>
 				<File Id="240754137" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>496565-Theresa-Cheer-Shout-Happy-3.wav</ShortName>
@@ -154,55 +91,135 @@
 				</File>
 				<File Id="244928591" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>162107-SFX-Whoosh-Hi-Tech_Power_Boost.wav</ShortName>
-					<CachePath>SFX/162107-SFX-Whoosh-Hi-Tech_Power_Boost_10C4C929.wem</CachePath>
+					<CachePath>SFX/162107-SFX-Whoosh-Hi-Tech_Power_Boost_BA3B5C6E.wem</CachePath>
 				</File>
-				<File Id="352569210" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_drone_patrol-002.wav</ShortName>
-					<CachePath>SFX/sfx_drone_patrol-002_D79FB2B7.wem</CachePath>
+				<File Id="289093189" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_drone_explosion_rr02.wav</ShortName>
+					<CachePath>SFX/as_npc_so_drone_explosion_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="316705978" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_drone_charging_rr03.wav</ShortName>
+					<CachePath>SFX/as_npc_so_drone_charging_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="327506266" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ab_ao_npc_laughing_rr06.wav</ShortName>
+					<CachePath>SFX/as_ab_ao_npc_laughing_rr06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="349506919" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_miniboss_2_laser_shot_start.wav</ShortName>
+					<CachePath>SFX/as_npc_so_miniboss_2_laser_shot_start_10C4C929.wem</CachePath>
+				</File>
+				<File Id="366661735" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_sl_drone_death_timer.wav</ShortName>
+					<CachePath>SFX/as_npc_sl_drone_death_timer_B446F8DB.wem</CachePath>
+				</File>
+				<File Id="384180894" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_drone_charging_rr01.wav</ShortName>
+					<CachePath>SFX/as_npc_so_drone_charging_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="391771543" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_drone_charging_rr02.wav</ShortName>
+					<CachePath>SFX/as_npc_so_drone_charging_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="395192611" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_drone_explosion_rr04.wav</ShortName>
+					<CachePath>SFX/as_npc_so_drone_explosion_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="408893029" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_miniboss_2_laser_shot_end.wav</ShortName>
+					<CachePath>SFX/as_npc_so_miniboss_2_laser_shot_end_10C4C929.wem</CachePath>
 				</File>
 				<File Id="457419217" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_drone_alert-001.wav</ShortName>
 					<CachePath>SFX/sfx_drone_alert-001_C5579977.wem</CachePath>
 				</File>
+				<File Id="465077020" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ab_ao_npc_laughing_rr04.wav</ShortName>
+					<CachePath>SFX/as_ab_ao_npc_laughing_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="506278050" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_sl_miniboss_2_aiming.wav</ShortName>
+					<CachePath>SFX/as_npc_sl_miniboss_2_aiming_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="519785527" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_sl_miniboss_2_laser_shot.wav</ShortName>
+					<CachePath>SFX/as_npc_sl_miniboss_2_laser_shot_D79FB2B7.wem</CachePath>
+				</File>
 				<File Id="566162525" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_drone_patrol-001.wav</ShortName>
 					<CachePath>SFX/sfx_drone_patrol-001_D79FB2B7.wem</CachePath>
 				</File>
-				<File Id="566423542" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>496525-Theresa-Pain-Shout_Short-Blazing-6.wav</ShortName>
-					<CachePath>SFX/496525-Theresa-Pain-Shout_Short-Blazing-6_10C4C929.wem</CachePath>
+				<File Id="651136522" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_drone_shot_rr01.wav</ShortName>
+					<CachePath>SFX/as_npc_so_drone_shot_rr01_10C4C929.wem</CachePath>
 				</File>
-				<File Id="568531453" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_drone_shot_impact-001.wav</ShortName>
-					<CachePath>SFX/sfx_drone_shot_impact-001_10C4C929.wem</CachePath>
+				<File Id="660134457" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_miniboss_2_charging_rr01.wav</ShortName>
+					<CachePath>SFX/as_npc_so_miniboss_2_charging_rr01_742B3252.wem</CachePath>
 				</File>
-				<File Id="586038170" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>259042-Energy_-electric_centrifuge-hi_pitch_up.wav</ShortName>
-					<CachePath>SFX/259042-Energy_-electric_centrifuge-hi_pitch_up_10C4C929.wem</CachePath>
+				<File Id="662178918" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ab_ao_npc_laughing_rr12.wav</ShortName>
+					<CachePath>SFX/as_ab_ao_npc_laughing_rr12_10C4C929.wem</CachePath>
 				</File>
-				<File Id="715445435" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_drone_death_explosion-001.wav</ShortName>
-					<CachePath>SFX/sfx_drone_death_explosion-001_10C4C929.wem</CachePath>
+				<File Id="691984007" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_sl_drone_patrol.wav</ShortName>
+					<CachePath>SFX/as_npc_sl_drone_patrol_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="721259364" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>laser_01.wav</ShortName>
 					<CachePath>SFX/laser_01_10C4C929.wem</CachePath>
 				</File>
-				<File Id="734658739" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>374140-White_Knight-Gibber_Talk-Half_Speed_at_Full_Quality-Sanken_CO100K-5.wav</ShortName>
-					<CachePath>SFX/374140-White_Knight-Gibber_Talk-Half_Speed_at_Full_Quality-Sanken_CO100K-5_10C4C929.wem</CachePath>
+				<File Id="747122415" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_so_fire_burst_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_so_fire_burst_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="759893277" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_drone_explosion_rr03.wav</ShortName>
+					<CachePath>SFX/as_npc_so_drone_explosion_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="765371400" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ab_ao_npc_laughing_rr09.wav</ShortName>
+					<CachePath>SFX/as_ab_ao_npc_laughing_rr09_10C4C929.wem</CachePath>
 				</File>
 				<File Id="778130062" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>495963-Theresa_Cartoon-Growl-Beastie-Angry-4.wav</ShortName>
 					<CachePath>SFX/495963-Theresa_Cartoon-Growl-Beastie-Angry-4_10C4C929.wem</CachePath>
 				</File>
+				<File Id="784578652" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_sl_drone_seek.wav</ShortName>
+					<CachePath>SFX/as_npc_sl_drone_seek_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="802260950" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_miniboss_2_charging_rr03.wav</ShortName>
+					<CachePath>SFX/as_npc_so_miniboss_2_charging_rr03_05BCBF84.wem</CachePath>
+				</File>
+				<File Id="807607474" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ab_ao_npc_laughing_rr07.wav</ShortName>
+					<CachePath>SFX/as_ab_ao_npc_laughing_rr07_10C4C929.wem</CachePath>
+				</File>
 				<File Id="815114436" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_drone_patrol-003.wav</ShortName>
 					<CachePath>SFX/sfx_drone_patrol-003_D79FB2B7.wem</CachePath>
 				</File>
-				<File Id="820488217" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>305119-RE201_033C_EMF_MOTOR_Doppler_Passes_Sustained_Slow_High_Rate_ELEKTROSLUCH.wav</ShortName>
-					<CachePath>SFX/305119-RE201_033C_EMF_MOTOR_Doppler_Passes_Sustained_Slow_High_Rate_ELEKTROSLUCH_10C4C929.wem</CachePath>
+				<File Id="826552508" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ab_ao_npc_laughing_rr10.wav</ShortName>
+					<CachePath>SFX/as_ab_ao_npc_laughing_rr10_10C4C929.wem</CachePath>
+				</File>
+				<File Id="831875665" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_drone_shot_rr02.wav</ShortName>
+					<CachePath>SFX/as_npc_so_drone_shot_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="847263919" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_drone_shot_rr03.wav</ShortName>
+					<CachePath>SFX/as_npc_so_drone_shot_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="870624323" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_drone_shot_rr04.wav</ShortName>
+					<CachePath>SFX/as_npc_so_drone_shot_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="873890414" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_drone_shot_rr05.wav</ShortName>
+					<CachePath>SFX/as_npc_so_drone_shot_rr05_10C4C929.wem</CachePath>
 				</File>
 				<File Id="886104202" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>496397-Theresa-Attack-Shout_Long-Straight-Fatal-3.wav</ShortName>
@@ -220,65 +237,100 @@
 					<ShortName>496629-Theresa-Effort-Pant-Shout-Work-Push-Move-3.wav</ShortName>
 					<CachePath>SFX/496629-Theresa-Effort-Pant-Shout-Work-Push-Move-3_10C4C929.wem</CachePath>
 				</File>
+				<File Id="1030486482" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_miniboss_2_charging_rr02.wav</ShortName>
+					<CachePath>SFX/as_npc_so_miniboss_2_charging_rr02_387AB43D.wem</CachePath>
+				</File>
 			</Media>
 			<Events>
+				<Event Id="541270703" Name="DronPreShot">
+					<MediaRefs>
+						<MediaRef Id="316705978"/>
+						<MediaRef Id="384180894"/>
+						<MediaRef Id="391771543"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="1058974909" Name="sfx_boostOfEnergy_aiming">
 					<MediaRefs>
-						<MediaRef Id="820488217"/>
+						<MediaRef Id="506278050"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="481562896" Name="sfx_boostOfEnergy_aiming_stop"/>
 				<Event Id="2418936259" Name="sfx_boostOfEnergy_preShot">
 					<MediaRefs>
 						<MediaRef Id="244928591"/>
+						<MediaRef Id="660134457"/>
+						<MediaRef Id="802260950"/>
+						<MediaRef Id="1030486482"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="357362752" Name="sfx_boostOfEnergy_shot">
 					<MediaRefs>
-						<MediaRef Id="586038170"/>
+						<MediaRef Id="349506919"/>
+						<MediaRef Id="519785527"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3145033583" Name="sfx_boostOfEnergy_shot_stop"/>
+				<Event Id="3145033583" Name="sfx_boostOfEnergy_shot_stop">
+					<MediaRefs>
+						<MediaRef Id="408893029"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3588765425" Name="sfx_crowdNPC_laughing">
+					<MediaRefs>
+						<MediaRef Id="13656630"/>
+						<MediaRef Id="76274568"/>
+						<MediaRef Id="327506266"/>
+						<MediaRef Id="465077020"/>
+						<MediaRef Id="662178918"/>
+						<MediaRef Id="765371400"/>
+						<MediaRef Id="807607474"/>
+						<MediaRef Id="826552508"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="1852268823" Name="sfx_dron_alert">
 					<MediaRefs>
 						<MediaRef Id="457419217"/>
+						<MediaRef Id="784578652"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="3518287078" Name="sfx_dron_behaviours_stop"/>
 				<Event Id="3707501265" Name="sfx_dron_death_timer">
 					<MediaRefs>
-						<MediaRef Id="107111808"/>
+						<MediaRef Id="366661735"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="1004215860" Name="sfx_dron_death_timer_stop"/>
 				<Event Id="1216637029" Name="sfx_dron_patrol">
 					<MediaRefs>
-						<MediaRef Id="352569210"/>
 						<MediaRef Id="566162525"/>
+						<MediaRef Id="691984007"/>
 						<MediaRef Id="815114436"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="480444447" Name="sfx_dron_shot_01">
 					<MediaRefs>
+						<MediaRef Id="651136522"/>
 						<MediaRef Id="721259364"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="361939958" Name="sfx_dron_shot_impact_01">
-					<MediaRefs>
-						<MediaRef Id="568531453"/>
+						<MediaRef Id="831875665"/>
+						<MediaRef Id="847263919"/>
+						<MediaRef Id="870624323"/>
+						<MediaRef Id="873890414"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="2949978102" Name="sfx_drone_death_explosion">
 					<MediaRefs>
-						<MediaRef Id="715445435"/>
+						<MediaRef Id="5640303"/>
+						<MediaRef Id="183939974"/>
+						<MediaRef Id="289093189"/>
+						<MediaRef Id="395192611"/>
+						<MediaRef Id="747122415"/>
+						<MediaRef Id="759893277"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="2814879688" Name="sfx_drunkNPC_sound_random">
 					<MediaRefs>
-						<MediaRef Id="76274568"/>
 						<MediaRef Id="99956401"/>
 						<MediaRef Id="240754137"/>
-						<MediaRef Id="566423542"/>
 						<MediaRef Id="778130062"/>
 						<MediaRef Id="886104202"/>
 						<MediaRef Id="915073461"/>
@@ -288,85 +340,137 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{D452F1D7-1874-CA4D-53A5-B0F9422AA2E3}">
+		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{63411317-5C3B-0775-ED60-92DECCF7ABE2}">
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
 			<Media>
-				<File Id="2888985" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_falling_on_metal.wav</ShortName>
-					<CachePath>SFX/sfx_character_falling_on_metal_10C4C929.wem</CachePath>
+				<File Id="8878584" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_allura_light_attack_impact_rr05.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_allura_light_attack_impact_rr05_10C4C929.wem</CachePath>
 				</File>
-				<File Id="25846802" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_bix_damage_3.wav</ShortName>
-					<CachePath>SFX/sfx_character_bix_damage_3_10C4C929.wem</CachePath>
+				<File Id="14561056" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_allura_weapon_shot_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_allura_weapon_shot_rr02_10C4C929.wem</CachePath>
 				</File>
-				<File Id="48642924" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_allura_attack_1.wav</ShortName>
-					<CachePath>SFX/sfx_character_allura_attack_1_10C4C929.wem</CachePath>
+				<File Id="26231676" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>V_06\as_ch_so_bix_lightsaber_attack_rr61.wav</ShortName>
+					<CachePath>SFX/V_06/as_ch_so_bix_lightsaber_attack_rr61_10C4C929.wem</CachePath>
 				</File>
-				<File Id="63167548" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_bix_damage_6.wav</ShortName>
-					<CachePath>SFX/sfx_character_bix_damage_6_10C4C929.wem</CachePath>
+				<File Id="30925308" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_bix_down_attack_rr01.wav</ShortName>
+					<CachePath>SFX/as_ch_so_bix_down_attack_rr01_10C4C929.wem</CachePath>
 				</File>
-				<File Id="71884831" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_walk_on_metal_6.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_metal_6_E952D70E.wem</CachePath>
+				<File Id="33670529" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_light_attack_finisher_rr05.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_light_attack_finisher_rr05_10C4C929.wem</CachePath>
 				</File>
-				<File Id="72352907" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_allura_damage_1.wav</ShortName>
-					<CachePath>SFX/sfx_character_allura_damage_1_10C4C929.wem</CachePath>
+				<File Id="44801206" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>V_04\as_ch_so_bix_lightsaber_attack_rr41.wav</ShortName>
+					<CachePath>SFX/V_04/as_ch_so_bix_lightsaber_attack_rr41_10C4C929.wem</CachePath>
+				</File>
+				<File Id="50891361" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_allura_light_attack_rr03.wav</ShortName>
+					<CachePath>SFX/av_ch_so_allura_light_attack_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="51616058" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>New\Swishes\as_ch_so_bix_lightsaber_swish_rr03.wav</ShortName>
+					<CachePath>SFX/New/Swishes/as_ch_so_bix_lightsaber_swish_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="66261122" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_allura_damaged_rr05.wav</ShortName>
+					<CachePath>SFX/av_ch_so_allura_damaged_rr05_10C4C929.wem</CachePath>
 				</File>
 				<File Id="72572141" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_character_walk_on_metal_3.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_metal_3_7AD3DBE2.wem</CachePath>
+					<CachePath>SFX/sfx_character_walk_on_metal_3_9CB23E6E.wem</CachePath>
+				</File>
+				<File Id="74477260" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_bix_light_attack_rr01.wav</ShortName>
+					<CachePath>SFX/av_ch_so_bix_light_attack_rr01_10C4C929.wem</CachePath>
 				</File>
 				<File Id="87008145" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_force-001.wav</ShortName>
 					<CachePath>SFX/sfx_force-001_D79FB2B7.wem</CachePath>
 				</File>
-				<File Id="137412610" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_doubleJump_whoosh-001.wav</ShortName>
-					<CachePath>SFX/sfx_doubleJump_whoosh-001_10C4C929.wem</CachePath>
+				<File Id="91199623" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>V_03\as_ch_so_bix_lightsaber_attack_rr31.wav</ShortName>
+					<CachePath>SFX/V_03/as_ch_so_bix_lightsaber_attack_rr31_10C4C929.wem</CachePath>
 				</File>
-				<File Id="141647910" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_walk_on_metal_6.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_metal_6_7FF1CCA3.wem</CachePath>
+				<File Id="104498888" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_light_attack_finisher_rr02.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_light_attack_finisher_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="110159212" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>V_05\as_ch_so_bix_lightsaber_attack_rr51.wav</ShortName>
+					<CachePath>SFX/V_05/as_ch_so_bix_lightsaber_attack_rr51_10C4C929.wem</CachePath>
+				</File>
+				<File Id="110530788" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_bix_light_attack_finisher_force_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_bix_light_attack_finisher_force_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="116042910" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_light_attack_impact_rr02.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_light_attack_impact_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="139610608" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_bix_damaged_rr04.wav</ShortName>
+					<CachePath>SFX/av_ch_so_bix_damaged_rr04_10C4C929.wem</CachePath>
 				</File>
 				<File Id="141902627" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_character_walk_on_water_2.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_water_2_770B041C.wem</CachePath>
+					<CachePath>SFX/sfx_character_walk_on_water_2_7B497162.wem</CachePath>
+				</File>
+				<File Id="154367144" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_bix_force_start_use_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_bix_force_start_use_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="164467232" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_bix_light_attack_rr02.wav</ShortName>
+					<CachePath>SFX/av_ch_so_bix_light_attack_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="168238216" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_allura_light_attack_rr02.wav</ShortName>
+					<CachePath>SFX/av_ch_so_allura_light_attack_rr02_10C4C929.wem</CachePath>
 				</File>
 				<File Id="173667425" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_character_walk_on_water_3.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_water_3_770B041C.wem</CachePath>
+					<CachePath>SFX/sfx_character_walk_on_water_3_C0546783.wem</CachePath>
 				</File>
-				<File Id="181365515" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_walk_on_water_5.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_water_5_770B041C.wem</CachePath>
+				<File Id="180158193" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_jump_whoosh_rr02.wav</ShortName>
+					<CachePath>SFX/as_ch_so_jump_whoosh_rr02_10C4C929.wem</CachePath>
 				</File>
-				<File Id="199686780" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_allura_attack_3.wav</ShortName>
-					<CachePath>SFX/sfx_character_allura_attack_3_10C4C929.wem</CachePath>
+				<File Id="188803821" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_allura_heavy_attack_rr01.wav</ShortName>
+					<CachePath>SFX/av_ch_so_allura_heavy_attack_rr01_10C4C929.wem</CachePath>
 				</File>
-				<File Id="205229415" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_lightsaber_swing_02.wav</ShortName>
-					<CachePath>SFX/sfx_lightsaber_swing_02_10C4C929.wem</CachePath>
+				<File Id="192288904" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_dash_rr04.wav</ShortName>
+					<CachePath>SFX/as_ch_so_dash_rr04_10C4C929.wem</CachePath>
 				</File>
-				<File Id="223336796" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_bix_attack_2.wav</ShortName>
-					<CachePath>SFX/sfx_character_bix_attack_2_10C4C929.wem</CachePath>
+				<File Id="193440696" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_light_attack_finisher_rr09.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_light_attack_finisher_rr09_10C4C929.wem</CachePath>
 				</File>
 				<File Id="241835723" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_character_walk_on_water_1.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_water_1_BF0D9EF1.wem</CachePath>
+					<CachePath>SFX/sfx_character_walk_on_water_1_3EC328D2.wem</CachePath>
 				</File>
-				<File Id="259480324" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_bix_attack_5.wav</ShortName>
-					<CachePath>SFX/sfx_character_bix_attack_5_10C4C929.wem</CachePath>
+				<File Id="243573520" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_bix_lightsaber_impact_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_bix_lightsaber_impact_rr03_10C4C929.wem</CachePath>
 				</File>
-				<File Id="273760872" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_walk_on_water_6.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_water_6_770B041C.wem</CachePath>
+				<File Id="246184934" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_bix_light_attack_finisher_end_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_bix_light_attack_finisher_end_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="285072160" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>V_06\as_ch_so_bix_lightsaber_attack_rr62.wav</ShortName>
+					<CachePath>SFX/V_06/as_ch_so_bix_lightsaber_attack_rr62_10C4C929.wem</CachePath>
+				</File>
+				<File Id="287828594" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_light_attack_finisher_rr03.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_light_attack_finisher_rr03_10C4C929.wem</CachePath>
 				</File>
 				<File Id="291487077" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>228952-Perc_-Foundations3Kit_-InnerCircle01_-004.wav</ShortName>
@@ -376,265 +480,664 @@
 					<ShortName>sfx_character_walk_on_metal_2.wav</ShortName>
 					<CachePath>SFX/sfx_character_walk_on_metal_2_E6A6FF73.wem</CachePath>
 				</File>
-				<File Id="311306785" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_falling_on_water.wav</ShortName>
-					<CachePath>SFX/sfx_character_falling_on_water_10C4C929.wem</CachePath>
+				<File Id="305222639" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_dash_rr02.wav</ShortName>
+					<CachePath>SFX/as_ch_so_dash_rr02_10C4C929.wem</CachePath>
 				</File>
-				<File Id="315792798" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_allura_damage_6.wav</ShortName>
-					<CachePath>SFX/sfx_character_allura_damage_6_10C4C929.wem</CachePath>
+				<File Id="313140054" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_roll_rr01.wav</ShortName>
+					<CachePath>SFX/as_ch_so_roll_rr01_10C4C929.wem</CachePath>
 				</File>
-				<File Id="352955650" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_allura_attack_6.wav</ShortName>
-					<CachePath>SFX/sfx_character_allura_attack_6_10C4C929.wem</CachePath>
+				<File Id="316138738" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_allura_weapon_shot_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_allura_weapon_shot_rr01_10C4C929.wem</CachePath>
 				</File>
-				<File Id="370158117" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_bix_damage_1.wav</ShortName>
-					<CachePath>SFX/sfx_character_bix_damage_1_10C4C929.wem</CachePath>
+				<File Id="318171677" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_bix_lightsaber_impact_rr04.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_bix_lightsaber_impact_rr04_10C4C929.wem</CachePath>
 				</File>
-				<File Id="379312885" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_bix_damage_2.wav</ShortName>
-					<CachePath>SFX/sfx_character_bix_damage_2_10C4C929.wem</CachePath>
+				<File Id="319412379" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_double_jump_whoosh_rr04.wav</ShortName>
+					<CachePath>SFX/as_ch_so_double_jump_whoosh_rr04_10C4C929.wem</CachePath>
 				</File>
-				<File Id="410799572" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_bix_damage_4.wav</ShortName>
-					<CachePath>SFX/sfx_character_bix_damage_4_10C4C929.wem</CachePath>
+				<File Id="324329086" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_light_attack_impact_rr04.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_light_attack_impact_rr04_10C4C929.wem</CachePath>
 				</File>
-				<File Id="428153373" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_allura_attack_4.wav</ShortName>
-					<CachePath>SFX/sfx_character_allura_attack_4_10C4C929.wem</CachePath>
+				<File Id="327934058" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_bix_damaged_rr03.wav</ShortName>
+					<CachePath>SFX/av_ch_so_bix_damaged_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="348367217" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_falling_on_water_rr03.wav</ShortName>
+					<CachePath>SFX/as_ch_so_falling_on_water_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="351933088" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_sl_bix_heavy_attack_finisher_bip.wav</ShortName>
+					<CachePath>SFX/as_ch_sl_bix_heavy_attack_finisher_bip_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="362519197" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_allura_weapon_shot_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_allura_weapon_shot_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="377661512" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_bix_heavy_attack_rr03.wav</ShortName>
+					<CachePath>SFX/av_ch_so_bix_heavy_attack_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="387617021" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_allura_heavy_attack_rr03.wav</ShortName>
+					<CachePath>SFX/av_ch_so_allura_heavy_attack_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="389346293" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_weapon_impact_rr06.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_weapon_impact_rr06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="392631834" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_bix_heavy_attack_rr01.wav</ShortName>
+					<CachePath>SFX/av_ch_so_bix_heavy_attack_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="400390064" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_bix_light_attack_rr03.wav</ShortName>
+					<CachePath>SFX/av_ch_so_bix_light_attack_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="404036126" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_falling_on_water_rr01.wav</ShortName>
+					<CachePath>SFX/as_ch_so_falling_on_water_rr01_10C4C929.wem</CachePath>
 				</File>
 				<File Id="434205961" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_character_walk_on_metal_4.wav</ShortName>
 					<CachePath>SFX/sfx_character_walk_on_metal_4_2B1EA95F.wem</CachePath>
 				</File>
-				<File Id="434555254" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>cannonShot.wav</ShortName>
-					<CachePath>SFX/cannonShot_10C4C929.wem</CachePath>
+				<File Id="434831701" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_bix_damaged_rr06.wav</ShortName>
+					<CachePath>SFX/av_ch_so_bix_damaged_rr06_10C4C929.wem</CachePath>
 				</File>
-				<File Id="440364367" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_walk_on_metal_5.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_metal_5_36E00DDA.wem</CachePath>
+				<File Id="447855635" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>V_02\as_ch_so_bix_lightsaber_attack_rr22.wav</ShortName>
+					<CachePath>SFX/V_02/as_ch_so_bix_lightsaber_attack_rr22_10C4C929.wem</CachePath>
 				</File>
-				<File Id="476744453" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_walk_on_water_6.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_water_6_BF0D9EF1.wem</CachePath>
+				<File Id="449745143" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>V_04\as_ch_so_bix_lightsaber_attack_rr43.wav</ShortName>
+					<CachePath>SFX/V_04/as_ch_so_bix_lightsaber_attack_rr43_10C4C929.wem</CachePath>
 				</File>
-				<File Id="500728904" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_lightsaber_open_01.wav</ShortName>
-					<CachePath>SFX/sfx_lightsaber_open_01_10C4C929.wem</CachePath>
+				<File Id="471762414" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_heavy_attack_finisher_rr04.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_heavy_attack_finisher_rr04_10C4C929.wem</CachePath>
 				</File>
-				<File Id="543603444" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_allura_damage_2.wav</ShortName>
-					<CachePath>SFX/sfx_character_allura_damage_2_10C4C929.wem</CachePath>
+				<File Id="490419803" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>V_02\as_ch_so_bix_lightsaber_attack_rr21.wav</ShortName>
+					<CachePath>SFX/V_02/as_ch_so_bix_lightsaber_attack_rr21_10C4C929.wem</CachePath>
+				</File>
+				<File Id="502349863" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_roll_rr03.wav</ShortName>
+					<CachePath>SFX/as_ch_so_roll_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="515611069" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>New\Swishes\as_ch_so_bix_lightsaber_swish_rr02.wav</ShortName>
+					<CachePath>SFX/New/Swishes/as_ch_so_bix_lightsaber_swish_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="518684881" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_allura_light_attack_impact_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_allura_light_attack_impact_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="523775953" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>V_05\as_ch_so_bix_lightsaber_attack_rr52.wav</ShortName>
+					<CachePath>SFX/V_05/as_ch_so_bix_lightsaber_attack_rr52_10C4C929.wem</CachePath>
 				</File>
 				<File Id="547008502" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_character_walk_on_water_3.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_water_3_BF0D9EF1.wem</CachePath>
+					<CachePath>SFX/sfx_character_walk_on_water_3_BB911563.wem</CachePath>
 				</File>
-				<File Id="580951369" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_jump_whoosh-001.wav</ShortName>
-					<CachePath>SFX/sfx_jump_whoosh-001_10C4C929.wem</CachePath>
+				<File Id="548739072" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_allura_light_attack_rr01.wav</ShortName>
+					<CachePath>SFX/av_ch_so_allura_light_attack_rr01_10C4C929.wem</CachePath>
 				</File>
-				<File Id="586915511" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_walk_on_metal_5.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_metal_5_47785D47.wem</CachePath>
+				<File Id="550842439" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_light_attack_finisher_rr04.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_light_attack_finisher_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="558421075" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_heavy_attack_finisher_rr01.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_heavy_attack_finisher_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="566335360" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_bix_damaged_rr05.wav</ShortName>
+					<CachePath>SFX/av_ch_so_bix_damaged_rr05_10C4C929.wem</CachePath>
+				</File>
+				<File Id="569520435" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_allura_damaged_rr04.wav</ShortName>
+					<CachePath>SFX/av_ch_so_allura_damaged_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="573819138" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_allura_down_attack_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_allura_down_attack_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="576446796" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_weapon_impact_rr02.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_weapon_impact_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="579181990" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_falling_on_metal_rr03.wav</ShortName>
+					<CachePath>SFX/as_ch_so_falling_on_metal_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="588291420" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_sl_bix_light_attack_finisher01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_sl_bix_light_attack_finisher01_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="591925220" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_bix_damaged_rr01.wav</ShortName>
+					<CachePath>SFX/av_ch_so_bix_damaged_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="593817013" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_sl_bix_force.wav</ShortName>
+					<CachePath>SFX/as_ch_sl_bix_force_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="594127807" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_falling_on_metal_rr02.wav</ShortName>
+					<CachePath>SFX/as_ch_so_falling_on_metal_rr02_10C4C929.wem</CachePath>
 				</File>
 				<File Id="595687169" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_lightsaberLoop_01.wav</ShortName>
 					<CachePath>SFX/sfx_lightsaberLoop_01_D79FB2B7.wem</CachePath>
 				</File>
-				<File Id="621220616" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_lightsaber_clash_01.wav</ShortName>
-					<CachePath>SFX/sfx_lightsaber_clash_01_10C4C929.wem</CachePath>
+				<File Id="629544117" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>512818-Alien-Game-Weapon-Electric-Pistol-Shot-2-Glitchy-SciFi-Impact-Hit-Hard.wav</ShortName>
+					<CachePath>SFX/512818-Alien-Game-Weapon-Electric-Pistol-Shot-2-Glitchy-SciFi-Impact-Hit-Hard_81675C79.wem</CachePath>
 				</File>
-				<File Id="632838757" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_walk_on_water_4.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_water_4_BF0D9EF1.wem</CachePath>
+				<File Id="632443764" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_heavy_attack_finisher_rr02.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_heavy_attack_finisher_rr02_10C4C929.wem</CachePath>
 				</File>
-				<File Id="653886955" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>allura_heavy_shot.wav</ShortName>
-					<CachePath>SFX/allura_heavy_shot_10C4C929.wem</CachePath>
-				</File>
-				<File Id="660733524" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_lightsaber_close_01.wav</ShortName>
-					<CachePath>SFX/sfx_lightsaber_close_01_10C4C929.wem</CachePath>
+				<File Id="640883503" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>New\Swishes\as_ch_so_bix_lightsaber_swish_rr01.wav</ShortName>
+					<CachePath>SFX/New/Swishes/as_ch_so_bix_lightsaber_swish_rr01_10C4C929.wem</CachePath>
 				</File>
 				<File Id="660867367" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_character_walk_on_metal_6.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_metal_6_770B041C.wem</CachePath>
+					<CachePath>SFX/sfx_character_walk_on_metal_6_BC1841DB.wem</CachePath>
 				</File>
-				<File Id="666783808" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_bix_attack_1.wav</ShortName>
-					<CachePath>SFX/sfx_character_bix_attack_1_10C4C929.wem</CachePath>
+				<File Id="670171383" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_bix_light_attack_finisher_end_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_bix_light_attack_finisher_end_rr02_10C4C929.wem</CachePath>
 				</File>
-				<File Id="690894541" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_bix_attack_4.wav</ShortName>
-					<CachePath>SFX/sfx_character_bix_attack_4_10C4C929.wem</CachePath>
+				<File Id="672576425" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_bix_jump_rr03.wav</ShortName>
+					<CachePath>SFX/av_ch_so_bix_jump_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="676071825" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_allura_jump_rr02.wav</ShortName>
+					<CachePath>SFX/av_ch_so_allura_jump_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="686945133" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>V_03\as_ch_so_bix_lightsaber_attack_rr33.wav</ShortName>
+					<CachePath>SFX/V_03/as_ch_so_bix_lightsaber_attack_rr33_10C4C929.wem</CachePath>
+				</File>
+				<File Id="697694466" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_bix_damaged_rr02.wav</ShortName>
+					<CachePath>SFX/av_ch_so_bix_damaged_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="699935433" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_allura_damaged_rr06.wav</ShortName>
+					<CachePath>SFX/av_ch_so_allura_damaged_rr06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="703608955" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_weapon_impact_rr04.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_weapon_impact_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="704571790" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_allura_light_attack_impact_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_allura_light_attack_impact_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="706530426" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_light_attack_finisher_rr07.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_light_attack_finisher_rr07_10C4C929.wem</CachePath>
 				</File>
 				<File Id="713684130" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_character_walk_on_metal_2.wav</ShortName>
 					<CachePath>SFX/sfx_character_walk_on_metal_2_F1338F12.wem</CachePath>
 				</File>
-				<File Id="727797297" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>512824-Alien-Game-Weapon-Electric-Pistol-Shot-3-Laser-Glitch-Tonal-Gun-Shot-2-Deep.wav</ShortName>
-					<CachePath>SFX/512824-Alien-Game-Weapon-Electric-Pistol-Shot-3-Laser-Glitch-Tonal-Gun-Shot-2-Deep_10C4C929.wem</CachePath>
+				<File Id="713838449" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>V_04\as_ch_so_bix_lightsaber_attack_rr42.wav</ShortName>
+					<CachePath>SFX/V_04/as_ch_so_bix_lightsaber_attack_rr42_10C4C929.wem</CachePath>
 				</File>
-				<File Id="744647046" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_allura_attack_5.wav</ShortName>
-					<CachePath>SFX/sfx_character_allura_attack_5_10C4C929.wem</CachePath>
+				<File Id="718425236" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_roll_rr02.wav</ShortName>
+					<CachePath>SFX/as_ch_so_roll_rr02_10C4C929.wem</CachePath>
 				</File>
-				<File Id="745303828" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>shotImpact.wav</ShortName>
-					<CachePath>SFX/shotImpact_10C4C929.wem</CachePath>
+				<File Id="731987902" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_bix_lightsaber_impact_rr06.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_bix_lightsaber_impact_rr06_10C4C929.wem</CachePath>
 				</File>
-				<File Id="749840917" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_allura_attack_2.wav</ShortName>
-					<CachePath>SFX/sfx_character_allura_attack_2_10C4C929.wem</CachePath>
+				<File Id="735815289" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_jump_whoosh_rr03.wav</ShortName>
+					<CachePath>SFX/as_ch_so_jump_whoosh_rr03_10C4C929.wem</CachePath>
 				</File>
-				<File Id="759745302" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_dash_whoosh-001.wav</ShortName>
-					<CachePath>SFX/sfx_dash_whoosh-001_10C4C929.wem</CachePath>
+				<File Id="755585153" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_allura_damaged_rr03.wav</ShortName>
+					<CachePath>SFX/av_ch_so_allura_damaged_rr03_10C4C929.wem</CachePath>
 				</File>
-				<File Id="767837564" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_bix_attack_3.wav</ShortName>
-					<CachePath>SFX/sfx_character_bix_attack_3_10C4C929.wem</CachePath>
+				<File Id="787190483" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_light_attack_impact_rr01.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_light_attack_impact_rr01_10C4C929.wem</CachePath>
 				</File>
-				<File Id="777109288" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_allura_damage_4.wav</ShortName>
-					<CachePath>SFX/sfx_character_allura_damage_4_10C4C929.wem</CachePath>
+				<File Id="805428675" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_allura_jump_rr03.wav</ShortName>
+					<CachePath>SFX/av_ch_so_allura_jump_rr03_10C4C929.wem</CachePath>
 				</File>
-				<File Id="836273150" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>118254-Body_falling_on_a_wood_with_a_thud_4.wav</ShortName>
-					<CachePath>SFX/118254-Body_falling_on_a_wood_with_a_thud_4_10C4C929.wem</CachePath>
+				<File Id="806773303" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_double_jump_whoosh_rr03.wav</ShortName>
+					<CachePath>SFX/as_ch_so_double_jump_whoosh_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="808181012" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_allura_weapon_shot_rr04.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_allura_weapon_shot_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="838665700" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_heavy_attack_finisher_rr06.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_heavy_attack_finisher_rr06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="844561683" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_falling_on_water_rr02.wav</ShortName>
+					<CachePath>SFX/as_ch_so_falling_on_water_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="848063793" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_bix_down_attack_rr03.wav</ShortName>
+					<CachePath>SFX/as_ch_so_bix_down_attack_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="852108813" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>V_06\as_ch_so_bix_lightsaber_attack_rr63.wav</ShortName>
+					<CachePath>SFX/V_06/as_ch_so_bix_lightsaber_attack_rr63_10C4C929.wem</CachePath>
+				</File>
+				<File Id="852844566" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_bix_jump_rr02.wav</ShortName>
+					<CachePath>SFX/av_ch_so_bix_jump_rr02_10C4C929.wem</CachePath>
 				</File>
 				<File Id="858141546" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_character_walk_on_water_2.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_water_2_BF0D9EF1.wem</CachePath>
+					<CachePath>SFX/sfx_character_walk_on_water_2_3EC328D2.wem</CachePath>
 				</File>
-				<File Id="864397673" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_walk_on_water_4.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_water_4_770B041C.wem</CachePath>
+				<File Id="862790999" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_weapon_impact_rr01.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_weapon_impact_rr01_10C4C929.wem</CachePath>
 				</File>
-				<File Id="873118458" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>118119-Body_falling_on_a_wood_and_sand_with_a_thud.wav</ShortName>
-					<CachePath>SFX/118119-Body_falling_on_a_wood_and_sand_with_a_thud_10C4C929.wem</CachePath>
+				<File Id="883222100" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_bix_jump_rr01.wav</ShortName>
+					<CachePath>SFX/av_ch_so_bix_jump_rr01_10C4C929.wem</CachePath>
 				</File>
-				<File Id="875997144" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_bix_damage_5.wav</ShortName>
-					<CachePath>SFX/sfx_character_bix_damage_5_10C4C929.wem</CachePath>
+				<File Id="885279745" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_allura_light_attack_impact_rr04.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_allura_light_attack_impact_rr04_10C4C929.wem</CachePath>
 				</File>
-				<File Id="883987314" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_forceWoosh-001.wav</ShortName>
-					<CachePath>SFX/sfx_forceWoosh-001_10C4C929.wem</CachePath>
+				<File Id="887921106" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>V_05\as_ch_so_bix_lightsaber_attack_rr53.wav</ShortName>
+					<CachePath>SFX/V_05/as_ch_so_bix_lightsaber_attack_rr53_10C4C929.wem</CachePath>
 				</File>
 				<File Id="898493754" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_character_walk_on_metal_1.wav</ShortName>
 					<CachePath>SFX/sfx_character_walk_on_metal_1_C7BEFBC1.wem</CachePath>
 				</File>
-				<File Id="905786169" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_walk_on_water_5.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_water_5_BF0D9EF1.wem</CachePath>
+				<File Id="903870769" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_light_attack_finisher_rr01.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_light_attack_finisher_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="904490966" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_light_attack_finisher_rr06.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_light_attack_finisher_rr06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="905302425" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_bix_light_attack_finisher_start_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_bix_light_attack_finisher_start_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="908006931" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>V_02\as_ch_so_bix_lightsaber_attack_rr23.wav</ShortName>
+					<CachePath>SFX/V_02/as_ch_so_bix_lightsaber_attack_rr23_10C4C929.wem</CachePath>
+				</File>
+				<File Id="910016717" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_bix_heavy_attack_rr02.wav</ShortName>
+					<CachePath>SFX/av_ch_so_bix_heavy_attack_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="910701895" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_bix_down_attack_rr02.wav</ShortName>
+					<CachePath>SFX/as_ch_so_bix_down_attack_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="913500277" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_light_attack_finisher_rr08.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_light_attack_finisher_rr08_10C4C929.wem</CachePath>
+				</File>
+				<File Id="916189334" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_bix_lightsaber_impact_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_bix_lightsaber_impact_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="923594413" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_allura_jump_rr01.wav</ShortName>
+					<CachePath>SFX/av_ch_so_allura_jump_rr01_10C4C929.wem</CachePath>
 				</File>
 				<File Id="931459480" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_character_walk_on_water_1.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_water_1_770B041C.wem</CachePath>
+					<CachePath>SFX/sfx_character_walk_on_water_1_C460B8DE.wem</CachePath>
 				</File>
-				<File Id="961703427" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_allura_damage_3.wav</ShortName>
-					<CachePath>SFX/sfx_character_allura_damage_3_10C4C929.wem</CachePath>
+				<File Id="942906252" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_bix_light_attack_finisher_force_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_bix_light_attack_finisher_force_rr02_10C4C929.wem</CachePath>
 				</File>
-				<File Id="1004966524" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>512818-Alien-Game-Weapon-Electric-Pistol-Shot-2-Glitchy-SciFi-Impact-Hit-Hard.wav</ShortName>
-					<CachePath>SFX/512818-Alien-Game-Weapon-Electric-Pistol-Shot-2-Glitchy-SciFi-Impact-Hit-Hard_10C4C929.wem</CachePath>
+				<File Id="946149082" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_bix_light_attack_finisher_end_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_bix_light_attack_finisher_end_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="949556938" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_allura_down_attack_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_allura_down_attack_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="951636412" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_falling_on_metal_rr01.wav</ShortName>
+					<CachePath>SFX/as_ch_so_falling_on_metal_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="956356290" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_allura_heavy_attack_rr02.wav</ShortName>
+					<CachePath>SFX/av_ch_so_allura_heavy_attack_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="957500039" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>New\Swishes\as_ch_so_bix_lightsaber_swish_rr04.wav</ShortName>
+					<CachePath>SFX/New/Swishes/as_ch_so_bix_lightsaber_swish_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="961246931" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_allura_damaged_rr02.wav</ShortName>
+					<CachePath>SFX/av_ch_so_allura_damaged_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1019526595" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_dash_rr03.wav</ShortName>
+					<CachePath>SFX/as_ch_so_dash_rr03_10C4C929.wem</CachePath>
 				</File>
 				<File Id="1026398387" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_character_walk_on_metal_4.wav</ShortName>
-					<CachePath>SFX/sfx_character_walk_on_metal_4_8112B076.wem</CachePath>
+					<CachePath>SFX/sfx_character_walk_on_metal_4_82661171.wem</CachePath>
 				</File>
 				<File Id="1029106852" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_character_walk_on_metal_3.wav</ShortName>
 					<CachePath>SFX/sfx_character_walk_on_metal_3_EDAAB9E3.wem</CachePath>
 				</File>
-				<File Id="1029822619" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_character_allura_damage_5.wav</ShortName>
-					<CachePath>SFX/sfx_character_allura_damage_5_10C4C929.wem</CachePath>
+				<File Id="1035906493" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_bix_force_start_use_rr04.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_bix_force_start_use_rr04_10C4C929.wem</CachePath>
 				</File>
-				<File Id="1036642653" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_lightsaber_swing_01.WAV</ShortName>
-					<CachePath>SFX/sfx_lightsaber_swing_01_10C4C929.wem</CachePath>
+				<File Id="1041055276" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>V_03\as_ch_so_bix_lightsaber_attack_rr32.wav</ShortName>
+					<CachePath>SFX/V_03/as_ch_so_bix_lightsaber_attack_rr32_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1054816735" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ch_so_allura_light_attack_impact_rr03.wav</ShortName>
+					<CachePath>SFX/as_ch_so_allura_light_attack_impact_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1061279798" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ch_so_bix_light_attack_finisher_start_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ch_so_bix_light_attack_finisher_start_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1065518643" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_ch_so_allura_damaged_rr01.wav</ShortName>
+					<CachePath>SFX/av_ch_so_allura_damaged_rr01_10C4C929.wem</CachePath>
 				</File>
 			</Media>
 			<Plugins>
 				<Custom>
-					<Plugin Id="674397401" Name="Guitar Distortion (Custom)" LibName="Wwise Guitar Distortion" LibId="8257539"/>
+					<Plugin Id="514987234" Name="Guitar Distortion (Custom)" LibName="Wwise Guitar Distortion" LibId="8257539"/>
 				</Custom>
 			</Plugins>
 			<Events>
-				<Event Id="2024131708" Name="sfx_cannonShot_01">
+				<Event Id="101458712" Name="Allura_DoubleJump">
 					<MediaRefs>
-						<MediaRef Id="48642924"/>
-						<MediaRef Id="199686780"/>
-						<MediaRef Id="352955650"/>
-						<MediaRef Id="428153373"/>
-						<MediaRef Id="434555254"/>
-						<MediaRef Id="744647046"/>
-						<MediaRef Id="749840917"/>
+						<MediaRef Id="319412379"/>
+						<MediaRef Id="676071825"/>
+						<MediaRef Id="805428675"/>
+						<MediaRef Id="806773303"/>
+						<MediaRef Id="923594413"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="485375983" Name="sfx_chargedShot_01">
+				<Event Id="835682963" Name="Allura_DownAttack">
 					<MediaRefs>
-						<MediaRef Id="48642924"/>
-						<MediaRef Id="199686780"/>
-						<MediaRef Id="352955650"/>
-						<MediaRef Id="428153373"/>
-						<MediaRef Id="653886955"/>
-						<MediaRef Id="744647046"/>
-						<MediaRef Id="749840917"/>
+						<MediaRef Id="188803821"/>
+						<MediaRef Id="387617021"/>
+						<MediaRef Id="573819138"/>
+						<MediaRef Id="949556938"/>
+						<MediaRef Id="956356290"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="931336556" Name="Allura_HeavyAttackFinisher">
+					<MediaRefs>
+						<MediaRef Id="188803821"/>
+						<MediaRef Id="387617021"/>
+						<MediaRef Id="471762414"/>
+						<MediaRef Id="558421075"/>
+						<MediaRef Id="632443764"/>
+						<MediaRef Id="838665700"/>
+						<MediaRef Id="956356290"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="343998802" Name="Allura_HeavyAttackFinisherImpact">
+					<MediaRefs>
+						<MediaRef Id="8878584"/>
+						<MediaRef Id="518684881"/>
+						<MediaRef Id="704571790"/>
+						<MediaRef Id="885279745"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="299454371" Name="Allura_Jump">
+					<MediaRefs>
+						<MediaRef Id="180158193"/>
+						<MediaRef Id="676071825"/>
+						<MediaRef Id="735815289"/>
+						<MediaRef Id="805428675"/>
+						<MediaRef Id="923594413"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2257514729" Name="Allura_LightAttackFinisher">
+					<MediaRefs>
+						<MediaRef Id="33670529"/>
+						<MediaRef Id="104498888"/>
+						<MediaRef Id="188803821"/>
+						<MediaRef Id="193440696"/>
+						<MediaRef Id="287828594"/>
+						<MediaRef Id="387617021"/>
+						<MediaRef Id="550842439"/>
+						<MediaRef Id="629544117"/>
+						<MediaRef Id="706530426"/>
+						<MediaRef Id="903870769"/>
+						<MediaRef Id="904490966"/>
+						<MediaRef Id="913500277"/>
+						<MediaRef Id="956356290"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2860312827" Name="Allura_LightAttackFinisherImpact">
+					<MediaRefs>
+						<MediaRef Id="116042910"/>
+						<MediaRef Id="291487077"/>
+						<MediaRef Id="324329086"/>
+						<MediaRef Id="787190483"/>
+						<MediaRef Id="1054816735"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1494363793" Name="Allura_ReceiveDamage">
+					<MediaRefs>
+						<MediaRef Id="66261122"/>
+						<MediaRef Id="569520435"/>
+						<MediaRef Id="699935433"/>
+						<MediaRef Id="755585153"/>
+						<MediaRef Id="961246931"/>
+						<MediaRef Id="1065518643"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1461022833" Name="Allura_ShotImpact">
+					<MediaRefs>
+						<MediaRef Id="389346293"/>
+						<MediaRef Id="576446796"/>
+						<MediaRef Id="703608955"/>
+						<MediaRef Id="862790999"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1620527839" Name="Allura_WeaponShot">
+					<MediaRefs>
+						<MediaRef Id="14561056"/>
+						<MediaRef Id="50891361"/>
+						<MediaRef Id="168238216"/>
+						<MediaRef Id="316138738"/>
+						<MediaRef Id="362519197"/>
+						<MediaRef Id="548739072"/>
+						<MediaRef Id="808181012"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2734795530" Name="Bix_DoubleJump">
+					<MediaRefs>
+						<MediaRef Id="319412379"/>
+						<MediaRef Id="672576425"/>
+						<MediaRef Id="806773303"/>
+						<MediaRef Id="852844566"/>
+						<MediaRef Id="883222100"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1506808629" Name="Bix_DownAttack">
+					<MediaRefs>
+						<MediaRef Id="30925308"/>
+						<MediaRef Id="377661512"/>
+						<MediaRef Id="392631834"/>
+						<MediaRef Id="848063793"/>
+						<MediaRef Id="910016717"/>
+						<MediaRef Id="910701895"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3314991770" Name="Bix_HeavyAttackFinisher">
+					<MediaRefs>
+						<MediaRef Id="74477260"/>
+						<MediaRef Id="164467232"/>
+						<MediaRef Id="351933088"/>
+						<MediaRef Id="400390064"/>
+						<MediaRef Id="595687169"/>
+					</MediaRefs>
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="514987234"/>
+						</Custom>
+					</PluginRefs>
+				</Event>
+				<Event Id="2311933762" Name="Bix_HeavyAttackFinisherStop">
+					<MediaRefs>
+						<MediaRef Id="351933088"/>
+						<MediaRef Id="595687169"/>
+					</MediaRefs>
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="514987234"/>
+						</Custom>
+					</PluginRefs>
+				</Event>
+				<Event Id="1852342621" Name="Bix_Jump">
+					<MediaRefs>
+						<MediaRef Id="180158193"/>
+						<MediaRef Id="672576425"/>
+						<MediaRef Id="735815289"/>
+						<MediaRef Id="852844566"/>
+						<MediaRef Id="883222100"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3287107583" Name="Bix_LightAttackFinisher">
+					<MediaRefs>
+						<MediaRef Id="154367144"/>
+						<MediaRef Id="377661512"/>
+						<MediaRef Id="392631834"/>
+						<MediaRef Id="588291420"/>
+						<MediaRef Id="593817013"/>
+						<MediaRef Id="905302425"/>
+						<MediaRef Id="910016717"/>
+						<MediaRef Id="1035906493"/>
+						<MediaRef Id="1061279798"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1950418565" Name="Bix_LightAttackFinisherImpact">
+					<MediaRefs>
+						<MediaRef Id="110530788"/>
+						<MediaRef Id="246184934"/>
+						<MediaRef Id="588291420"/>
+						<MediaRef Id="593817013"/>
+						<MediaRef Id="670171383"/>
+						<MediaRef Id="942906252"/>
+						<MediaRef Id="946149082"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3779955407" Name="Bix_LightAttackFinisherStop">
+					<MediaRefs>
+						<MediaRef Id="588291420"/>
+						<MediaRef Id="593817013"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3364542946" Name="Bix_LightsaberAttack">
+					<MediaRefs>
+						<MediaRef Id="26231676"/>
+						<MediaRef Id="44801206"/>
+						<MediaRef Id="51616058"/>
+						<MediaRef Id="74477260"/>
+						<MediaRef Id="91199623"/>
+						<MediaRef Id="110159212"/>
+						<MediaRef Id="164467232"/>
+						<MediaRef Id="285072160"/>
+						<MediaRef Id="400390064"/>
+						<MediaRef Id="447855635"/>
+						<MediaRef Id="449745143"/>
+						<MediaRef Id="490419803"/>
+						<MediaRef Id="515611069"/>
+						<MediaRef Id="523775953"/>
+						<MediaRef Id="640883503"/>
+						<MediaRef Id="686945133"/>
+						<MediaRef Id="713838449"/>
+						<MediaRef Id="852108813"/>
+						<MediaRef Id="887921106"/>
+						<MediaRef Id="908006931"/>
+						<MediaRef Id="957500039"/>
+						<MediaRef Id="1041055276"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3830930560" Name="Bix_LightsaberImpact">
+					<MediaRefs>
+						<MediaRef Id="243573520"/>
+						<MediaRef Id="318171677"/>
+						<MediaRef Id="731987902"/>
+						<MediaRef Id="916189334"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1552439715" Name="Bix_ReceiveDamage">
+					<MediaRefs>
+						<MediaRef Id="139610608"/>
+						<MediaRef Id="327934058"/>
+						<MediaRef Id="434831701"/>
+						<MediaRef Id="566335360"/>
+						<MediaRef Id="591925220"/>
+						<MediaRef Id="697694466"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="1494651949" Name="sfx_dash_01">
 					<MediaRefs>
-						<MediaRef Id="759745302"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="2967609084" Name="sfx_doubleJump_01">
-					<MediaRefs>
-						<MediaRef Id="137412610"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="1558864725" Name="sfx_electricShot_impact_01">
-					<MediaRefs>
-						<MediaRef Id="291487077"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="647605479" Name="sfx_electricShot_shot_01">
-					<MediaRefs>
-						<MediaRef Id="48642924"/>
-						<MediaRef Id="199686780"/>
-						<MediaRef Id="352955650"/>
-						<MediaRef Id="428153373"/>
-						<MediaRef Id="727797297"/>
-						<MediaRef Id="744647046"/>
-						<MediaRef Id="749840917"/>
-						<MediaRef Id="1004966524"/>
+						<MediaRef Id="192288904"/>
+						<MediaRef Id="305222639"/>
+						<MediaRef Id="672576425"/>
+						<MediaRef Id="852844566"/>
+						<MediaRef Id="883222100"/>
+						<MediaRef Id="1019526595"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="4168143638" Name="sfx_falling_metal">
 					<MediaRefs>
-						<MediaRef Id="2888985"/>
+						<MediaRef Id="579181990"/>
+						<MediaRef Id="594127807"/>
+						<MediaRef Id="951636412"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="959569938" Name="sfx_falling_water">
 					<MediaRefs>
-						<MediaRef Id="311306785"/>
+						<MediaRef Id="348367217"/>
+						<MediaRef Id="404036126"/>
+						<MediaRef Id="844561683"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="3223239512" Name="sfx_footsteps_walk_Allura_metal">
 					<MediaRefs>
 						<MediaRef Id="72572141"/>
-						<MediaRef Id="141647910"/>
-						<MediaRef Id="586915511"/>
 						<MediaRef Id="660867367"/>
 						<MediaRef Id="713684130"/>
 						<MediaRef Id="1026398387"/>
@@ -644,18 +1147,13 @@
 					<MediaRefs>
 						<MediaRef Id="141902627"/>
 						<MediaRef Id="173667425"/>
-						<MediaRef Id="181365515"/>
-						<MediaRef Id="273760872"/>
-						<MediaRef Id="864397673"/>
 						<MediaRef Id="931459480"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="1295294498" Name="sfx_footsteps_walk_Bix_metal">
 					<MediaRefs>
-						<MediaRef Id="71884831"/>
 						<MediaRef Id="297084385"/>
 						<MediaRef Id="434205961"/>
-						<MediaRef Id="440364367"/>
 						<MediaRef Id="898493754"/>
 						<MediaRef Id="1029106852"/>
 					</MediaRefs>
@@ -663,36 +1161,23 @@
 				<Event Id="2019303910" Name="sfx_footsteps_walk_Bix_water">
 					<MediaRefs>
 						<MediaRef Id="241835723"/>
-						<MediaRef Id="476744453"/>
 						<MediaRef Id="547008502"/>
-						<MediaRef Id="632838757"/>
 						<MediaRef Id="858141546"/>
-						<MediaRef Id="905786169"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="1430818805" Name="sfx_footsteps_walk_stop">
 					<MediaRefs>
-						<MediaRef Id="71884831"/>
 						<MediaRef Id="72572141"/>
-						<MediaRef Id="141647910"/>
 						<MediaRef Id="141902627"/>
 						<MediaRef Id="173667425"/>
-						<MediaRef Id="181365515"/>
 						<MediaRef Id="241835723"/>
-						<MediaRef Id="273760872"/>
 						<MediaRef Id="297084385"/>
 						<MediaRef Id="434205961"/>
-						<MediaRef Id="440364367"/>
-						<MediaRef Id="476744453"/>
 						<MediaRef Id="547008502"/>
-						<MediaRef Id="586915511"/>
-						<MediaRef Id="632838757"/>
 						<MediaRef Id="660867367"/>
 						<MediaRef Id="713684130"/>
 						<MediaRef Id="858141546"/>
-						<MediaRef Id="864397673"/>
 						<MediaRef Id="898493754"/>
-						<MediaRef Id="905786169"/>
 						<MediaRef Id="931459480"/>
 						<MediaRef Id="1026398387"/>
 						<MediaRef Id="1029106852"/>
@@ -701,94 +1186,25 @@
 				<Event Id="4238120494" Name="sfx_force">
 					<MediaRefs>
 						<MediaRef Id="87008145"/>
-						<MediaRef Id="883987314"/>
+						<MediaRef Id="154367144"/>
+						<MediaRef Id="593817013"/>
+						<MediaRef Id="1035906493"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="3736508461" Name="sfx_force_stop">
 					<MediaRefs>
 						<MediaRef Id="87008145"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="4115447157" Name="sfx_jump_01">
-					<MediaRefs>
-						<MediaRef Id="580951369"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="1792116364" Name="sfx_lightsaber_clash">
-					<MediaRefs>
-						<MediaRef Id="621220616"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="4219294839" Name="sfx_lightsaber_close_01">
-					<MediaRefs>
-						<MediaRef Id="660733524"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="4135941005" Name="sfx_lightsaber_hum_01">
-					<MediaRefs>
-						<MediaRef Id="595687169"/>
-					</MediaRefs>
-					<PluginRefs>
-						<Custom>
-							<PluginRef Id="674397401"/>
-						</Custom>
-					</PluginRefs>
-				</Event>
-				<Event Id="964751236" Name="sfx_lightsaber_hum_stop">
-					<MediaRefs>
-						<MediaRef Id="595687169"/>
-					</MediaRefs>
-					<PluginRefs>
-						<Custom>
-							<PluginRef Id="674397401"/>
-						</Custom>
-					</PluginRefs>
-				</Event>
-				<Event Id="3222767057" Name="sfx_lightsaber_open_01">
-					<MediaRefs>
-						<MediaRef Id="500728904"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="3335399033" Name="sfx_lightsaber_swing">
-					<MediaRefs>
-						<MediaRef Id="205229415"/>
-						<MediaRef Id="223336796"/>
-						<MediaRef Id="259480324"/>
-						<MediaRef Id="666783808"/>
-						<MediaRef Id="690894541"/>
-						<MediaRef Id="767837564"/>
-						<MediaRef Id="1036642653"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="1358380602" Name="sfx_receiveDamage_voice_Allura">
-					<MediaRefs>
-						<MediaRef Id="25846802"/>
-						<MediaRef Id="63167548"/>
-						<MediaRef Id="370158117"/>
-						<MediaRef Id="379312885"/>
-						<MediaRef Id="410799572"/>
-						<MediaRef Id="875997144"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="2767282372" Name="sfx_receiveDamage_voice_Bix">
-					<MediaRefs>
-						<MediaRef Id="25846802"/>
-						<MediaRef Id="63167548"/>
-						<MediaRef Id="370158117"/>
-						<MediaRef Id="379312885"/>
-						<MediaRef Id="410799572"/>
-						<MediaRef Id="875997144"/>
+						<MediaRef Id="593817013"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="3980201878" Name="sfx_roll_01">
 					<MediaRefs>
-						<MediaRef Id="836273150"/>
-						<MediaRef Id="873118458"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="330613076" Name="sfx_shot_impact_01">
-					<MediaRefs>
-						<MediaRef Id="745303828"/>
+						<MediaRef Id="313140054"/>
+						<MediaRef Id="502349863"/>
+						<MediaRef Id="676071825"/>
+						<MediaRef Id="718425236"/>
+						<MediaRef Id="805428675"/>
+						<MediaRef Id="923594413"/>
 					</MediaRefs>
 				</Event>
 			</Events>
@@ -1007,24 +1423,61 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="1551306167" Type="User" Language="SFX" Hash="{C11EE5DE-B8FC-437B-35E0-3A6A74FCB7FC}">
+		<SoundBank Id="1551306167" Type="User" Language="SFX" Hash="{DBDC4831-8A01-6C4C-53CE-11E0D1A1B529}">
 			<ShortName>UI</ShortName>
 			<Path>UI.bnk</Path>
 			<Media>
+				<File Id="10606744" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ui_so_hacking_wrong.wav</ShortName>
+					<CachePath>SFX/as_ui_so_hacking_wrong_10C4C929.wem</CachePath>
+				</File>
 				<File Id="48055455" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_ui_buttonHover_01.wav</ShortName>
 					<CachePath>SFX/sfx_ui_buttonHover_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="128244481" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ui_so_hacking_correct_rr02.wav</ShortName>
+					<CachePath>SFX/as_ui_so_hacking_correct_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="558670214" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ui_so_hacking_finished.wav</ShortName>
+					<CachePath>SFX/as_ui_so_hacking_finished_10C4C929.wem</CachePath>
 				</File>
 				<File Id="872873447" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_ui_buttonBack_01.wav</ShortName>
 					<CachePath>SFX/sfx_ui_buttonBack_01_10C4C929.wem</CachePath>
 				</File>
+				<File Id="957715770" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ui_so_hacking_correct_rr01.wav</ShortName>
+					<CachePath>SFX/as_ui_so_hacking_correct_rr01_10C4C929.wem</CachePath>
+				</File>
 				<File Id="979155077" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_ui_buttonPress_01.wav</ShortName>
 					<CachePath>SFX/sfx_ui_buttonPress_01_10C4C929.wem</CachePath>
 				</File>
+				<File Id="1055335549" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ui_so_hacking_correct_rr03.wav</ShortName>
+					<CachePath>SFX/as_ui_so_hacking_correct_rr03_10C4C929.wem</CachePath>
+				</File>
 			</Media>
 			<Events>
+				<Event Id="1878365588" Name="HackingCorrect">
+					<MediaRefs>
+						<MediaRef Id="128244481"/>
+						<MediaRef Id="957715770"/>
+						<MediaRef Id="1055335549"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1132051760" Name="HackingFinished">
+					<MediaRefs>
+						<MediaRef Id="558670214"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1423964993" Name="HackingWrong">
+					<MediaRefs>
+						<MediaRef Id="10606744"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="797520661" Name="sfx_button_back_01">
 					<MediaRefs>
 						<MediaRef Id="872873447"/>
@@ -1042,17 +1495,13 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{25EB0B67-6DE2-36FE-1F56-036B809BDAA4}">
+		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{5FBD99EA-12C5-8B4A-0C41-BB7F87AB8291}">
 			<ShortName>Music</ShortName>
 			<Path>Music.bnk</Path>
 			<Media>
 				<File Id="253185104" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Sewers-B-A-Trasition.wav</ShortName>
 					<CachePath>SFX/Sewers-B-A-Trasition_D79FB2B7.wem</CachePath>
-				</File>
-				<File Id="366633545" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>silence.wav</ShortName>
-					<CachePath>SFX/silence_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="504765323" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>1M3-Hangar-A_140bpm1-4_L109B-POB.wav</ShortName>
@@ -1061,6 +1510,10 @@
 				<File Id="577099420" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>1M1-Sewers-A_150bpm1-4_L94B-POB.wav</ShortName>
 					<CachePath>SFX/1M1-Sewers-A_150bpm1-4_L94B-POB_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="618374778" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>1M6-Cargo_Bay_40bpm3-4_L12B-PXB.wav</ShortName>
+					<CachePath>SFX/1M6-Cargo_Bay_40bpm3-4_L12B-PXB_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="643041354" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>1M5-Spaceship_Escape_165bpm1-4_L109M-P0B.wav</ShortName>
@@ -1187,10 +1640,28 @@
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="89505537" Id="3604647259"/>
 											<MediaRefs>
-												<MediaRef Id="504765323"/>
+												<MediaRef Id="618374778"/>
 											</MediaRefs>
 										</SwitchContainer>
 									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="3434002879"/>
+									<Children/>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="3434002879"/>
+									<Children/>
 								</SwitchContainer>
 							</Children>
 						</SwitchContainer>
@@ -1258,38 +1729,6 @@
 								</SwitchContainer>
 							</Children>
 						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
-							<Children>
-								<SwitchContainer>
-									<SwitchValue GroupType="State" GroupId="832057375" Id="3434002879"/>
-									<Children>
-										<SwitchContainer>
-											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2582085496"/>
-											<MediaRefs>
-												<MediaRef Id="366633545"/>
-											</MediaRefs>
-										</SwitchContainer>
-									</Children>
-								</SwitchContainer>
-							</Children>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
-							<Children>
-								<SwitchContainer>
-									<SwitchValue GroupType="State" GroupId="832057375" Id="3434002879"/>
-									<Children>
-										<SwitchContainer>
-											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2764240573"/>
-											<MediaRefs>
-												<MediaRef Id="366633545"/>
-											</MediaRefs>
-										</SwitchContainer>
-									</Children>
-								</SwitchContainer>
-							</Children>
-						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
 				<Event Id="1917263390" Name="StopMusic"/>
@@ -1326,5 +1765,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{508936C0-307D-B731-8AEB-ED3F6741D4E8}</FileHash>
+	<FileHash>{9249B079-90AB-2CD6-7871-C6782C074AF6}</FileHash>
 </SoundBanksInfo>

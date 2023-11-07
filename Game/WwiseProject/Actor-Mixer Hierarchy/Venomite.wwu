@@ -194,28 +194,6 @@
 								<ActiveSource Name="as_npc_so_venomite_shot_rr03" ID="{C96705C3-06D7-471D-94D7-710A294C526E}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
-						<Sound Name="as_npc_so_venomite_shot_rr04" ID="{16DC4F42-2875-4CBE-A260-D1E7C1EC0AA9}" ShortID="106804229">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="as_npc_so_venomite_shot_rr04" ID="{0C67D483-4D93-4E66-AA50-90470DC770D3}">
-									<Language>SFX</Language>
-									<AudioFile>as_npc_so_venomite_shot_rr04.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="82407326"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="as_npc_so_venomite_shot_rr04" ID="{0C67D483-4D93-4E66-AA50-90470DC770D3}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
 						<Sound Name="as_npc_so_venomite_shot_rr05" ID="{4C589F94-F074-4EFF-9154-308A72E2A440}" ShortID="56761235">
 							<ReferenceList>
 								<Reference Name="Conversion">
