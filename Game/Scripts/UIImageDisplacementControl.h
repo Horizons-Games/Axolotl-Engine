@@ -21,6 +21,7 @@ public:
 	void MoveImageToStartPosition();
 	void SetImageToStartPosition();
 	bool IsImageInStartPosition() const;
+	bool IsImageInEndPosition() const;
 	bool IsMovingToEnd() const;
 	bool IsMoving() const;
 	void SetIsMoving(bool moving);

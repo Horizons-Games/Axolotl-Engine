@@ -103,6 +103,20 @@ bool UIImageDisplacementControl::IsImageInStartPosition() const
 	}
 }
 
+bool UIImageDisplacementControl::IsImageInEndPosition() const
+{
+	if (imageTransform->GetPosition().x == endPosition.x &&
+		imageTransform->GetPosition().y == endPosition.y &&
+		imageTransform->GetPosition().z == endPosition.z)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 bool UIImageDisplacementControl::IsMovingToEnd() const
 {
 	return isMovingToEnd;
