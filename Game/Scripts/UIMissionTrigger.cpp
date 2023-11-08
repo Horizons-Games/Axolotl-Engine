@@ -55,8 +55,19 @@ void UIMissionTrigger::Update(float deltaTime)
 	if (missionImageDisplacementExit && !missionImageDisplacementExit->IsMoving() && wasInside 
 		&& missionImageDisplacement->IsMovingToEnd())
 	{
-		missionImageDisplacement->SetMovingToEnd(true);
-		missionImageDisplacement->MoveImageToEndPosition();
+		if (lastMissionLevel)
+		{
+			if (missionImageDisplacementExit->IsImageInStartPosition())
+			{
+				missionImageDisplacement->SetMovingToEnd(true);
+				missionImageDisplacement->MoveImageToEndPosition();
+			}
+		}
+		else
+		{
+			missionImageDisplacement->SetMovingToEnd(true);
+			missionImageDisplacement->MoveImageToEndPosition();
+		}
 	}
 	if (textBox && textBox->IsEnabled() && hasTimer)
 	{
@@ -73,15 +84,28 @@ void UIMissionTrigger::Update(float deltaTime)
 		}
 		if (missionLevel)
 		{
-			missionImageDisplacement->SetMovingToEnd(true);
-			missionImageDisplacement->MoveImageToEndPosition();
+			if (lastMissionLevel)
+			{
+				if (missionImageDisplacementExit->IsImageInStartPosition())
+				{
+					missionImageDisplacement->SetMovingToEnd(true);
+					missionImageDisplacement->MoveImageToEndPosition();
+					missionCondition = false;
+				}
+			}
+			else
+			{
+				missionImageDisplacement->SetMovingToEnd(true);
+				missionImageDisplacement->MoveImageToEndPosition();
+				missionCondition = false;
+			}
 		}
 
 		if (textBox)
 		{
 			textBox->Enable();
 		}
-		missionCondition = true;
+		
 	}
 	else if (waitForSwitch && !missionCondition)
 	{
@@ -94,15 +118,27 @@ void UIMissionTrigger::Update(float deltaTime)
 			}
 			if (missionLevel)
 			{
-				missionImageDisplacement->SetMovingToEnd(true);
-				missionImageDisplacement->MoveImageToEndPosition();
+				if (lastMissionLevel)
+				{
+					if (missionImageDisplacementExit->IsImageInStartPosition())
+					{
+						missionImageDisplacement->SetMovingToEnd(true);
+						missionImageDisplacement->MoveImageToEndPosition();
+						missionCondition = false;
+					}
+				}
+				else
+				{
+					missionImageDisplacement->SetMovingToEnd(true);
+					missionImageDisplacement->MoveImageToEndPosition();
+					missionCondition = false;
+				}
 			}
 
 			if (textBox)
 			{
 				textBox->Enable();
 			}
-			missionCondition = false;
 		}
 	}
 }
@@ -121,7 +157,19 @@ void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 			if (missionLevel)
 			{
 				missionImageDisplacement->SetMovingToEnd(true);
-				missionImageDisplacement->MoveImageToEndPosition();
+				if (lastMissionLevel)
+				{
+					if (missionImageDisplacementExit->IsImageInStartPosition())
+					{
+						missionImageDisplacement->MoveImageToEndPosition();
+						missionCondition = false;
+					}
+				}
+				else
+				{
+					missionImageDisplacement->MoveImageToEndPosition();
+					missionCondition = false;
+				}
 			}
 
 			if (textBox)
@@ -139,14 +187,25 @@ void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 			if (missionLevel)
 			{
 				missionImageDisplacement->SetMovingToEnd(true);
-				missionImageDisplacement->MoveImageToEndPosition();
+				if (lastMissionLevel)
+				{
+					if (missionImageDisplacementExit->IsImageInStartPosition())
+					{
+						missionImageDisplacement->MoveImageToEndPosition();
+						missionCondition = false;
+					}
+				}
+				else
+				{
+					missionImageDisplacement->MoveImageToEndPosition();
+					missionCondition = false;
+				}
 			}
 
 			if (textBox)
 			{
 				textBox->Enable();
 			}
-			missionCondition = false;
 		}
 		else if (waitForSwitch)
 		{
@@ -160,14 +219,25 @@ void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 				if (missionLevel)
 				{
 					missionImageDisplacement->SetMovingToEnd(true);
-					missionImageDisplacement->MoveImageToEndPosition();
+					if (lastMissionLevel)
+					{
+						if (missionImageDisplacementExit->IsImageInStartPosition())
+						{
+							missionImageDisplacement->MoveImageToEndPosition();
+							missionCondition = false;
+						}
+					}
+					else
+					{
+						missionImageDisplacement->MoveImageToEndPosition();
+						missionCondition = false;
+					}
 				}
 
 				if (textBox)
 				{
 					textBox->Enable();
 				}
-				missionCondition = false;
 			}
 		}
 
@@ -189,7 +259,19 @@ void UIMissionTrigger::ActivateTextBoxManually()
 	if (missionLevel)
 	{
 		missionImageDisplacement->SetMovingToEnd(true);
-		missionImageDisplacement->MoveImageToEndPosition();
+		if (lastMissionLevel)
+		{
+			if (missionImageDisplacementExit->IsImageInStartPosition())
+			{
+				missionImageDisplacement->MoveImageToEndPosition();
+				missionCondition = false;
+			}
+		}
+		else
+		{
+			missionImageDisplacement->MoveImageToEndPosition();
+			missionCondition = false;
+		}
 	}
 
 	if (textBox)

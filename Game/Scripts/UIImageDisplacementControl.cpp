@@ -89,6 +89,20 @@ void UIImageDisplacementControl::SetImageToStartPosition()
 	isMoving = false;
 }
 
+bool UIImageDisplacementControl::IsImageInStartPosition() const
+{
+	if (imageTransform->GetPosition().x == startPosition.x && 
+		imageTransform->GetPosition().y == startPosition.y && 
+		imageTransform->GetPosition().z == startPosition.z)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 bool UIImageDisplacementControl::IsMovingToEnd() const
 {
 	return isMovingToEnd;
