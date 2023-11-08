@@ -160,10 +160,10 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletVelocity(bulletVelocity);
 	bullet->GetComponent<RangedFastAttackBullet>()->SetTargetTag("Player");
 	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletDamage(attackDamage);
+	bullet->GetComponent<RangedFastAttackBullet>()->SetImpactSound(AUDIO::SFX::NPC::SHOT_IMPACT);
 
 	// Once the engine automatically runs the Start() for newly created objects, delete this line
 	script->Start();
-
 
 	switch (enemyType)
 	{

@@ -334,7 +334,6 @@ void PlayerAttackScript::LightNormalAttack()
 	}
 	else
 	{
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::SHOT);
 		if (enemyAttacked != nullptr)
 		{
 			comboSystem->SuccessfulAttack(comboCountLight * 
@@ -370,7 +369,6 @@ void PlayerAttackScript::HeavyNormalAttack()
 	}
 	else
 	{
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CHARGED_SHOT);
 		if (enemyAttacked != nullptr)
 		{
 			comboSystem->SuccessfulAttack(comboCountHeavy * 
@@ -384,6 +382,8 @@ void PlayerAttackScript::HeavyNormalAttack()
 
 void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDamage)
 {
+	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::SHOT);
+
 	// Create a new bullet
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
 	LightAttackBullet* ligthAttackBulletScript = bullet->GetComponent<LightAttackBullet>();
@@ -393,6 +393,7 @@ void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDama
 	ligthAttackBulletScript->SetEnemy(enemyDetection->GetEnemySelected());
 	ligthAttackBulletScript->SetStunTime(0);
 	ligthAttackBulletScript->SetDamage(nDamage);
+	ligthAttackBulletScript->SetImpactSound(AUDIO::SFX::PLAYER::WEAPON::SHOT_IMPACT);
 }
 
 void PlayerAttackScript::InitJumpAttack()
@@ -502,11 +503,7 @@ void PlayerAttackScript::LightFinisher()
 
 	isAttacking = true;
 
-	if (!isMelee)
-	{
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ELECTRIC_SHOT);
-	}
-	lightFinisherScript->ThrowStunItem();
+	lightFinisherScript->ThrowStunItem(isMelee);
 
 	comboSystem->SuccessfulAttack(-comboCountLight * 10, AttackType::LIGHTFINISHER);
 }
@@ -521,7 +518,6 @@ void PlayerAttackScript::HeavyFinisher()
 	animation->SetParameter("HeavyFinisherEnd", false);
 	animation->SetParameter("HeavyFinisherInit", true);
 	isAttacking = true;
-	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::SHOT);
 	if (enemyAttacked != nullptr)
 	{
 		heavyFinisherAttack->PerformHeavyFinisher(enemyAttacked->GetComponent<ComponentTransform>(), 

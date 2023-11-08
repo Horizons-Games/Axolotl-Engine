@@ -26,7 +26,8 @@ REGISTERCLASS(RangedFastAttackBullet);
 
 RangedFastAttackBullet::RangedFastAttackBullet() : Script(), parentTransform(nullptr), rigidBody(nullptr), velocity(15.0f), 
 audioSource(nullptr), bulletLifeTime(10.0f), damageAttack(10.0f), rayAttackSize(100.0f), originTime(0.0f), 
-particleSystem(nullptr), waitParticlesToDestroy(false), particlesDuration(1.0f), mesh(nullptr), targetTag("Not Selected")
+particleSystem(nullptr), waitParticlesToDestroy(false), particlesDuration(1.0f), mesh(nullptr), targetTag("Not Selected"),
+impactSFX(nullptr)
 {
 }
 
@@ -61,7 +62,10 @@ void RangedFastAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 		playerHealthScript->TakeDamage(damageAttack);
 	}
 
-	audioSource->PostEvent(AUDIO::SFX::NPC::SHOT_IMPACT); //Provisional sfx
+	if (impactSFX != nullptr)
+	{
+		audioSource->PostEvent(impactSFX);
+	}
 
 	mesh->Disable();
 	rigidBody->Disable();
@@ -138,4 +142,9 @@ void RangedFastAttackBullet::SetTargetTag(std::string nTag)
 void RangedFastAttackBullet::SetBulletDamage(float damage)
 {
 	damageAttack = damage;
+}
+
+void RangedFastAttackBullet::SetImpactSound(const wchar_t* sound)
+{
+	impactSFX = sound;
 }

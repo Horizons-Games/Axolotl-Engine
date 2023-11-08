@@ -269,12 +269,13 @@
 											<XPos>0</XPos>
 											<YPos>0</YPos>
 											<Flags>5</Flags>
-											<SegmentShape>Log3</SegmentShape>
+											<SegmentShape>Log2</SegmentShape>
 										</Point>
 										<Point>
-											<XPos>99.8968008255934</XPos>
-											<YPos>-59.7264755410159</YPos>
+											<XPos>99.999</XPos>
+											<YPos>-200</YPos>
 											<Flags>0</Flags>
+											<SegmentShape>InvertedSCurve</SegmentShape>
 										</Point>
 										<Point>
 											<XPos>100</XPos>

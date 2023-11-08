@@ -23,6 +23,7 @@ public:
 	void SetTargetTag(std::string nTag);
 	void SetBulletDamage(float damage);
 	void SetPauseBullet(bool isPaused);
+	void SetImpactSound(const wchar_t* sound);
 
 private:
 	void InitializeBullet();
@@ -35,6 +36,7 @@ private:
 	float originTime;
 	bool waitParticlesToDestroy;
 	float particlesDuration;
+	const wchar_t* impactSFX;
 
 	std::string targetTag;
 

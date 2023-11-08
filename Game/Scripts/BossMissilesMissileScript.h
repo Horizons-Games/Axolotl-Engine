@@ -6,6 +6,8 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class ComponentAudioSource;
+
 class BossMissilesMissileScript : public Script
 {
 public:
@@ -24,6 +26,7 @@ private:
 	void DestroyMissile() const;
 
 	ComponentRigidBody* rigidBody;
+	ComponentAudioSource* audioSource;
 	float hasHitPlayer;
 	float hasHitGround;
 

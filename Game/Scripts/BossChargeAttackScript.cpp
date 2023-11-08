@@ -93,14 +93,13 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 			MakeRocksFall();
 		}
 
+		audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_HIT);
 		// VFX Here: The boss hit the wall after a charge attack
 	}
 	else if (chargeState == ChargeState::CHARGING && !chargeHitPlayer && other->GetOwner()->CompareTag("Player"))
 	{
 		other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(chargeDamage);
 		chargeHitPlayer = true;
-
-		audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_HIT);
 	}
 	else if (chargeState == ChargeState::BOUNCING_WALL && other->GetOwner()->CompareTag("Floor"))
 	{

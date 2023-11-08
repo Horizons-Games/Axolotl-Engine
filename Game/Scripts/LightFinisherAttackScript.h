@@ -13,7 +13,7 @@ public:
 
 	void Start() override;
 
-	void ThrowStunItem();
+	void ThrowStunItem(bool isMelee);
 	bool IsAttacking();
 	
 

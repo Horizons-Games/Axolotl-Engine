@@ -21,6 +21,7 @@ public:
 	void SetEnemy(GameObject* nEnemy);
 	void SetDamage(float nDamageAttack);
 	void SetPauseBullet(bool isPaused);
+	void SetImpactSound(const wchar_t* sound);
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
@@ -30,6 +31,7 @@ private:
 	float stunTime;
 	float damageAttack;
 	float maxDistanceBullet;
+	const wchar_t* impactSFX;
 
 	float3 defaultTargetPos;
 

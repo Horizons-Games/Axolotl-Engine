@@ -4,16 +4,19 @@
 #include "Application.h"
 #include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentAudioSource.h"
 
 #include "../Scripts/HealthSystem.h"
 
 REGISTERCLASS(BossMissilesMissileScript);
 
 BossMissilesMissileScript::BossMissilesMissileScript() : Script(), rigidBody(nullptr), missileDamage(10.0f),
-	hasHitPlayer(false), explosionTime(4.0f), hasHitGround(false), maxSizeExplosion(7.5f), areaGrowingFactor(5.0f)
+	hasHitPlayer(false), explosionTime(4.0f), hasHitGround(false), maxSizeExplosion(7.5f), areaGrowingFactor(5.0f),
+	audioSource(nullptr)
 {
 	REGISTER_FIELD(missileDamage, float);
 	REGISTER_FIELD(explosionTime, float);
@@ -31,6 +34,9 @@ void BossMissilesMissileScript::Start()
 	rigidBody->SetDrawCollider(true);
 	missileGravity = rigidBody->GetGravity();
 
+	audioSource = owner->GetComponent<ComponentAudioSource>();
+
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKET_FALLING);
 	// VFX Here: Missile falling warning (the missile spawns on top of where it is going to fall, 
 										// that's why its in the Start)
 }
@@ -82,6 +88,7 @@ void BossMissilesMissileScript::OnCollisionEnter(ComponentRigidBody* other)
 
 		if (!hasHitGround)
 		{
+			audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKET_IMPACT);
 			// VFX Here: The missile hit an enemy before hitting the ground
 			DestroyMissile();
 		}
@@ -93,6 +100,7 @@ void BossMissilesMissileScript::OnCollisionEnter(ComponentRigidBody* other)
 		
 		if (!hasHitGround)
 		{
+			audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKET_IMPACT);
 			// VFX Here: The missile hit the player before hitting the ground
 			DestroyMissile();
 		}
@@ -104,6 +112,7 @@ void BossMissilesMissileScript::TriggerExplosion(float deltaTime)
 	rigidBody->SetRadius(rigidBody->GetRadius() + (areaGrowingFactor * deltaTime));
 	rigidBody->SetCollisionShape(rigidBody->GetShape());
 
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKET_IMPACT);
 	// VFX Here: Trigger explosion particles for the missile explosion (when it triggers the floor)
 }
 

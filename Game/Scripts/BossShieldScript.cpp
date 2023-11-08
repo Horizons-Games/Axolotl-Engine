@@ -1,19 +1,23 @@
 #include "StdAfx.h"
 #include "BossShieldScript.h"
 
+#include "Auxiliar/Audio/AudioData.h"
+
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentAudioSource.h"
 
 REGISTERCLASS(BossShieldScript);
 
-BossShieldScript::BossShieldScript() : Script(), rigidBody(nullptr), parentRigidBody(nullptr)
+BossShieldScript::BossShieldScript() : Script(), rigidBody(nullptr), parentRigidBody(nullptr), audioSource(nullptr)
 {
 }
 
 void BossShieldScript::Start()
 {
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
 
 	// This is the rigidbody of the boss itself
 	parentRigidBody = owner->GetParent()->GetComponent<ComponentRigidBody>();
@@ -47,6 +51,7 @@ void BossShieldScript::ActivateShield() const
 
 	rigidBody->SetIsTrigger(false);
 
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ENERGYSHIELD);
 	// VFX Here: Any effect related to the activation of the shield
 }
 
@@ -60,6 +65,7 @@ void BossShieldScript::DeactivateShield() const
 
 	owner->Disable();
 
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ENERGYSHIELD_STOP);
 	// VFX Here: Any effect related to the deactivation of the shield
 }
 

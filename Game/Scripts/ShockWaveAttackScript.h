@@ -9,6 +9,7 @@ class ComponentRigidBody;
 class ComponentTransform;
 class ComponentAgent;
 class ComponentAnimation;
+class ComponentAudioSource;
 
 class AIMovement;
 class ShockWaveAttackAreaScript;
@@ -52,6 +53,7 @@ private:
 
 	ComponentTransform* targetPosition;
 	ComponentAnimation* animator;
+	ComponentAudioSource* audioSource;
 
 	bool isSeeking;
 	bool isPreparingShockwave;
