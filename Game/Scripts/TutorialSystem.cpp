@@ -30,12 +30,13 @@
 REGISTERCLASS(TutorialSystem);
 
 TutorialSystem::TutorialSystem() :
-	Script(), tutorialCurrentState(0), tutorialTotalStates(0), stateWaitTime(0.0f), 
+	Script(), tutorialCurrentState(1), tutorialTotalStates(0), stateWaitTime(0.0f), 
 	totalStateWaitTime(0.0f), dummy(nullptr), numNotControllableStates(0.0f), initialPos(-46.0f, -208.665f, 0.0f), isWaiting(false),
 	stayPos(-46.0f, 208.665f, 0.0f)
 {
 	REGISTER_FIELD(totalStateWaitTime, float);
 	REGISTER_FIELD(stateWaitTime, float); 
+	REGISTER_FIELD(tutorialCurrentState, float);
 	REGISTER_FIELD(tutorialTotalStates, float);
 
 	REGISTER_FIELD(numNotControllableStates, float);
@@ -52,7 +53,7 @@ void TutorialSystem::Start()
 	currentTutorialUI = tutorialUI.front();
 	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
 	transform2D = currentTutorialUI->GetComponent<ComponentTransform2D>();
-	tutorialTotalStates = static_cast<int>(tutorialUI.size()) - 1;
+	tutorialTotalStates = static_cast<float>(tutorialUI.size()) - 1.f;
 	stateWaitTime = totalStateWaitTime;
 
 	if (dummy)
@@ -90,10 +91,10 @@ void TutorialSystem::DeployUI()
 	transform2D->SetPosition(stayPos);
 	transform2D->CalculateMatrices();
 
-	if (tutorialCurrentState == int(numNotControllableStates) && dummy)
+	/*if (tutorialCurrentState == int(numNotControllableStates) && dummy)
 	{
 		dummyHealthSystem->SetIsImmortal(false);
-	}	
+	}	*/
 }
 
 void TutorialSystem::UnDeployUI()
@@ -106,12 +107,12 @@ void TutorialSystem::UnDeployUI()
 		currentTutorialUI->Disable();
 
 		tutorialCurrentState++;
-		currentTutorialUI = tutorialUI[tutorialCurrentState];
+		currentTutorialUI = tutorialUI[static_cast<size_t>(tutorialCurrentState)];
 		displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
-		if (dummy)
+		/*if (dummy)
 		{
 			dummyHealthSystem->SetIsImmortal(true);
-		}
+		}*/
 	}
 	else
 	{
@@ -146,7 +147,7 @@ void TutorialSystem::TutorialSkip()
 
 int TutorialSystem::GetTutorialCurrentState() const
 {
-	return tutorialCurrentState;
+	return static_cast<int>(tutorialCurrentState);
 }
 
 float TutorialSystem::GetNumControllableState() const
@@ -156,17 +157,17 @@ float TutorialSystem::GetNumControllableState() const
 
 void TutorialSystem::SetNumControllableState(int controllableState) 
 {
-	numNotControllableStates = controllableState;
+	numNotControllableStates = static_cast<float>(controllableState);
 }
 
 int TutorialSystem::GetTutorialSlideSize() const
 {
-	return tutorialTotalStates;
+	return static_cast<int>(tutorialTotalStates);
 }
 
 void TutorialSystem::SetTutorialSlideSize(int tutorialTotalStates)
 {
-	this->tutorialTotalStates = tutorialTotalStates;
+	this->tutorialTotalStates = static_cast<float>(tutorialTotalStates);
 }
 
 

@@ -30,6 +30,7 @@ public:
 	void ActivatePowerUp(GameObject* newParent);
 
 private:
+	void RotateMesh(float deltatime);
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void DisablePowerUp() const;
 
@@ -42,6 +43,10 @@ private:
 	PowerUpsManagerScript* powerUpManagerScript;
 
 	ComponentTransform* playerTransform;
+	GameObject* healPowerUp;
+	GameObject* speedPowerUp;
+	GameObject* shieldPowerUp;
+	GameObject* dmgPowerUp;
 
 	bool isSeeking;
 };

@@ -26,6 +26,7 @@ public:
 
 	float GetCurrentHealth() const;
 	float GetMaxHealth() const;
+	void SetMaxHealth(float maxHealth);
 
 	bool EntityIsAlive() const;
 

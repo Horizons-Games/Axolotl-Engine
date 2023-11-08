@@ -203,6 +203,7 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\EnemyMiniBossTwo.cpp" />
     <ClCompile Include="..\Game\Scripts\EntityDetection.cpp" />
+    <ClCompile Include="..\Game\Scripts\ExplosionManagerEffect.cpp" />
     <ClCompile Include="..\Game\Scripts\FinalBossScript.cpp" />
     <ClCompile Include="..\Game\Scripts\FireMovingObstacle.cpp" />
     <ClCompile Include="..\Game\Scripts\ForceTrigger.cpp" />
@@ -455,6 +456,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UITriggerEnemyBar.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIVideoControl.cpp" />
     <ClCompile Include="..\Game\Scripts\WaterfallAudio.cpp" />
     <ClCompile Include="..\Game\Scripts\WaypointStateScript.cpp" />
     <ClCompile Include="Application.cpp" />
@@ -936,6 +938,7 @@
     <ClInclude Include="..\Game\Scripts\EnemyClass.h" />
     <ClInclude Include="..\Game\Scripts\EnemyMiniBossTwo.h" />
     <ClInclude Include="..\Game\Scripts\EntityDetection.h" />
+    <ClInclude Include="..\Game\Scripts\ExplosionManagerEffect.h" />
     <ClInclude Include="..\Game\Scripts\FinalBossScript.h" />
     <ClInclude Include="..\Game\Scripts\FireMovingObstacle.h" />
     <ClInclude Include="..\Game\Scripts\ForceTrigger.h" />
@@ -1019,6 +1022,7 @@
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusic.h" />
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusicExit.h" />
     <ClInclude Include="..\Game\Scripts\UITriggerEnemyBar.h" />
+    <ClInclude Include="..\Game\Scripts\UIVideoControl.h" />
     <ClInclude Include="..\Game\Scripts\WaterfallAudio.h" />
     <ClInclude Include="..\Game\Scripts\WaypointStateScript.h" />
     <ClInclude Include="Application.h" />

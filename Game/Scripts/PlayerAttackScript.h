@@ -72,6 +72,7 @@ private:
 
 	void DamageEnemy(GameObject* enemyAttacked, float damageAttack);
 	void ThrowBasicAttack(GameObject* enemyAttacked, float nDamage);
+	GameObject* SelectBullet() const;
 
 	bool canAttack;
 	bool isAttacking;
@@ -94,6 +95,7 @@ private:
 	float jumpBeforeJumpAttackCooldown;
 
 	bool isHeavyFinisherReceivedAux;
+	bool isHeavyFinisherAvailable;
 
 	bool isDeathTouched;
 
@@ -128,8 +130,9 @@ private:
 	LightFinisherAttackScript* lightFinisherScript;
 	HeavyFinisherAttack* heavyFinisherAttack;
 	GameObject* lightWeapon;
-	GameObject* bulletPrefab;
+	GameObject* bulletLoader;
 	GameObject* pistolGameObject;
+	ComponentTransform* bulletInitPosition;
 
 	Scene* loadedScene;
 };

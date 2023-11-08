@@ -3,12 +3,13 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
-#include "Components/ComponentMeshRenderer.h"
+#include "Components/ComponentParticleSystem.h"
 
 REGISTERCLASS(BossShieldScript);
 
-BossShieldScript::BossShieldScript() : Script(), rigidBody(nullptr), parentRigidBody(nullptr)
+BossShieldScript::BossShieldScript() : Script(), rigidBody(nullptr), parentRigidBody(nullptr), particleSystem(nullptr)
 {
+	REGISTER_FIELD(particleSystem, ComponentParticleSystem*);
 }
 
 void BossShieldScript::Start()
@@ -33,7 +34,10 @@ void BossShieldScript::OnCollisionEnter(ComponentRigidBody* other)
 	else if (other->GetOwner()->CompareTag("Rock"))
 	{
 		other->GetOwner()->GetComponent<ComponentRigidBody>()->Disable();
-		other->GetOwner()->GetComponent<ComponentMeshRenderer>()->Disable();
+		if (!owner->GetChildren().empty())
+		{
+			owner->GetChildren().front()->Disable();
+		}
 	}
 }
 
@@ -48,6 +52,11 @@ void BossShieldScript::ActivateShield() const
 	rigidBody->SetIsTrigger(false);
 
 	// VFX Here: Any effect related to the activation of the shield
+	if (particleSystem)
+	{
+		particleSystem->Enable();
+		particleSystem->Play();
+	}
 }
 
 void BossShieldScript::DeactivateShield() const
@@ -61,6 +70,10 @@ void BossShieldScript::DeactivateShield() const
 	owner->Disable();
 
 	// VFX Here: Any effect related to the deactivation of the shield
+	if (particleSystem)
+	{
+		particleSystem->Stop();
+	}
 }
 
 bool BossShieldScript::WasHitBySpecialTarget() const

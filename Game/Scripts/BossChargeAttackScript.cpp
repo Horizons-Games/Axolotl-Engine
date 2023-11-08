@@ -28,7 +28,7 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NONE),
 	chargeHitPlayer(false), bounceBackForce(5.0f), prepareChargeMaxTime(2.0f), chargeMaxCooldown(5.0f),
 	attackStunTime(4.0f), chargeDamage(20.0f), rockPrefab(nullptr), spawningRockChance(5.0f), rockSpawningHeight(7.0f),
-	isRockAttackVariant(false), animator(nullptr), chargeForce(1.25f), wallChecker(nullptr)
+	isRockAttackVariant(false), animator(nullptr), chargeForce(1.25f), wallChecker(nullptr), healthSystem(nullptr)
 {
 	REGISTER_FIELD(bounceBackForce, float);
 	REGISTER_FIELD(prepareChargeMaxTime, float);
@@ -45,17 +45,20 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 	REGISTER_FIELD(isRockAttackVariant, bool);
 
 	REGISTER_FIELD(wallChecker, BossWallChecker*);
+
+	REGISTER_FIELD(propulsorVFX, GameObject*);
 }
 
 void BossChargeAttackScript::Start()
 {
 	prepareChargeTime = prepareChargeMaxTime;
-	chargeCooldown = chargeMaxCooldown;
+	chargeCooldown = 5.0f;
 
 	transform = owner->GetComponent<ComponentTransform>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	animator = owner->GetComponent<ComponentAnimation>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
+	healthSystem = owner->GetComponent<HealthSystem>();
 
 	finalBossScript = owner->GetComponent<FinalBossScript>();
 }
@@ -187,6 +190,7 @@ void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
 			rocksSpawned.clear();
 
 			chargeState = ChargeState::NONE;
+			healthSystem->SetIsImmortal(false);
 		}
 		else
 		{
@@ -203,10 +207,10 @@ void BossChargeAttackScript::PrepareCharge() const
 	float3 forward = transform->GetGlobalForward();
 	forward.Normalize();
 
+
+
 	rigidBody->SetKpForce(0.5f);
-	rigidBody->SetPositionTarget(float3(forward.x * -5.0f + transform->GetGlobalPosition().x,
-										transform->GetGlobalPosition().y,
-										forward.z * -5.0f + transform->GetGlobalPosition().z));
+	rigidBody->SetPositionTarget(transform->GetGlobalPosition() - 5.0f*forward);
 }
 
 void BossChargeAttackScript::PerformChargeAttack()
@@ -219,17 +223,21 @@ void BossChargeAttackScript::PerformChargeAttack()
 	rigidBody->SetZRotationAxisBlocked(true);*/
 
 	rigidBody->SetKpForce(chargeForce);
-	rigidBody->SetPositionTarget(float3(forward.x * 50.0f,
-										transform->GetGlobalPosition().y,
-										forward.z * 50.0f));
+	rigidBody->SetPositionTarget(transform->GetGlobalPosition() + 150.0f *forward);
 
 	prepareChargeTime = prepareChargeMaxTime;
 	chargeState = ChargeState::CHARGING;
+	healthSystem->SetIsImmortal(true);
 	animator->SetParameter("IsPreparingChargeAttack", false);
 	animator->SetParameter("IsCharging", true);
 
 	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_ATTACK);
-	// VFX Here: The boss started the charging forward
+	
+	propulsorVFX->GetChildren()[0]->Enable();
+	propulsorVFX->GetChildren()[0]->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
+
+	propulsorVFX->GetChildren()[1]->Enable();
+	propulsorVFX->GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
 }
 
 void BossChargeAttackScript::WallHitAfterCharge() const
@@ -253,6 +261,12 @@ void BossChargeAttackScript::WallHitAfterCharge() const
 
 	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_HIT);
 	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_STUNT);
+
+	propulsorVFX->GetChildren()[0]->Disable();
+	propulsorVFX->GetChildren()[0]->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+
+	propulsorVFX->GetChildren()[1]->Disable();
+	propulsorVFX->GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
 }
 
 bool BossChargeAttackScript::CanPerformChargeAttack() const
@@ -287,7 +301,7 @@ void BossChargeAttackScript::SpawnRock(const float3& spawnPosition)
 
 	ComponentBreakable* newRockBreakable = newRock->GetComponent<ComponentBreakable>();
 
-	ComponentParticleSystem* newRockVFX = newRock->GetComponent<ComponentParticleSystem>();
+	
 
 	if (!newRock->GetChildren().empty())
 	{

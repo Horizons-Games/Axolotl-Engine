@@ -4,9 +4,6 @@
 #include "Scripting\Script.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
-
-// This script handles the activation of the doors
-
 class ComponentAudioSource;
 class ComponentAnimation;
 class ComponentRigidBody;
@@ -32,6 +29,14 @@ public:
 	void Update(float deltaTime) override;
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void OnCollisionExit(ComponentRigidBody* other) override;
+	void StartTutorialState();
+	void AttackTutorialState();
+	void JumpAttackTutorialState();
+	void FullBarTutorialState();
+	void LightSpecialState();
+	void HeavySpecialState();
+	void PowerUpState();
+	void TutorialEndState();
 
 private:
 
@@ -40,6 +45,7 @@ private:
 	bool nextStateActive;
 	bool tutorialFinished;
 	bool normalAttacksEnded;
+	bool tutorialStay;
 	float finalWaitTime;
 	float finalTotalWaitTime;
 
