@@ -1,0 +1,11 @@
+{
+    "UID": 5338478746359114717,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/fireSurface_Cylinder.fireSurface_Cylinder_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/fireSurface_CylinderfireSurface_Cylinder_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
