@@ -49,6 +49,15 @@ void CameraControllerScript::Start()
 	finalTargetOrientation = transform->GetGlobalRotation();
 	CalculateOffsetVector();
 	CalculateFocusOffsetVector();
+
+	if (camera->GetCamera()->GetZFar() == 0.0f)
+	{
+		camera->GetCamera()->SetPlaneDistance(camera->GetCamera()->GetZNear(), 100.0f);
+	}
+	if (camera->GetCamera()->GetZNear() == 0.0f)
+	{
+		camera->GetCamera()->SetPlaneDistance(0.1f, camera->GetCamera()->GetZFar());
+	}
 }
 
 void CameraControllerScript::PreUpdate(float deltaTime)

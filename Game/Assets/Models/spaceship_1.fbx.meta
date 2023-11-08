@@ -1,0 +1,37 @@
+{
+    "UID": 6468979632945672251,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/spaceship_1.Box001_0.mesh",
+        "Assets/Meshes/spaceship_1.Box007_0.mesh",
+        "Assets/Meshes/spaceship_1.Box011_0.mesh",
+        "Assets/Meshes/spaceship_1.Cylinder005_0.mesh",
+        "Assets/Meshes/spaceship_1.Cylinder004_0.mesh",
+        "Assets/Meshes/spaceship_1.Box003_0.mesh",
+        "Assets/Meshes/spaceship_1.Box002_0.mesh",
+        "Assets/Meshes/spaceship_1.Cylinder006_0.mesh",
+        "Assets/Meshes/spaceship_1.Box009_0.mesh",
+        "Assets/Meshes/spaceship_1.Box010_0.mesh",
+        "Assets/Meshes/spaceship_1.Cylinder007_0.mesh",
+        "Assets/Meshes/spaceship_1.Cylinder008_0.mesh",
+        "Assets/Meshes/spaceship_1.Cylinder009_0.mesh",
+        "Assets/Meshes/spaceship_1.Object001_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/spaceship_1Body_0.mat",
+        "Assets/Materials/spaceship_1Wings_0.mat",
+        "Assets/Materials/spaceship_1Wings_0.mat",
+        "Assets/Materials/spaceship_1MotorCylinders_0.mat",
+        "Assets/Materials/spaceship_1MotorCylinders_0.mat",
+        "Assets/Materials/spaceship_1CylindersSeparation_0.mat",
+        "Assets/Materials/spaceship_1MotorCubes_0.mat",
+        "Assets/Materials/spaceship_1Exhausts_0.mat",
+        "Assets/Materials/spaceship_1MotorCubes_0.mat",
+        "Assets/Materials/spaceship_1CylindersSeparation_0.mat",
+        "Assets/Materials/spaceship_1MotorCylinders_0.mat",
+        "Assets/Materials/spaceship_1MotorCylinders_0.mat",
+        "Assets/Materials/spaceship_1Exhausts_0.mat",
+        "Assets/Materials/spaceship_1Cabin_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

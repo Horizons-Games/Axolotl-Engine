@@ -926,6 +926,27 @@
     <ClCompile Include="..\Game\Scripts\UIVideoControl.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\FireMovingObstacle.cpp">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\MultipleFireObstacle.cpp">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SpaceshipDeathManager.cpp">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SpaceshipMovement.cpp">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\SpaceshipObstacle.cpp">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\TurbineObstacle.cpp">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\UIGameManagerSpaceship.cpp">
+      <Filter>UserScripts\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1896,6 +1917,27 @@
     <ClInclude Include="..\Game\Scripts\UIVideoControl.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Game\Scripts\FireMovingObstacle.h">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\MultipleFireObstacle.h">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SpaceshipDeathManager.h">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SpaceshipMovement.h">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\SpaceshipObstacle.h">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\TurbineObstacle.h">
+      <Filter>UserScripts\Gameplay\Spaceship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\UIGameManagerSpaceship.h">
+      <Filter>UserScripts\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -2110,6 +2152,9 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Player\Abilities\Force">
       <UniqueIdentifier>{37e1f9f3-29cc-4e55-80e7-ef0301bc00af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserScripts\Gameplay\Spaceship">
+      <UniqueIdentifier>{bef71042-efbf-434a-83ee-3a70cf4379b6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
