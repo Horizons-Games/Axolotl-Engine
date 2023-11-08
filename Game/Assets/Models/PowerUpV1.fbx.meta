@@ -1,0 +1,17 @@
+{
+    "UID": 15485875515048730641,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/PowerUpV1.Cube_0.mesh",
+        "Assets/Meshes/PowerUpV1.Cylinder_0.mesh",
+        "Assets/Meshes/PowerUpV1.Cylinder.003_0.mesh",
+        "Assets/Meshes/PowerUpV1.Cylinder.004_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/PowerUpV1Material_0.mat",
+        "Assets/Materials/PowerUpV1DefaultMaterial_0.mat",
+        "Assets/Materials/PowerUpV1DefaultMaterial_0.mat",
+        "Assets/Materials/PowerUpV1DefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

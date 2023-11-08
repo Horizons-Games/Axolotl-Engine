@@ -347,6 +347,7 @@ void EnemyDroneScript::ResetValues()
 	aiMovement->SetMovementStatuses(true, true);
 	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
 	enemyDeathScript->ResetDespawnTimerAndEnableActions();
+	enemyDeathScript->SetChanceToGivePowerUp(true);
 	if(pathScript)
 	{
 		pathScript->Enable();

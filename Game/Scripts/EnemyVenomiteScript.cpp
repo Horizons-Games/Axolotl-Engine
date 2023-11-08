@@ -340,6 +340,7 @@ void EnemyVenomiteScript::ResetValues()
 	aiMovement->SetMovementStatuses(true, true);
 	venomiteState = VenomiteBehaviours::INPATH;
 	meleeAttackScript->ResetScriptValues();
+	deathScript->SetChanceToGivePowerUp(true);
 	healthScript->HealLife(1000.0f); // It will cap at max health
 	EnemyDeathScript* enemyDeathScript = owner->GetComponent<EnemyDeathScript>();
 	enemyDeathScript->ResetDespawnTimerAndEnableActions();

@@ -316,6 +316,17 @@ void ComponentPlanarReflection::InternalLoad(const Json& meta)
 	planeNormal.z = static_cast<float>(meta["planeNormal_z"]);
 
 	distortionAmount = static_cast<float>(meta["distortion_amount"]);
+
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+
+	float3 scaling = scale;
+
+	float3 translation = float3(-0.5f);
+
+	transform->TranslateLocalAABB(translation);
+	scaling.x *= 10;
+	scaling.z *= 10;
+	transform->ScaleLocalAABB(scaling);
 }
 
 void ComponentPlanarReflection::SignalEnable()
