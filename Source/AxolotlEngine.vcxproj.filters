@@ -1896,6 +1896,9 @@
     <ClInclude Include="..\Game\Scripts\UIVideoControl.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Resources\resource.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -2110,6 +2113,9 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Player\Abilities\Force">
       <UniqueIdentifier>{37e1f9f3-29cc-4e55-80e7-ef0301bc00af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{a20bd10d-3e67-4f9c-8562-89b86e5632fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3212,5 +3218,15 @@
     <None Include="DataModels\GameObject\GameObject.inl">
       <Filter>DataModels\GameObject</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\axolotl_engine.ico">
+      <Filter>Resources</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources\AxolotlEngine.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
