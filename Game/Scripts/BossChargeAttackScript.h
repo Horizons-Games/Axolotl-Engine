@@ -86,4 +86,5 @@ private:
 	BossWallChecker* wallChecker;
 
 	GameObject* propulsorVFX;
+	GameObject* hitWallVFX;
 };

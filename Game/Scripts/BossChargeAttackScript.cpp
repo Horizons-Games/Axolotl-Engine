@@ -47,6 +47,7 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 	REGISTER_FIELD(wallChecker, BossWallChecker*);
 
 	REGISTER_FIELD(propulsorVFX, GameObject*);
+	REGISTER_FIELD(hitWallVFX, GameObject*);
 }
 
 void BossChargeAttackScript::Start()
@@ -95,7 +96,6 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 			MakeRocksFall();
 		}
 
-		// VFX Here: The boss hit the wall after a charge attack
 	}
 	else if (chargeState == ChargeState::CHARGING && !chargeHitPlayer && other->GetOwner()->CompareTag("Player"))
 	{
@@ -189,6 +189,8 @@ void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
 			rocksSpawned.clear();
 
 			chargeState = ChargeState::NONE;
+			animator->SetParameter("IsChargingHitWall", false);
+			hitWallVFX->Disable();
 		}
 		else
 		{
@@ -264,6 +266,8 @@ void BossChargeAttackScript::WallHitAfterCharge() const
 
 	propulsorVFX->GetChildren()[1]->Disable();
 	propulsorVFX->GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+
+	hitWallVFX->Enable();
 }
 
 bool BossChargeAttackScript::CanPerformChargeAttack() const
