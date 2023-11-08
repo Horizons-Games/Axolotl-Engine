@@ -1144,6 +1144,7 @@
     <ClInclude Include="Defines\GlslDefines.h" />
     <ClInclude Include="Defines\QuadtreeDefines.h" />
     <ClInclude Include="Defines\WindowDefines.h" />
+    <ClInclude Include="EngineResources\resource.h" />
     <ClInclude Include="Enums\BlendingType.h" />
     <ClInclude Include="Enums\ComponentType.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.h">
@@ -1484,7 +1485,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugGame|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Physics\Physics.h" />
-    <ClInclude Include="Resources\resource.h" />
     <ClInclude Include="Scheduler.h" />
     <ClInclude Include="Scripting\InterfacesIds.h" />
     <ClInclude Include="Scripting\IScript.h" />
@@ -1522,10 +1522,10 @@
     <None Include="DataModels\GameObject\GameObject.inl" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\axolotl_engine.ico" />
+    <Image Include="EngineResources\axolotl_engine.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resources\AxolotlEngine.rc" />
+    <ResourceCompile Include="EngineResources\AxolotlEngine.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
