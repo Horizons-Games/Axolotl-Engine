@@ -10,13 +10,14 @@
 #include "../Scripts/ShockWaveAttackAreaScript.h"
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/AIMovement.h"
+#include "../Scripts/PatrolBehaviourScript.h"
 
 REGISTERCLASS(ShockWaveAttackScript);
 
 ShockWaveAttackScript::ShockWaveAttackScript() : Script(), outerArea(nullptr), innerArea(nullptr),
 	shockWaveCooldown(0.0f), shockWaveMaxCooldown(5.0f), shockWaveHitPlayer(false), shockWaveDamage(10.0f),
 	/*rigidBody(nullptr),*/ transform(nullptr), targetPosition(nullptr), isSeeking(false), animator(nullptr),
-	isPreparingShockwave(false)
+	isPreparingShockwave(false), patrolScript(nullptr)
 {
 	REGISTER_FIELD(shockWaveMaxCooldown, float);
 	REGISTER_FIELD(shockWaveDamage, float);
@@ -34,6 +35,7 @@ void ShockWaveAttackScript::Start()
 	aiMovement = owner->GetComponent<AIMovement>();
 	agent = owner->GetComponent<ComponentAgent>();
 	animator = owner->GetComponent<ComponentAnimation>();
+	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 }
 
 void ShockWaveAttackScript::Update(float deltaTime)
@@ -96,7 +98,7 @@ bool ShockWaveAttackScript::IsAttacking() const
 {
 	return outerArea->GetAreaState() == AreaState::EXPANDING ||
 			innerArea->GetAreaState() == AreaState::EXPANDING ||
-			isSeeking;
+			isSeeking || isPreparingShockwave;
 }
 
 void ShockWaveAttackScript::ManageAreaBehaviour(float deltaTime)
@@ -132,11 +134,12 @@ void ShockWaveAttackScript::SeekTowardsTarget()
 	/*rigidBody->SetPositionTarget(targetPosition->GetGlobalPosition());
 	rigidBody->SetKpForce(2.0f);*/
 
-	if (transform->GetGlobalPosition().Equals(targetPosition->GetGlobalPosition(), 5.0f))
+	if (transform->GetGlobalPosition().Equals(targetPosition->GetGlobalPosition(), 8.0f))
 	{
 		isSeeking = false;
 		PrepareShockWaveAttack(targetPosition);
-		aiMovement->SetMovementStatuses(false, false);
+		patrolScript->StopPatrol();
+		animator->SetParameter("IsPatrolling", false);
 	}
 }
 

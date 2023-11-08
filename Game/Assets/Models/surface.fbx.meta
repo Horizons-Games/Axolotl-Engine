@@ -1,0 +1,11 @@
+{
+    "UID": 14181041188268414467,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/surface.Box001_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/surfaceMaterial #25_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

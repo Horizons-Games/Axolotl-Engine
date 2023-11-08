@@ -10,6 +10,7 @@
 #include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/EnemyClass.h"
 #include "../Scripts/PlayerDeathScript.h"
+#include "../Scripts/SpaceshipDeathManager.h"
 #include "../Scripts/EnemyDeathScript.h"
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/ComboManager.h"
@@ -21,7 +22,8 @@ REGISTERCLASS(HealthSystem);
 #define MAX_TIME_EFFECT_DURATION 0.15f
 
 HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), 
-	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr),	damageTaken(false), playerManager(nullptr)
+	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr),	damageTaken(false), playerManager(nullptr),
+	immortalTimer(0.0f)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
@@ -86,6 +88,15 @@ void HealthSystem::Update(float deltaTime)
 		componentAnimation->SetParameter("IsTakingDamage", false);
 		damageTaken = false;
 	}
+
+	if (isImmortal && immortalTimer > 0.0f)
+	{
+		immortalTimer -= deltaTime;
+		if (immortalTimer <= 0.0f)
+		{
+			isImmortal = false;
+		}
+	}
 }
 
 void HealthSystem::TakeDamage(float damage)
@@ -123,6 +134,16 @@ void HealthSystem::TakeDamage(float damage)
 				damageTaken = true;
 				ModuleInput* input = App->GetModule<ModuleInput>();
 				input->Rumble();
+			}
+		}
+		else if (owner->CompareTag("PlayerSpaceship"))
+		{
+			currentHealth -= damage;
+			SetImmortalTimer(1.0f);
+			if (currentHealth <= 0.0f)
+			{
+				SpaceshipDeathManager* spaceshipDeathManager = owner->GetComponent<SpaceshipDeathManager>();
+				spaceshipDeathManager->ManageSpaceshipDeath();
 			}
 		}
 
@@ -168,6 +189,12 @@ bool HealthSystem::IsImmortal() const
 void HealthSystem::SetIsImmortal(bool isImmortal)
 {
 	this->isImmortal = isImmortal;
+}
+
+void HealthSystem::SetImmortalTimer(float duration)
+{
+	isImmortal = true;
+	immortalTimer = duration;
 }
 
 void HealthSystem::SetDeathCallback(std::function<void(void)>&& callDeath)

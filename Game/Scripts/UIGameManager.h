@@ -39,7 +39,7 @@ public:
 	void SetMaxPowerUpTime(float maxPowerUpTime);
 	void InputMethodImg(bool input);
 
-private:
+protected:
 	enum class PowerUpType savePwrUp;
 	enum class PowerUpType activePwrUp;
 

@@ -6,6 +6,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentRigidBody;
+class ComponentParticleSystem;
 
 class BossShieldScript : public Script
 {
@@ -29,4 +30,7 @@ private:
 	ComponentRigidBody* parentRigidBody;
 
 	bool hitBySpecialTarget;
+
+	// Modifiable values
+	ComponentParticleSystem* particleSystem;
 };

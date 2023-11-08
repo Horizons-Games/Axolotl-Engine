@@ -5,6 +5,6 @@
         "Assets/Textures/Target.png"
     ],
     "ConfigEmitters": [
-        true
+        false
     ]
 }

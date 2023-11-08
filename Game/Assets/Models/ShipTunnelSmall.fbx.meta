@@ -1,0 +1,11 @@
+{
+    "UID": 1139976265282735961,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/ShipTunnelSmall.Cube.007_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/ShipTunnelSmallDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

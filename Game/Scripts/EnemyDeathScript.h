@@ -18,6 +18,7 @@ public:
 	void ManageEnemyDeath();
 
 	void ResetDespawnTimerAndEnableActions();
+	void SetChanceToGivePowerUp(bool nChanceToGivePowerUp);
 
 private:
 	GameObject* RequestPowerUp() const;
