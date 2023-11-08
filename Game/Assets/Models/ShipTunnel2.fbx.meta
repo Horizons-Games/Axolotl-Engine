@@ -1,0 +1,15 @@
+{
+    "UID": 2103340146861176786,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/ShipTunnel2.Cube.007_0.mesh",
+        "Assets/Meshes/ShipTunnel2.Cube.005_0.mesh",
+        "Assets/Meshes/ShipTunnel2.Cube.017_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/ShipTunnel2DefaultMaterial_0.mat",
+        "Assets/Materials/ShipTunnel2DefaultMaterial_0.mat",
+        "Assets/Materials/ShipTunnel2DefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

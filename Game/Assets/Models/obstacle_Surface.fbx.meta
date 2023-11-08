@@ -1,0 +1,11 @@
+{
+    "UID": 12552063241312094212,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/obstacle_Surface.Obstacle_wall_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/obstacle_SurfaceObstacle_wall_0.mat"
+    ],
+    "AnimAssetPaths": null
+}
