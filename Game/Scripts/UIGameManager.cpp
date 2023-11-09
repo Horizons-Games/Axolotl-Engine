@@ -1,20 +1,19 @@
 #include "StdAfx.h"
-
 #include "UIGameManager.h"
 
 #include "Application.h"
+#include "ModulePlayer.h"
+#include "ModuleScene.h"
+#include "ModuleUI.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentScript.h"
 #include "Components/UI/ComponentSlider.h"
-#include "ModulePlayer.h"
-#include "ModuleScene.h"
 #include "SwitchPlayerManagerScript.h"
 #include "UIImageDisplacementControl.h"
 #include "HealthSystem.h"
 #include "PauseManager.h"
 #include "EnemyClass.h"
-#include "ModuleUI.h"
-#include "Components/ComponentPlayer.h"
+#include "SceneLoadingScript.h"
 
 REGISTERCLASS(UIGameManager);
 
@@ -23,7 +22,7 @@ hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), 
 speedPwrUpObject(nullptr), pwrUpActive(false), savePwrUp(PowerUpType::NONE), sliderHudHealthBixFront(nullptr), 
 sliderHudHealthBixBack(nullptr), sliderHudHealthAlluraFront(nullptr), sliderHudHealthAlluraBack(nullptr),
 debugModeObject(nullptr), imgMouse(nullptr), imgController(nullptr), inputMethod(true), prevInputMethod(true),
-optionMenuActive (false), loadRetryScene("Insert here the actual Level")
+optionMenuActive (false)
 {
 	REGISTER_FIELD(manager, GameObject*);
 	REGISTER_FIELD(mainMenuObject, GameObject*);
@@ -43,9 +42,8 @@ optionMenuActive (false), loadRetryScene("Insert here the actual Level")
 	REGISTER_FIELD(speedPwrUpObject, GameObject*);
 
 	REGISTER_FIELD(gameStates, GameObject*);
-	REGISTER_FIELD(loadRetryScene, std::string);
-
-
+	REGISTER_FIELD(retryLoadingScreenScript, SceneLoadingScript*);
+	REGISTER_FIELD(mainMenuLoadingScreenScript, SceneLoadingScript*);
 }
 
 void UIGameManager::Start()
@@ -305,7 +303,6 @@ void UIGameManager::SetMaxPowerUpTime(float maxPowerUpTime)
 void UIGameManager::ModifySliderHealthValue(HealthSystem* healthSystemClass, 
 	ComponentSlider* componentSliderBack, ComponentSlider* componentSliderFront, float deltaTime)
 {
-
 	float currentHealth = healthSystemClass->GetCurrentHealth();
 	// We use 2 slider to do a effect in the health bar
 	damage = currentHealth - componentSliderFront->GetCurrentValue();
@@ -345,27 +342,34 @@ void UIGameManager::LoseGameState(float deltaTime)
 	{
 		gameStates->Enable();
 		gameStates->GetChildren()[1]->GetChildren()[0]->Enable();
+
 		LOG_INFO("YOU LOSE THE GAME");
 	}
 	
 	// A button to Retry the game
 	if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN)
 	{
-#ifndef ENGINE
-		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/"+loadRetryScene);
-#endif // 
+		gameStates->GetChildren()[1]->GetChildren()[0]->Disable();
+		gameStates->GetChildren()[2]->GetChildren()[0]->Enable();
 
 		LOG_INFO("YOU PRESSED A BUTTON AND LOAD RETRY SCENE");
+
+#ifndef ENGINE
+		retryLoadingScreenScript->StartLoad();
+#endif // 
 	}
 
 	// B button to go to the main menu
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
 	{
-#ifndef ENGINE
-		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/00_MainMenu_VS3.axolotl");
-#endif // 
+		gameStates->GetChildren()[1]->GetChildren()[0]->Disable();
+		gameStates->GetChildren()[2]->GetChildren()[1]->Enable();
 
 		LOG_INFO("YOU PRESSED B BUTTON AND LOAD MAIN MENU");
+
+#ifndef ENGINE
+		mainMenuLoadingScreenScript->StartLoad();
+#endif // 
 	}
 }
 
@@ -376,17 +380,21 @@ void UIGameManager::WinGameState()
 	{
 		gameStates->Enable();
 		gameStates->GetChildren()[1]->GetChildren()[1]->Enable();
+
 		LOG_INFO("YOU WIN THE GAME");
 	}
 
 	// B button to go to the main menu
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
 	{
-#ifndef ENGINE
-		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/00_MainMenu_VS3.axolotl");
-#endif // 
+		gameStates->GetChildren()[1]->GetChildren()[1]->Disable();
+		gameStates->GetChildren()[2]->GetChildren()[1]->Enable();
 
 		LOG_INFO("YOU PRESSED B BUTTON AND LOAD MAIN MENU");
+
+#ifndef ENGINE
+		mainMenuLoadingScreenScript->StartLoad();
+#endif // 
 	}
 }
 
@@ -434,6 +442,4 @@ void UIGameManager::InputMethodImg(bool input)
 			currentInputTime++;
 		}
 	}
-
 }
-

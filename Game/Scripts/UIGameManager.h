@@ -11,6 +11,7 @@ class ComponentPlayer;
 class ComponentSlider;
 class HealthSystem;
 class ModuleUI;
+class SceneLoadingScript;
 
 class UIGameManager : public Script
 {
@@ -68,7 +69,8 @@ protected:
 	GameObject* imgController;
 
 	GameObject* gameStates;
-	std::string loadRetryScene;
+	SceneLoadingScript* retryLoadingScreenScript;
+	SceneLoadingScript* mainMenuLoadingScreenScript;
 
 	GameObject* sliderHudHealthBixFront;
 	GameObject* sliderHudHealthBixBack;
