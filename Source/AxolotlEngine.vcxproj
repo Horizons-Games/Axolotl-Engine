@@ -207,6 +207,7 @@
     <ClCompile Include="..\Game\Scripts\ExplosionManagerEffect.cpp" />
     <ClCompile Include="..\Game\Scripts\FinalBossScript.cpp" />
     <ClCompile Include="..\Game\Scripts\FireMovingObstacle.cpp" />
+    <ClCompile Include="..\Game\Scripts\FireObstaclePermanentAudio.cpp" />
     <ClCompile Include="..\Game\Scripts\ForceTrigger.cpp" />
     <ClCompile Include="..\Game\Scripts\GeneratorSpaceStationAudio.cpp" />
     <ClCompile Include="..\Game\Scripts\HackingCommand.cpp" />
@@ -340,6 +341,7 @@
     <ClCompile Include="..\Game\Scripts\SwitchTutorial.cpp" />
     <ClCompile Include="..\Game\Scripts\TurbineObstacle.cpp" />
     <ClCompile Include="..\Game\Scripts\TurbineSewersAudio.cpp" />
+    <ClCompile Include="..\Game\Scripts\TurbineSpaceshipEscapeAudio.cpp" />
     <ClCompile Include="..\Game\Scripts\TurnDisable.cpp" />
     <ClCompile Include="..\Game\Scripts\TutorialSystem.cpp" />
     <ClCompile Include="..\Game\Scripts\SwitchPlayerManagerScript.cpp" />
@@ -943,6 +945,7 @@
     <ClInclude Include="..\Game\Scripts\ExplosionManagerEffect.h" />
     <ClInclude Include="..\Game\Scripts\FinalBossScript.h" />
     <ClInclude Include="..\Game\Scripts\FireMovingObstacle.h" />
+    <ClInclude Include="..\Game\Scripts\FireObstaclePermanentAudio.h" />
     <ClInclude Include="..\Game\Scripts\ForceTrigger.h" />
     <ClInclude Include="..\Game\Scripts\GeneratorSpaceStationAudio.h" />
     <ClInclude Include="..\Game\Scripts\HackingCommand.h" />
@@ -993,6 +996,7 @@
     <ClInclude Include="..\Game\Scripts\SwitchTutorial.h" />
     <ClInclude Include="..\Game\Scripts\TurbineObstacle.h" />
     <ClInclude Include="..\Game\Scripts\TurbineSewersAudio.h" />
+    <ClInclude Include="..\Game\Scripts\TurbineSpaceshipEscapeAudio.h" />
     <ClInclude Include="..\Game\Scripts\TurnDisable.h" />
     <ClInclude Include="..\Game\Scripts\TutorialSystem.h" />
     <ClInclude Include="..\Game\Scripts\SwitchPlayerManagerScript.h" />

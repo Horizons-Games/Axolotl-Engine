@@ -157,7 +157,7 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 	bulletScript->SetBulletVelocity(bulletVelocity);
 	bulletScript->SetTargetTag("Player");
 	bulletScript->SetBulletDamage(attackDamage);
-	bulletScript->GetComponent<RangedFastAttackBullet>()->SetImpactSound(AUDIO::SFX::NPC::SHOT_IMPACT);
+	bulletScript->SetImpactSound(AUDIO::SFX::NPC::SHOT_IMPACT);
 	bulletScript->ResetValues();
 	bulletScript->ShotBullet(transform->GetGlobalForward());
 

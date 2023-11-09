@@ -6,6 +6,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentRigidBody;
+class ComponentAudioSource;
 
 enum class FireState
 {
@@ -35,6 +36,8 @@ private:
 
 	float timer;
 	FireState fireState;
+
+	ComponentAudioSource* audioSource;
 };
 
 
