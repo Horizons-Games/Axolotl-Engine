@@ -28,9 +28,10 @@
 
 REGISTERCLASS(UITrigger);
 
-UITrigger::UITrigger() : Script(),componentAudio(nullptr), activeState(ActiveActions::INACTIVE), setUiGameManager(nullptr),
-uiGameManagerClass(nullptr), isLoseTrigger (nullptr), isWinTrigger(nullptr), isNextSceneTrigger(nullptr), isLoseByDamage(false), 
-playerHealthSystem(nullptr), onTriggerState(false), damageTaken(1), setLoadingScreenImage(nullptr), noRestrictions(nullptr)
+UITrigger::UITrigger() : Script(), componentAudio(nullptr), activeState(ActiveActions::INACTIVE), setUiGameManager(nullptr),
+uiGameManagerClass(nullptr), isLoseTrigger(nullptr), isWinTrigger(nullptr), isNextSceneTrigger(nullptr), isLoseByDamage(false),
+playerHealthSystem(nullptr), onTriggerState(false), damageTaken(1), setLoadingScreenImage(nullptr), noRestrictions(nullptr),
+timer(0.0f), timerImg(2.0f), damageTimer(0.0f)
 {
 	REGISTER_FIELD(isLoseTrigger, bool);
 	REGISTER_FIELD(setUiGameManager, GameObject*);
@@ -95,7 +96,7 @@ void UITrigger::Update(float deltaTime)
 		}
 		else if (isNextSceneTrigger)
 		{
-			LoadScene();	
+			LoadScene(deltaTime);	
 		}
 	}
 }
@@ -116,8 +117,18 @@ void UITrigger::OnCollisionExit(ComponentRigidBody* other)
 	}
 }
 
-void UITrigger::LoadScene()
+void UITrigger::LoadScene(float deltaTime)
 {
+	if (timerImg <= 0.0f)
+	{
+		timerImg = 2.0f;
+	}
+	else
+	{
+		timerImg -= deltaTime;
+		return;
+	}
+
 	if (hackZoneScript->IsCompleted() || !hackZoneScript && noRestrictions)
 	{
 		if (setLoadingScreenImage)
