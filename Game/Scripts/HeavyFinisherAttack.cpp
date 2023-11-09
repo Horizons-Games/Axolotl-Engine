@@ -294,6 +294,8 @@ void HeavyFinisherAttack::SeekNextEnemy()
 
 void HeavyFinisherAttack::ResetValues()
 {
+	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_THROW_STOP);
+
 	transform->SetLocalPosition(attackOwner->GetGlobalPosition());
 	transform->UpdateTransformMatrices();
 	owner->SetParent(attackOwner->GetOwner());

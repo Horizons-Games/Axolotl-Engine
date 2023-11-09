@@ -34,6 +34,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3179808718	FinalBoss_SummonEnemies			\SFX\NPC\FinalBoss\FinalBoss_SummonEnemies	
 	3249137159	EnemyDeath			\SFX\NPC\EnemyDeath	
 	3518287078	sfx_dron_behaviours_stop			\SFX\NPC\DRON\sfx_dron_behaviours_stop	
+	3544174664	FinalBoss_StunnedStop			\SFX\NPC\FinalBoss\FinalBoss_StunnedStop	
 	3588765425	sfx_crowdNPC_laughing			\SFX\NPC\NPCsCantina\sfx_crowdNPC_laughing	
 	3608677771	EnemyAlert			\SFX\NPC\EnemyAlert	
 	3707501265	sfx_dron_death_timer			\SFX\NPC\DRON\sfx_dron_death_timer	

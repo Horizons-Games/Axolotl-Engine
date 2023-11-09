@@ -185,7 +185,7 @@ void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
 			/*rigidBody->SetXRotationAxisBlocked(false);
 			rigidBody->SetYRotationAxisBlocked(false);
 			rigidBody->SetZRotationAxisBlocked(false);*/
-
+			audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_STUNNED_STOP);
 			rocksSpawned.clear();
 
 			chargeState = ChargeState::NONE;

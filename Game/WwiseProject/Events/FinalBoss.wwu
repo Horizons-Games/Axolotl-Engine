@@ -210,6 +210,20 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="FinalBoss_StunnedStop" ID="{32F76CB2-30AA-402C-860D-EFB59705B03F}">
+					<ChildrenList>
+						<Action Name="" ID="{F251AA74-660E-48FD-B2BE-6BC39CBF368C}" ShortID="784292516">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_npc_so_boss_charge_wall_stunt_rr" ID="{AB1EDEE3-9FCF-4FA1-97D7-083922439EFB}" WorkUnitID="{6FAD3F16-75C2-4B34-9C5A-663E645C85D2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

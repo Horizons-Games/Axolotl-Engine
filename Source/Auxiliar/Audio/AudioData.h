@@ -42,6 +42,7 @@ static const wchar_t* ENERGYSHIELD_STOP = L"FinalBoss_EnergyShieldStop";
 static const wchar_t* CHARGE_ATTACK = L"FinalBoss_ChargeAttack";
 static const wchar_t* CHARGE_WALL_HIT = L"FinalBoss_WallHit";
 static const wchar_t* CHARGE_WALL_STUNNED = L"FinalBoss_Stunned";
+static const wchar_t* CHARGE_WALL_STUNNED_STOP = L"FinalBoss_StunnedStop";
 static const wchar_t* CHARGE_ROCKS = L"FinalBoss_RocksFalling";
 static const wchar_t* CHARGE_ROCKS_IMPACT = L"FinalBoss_RocksImpact";
 static const wchar_t* HAMMER_HIT = L"FinalBoss_HammerAttack";

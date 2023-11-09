@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{264F6050-C721-8CF2-9AA1-FC2665C8D97E}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{248339C5-A404-70B6-DEAD-E2535AAFD10C}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
@@ -411,7 +411,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{A9777F8E-0B0F-0294-4545-B8D35F37FB00}">
+		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{ADC76B5D-421E-D437-01B1-1B82AE4D7417}">
 			<ShortName>NPC</ShortName>
 			<Path>NPC.bnk</Path>
 			<Media>
@@ -1256,6 +1256,7 @@
 						<MediaRef Id="961760128"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="3544174664" Name="FinalBoss_StunnedStop"/>
 				<Event Id="3179808718" Name="FinalBoss_SummonEnemies">
 					<MediaRefs>
 						<MediaRef Id="355633358"/>
@@ -2772,5 +2773,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{85893BA9-E901-752A-B7E0-DBDE631C28EE}</FileHash>
+	<FileHash>{3951A35A-C7D2-1B8A-33E0-C8B57C97CFB5}</FileHash>
 </SoundBanksInfo>

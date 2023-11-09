@@ -87,6 +87,7 @@ void LightAttackBullet::Update(float deltaTime)
 	lifeTime += deltaTime;
 	if (lifeTime > maxLifeTimeBullet)
 	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ROCKS_THROW_STOP);
 		DestroyBullet();
 	}
 

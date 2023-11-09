@@ -458,7 +458,12 @@ void PlayerAttackScript::UpdateJumpAttack()
 
 		if (!isMelee)
 		{
+			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::GRANADE_EXPLOSION);
 			jumpFinisherScript->SetBulletHitTheFloor(false);
+		}
+		else
+		{
+			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_DOWN_ATTACK);
 		}
 		currentAttack = AttackType::NONE;
 	}
