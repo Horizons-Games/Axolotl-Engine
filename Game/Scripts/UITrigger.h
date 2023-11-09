@@ -40,7 +40,7 @@ public:
 	bool IsNextSceneTriggerEnable() const;
 
 private:
-	void LoadScene();
+	void LoadScene(float deltaTime);
 
 private:
 	bool isLoseTrigger;
@@ -49,9 +49,12 @@ private:
 	bool isLoseByDamage;
 	bool onTriggerState;
 	bool noRestrictions;
+
 	float damageTaken;
-	float damageTimer = 0;
-	float timer = 0;
+	float damageTimer;
+	float timer;
+	float timerImg;
+
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;
 	ActiveActions activeState;
