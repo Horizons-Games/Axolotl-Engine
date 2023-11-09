@@ -923,6 +923,9 @@
     <ClCompile Include="..\Game\Scripts\UIVideoControl.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\WaterBubblesAudio.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1889,6 +1892,9 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIVideoControl.h">
       <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\WaterBubblesAudio.h">
+      <Filter>UserScripts\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

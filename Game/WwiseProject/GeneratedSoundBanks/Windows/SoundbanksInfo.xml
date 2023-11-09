@@ -9,39 +9,341 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{CF2626F4-DC14-EC61-C329-90BCCF732A76}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{264F6050-C721-8CF2-9AA1-FC2665C8D97E}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
-				<File Id="68185993" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>Canteen.wav</ShortName>
-					<CachePath>SFX/Canteen_4B134FD5.wem</CachePath>
+				<File Id="5640303" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_so_fire_burst_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_so_fire_burst_rr01_10C4C929.wem</CachePath>
 				</File>
-				<File Id="106158711" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>cantina_music.wav</ShortName>
-					<CachePath>SFX/cantina_music_D79FB2B7.wem</CachePath>
+				<File Id="10014200" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_big_mechanical_door_open_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_big_mechanical_door_open_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="14628986" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Deprecated\as_ab_ao_turbine_rr_01.wav</ShortName>
+					<CachePath>SFX/Deprecated/as_ab_ao_turbine_rr_01_D207DBC2.wem</CachePath>
+				</File>
+				<File Id="27018474" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_small_automatic_door_rr_02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_small_automatic_door_rr_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="28013945" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_bubbles_rr07.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_bubbles_rr07_10C4C929.wem</CachePath>
+				</File>
+				<File Id="41607935" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ab_sl_hacking.wav</ShortName>
+					<CachePath>SFX/as_ab_sl_hacking_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="43591575" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Deprecated\as_ab_ao_turbine_rr_04.wav</ShortName>
+					<CachePath>SFX/Deprecated/as_ab_ao_turbine_rr_04_FFC87E95.wem</CachePath>
+				</File>
+				<File Id="71245673" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Deprecated\as_ab_ao_turbine_rr_02.wav</ShortName>
+					<CachePath>SFX/Deprecated/as_ab_ao_turbine_rr_02_53F4D5C9.wem</CachePath>
+				</File>
+				<File Id="86435111" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Deprecated\as_ab_ao_turbine_rr_05.wav</ShortName>
+					<CachePath>SFX/Deprecated/as_ab_ao_turbine_rr_05_A8A7EA13.wem</CachePath>
+				</File>
+				<File Id="91871275" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_bubbles_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_bubbles_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="95920813" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Deprecated\as_ab_ao_turbine_rr_03.wav</ShortName>
+					<CachePath>SFX/Deprecated/as_ab_ao_turbine_rr_03_D7D234E4.wem</CachePath>
+				</File>
+				<File Id="163565891" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Deprecated\as_ab_ao_turbine_rr_01.wav</ShortName>
+					<CachePath>SFX/Deprecated/as_ab_ao_turbine_rr_01_54D1DA82.wem</CachePath>
+				</File>
+				<File Id="183939974" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_so_fire_burst_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_so_fire_burst_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="205001569" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_al_turbine_rr04.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_al_turbine_rr04_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="244272910" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_al_turbine_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_al_turbine_rr03_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="253185104" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Sewers-B-A-Trasition.wav</ShortName>
+					<CachePath>SFX/Sewers-B-A-Trasition_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="263142635" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_ambient_water_falling.wav</ShortName>
+					<CachePath>SFX/sfx_ambient_water_falling_7A8F70FB.wem</CachePath>
+				</File>
+				<File Id="281062720" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_big_mechanical_door_close_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_big_mechanical_door_close_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="299252987" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_small_automatic_door_rr_03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_small_automatic_door_rr_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="319965634" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ab_so_elevator_start.wav</ShortName>
+					<CachePath>SFX/as_ab_so_elevator_start_10C4C929.wem</CachePath>
+				</File>
+				<File Id="356857217" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_al_turbine_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_al_turbine_rr01_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="366252739" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Deprecated\as_ab_ao_turbine_rr_06.wav</ShortName>
+					<CachePath>SFX/Deprecated/as_ab_ao_turbine_rr_06_AABE9368.wem</CachePath>
+				</File>
+				<File Id="382863968" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Deprecated\as_ab_ao_turbine_rr_02.wav</ShortName>
+					<CachePath>SFX/Deprecated/as_ab_ao_turbine_rr_02_FD83414F.wem</CachePath>
+				</File>
+				<File Id="387993546" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_small_automatic_door_close_rr_02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_small_automatic_door_close_rr_02_ECADED2F.wem</CachePath>
+				</File>
+				<File Id="391955015" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_sl_fire_thrower_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_sl_fire_thrower_rr03_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="397861920" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>182680-amb-doomdrones-ripley-hall.wav</ShortName>
 					<CachePath>SFX/182680-amb-doomdrones-ripley-hall_D79FB2B7.wem</CachePath>
 				</File>
+				<File Id="462868040" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_bubbles_rr08.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_bubbles_rr08_10C4C929.wem</CachePath>
+				</File>
+				<File Id="469072811" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_small_automatic_door_rr_01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_small_automatic_door_rr_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="505824316" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Deprecated\as_ab_ao_turbine_rr_03.wav</ShortName>
+					<CachePath>SFX/Deprecated/as_ab_ao_turbine_rr_03_2A6E3CB2.wem</CachePath>
+				</File>
+				<File Id="577156729" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Deprecated\as_ab_ao_turbine_rr_06.wav</ShortName>
+					<CachePath>SFX/Deprecated/as_ab_ao_turbine_rr_06_CB743E7B.wem</CachePath>
+				</File>
+				<File Id="582001194" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_al_turbine_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_al_turbine_rr02_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="588039926" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Deprecated\as_ab_ao_turbine_rr_05.wav</ShortName>
+					<CachePath>SFX/Deprecated/as_ab_ao_turbine_rr_05_F515628A.wem</CachePath>
+				</File>
+				<File Id="603595281" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Canteen.wav</ShortName>
+					<CachePath>SFX/Canteen_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="606864926" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ab_ao_wind.wav</ShortName>
+					<CachePath>SFX/as_ab_ao_wind_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="628217826" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_big_mechanical_door_close_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_big_mechanical_door_close_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="637370873" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_big_mechanical_door_close_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_big_mechanical_door_close_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="646900479" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Sewers-A-B-Trasition.wav</ShortName>
+					<CachePath>SFX/Sewers-A-B-Trasition_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="649108800" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_bigDoor_close-001.wav</ShortName>
+					<CachePath>SFX/sfx_bigDoor_close-001_10C4C929.wem</CachePath>
+				</File>
+				<File Id="669449363" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_sl_fire_thrower_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_sl_fire_thrower_rr01_D79FB2B7.wem</CachePath>
+				</File>
 				<File Id="699998174" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_ambient_sewers_002.wav</ShortName>
 					<CachePath>SFX/sfx_ambient_sewers_002_D79FB2B7.wem</CachePath>
 				</File>
+				<File Id="747122415" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_so_fire_burst_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_so_fire_burst_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="748459583" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ab_so_elevator_end.wav</ShortName>
+					<CachePath>SFX/as_ab_so_elevator_end_10C4C929.wem</CachePath>
+				</File>
+				<File Id="759015336" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_sl_fire_thrower_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_sl_fire_thrower_rr02_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="789177941" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_bigDoor_open-001.wav</ShortName>
+					<CachePath>SFX/sfx_bigDoor_open-001_10C4C929.wem</CachePath>
+				</File>
+				<File Id="792260739" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_small_automatic_door_close_rr_01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_small_automatic_door_close_rr_01_1897D654.wem</CachePath>
+				</File>
+				<File Id="796635383" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_bubbles_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_bubbles_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="798649021" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ab_al_generator.wav</ShortName>
+					<CachePath>SFX/as_ab_al_generator_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="845534030" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ab_al_space.wav</ShortName>
+					<CachePath>SFX/as_ab_al_space_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="866154153" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_bubbles_rr05.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_bubbles_rr05_10C4C929.wem</CachePath>
+				</File>
+				<File Id="876002557" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ab_al_crowd_talking.wav</ShortName>
+					<CachePath>SFX/as_ab_al_crowd_talking_10C4C929.wem</CachePath>
+				</File>
+				<File Id="885824052" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_bubbles_rr06.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_bubbles_rr06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="902393655" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_small_automatic_door_close_rr_03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_small_automatic_door_close_rr_03_C28E1886.wem</CachePath>
+				</File>
+				<File Id="910790262" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_big_mechanical_door_open_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_big_mechanical_door_open_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="913701362" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_bubbles_rr09.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_bubbles_rr09_10C4C929.wem</CachePath>
+				</File>
+				<File Id="972995575" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Deprecated\as_ab_ao_turbine_rr_04.wav</ShortName>
+					<CachePath>SFX/Deprecated/as_ab_ao_turbine_rr_04_D74E9077.wem</CachePath>
+				</File>
+				<File Id="1006298303" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_big_mechanical_door_open_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_big_mechanical_door_open_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1042615329" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_bubbles_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_bubbles_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1046063325" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_ab_ao_bubbles_rr04.wav</ShortName>
+					<CachePath>SFX/Bounces/as_ab_ao_bubbles_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1048921628" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_ab_sl_elevator.wav</ShortName>
+					<CachePath>SFX/as_ab_sl_elevator_D79FB2B7.wem</CachePath>
+				</File>
 			</Media>
 			<Plugins>
 				<Custom>
-					<Plugin Id="829913711" Name="Matrix Reverb (Custom)" LibName="Wwise Matrix Reverb" LibId="7536643"/>
+					<Plugin Id="127683097" Name="Silence" LibName="Wwise Silence" LibId="6619138"/>
+					<Plugin Id="762925611" Name="Silence" LibName="Wwise Silence" LibId="6619138"/>
 				</Custom>
-				<ShareSets>
-					<Plugin Id="1904434771" Name="Medium_Room1" LibName="Wwise Matrix Reverb" LibId="7536643"/>
-				</ShareSets>
 			</Plugins>
 			<Events>
-				<Event Id="4136005308" Name="sewers_ambient_stop">
+				<Event Id="3747747529" Name="ambient_cantina_stop"/>
+				<Event Id="1145768666" Name="BigTurbine">
 					<MediaRefs>
-						<MediaRef Id="397861920"/>
+						<MediaRef Id="14628986"/>
+						<MediaRef Id="43591575"/>
+						<MediaRef Id="71245673"/>
+						<MediaRef Id="86435111"/>
+						<MediaRef Id="95920813"/>
+						<MediaRef Id="163565891"/>
+						<MediaRef Id="366252739"/>
+						<MediaRef Id="382863968"/>
+						<MediaRef Id="505824316"/>
+						<MediaRef Id="577156729"/>
+						<MediaRef Id="588039926"/>
+						<MediaRef Id="972995575"/>
+						<MediaRef Id="1048921628"/>
+					</MediaRefs>
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="127683097"/>
+						</Custom>
+					</PluginRefs>
+				</Event>
+				<Event Id="2455846751" Name="cantina_music">
+					<MediaRefs>
+						<MediaRef Id="253185104"/>
+						<MediaRef Id="603595281"/>
+						<MediaRef Id="646900479"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="891848566" Name="ElevatorEnd">
+					<MediaRefs>
+						<MediaRef Id="748459583"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1137833821" Name="ElevatorStart">
+					<MediaRefs>
+						<MediaRef Id="319965634"/>
+						<MediaRef Id="1048921628"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4120404276" Name="FireThrowerBurst">
+					<MediaRefs>
+						<MediaRef Id="5640303"/>
+						<MediaRef Id="183939974"/>
+						<MediaRef Id="391955015"/>
+						<MediaRef Id="669449363"/>
+						<MediaRef Id="747122415"/>
+						<MediaRef Id="759015336"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2504879228" Name="FireThrowerBurstStop"/>
+				<Event Id="1827811565" Name="HackingMachine">
+					<MediaRefs>
+						<MediaRef Id="41607935"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="240894527" Name="PowerGenerator">
+					<MediaRefs>
+						<MediaRef Id="798649021"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3718347529" Name="sewers_ambient">
+					<MediaRefs>
+						<MediaRef Id="876002557"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4136005308" Name="sewers_ambient_stop"/>
+				<Event Id="2073224732" Name="sfx_ambient_crowd_talking_01">
+					<MediaRefs>
+						<MediaRef Id="876002557"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="611136124" Name="sfx_bigDoor_close">
+					<MediaRefs>
+						<MediaRef Id="281062720"/>
+						<MediaRef Id="628217826"/>
+						<MediaRef Id="637370873"/>
+						<MediaRef Id="649108800"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3108491752" Name="sfx_bigDoor_open">
+					<MediaRefs>
+						<MediaRef Id="10014200"/>
+						<MediaRef Id="789177941"/>
+						<MediaRef Id="910790262"/>
+						<MediaRef Id="1006298303"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="3620056585" Name="sfx_sewers_ambient">
@@ -50,40 +352,208 @@
 						<MediaRef Id="699998174"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3476965308" Name="sfx_sewers_ambient_stop">
+				<Event Id="3476965308" Name="sfx_sewers_ambient_stop"/>
+				<Event Id="109215266" Name="sfx_turbine">
 					<MediaRefs>
-						<MediaRef Id="397861920"/>
-						<MediaRef Id="699998174"/>
+						<MediaRef Id="205001569"/>
+						<MediaRef Id="244272910"/>
+						<MediaRef Id="356857217"/>
+						<MediaRef Id="582001194"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3447410370" Name="sfx_water_bubbles">
+					<MediaRefs>
+						<MediaRef Id="28013945"/>
+						<MediaRef Id="91871275"/>
+						<MediaRef Id="462868040"/>
+						<MediaRef Id="796635383"/>
+						<MediaRef Id="866154153"/>
+						<MediaRef Id="885824052"/>
+						<MediaRef Id="913701362"/>
+						<MediaRef Id="1042615329"/>
+						<MediaRef Id="1046063325"/>
+					</MediaRefs>
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="762925611"/>
+						</Custom>
+					</PluginRefs>
+				</Event>
+				<Event Id="4023591154" Name="sfx_water_falling">
+					<MediaRefs>
+						<MediaRef Id="263142635"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="128376010" Name="SmallDoorClose">
+					<MediaRefs>
+						<MediaRef Id="27018474"/>
+						<MediaRef Id="299252987"/>
+						<MediaRef Id="469072811"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3144899822" Name="SmallDoorOpen">
+					<MediaRefs>
+						<MediaRef Id="387993546"/>
+						<MediaRef Id="792260739"/>
+						<MediaRef Id="902393655"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3968187189" Name="SpaceStationAmbient">
+					<MediaRefs>
+						<MediaRef Id="845534030"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1845492013" Name="SpaceStationAmbientStop"/>
+				<Event Id="189709005" Name="WindAmbient">
+					<MediaRefs>
+						<MediaRef Id="606864926"/>
 					</MediaRefs>
 				</Event>
 			</Events>
-			<GameParameters>
-				<GameParameter Id="2427480993" Name="ListenerOrientation"/>
-			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{F4D288A0-D0BC-A5B7-670F-EA72A896BAFD}">
+		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{A9777F8E-0B0F-0294-4545-B8D35F37FB00}">
 			<ShortName>NPC</ShortName>
 			<Path>NPC.bnk</Path>
 			<Media>
+				<File Id="5094835" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_death_tail_rr_03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_death_tail_rr_03_10C4C929.wem</CachePath>
+				</File>
 				<File Id="5640303" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Bounces\as_ab_so_fire_burst_rr01.wav</ShortName>
 					<CachePath>SFX/Bounces/as_ab_so_fire_burst_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="5939166" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_sl_boss_rocket_distortion_low.wav</ShortName>
+					<CachePath>SFX/as_npc_sl_boss_rocket_distortion_low_10C4C929.wem</CachePath>
+				</File>
+				<File Id="9404377" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_npc_so_boss_hammer_shout_rr06.wav</ShortName>
+					<CachePath>SFX/av_npc_so_boss_hammer_shout_rr06_10C4C929.wem</CachePath>
 				</File>
 				<File Id="13656630" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_ab_ao_npc_laughing_rr01.wav</ShortName>
 					<CachePath>SFX/as_ab_ao_npc_laughing_rr01_10C4C929.wem</CachePath>
 				</File>
+				<File Id="35145382" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_shot_impact_rr06.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_shot_impact_rr06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="35359544" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_charge_rocks_impact_rr01.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_charge_rocks_impact_rr01_11B088D0.wem</CachePath>
+				</File>
+				<File Id="38529310" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_sweetener_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_sweetener_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="44009956" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_death_rr_03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_death_rr_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="49062843" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_jump_whoosh_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_jump_whoosh_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="51893008" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_rocket_launch_burst_rr04.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_rocket_launch_burst_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="64902583" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_footsteps_rr08.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_footsteps_rr08_10C4C929.wem</CachePath>
+				</File>
+				<File Id="65346419" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_sweetener_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_sweetener_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="67660003" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_npc_so_boss_damage_rr05.wav</ShortName>
+					<CachePath>SFX/av_npc_so_boss_damage_rr05_10C4C929.wem</CachePath>
+				</File>
 				<File Id="76274568" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>496644-Theresa-Laugh-Hard-13.wav</ShortName>
 					<CachePath>SFX/496644-Theresa-Laugh-Hard-13_10C4C929.wem</CachePath>
+				</File>
+				<File Id="81759533" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_shot_impact_rr04.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_shot_impact_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="93004802" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_shot_impact_rr08.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_shot_impact_rr08_10C4C929.wem</CachePath>
 				</File>
 				<File Id="99956401" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>496612-Theresa-Drunk-Gibber_Talk-5.wav</ShortName>
 					<CachePath>SFX/496612-Theresa-Drunk-Gibber_Talk-5_10C4C929.wem</CachePath>
 				</File>
+				<File Id="116224785" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_footsteps_rr06.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_footsteps_rr06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="123879843" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_sl_boss_rocket_distortion_med.wav</ShortName>
+					<CachePath>SFX/as_npc_sl_boss_rocket_distortion_med_10C4C929.wem</CachePath>
+				</File>
+				<File Id="124584803" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_hit_whoosh_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_hit_whoosh_rr03_C287043A.wem</CachePath>
+				</File>
+				<File Id="126039653" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_sweetener_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_sweetener_rr02_EB281FE7.wem</CachePath>
+				</File>
+				<File Id="136299656" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_npc_so_boss_damage_rr06.wav</ShortName>
+					<CachePath>SFX/av_npc_so_boss_damage_rr06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="141482393" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_sweetener_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_sweetener_rr01_07BB5578.wem</CachePath>
+				</File>
+				<File Id="157730924" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_death_tail_rr_05.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_death_tail_rr_05_10C4C929.wem</CachePath>
+				</File>
+				<File Id="161303926" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_footsteps_rr04.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_footsteps_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="167143349" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_shot_impact_rr05.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_shot_impact_rr05_10C4C929.wem</CachePath>
+				</File>
+				<File Id="168964375" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_death_tail_rr_01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_death_tail_rr_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="169695181" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_hit_high_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_hit_high_rr02_10C4C929.wem</CachePath>
+				</File>
 				<File Id="183939974" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Bounces\as_ab_so_fire_burst_rr02.wav</ShortName>
 					<CachePath>SFX/Bounces/as_ab_so_fire_burst_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="194971156" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_rocket_launch_burst_rr01.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_rocket_launch_burst_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="204478159" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_npc_so_boss_charge_attack_rr03.wav</ShortName>
+					<CachePath>SFX/av_npc_so_boss_charge_attack_rr03_FD384352.wem</CachePath>
+				</File>
+				<File Id="206277085" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_jump_high_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_jump_high_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="214158120" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_footsteps_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_footsteps_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="217029124" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_death_rr_02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_death_rr_02_10C4C929.wem</CachePath>
 				</File>
 				<File Id="240754137" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>496565-Theresa-Cheer-Shout-Happy-3.wav</ShortName>
@@ -93,25 +563,69 @@
 					<ShortName>162107-SFX-Whoosh-Hi-Tech_Power_Boost.wav</ShortName>
 					<CachePath>SFX/162107-SFX-Whoosh-Hi-Tech_Power_Boost_BA3B5C6E.wem</CachePath>
 				</File>
+				<File Id="260181969" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_hit_med_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_hit_med_rr01_10C4C929.wem</CachePath>
+				</File>
 				<File Id="289093189" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_so_drone_explosion_rr02.wav</ShortName>
 					<CachePath>SFX/as_npc_so_drone_explosion_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="314198263" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_hit_whoosh_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_hit_whoosh_rr01_22532BFE.wem</CachePath>
+				</File>
+				<File Id="315208379" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_npc_so_boss_hammer_shout_rr03.wav</ShortName>
+					<CachePath>SFX/av_npc_so_boss_hammer_shout_rr03_10C4C929.wem</CachePath>
 				</File>
 				<File Id="316705978" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_so_drone_charging_rr03.wav</ShortName>
 					<CachePath>SFX/as_npc_so_drone_charging_rr03_10C4C929.wem</CachePath>
 				</File>
+				<File Id="325923282" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_footsteps_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_footsteps_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="326193898" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_npc_so_boss_hammer_shout_rr01.wav</ShortName>
+					<CachePath>SFX/av_npc_so_boss_hammer_shout_rr01_10C4C929.wem</CachePath>
+				</File>
 				<File Id="327506266" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_ab_ao_npc_laughing_rr06.wav</ShortName>
 					<CachePath>SFX/as_ab_ao_npc_laughing_rr06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="343894868" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_shot_impact_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_shot_impact_rr02_10C4C929.wem</CachePath>
 				</File>
 				<File Id="349506919" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_so_miniboss_2_laser_shot_start.wav</ShortName>
 					<CachePath>SFX/as_npc_so_miniboss_2_laser_shot_start_10C4C929.wem</CachePath>
 				</File>
+				<File Id="355633358" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_npc_so_boss_summon_enemies.wav</ShortName>
+					<CachePath>SFX/av_npc_so_boss_summon_enemies_10C4C929.wem</CachePath>
+				</File>
+				<File Id="365158890" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_sweetener_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_sweetener_rr03_D2C4F3A0.wem</CachePath>
+				</File>
 				<File Id="366661735" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_sl_drone_death_timer.wav</ShortName>
 					<CachePath>SFX/as_npc_sl_drone_death_timer_B446F8DB.wem</CachePath>
+				</File>
+				<File Id="367203673" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_charge_rocks_impact_rr03.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_charge_rocks_impact_rr03_262269CA.wem</CachePath>
+				</File>
+				<File Id="372871143" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_venomite_charging_rr01.wav</ShortName>
+					<CachePath>SFX/as_npc_so_venomite_charging_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="380919934" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_venomite_shot_rr03.wav</ShortName>
+					<CachePath>SFX/as_npc_so_venomite_shot_rr03_10C4C929.wem</CachePath>
 				</File>
 				<File Id="384180894" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_so_drone_charging_rr01.wav</ShortName>
@@ -121,33 +635,153 @@
 					<ShortName>as_npc_so_drone_charging_rr02.wav</ShortName>
 					<CachePath>SFX/as_npc_so_drone_charging_rr02_10C4C929.wem</CachePath>
 				</File>
+				<File Id="394606631" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_hit_high_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_hit_high_rr03_10C4C929.wem</CachePath>
+				</File>
 				<File Id="395192611" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_so_drone_explosion_rr04.wav</ShortName>
 					<CachePath>SFX/as_npc_so_drone_explosion_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="396322365" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_charge_rocks_impact_rr04.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_charge_rocks_impact_rr04_7F309EA1.wem</CachePath>
+				</File>
+				<File Id="399590808" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_jump_high_rr04.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_jump_high_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="406541766" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_fire_on_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_fire_on_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="407388254" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_charge_wall_hit_rr01.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_charge_wall_hit_rr01_10C4C929.wem</CachePath>
 				</File>
 				<File Id="408893029" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_so_miniboss_2_laser_shot_end.wav</ShortName>
 					<CachePath>SFX/as_npc_so_miniboss_2_laser_shot_end_10C4C929.wem</CachePath>
 				</File>
+				<File Id="410693033" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_jump_high_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_jump_high_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="413101320" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_death_rr_01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_death_rr_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="425078095" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_death_tail_rr_02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_death_tail_rr_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="426814334" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_shot_impact_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_shot_impact_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="433778274" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_venomite_charging_rr02.wav</ShortName>
+					<CachePath>SFX/as_npc_so_venomite_charging_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="439325556" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_hit_med_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_hit_med_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="444108963" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_charge_rocks_slide_rr04.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_charge_rocks_slide_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="456950538" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_venomite_shot_rr05.wav</ShortName>
+					<CachePath>SFX/as_npc_so_venomite_shot_rr05_10C4C929.wem</CachePath>
+				</File>
 				<File Id="457419217" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_drone_alert-001.wav</ShortName>
 					<CachePath>SFX/sfx_drone_alert-001_C5579977.wem</CachePath>
+				</File>
+				<File Id="460540990" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_rocket_launch_burst_rr02.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_rocket_launch_burst_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="462369917" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_sweetener_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_sweetener_rr01_10C4C929.wem</CachePath>
 				</File>
 				<File Id="465077020" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_ab_ao_npc_laughing_rr04.wav</ShortName>
 					<CachePath>SFX/as_ab_ao_npc_laughing_rr04_10C4C929.wem</CachePath>
 				</File>
+				<File Id="465508131" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_jump_whoosh_rr04.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_jump_whoosh_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="468287434" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_npc_so_boss_hammer_shout_rr02.wav</ShortName>
+					<CachePath>SFX/av_npc_so_boss_hammer_shout_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="472850294" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_npc_so_boss_damage_rr02.wav</ShortName>
+					<CachePath>SFX/av_npc_so_boss_damage_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="485224371" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_charge_rocks_stress_rr01.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_charge_rocks_stress_rr01_10C4C929.wem</CachePath>
+				</File>
 				<File Id="506278050" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_sl_miniboss_2_aiming.wav</ShortName>
 					<CachePath>SFX/as_npc_sl_miniboss_2_aiming_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="517629634" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_npc_so_boss_hammer_shout_rr04.wav</ShortName>
+					<CachePath>SFX/av_npc_so_boss_hammer_shout_rr04_10C4C929.wem</CachePath>
 				</File>
 				<File Id="519785527" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_sl_miniboss_2_laser_shot.wav</ShortName>
 					<CachePath>SFX/as_npc_sl_miniboss_2_laser_shot_D79FB2B7.wem</CachePath>
 				</File>
+				<File Id="547393071" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_alert.wav</ShortName>
+					<CachePath>SFX/as_npc_so_alert_10C4C929.wem</CachePath>
+				</File>
+				<File Id="564953347" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_npc_so_boss_damage_rr03.wav</ShortName>
+					<CachePath>SFX/av_npc_so_boss_damage_rr03_10C4C929.wem</CachePath>
+				</File>
 				<File Id="566162525" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_drone_patrol-001.wav</ShortName>
 					<CachePath>SFX/sfx_drone_patrol-001_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="582275596" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_fire_on_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_fire_on_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="582988521" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_charge_wall_hit_rr02.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_charge_wall_hit_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="587415098" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_npc_so_boss_damage_rr04.wav</ShortName>
+					<CachePath>SFX/av_npc_so_boss_damage_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="599225004" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_footsteps_rr10.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_footsteps_rr10_10C4C929.wem</CachePath>
+				</File>
+				<File Id="601538458" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_npc_so_boss_death.wav</ShortName>
+					<CachePath>SFX/av_npc_so_boss_death_10C4C929.wem</CachePath>
+				</File>
+				<File Id="607925147" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_venomite_shot_rr06.wav</ShortName>
+					<CachePath>SFX/as_npc_so_venomite_shot_rr06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="617913474" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_death_rr_04.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_death_rr_04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="649686129" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_charge_rocks_stress_rr03.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_charge_rocks_stress_rr03_10C4C929.wem</CachePath>
 				</File>
 				<File Id="651136522" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_so_drone_shot_rr01.wav</ShortName>
@@ -157,37 +791,129 @@
 					<ShortName>as_npc_so_miniboss_2_charging_rr01.wav</ShortName>
 					<CachePath>SFX/as_npc_so_miniboss_2_charging_rr01_742B3252.wem</CachePath>
 				</File>
+				<File Id="660535226" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_rocket_impact_rr03.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_rocket_impact_rr03_10C4C929.wem</CachePath>
+				</File>
 				<File Id="662178918" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_ab_ao_npc_laughing_rr12.wav</ShortName>
 					<CachePath>SFX/as_ab_ao_npc_laughing_rr12_10C4C929.wem</CachePath>
+				</File>
+				<File Id="662924116" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_charge_rocks_slide_rr01.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_charge_rocks_slide_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="671323890" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_footsteps_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_footsteps_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="672374377" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_rocket_impact_rr02.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_rocket_impact_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="674907955" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_npc_so_boss_damage_rr01.wav</ShortName>
+					<CachePath>SFX/av_npc_so_boss_damage_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="679038742" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_charge_rocks_stress_rr02.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_charge_rocks_stress_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="681580044" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_hit_low_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_hit_low_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="685467574" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_npc_so_boss_charge_attack_rr01.wav</ShortName>
+					<CachePath>SFX/av_npc_so_boss_charge_attack_rr01_BF87933D.wem</CachePath>
+				</File>
+				<File Id="688247891" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_charge_wall_hit_rr03.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_charge_wall_hit_rr03_10C4C929.wem</CachePath>
 				</File>
 				<File Id="691984007" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_sl_drone_patrol.wav</ShortName>
 					<CachePath>SFX/as_npc_sl_drone_patrol_D79FB2B7.wem</CachePath>
 				</File>
+				<File Id="699063910" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_npc_so_boss_charge_attack_rr02.wav</ShortName>
+					<CachePath>SFX/av_npc_so_boss_charge_attack_rr02_BC9143C2.wem</CachePath>
+				</File>
+				<File Id="707825087" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_hit_high_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_hit_high_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="712982293" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_rocket_impact_rr01.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_rocket_impact_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="713152987" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_sl_boss_rocket_flyby_rr01.wav</ShortName>
+					<CachePath>SFX/as_npc_sl_boss_rocket_flyby_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="717872289" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_footsteps_rr09.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_footsteps_rr09_10C4C929.wem</CachePath>
+				</File>
 				<File Id="721259364" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>laser_01.wav</ShortName>
 					<CachePath>SFX/laser_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="737812338" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_jump_whoosh_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_jump_whoosh_rr03_10C4C929.wem</CachePath>
 				</File>
 				<File Id="747122415" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Bounces\as_ab_so_fire_burst_rr03.wav</ShortName>
 					<CachePath>SFX/Bounces/as_ab_so_fire_burst_rr03_10C4C929.wem</CachePath>
 				</File>
+				<File Id="752376447" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_hit_whoosh_rr02.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_hit_whoosh_rr02_C6844BF5.wem</CachePath>
+				</File>
+				<File Id="755821479" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>av_npc_so_boss_hammer_shout_rr05.wav</ShortName>
+					<CachePath>SFX/av_npc_so_boss_hammer_shout_rr05_10C4C929.wem</CachePath>
+				</File>
+				<File Id="759558227" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_rocket_launch_mechanical.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_rocket_launch_mechanical_10C4C929.wem</CachePath>
+				</File>
 				<File Id="759893277" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_so_drone_explosion_rr03.wav</ShortName>
 					<CachePath>SFX/as_npc_so_drone_explosion_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="763759609" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_sl_boss_rocket_flyby_rr03.wav</ShortName>
+					<CachePath>SFX/as_npc_sl_boss_rocket_flyby_rr03_10C4C929.wem</CachePath>
 				</File>
 				<File Id="765371400" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_ab_ao_npc_laughing_rr09.wav</ShortName>
 					<CachePath>SFX/as_ab_ao_npc_laughing_rr09_10C4C929.wem</CachePath>
 				</File>
+				<File Id="770506143" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_footsteps_rr05.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_footsteps_rr05_10C4C929.wem</CachePath>
+				</File>
 				<File Id="778130062" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>495963-Theresa_Cartoon-Growl-Beastie-Angry-4.wav</ShortName>
 					<CachePath>SFX/495963-Theresa_Cartoon-Growl-Beastie-Angry-4_10C4C929.wem</CachePath>
 				</File>
+				<File Id="783907754" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_sl_boss_rocket_flyby_rr02.wav</ShortName>
+					<CachePath>SFX/as_npc_sl_boss_rocket_flyby_rr02_10C4C929.wem</CachePath>
+				</File>
 				<File Id="784578652" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_sl_drone_seek.wav</ShortName>
 					<CachePath>SFX/as_npc_sl_drone_seek_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="788083634" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_venomite_charging_rr03.wav</ShortName>
+					<CachePath>SFX/as_npc_so_venomite_charging_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="788211684" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_shot_impact_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_shot_impact_rr01_10C4C929.wem</CachePath>
 				</File>
 				<File Id="802260950" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_so_miniboss_2_charging_rr03.wav</ShortName>
@@ -201,17 +927,37 @@
 					<ShortName>sfx_drone_patrol-003.wav</ShortName>
 					<CachePath>SFX/sfx_drone_patrol-003_D79FB2B7.wem</CachePath>
 				</File>
+				<File Id="821118892" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_jump_high_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_jump_high_rr01_10C4C929.wem</CachePath>
+				</File>
 				<File Id="826552508" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_ab_ao_npc_laughing_rr10.wav</ShortName>
 					<CachePath>SFX/as_ab_ao_npc_laughing_rr10_10C4C929.wem</CachePath>
+				</File>
+				<File Id="830649571" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_footsteps_rr12.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_footsteps_rr12_10C4C929.wem</CachePath>
 				</File>
 				<File Id="831875665" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_so_drone_shot_rr02.wav</ShortName>
 					<CachePath>SFX/as_npc_so_drone_shot_rr02_10C4C929.wem</CachePath>
 				</File>
+				<File Id="835869860" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_fire_on_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_fire_on_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="836660425" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_footsteps_rr11.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_footsteps_rr11_10C4C929.wem</CachePath>
+				</File>
 				<File Id="847263919" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_so_drone_shot_rr03.wav</ShortName>
 					<CachePath>SFX/as_npc_so_drone_shot_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="869174116" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_charge_rocks_slide_rr03.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_charge_rocks_slide_rr03_10C4C929.wem</CachePath>
 				</File>
 				<File Id="870624323" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_so_drone_shot_rr04.wav</ShortName>
@@ -221,9 +967,37 @@
 					<ShortName>as_npc_so_drone_shot_rr05.wav</ShortName>
 					<CachePath>SFX/as_npc_so_drone_shot_rr05_10C4C929.wem</CachePath>
 				</File>
+				<File Id="879210882" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_sl_boss_rocket_flyby_rr04.wav</ShortName>
+					<CachePath>SFX/as_npc_sl_boss_rocket_flyby_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="881968189" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_jump_whoosh_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_jump_whoosh_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="885553945" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_sl_boss_energy_shield.wav</ShortName>
+					<CachePath>SFX/as_npc_sl_boss_energy_shield_D79FB2B7.wem</CachePath>
+				</File>
 				<File Id="886104202" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>496397-Theresa-Attack-Shout_Long-Straight-Fatal-3.wav</ShortName>
 					<CachePath>SFX/496397-Theresa-Attack-Shout_Long-Straight-Fatal-3_10C4C929.wem</CachePath>
+				</File>
+				<File Id="902432818" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_charge_rocks_slide_rr02.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_charge_rocks_slide_rr02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="903818326" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_charge_rocks_stress_rr04.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_charge_rocks_stress_rr04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="905988079" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_hit_med_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_hit_med_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="907515393" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_footsteps_rr07.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_footsteps_rr07_10C4C929.wem</CachePath>
 				</File>
 				<File Id="915073461" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>373772-Suzy_Character-Gibberish_Talk-Angry-Edgy-3.wav</ShortName>
@@ -233,13 +1007,49 @@
 					<ShortName>496687-Theresa-Relief-Moan-Intense-Pleasure-Satisfaction-10.wav</ShortName>
 					<CachePath>SFX/496687-Theresa-Relief-Moan-Intense-Pleasure-Satisfaction-10_10C4C929.wem</CachePath>
 				</File>
+				<File Id="961760128" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_charge_wall_stunt_rr.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_charge_wall_stunt_rr_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="977840020" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_death_tail_rr_04.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_death_tail_rr_04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="984921379" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_rocket_launch_burst_rr03.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_rocket_launch_burst_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="997296687" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_hit_low_rr01.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_hit_low_rr01_10C4C929.wem</CachePath>
+				</File>
 				<File Id="1008892742" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>496629-Theresa-Effort-Pant-Shout-Work-Push-Move-3.wav</ShortName>
 					<CachePath>SFX/496629-Theresa-Effort-Pant-Shout-Work-Push-Move-3_10C4C929.wem</CachePath>
 				</File>
+				<File Id="1016068349" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_boss_hammer_hit_low_rr03.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_boss_hammer_hit_low_rr03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1029983749" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_venomite_shot_rr02.wav</ShortName>
+					<CachePath>SFX/as_npc_so_venomite_shot_rr02_10C4C929.wem</CachePath>
+				</File>
 				<File Id="1030486482" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_npc_so_miniboss_2_charging_rr02.wav</ShortName>
 					<CachePath>SFX/as_npc_so_miniboss_2_charging_rr02_387AB43D.wem</CachePath>
+				</File>
+				<File Id="1035424545" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_venomite_shot_rr01.wav</ShortName>
+					<CachePath>SFX/as_npc_so_venomite_shot_rr01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1041792270" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Bounces\as_npc_so_shot_impact_rr07.wav</ShortName>
+					<CachePath>SFX/Bounces/as_npc_so_shot_impact_rr07_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1047880910" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>as_npc_so_boss_charge_rocks_impact_rr02.wav</ShortName>
+					<CachePath>SFX/as_npc_so_boss_charge_rocks_impact_rr02_0DA70F53.wem</CachePath>
 				</File>
 			</Media>
 			<Events>
@@ -248,6 +1058,226 @@
 						<MediaRef Id="316705978"/>
 						<MediaRef Id="384180894"/>
 						<MediaRef Id="391771543"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3608677771" Name="EnemyAlert">
+					<MediaRefs>
+						<MediaRef Id="547393071"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3249137159" Name="EnemyDeath">
+					<MediaRefs>
+						<MediaRef Id="5094835"/>
+						<MediaRef Id="44009956"/>
+						<MediaRef Id="157730924"/>
+						<MediaRef Id="168964375"/>
+						<MediaRef Id="217029124"/>
+						<MediaRef Id="413101320"/>
+						<MediaRef Id="425078095"/>
+						<MediaRef Id="617913474"/>
+						<MediaRef Id="977840020"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2051507304" Name="EnemyFootsteps">
+					<MediaRefs>
+						<MediaRef Id="64902583"/>
+						<MediaRef Id="116224785"/>
+						<MediaRef Id="161303926"/>
+						<MediaRef Id="214158120"/>
+						<MediaRef Id="325923282"/>
+						<MediaRef Id="599225004"/>
+						<MediaRef Id="671323890"/>
+						<MediaRef Id="717872289"/>
+						<MediaRef Id="770506143"/>
+						<MediaRef Id="830649571"/>
+						<MediaRef Id="836660425"/>
+						<MediaRef Id="907515393"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2938383680" Name="EnemyFootstepsStop"/>
+				<Event Id="1203255397" Name="EnemyShotImpact">
+					<MediaRefs>
+						<MediaRef Id="35145382"/>
+						<MediaRef Id="81759533"/>
+						<MediaRef Id="93004802"/>
+						<MediaRef Id="167143349"/>
+						<MediaRef Id="343894868"/>
+						<MediaRef Id="426814334"/>
+						<MediaRef Id="788211684"/>
+						<MediaRef Id="1041792270"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1129559439" Name="FinalBoss_ChargeAttack">
+					<MediaRefs>
+						<MediaRef Id="204478159"/>
+						<MediaRef Id="685467574"/>
+						<MediaRef Id="699063910"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2504208140" Name="FinalBoss_Damage">
+					<MediaRefs>
+						<MediaRef Id="67660003"/>
+						<MediaRef Id="136299656"/>
+						<MediaRef Id="472850294"/>
+						<MediaRef Id="564953347"/>
+						<MediaRef Id="587415098"/>
+						<MediaRef Id="674907955"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="32186459" Name="FinalBoss_Death">
+					<MediaRefs>
+						<MediaRef Id="601538458"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2394739172" Name="FinalBoss_EnergyShield">
+					<MediaRefs>
+						<MediaRef Id="885553945"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2060170700" Name="FinalBoss_EnergyShieldStop"/>
+				<Event Id="2346089286" Name="FinalBoss_HammeOnFire">
+					<MediaRefs>
+						<MediaRef Id="406541766"/>
+						<MediaRef Id="582275596"/>
+						<MediaRef Id="835869860"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2158214057" Name="FinalBoss_HammerAttack">
+					<MediaRefs>
+						<MediaRef Id="9404377"/>
+						<MediaRef Id="38529310"/>
+						<MediaRef Id="65346419"/>
+						<MediaRef Id="124584803"/>
+						<MediaRef Id="169695181"/>
+						<MediaRef Id="260181969"/>
+						<MediaRef Id="314198263"/>
+						<MediaRef Id="315208379"/>
+						<MediaRef Id="326193898"/>
+						<MediaRef Id="394606631"/>
+						<MediaRef Id="439325556"/>
+						<MediaRef Id="462369917"/>
+						<MediaRef Id="468287434"/>
+						<MediaRef Id="517629634"/>
+						<MediaRef Id="681580044"/>
+						<MediaRef Id="707825087"/>
+						<MediaRef Id="752376447"/>
+						<MediaRef Id="755821479"/>
+						<MediaRef Id="905988079"/>
+						<MediaRef Id="997296687"/>
+						<MediaRef Id="1016068349"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1814353307" Name="FinalBoss_Jump">
+					<MediaRefs>
+						<MediaRef Id="49062843"/>
+						<MediaRef Id="126039653"/>
+						<MediaRef Id="141482393"/>
+						<MediaRef Id="206277085"/>
+						<MediaRef Id="365158890"/>
+						<MediaRef Id="399590808"/>
+						<MediaRef Id="410693033"/>
+						<MediaRef Id="465508131"/>
+						<MediaRef Id="737812338"/>
+						<MediaRef Id="821118892"/>
+						<MediaRef Id="881968189"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1718727416" Name="FinalBoss_Land">
+					<MediaRefs>
+						<MediaRef Id="38529310"/>
+						<MediaRef Id="65346419"/>
+						<MediaRef Id="124584803"/>
+						<MediaRef Id="169695181"/>
+						<MediaRef Id="260181969"/>
+						<MediaRef Id="314198263"/>
+						<MediaRef Id="394606631"/>
+						<MediaRef Id="439325556"/>
+						<MediaRef Id="462369917"/>
+						<MediaRef Id="681580044"/>
+						<MediaRef Id="707825087"/>
+						<MediaRef Id="752376447"/>
+						<MediaRef Id="905988079"/>
+						<MediaRef Id="997296687"/>
+						<MediaRef Id="1016068349"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="50581388" Name="FinalBoss_RocketFalling">
+					<MediaRefs>
+						<MediaRef Id="5939166"/>
+						<MediaRef Id="123879843"/>
+						<MediaRef Id="713152987"/>
+						<MediaRef Id="763759609"/>
+						<MediaRef Id="783907754"/>
+						<MediaRef Id="879210882"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2631943649" Name="FinalBoss_RocketImpact">
+					<MediaRefs>
+						<MediaRef Id="51893008"/>
+						<MediaRef Id="194971156"/>
+						<MediaRef Id="460540990"/>
+						<MediaRef Id="660535226"/>
+						<MediaRef Id="672374377"/>
+						<MediaRef Id="712982293"/>
+						<MediaRef Id="984921379"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1814072862" Name="FinalBoss_RocketLaunch">
+					<MediaRefs>
+						<MediaRef Id="51893008"/>
+						<MediaRef Id="194971156"/>
+						<MediaRef Id="460540990"/>
+						<MediaRef Id="759558227"/>
+						<MediaRef Id="984921379"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2050031140" Name="FinalBoss_RocksFalling">
+					<MediaRefs>
+						<MediaRef Id="444108963"/>
+						<MediaRef Id="485224371"/>
+						<MediaRef Id="649686129"/>
+						<MediaRef Id="662924116"/>
+						<MediaRef Id="679038742"/>
+						<MediaRef Id="869174116"/>
+						<MediaRef Id="902432818"/>
+						<MediaRef Id="903818326"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2562018857" Name="FinalBoss_RocksImpact">
+					<MediaRefs>
+						<MediaRef Id="35359544"/>
+						<MediaRef Id="367203673"/>
+						<MediaRef Id="396322365"/>
+						<MediaRef Id="1047880910"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2743442240" Name="FinalBoss_Stunned">
+					<MediaRefs>
+						<MediaRef Id="961760128"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3179808718" Name="FinalBoss_SummonEnemies">
+					<MediaRefs>
+						<MediaRef Id="355633358"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1355250066" Name="FinalBoss_WallHit">
+					<MediaRefs>
+						<MediaRef Id="38529310"/>
+						<MediaRef Id="65346419"/>
+						<MediaRef Id="124584803"/>
+						<MediaRef Id="260181969"/>
+						<MediaRef Id="314198263"/>
+						<MediaRef Id="407388254"/>
+						<MediaRef Id="439325556"/>
+						<MediaRef Id="462369917"/>
+						<MediaRef Id="582988521"/>
+						<MediaRef Id="681580044"/>
+						<MediaRef Id="688247891"/>
+						<MediaRef Id="752376447"/>
+						<MediaRef Id="905988079"/>
+						<MediaRef Id="997296687"/>
+						<MediaRef Id="1016068349"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="1058974909" Name="sfx_boostOfEnergy_aiming">
@@ -338,9 +1368,25 @@
 						<MediaRef Id="1008892742"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="453903303" Name="VenomitePreShot">
+					<MediaRefs>
+						<MediaRef Id="372871143"/>
+						<MediaRef Id="433778274"/>
+						<MediaRef Id="788083634"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3761511492" Name="VenomiteShot">
+					<MediaRefs>
+						<MediaRef Id="380919934"/>
+						<MediaRef Id="456950538"/>
+						<MediaRef Id="607925147"/>
+						<MediaRef Id="1029983749"/>
+						<MediaRef Id="1035424545"/>
+					</MediaRefs>
+				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{5523B0F1-768C-0A15-E753-56C181CC049B}">
+		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{612F57FD-082E-7C1B-A4C1-BF7E9F67C1F2}">
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
 			<Media>
@@ -1017,17 +2063,7 @@
 						</Custom>
 					</PluginRefs>
 				</Event>
-				<Event Id="2311933762" Name="Bix_HeavyAttackFinisherStop">
-					<MediaRefs>
-						<MediaRef Id="351933088"/>
-						<MediaRef Id="595687169"/>
-					</MediaRefs>
-					<PluginRefs>
-						<Custom>
-							<PluginRef Id="514987234"/>
-						</Custom>
-					</PluginRefs>
-				</Event>
+				<Event Id="2311933762" Name="Bix_HeavyAttackFinisherStop"/>
 				<Event Id="1852342621" Name="Bix_Jump">
 					<MediaRefs>
 						<MediaRef Id="180158193"/>
@@ -1054,19 +2090,12 @@
 					<MediaRefs>
 						<MediaRef Id="110530788"/>
 						<MediaRef Id="246184934"/>
-						<MediaRef Id="588291420"/>
-						<MediaRef Id="593817013"/>
 						<MediaRef Id="670171383"/>
 						<MediaRef Id="942906252"/>
 						<MediaRef Id="946149082"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3779955407" Name="Bix_LightAttackFinisherStop">
-					<MediaRefs>
-						<MediaRef Id="588291420"/>
-						<MediaRef Id="593817013"/>
-					</MediaRefs>
-				</Event>
+				<Event Id="3779955407" Name="Bix_LightAttackFinisherStop"/>
 				<Event Id="3364542946" Name="Bix_LightsaberAttack">
 					<MediaRefs>
 						<MediaRef Id="26231676"/>
@@ -1165,24 +2194,7 @@
 						<MediaRef Id="858141546"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1430818805" Name="sfx_footsteps_walk_stop">
-					<MediaRefs>
-						<MediaRef Id="72572141"/>
-						<MediaRef Id="141902627"/>
-						<MediaRef Id="173667425"/>
-						<MediaRef Id="241835723"/>
-						<MediaRef Id="297084385"/>
-						<MediaRef Id="434205961"/>
-						<MediaRef Id="547008502"/>
-						<MediaRef Id="660867367"/>
-						<MediaRef Id="713684130"/>
-						<MediaRef Id="858141546"/>
-						<MediaRef Id="898493754"/>
-						<MediaRef Id="931459480"/>
-						<MediaRef Id="1026398387"/>
-						<MediaRef Id="1029106852"/>
-					</MediaRefs>
-				</Event>
+				<Event Id="1430818805" Name="sfx_footsteps_walk_stop"/>
 				<Event Id="4238120494" Name="sfx_force">
 					<MediaRefs>
 						<MediaRef Id="87008145"/>
@@ -1191,12 +2203,7 @@
 						<MediaRef Id="1035906493"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3736508461" Name="sfx_force_stop">
-					<MediaRefs>
-						<MediaRef Id="87008145"/>
-						<MediaRef Id="593817013"/>
-					</MediaRefs>
-				</Event>
+				<Event Id="3736508461" Name="sfx_force_stop"/>
 				<Event Id="3980201878" Name="sfx_roll_01">
 					<MediaRefs>
 						<MediaRef Id="313140054"/>
@@ -1209,7 +2216,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{8157DB40-155D-B578-698E-805FB41AFB37}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{B82D1526-B118-D7E7-AD74-D518AC78E84E}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -1423,7 +2430,7 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="1551306167" Type="User" Language="SFX" Hash="{DBDC4831-8A01-6C4C-53CE-11E0D1A1B529}">
+		<SoundBank Id="1551306167" Type="User" Language="SFX" Hash="{834E0307-47A3-BA7B-2B71-960A97659B6C}">
 			<ShortName>UI</ShortName>
 			<Path>UI.bnk</Path>
 			<Media>
@@ -1495,7 +2502,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{5FBD99EA-12C5-8B4A-0C41-BB7F87AB8291}">
+		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{28D35F6F-94BB-9CC8-E6DB-A63050E32AF8}">
 			<ShortName>Music</ShortName>
 			<Path>Music.bnk</Path>
 			<Media>
@@ -1765,5 +2772,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{D6D86EAB-17A6-17EC-4F72-655F6621B818}</FileHash>
+	<FileHash>{85893BA9-E901-752A-B7E0-DBDE631C28EE}</FileHash>
 </SoundBanksInfo>

@@ -449,6 +449,7 @@
     </ClCompile>
     <ClCompile Include="..\Game\Scripts\UITriggerEnemyBar.cpp" />
     <ClCompile Include="..\Game\Scripts\UIVideoControl.cpp" />
+    <ClCompile Include="..\Game\Scripts\WaterBubblesAudio.cpp" />
     <ClCompile Include="..\Game\Scripts\WaterfallAudio.cpp" />
     <ClCompile Include="..\Game\Scripts\WaypointStateScript.cpp" />
     <ClCompile Include="Application.cpp" />
@@ -1007,6 +1008,7 @@
     <ClInclude Include="..\Game\Scripts\TriggerSewersMusicExit.h" />
     <ClInclude Include="..\Game\Scripts\UITriggerEnemyBar.h" />
     <ClInclude Include="..\Game\Scripts\UIVideoControl.h" />
+    <ClInclude Include="..\Game\Scripts\WaterBubblesAudio.h" />
     <ClInclude Include="..\Game\Scripts\WaterfallAudio.h" />
     <ClInclude Include="..\Game\Scripts\WaypointStateScript.h" />
     <ClInclude Include="Application.h" />
