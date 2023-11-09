@@ -114,9 +114,10 @@ void ShockWaveAttackAreaScript::ResetAreaSize()
 	// VFX Here: Here the effect of the shockwave should be stopped
 	if (VFX)
 	{
-		//meshEffect->StartEffect(2.0f, 0.0f);
-		//meshEffect->FadeEffect();
-		VFX->Disable();
+		meshEffect->AddColor(float4(0.f, 0.f, 0.f, 0.f));
+		meshEffect->StartEffect(2.0f, 0.0f);
+		meshEffect->FadeEffect();
+		//VFX->Disable();
 		float3 scale = transform->GetLocalScale();
 		scale.x = minsizeVfxX;
 		scale.y = minsizeVfxY;
@@ -130,6 +131,8 @@ void ShockWaveAttackAreaScript::InitVFX()
 	if (VFX)
 	{
 		VFX->Enable();
+		meshEffect->CleanColors();
+		//meshEffect->CrearEffect();
 		transform->SetGlobalPosition(rigidBody->GetOwnerTransform()->GetGlobalPosition());
 		transform->RecalculateLocalMatrix();
 		transform->UpdateTransformMatrices();
