@@ -27,7 +27,9 @@ void ShockWaveAttackAreaScript::Start()
 	if (VFX)
 	{
 		transform = VFX->GetComponent<ComponentTransform>();
+		meshEffect = VFX->GetComponent<MeshEffect>();
 	}
+	
 }
 
 void ShockWaveAttackAreaScript::Update(float deltaTime)
@@ -112,6 +114,8 @@ void ShockWaveAttackAreaScript::ResetAreaSize()
 	// VFX Here: Here the effect of the shockwave should be stopped
 	if (VFX)
 	{
+		//meshEffect->StartEffect(2.0f, 0.0f);
+		//meshEffect->FadeEffect();
 		VFX->Disable();
 		float3 scale = transform->GetLocalScale();
 		scale.x = minsizeVfxX;

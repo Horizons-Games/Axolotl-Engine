@@ -2,6 +2,7 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
+#include "../Scripts/MeshEffect.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -44,6 +45,7 @@ private:
 	AreaState areaState;
 	ComponentRigidBody* rigidBody;
 	ComponentTransform* transform;
+	MeshEffect* meshEffect;
 
 	GameObject* VFX;
 
