@@ -5,13 +5,15 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentParticleSystem.h"
 #include "Components/ComponentMeshRenderer.h"
 #include "Components/ComponentAudioSource.h"
 
 REGISTERCLASS(BossShieldScript);
 
-BossShieldScript::BossShieldScript() : Script(), rigidBody(nullptr), parentRigidBody(nullptr), audioSource(nullptr)
+BossShieldScript::BossShieldScript() : Script(), rigidBody(nullptr), parentRigidBody(nullptr), particleSystem(nullptr), audioSource(nullptr)
 {
+	REGISTER_FIELD(particleSystem, ComponentParticleSystem*);
 }
 
 void BossShieldScript::Start()
@@ -37,7 +39,10 @@ void BossShieldScript::OnCollisionEnter(ComponentRigidBody* other)
 	else if (other->GetOwner()->CompareTag("Rock"))
 	{
 		other->GetOwner()->GetComponent<ComponentRigidBody>()->Disable();
-		other->GetOwner()->GetComponent<ComponentMeshRenderer>()->Disable();
+		if (!owner->GetChildren().empty())
+		{
+			owner->GetChildren().front()->Disable();
+		}
 	}
 }
 
@@ -53,6 +58,11 @@ void BossShieldScript::ActivateShield() const
 
 	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ENERGYSHIELD);
 	// VFX Here: Any effect related to the activation of the shield
+	if (particleSystem)
+	{
+		particleSystem->Enable();
+		particleSystem->Play();
+	}
 }
 
 void BossShieldScript::DeactivateShield() const
@@ -67,6 +77,10 @@ void BossShieldScript::DeactivateShield() const
 
 	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ENERGYSHIELD_STOP);
 	// VFX Here: Any effect related to the deactivation of the shield
+	if (particleSystem)
+	{
+		particleSystem->Stop();
+	}
 }
 
 bool BossShieldScript::WasHitBySpecialTarget() const

@@ -188,7 +188,7 @@ void CombatTutorial::JumpAttackTutorialState()
 	normalAttacksEnded = true;
 	tutorialUI->UnDeployUI();
 	comboSystem->FillComboBar();
-	tutorialUI->SetNumControllableState(tutorialUI->GetNumControllableState() + 3);
+	tutorialUI->SetNumControllableState(static_cast<int>(tutorialUI->GetNumControllableState()) + 3);
 	userControllable = true;
 	nextStateActive = false;
 

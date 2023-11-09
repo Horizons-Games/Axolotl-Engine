@@ -1,0 +1,13 @@
+{
+    "UID": 14806153693783812829,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/ShieldVFX.Sphere.001_0.mesh",
+        "Assets/Meshes/ShieldVFX.Sphere.002_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/ShieldVFXDefaultMaterial_0.mat",
+        "Assets/Materials/ShieldVFXDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

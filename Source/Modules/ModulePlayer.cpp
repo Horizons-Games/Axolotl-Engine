@@ -165,7 +165,7 @@ bool ModulePlayer::IsInBossCombat()
 
 void ModulePlayer::SetEnemiesToDefeat(float newEnemiesToDefeat)
 {
-	enemiesToDefeat = newEnemiesToDefeat;
-	if (newEnemiesToDefeat <= 0.0 && !inBossCombat)
+	enemiesToDefeat = static_cast<int>(newEnemiesToDefeat);
+	if (newEnemiesToDefeat <= 0.0f && !inBossCombat)
 		SetInCombat(false);
 }

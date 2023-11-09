@@ -141,6 +141,7 @@ void BossShieldAttackScript::ManageShield(float deltaTime)
 			&& !bossShieldObject->GetOwner()->IsEnabled())
 		{
 			bossShieldObject->ActivateShield();
+
 		}
 
 		shieldingTime -= deltaTime;

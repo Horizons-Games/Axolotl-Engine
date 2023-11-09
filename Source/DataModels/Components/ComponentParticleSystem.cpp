@@ -135,7 +135,7 @@ void ComponentParticleSystem::Draw() const
 	for (EmitterInstance* instance : emitters)
 	{
 #ifdef ENGINE
-		instance->DrawDD();
+		//instance->DrawDD();
 		//instance->SimulateParticles();
 		//Draw the BoundingBox of ComponentParticle
 		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();

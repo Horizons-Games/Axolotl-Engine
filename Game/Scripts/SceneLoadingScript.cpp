@@ -13,14 +13,10 @@
 
 REGISTERCLASS(SceneLoadingScript);
 
-namespace
-{
-constexpr const char* loadingScreenScene = "Lib/Scenes/LoadingScreen" SCENE_EXTENSION;
-}
-
 SceneLoadingScript::SceneLoadingScript() : Script()
 {
 	REGISTER_FIELD(sceneToLoad, std::string);
+	REGISTER_FIELD(loadingScreenScene, std::string);
 }
 
 void SceneLoadingScript::Init()
@@ -30,13 +26,13 @@ void SceneLoadingScript::Init()
 #endif // ENGINE
 	// set the proper path here
 	sceneToLoad = "Lib/Scenes/" + sceneToLoad + SCENE_EXTENSION;
+	loadingScreenScene = "Lib/Scenes/" + loadingScreenScene + SCENE_EXTENSION;
 
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
-	Assert(fileSystem->Exists(loadingScreenScene),
-		   axo::Format("The default loading screen {} does not exist", loadingScreenScene));
 	Assert(fileSystem->Exists(sceneToLoad.c_str()),
-		   axo::Format("The scene to load asynchronousy {} does not exist", sceneToLoad));
-
+		axo::Format("The scene to load asynchronousy {} does not exist", sceneToLoad));
+	Assert(fileSystem->Exists(loadingScreenScene.c_str()),
+		axo::Format("The default loading screen {} does not exist", loadingScreenScene));
 }
 
 void SceneLoadingScript::StartLoad() const
@@ -48,7 +44,7 @@ void SceneLoadingScript::StartLoad() const
 		throw AccessingFailedScriptException(axo::Format("Calling SceneLoadingScript after the script raised an exception!"));
 	}
 	App->GetModule<ModuleScene>()->LoadSceneAsync(loadingScreenScene,
-												  std::bind(&SceneLoadingScript::OnLoadingScreenLoaded, this));
+		std::bind(&SceneLoadingScript::OnLoadingScreenLoaded, this));
 }
 
 void SceneLoadingScript::OnLoadingScreenLoaded() const
@@ -57,10 +53,10 @@ void SceneLoadingScript::OnLoadingScreenLoaded() const
 		[this]()
 		{
 			App->GetModule<ModuleScene>()->LoadSceneAsync(sceneToLoad,
-														  [&]()
-														  {
-															  LOG_INFO("Scene {} loaded!!", sceneToLoad);
-														  });
+				[&]()
+				{
+					LOG_INFO("Scene {} loaded!!", sceneToLoad);
+				});
 		},
 		6U /*Wait 6 frames to start the next load, so Render can be updated and the scene shown*/);
 }

@@ -13,6 +13,7 @@ class ComponentAudioSource;
 
 class AIMovement;
 class ShockWaveAttackAreaScript;
+class PatrolBehaviourScript;
 
 class ShockWaveAttackScript : public Script
 {
@@ -50,6 +51,7 @@ private:
 	ComponentTransform* transform;
 	AIMovement* aiMovement;
 	ComponentAgent* agent;
+	PatrolBehaviourScript* patrolScript;
 
 	ComponentTransform* targetPosition;
 	ComponentAnimation* animator;

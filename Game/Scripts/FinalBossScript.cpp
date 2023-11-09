@@ -63,7 +63,7 @@ void FinalBossScript::Start()
 
 void FinalBossScript::Update(float deltaTime)
 {
-	if (isPaused)
+	if (isPaused || !App->GetModule<ModulePlayer>()->IsInBossCombat())
 	{
 		aiMovement->SetMovementStatuses(false, false);
 		chargeAttackScript->SetIsPaused(isPaused);

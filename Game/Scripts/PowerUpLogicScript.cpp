@@ -11,10 +11,11 @@
 #include "../Scripts/PowerUpsManagerScript.h"
 
 #include "debugdraw.h"
+#include "Math/Quat.h"
 
 REGISTERCLASS(PowerUpLogicScript);
 
-#define SPAWN_LIFE 10.f
+#define SPAWN_LIFE 20.f
 
 PowerUpLogicScript::PowerUpLogicScript() : Script(), isSeeking(false), timer(0.f)
 {
@@ -29,6 +30,31 @@ void PowerUpLogicScript::Start()
 
 	GameObject* player = App->GetModule<ModulePlayer>()->GetPlayer();
 	playerTransform = player->GetComponent<ComponentTransform>();
+
+	for (GameObject* child : owner->GetChildren())
+	{
+		if (child->CompareTag("HEAL"))
+		{
+			healPowerUp = child;
+			healPowerUp->Disable();
+		}
+		else if (child->CompareTag("SHIELD"))
+		{
+			shieldPowerUp = child;
+			shieldPowerUp->Disable();
+		}
+		else if (child->CompareTag("SPEED"))
+		{
+			speedPowerUp = child;
+			speedPowerUp->Disable();
+		}
+		else if (child->CompareTag("DMG"))
+		{
+			dmgPowerUp = child;
+			dmgPowerUp->Disable();
+		}
+	}
+
 	DisablePowerUp();
 }
 
@@ -36,13 +62,16 @@ void PowerUpLogicScript::Update(float deltaTime)
 {
 	if (owner->IsEnabled())
 	{
+		RotateMesh(deltaTime);
 		timer += deltaTime;
 
 		if (timer >= SPAWN_LIFE)
 		{
 			DisablePowerUp();
 		}
+
 		float radius = powerUpManagerScript->GetRadiusSeeking();
+
 		if (!isSeeking && ownerTransform->GetGlobalPosition().Equals(playerTransform->GetGlobalPosition(), radius)
 			&& powerUpManagerScript->GetSavedPowerUpType() == PowerUpType::NONE)
 		{
@@ -51,10 +80,7 @@ void PowerUpLogicScript::Update(float deltaTime)
 		else if (isSeeking)
 		{
 			ownerRb->SetPositionTarget(playerTransform->GetGlobalPosition());
-			Quat errorRotation =
-				Quat::RotateFromTo(ownerTransform->GetGlobalForward().Normalized(),
-					(playerTransform->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized());
-			ownerRb->SetRotationTarget(errorRotation.Normalized());
+			
 			if (powerUpManagerScript->GetSavedPowerUpType() != PowerUpType::NONE)
 			{
 				btRigidBody* btRigidbody = ownerRb->GetRigidBody();
@@ -79,12 +105,40 @@ void PowerUpLogicScript::ActivatePowerUp(GameObject* newParent)
 	timer = 0.f;
 
 	ownerTransform->SetLocalPosition(float3::zero);
-	ownerTransform->SetGlobalPosition(newParent->GetComponent<ComponentTransform>()->GetGlobalPosition());
+	float3 nPos = newParent->GetComponent<ComponentTransform>()->GetGlobalPosition();
+	nPos.y += 1;
+	ownerTransform->SetGlobalPosition(nPos);
 	ownerTransform->RecalculateLocalMatrix();
 
 	ownerRb->UpdateRigidBody();
 
 	owner->Enable();
+
+	if (type == PowerUpType::HEAL)
+	{
+		healPowerUp->Enable();
+	}
+	else if (type == PowerUpType::DEFENSE)
+	{
+		shieldPowerUp->Enable();
+	}
+	else if (type == PowerUpType::SPEED)
+	{
+		speedPowerUp->Enable();
+	}
+	else if (type == PowerUpType::ATTACK)
+	{
+		dmgPowerUp->Enable();
+	}
+}
+
+void PowerUpLogicScript::RotateMesh(float deltatime)
+{
+	float3 newRotation = ownerTransform->GetRotationXYZ();
+	newRotation.y = newRotation.y + (50.0f * deltatime);
+
+	ownerTransform->SetLocalRotation(newRotation);
+	ownerTransform->UpdateTransformMatrices();
 }
 
 void PowerUpLogicScript::OnCollisionEnter(ComponentRigidBody* other)
@@ -106,6 +160,23 @@ void PowerUpLogicScript::DisablePowerUp() const
 	ownerTransform->UpdateTransformMatrices();
 
 	ownerRb->UpdateRigidBody();
+
+	if (type == PowerUpType::HEAL)
+	{
+		healPowerUp->Disable();
+	}
+	else if (type == PowerUpType::DEFENSE)
+	{
+		shieldPowerUp->Disable();
+	}
+	else if (type == PowerUpType::SPEED)
+	{
+		speedPowerUp->Disable();
+	}
+	else if (type == PowerUpType::ATTACK)
+	{
+		dmgPowerUp->Disable();
+	}
 
 	owner->Disable();
 }

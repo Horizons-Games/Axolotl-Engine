@@ -7,6 +7,7 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAudioSource;
+class ComponentParticleSystem;
 
 class BossMissilesMissileScript : public Script
 {
@@ -27,6 +28,8 @@ private:
 
 	ComponentRigidBody* rigidBody;
 	ComponentAudioSource* audioSource;
+	ComponentParticleSystem* areaEffectParticle;
+	GameObject* explosionEffect;
 	float hasHitPlayer;
 	float hasHitGround;
 

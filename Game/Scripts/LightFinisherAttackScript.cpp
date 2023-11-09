@@ -11,6 +11,7 @@
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentAudioSource.h"
+#include "Components/ComponentTransform.h"
 
 #include "../Scripts/LightAttackBullet.h"
 #include "../Scripts/EntityDetection.h"
@@ -22,14 +23,12 @@ LightFinisherAttackScript::LightFinisherAttackScript()
 	: Script(), 
 	loadedScene(nullptr), 
 	bulletPrefab(nullptr),
-	bulletVelocity(15.0f),
 	stunTime(2.0f),
 	enemyDetection(nullptr),
 	currentCooldown(0.0f),
 	cooldown(2.0f)
 {
 	REGISTER_FIELD(bulletPrefab, GameObject*);
-	REGISTER_FIELD(bulletVelocity, float);
 	REGISTER_FIELD(stunTime, float);
 	REGISTER_FIELD(enemyDetection, EntityDetection*);
 }
@@ -45,9 +44,17 @@ void LightFinisherAttackScript::ThrowStunItem(bool isMelee)
 	// Create a new bullet
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
 
-	bullet->GetComponent<LightAttackBullet>()->SetBulletVelocity(bulletVelocity);
-	bullet->GetComponent<LightAttackBullet>()->SetEnemy(enemyDetection->GetEnemySelected());
-	bullet->GetComponent<LightAttackBullet>()->SetStunTime(stunTime);
+	bullet->Enable();
+	LightAttackBullet* ligthAttackBulletScript = bullet->GetComponent<LightAttackBullet>();
+
+	ligthAttackBulletScript->Start();
+	ligthAttackBulletScript->SetInitPos(bullet->GetComponent<ComponentTransform>());
+	ligthAttackBulletScript->ResetDefaultValues();
+	ligthAttackBulletScript->SetEnemy(enemyDetection->GetEnemySelected());
+	ligthAttackBulletScript->SetStunTime(stunTime);
+	ligthAttackBulletScript->SetVelocity(50);
+	ligthAttackBulletScript->SetDamage(10);
+	ligthAttackBulletScript->StartMoving();
 	if (isMelee)
 	{
 		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ROCKS_THROW);
