@@ -1938,6 +1938,9 @@
     <ClInclude Include="..\Game\Scripts\UIGameManagerSpaceship.h">
       <Filter>UserScripts\UI</Filter>
     </ClInclude>
+    <ClInclude Include="EngineResources\resource.h">
+      <Filter>EngineResources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Auxiliar">
@@ -2155,6 +2158,9 @@
     </Filter>
     <Filter Include="UserScripts\Gameplay\Spaceship">
       <UniqueIdentifier>{bef71042-efbf-434a-83ee-3a70cf4379b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineResources">
+      <UniqueIdentifier>{a20bd10d-3e67-4f9c-8562-89b86e5632fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3257,5 +3263,15 @@
     <None Include="DataModels\GameObject\GameObject.inl">
       <Filter>DataModels\GameObject</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="EngineResources\axolotl_engine.ico">
+      <Filter>EngineResources</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EngineResources\AxolotlEngine.rc">
+      <Filter>EngineResources</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

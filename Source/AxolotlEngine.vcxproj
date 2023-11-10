@@ -23,6 +23,7 @@
     <ProjectGuid>{EBCCD73A-A6B7-458D-8C04-9E787251DA0F}</ProjectGuid>
     <RootNamespace>Engine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>AxolotlEngine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEngine|x64'" Label="Configuration">
@@ -1157,6 +1158,7 @@
     <ClInclude Include="Defines\GlslDefines.h" />
     <ClInclude Include="Defines\QuadtreeDefines.h" />
     <ClInclude Include="Defines\WindowDefines.h" />
+    <ClInclude Include="EngineResources\resource.h" />
     <ClInclude Include="Enums\BlendingType.h" />
     <ClInclude Include="Enums\ComponentType.h" />
     <ClInclude Include="DataModels\Windows\SubWindows\ComponentWindows\WindowComponentBreakable.h">
@@ -1532,6 +1534,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DataModels\GameObject\GameObject.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="EngineResources\axolotl_engine.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EngineResources\AxolotlEngine.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
