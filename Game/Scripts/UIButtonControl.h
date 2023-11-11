@@ -38,14 +38,3 @@ private:
 	GameObject* setUiGameManagerObject;
 	SceneLoadingScript* loadingScreenScript;
 };
-
-
-
-
-
-
-
-
-
-
-

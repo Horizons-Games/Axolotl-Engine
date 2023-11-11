@@ -59,6 +59,7 @@ protected:
 	float uiTime = 0.0f;
 	float currentInputTime = 0.0f;
 	float gameOverTimer = 0.0f;
+	float actualLevel;
 
 	int selectedPositon = -1;
 
@@ -99,11 +100,3 @@ protected:
 	HealthSystem* healthSystemClassAllura;
 
 };
-
-
-
-
-
-
-
-

@@ -22,7 +22,7 @@ hudCanvasObject(nullptr), healPwrUpObject(nullptr), attackPwrUpObject(nullptr), 
 speedPwrUpObject(nullptr), pwrUpActive(false), savePwrUp(PowerUpType::NONE), sliderHudHealthBixFront(nullptr), 
 sliderHudHealthBixBack(nullptr), sliderHudHealthAlluraFront(nullptr), sliderHudHealthAlluraBack(nullptr),
 debugModeObject(nullptr), imgMouse(nullptr), imgController(nullptr), inputMethod(true), prevInputMethod(true),
-optionMenuActive (false)
+optionMenuActive (false), actualLevel(0.0f)
 {
 	REGISTER_FIELD(manager, GameObject*);
 	REGISTER_FIELD(mainMenuObject, GameObject*);
@@ -42,6 +42,7 @@ optionMenuActive (false)
 	REGISTER_FIELD(speedPwrUpObject, GameObject*);
 
 	REGISTER_FIELD(gameStates, GameObject*);
+	REGISTER_FIELD(actualLevel, float);
 	REGISTER_FIELD(retryLoadingScreenScript, SceneLoadingScript*);
 	REGISTER_FIELD(mainMenuLoadingScreenScript, SceneLoadingScript*);
 }
@@ -59,7 +60,7 @@ void UIGameManager::Start()
 	componentSliderPlayerFront->SetMaxValue(healthSystemClassBix->GetMaxHealth());
 	componentSliderPlayerBack->SetMaxValue(healthSystemClassBix->GetMaxHealth());
 
-	if (manager) 
+	if (manager && actualLevel != 2.0f) 
 	{
 		SwitchPlayerManagerScript* switchPlayer = manager->GetComponent<SwitchPlayerManagerScript>();
 		secondPlayer = switchPlayer->GetSecondPlayer()->GetComponent<ComponentPlayer>();
@@ -113,7 +114,7 @@ void UIGameManager::Update(float deltaTime)
 		}
 	}
 	
-	if (manager && componentSliderSecondPlayerBack->GetCurrentValue() > 0)
+	if (manager && componentSliderSecondPlayerBack->GetCurrentValue() > 0 && actualLevel != 2.0f)
 	{
 		if (healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerBack->GetCurrentValue()
 			|| healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerFront->GetCurrentValue())
@@ -143,7 +144,7 @@ void UIGameManager::Update(float deltaTime)
 	}
 
 	// POWER UP SYSTEM
-	if (pwrUpActive)
+	if (pwrUpActive && actualLevel != 2.0f)
 	{
 		ActiveSliderUIPwrUP(deltaTime);
 	}
@@ -350,7 +351,7 @@ void UIGameManager::LoseGameState(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_SPACE) == KeyState::DOWN)
 	{
 		gameStates->GetChildren()[1]->GetChildren()[0]->Disable();
-		gameStates->GetChildren()[2]->GetChildren()[0]->Enable();
+		gameStates->GetChildren()[2]->GetChildren()[static_cast<int>(actualLevel)]->Enable();
 
 		LOG_INFO("YOU PRESSED A BUTTON AND LOAD RETRY SCENE");
 
@@ -363,7 +364,7 @@ void UIGameManager::LoseGameState(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
 	{
 		gameStates->GetChildren()[1]->GetChildren()[0]->Disable();
-		gameStates->GetChildren()[2]->GetChildren()[1]->Enable();
+		gameStates->GetChildren()[2]->GetChildren()[0]->Enable();
 
 		LOG_INFO("YOU PRESSED B BUTTON AND LOAD MAIN MENU");
 
@@ -388,7 +389,7 @@ void UIGameManager::WinGameState()
 	if (input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN)
 	{
 		gameStates->GetChildren()[1]->GetChildren()[1]->Disable();
-		gameStates->GetChildren()[2]->GetChildren()[1]->Enable();
+		gameStates->GetChildren()[2]->GetChildren()[0]->Enable();
 
 		LOG_INFO("YOU PRESSED B BUTTON AND LOAD MAIN MENU");
 

@@ -35,8 +35,10 @@ timer(0.0f), timerImg(2.0f), damageTimer(0.0f)
 {
 	REGISTER_FIELD(isLoseTrigger, bool);
 	REGISTER_FIELD(setUiGameManager, GameObject*);
+
 	REGISTER_FIELD(isLoseByDamage, bool);
 	REGISTER_FIELD(damageTaken, float);
+
 	REGISTER_FIELD(isNextSceneTrigger, bool);
 	REGISTER_FIELD(noRestrictions, bool);
 	REGISTER_FIELD(setLoadingScreenImage, GameObject*);

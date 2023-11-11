@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "UIButtonControl.h"
 
 #include "Components/ComponentScript.h"
@@ -47,37 +48,45 @@ void UIButtonControl::Update(float deltaTime)
 			App->SetCloseGame(true);
 		}		
 	}
-	else if (enableObject && disableObject)
+	else if (buttonComponent->IsClicked() || input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && isButtonB)
 	{
-		if (buttonComponent->IsClicked() || input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && isButtonB)
+		if (enableObject)
 		{
 			enableObject->Enable();
-			disableObject->Disable();
+		}
 
-			if (isGameResume)
+		if (disableObject)
+		{
+			disableObject->Disable();
+		}
+
+		if (isGameResume)
+		{
+			UIGameManagerClass->OpenInGameMenu(false);
+		}
+		else if (isOptionMenuButton)
+		{
+			if (!UIGameManagerClass->IsOptionMenuActive())
 			{
-				UIGameManagerClass->OpenInGameMenu(false);
+				UIGameManagerClass->SetOptionMenuActive(true);
 			}
-			else if (isOptionMenuButton)
+			else
 			{
-				if (!UIGameManagerClass->IsOptionMenuActive())
-				{
-					UIGameManagerClass->SetOptionMenuActive(true);
-				}
-				else
-				{
-					UIGameManagerClass->SetOptionMenuActive(false);
-				}
-				ui->ResetCurrentButtonIndex();
+				UIGameManagerClass->SetOptionMenuActive(false);
 			}
+			ui->ResetCurrentButtonIndex();
+		}
+		else if (loadingScreenScript)
+		{
+			LOG_INFO("STARTING LOAD SCRIPT");
+#ifndef ENGINE
+			loadingScreenScript->StartLoad();
+#endif // 
 		}
 	}
+
 	if (buttonHover)
 	{
-		if (loadingScreenScript && buttonComponent->IsClicked())
-		{
-			loadingScreenScript->StartLoad();
-		}
 		if (buttonComponent->IsHovered())
 		{
 			buttonHover->Enable();
@@ -87,5 +96,4 @@ void UIButtonControl::Update(float deltaTime)
 			buttonHover->Disable();
 		}
 	}
-
 }
