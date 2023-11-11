@@ -10,9 +10,11 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/ComponentAudioSource.h"
 
 #include "PlayerManagerScript.h"
 #include "UIImageDisplacementControl.h"
+#include <Auxiliar/Audio/AudioData.h>
 
 REGISTERCLASS(UITextTrigger);
 
@@ -120,6 +122,7 @@ void UITextTrigger::TextEnd()
 	}
 	else
 	{
+		AK::SoundEngine::SetState(AUDIO::STATES::GROUP::ZONE, AUDIO::STATES::ID::ZONE::BOSS);
 		App->GetModule<ModulePlayer>()->SetInBossCombat(true);
 	}
 	dialogueDone = true;

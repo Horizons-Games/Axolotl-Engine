@@ -17,6 +17,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3447410370	sfx_water_bubbles			\SFX\Ambient\CantinaSewers\sfx_water_bubbles	
 	3476965308	sfx_sewers_ambient_stop			\SFX\Ambient\CantinaSewers\sfx_sewers_ambient_stop	
 	3620056585	sfx_sewers_ambient			\SFX\Ambient\CantinaSewers\sfx_sewers_ambient	
+	3681248044	BigFireThrowerBurst			\SFX\Ambient\SpaceshipEscape\BigFireThrowerBurst	
 	3718347529	sewers_ambient			\SFX\Ambient\CantinaSewers\sewers_ambient	
 	3747747529	ambient_cantina_stop			\SFX\Ambient\CantinaSewers\ambient_cantina_stop	
 	3968187189	SpaceStationAmbient			\SFX\Ambient\SpaceStation\SpaceStationAmbient	

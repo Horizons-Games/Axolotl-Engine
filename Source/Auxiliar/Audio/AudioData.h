@@ -95,6 +95,7 @@ static const wchar_t* ELEVATOR_END = L"ElevatorEnd";
 namespace SPACESHIPESCAPE
 {
 static const wchar_t* FIRE = L"FireThrowerBurst";
+static const wchar_t* BIG_FIRE = L"BigFireThrowerBurst";
 static const wchar_t* FIRE_STOP = L"FireThrowerBurstStop";
 static const wchar_t* TURBINE = L"BigTurbine";
 static const wchar_t* WIND = L"WindAmbient";

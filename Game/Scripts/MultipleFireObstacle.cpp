@@ -15,12 +15,13 @@
 REGISTERCLASS(MultipleFireObstacle);
 
 MultipleFireObstacle::MultipleFireObstacle() : Script(), deactivatedTime(1.0f), activatedTime(1.0f) , timer(0.0f),
-audioSource(nullptr)
+audioSource(nullptr), isBigFire(false)
 {
 	REGISTER_FIELD(fireGroup1, std::vector<GameObject*>);
 	REGISTER_FIELD(fireGroup2, std::vector<GameObject*>);
 	REGISTER_FIELD(activatedTime, float);
 	REGISTER_FIELD(deactivatedTime, float);
+	REGISTER_FIELD(isBigFire, bool);
 }
 
 void MultipleFireObstacle::Start()
@@ -78,7 +79,14 @@ void MultipleFireObstacle::Update(float deltaTime)
 		case FireState::GROUP1_WAITING_TO_ACTIVATE:
 			for (GameObject* fire : fireGroup1)
 			{
-				audioSource->PostEvent(AUDIO::SFX::AMBIENT::SPACESHIPESCAPE::FIRE);
+				if (isBigFire)
+				{
+					audioSource->PostEvent(AUDIO::SFX::AMBIENT::SPACESHIPESCAPE::BIG_FIRE);
+				}
+				else
+				{
+					audioSource->PostEvent(AUDIO::SFX::AMBIENT::SPACESHIPESCAPE::FIRE);
+				}
 				fire->GetComponent<ComponentRigidBody>()->Enable();
 				fire->GetComponent<ComponentParticleSystem>()->Enable();
 			}
@@ -89,7 +97,14 @@ void MultipleFireObstacle::Update(float deltaTime)
 		case FireState::GROUP2_WAITING_TO_ACTIVATE:
 			for (GameObject* fire : fireGroup2)
 			{
-				audioSource->PostEvent(AUDIO::SFX::AMBIENT::SPACESHIPESCAPE::FIRE);
+				if (isBigFire)
+				{
+					audioSource->PostEvent(AUDIO::SFX::AMBIENT::SPACESHIPESCAPE::BIG_FIRE);
+				}
+				else
+				{
+					audioSource->PostEvent(AUDIO::SFX::AMBIENT::SPACESHIPESCAPE::FIRE);
+				}
 				fire->GetComponent<ComponentRigidBody>()->Enable();
 				fire->GetComponent<ComponentParticleSystem>()->Enable();
 			}

@@ -1341,7 +1341,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Attenuation">
-									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+									<ObjectRef Name="AttenuationOnlyClose" ID="{6D351CC8-A455-4C6C-AE33-FFEDCA307B92}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
 								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -1499,6 +1499,11 @@
 								<RandomSequenceContainer Name="FireThrowerLoop" ID="{C3D5B616-2359-42A4-8A96-8CDE99099116}" ShortID="328575938">
 									<PropertyList>
 										<Property Name="3DSpatialization" Type="int16" Value="1"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Attenuation">
@@ -1593,6 +1598,11 @@
 									<PropertyList>
 										<Property Name="3DSpatialization" Type="int16" Value="1"/>
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Attenuation">
@@ -1696,6 +1706,11 @@
 								</Property>
 								<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
 								<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>8</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Attenuation">
@@ -2197,6 +2212,202 @@
 								<ActiveSource Name="as_ab_ao_wind" ID="{352AFE7D-9366-43E3-B3A6-4CFC96F8C920}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Folder Name="FireThrower_01" ID="{C9366D4B-A05E-494B-9A50-05F0518CB880}" ShortID="945479328">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
+							<ChildrenList>
+								<RandomSequenceContainer Name="BigFireThrowerLoop" ID="{42A25B58-5A5B-4F95-A1FC-84CCF6B7A906}" ShortID="846681587">
+									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="1"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="AttenuationOnlyFar" ID="{E161B133-299F-4E83-BEBA-0E5B45180F9C}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+										</Reference>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="3DAmbient" ID="{866B6033-936B-4DAB-9800-DC90707AD040}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="as_ab_sl_fire_thrower_rr01" ID="{70EBBF6E-1FDE-423F-8EB3-D5738A2A1364}" ShortID="245627857">
+											<PropertyList>
+												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_ab_sl_fire_thrower_rr01" ID="{D2676B07-922C-46B9-9D60-0C11A85412E9}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_ab_sl_fire_thrower_rr01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="669449363"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_ab_sl_fire_thrower_rr01" ID="{D2676B07-922C-46B9-9D60-0C11A85412E9}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_ab_sl_fire_thrower_rr02" ID="{0A568A37-E1B7-446A-BC8E-941B11EA48A0}" ShortID="87108883">
+											<PropertyList>
+												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_ab_sl_fire_thrower_rr02" ID="{5136C6AE-960B-4ABA-9433-733CE0D27F61}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_ab_sl_fire_thrower_rr02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="759015336"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_ab_sl_fire_thrower_rr02" ID="{5136C6AE-960B-4ABA-9433-733CE0D27F61}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_ab_sl_fire_thrower_rr03" ID="{9B08433A-E14B-499E-87AC-D8EA2917692F}" ShortID="277090071">
+											<PropertyList>
+												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_ab_sl_fire_thrower_rr03" ID="{1A9A851E-6BA3-4DA1-95ED-D3C65D1095CA}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_ab_sl_fire_thrower_rr03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="391955015"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_ab_sl_fire_thrower_rr03" ID="{1A9A851E-6BA3-4DA1-95ED-D3C65D1095CA}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="BigFireThrowerBurst" ID="{9B6A8A70-6665-4672-83B2-8AFBD8E2ABA0}" ShortID="195373272">
+									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="1"/>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Attenuation">
+											<ObjectRef Name="AttenuationOnlyFar" ID="{E161B133-299F-4E83-BEBA-0E5B45180F9C}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+										</Reference>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="3DAmbient" ID="{866B6033-936B-4DAB-9800-DC90707AD040}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="as_ab_so_fire_burst_rr01" ID="{32AEAAD9-F44B-4858-A55A-F3C36F53D833}" ShortID="282888975">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_ab_so_fire_burst_rr01" ID="{5D2F87C4-5E76-488B-B2E6-EF943366C9D5}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_ab_so_fire_burst_rr01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="5640303"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_ab_so_fire_burst_rr01" ID="{5D2F87C4-5E76-488B-B2E6-EF943366C9D5}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_ab_so_fire_burst_rr02" ID="{6A5150EA-636F-429C-A35F-A8A49EBB57BA}" ShortID="784426457">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_ab_so_fire_burst_rr02" ID="{AD7D1460-45F0-4D7C-BF93-2D3D6F7D5D0C}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_ab_so_fire_burst_rr02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="183939974"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_ab_so_fire_burst_rr02" ID="{AD7D1460-45F0-4D7C-BF93-2D3D6F7D5D0C}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="as_ab_so_fire_burst_rr03" ID="{7AB67068-6D69-4508-A097-9A32052E4E8B}" ShortID="754060910">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="as_ab_so_fire_burst_rr03" ID="{CA2927C7-4DF6-4429-8D86-383EE11B0A68}">
+													<Language>SFX</Language>
+													<AudioFile>Bounces\as_ab_so_fire_burst_rr03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="747122415"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="as_ab_so_fire_burst_rr03" ID="{CA2927C7-4DF6-4429-8D86-383EE11B0A68}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+							</ChildrenList>
+						</Folder>
 					</ChildrenList>
 				</Folder>
 				<Sound Name="as_ab_al_crowd_loop" ID="{EC2D9CC0-EACD-4C37-9942-F3E99F84AF88}" ShortID="168963652">

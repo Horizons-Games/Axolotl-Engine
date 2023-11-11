@@ -37,6 +37,8 @@ private:
 	float timer;
 	FireState fireState;
 
+	bool isBigFire;
+
 	ComponentAudioSource* audioSource;
 };
 

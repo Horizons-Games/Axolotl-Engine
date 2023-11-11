@@ -109,9 +109,9 @@
 										<ObjectList Name="RTPC">
 											<Reference>
 												<Local>
-													<RTPC Name="" ID="{31C51B05-3717-401D-84CD-89B13F9AAEAE}" ShortID="1072120617">
+													<RTPC Name="" ID="{7457CB0B-143E-4DA3-8A52-91A2635AF420}" ShortID="288617144">
 														<PropertyList>
-															<Property Name="PropertyName" Type="string" Value="OutputBusHighpass"/>
+															<Property Name="PropertyName" Type="string" Value="OutputBusLowpass"/>
 														</PropertyList>
 														<ReferenceList>
 															<Reference Name="ControlInput">
@@ -119,7 +119,7 @@
 															</Reference>
 															<Reference Name="Curve">
 																<Custom>
-																	<Curve Name="" ID="{FC957D86-2BAA-4E8C-84D0-073114BB8201}">
+																	<Curve Name="" ID="{53ABEA69-BB63-495F-A513-A57EB8AF7175}">
 																		<PropertyList>
 																			<Property Name="Flags" Type="int32" Value="65537"/>
 																		</PropertyList>

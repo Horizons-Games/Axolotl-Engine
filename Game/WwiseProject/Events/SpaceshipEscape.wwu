@@ -48,10 +48,40 @@
 						<Action Name="" ID="{A0F4D091-69F8-4200-8D2F-8F900BFCD839}" ShortID="731324123">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="0.5"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="FireThrowerLoop" ID="{C3D5B616-2359-42A4-8A96-8CDE99099116}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{85512AFF-FA45-45C8-875C-2AF25420D9F7}" ShortID="843783277">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BigFireThrowerLoop" ID="{42A25B58-5A5B-4F95-A1FC-84CCF6B7A906}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="BigFireThrowerBurst" ID="{6E72B4CC-FBA4-4117-8496-E289F1AF0A4D}">
+					<ChildrenList>
+						<Action Name="" ID="{AB129C65-79D3-4197-AD98-8068C5D31705}" ShortID="368692593">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BigFireThrowerBurst" ID="{9B6A8A70-6665-4672-83B2-8AFBD8E2ABA0}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{F74F3EA1-98A2-4202-B580-454152339B7B}" ShortID="376275093">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BigFireThrowerLoop" ID="{42A25B58-5A5B-4F95-A1FC-84CCF6B7A906}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

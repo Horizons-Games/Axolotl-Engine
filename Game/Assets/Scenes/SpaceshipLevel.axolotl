@@ -1042,6 +1042,22 @@
                             "constructName": "SpaceshipObstacle",
                             "fields": null
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "FireObstaclePermanentAudio",
+                            "fields": null
+                        }
                     }
                 ]
             }
@@ -1119,8 +1135,20 @@
                                     "name": "DeactivatedTime",
                                     "value": 0.5,
                                     "type": 0
+                                },
+                                {
+                                    "name": "IsBigFire",
+                                    "value": false,
+                                    "type": 5
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
                         }
                     }
                 ]
@@ -1773,8 +1801,20 @@
                                     "name": "DeactivatedTime",
                                     "value": 1.5,
                                     "type": 0
+                                },
+                                {
+                                    "name": "IsBigFire",
+                                    "value": true,
+                                    "type": 5
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
                         }
                     }
                 ]
@@ -1908,6 +1948,13 @@
                                     "type": 0
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
                         }
                     }
                 ]
@@ -6341,6 +6388,22 @@
                                 }
                             ]
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "TurbineSpaceshipEscapeAudio",
+                            "fields": null
+                        }
                     }
                 ]
             }
@@ -8806,6 +8869,22 @@
                             "constructName": "SpaceshipObstacle",
                             "fields": null
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "FireObstaclePermanentAudio",
+                            "fields": null
+                        }
                     }
                 ]
             }
@@ -9041,6 +9120,22 @@
                             "constructName": "SpaceshipObstacle",
                             "fields": null
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "FireObstaclePermanentAudio",
+                            "fields": null
+                        }
                     }
                 ]
             }
@@ -9253,6 +9348,22 @@
                                     "type": 0
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "TurbineSpaceshipEscapeAudio",
+                            "fields": null
                         }
                     }
                 ]
@@ -9894,6 +10005,22 @@
                                     "type": 0
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "TurbineSpaceshipEscapeAudio",
+                            "fields": null
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
                         }
                     }
                 ]
@@ -11486,6 +11613,22 @@
                                 }
                             ]
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "TurbineSpaceshipEscapeAudio",
+                            "fields": null
+                        }
                     }
                 ]
             }
@@ -12126,6 +12269,22 @@
                                     "type": 0
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "TurbineSpaceshipEscapeAudio",
+                            "fields": null
                         }
                     }
                 ]
@@ -12768,6 +12927,22 @@
                                 }
                             ]
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "TurbineSpaceshipEscapeAudio",
+                            "fields": null
+                        }
                     }
                 ]
             }
@@ -13408,6 +13583,22 @@
                                     "type": 0
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "TurbineSpaceshipEscapeAudio",
+                            "fields": null
                         }
                     }
                 ]
@@ -14050,6 +14241,22 @@
                                 }
                             ]
                         }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "TurbineSpaceshipEscapeAudio",
+                            "fields": null
+                        }
                     }
                 ]
             }
@@ -14690,6 +14897,22 @@
                                     "type": 0
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_AudioSource",
+                            "active": true,
+                            "removed": true
+                        }
+                    },
+                    {
+                        "Component": {
+                            "type": "Component_Script",
+                            "active": true,
+                            "removed": true,
+                            "constructName": "TurbineSpaceshipEscapeAudio",
+                            "fields": null
                         }
                     }
                 ]
@@ -19685,9 +19908,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 493.15625,
-                            "worldAABB_min_y": 313.65625,
+                            "worldAABB_min_y": 277.15625,
                             "worldAABB_max_x": 607.84375,
-                            "worldAABB_max_y": 428.34375
+                            "worldAABB_max_y": 391.84375
                         }
                     },
                     {
@@ -19820,9 +20043,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 493.15625,
-                            "worldAABB_min_y": 313.65625,
+                            "worldAABB_min_y": 277.15625,
                             "worldAABB_max_x": 607.84375,
-                            "worldAABB_max_y": 428.34375
+                            "worldAABB_max_y": 391.84375
                         }
                     }
                 ]
@@ -19858,9 +20081,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 493.15625,
-                            "worldAABB_min_y": 313.65625,
+                            "worldAABB_min_y": 277.15625,
                             "worldAABB_max_x": 607.84375,
-                            "worldAABB_max_y": 428.34375
+                            "worldAABB_max_y": 391.84375
                         }
                     }
                 ]
@@ -19896,9 +20119,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 493.15625,
-                            "worldAABB_min_y": 313.65625,
+                            "worldAABB_min_y": 277.15625,
                             "worldAABB_max_x": 607.84375,
-                            "worldAABB_max_y": 428.34375
+                            "worldAABB_max_y": 391.84375
                         }
                     }
                 ]
@@ -19934,9 +20157,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 77.326904296875,
-                            "worldAABB_min_y": 45.389007568359375,
+                            "worldAABB_min_y": 8.889007568359375,
                             "worldAABB_max_x": 192.014404296875,
-                            "worldAABB_max_y": 160.07650756835938
+                            "worldAABB_max_y": 123.57650756835938
                         }
                     },
                     {
@@ -19986,9 +20209,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 12.958541870117188,
-                            "worldAABB_min_y": 68.18315124511719,
+                            "worldAABB_min_y": 31.683147430419922,
                             "worldAABB_max_x": 256.38275146484375,
-                            "worldAABB_max_y": 137.28236389160156
+                            "worldAABB_max_y": 100.78236389160156
                         }
                     },
                     {
@@ -20039,9 +20262,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 112.85939025878906,
-                            "worldAABB_min_y": 108.80715942382813,
+                            "worldAABB_min_y": 72.30715942382813,
                             "worldAABB_max_x": 237.86875915527344,
-                            "worldAABB_max_y": 120.27590942382813
+                            "worldAABB_max_y": 83.77590942382813
                         }
                     },
                     {
@@ -20092,9 +20315,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 245.12213134765625,
-                            "worldAABB_min_y": 85.52963256835938,
+                            "worldAABB_min_y": 49.029632568359375,
                             "worldAABB_max_x": 259.45806884765625,
-                            "worldAABB_max_y": 119.93588256835938
+                            "worldAABB_max_y": 83.43588256835938
                         }
                     },
                     {
@@ -20161,9 +20384,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 77.3211669921875,
-                            "worldAABB_min_y": 45.389007568359375,
+                            "worldAABB_min_y": 8.889007568359375,
                             "worldAABB_max_x": 192.0086669921875,
-                            "worldAABB_max_y": 160.07650756835938
+                            "worldAABB_max_y": 123.57650756835938
                         }
                     },
                     {
@@ -20213,9 +20436,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 19.9774169921875,
-                            "worldAABB_min_y": 88.39682006835938,
+                            "worldAABB_min_y": 51.896820068359375,
                             "worldAABB_max_x": 249.3524169921875,
-                            "worldAABB_max_y": 117.06869506835938
+                            "worldAABB_max_y": 80.56869506835938
                         }
                     },
                     {
@@ -20266,9 +20489,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 112.85365295410156,
-                            "worldAABB_min_y": 108.80715942382813,
+                            "worldAABB_min_y": 72.30715942382813,
                             "worldAABB_max_x": 237.86302185058594,
-                            "worldAABB_max_y": 120.27590942382813
+                            "worldAABB_max_y": 83.77590942382813
                         }
                     },
                     {
@@ -20319,9 +20542,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 236.85964965820313,
-                            "worldAABB_min_y": 85.52963256835938,
+                            "worldAABB_min_y": 49.029632568359375,
                             "worldAABB_max_x": 251.19558715820313,
-                            "worldAABB_max_y": 119.93588256835938
+                            "worldAABB_max_y": 83.43588256835938
                         }
                     },
                     {
@@ -20388,9 +20611,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 493.15625,
-                            "worldAABB_min_y": 313.65625,
+                            "worldAABB_min_y": 277.15625,
                             "worldAABB_max_x": 607.84375,
-                            "worldAABB_max_y": 428.34375
+                            "worldAABB_max_y": 391.84375
                         }
                     }
                 ]
@@ -20426,9 +20649,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 493.15625,
-                            "worldAABB_min_y": 313.65625,
+                            "worldAABB_min_y": 277.15625,
                             "worldAABB_max_x": 607.84375,
-                            "worldAABB_max_y": 428.34375
+                            "worldAABB_max_y": 391.84375
                         }
                     }
                 ]
@@ -20464,9 +20687,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 493.15625,
-                            "worldAABB_min_y": 313.65625,
+                            "worldAABB_min_y": 277.15625,
                             "worldAABB_max_x": 607.84375,
-                            "worldAABB_max_y": 428.34375
+                            "worldAABB_max_y": 391.84375
                         }
                     }
                 ]
@@ -20502,9 +20725,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 61.34375,
+                            "worldAABB_min_y": 24.84375,
                             "worldAABB_max_x": 1101.0,
-                            "worldAABB_max_y": 680.65625
+                            "worldAABB_max_y": 644.15625
                         }
                     },
                     {
@@ -20555,9 +20778,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 493.15625,
-                            "worldAABB_min_y": 313.65625,
+                            "worldAABB_min_y": 277.15625,
                             "worldAABB_max_x": 607.84375,
-                            "worldAABB_max_y": 428.34375
+                            "worldAABB_max_y": 391.84375
                         }
                     }
                 ]
@@ -20593,9 +20816,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 451.58203125,
-                            "worldAABB_min_y": 218.55335998535156,
+                            "worldAABB_min_y": 182.05335998535156,
                             "worldAABB_max_x": 649.41796875,
-                            "worldAABB_max_y": 267.582275390625
+                            "worldAABB_max_y": 231.08226013183594
                         }
                     },
                     {
@@ -20646,9 +20869,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 493.15625,
-                            "worldAABB_min_y": 313.65625,
+                            "worldAABB_min_y": 277.15625,
                             "worldAABB_max_x": 607.84375,
-                            "worldAABB_max_y": 428.34375
+                            "worldAABB_max_y": 391.84375
                         }
                     }
                 ]
@@ -20684,9 +20907,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 474.0894470214844,
-                            "worldAABB_min_y": 313.4004821777344,
+                            "worldAABB_min_y": 276.9004821777344,
                             "worldAABB_max_x": 626.9105224609375,
-                            "worldAABB_max_y": 359.5622253417969
+                            "worldAABB_max_y": 323.0622253417969
                         }
                     },
                     {
@@ -20824,9 +21047,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 474.0894470214844,
-                            "worldAABB_min_y": 371.15252685546875,
+                            "worldAABB_min_y": 334.65252685546875,
                             "worldAABB_max_x": 626.9105224609375,
-                            "worldAABB_max_y": 417.31427001953125
+                            "worldAABB_max_y": 380.81427001953125
                         }
                     },
                     {
@@ -20964,9 +21187,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 474.0894470214844,
-                            "worldAABB_min_y": 428.904541015625,
+                            "worldAABB_min_y": 392.404541015625,
                             "worldAABB_max_x": 626.9105224609375,
-                            "worldAABB_max_y": 475.0662841796875
+                            "worldAABB_max_y": 438.5662841796875
                         }
                     },
                     {
@@ -21104,9 +21327,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 474.0894470214844,
-                            "worldAABB_min_y": 486.6566162109375,
+                            "worldAABB_min_y": 450.1566162109375,
                             "worldAABB_max_x": 626.9105224609375,
-                            "worldAABB_max_y": 532.818359375
+                            "worldAABB_max_y": 496.318359375
                         }
                     },
                     {
@@ -21244,9 +21467,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 493.15625,
-                            "worldAABB_min_y": 313.65625,
+                            "worldAABB_min_y": 277.15625,
                             "worldAABB_max_x": 607.84375,
-                            "worldAABB_max_y": 428.34375
+                            "worldAABB_max_y": 391.84375
                         }
                     }
                 ]
@@ -21282,9 +21505,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 474.0894470214844,
-                            "worldAABB_min_y": 313.4004821777344,
+                            "worldAABB_min_y": 276.9004821777344,
                             "worldAABB_max_x": 626.9105224609375,
-                            "worldAABB_max_y": 359.5622253417969
+                            "worldAABB_max_y": 323.0622253417969
                         }
                     },
                     {
@@ -21335,9 +21558,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 474.0894470214844,
-                            "worldAABB_min_y": 371.15252685546875,
+                            "worldAABB_min_y": 334.65252685546875,
                             "worldAABB_max_x": 626.9105224609375,
-                            "worldAABB_max_y": 417.31427001953125
+                            "worldAABB_max_y": 380.81427001953125
                         }
                     },
                     {
@@ -21388,9 +21611,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 474.0894470214844,
-                            "worldAABB_min_y": 428.904541015625,
+                            "worldAABB_min_y": 392.404541015625,
                             "worldAABB_max_x": 626.9105224609375,
-                            "worldAABB_max_y": 475.0662841796875
+                            "worldAABB_max_y": 438.5662841796875
                         }
                     },
                     {
@@ -21441,9 +21664,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 474.0894470214844,
-                            "worldAABB_min_y": 486.66119384765625,
+                            "worldAABB_min_y": 450.16119384765625,
                             "worldAABB_max_x": 626.9105224609375,
-                            "worldAABB_max_y": 532.8229370117188
+                            "worldAABB_max_y": 496.32293701171875
                         }
                     },
                     {
@@ -21494,9 +21717,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 493.15625,
-                            "worldAABB_min_y": 313.65625,
+                            "worldAABB_min_y": 277.15625,
                             "worldAABB_max_x": 607.84375,
-                            "worldAABB_max_y": 428.34375
+                            "worldAABB_max_y": 391.84375
                         }
                     }
                 ]
@@ -21532,9 +21755,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 934.7708129882813,
-                            "worldAABB_min_y": 96.11701965332031,
+                            "worldAABB_min_y": 59.61701583862305,
                             "worldAABB_max_x": 998.9957885742188,
-                            "worldAABB_max_y": 112.17326354980469
+                            "worldAABB_max_y": 75.67326354980469
                         }
                     },
                     {
@@ -21672,9 +21895,9 @@
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
                             "worldAABB_min_x": 0.0,
-                            "worldAABB_min_y": 61.34375,
+                            "worldAABB_min_y": 24.84375,
                             "worldAABB_max_x": 1101.0,
-                            "worldAABB_max_y": 680.65625
+                            "worldAABB_max_y": 644.15625
                         }
                     },
                     {
