@@ -50,9 +50,7 @@ optionMenuActive (false), actualLevel(0.0f)
 void UIGameManager::Start()
 {
 	player = App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentPlayer>();
-	
 	healthSystemClassBix = player->GetOwner()->GetComponent<HealthSystem>();
-
 	ui = App->GetModule<ModuleUI>();
 
 	componentSliderPlayerFront = sliderHudHealthBixFront->GetComponent<ComponentSlider>();
@@ -60,7 +58,7 @@ void UIGameManager::Start()
 	componentSliderPlayerFront->SetMaxValue(healthSystemClassBix->GetMaxHealth());
 	componentSliderPlayerBack->SetMaxValue(healthSystemClassBix->GetMaxHealth());
 
-	if (manager && actualLevel != 2.0f) 
+	if (manager) 
 	{
 		SwitchPlayerManagerScript* switchPlayer = manager->GetComponent<SwitchPlayerManagerScript>();
 		secondPlayer = switchPlayer->GetSecondPlayer()->GetComponent<ComponentPlayer>();
@@ -114,7 +112,7 @@ void UIGameManager::Update(float deltaTime)
 		}
 	}
 	
-	if (manager && componentSliderSecondPlayerBack->GetCurrentValue() > 0 && actualLevel != 2.0f)
+	if (manager && componentSliderSecondPlayerBack->GetCurrentValue() > 0)
 	{
 		if (healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerBack->GetCurrentValue()
 			|| healthSystemClassAllura->GetCurrentHealth() != componentSliderSecondPlayerFront->GetCurrentValue())
@@ -338,7 +336,7 @@ void UIGameManager::LoseGameState(float deltaTime)
 		gameOverTimer -= deltaTime;
 		return;
 	}
-	//PUT CODE TO PAUSE GAME
+
 	if (!gameStates->IsEnabled())
 	{
 		gameStates->Enable();
