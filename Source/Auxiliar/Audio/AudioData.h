@@ -166,6 +166,7 @@ static const wchar_t* FINISHED = L"HackingFinished";
 namespace MUSIC
 {
 static const wchar_t* PLAY_MUSIC = L"Music";
+static const wchar_t* PLAY_MUSIC_PART02 = L"Music_Part02";
 static const wchar_t* STOP_MUSIC = L"StopMusic";
 
 namespace SWITCH

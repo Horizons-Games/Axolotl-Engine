@@ -19,7 +19,7 @@ BossShieldScript::BossShieldScript() : Script(), rigidBody(nullptr), parentRigid
 void BossShieldScript::Start()
 {
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
-	audioSource = owner->GetComponent<ComponentAudioSource>();
+	audioSource = owner->GetParent()->GetComponent<ComponentAudioSource>();
 
 	// This is the rigidbody of the boss itself
 	parentRigidBody = owner->GetParent()->GetComponent<ComponentRigidBody>();

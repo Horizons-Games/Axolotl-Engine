@@ -24,6 +24,6 @@ void SpaceshipEscapeMusic::Start()
 	AK::SoundEngine::SetState(AUDIO::STATES::GROUP::LIFE, AUDIO::STATES::ID::PLAYERLIFE::ALIVE);
 	componentAudio->SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
 
-	componentAudio->PostEvent(AUDIO::MUSIC::PLAY_MUSIC);
+	componentAudio->PostEvent(AUDIO::MUSIC::PLAY_MUSIC_PART02);
 	componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESHIPESCAPE::WIND);
 }

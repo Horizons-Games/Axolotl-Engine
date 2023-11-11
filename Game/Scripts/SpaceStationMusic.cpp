@@ -28,6 +28,6 @@ void SpaceStationMusic::Start()
 	App->GetModule<ModuleAudio>()->SetMusicSwitch(
 		AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
 
-	componentAudio->PostEvent(AUDIO::MUSIC::PLAY_MUSIC);
+	componentAudio->PostEvent(AUDIO::MUSIC::PLAY_MUSIC_PART02);
 	componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::AMBIENT);
 }

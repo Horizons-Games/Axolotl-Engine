@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{5BE1CC04-6BB7-C3F5-2D99-48FB93607A20}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{653AE2B7-E520-ACA5-C435-D4DF67DA488E}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
@@ -2497,7 +2497,145 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{FB84918C-64B6-C9E0-7634-C8EBA033C120}">
+		<SoundBank Id="2686860940" Type="User" Language="SFX" Hash="{1D25FB1C-7861-AFDE-8988-D36C6BFBA7C7}">
+			<ShortName>Music_Part02</ShortName>
+			<Path>Music_Part02.bnk</Path>
+			<Media>
+				<File Id="643041354" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>1M5-Spaceship_Escape_165bpm1-4_L109M-P0B.wav</ShortName>
+					<CachePath>SFX/1M5-Spaceship_Escape_165bpm1-4_L109M-P0B_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="757900444" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>1M8-Boss_190bpm1-4_LxM-PxB.wav</ShortName>
+					<CachePath>SFX/1M8-Boss_190bpm1-4_LxM-PxB_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="957325397" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>1M7-Station_Interior_170bpm1-4_L154M-P0B.wav</ShortName>
+					<CachePath>SFX/1M7-Station_Interior_170bpm1-4_L154M-P0B_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="1053497374" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>273567-Game-Over-Robot-Hit-8.wav</ShortName>
+					<CachePath>SFX/273567-Game-Over-Robot-Hit-8_D79FB2B7.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="2686860940" Name="Music_Part02">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="2791675679"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="0"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="0"/>
+											<MediaRefs>
+												<MediaRef Id="1053497374"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="425131515"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="0"/>
+											<MediaRefs>
+												<MediaRef Id="957325397"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="554650843"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="0"/>
+											<MediaRefs>
+												<MediaRef Id="643041354"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="1560169506"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="0"/>
+											<MediaRefs>
+												<MediaRef Id="757900444"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="58265312"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="0"/>
+											<MediaRefs>
+												<MediaRef Id="757900444"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+			</Events>
+			<StateGroups>
+				<StateGroup Id="444815956" Name="PlayerLife">
+					<States>
+						<State Id="655265632" Name="Alive"/>
+						<State Id="748895195" Name="None"/>
+						<State Id="2791675679" Name="Defeated"/>
+					</States>
+				</StateGroup>
+				<StateGroup Id="832057375" Name="Zone">
+					<States>
+						<State Id="58265312" Name="BossIntro"/>
+						<State Id="425131515" Name="SpaceStation"/>
+						<State Id="554650843" Name="Spaceship"/>
+						<State Id="748895195" Name="None"/>
+						<State Id="1560169506" Name="Boss"/>
+						<State Id="2192450996" Name="Hangar"/>
+						<State Id="3390261832" Name="Sewers"/>
+						<State Id="3434002879" Name="Cantina"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
+			<SwitchGroups>
+				<SwitchGroup Id="89505537" Name="Gameplay">
+					<Switches>
+						<Switch Id="2582085496" Name="Exploration"/>
+						<Switch Id="2764240573" Name="Combat"/>
+						<Switch Id="3604647259" Name="MainMenu"/>
+					</Switches>
+				</SwitchGroup>
+			</SwitchGroups>
+		</SoundBank>
+		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{F2C6A4C1-0B88-CE89-CB7F-FD6D51B75338}">
 			<ShortName>Music</ShortName>
 			<Path>Music.bnk</Path>
 			<Media>
@@ -2521,10 +2659,6 @@
 					<ShortName>1M6-Cargo_Bay_40bpm3-4_L12B-PXB.wav</ShortName>
 					<CachePath>SFX/1M6-Cargo_Bay_40bpm3-4_L12B-PXB_D79FB2B7.wem</CachePath>
 				</File>
-				<File Id="643041354" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>1M5-Spaceship_Escape_165bpm1-4_L109M-P0B.wav</ShortName>
-					<CachePath>SFX/1M5-Spaceship_Escape_165bpm1-4_L109M-P0B_D79FB2B7.wem</CachePath>
-				</File>
 				<File Id="646900479" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Sewers-A-B-Trasition.wav</ShortName>
 					<CachePath>SFX/Sewers-A-B-Trasition_D79FB2B7.wem</CachePath>
@@ -2533,17 +2667,9 @@
 					<ShortName>1M4-Hangar-B_140bpm1-4_L109B-POB.wav</ShortName>
 					<CachePath>SFX/1M4-Hangar-B_140bpm1-4_L109B-POB_D79FB2B7.wem</CachePath>
 				</File>
-				<File Id="757900444" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>1M8-Boss_190bpm1-4_LxM-PxB.wav</ShortName>
-					<CachePath>SFX/1M8-Boss_190bpm1-4_LxM-PxB_D79FB2B7.wem</CachePath>
-				</File>
 				<File Id="798973767" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>1M2-Sewers-B_150bpm1-4_L94B-POB.wav</ShortName>
 					<CachePath>SFX/1M2-Sewers-B_150bpm1-4_L94B-POB_D79FB2B7.wem</CachePath>
-				</File>
-				<File Id="957325397" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>1M7-Station_Interior_170bpm1-4_L154M-P0B.wav</ShortName>
-					<CachePath>SFX/1M7-Station_Interior_170bpm1-4_L154M-P0B_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="1053497374" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>273567-Game-Over-Robot-Hit-8.wav</ShortName>
@@ -2685,16 +2811,24 @@
 								</SwitchContainer>
 							</Children>
 						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="1917263390" Name="StopMusic">
+					<MediaRefs>
+						<MediaRef Id="253185104"/>
+						<MediaRef Id="646900479"/>
+					</MediaRefs>
+					<SwitchContainers>
 						<SwitchContainer>
-							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="2791675679"/>
 							<Children>
 								<SwitchContainer>
-									<SwitchValue GroupType="State" GroupId="832057375" Id="425131515"/>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="0"/>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="89505537" Id="0"/>
 											<MediaRefs>
-												<MediaRef Id="957325397"/>
+												<MediaRef Id="1053497374"/>
 											</MediaRefs>
 										</SwitchContainer>
 									</Children>
@@ -2705,12 +2839,12 @@
 							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
 							<Children>
 								<SwitchContainer>
-									<SwitchValue GroupType="State" GroupId="832057375" Id="554650843"/>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="3390261832"/>
 									<Children>
 										<SwitchContainer>
-											<SwitchValue GroupType="Switch" GroupId="89505537" Id="0"/>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2764240573"/>
 											<MediaRefs>
-												<MediaRef Id="643041354"/>
+												<MediaRef Id="798973767"/>
 											</MediaRefs>
 										</SwitchContainer>
 									</Children>
@@ -2721,12 +2855,12 @@
 							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
 							<Children>
 								<SwitchContainer>
-									<SwitchValue GroupType="State" GroupId="832057375" Id="1560169506"/>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="3390261832"/>
 									<Children>
 										<SwitchContainer>
-											<SwitchValue GroupType="Switch" GroupId="89505537" Id="0"/>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2582085496"/>
 											<MediaRefs>
-												<MediaRef Id="757900444"/>
+												<MediaRef Id="577099420"/>
 											</MediaRefs>
 										</SwitchContainer>
 									</Children>
@@ -2737,12 +2871,76 @@
 							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
 							<Children>
 								<SwitchContainer>
-									<SwitchValue GroupType="State" GroupId="832057375" Id="58265312"/>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="2192450996"/>
 									<Children>
 										<SwitchContainer>
-											<SwitchValue GroupType="Switch" GroupId="89505537" Id="0"/>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2582085496"/>
 											<MediaRefs>
-												<MediaRef Id="757900444"/>
+												<MediaRef Id="504765323"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="2192450996"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2764240573"/>
+											<MediaRefs>
+												<MediaRef Id="704529736"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="0"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="0"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="3604647259"/>
+											<MediaRefs>
+												<MediaRef Id="618374778"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="3434002879"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2582085496"/>
+											<MediaRefs>
+												<MediaRef Id="603595281"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="444815956" Id="655265632"/>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="State" GroupId="832057375" Id="3434002879"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2764240573"/>
+											<MediaRefs>
+												<MediaRef Id="603595281"/>
 											</MediaRefs>
 										</SwitchContainer>
 									</Children>
@@ -2751,7 +2949,6 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
-				<Event Id="1917263390" Name="StopMusic"/>
 			</Events>
 			<StateGroups>
 				<StateGroup Id="444815956" Name="PlayerLife">
@@ -2785,5 +2982,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{6665BCF1-59E0-A94C-F3A4-1B964E53CFE4}</FileHash>
+	<FileHash>{28247DB0-ACA3-6C5D-4373-E305E9DCA114}</FileHash>
 </SoundBanksInfo>
