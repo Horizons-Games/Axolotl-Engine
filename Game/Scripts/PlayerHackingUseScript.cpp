@@ -187,7 +187,7 @@ void PlayerHackingUseScript::InitHack()
 
 	hackingManager->EnableHackingTimer();
 
-	App->GetModule<ModuleAudio>()->SetLowPassFilter(60.0f);
+	App->GetModule<ModuleAudio>()->SetLowPassFilter(50.0f);
 	// PrintCombination();
 	LOG_DEBUG("Hacking is active");
 }

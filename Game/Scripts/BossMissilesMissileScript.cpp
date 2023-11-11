@@ -85,6 +85,8 @@ void BossMissilesMissileScript::OnCollisionEnter(ComponentRigidBody* other)
 		rigidBody->SetIsKinematic(true);
 		rigidBody->SetUpMobility();
 
+		audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKET_IMPACT);
+
 		hasHitGround = true;
 	}
 	
@@ -94,7 +96,6 @@ void BossMissilesMissileScript::OnCollisionEnter(ComponentRigidBody* other)
 
 		if (!hasHitGround)
 		{
-			audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKET_IMPACT);
 			// VFX Here: The missile hit an enemy before hitting the ground
 			DestroyMissile();
 		}
@@ -106,7 +107,6 @@ void BossMissilesMissileScript::OnCollisionEnter(ComponentRigidBody* other)
 		
 		if (!hasHitGround)
 		{
-			audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKET_IMPACT);
 			// VFX Here: The missile hit the player before hitting the ground
 			DestroyMissile();
 		}
@@ -118,7 +118,6 @@ void BossMissilesMissileScript::TriggerExplosion(float deltaTime)
 	rigidBody->SetRadius(rigidBody->GetRadius() + (areaGrowingFactor * deltaTime));
 	rigidBody->SetCollisionShape(rigidBody->GetShape());
 
-	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKET_IMPACT);
 	// VFX Here: Trigger explosion particles for the missile explosion (when it triggers the floor)
 	areaEffectParticle->Stop();
 	explosionEffect->Enable();

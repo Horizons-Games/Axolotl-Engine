@@ -425,10 +425,12 @@ void PlayerAttackScript::InitJumpAttack()
 	{
 		jumpFinisherScript->PerformGroundSmash(); // Bix jumping attack
 		timeSinceLastJumpAttack = 0.0f;
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_DOWN_ATTACK);
 	}
 	else
 	{
 		jumpFinisherScript->ShootForceBullet(10.0f, 2.0f); // Allura jumping attack, placed it here for now
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ALLURA_DOWN_ATTACK);
 	}
 }
 
@@ -463,7 +465,7 @@ void PlayerAttackScript::UpdateJumpAttack()
 		}
 		else
 		{
-			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_DOWN_ATTACK);
+			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_DOWN_ATTACK_IMPACT);
 		}
 		currentAttack = AttackType::NONE;
 	}

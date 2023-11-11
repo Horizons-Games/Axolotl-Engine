@@ -160,7 +160,6 @@ void PlayerForceUseScript::InitForce()
 	componentAnimation->SetParameter("IsDashing", false);
 
 	componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-	componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_USE);
 
 	componentAnimation->SetParameter("IsStartingForce", true);
 	componentAnimation->SetParameter("IsStoppingForce", false);
@@ -179,7 +178,8 @@ void PlayerForceUseScript::InitForce()
 
 		if (Physics::RaycastToTag(line, hit, owner, forceTag))
 		{
-			App->GetModule<ModuleAudio>()->SetLowPassFilter(60.0f);
+			App->GetModule<ModuleAudio>()->SetLowPassFilter(50.0f);
+			componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_USE);
 
 			gameObjectAttached = hit.gameObject;
 			forceZoneObject = gameObjectAttached->GetParent();

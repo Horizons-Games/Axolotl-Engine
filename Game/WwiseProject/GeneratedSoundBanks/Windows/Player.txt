@@ -2,22 +2,24 @@ Event	ID	Name			Wwise Object Path	Notes
 	101458712	Allura_DoubleJump			\SFX\Player\Allura_DoubleJump	
 	299454371	Allura_Jump			\SFX\Player\Allura_Jump	
 	343998802	Allura_HeavyAttackFinisherImpact			\SFX\Player\Weapons\Allura_HeavyAttackFinisherImpact	
-	835682963	Allura_DownAttack			\SFX\Player\Weapons\Allura_DownAttack	
 	931336556	Allura_HeavyAttackFinisher			\SFX\Player\Weapons\Allura_HeavyAttackFinisher	
 	959569938	sfx_falling_water			\SFX\Player\sfx_falling_water	
+	1024441751	Bix_DownAttackImpact			\SFX\Player\Weapons\Bix_DownAttackImpact	
 	1295294498	sfx_footsteps_walk_Bix_metal			\SFX\Player\sfx_footsteps_walk_Bix_metal	
 	1430818805	sfx_footsteps_walk_stop			\SFX\Player\sfx_footsteps_walk_stop	
 	1461022833	Allura_ShotImpact			\SFX\Player\Weapons\Allura_ShotImpact	
 	1494363793	Allura_ReceiveDamage			\SFX\Player\Allura_ReceiveDamage	
 	1494651949	sfx_dash_01			\SFX\Player\sfx_dash_01	
-	1506808629	Bix_DownAttack			\SFX\Player\Weapons\Bix_DownAttack	
 	1552439715	Bix_ReceiveDamage			\SFX\Player\Bix_ReceiveDamage	
 	1620527839	Allura_WeaponShot			\SFX\Player\Weapons\Allura_WeaponShot	
 	1852342621	Bix_Jump			\SFX\Player\Bix_Jump	
+	1945512119	Bix_DownAttackAction			\SFX\Player\Weapons\Bix_DownAttackAction	
 	1950418565	Bix_LightAttackFinisherImpact			\SFX\Player\Weapons\Bix_LightAttackFinisherImpact	
 	2019303910	sfx_footsteps_walk_Bix_water			\SFX\Player\sfx_footsteps_walk_Bix_water	
+	2252388169	Allura_DownAttackImpact			\SFX\Player\Weapons\Allura_DownAttackImpact	
 	2257514729	Allura_LightAttackFinisher			\SFX\Player\Weapons\Allura_LightAttackFinisher	
 	2311933762	Bix_HeavyAttackFinisherStop			\SFX\Player\Weapons\Bix_HeavyAttackFinisherStop	
+	2412886121	Allura_DownAttackAction			\SFX\Player\Weapons\Allura_DownAttackAction	
 	2734795530	Bix_DoubleJump			\SFX\Player\Bix_DoubleJump	
 	2860312827	Allura_LightAttackFinisherImpact			\SFX\Player\Weapons\Allura_LightAttackFinisherImpact	
 	3223239512	sfx_footsteps_walk_Allura_metal			\SFX\Player\sfx_footsteps_walk_Allura_metal	
@@ -79,10 +81,10 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	348367217	as_ch_so_falling_on_water_rr03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ch_so_falling_on_water_rr03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\LocomotionFalling\FallingWater\as_ch_so_falling_on_water_rr03		121470
 	351933088	as_ch_sl_bix_heavy_attack_finisher	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ch_sl_bix_heavy_attack_finisher_bip_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\BixHeavyAttackFinisher\as_ch_sl_bix_heavy_attack_finisher		223508
 	362519197	as_ch_so_allura_weapon_shot_rr03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ch_so_allura_weapon_shot_rr03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\AlluraWeaponShot\as_ch_so_allura_weapon_shot_rr03		50096
-	377661512	av_ch_so_bix_heavy_attack_rr03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\av_ch_so_bix_heavy_attack_rr03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerAbilities\PlayerCharacterVoiceOver\BixHeavyAttack\av_ch_so_bix_heavy_attack_rr03		111716
+	377661512	av_ch_so_bix_heavy_attack_rr03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\av_ch_so_bix_heavy_attack_rr03_AE7E6155.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerAbilities\PlayerCharacterVoiceOver\BixHeavyAttack\av_ch_so_bix_heavy_attack_rr03		79396
 	387617021	av_ch_so_allura_heavy_attack_rr03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\av_ch_so_allura_heavy_attack_rr03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerAbilities\PlayerCharacterVoiceOver\AlluraHeavyAttack\av_ch_so_allura_heavy_attack_rr03		69920
 	389346293	as_ch_so_allura_weapon_impact_rr06	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ch_so_allura_weapon_impact_rr06_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\AlluraShotImpact\as_ch_so_allura_weapon_impact_rr06		54366
-	392631834	av_ch_so_bix_heavy_attack_rr01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\av_ch_so_bix_heavy_attack_rr01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerAbilities\PlayerCharacterVoiceOver\BixHeavyAttack\av_ch_so_bix_heavy_attack_rr01		107660
+	392631834	av_ch_so_bix_heavy_attack_rr01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\av_ch_so_bix_heavy_attack_rr01_802988CC.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerAbilities\PlayerCharacterVoiceOver\BixHeavyAttack\av_ch_so_bix_heavy_attack_rr01		88828
 	400390064	av_ch_so_bix_light_attack_rr03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\av_ch_so_bix_light_attack_rr03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerAbilities\PlayerCharacterVoiceOver\BixLightAttack\av_ch_so_bix_light_attack_rr03		49770
 	404036126	as_ch_so_falling_on_water_rr01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ch_so_falling_on_water_rr01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\LocomotionFalling\FallingWater\as_ch_so_falling_on_water_rr01		135794
 	434205961	as_ch_so_footsteps_metal_rr04	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_character_walk_on_metal_4_2B1EA95F.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\Footsteps\BixFootstepsMetal\as_ch_so_footsteps_metal_rr04		32314
@@ -146,7 +148,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	904490966	as_ch_so_allura_light_attack_finisher_rr06	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ch_so_allura_light_attack_finisher_rr06_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\Allura_LightAttackFinisher\Allura_LightAttackFinisher\as_ch_so_allura_light_attack_finisher_rr06		38262
 	905302425	as_ch_so_bix_light_attack_finisher_start_rr03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ch_so_bix_light_attack_finisher_start_rr03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\BixLightAttackFinisher\Bix_LightAttackFinisher_Start\Bix_LightAttackFinisher_Start\as_ch_so_bix_light_attack_finisher_start_rr03		323680
 	908006931	as_ch_so_bix_lightsaber_attack_rr23	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\V_02\as_ch_so_bix_lightsaber_attack_rr23_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\BixLightsaberAttack\LightsaberSwing\V_02\as_ch_so_bix_lightsaber_attack_rr23		72352
-	910016717	av_ch_so_bix_heavy_attack_rr02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\av_ch_so_bix_heavy_attack_rr02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerAbilities\PlayerCharacterVoiceOver\BixHeavyAttack\av_ch_so_bix_heavy_attack_rr02		85248
+	910016717	av_ch_so_bix_heavy_attack_rr02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\av_ch_so_bix_heavy_attack_rr02_40612AC4.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerAbilities\PlayerCharacterVoiceOver\BixHeavyAttack\av_ch_so_bix_heavy_attack_rr02		68188
 	910701895	as_ch_so_bix_down_attack_rr02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ch_so_bix_down_attack_rr02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\BixDownAttack\as_ch_so_bix_down_attack_rr02		573536
 	913500277	as_ch_so_allura_light_attack_finisher_rr08	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ch_so_allura_light_attack_finisher_rr08_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\Allura_LightAttackFinisher\Allura_LightAttackFinisher\as_ch_so_allura_light_attack_finisher_rr08		37574
 	916189334	as_ch_so_bix_lightsaber_impact_rr02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ch_so_bix_lightsaber_impact_rr02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\BixLightsaberImpact\as_ch_so_bix_lightsaber_impact_rr02		211996

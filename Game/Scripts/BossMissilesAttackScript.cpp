@@ -114,7 +114,6 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 			animator->SetParameter("IsStartingMissilesJump", false);
 			animator->SetParameter("IsEndingMissilesJump", true);
 			animator->SetParameter("IsMissilesLanding", true);
-			audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKETS_LAUNCH);
 			MoveUserToPosition(safePositionSelected->GetGlobalPosition());
 		}
 	}
@@ -125,6 +124,7 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 		if (transform->GetGlobalPosition().Equals(safePositionSelected->GetGlobalPosition(), 0.5f))
 		{
 			missilesAttackState = AttackState::EXECUTING_ATTACK;
+			audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKETS_LAUNCH);
 			RotateToTarget(midJumpPositionStart);
 		}
 	}

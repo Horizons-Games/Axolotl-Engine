@@ -123,7 +123,8 @@ namespace WEAPON
 {
 static const wchar_t* LIGHTSABER_CLASH = L"Bix_LightsaberImpact";
 static const wchar_t* LIGHTSABER_SWING = L"Bix_LightsaberAttack";
-static const wchar_t* LIGHTSABER_DOWN_ATTACK = L"Bix_DownAttack";
+static const wchar_t* LIGHTSABER_DOWN_ATTACK = L"Bix_DownAttackAction";
+static const wchar_t* LIGHTSABER_DOWN_ATTACK_IMPACT = L"Bix_DownAttackImpact";
 static const wchar_t* LIGHTSABER_THROW = L"Bix_HeavyAttackFinisher";
 static const wchar_t* LIGHTSABER_THROW_STOP = L"Bix_HeavyAttackFinisherStop";
 static const wchar_t* ROCKS_THROW = L"Bix_LightAttackFinisher";
@@ -134,7 +135,8 @@ static const wchar_t* CHARGED_SHOT = L"Allura_LightAttackFinisher";
 static const wchar_t* CHARGED_SHOT_IMPACT = L"Allura_LightAttackFinisherImpact";
 static const wchar_t* ELECTRIC_SHOT = L"Allura_HeavyAttackFinisher";
 static const wchar_t* ELECTRIC_SHOT_IMPACT = L"Allura_HeavyAttackFinisherImpact";
-static const wchar_t* GRANADE_EXPLOSION = L"Allura_DownAttack";
+static const wchar_t* ALLURA_DOWN_ATTACK = L"Allura_DownAttackAction";
+static const wchar_t* GRANADE_EXPLOSION = L"Allura_DownAttackImpact";
 static const wchar_t* RECEIVEDAMAGE_BIX = L"Bix_ReceiveDamage";
 static const wchar_t* RECEIVEDAMAGE_ALLURA = L"Allura_ReceiveDamage";
 } // namespace WEAPON

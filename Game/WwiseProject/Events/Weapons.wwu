@@ -32,15 +32,8 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Allura_DownAttack" ID="{A57A1850-B666-4C42-BC97-D198784024B8}">
+				<Event Name="Allura_DownAttackAction" ID="{A57A1850-B666-4C42-BC97-D198784024B8}">
 					<ChildrenList>
-						<Action Name="" ID="{0EB129EA-D33F-4A02-A595-FA2F460825D8}" ShortID="465101899">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="AlluraDownAttack" ID="{C3A92920-2163-4CF3-BEEA-6C9E63EFD64B}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 						<Action Name="" ID="{81090CCE-455F-460F-8F31-5D406D1B3166}" ShortID="476625831">
 							<ReferenceList>
 								<Reference Name="Target">
@@ -108,15 +101,8 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Bix_DownAttack" ID="{1A39B4E7-33E1-4FD1-A57D-1D1575F5025E}">
+				<Event Name="Bix_DownAttackAction" ID="{1A39B4E7-33E1-4FD1-A57D-1D1575F5025E}">
 					<ChildrenList>
-						<Action Name="" ID="{DED9058D-9349-4DDE-8F75-34045518CED4}" ShortID="657874408">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="BixDownAttack" ID="{68FCBC9C-F0A0-4CBF-93DA-C91961491E2C}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 						<Action Name="" ID="{3F312C37-FDDE-420D-9E8D-1FEBE5752FA9}" ShortID="408132695">
 							<ReferenceList>
 								<Reference Name="Target">
@@ -211,6 +197,28 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="BixLightAttack" ID="{E79D5B25-30C6-4584-86C8-905C6D99083B}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Bix_DownAttackImpact" ID="{3C097DE5-CE73-4756-A053-6D1AED8E5C51}">
+					<ChildrenList>
+						<Action Name="" ID="{A4222B88-C6C2-4151-9ADF-7040B42A7595}" ShortID="1051666388">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BixDownAttack" ID="{68FCBC9C-F0A0-4CBF-93DA-C91961491E2C}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Allura_DownAttackImpact" ID="{A54A28FA-6702-4051-A1D2-9C7BCD0C08B7}">
+					<ChildrenList>
+						<Action Name="" ID="{D04F2A79-313A-405F-97DB-A206782A95AD}" ShortID="472312768">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AlluraDownAttack" ID="{C3A92920-2163-4CF3-BEEA-6C9E63EFD64B}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

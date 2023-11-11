@@ -306,7 +306,7 @@
 								<Property Name="OverrideColor" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>3</Value>
+										<Value>11</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -339,7 +339,6 @@
 											</ModifierList>
 										</Property>
 										<Property Name="PlayMechanismSpecialTransitions" Type="bool" Value="True"/>
-										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
 										<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="2"/>
 									</PropertyList>
 									<ReferenceList>
@@ -483,35 +482,19 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<Sound Name="as_npc_so_death_rr_01" ID="{5356CB69-F21B-43B7-8A8B-DB2F63EF7E20}" ShortID="70360001">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_npc_so_death_rr_01" ID="{2E563BE2-A051-4449-833E-9EE0B0ADF6C1}">
-															<Language>SFX</Language>
-															<AudioFile>Bounces\as_npc_so_death_rr_01.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="413101320"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_npc_so_death_rr_01" ID="{2E563BE2-A051-4449-833E-9EE0B0ADF6C1}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
 												<Sound Name="as_npc_so_death_rr_02" ID="{00A0F9CD-A3D7-4AD6-B24A-09A149C801BF}" ShortID="837803040">
+													<PropertyList>
+														<Property Name="3DSpatialization" Type="int16" Value="1"/>
+													</PropertyList>
 													<ReferenceList>
+														<Reference Name="Attenuation">
+															<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+														</Reference>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
 														</Reference>
 														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+															<ObjectRef Name="NPCMaster" ID="{972B9C9F-6B1E-4B0E-8EE7-1CF44D5BEE6D}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
@@ -528,12 +511,18 @@
 													</ActiveSourceList>
 												</Sound>
 												<Sound Name="as_npc_so_death_rr_03" ID="{ABF1ABA5-A4D3-4F8B-ABC3-9A06FD400101}" ShortID="933175728">
+													<PropertyList>
+														<Property Name="3DSpatialization" Type="int16" Value="1"/>
+													</PropertyList>
 													<ReferenceList>
+														<Reference Name="Attenuation">
+															<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+														</Reference>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
 														</Reference>
 														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+															<ObjectRef Name="NPCMaster" ID="{972B9C9F-6B1E-4B0E-8EE7-1CF44D5BEE6D}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
@@ -549,26 +538,32 @@
 														<ActiveSource Name="as_npc_so_death_rr_03" ID="{BE666F2F-6A80-4B4F-8464-B87589C7C72A}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
-												<Sound Name="as_npc_so_death_rr_04" ID="{E714205E-2A7E-4E58-AD37-617F2E247A7A}" ShortID="916673539">
+												<Sound Name="as_npc_so_death_rr_01" ID="{5356CB69-F21B-43B7-8A8B-DB2F63EF7E20}" ShortID="70360001">
+													<PropertyList>
+														<Property Name="3DSpatialization" Type="int16" Value="1"/>
+													</PropertyList>
 													<ReferenceList>
+														<Reference Name="Attenuation">
+															<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+														</Reference>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
 														</Reference>
 														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+															<ObjectRef Name="NPCMaster" ID="{972B9C9F-6B1E-4B0E-8EE7-1CF44D5BEE6D}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
-														<AudioFileSource Name="as_npc_so_death_rr_04" ID="{98AF6F63-3C1A-41F0-A119-EE5D98CB7F55}">
+														<AudioFileSource Name="as_npc_so_death_rr_01" ID="{2E563BE2-A051-4449-833E-9EE0B0ADF6C1}">
 															<Language>SFX</Language>
-															<AudioFile>Bounces\as_npc_so_death_rr_04.wav</AudioFile>
+															<AudioFile>Bounces\as_npc_so_death_rr_01.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="617913474"/>
+																<MediaID ID="413101320"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
 													<ActiveSourceList>
-														<ActiveSource Name="as_npc_so_death_rr_04" ID="{98AF6F63-3C1A-41F0-A119-EE5D98CB7F55}" Platform="Linked"/>
+														<ActiveSource Name="as_npc_so_death_rr_01" ID="{2E563BE2-A051-4449-833E-9EE0B0ADF6C1}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
 											</ChildrenList>
@@ -596,7 +591,6 @@
 											</ModifierList>
 										</Property>
 										<Property Name="PlayMechanismSpecialTransitions" Type="bool" Value="True"/>
-										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
 										<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="2"/>
 									</PropertyList>
 									<ReferenceList>
@@ -806,28 +800,6 @@
 														<ActiveSource Name="as_npc_so_death_rr_03" ID="{E536F0D1-44C2-40B2-93C2-9E2FE64F67B7}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
-												<Sound Name="as_npc_so_death_rr_04" ID="{6972C7D0-281D-4A35-8B04-499BD24CDE83}" ShortID="122859712">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_npc_so_death_rr_04" ID="{39AEDE83-E869-4B18-9D83-FE55F793ABBD}">
-															<Language>SFX</Language>
-															<AudioFile>Bounces\as_npc_so_death_rr_04.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="617913474"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_npc_so_death_rr_04" ID="{39AEDE83-E869-4B18-9D83-FE55F793ABBD}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
 											</ChildrenList>
 										</RandomSequenceContainer>
 									</ChildrenList>
@@ -853,7 +825,6 @@
 											</ModifierList>
 										</Property>
 										<Property Name="PlayMechanismSpecialTransitions" Type="bool" Value="True"/>
-										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
 										<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="2"/>
 									</PropertyList>
 									<ReferenceList>
@@ -1063,28 +1034,6 @@
 														<ActiveSource Name="as_npc_so_death_rr_03" ID="{95B0A884-3A19-4BA9-ACD9-FC0811DB930D}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
-												<Sound Name="as_npc_so_death_rr_04" ID="{5F1B47C7-FF2C-42EA-8FAF-4E74B937FD3A}" ShortID="974029427">
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="as_npc_so_death_rr_04" ID="{080219AC-3048-448E-99F2-729FDE2C65B9}">
-															<Language>SFX</Language>
-															<AudioFile>Bounces\as_npc_so_death_rr_04.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="617913474"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ActiveSourceList>
-														<ActiveSource Name="as_npc_so_death_rr_04" ID="{080219AC-3048-448E-99F2-729FDE2C65B9}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
 											</ChildrenList>
 										</RandomSequenceContainer>
 									</ChildrenList>
@@ -1112,6 +1061,11 @@
 									</Modifier>
 								</ModifierInfo>
 							</ModifierList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>3</Value>
+							</ValueList>
 						</Property>
 					</PropertyList>
 					<ReferenceList>
@@ -1325,7 +1279,7 @@
 						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-6</Value>
+								<Value>-3</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>

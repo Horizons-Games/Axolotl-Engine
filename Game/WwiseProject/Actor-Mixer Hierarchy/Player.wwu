@@ -1120,8 +1120,8 @@
 					<ChildrenList>
 						<RandomSequenceContainer Name="AlluraShotImpact" ID="{5C57A8C1-6F05-47C3-AB94-77CC082C6971}" ShortID="265601707">
 							<PropertyList>
-								<Property Name="3DSpatialization" Type="int16" Value="1"/>
 								<Property Name="Color" Type="int16" Value="21"/>
+								<Property Name="EnableAttenuation" Type="bool" Value="False"/>
 								<Property Name="OverrideColor" Type="bool" Value="True"/>
 								<Property Name="OverridePositioning" Type="bool" Value="True"/>
 								<Property Name="Pitch" Type="int32">
@@ -1580,11 +1580,6 @@
 												</ModifierInfo>
 											</ModifierList>
 										</Property>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-10</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -1619,7 +1614,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-5</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -2626,7 +2621,19 @@
 							</ChildrenList>
 						</BlendContainer>
 						<BlendContainer Name="BixHeavyAttackFinisher" ID="{5573D82F-A585-4B80-888B-6EDDA1A654BF}" ShortID="563197121">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>6</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
 								</Reference>
@@ -3994,6 +4001,11 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="av_ch_so_bix_heavy_attack_rr01" ID="{56F93652-7DA1-45DA-9C46-2B9EB1626CA1}">
+													<PropertyList>
+														<Property Name="FadeInDuration" Type="Real64" Value="0.218810044893378"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.196174523007856"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>av_ch_so_bix_heavy_attack_rr01.wav</AudioFile>
 													<MediaIDList>
@@ -4016,6 +4028,11 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="av_ch_so_bix_heavy_attack_rr02" ID="{C47B5EBA-5F6B-440C-8C25-5C718B315A2A}">
+													<PropertyList>
+														<Property Name="FadeInDuration" Type="Real64" Value="0.192631313131313"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.177698653198653"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>av_ch_so_bix_heavy_attack_rr02.wav</AudioFile>
 													<MediaIDList>
@@ -4038,6 +4055,11 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="av_ch_so_bix_heavy_attack_rr03" ID="{CAA04581-1D50-4914-A82F-35EA0E1036A0}">
+													<PropertyList>
+														<Property Name="FadeInDuration" Type="Real64" Value="0.240762836700337"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimBegin" Type="Real64" Value="0.336676487093154"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>av_ch_so_bix_heavy_attack_rr03.wav</AudioFile>
 													<MediaIDList>
