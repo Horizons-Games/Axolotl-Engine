@@ -13,13 +13,13 @@
 REGISTERCLASS(UIButtonControl);
 
 UIButtonControl::UIButtonControl() : Script(), disableObject(nullptr), enableObject(nullptr), 
-buttonComponent(nullptr), buttonHover(nullptr), isGameExit(false), isGameResume(false), 
-setUiGameManagerObject(nullptr), UIGameManagerClass(nullptr), isOptionMenuButton(false), isButtonB(nullptr)
+buttonComponent(nullptr), buttonHover(nullptr), isGameExit(false), isGameResume(false),
+uiGameManager(nullptr), isOptionMenuButton(false), isButtonB(nullptr)
 {
 	REGISTER_FIELD(enableObject, GameObject*);
 	REGISTER_FIELD(disableObject, GameObject*);
 	REGISTER_FIELD(buttonHover, GameObject*);
-	REGISTER_FIELD(setUiGameManagerObject, GameObject*);
+	REGISTER_FIELD(uiGameManager, UIGameManager*);
 	REGISTER_FIELD(isOptionMenuButton, bool);
 	REGISTER_FIELD(isGameResume, bool);
 	REGISTER_FIELD(isGameExit, bool);
@@ -32,11 +32,6 @@ void UIButtonControl::Start()
 	buttonComponent = owner->GetComponent<ComponentButton>();
 	input = App->GetModule<ModuleInput>();
 	ui = App->GetModule<ModuleUI>();
-	
-	if (isGameResume || isOptionMenuButton)
-	{
-		UIGameManagerClass = setUiGameManagerObject->GetComponent<UIGameManager>();
-	}
 }
 
 void UIButtonControl::Update(float deltaTime)
@@ -62,17 +57,17 @@ void UIButtonControl::Update(float deltaTime)
 
 		if (isGameResume)
 		{
-			UIGameManagerClass->OpenInGameMenu(false);
+			uiGameManager->OpenInGameMenu(false);
 		}
 		else if (isOptionMenuButton)
 		{
-			if (!UIGameManagerClass->IsOptionMenuActive())
+			if (!uiGameManager->IsOptionMenuActive())
 			{
-				UIGameManagerClass->SetOptionMenuActive(true);
+				uiGameManager->SetOptionMenuActive(true);
 			}
 			else
 			{
-				UIGameManagerClass->SetOptionMenuActive(false);
+				uiGameManager->SetOptionMenuActive(false);
 			}
 			ui->ResetCurrentButtonIndex();
 		}
