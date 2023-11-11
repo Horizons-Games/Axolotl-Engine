@@ -15,11 +15,10 @@ public:
 
 	void Start() override;
 
-	bool isMusicTriggered;
+	bool isTriggered;
+
+	ComponentAudioSource* componentAudio;
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
-
-	ComponentAudioSource* componentAudio;
-	ComponentAudioSource* audioSourceCantina;
 };

@@ -3684,6 +3684,130 @@
 									</ReferenceList>
 									<TransitionInfo/>
 								</MusicTransition>
+								<MusicTransition Name="Transition" ID="{D4F603A4-2E31-48E9-8FA2-0854B39FA269}">
+									<PropertyList>
+										<Property Name="DestinationContextType" Type="int16" Value="2"/>
+										<Property Name="DestinationPlaylistJumpTo" Type="int16" Value="2"/>
+										<Property Name="EnableDestinationFadeIn" Type="bool" Value="True"/>
+										<Property Name="EnableSourceFadeOut" Type="bool" Value="True"/>
+										<Property Name="ExitSourceAt" Type="int16" Value="2"/>
+										<Property Name="SourceContextType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="DestinationContextObject">
+											<ObjectRef Name="CanteenAmbinent" ID="{58D1DA84-8043-43AB-BB96-62E911FCFA8B}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}"/>
+										</Reference>
+										<Reference Name="SourceContextObject">
+											<ObjectRef Name="1M1-Sewers-A_150bpm1-4_L94B" ID="{53E865AE-B4BF-4E66-B834-3BEFCEE9A04E}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}"/>
+										</Reference>
+									</ReferenceList>
+									<TransitionInfo>
+										<SourceFadeOut>
+											<MusicFade Name="Source Fade-out" ID="{CF907F4D-B86C-4B4B-B195-F86446CE8E6A}">
+												<PropertyList>
+													<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+													<Property Name="FadeType" Type="int16" Value="1"/>
+												</PropertyList>
+											</MusicFade>
+										</SourceFadeOut>
+										<DestinationFadeIn>
+											<MusicFade Name="Destination Fade-in" ID="{84AA9187-C949-452F-8121-3E9D77132C79}">
+												<PropertyList>
+													<Property Name="FadeOffset" Type="Real64" Value="-0.5"/>
+													<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+												</PropertyList>
+											</MusicFade>
+										</DestinationFadeIn>
+									</TransitionInfo>
+								</MusicTransition>
+								<MusicTransition Name="Transition" ID="{CDD1EAB1-8A82-49A9-9899-01057DD7DC1A}">
+									<PropertyList>
+										<Property Name="DestinationContextType" Type="int16" Value="2"/>
+										<Property Name="DestinationPlaylistJumpTo" Type="int16" Value="2"/>
+										<Property Name="EnableDestinationFadeIn" Type="bool" Value="True"/>
+										<Property Name="EnableSourceFadeOut" Type="bool" Value="True"/>
+										<Property Name="ExitSourceAt" Type="int16" Value="2"/>
+										<Property Name="SourceContextType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="DestinationContextObject">
+											<ObjectRef Name="CanteenAmbinent" ID="{58D1DA84-8043-43AB-BB96-62E911FCFA8B}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}"/>
+										</Reference>
+										<Reference Name="SourceContextObject">
+											<ObjectRef Name="1M2-Sewers-B_150bpm1-4_L94B" ID="{A8EFC0AB-BCF0-41D2-A045-F9D0832A2261}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}"/>
+										</Reference>
+									</ReferenceList>
+									<TransitionInfo>
+										<SourceFadeOut>
+											<MusicFade Name="Source Fade-out" ID="{76F778CA-5FB1-44F8-B38F-76C519398A4F}">
+												<PropertyList>
+													<Property Name="FadeTime" Type="Real64" Value="0.6"/>
+													<Property Name="FadeType" Type="int16" Value="1"/>
+												</PropertyList>
+											</MusicFade>
+										</SourceFadeOut>
+										<DestinationFadeIn>
+											<MusicFade Name="Destination Fade-in" ID="{931F23F2-08B6-4BE3-A571-CFC13FB98792}">
+												<PropertyList>
+													<Property Name="FadeOffset" Type="Real64" Value="-0.5"/>
+													<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+												</PropertyList>
+											</MusicFade>
+										</DestinationFadeIn>
+									</TransitionInfo>
+								</MusicTransition>
+								<MusicTransition Name="Transition" ID="{4D94876E-B631-4D35-9E07-8EE601455509}">
+									<PropertyList>
+										<Property Name="DestinationContextType" Type="int16" Value="2"/>
+										<Property Name="EnableSourceFadeOut" Type="bool" Value="True"/>
+										<Property Name="ExitSourceAt" Type="int16" Value="2"/>
+										<Property Name="SourceContextType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="DestinationContextObject">
+											<ObjectRef Name="1M1-Sewers-A_150bpm1-4_L94B" ID="{53E865AE-B4BF-4E66-B834-3BEFCEE9A04E}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}"/>
+										</Reference>
+										<Reference Name="SourceContextObject">
+											<ObjectRef Name="CanteenAmbinent" ID="{58D1DA84-8043-43AB-BB96-62E911FCFA8B}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}"/>
+										</Reference>
+									</ReferenceList>
+									<TransitionInfo>
+										<SourceFadeOut>
+											<MusicFade Name="Source Fade-out" ID="{16BB2D95-A98A-4CEB-B7DC-3119E7B7F742}">
+												<PropertyList>
+													<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+													<Property Name="FadeType" Type="int16" Value="1"/>
+												</PropertyList>
+											</MusicFade>
+										</SourceFadeOut>
+									</TransitionInfo>
+								</MusicTransition>
+								<MusicTransition Name="Transition" ID="{0BE8391D-E4F3-4391-BE93-067692F088DF}">
+									<PropertyList>
+										<Property Name="DestinationContextType" Type="int16" Value="2"/>
+										<Property Name="EnableSourceFadeOut" Type="bool" Value="True"/>
+										<Property Name="ExitSourceAt" Type="int16" Value="2"/>
+										<Property Name="SourceContextType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="DestinationContextObject">
+											<ObjectRef Name="1M2-Sewers-B_150bpm1-4_L94B" ID="{A8EFC0AB-BCF0-41D2-A045-F9D0832A2261}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}"/>
+										</Reference>
+										<Reference Name="SourceContextObject">
+											<ObjectRef Name="CanteenAmbinent" ID="{58D1DA84-8043-43AB-BB96-62E911FCFA8B}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}"/>
+										</Reference>
+									</ReferenceList>
+									<TransitionInfo>
+										<SourceFadeOut>
+											<MusicFade Name="Source Fade-out" ID="{A1F4EC7F-137B-4A55-B4FE-F8B25E866942}">
+												<PropertyList>
+													<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+													<Property Name="FadeType" Type="int16" Value="1"/>
+												</PropertyList>
+											</MusicFade>
+										</SourceFadeOut>
+									</TransitionInfo>
+								</MusicTransition>
 							</ChildrenList>
 							<TransitionInfo/>
 						</MusicTransition>
@@ -3761,7 +3885,7 @@
 								<PathElementRef Name="Exploration" ID="{332391D6-2EF7-40BC-A645-29A70647B6A1}"/>
 							</Path>
 							<AudioNodeInfo>
-								<AudioNodeRef Name="CantinaSwitch" ID="{2CDCD595-4AB4-4257-A23A-D8E304A07283}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}" Platform="Linked"/>
+								<AudioNodeRef Name="CanteenAmbinent" ID="{58D1DA84-8043-43AB-BB96-62E911FCFA8B}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}" Platform="Linked"/>
 							</AudioNodeInfo>
 						</Entry>
 						<Entry>
@@ -3771,7 +3895,7 @@
 								<PathElementRef Name="Combat" ID="{16A3F718-EB0E-4517-9A16-FF9C6BAE8ED1}"/>
 							</Path>
 							<AudioNodeInfo>
-								<AudioNodeRef Name="CantinaSwitch" ID="{2CDCD595-4AB4-4257-A23A-D8E304A07283}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}" Platform="Linked"/>
+								<AudioNodeRef Name="CanteenAmbinent" ID="{58D1DA84-8043-43AB-BB96-62E911FCFA8B}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}" Platform="Linked"/>
 							</AudioNodeInfo>
 						</Entry>
 						<Entry>

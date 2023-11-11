@@ -26,7 +26,6 @@ Event	ID	Name			Wwise Object Path	Notes
 	3364542946	Bix_LightsaberAttack			\SFX\Player\Weapons\Bix_LightsaberAttack	
 	3736508461	sfx_force_stop			\SFX\Player\sfx_force_stop	
 	3739079964	sfx_footsteps_walk_Allura_water			\SFX\Player\sfx_footsteps_walk_Allura_water	
-	3779955407	Bix_LightAttackFinisherStop			\SFX\Player\Weapons\Bix_LightAttackFinisherStop	
 	3830930560	Bix_LightsaberImpact			\SFX\Player\Weapons\Bix_LightsaberImpact	
 	3980201878	sfx_roll_01			\SFX\Player\sfx_roll_01	
 	4168143638	sfx_falling_metal			\SFX\Player\sfx_falling_metal	
@@ -105,7 +104,6 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	573819138	as_ch_so_allura_down_attack_rr01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ch_so_allura_down_attack_rr01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\AlluraDownAttack\as_ch_so_allura_down_attack_rr01		335660
 	576446796	as_ch_so_allura_weapon_impact_rr02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ch_so_allura_weapon_impact_rr02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\AlluraShotImpact\as_ch_so_allura_weapon_impact_rr02		72288
 	579181990	as_ch_so_falling_on_metal_rr03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ch_so_falling_on_metal_rr03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\LocomotionFalling\FallingMetal\as_ch_so_falling_on_metal_rr03		95834
-	588291420	as_ch_sl_bix_light_attack_finisher	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ch_sl_bix_light_attack_finisher01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\BixLightAttackFinisher\Bix_LightAttackFinisher_Loop\as_ch_sl_bix_light_attack_finisher		444096
 	591925220	av_ch_so_bix_damaged_rr01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\av_ch_so_bix_damaged_rr01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerAbilities\PlayerCharacterVoiceOver\ReceiveDamageBix\av_ch_so_bix_damaged_rr01		38504
 	593817013	as_ch_sl_bix_force	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ch_sl_bix_force_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerWeapons\BixForce\as_ch_sl_bix_force		222096
 	594127807	as_ch_so_falling_on_metal_rr02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ch_so_falling_on_metal_rr02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Player\PlayerLocomotions\LocomotionFalling\FallingMetal\as_ch_so_falling_on_metal_rr02		103008

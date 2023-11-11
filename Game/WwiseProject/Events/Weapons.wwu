@@ -12,13 +12,6 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{13CF6418-43D3-4F06-824F-1BF47EBA855B}" ShortID="444069483">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Bix_LightAttackFinisher_Loop" ID="{5682E2CC-05CE-4DDA-A149-EA6EB833A3D8}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 						<Action Name="" ID="{682CE77F-76F3-4E69-A146-95F35B45485B}" ShortID="401774191">
 							<ReferenceList>
 								<Reference Name="Target">
@@ -30,34 +23,10 @@
 				</Event>
 				<Event Name="Bix_LightAttackFinisherImpact" ID="{77AB0EB3-75F1-4C2C-921C-CC6491005087}">
 					<ChildrenList>
-						<Action Name="" ID="{8451EE73-1BA9-4547-A374-F85D3B2BB58D}" ShortID="519065500">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Bix_LightAttackFinisher_Loop" ID="{5682E2CC-05CE-4DDA-A149-EA6EB833A3D8}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 						<Action Name="" ID="{42653BDA-A3EB-4102-A007-EBD8DB78AFC1}" ShortID="204284181">
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="Bix_LightAttackFinisher_Impact" ID="{312C9B74-B7F4-4513-BAA0-D0B4621A6AE8}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="Bix_LightAttackFinisherStop" ID="{EBF8939D-AFD2-4631-A816-04469E7A34DA}">
-					<ChildrenList>
-						<Action Name="" ID="{CDC47AB1-05E0-4C87-B01A-C558313D16F8}" ShortID="219552406">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Bix_LightAttackFinisher_Loop" ID="{5682E2CC-05CE-4DDA-A149-EA6EB833A3D8}" WorkUnitID="{B25A62E8-E04C-4721-B4E4-39F493968C65}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

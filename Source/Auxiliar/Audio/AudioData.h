@@ -127,8 +127,7 @@ static const wchar_t* LIGHTSABER_DOWN_ATTACK = L"Bix_DownAttack";
 static const wchar_t* LIGHTSABER_THROW = L"Bix_HeavyAttackFinisher";
 static const wchar_t* LIGHTSABER_THROW_STOP = L"Bix_HeavyAttackFinisherStop";
 static const wchar_t* ROCKS_THROW = L"Bix_LightAttackFinisher";
-static const wchar_t* ROCKS_THROW_IMPACT = L"Bix_LightAttackFinisherImpact"; //Also Stops
-static const wchar_t* ROCKS_THROW_STOP = L"Bix_LightAttackFinisherStop";
+static const wchar_t* ROCKS_THROW_IMPACT = L"Bix_LightAttackFinisherImpact";
 static const wchar_t* SHOT = L"Allura_WeaponShot";
 static const wchar_t* SHOT_IMPACT = L"Allura_ShotImpact";
 static const wchar_t* CHARGED_SHOT = L"Allura_LightAttackFinisher";
@@ -222,5 +221,6 @@ namespace CONTROLLERS
 static const wchar_t* MASTERVOLUME = L"MasterVolume";
 static const wchar_t* MUSICVOLUME = L"MusicVolume";
 static const wchar_t* SFXVOLUME = L"SFXVolume";
+static const wchar_t* LOWPASSFILTER = L"LowPassFilterOnAction";
 } // namespace CONTROLLERS
 }; // namespace AUDIO

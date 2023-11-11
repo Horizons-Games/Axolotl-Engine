@@ -242,7 +242,7 @@
 				<Property Name="Music Transition List\{A0B27A95-C255-4D65-8045-6C0A8838F311}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Music Transition List\{A8EFC0AB-BCF0-41D2-A045-F9D0832A2261}\Scroll Position" Type="int32" Value="0"/>
 				<Property Name="Music Transition List\{A8EFC0AB-BCF0-41D2-A045-F9D0832A2261}\x64_Expand States" Type="string" Value=""/>
-				<Property Name="Music Transition List\{ABC59D38-D3EE-4AF7-8B03-C8EE82056400}\Scroll Position" Type="int32" Value="1"/>
+				<Property Name="Music Transition List\{ABC59D38-D3EE-4AF7-8B03-C8EE82056400}\Scroll Position" Type="int32" Value="0"/>
 				<Property Name="Music Transition List\{ABC59D38-D3EE-4AF7-8B03-C8EE82056400}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Music Transition List\{D240BA5A-EBF5-4BC9-A67F-0AA76656745A}\Scroll Position" Type="int32" Value="0"/>
 				<Property Name="Music Transition List\{D240BA5A-EBF5-4BC9-A67F-0AA76656745A}\x64_Expand States" Type="string" Value=""/>

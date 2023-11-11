@@ -621,7 +621,7 @@
 								<Property Name="OverrideColor" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-13</Value>
+										<Value>-6</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>

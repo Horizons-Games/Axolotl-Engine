@@ -52,6 +52,41 @@
 											</RTPC>
 										</Local>
 									</Reference>
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{7FD94BFC-2580-44B5-9A4B-9A20D6D30FB2}" ShortID="733160812">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="OutputBusLowpass"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="LowPassFilterOnAction" ID="{85E82098-6B28-41BC-A4EC-BA692352DAB6}" WorkUnitID="{2CF8BCEB-2271-4245-B45E-25E43F0E79B4}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{EFA4A9F3-5468-40C3-BA40-19EE39CFD681}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>0</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>100</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
 								</ObjectList>
 							</ObjectLists>
 						</Bus>
@@ -70,6 +105,45 @@
 										<Bus Name="2DAmbient" ID="{0C2B7246-DFF5-4E3D-A0BD-B2341A18BEB2}"/>
 										<Bus Name="3DAmbient" ID="{866B6033-936B-4DAB-9800-DC90707AD040}"/>
 									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{31C51B05-3717-401D-84CD-89B13F9AAEAE}" ShortID="1072120617">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="OutputBusHighpass"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="LowPassFilterOnAction" ID="{85E82098-6B28-41BC-A4EC-BA692352DAB6}" WorkUnitID="{2CF8BCEB-2271-4245-B45E-25E43F0E79B4}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{FC957D86-2BAA-4E8C-84D0-073114BB8201}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="65537"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>0</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>100</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
 								</Bus>
 								<Bus Name="UI" ID="{A8B4C9A7-24BB-439A-8248-17C2363D2C13}"/>
 							</ChildrenList>

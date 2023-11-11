@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{F995A56E-A92E-EDB5-C27A-D066BFB1A917}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{5BE1CC04-6BB7-C3F5-2D99-48FB93607A20}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
@@ -1387,7 +1387,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{311488E2-EDCF-B245-D92C-EA93AE863C47}">
+		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{8EE79834-B5E6-FDD6-F7BC-E6A6809F447D}">
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
 			<Media>
@@ -1666,10 +1666,6 @@
 				<File Id="579181990" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_ch_so_falling_on_metal_rr03.wav</ShortName>
 					<CachePath>SFX/as_ch_so_falling_on_metal_rr03_10C4C929.wem</CachePath>
-				</File>
-				<File Id="588291420" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>Bounces\as_ch_sl_bix_light_attack_finisher01.wav</ShortName>
-					<CachePath>SFX/Bounces/as_ch_sl_bix_light_attack_finisher01_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="591925220" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>av_ch_so_bix_damaged_rr01.wav</ShortName>
@@ -2079,8 +2075,6 @@
 						<MediaRef Id="154367144"/>
 						<MediaRef Id="377661512"/>
 						<MediaRef Id="392631834"/>
-						<MediaRef Id="588291420"/>
-						<MediaRef Id="593817013"/>
 						<MediaRef Id="905302425"/>
 						<MediaRef Id="910016717"/>
 						<MediaRef Id="1035906493"/>
@@ -2096,7 +2090,6 @@
 						<MediaRef Id="946149082"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3779955407" Name="Bix_LightAttackFinisherStop"/>
 				<Event Id="3364542946" Name="Bix_LightsaberAttack">
 					<MediaRefs>
 						<MediaRef Id="26231676"/>
@@ -2217,7 +2210,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{B82D1526-B118-D7E7-AD74-D518AC78E84E}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{0DC71FC8-0E19-A3EA-546E-C97885C0A810}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -2284,6 +2277,7 @@
 				<GameParameter Id="988953028" Name="SFXVolume"/>
 				<GameParameter Id="2346531308" Name="MusicVolume"/>
 				<GameParameter Id="2427480993" Name="ListenerOrientation"/>
+				<GameParameter Id="2502887749" Name="LowPassFilterOnAction"/>
 				<GameParameter Id="2918011349" Name="MasterVolume"/>
 			</GameParameters>
 			<StateGroups>
@@ -2503,7 +2497,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{F271F820-D006-7C58-EC95-8DB53B004730}">
+		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{FB84918C-64B6-C9E0-7634-C8EBA033C120}">
 			<ShortName>Music</ShortName>
 			<Path>Music.bnk</Path>
 			<Media>
@@ -2518,6 +2512,10 @@
 				<File Id="577099420" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>1M1-Sewers-A_150bpm1-4_L94B-POB.wav</ShortName>
 					<CachePath>SFX/1M1-Sewers-A_150bpm1-4_L94B-POB_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="603595281" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Canteen.wav</ShortName>
+					<CachePath>SFX/Canteen_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="618374778" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>1M6-Cargo_Bay_40bpm3-4_L12B-PXB.wav</ShortName>
@@ -2660,7 +2658,14 @@
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="State" GroupId="832057375" Id="3434002879"/>
-									<Children/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2582085496"/>
+											<MediaRefs>
+												<MediaRef Id="603595281"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
 								</SwitchContainer>
 							</Children>
 						</SwitchContainer>
@@ -2669,7 +2674,14 @@
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="State" GroupId="832057375" Id="3434002879"/>
-									<Children/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="89505537" Id="2764240573"/>
+											<MediaRefs>
+												<MediaRef Id="603595281"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
 								</SwitchContainer>
 							</Children>
 						</SwitchContainer>
@@ -2773,5 +2785,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{7930B26C-F1BC-3124-D4B7-633DBF69F072}</FileHash>
+	<FileHash>{6665BCF1-59E0-A94C-F3A4-1B964E53CFE4}</FileHash>
 </SoundBanksInfo>
