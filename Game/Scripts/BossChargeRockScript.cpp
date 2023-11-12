@@ -193,8 +193,10 @@ void BossChargeRockScript::DestroyRock() const
 void BossChargeRockScript::SetPauseRock(bool isPaused)
 {
 	this->isPaused = isPaused;
-
-	preAreaEffectVFX->Pause();
+	if (preAreaEffectVFX) 
+	{
+		preAreaEffectVFX->Pause();
+	}
 }
 
 bool BossChargeRockScript::WasRockHitAndRemained() const
