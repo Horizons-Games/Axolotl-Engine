@@ -2,9 +2,12 @@
 
 #include "WindowDebug.h"
 
+#include "Application.h"
+
 #include "ImGui/imgui.h"
 
-#include "Application.h"
+#include "Modules/ModuleRender.h"
+
 #include "GL/glew.h"
 
 bool WindowDebug::defaultEnabled = true;
@@ -30,17 +33,80 @@ void WindowDebug::Draw(bool& enabled)
 		ImGui::SetNextWindowBgAlpha(0.75f);
 		if (ImGui::Begin(this->name.c_str(), NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize))
 		{
+			ImGui::Text("Physics");
+
+			/*
 			if (ImGui::Checkbox("Wireframe Mode", &wireframeMode))
 			{
 				glPolygonMode(GL_FRONT_AND_BACK, wireframeMode ? GL_LINE : GL_FILL);
 			}
+			*/
+
 			ImGui::Checkbox("Draw Bounding Boxes", &drawBoundingBoxes);
-			ImGui::Checkbox("Draw Area Lights", &drawAreaLight);
-			ImGui::Checkbox("Draw Spot Lights", &drawSpotLight);
-			ImGui::Checkbox("Draw Directional Lights", &drawDirLight);
-			ImGui::Checkbox("Draw Point Lights", &drawPointLight);
 			ImGui::Checkbox("Draw Physics", &drawPhysics);
 
+			ImGui::Dummy(ImVec2(0, 5));
+			ImGui::Separator();
+			ImGui::Dummy(ImVec2(0, 5));
+
+			ImGui::Text("Graphics");
+
+			ModuleRender* modRender = App->GetModule<ModuleRender>();
+			bool drawShadows = modRender->IsShadowsEnabled();
+			bool useVSM = modRender->IsVSMEnabled();
+			bool drawSSAO = modRender->IsSsaoEnabled();
+			bool drawBloom = modRender->IsBloomEnabled();
+			bool useCSMDebug = modRender->IsCSMDebugEnabled();
+
+			if (ImGui::BeginTable("##grahics", 2))
+			{
+				ImGui::TableNextColumn();
+				if (ImGui::Checkbox("CSM Debug", &useCSMDebug))
+				{
+					modRender->ToggleCSMDebug();
+				}
+				ImGui::TableNextColumn();
+				ImGui::Checkbox("Draw Area Lights", &drawAreaLight);
+				ImGui::TableNextColumn();
+				if (ImGui::Checkbox("Draw Shadows", &drawShadows))
+				{
+					modRender->ToggleShadows();
+				};
+				ImGui::TableNextColumn();
+				ImGui::Checkbox("Draw Spot Lights", &drawSpotLight);
+				ImGui::TableNextColumn();
+				if (ImGui::Checkbox("Use VSM", &useVSM))
+				{
+					modRender->ToggleVSM();
+				};
+				ImGui::TableNextColumn();
+				ImGui::Checkbox("Draw Directional Lights", &drawDirLight);
+				ImGui::TableNextColumn();
+				if (ImGui::Checkbox("Enable SSAO", &drawSSAO))
+				{
+					modRender->ToggleSSAO();
+				};
+				ImGui::TableNextColumn();
+				ImGui::Checkbox("Draw Point Lights", &drawPointLight);
+				ImGui::TableNextColumn();
+				if (ImGui::Checkbox("Enable Bloom", &drawBloom))
+				{
+					modRender->SwitchBloomActivation();
+				};
+				ImGui::TableNextColumn();
+				ImGui::TableNextColumn();
+				if (ImGui::Button("Change Render Mode"))
+				{
+					modRender->ChangeRenderMode();
+				}
+				ImGui::TableNextColumn();
+				ImGui::TableNextColumn();
+				if (ImGui::Button("Change Tone Mapping"))
+				{
+					modRender->ChangeToneMapping();
+				}
+				ImGui::EndTable();
+			}
 			ImGui::End();
 		}
 	}
