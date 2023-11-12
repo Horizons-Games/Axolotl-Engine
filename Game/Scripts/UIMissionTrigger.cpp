@@ -150,7 +150,7 @@ void UIMissionTrigger::Update(float deltaTime)
 
 void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->CompareTag("Player") && !wasInside)
+	if ((other->GetOwner()->CompareTag("Player") || other->GetOwner()->CompareTag("PlayerSpaceship")) && !wasInside)
 	{
 		if (!waitForNotInCombat && !waitForSwitch)
 		{
