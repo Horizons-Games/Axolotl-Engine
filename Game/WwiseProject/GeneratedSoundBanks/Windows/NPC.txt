@@ -39,10 +39,6 @@ Event	ID	Name			Wwise Object Path	Notes
 	3707501265	sfx_dron_death_timer			\SFX\NPC\DRON\sfx_dron_death_timer	
 	3761511492	VenomiteShot			\SFX\NPC\Venomite\VenomiteShot	
 
-Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
-	451217710	Silence	Wwise Silence		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\NPCsCantina\NPC_RandomSound\1s_silence_01\Silence	
-	1010276190	Silence	Wwise Silence		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\NPCsCantina\NPC_RandomSound\1s_silence\Silence	
-
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	5094835	as_npc_so_death_tail_rr_03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_npc_so_death_tail_rr_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\NPC\NPC_Death\NPC_Death\NPC_Death\NPC_DeathTail\as_npc_so_death_tail_rr_03		78470
 	5640303	as_ab_so_fire_burst_rr01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_so_fire_burst_rr01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Enemies\Drone\DroneExplosion\FireThrowerBurst\as_ab_so_fire_burst_rr01		120946

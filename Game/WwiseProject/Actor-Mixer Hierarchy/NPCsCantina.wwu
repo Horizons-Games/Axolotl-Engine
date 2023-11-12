@@ -224,6 +224,7 @@
 				<RandomSequenceContainer Name="NPC_RandomSound" ID="{41FB6BB5-5566-45AE-8483-00D341E9FF9E}" ShortID="212787519">
 					<PropertyList>
 						<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+						<Property Name="PlayMechanismResetPlaylistEachPlay" Type="bool" Value="False"/>
 						<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
 						<Property Name="RandomOrSequence" Type="int16" Value="0"/>
 					</PropertyList>
@@ -240,7 +241,6 @@
 							<PropertyList>
 								<Property Name="3DSpatialization" Type="int16" Value="1"/>
 								<Property Name="OverridePositioning" Type="bool" Value="True"/>
-								<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="3"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>-11</Value>
@@ -402,6 +402,9 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="373772-Suzy_Character-Gibberish_Talk-Angry-Edgy-3" ID="{C6248C81-6490-4593-9892-6B0784D38B82}">
+											<PropertyList>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>373772-Suzy_Character-Gibberish_Talk-Angry-Edgy-3.wav</AudioFile>
 											<MediaIDList>
@@ -456,7 +459,6 @@
 								<SourcePlugin Name="Silence" ID="{3E612FBB-C6B1-4378-B921-111723479B80}" ShortID="1010276190" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
 									<PropertyList>
 										<Property Name="Length" Type="Real32" Value="4.501"/>
-										<Property Name="LengthMax" Type="Real32" Value="10"/>
 									</PropertyList>
 									<Language>SFX</Language>
 								</SourcePlugin>
@@ -465,7 +467,7 @@
 								<ActiveSource Name="Silence" ID="{3E612FBB-C6B1-4378-B921-111723479B80}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
-						<Sound Name="1s_silence_01" ID="{61EE5353-EA7A-4235-9ED5-0587BE04EA73}" ShortID="195677293">
+						<Sound Name="silence" ID="{6A1B26B7-2843-451C-8449-475558CB8642}" ShortID="1070672658">
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -475,22 +477,21 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<SourcePlugin Name="Silence" ID="{4A633425-4D9B-446E-A048-A6D5056A54EC}" ShortID="451217710" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+								<SourcePlugin Name="Silence" ID="{4BD9E92D-4AB2-4B0D-9379-D9F50BED226E}" ShortID="27595443" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
 									<PropertyList>
-										<Property Name="Length" Type="Real32" Value="4.001"/>
-										<Property Name="LengthMax" Type="Real32" Value="10"/>
+										<Property Name="Length" Type="Real32" Value="5"/>
 									</PropertyList>
 									<Language>SFX</Language>
 								</SourcePlugin>
 							</ChildrenList>
 							<ActiveSourceList>
-								<ActiveSource Name="Silence" ID="{4A633425-4D9B-446E-A048-A6D5056A54EC}" Platform="Linked"/>
+								<ActiveSource Name="Silence" ID="{4BD9E92D-4AB2-4B0D-9379-D9F50BED226E}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
 					<Playlist>
 						<ItemRef Name="1s_silence" ID="{64C64CAA-81CC-4286-958D-8E1F2A8CB4AC}"/>
-						<ItemRef Name="1s_silence_01" ID="{61EE5353-EA7A-4235-9ED5-0587BE04EA73}"/>
+						<ItemRef Name="silence" ID="{6A1B26B7-2843-451C-8449-475558CB8642}"/>
 						<ItemRef Name="NPC_Drunk" ID="{CF5AA75F-4C2D-4A92-BEDB-7BFCF7E53944}"/>
 					</Playlist>
 				</RandomSequenceContainer>

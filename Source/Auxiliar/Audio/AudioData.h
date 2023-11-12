@@ -59,7 +59,6 @@ static const wchar_t* DEATH = L"FinalBoss_Death";
 namespace CANTINA
 {
 static const wchar_t* DRUNKNPC_RANDOM_SOUND = L"sfx_drunkNPC_sound_random";
-static const wchar_t* CROWDNPC_LAUGHING = L"sfx_crowdNPC_laughing";
 }
 } // namespace NPC
 

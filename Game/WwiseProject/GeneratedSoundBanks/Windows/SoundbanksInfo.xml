@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{70F4BC16-34FB-4399-40BC-C9B590B5DED4}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{0F1C4513-691D-583D-AE63-84E6A79542E1}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
@@ -421,7 +421,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{D1E06505-381A-9CA3-AA49-C55E61C36FB1}">
+		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{6C2A0819-977F-5372-AC07-0EF8F6C41419}">
 			<ShortName>NPC</ShortName>
 			<Path>NPC.bnk</Path>
 			<Media>
@@ -1030,12 +1030,6 @@
 					<CachePath>SFX/as_npc_so_boss_charge_rocks_impact_rr02_0DA70F53.wem</CachePath>
 				</File>
 			</Media>
-			<Plugins>
-				<Custom>
-					<Plugin Id="451217710" Name="Silence" LibName="Wwise Silence" LibId="6619138"/>
-					<Plugin Id="1010276190" Name="Silence" LibName="Wwise Silence" LibId="6619138"/>
-				</Custom>
-			</Plugins>
 			<Events>
 				<Event Id="541270703" Name="DronPreShot">
 					<MediaRefs>
@@ -1340,12 +1334,6 @@
 						<MediaRef Id="922607347"/>
 						<MediaRef Id="1008892742"/>
 					</MediaRefs>
-					<PluginRefs>
-						<Custom>
-							<PluginRef Id="451217710"/>
-							<PluginRef Id="1010276190"/>
-						</Custom>
-					</PluginRefs>
 				</Event>
 				<Event Id="453903303" Name="VenomitePreShot">
 					<MediaRefs>
@@ -2196,7 +2184,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{0DC71FC8-0E19-A3EA-546E-C97885C0A810}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{2553B740-790D-C87F-2EF6-72992773CEC7}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -2968,5 +2956,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{633E0A56-4008-7078-1EFB-041D2A5AD98B}</FileHash>
+	<FileHash>{37CE2710-DE4D-5371-F750-916AAB28644D}</FileHash>
 </SoundBanksInfo>

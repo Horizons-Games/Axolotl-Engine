@@ -5,10 +5,10 @@
 			<ChildrenList>
 				<Event Name="sfx_drunkNPC_sound_random" ID="{B11FB7B5-CD3C-4B7E-8C8F-69AD442DBB14}">
 					<ChildrenList>
-						<Action Name="" ID="{A5C77954-0471-4EED-A2CC-428361D137DE}" ShortID="10564386">
+						<Action Name="" ID="{65148659-F791-4236-A795-A1125557A5A6}" ShortID="186103575">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="NPC_RandomSound" ID="{41FB6BB5-5566-45AE-8483-00D341E9FF9E}" WorkUnitID="{A74EBD9D-DC2D-41B8-863C-F31104A35D3F}"/>
+									<ObjectRef Name="NPC_Drunk" ID="{CF5AA75F-4C2D-4A92-BEDB-7BFCF7E53944}" WorkUnitID="{A74EBD9D-DC2D-41B8-863C-F31104A35D3F}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
