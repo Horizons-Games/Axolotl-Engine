@@ -21,7 +21,7 @@
 
 ComponentPlanarReflection::ComponentPlanarReflection(GameObject* parent) : 
 	ComponentLight(LightType::PLANAR_REFLECTION, parent, true),	frameBuffer(0), depth(0), reflectionTex(0), handle(0),
-	planeNormal(float3::unitY), numMipMaps(7), distortionAmount(0.f), originScaling({ 5.f, 0.0f, 5.f }), scale(float3::one)
+	planeNormal(float3::unitY), numMipMaps(7), distortionAmount(0.f), originScaling({ 5.f, 0.01f, 5.f }), scale(float3::one)
 {
 	if (GetOwner()->HasComponent<ComponentTransform>())
 	{
@@ -33,6 +33,7 @@ ComponentPlanarReflection::ComponentPlanarReflection(GameObject* parent) :
 		transform->TranslateLocalAABB(translation);
 		float3 scaling = scale;
 		scaling.x *= 10;
+		scaling.y *= 0.05f;
 		scaling.z *= 10;
 		transform->ScaleLocalAABB(scaling);
 	}
@@ -241,12 +242,10 @@ void ComponentPlanarReflection::ScaleInfluenceAABB(float3& scaling)
 	float3 center = influenceAABB.CenterPoint();
 
 	float3 valueScaled = center - scaling.Mul(originScaling);
-	influenceAABB.minPoint.x = valueScaled.x;
-	influenceAABB.minPoint.z = valueScaled.z;
+	influenceAABB.minPoint = valueScaled;
 	
 	valueScaled = center + scaling.Mul(originScaling);
-	influenceAABB.maxPoint.x = valueScaled.x;
-	influenceAABB.maxPoint.z = valueScaled.z;
+	influenceAABB.maxPoint = valueScaled;
 
 	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 
@@ -254,6 +253,7 @@ void ComponentPlanarReflection::ScaleInfluenceAABB(float3& scaling)
 
 	transform->TranslateLocalAABB(translation);
 	scaling.x *= 10;
+	scaling.y *= 0.05f;
 	scaling.z *= 10;
 	transform->ScaleLocalAABB(scaling);
 }
@@ -325,6 +325,7 @@ void ComponentPlanarReflection::InternalLoad(const Json& meta)
 
 	transform->TranslateLocalAABB(translation);
 	scaling.x *= 10;
+	scaling.y *= 0.05f;
 	scaling.z *= 10;
 	transform->ScaleLocalAABB(scaling);
 }
