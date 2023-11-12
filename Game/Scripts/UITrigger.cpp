@@ -131,7 +131,7 @@ void UITrigger::LoadScene(float deltaTime)
 		return;
 	}
 
-	if (hackZoneScript->IsCompleted() || !hackZoneScript && noRestrictions)
+	if (hackZoneScript && hackZoneScript->IsCompleted() || !hackZoneScript && noRestrictions)
 	{
 		if (setLoadingScreenImage)
 		{
