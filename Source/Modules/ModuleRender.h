@@ -69,6 +69,7 @@ public:
 	bool IsVSMEnabled() const;
 	bool IsSsaoEnabled() const;
 	bool IsBloomEnabled() const;
+	bool IsCSMDebugEnabled() const;
 	LightPass* GetLightProxy() const;
 
 	void SetBloomIntensity(float color);
@@ -279,4 +280,9 @@ inline bool ModuleRender::IsSsaoEnabled() const
 inline bool ModuleRender::IsBloomEnabled() const
 {
 	return bloomActivation;
+}
+
+inline bool ModuleRender::IsCSMDebugEnabled() const
+{
+	return shadows->UseCSMDebug();
 }
