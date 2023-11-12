@@ -55,7 +55,7 @@
             "Locked_Option": false
         },
         {
-            "Actual_Option": 0,
+            "Actual_Option": 100,
             "Default_Option": 100,
             "Locked_Option": false
         },
