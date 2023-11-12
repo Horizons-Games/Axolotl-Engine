@@ -421,7 +421,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{6C2A0819-977F-5372-AC07-0EF8F6C41419}">
+		<SoundBank Id="662417162" Type="User" Language="SFX" Hash="{EE4CB5EE-3BC1-B0CA-5C9A-CEFF82F0B533}">
 			<ShortName>NPC</ShortName>
 			<Path>NPC.bnk</Path>
 			<Media>
@@ -1353,7 +1353,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{ACCAA468-0B4F-C7A7-DBE9-12AFE0019D3C}">
+		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{68DACCE3-7895-694B-D74E-082C2E92DD1D}">
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
 			<Media>
@@ -1535,7 +1535,7 @@
 				</File>
 				<File Id="377661512" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>av_ch_so_bix_heavy_attack_rr03.wav</ShortName>
-					<CachePath>SFX/av_ch_so_bix_heavy_attack_rr03_AE7E6155.wem</CachePath>
+					<CachePath>SFX/av_ch_so_bix_heavy_attack_rr03_EFA397E6.wem</CachePath>
 				</File>
 				<File Id="387617021" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>av_ch_so_allura_heavy_attack_rr03.wav</ShortName>
@@ -1547,7 +1547,7 @@
 				</File>
 				<File Id="392631834" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>av_ch_so_bix_heavy_attack_rr01.wav</ShortName>
-					<CachePath>SFX/av_ch_so_bix_heavy_attack_rr01_802988CC.wem</CachePath>
+					<CachePath>SFX/av_ch_so_bix_heavy_attack_rr01_E192A9DF.wem</CachePath>
 				</File>
 				<File Id="400390064" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>av_ch_so_bix_light_attack_rr03.wav</ShortName>
@@ -1803,7 +1803,7 @@
 				</File>
 				<File Id="910016717" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>av_ch_so_bix_heavy_attack_rr02.wav</ShortName>
-					<CachePath>SFX/av_ch_so_bix_heavy_attack_rr02_40612AC4.wem</CachePath>
+					<CachePath>SFX/av_ch_so_bix_heavy_attack_rr02_E40EFF56.wem</CachePath>
 				</File>
 				<File Id="910701895" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>as_ch_so_bix_down_attack_rr02.wav</ShortName>
@@ -2956,5 +2956,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{37CE2710-DE4D-5371-F750-916AAB28644D}</FileHash>
+	<FileHash>{B23CC262-94DF-7CAA-D154-BF85DE734F2E}</FileHash>
 </SoundBanksInfo>
