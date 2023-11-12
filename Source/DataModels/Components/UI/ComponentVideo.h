@@ -29,6 +29,7 @@ public:
 	void RestartVideo();
 	bool isPlayed() const;
 	bool isPlayAtStart() const;
+	bool IsVideoFinished() const;
 
 private:
 	void ReadVideoFrame();
@@ -109,4 +110,9 @@ inline bool ComponentVideo::isPlayAtStart() const
 inline bool ComponentVideo::CanBeRotate() const
 {
 	return video ? video->GetCanRotate() : false;
+}
+
+inline bool ComponentVideo::IsVideoFinished() const
+{
+	return this->finished;
 }

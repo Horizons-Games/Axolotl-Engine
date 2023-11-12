@@ -1,0 +1,7 @@
+{
+    "DiffuseAssetPath": "Assets/Textures/rectangularSurfaceFire_DefaultMaterial_BaseColor.1001.png",
+    "NormalAssetPath": "Assets/Textures/rectangularSurfaceFire_DefaultMaterial_Normal.1001.png",
+    "OcclusionAssetPath": "",
+    "MetalicAssetPath": "Assets/Textures/rectangularSurfaceFire_DefaultMaterial_Metallic.1001.png",
+    "EmissiveAssetPath": "Assets/Textures/rectangularSurfaceFire_DefaultMaterial_Emissive.1001.png"
+}

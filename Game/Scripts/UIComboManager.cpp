@@ -46,13 +46,7 @@ void UIComboManager::Init()
 		transparency = noFillBar->GetComponent<ComponentImage>()->GetColor().w;
 	}
 
-	GameObject* specialBoxGO = owner->GetChildren()[2];
-	specialBoxGO->Disable();
-	specialBox.text = specialBoxGO->GetChildren()[1];
-	GameObject* buttonsGO = specialBoxGO->GetChildren()[2];
-	specialBox.lb = buttonsGO->GetChildren()[0];
-	specialBox.separator = buttonsGO->GetChildren()[1];
-	specialBox.rb = buttonsGO->GetChildren()[2];
+	specialBox.text->GetParent()->Disable();
 }
 
 void UIComboManager::Update(float deltaTime)
@@ -82,10 +76,7 @@ void UIComboManager::Update(float deltaTime)
 		float4 newColor = float4(1.f, 1.f, 1.f, transparency);
 		noFillBar->GetComponent<ComponentImage>()->SetColor(newColor);
 
-		specialBox.text->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
-		specialBox.lb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
-		specialBox.separator->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
-		specialBox.rb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.text->GetParent()->Disable();
 
 		ComponentTransform2D* transformText = specialBox.text->GetComponent<ComponentTransform2D>();
 		ComponentTransform2D* transformButtons = specialBox.lb->GetParent()->GetComponent<ComponentTransform2D>();

@@ -11,6 +11,7 @@ class ComponentPlayer;
 class ComponentSlider;
 class HealthSystem;
 class ModuleUI;
+class SceneLoadingScript;
 
 class UIGameManager : public Script
 {
@@ -39,7 +40,7 @@ public:
 	void SetMaxPowerUpTime(float maxPowerUpTime);
 	void InputMethodImg(bool input);
 
-private:
+protected:
 	enum class PowerUpType savePwrUp;
 	enum class PowerUpType activePwrUp;
 
@@ -58,6 +59,7 @@ private:
 	float uiTime = 0.0f;
 	float currentInputTime = 0.0f;
 	float gameOverTimer = 0.0f;
+	float actualLevel;
 
 	int selectedPositon = -1;
 
@@ -68,7 +70,8 @@ private:
 	GameObject* imgController;
 
 	GameObject* gameStates;
-	std::string loadRetryScene;
+	SceneLoadingScript* retryLoadingScreenScript;
+	SceneLoadingScript* mainMenuLoadingScreenScript;
 
 	GameObject* sliderHudHealthBixFront;
 	GameObject* sliderHudHealthBixBack;
@@ -97,11 +100,3 @@ private:
 	HealthSystem* healthSystemClassAllura;
 
 };
-
-
-
-
-
-
-
-

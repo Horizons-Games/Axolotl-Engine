@@ -52,7 +52,7 @@ void WindowComponentCamera::DrawWindowContents()
 		bool nearDistanceChanged =
 			ImGui::SliderFloat("Z near", &nearDistance, 0.1f, 200.f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
 		bool farDistanceChanged =
-			ImGui::SliderFloat("Z far", &farDistance, 50.f, 500.f, "%0.f", ImGuiSliderFlags_AlwaysClamp);
+			ImGui::SliderFloat("Z far", &farDistance, 50.f, 20000.f, "%0.f", ImGuiSliderFlags_AlwaysClamp);
 		if (nearDistanceChanged || farDistanceChanged)
 		{
 			asCamera->GetCamera()->SetPlaneDistance(nearDistance, farDistance);

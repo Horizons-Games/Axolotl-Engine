@@ -32,6 +32,7 @@ public:
 
 	bool IsImmortal() const;
 	void SetIsImmortal(bool isImmortal);
+	void SetImmortalTimer(float duration);
 	
 	void SetDeathCallback(std::function<void(void)>&& callDeath);
 
@@ -43,6 +44,7 @@ private:
 	float maxHealth;
 	bool isImmortal;
 	bool damageTaken;
+	float immortalTimer;
 	GameObject* enemyParticleSystem;
 
 	ComponentAnimation* componentAnimation;
