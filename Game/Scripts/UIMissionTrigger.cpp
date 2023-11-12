@@ -187,7 +187,7 @@ void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 {
 	if ((other->GetOwner()->CompareTag("Player") || other->GetOwner()->CompareTag("PlayerSpaceship")) && !wasInside)
 	{
-		if (!waitForNotInCombat && !waitForSwitch)
+		if (!waitForNotInCombat && !waitForSwitch && !waitForHack)
 		{
 			if (lastMissionLevel)
 			{
