@@ -12,6 +12,7 @@
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
 #include "Modules/ModuleUI.h"
+#include "Modules/ModuleAudio.h"
 #include "ModuleNavigation.h"
 
 #include "DataModels/Batch/BatchManager.h"
@@ -410,6 +411,8 @@ void StartJsonLoad(Json&& sceneJson)
 
 void StartLoadScene()
 {
+	App->GetModule<ModuleAudio>()->StopAllAudio();
+
 	ModuleRender* moduleRender = App->GetModule<ModuleRender>();
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	ModuleUI* ui = App->GetModule<ModuleUI>();

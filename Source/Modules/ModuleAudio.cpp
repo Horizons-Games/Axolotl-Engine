@@ -246,6 +246,14 @@ bool ModuleAudio::InitializeBanks()
 	return true;
 }
 
+void ModuleAudio::StopAllAudio()
+{
+	AK::SoundEngine::StopAll();
+	AK::SoundEngine::UnregisterAllGameObj();
+	AK::SoundEngine::RenderAudio();
+}
+
+
 void ModuleAudio::SetMasterVolume(float value)
 {
 	AK::SoundEngine::SetRTPCValue(AUDIO::CONTROLLERS::MASTERVOLUME, value);
