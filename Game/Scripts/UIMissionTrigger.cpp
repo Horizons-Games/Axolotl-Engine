@@ -8,7 +8,7 @@
 #include "Scene/Scene.h"
 
 #include "SwitchPlayerManagerScript.h"
-
+#include "HackZoneScript.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentPlayer.h"
 #include "Components/ComponentScript.h"
@@ -17,7 +17,7 @@ REGISTERCLASS(UIMissionTrigger);
 
 UIMissionTrigger::UIMissionTrigger() : Script(), missionLevel(nullptr), lastMissionLevel(nullptr),
 textBox(nullptr), maxTimeTextImageOn(5.0f), hasTimer(false), waitForNotInCombat(false),
-waitForSwitch(false), switchManager(nullptr)
+waitForSwitch(false), switchManager(nullptr), waitForHack(false)
 {
 	REGISTER_FIELD(missionLevel, GameObject*);
 	REGISTER_FIELD(lastMissionLevel, GameObject*);
@@ -27,7 +27,8 @@ waitForSwitch(false), switchManager(nullptr)
 	REGISTER_FIELD(waitForSwitch, bool);
 	REGISTER_FIELD(switchManager, GameObject*);
 	REGISTER_FIELD(maxTimeTextImageOn, float);
-	
+	REGISTER_FIELD(waitForHack, bool);
+	REGISTER_FIELD(hackZoneScript, HackZoneScript*);
 }
 
 UIMissionTrigger::~UIMissionTrigger()
@@ -146,6 +147,40 @@ void UIMissionTrigger::Update(float deltaTime)
 			}
 		}
 	}
+	else if (waitForHack && !missionCondition)
+	{
+		if (hackZoneScript->IsCompleted())
+		{
+			if (lastMissionLevel)
+			{
+				missionImageDisplacementExit->SetMovingToEnd(false);
+				missionImageDisplacementExit->MoveImageToStartPosition();
+			}
+			if (missionLevel)
+			{
+				if (lastMissionLevel)
+				{
+					if (missionImageDisplacementExit->IsImageInStartPosition())
+					{
+						missionImageDisplacement->SetMovingToEnd(true);
+						missionImageDisplacement->MoveImageToEndPosition();
+						missionCondition = false;
+					}
+				}
+				else
+				{
+					missionImageDisplacement->SetMovingToEnd(true);
+					missionImageDisplacement->MoveImageToEndPosition();
+					missionCondition = false;
+				}
+			}
+
+			if (textBox)
+			{
+				textBox->Enable();
+			}
+		}
+	}
 }
 
 void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
@@ -215,6 +250,39 @@ void UIMissionTrigger::OnCollisionEnter(ComponentRigidBody* other)
 		else if (waitForSwitch)
 		{
 			if (switchManager->GetComponent<SwitchPlayerManagerScript>()->IsSwitchAvailable())
+			{
+				if (lastMissionLevel)
+				{
+					missionImageDisplacementExit->SetMovingToEnd(false);
+					missionImageDisplacementExit->MoveImageToStartPosition();
+				}
+				if (missionLevel)
+				{
+					missionImageDisplacement->SetMovingToEnd(true);
+					if (lastMissionLevel)
+					{
+						if (missionImageDisplacementExit->IsImageInStartPosition())
+						{
+							missionImageDisplacement->MoveImageToEndPosition();
+							missionCondition = false;
+						}
+					}
+					else
+					{
+						missionImageDisplacement->MoveImageToEndPosition();
+						missionCondition = false;
+					}
+				}
+
+				if (textBox)
+				{
+					textBox->Enable();
+				}
+			}
+		}
+		else if (waitForHack)
+		{
+			if (hackZoneScript->IsCompleted())
 			{
 				if (lastMissionLevel)
 				{
