@@ -101,14 +101,14 @@ UpdateStatus ModuleUI::Update()
 					 input->GetKey(SDL_SCANCODE_C) != KeyState::IDLE ||
 					 !scene->GetLoadedScene()
 						  ->SearchGameObjectByID(sortedButtonsIds[newIndex])
-						  ->GetComponent<ComponentButton>()
+						  ->GetComponentInternal<ComponentButton>()
 						  ->IsEnabled())
 			{
 				newIndex = (newIndex + 1) % sortedButtonsIds.size();
 			}
 		} while (newIndex != currentButtonIndex && !scene->GetLoadedScene()
 														   ->SearchGameObjectByID(sortedButtonsIds[newIndex])
-														   ->GetComponent<ComponentButton>()
+														   ->GetComponentInternal<ComponentButton>()
 														   ->IsEnabled());
 		currentButtonIndex = newIndex;
 		lastButtonChange = 0.0f;

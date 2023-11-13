@@ -173,7 +173,7 @@ void ComponentLine::UpdateBuffers()
 void ComponentLine::Render()
 {
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 
 	if (IsEnabled() && camera->GetCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
@@ -225,8 +225,8 @@ void ComponentLine::ModelMatrix(Program* program)
 		const float4x4& view = camera->GetCamera()->GetViewMatrix();
 		const float4x4& proj = camera->GetCamera()->GetProjectionMatrix();
 
-		float3 globalPosition = GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition();
-		float3 childGlobalPosition = childGameObject->GetComponent<ComponentTransform>()->GetGlobalPosition();
+		float3 globalPosition = GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
+		float3 childGlobalPosition = childGameObject->GetComponentInternal<ComponentTransform>()->GetGlobalPosition();
 
 		float3 middlePoint = (childGlobalPosition + globalPosition) / 2;
 		float3 centerCamera = (camera->GetCamera()->GetPosition() - middlePoint).Normalized();
@@ -239,7 +239,7 @@ void ComponentLine::ModelMatrix(Program* program)
 			float4x4(float4(xAxis, 0.0),
 				float4(yAxis, 0.0),
 				float4(zAxis, 0.0),
-				GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix().Col(3));
+				GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix().Col(3));
 
 		program->BindUniformFloat4x4(0, proj.ptr(), true);
 		program->BindUniformFloat4x4(1, view.ptr(), true);

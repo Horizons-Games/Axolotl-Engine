@@ -12,7 +12,7 @@
 ComponentObstacle::ComponentObstacle(bool active, GameObject* owner) :
 	Component(ComponentType::OBSTACLE, active, owner, true)
 {
-	transform = GetOwner()->GetComponent<ComponentTransform>();
+	transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 
 	//This should be done in the init
 	currentPosition = transform->GetGlobalPosition();
@@ -73,7 +73,7 @@ void ComponentObstacle::AddObstacle()
 	obstacleReference = new dtObstacleRef;
 
 	// For some wierd reason, if I use the global transform variable the obstacle doesnt work correctly
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 	float3 position = transform->GetGlobalPosition();
 	position.y += yOffset;
 

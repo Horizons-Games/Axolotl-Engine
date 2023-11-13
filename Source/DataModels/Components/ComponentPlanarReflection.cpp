@@ -177,7 +177,7 @@ void ComponentPlanarReflection::InitBuffer()
 void ComponentPlanarReflection::Update()
 {
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 
 	if (IsEnabled() && camera->GetSelectedCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{

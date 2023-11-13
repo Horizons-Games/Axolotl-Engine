@@ -530,7 +530,7 @@ Frustum Shadows::ComputeLightFrustum(const GameObject* light, Frustum* cameraFru
 	// Compute bounding box
 	math::Frustum frustum;
 
-	const ComponentTransform* lightTransform = light->GetComponent<ComponentTransform>();
+	const ComponentTransform* lightTransform = light->GetComponentInternal<ComponentTransform>();
 	const float3& lightPos = lightTransform->GetGlobalPosition();
 	float zNearOffset = static_cast<ComponentDirLight*>(
 		light->GetComponentInternal<ComponentLight>())->GetZNearOffset();
