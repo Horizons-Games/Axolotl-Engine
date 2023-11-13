@@ -4,7 +4,7 @@
     "DiffuseAssetPath": "Assets/Textures/rectangularSurfaceFire_DefaultMaterial_BaseColor.1001.png",
     "NormalAssetPath": "Assets/Textures/rectangularSurfaceFire_DefaultMaterial_Normal.1001.png",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/rectangularSurfaceFire_DefaultMaterial_Metallic.1001.png",
+    "MetalicAssetPath": "",
     "EmissiveAssetPath": "Assets/Textures/rectangularSurfaceFire_DefaultMaterial_Emissive.1001.png",
     "shaderType": 0,
     "diffuseColor_x": 1.0,
@@ -15,13 +15,14 @@
     "specularColor_y": 0.30000001192092896,
     "specularColor_z": 0.5,
     "normalStrength": 1.0,
-    "smoothness": 0.5,
-    "metalness": 0.0,
+    "smoothness": 0.15000000596046448,
+    "metalness": 0.44999998807907104,
     "isTransparent": false,
     "tilingx": 1.0,
     "tilingy": 1.0,
     "offsetx": 0.0,
     "offsety": 0.0,
     "percentagex": 100.0,
-    "percentagey": 100.0
+    "percentagey": 100.0,
+    "reflective": 0.0
 }
