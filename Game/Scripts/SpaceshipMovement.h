@@ -3,6 +3,7 @@
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
 #include "ModuleInput.h"
+#include "Bullet\LinearMath\btVector3.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
@@ -21,6 +22,7 @@ public:
 	void Update(float deltaTime) override;
 
 	void Stop();
+	void SetIsPaused(bool paused);
 
 private:
 	void Move(float deltaTime);
@@ -43,6 +45,9 @@ private:
 	float XrotationLimit;
 	float YrotationLimit;
 	float offsetSpeed;
+
+	btVector3 movement;
+	bool isPaused;
 };
 
 

@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 
 #include "UIGameManagerSpaceship.h"
+#include "PauseManager.h"
 
 #include "Application.h"
 #include "Components/ComponentPlayer.h"
@@ -92,7 +93,7 @@ void UIGameManagerSpaceship::OpenInGameMenu(bool openMenu)
 		hudCanvasObject->Enable();
 	}
 
-	//manager->GetComponent<PauseManager>()->Pause(openMenu);
+	manager->GetComponent<PauseManager>()->Pause(openMenu);
 	player->SetMouse(openMenu);
 }
 
