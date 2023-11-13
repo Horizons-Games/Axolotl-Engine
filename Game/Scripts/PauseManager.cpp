@@ -6,6 +6,7 @@
 #include "Components/ComponentAnimation.h"
 
 #include "PlayerManagerScript.h"
+#include "SpaceshipMovement.h"
 #include "RangedFastAttackBullet.h"
 #include "BossChargeRockScript.h"
 #include "LightAttackBullet.h"
@@ -53,7 +54,15 @@ void PauseManager::Pause(bool paused)
 
 void PauseManager::PausePlayer(bool paused)
 {
-	App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->FullPausePlayer(paused);
+	GameObject* player = App->GetModule<ModulePlayer>()->GetPlayer();
+	if (player->HasComponent<PlayerManagerScript>())
+	{
+		player->GetComponent<PlayerManagerScript>()->FullPausePlayer(paused);
+	}
+	else
+	{
+		player->GetComponent<SpaceshipMovement>()->SetIsPaused(paused);
+	}
 }
 	
 void PauseManager::PauseEnemies(bool paused)
