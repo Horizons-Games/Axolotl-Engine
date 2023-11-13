@@ -148,11 +148,6 @@
 								<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
 								<Property Name="Tempo" Type="Real64" Value="140"/>
 								<Property Name="TimeSignatureUpper" Type="int16" Value="1"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-5</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -345,11 +340,6 @@
 								<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
 								<Property Name="Tempo" Type="Real64" Value="140"/>
 								<Property Name="TimeSignatureUpper" Type="int16" Value="1"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-4</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -544,7 +534,7 @@
 								<Property Name="TimeSignatureUpper" Type="int16" Value="1"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1259,13 +1249,6 @@
 							</Playlist>
 						</MusicPlaylistContainer>
 						<MusicPlaylistContainer Name="1M6-Cargo_Bay_40bpm3-4_L12B-PXB" ID="{AA4393A9-20A2-408E-AE2A-2AE0E3C2FA61}" ShortID="153287202">
-							<PropertyList>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-3</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -1354,7 +1337,7 @@
 													<MusicCue Name="Exit Cue" ID="{7EFE4B32-749A-453D-9972-4CA2F03E000B}">
 														<PropertyList>
 															<Property Name="CueType" Type="int16" Value="1"/>
-															<Property Name="TimeMs" Type="Real64" Value="54000"/>
+															<Property Name="TimeMs" Type="Real64" Value="54099.9296113631"/>
 														</PropertyList>
 													</MusicCue>
 												</Local>
@@ -1397,10 +1380,15 @@
 								<Property Name="3DSpatialization" Type="int16" Value="1"/>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Attenuation">
-									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+									<ObjectRef Name="AttenuationCantina" ID="{8F5C4A8B-0004-4DF6-B892-7170338B8DBA}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
 								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
@@ -2191,7 +2179,8 @@
 										<SourceFadeOut>
 											<MusicFade Name="Source Fade-out" ID="{CF907F4D-B86C-4B4B-B195-F86446CE8E6A}">
 												<PropertyList>
-													<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+													<Property Name="FadeOffset" Type="Real64" Value="2"/>
+													<Property Name="FadeTime" Type="Real64" Value="4"/>
 													<Property Name="FadeType" Type="int16" Value="1"/>
 												</PropertyList>
 											</MusicFade>
@@ -2199,8 +2188,8 @@
 										<DestinationFadeIn>
 											<MusicFade Name="Destination Fade-in" ID="{84AA9187-C949-452F-8121-3E9D77132C79}">
 												<PropertyList>
-													<Property Name="FadeOffset" Type="Real64" Value="-0.5"/>
-													<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+													<Property Name="FadeOffset" Type="Real64" Value="-2"/>
+													<Property Name="FadeTime" Type="Real64" Value="4"/>
 												</PropertyList>
 											</MusicFade>
 										</DestinationFadeIn>
@@ -2394,7 +2383,7 @@
 								<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-10</Value>
+										<Value>11</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -2710,11 +2699,6 @@
 								<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
 								<Property Name="Tempo" Type="Real64" Value="190"/>
 								<Property Name="TimeSignatureUpper" Type="int16" Value="1"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-5</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -2973,7 +2957,7 @@
 								<Property Name="TimeSignatureUpper" Type="int16" Value="1"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -3325,11 +3309,6 @@
 								<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
 								<Property Name="Tempo" Type="Real64" Value="170"/>
 								<Property Name="TimeSignatureUpper" Type="int16" Value="1"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-2.5</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -3677,7 +3656,7 @@
 								<Property Name="TimeSignatureUpper" Type="int16" Value="1"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-5.5</Value>
+										<Value>1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>

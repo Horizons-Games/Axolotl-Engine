@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ValidationCache Version="1" SchemaVersion="110">
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\WwiseProject.wproj" DateLow="1699555166" DateHigh="0"/>
-	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\WwiseProject.User.wsettings" DateLow="1699818614" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\WwiseProject.User.wsettings" DateLow="1699903905" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Virtual Acoustics\Factory Acoustic Textures.wwu" DateLow="1683917436" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Virtual Acoustics\Default Work Unit.wwu" DateLow="1683917436" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Triggers\Default Work Unit.wwu" DateLow="1683917436" DateHigh="0"/>
@@ -59,7 +59,7 @@
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\NPCsCantina.wwu" DateLow="1699745497" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\NPC.wwu" DateLow="1699734139" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\MiniBoss2.wwu" DateLow="1699732740" DateHigh="0"/>
-	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\FinalBoss.wwu" DateLow="1699817234" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\FinalBoss.wwu" DateLow="1699830619" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\Factory Synth One.wwu" DateLow="1680363465" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\Enemies.wwu" DateLow="1699469981" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\Drone.wwu" DateLow="1699732690" DateHigh="0"/>

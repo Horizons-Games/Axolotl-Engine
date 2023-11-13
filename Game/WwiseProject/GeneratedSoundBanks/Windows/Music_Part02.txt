@@ -27,8 +27,8 @@ State	ID	Name	State Group			Notes
 	3434002879	Cantina	Zone			
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	643041354	1M5-Spaceship_Escape_165bpm1-4_L109M-P0B	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\1M5-Spaceship_Escape_165bpm1-4_L109M-P0B_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitchPart02\1M5-Spaceship_Escape_165bpm1-4_L109M\1M5-Spaceship_Escape_165bpm1-4_L109M-P0B_Intro\1M5-Spaceship_Escape_165bpm1-4_L109M-P0B		9177424
-	757900444	1M8-Boss_190bpm1-4_LxM-PxB	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\1M8-Boss_190bpm1-4_LxM-PxB_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitchPart02\1M8-Boss_190bpm1-4_LxM-PxB_Fight\1M8-Boss_190bpm1-4_LxM-PxB_Trigger\1M8-Boss_190bpm1-4_LxM-PxB		10881360
+	643041354	1M5-Spaceship_Escape_165bpm1-4_L109M-P0B	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\1M5-Spaceship_Escape_165bpm1-4_L109M-P0B_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitchPart02\1M5-Spaceship_Escape_165bpm1-4_L109M\1M5-Spaceship_Escape_165bpm1-4_L109M-P0B_Intro\1M5-Spaceship_Escape_165bpm1-4_L109M-P0B		9177432
+	757900444	1M8-Boss_190bpm1-4_LxM-PxB	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\1M8-Boss_190bpm1-4_LxM-PxB_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitchPart02\1M8-Boss_190bpm1-4_LxM-PxB_Fight\1M8-Boss_190bpm1-4_LxM-PxB_Trigger\1M8-Boss_190bpm1-4_LxM-PxB		10881364
 	957325397	1M7-Station_Interior_170bpm1-4_L154M-P0B	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\1M7-Station_Interior_170bpm1-4_L154M-P0B_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitchPart02\1M7-Station_Interior_170bpm1-4_L154M\1M7-Station_Interior_170bpm1-4_L154M-A\1M7-Station_Interior_170bpm1-4_L154M-P0B		12454224
 	1053497374	Defeated	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\273567-Game-Over-Robot-Hit-8_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitchPart02\Defeated\Defeated\Defeated		662084
 

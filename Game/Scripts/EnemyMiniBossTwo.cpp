@@ -34,6 +34,8 @@ firstShieldUsed(false), secondShieldUsed(false), seekDistance(15.0f), blockedDoo
 
 void EnemyMiniBossTwo::Start()
 {
+	enemyType = EnemyTypes::MINI_BOSS;
+
 	ownerTransform = owner->GetComponent<ComponentTransform>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
 	componentAudioSource = owner->GetComponent<ComponentAudioSource>();

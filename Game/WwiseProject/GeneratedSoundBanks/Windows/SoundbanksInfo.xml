@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{0F1C4513-691D-583D-AE63-84E6A79542E1}">
+		<SoundBank Id="77978275" Type="User" Language="SFX" Hash="{322D5BB5-6D5F-8279-161F-C25FE30CAE80}">
 			<ShortName>Ambient</ShortName>
 			<Path>Ambient.bnk</Path>
 			<Media>
@@ -1353,7 +1353,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{68DACCE3-7895-694B-D74E-082C2E92DD1D}">
+		<SoundBank Id="1069431850" Type="User" Language="SFX" Hash="{CF895812-DCB6-9D1E-DB5E-E9E21F73D94A}">
 			<ShortName>Player</ShortName>
 			<Path>Player.bnk</Path>
 			<Media>
@@ -2399,7 +2399,7 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="1551306167" Type="User" Language="SFX" Hash="{6E2D590C-9071-539B-FA82-0C97F209BEBF}">
+		<SoundBank Id="1551306167" Type="User" Language="SFX" Hash="{C49BEDCA-18AE-8A64-F8A9-A3FE1652AB8B}">
 			<ShortName>UI</ShortName>
 			<Path>UI.bnk</Path>
 			<Media>
@@ -2471,7 +2471,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="2686860940" Type="User" Language="SFX" Hash="{74A76320-4F6A-92BF-7AEF-67CB36EB61B5}">
+		<SoundBank Id="2686860940" Type="User" Language="SFX" Hash="{1FACEE3D-9E49-810E-A3BE-E8D2D825E104}">
 			<ShortName>Music_Part02</ShortName>
 			<Path>Music_Part02.bnk</Path>
 			<Media>
@@ -2609,7 +2609,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{4B628605-ADBE-E819-2974-16CBF56A29D2}">
+		<SoundBank Id="3991942870" Type="User" Language="SFX" Hash="{85E96F54-71ED-7E35-C326-E0FD4CA93C54}">
 			<ShortName>Music</ShortName>
 			<Path>Music.bnk</Path>
 			<Media>
@@ -2956,5 +2956,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{B23CC262-94DF-7CAA-D154-BF85DE734F2E}</FileHash>
+	<FileHash>{A3846864-313B-5BBF-0A50-4212CE69200D}</FileHash>
 </SoundBanksInfo>

@@ -468,6 +468,9 @@
 					</CurveUsageInfoList>
 				</Attenuation>
 				<Attenuation Name="AttenuationCantina" ID="{8F5C4A8B-0004-4DF6-B892-7170338B8DBA}" ShortID="232018631">
+					<PropertyList>
+						<Property Name="RadiusMax" Type="Real64" Value="90"/>
+					</PropertyList>
 					<CurveUsageInfoList>
 						<VolumeDryUsage>
 							<CurveUsageInfo Platform="Linked" CurveToUse="Custom">
@@ -483,7 +486,7 @@
 											<SegmentShape>Log2</SegmentShape>
 										</Point>
 										<Point>
-											<XPos>100</XPos>
+											<XPos>90</XPos>
 											<YPos>-200</YPos>
 											<Flags>37</Flags>
 										</Point>
@@ -511,12 +514,12 @@
 											<SegmentShape>Exp1</SegmentShape>
 										</Point>
 										<Point>
-											<XPos>59.85552</XPos>
+											<XPos>53.869968</XPos>
 											<YPos>75</YPos>
 											<Flags>0</Flags>
 										</Point>
 										<Point>
-											<XPos>100</XPos>
+											<XPos>90</XPos>
 											<YPos>100</YPos>
 											<Flags>37</Flags>
 										</Point>

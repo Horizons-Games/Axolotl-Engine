@@ -275,11 +275,6 @@
 								<Property Name="PlayMechanismSpecialTransitionsValue" Type="Real64" Value="0.3"/>
 								<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
 								<Property Name="RandomOrSequence" Type="int16" Value="0"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-7</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">

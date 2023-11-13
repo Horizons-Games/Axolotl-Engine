@@ -1100,6 +1100,11 @@
 												</ModifierInfo>
 											</ModifierList>
 										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>2</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Attenuation">
@@ -1213,7 +1218,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-7</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1708,7 +1713,7 @@
 								<Property Name="RandomOrSequence" Type="int16" Value="0"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>8</Value>
+										<Value>6</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1764,7 +1769,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>6</Value>
+												<Value>12</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1959,7 +1964,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>6</Value>
+												<Value>12</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -2183,11 +2188,6 @@
 								<Property Name="Pitch" Type="int32">
 									<ValueList>
 										<Value>-1200</Value>
-									</ValueList>
-								</Property>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-9</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
