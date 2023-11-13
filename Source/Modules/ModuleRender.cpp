@@ -396,7 +396,7 @@ UpdateStatus ModuleRender::Update()
 		shadows->BindShadowMaps(program);
 
 		ComponentDirLight* directLight = static_cast<ComponentDirLight*>(
-			App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight()->GetComponent<ComponentLight>());
+			App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight()->GetComponentInternal<ComponentLight>());
 		
 		float2 shadowBias = directLight->GetShadowBias();
 

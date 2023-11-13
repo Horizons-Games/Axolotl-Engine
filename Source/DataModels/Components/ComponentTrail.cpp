@@ -65,7 +65,7 @@ void ComponentTrail::Update()
 {
 	UpdateLife();
 
-	ComponentTransform* trans = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* trans = GetOwner()->GetComponentInternal<ComponentTransform>();
 	float3 newPosition = trans->GetGlobalPosition();
 	Quat newRotation = trans->GetGlobalRotation();
 
@@ -145,7 +145,7 @@ void ComponentTrail::Draw() const
 		return;
 	}
 
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 	float3 position = transform->GetGlobalPosition();
 	float3 dirPerpendicular = (transform->GetGlobalRotation() * float3::unitY) * width;
 	float3 pos1 = position + dirPerpendicular;
