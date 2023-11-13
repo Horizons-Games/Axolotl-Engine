@@ -166,8 +166,8 @@
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localScaleX": 0.5249999761581421,
-                            "localScaleY": 0.5249999761581421,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
                             "localScaleZ": 0.5,
                             "sizeX": 3848.0,
                             "sizeY": 2168.0,
@@ -175,10 +175,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -44.568115234375,
-                            "worldAABB_min_y": -10.261871337890625,
-                            "worldAABB_max_x": 1752.568115234375,
-                            "worldAABB_max_y": 1002.2618408203125
+                            "worldAABB_min_x": -1.7791748046875,
+                            "worldAABB_min_y": 13.8458251953125,
+                            "worldAABB_max_x": 1709.7791748046875,
+                            "worldAABB_max_y": 978.1541748046875
                         }
                     },
                     {

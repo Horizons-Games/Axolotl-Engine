@@ -130,10 +130,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 743.9895629882813,
-                            "worldAABB_min_y": 412.4895935058594,
-                            "worldAABB_max_x": 917.0104370117188,
-                            "worldAABB_max_y": 585.5104370117188
+                            "worldAABB_min_x": 765.0416870117188,
+                            "worldAABB_min_y": 407.0416564941406,
+                            "worldAABB_max_x": 942.9583129882813,
+                            "worldAABB_max_y": 584.9583129882813
                         }
                     },
                     {
@@ -166,8 +166,8 @@
                             "localRot_X": 0.0,
                             "localRot_Y": 0.0,
                             "localRot_Z": 0.0,
-                            "localScaleX": 0.5249999761581421,
-                            "localScaleY": 0.5249999761581421,
+                            "localScaleX": 0.5,
+                            "localScaleY": 0.5,
                             "localScaleZ": 0.5,
                             "sizeX": 3848.0,
                             "sizeY": 2168.0,
@@ -175,10 +175,10 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": -45.42919921875,
-                            "worldAABB_min_y": -17.04327392578125,
-                            "worldAABB_max_x": 1786.42919921875,
-                            "worldAABB_max_y": 1015.0432739257813
+                            "worldAABB_min_x": -1.7791748046875,
+                            "worldAABB_min_y": 13.8458251953125,
+                            "worldAABB_max_x": 1709.7791748046875,
+                            "worldAABB_max_y": 978.1541748046875
                         }
                     },
                     {
