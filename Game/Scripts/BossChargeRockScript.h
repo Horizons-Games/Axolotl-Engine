@@ -69,4 +69,5 @@ private:
 	btVector3 rockGravity;
 
 	ComponentParticleSystem* breakRockVFX;
+	ComponentParticleSystem* preAreaEffectVFX;
 };

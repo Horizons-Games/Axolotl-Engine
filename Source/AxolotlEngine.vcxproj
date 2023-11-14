@@ -425,6 +425,7 @@
     <ClCompile Include="..\Game\Scripts\UIComboManager.cpp" />
     <ClCompile Include="..\Game\Scripts\UIEnemyBar.cpp" />
     <ClCompile Include="..\Game\Scripts\UIGameManager.cpp" />
+    <ClCompile Include="..\Game\Scripts\UIGameManagerMainMenu.cpp" />
     <ClCompile Include="..\Game\Scripts\UIGameManagerSpaceship.cpp" />
     <ClCompile Include="..\Game\Scripts\UIHackingManager.cpp" />
     <ClCompile Include="..\Game\Scripts\UIImageDisplacementControl.cpp">
@@ -1011,6 +1012,7 @@
     <ClInclude Include="..\Game\Scripts\UIComboManager.h" />
     <ClInclude Include="..\Game\Scripts\UIEnemyBar.h" />
     <ClInclude Include="..\Game\Scripts\UIGameManager.h" />
+    <ClInclude Include="..\Game\Scripts\UIGameManagerMainMenu.h" />
     <ClInclude Include="..\Game\Scripts\UIGameManagerSpaceship.h" />
     <ClInclude Include="..\Game\Scripts\UIHackingManager.h" />
     <ClInclude Include="..\Game\Scripts\UIImageDisplacementControl.h" />

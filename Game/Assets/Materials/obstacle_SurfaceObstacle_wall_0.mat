@@ -2,6 +2,6 @@
     "DiffuseAssetPath": "Assets/Textures/surface_DefaultMaterial_BaseColor.1001.png",
     "NormalAssetPath": "Assets/Textures/surface_DefaultMaterial_Normal.1001.png",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/surface_DefaultMaterial_Metallic.1001.png",
+    "MetalicAssetPath": "",
     "EmissiveAssetPath": ""
 }

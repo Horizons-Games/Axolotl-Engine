@@ -36,6 +36,11 @@ void SpaceshipMovement::Start()
 
 void SpaceshipMovement::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		return;
+	}
+
 	horizontalDirection = input->GetLeftJoystickDirection().horizontalDirection;
 	verticalDirection = input->GetLeftJoystickDirection().verticalDirection;
 
@@ -45,7 +50,7 @@ void SpaceshipMovement::Update(float deltaTime)
 
 void SpaceshipMovement::Move(float deltaTime)
 {
-	btVector3 movement(0, 0, forwardSpeed);
+	movement = btVector3(0, 0, forwardSpeed);
 	if (input->GetCurrentInputMethod() == InputMethod::GAMEPAD &&
 		(horizontalDirection != JoystickHorizontalDirection::NONE ||
 			verticalDirection != JoystickVerticalDirection::NONE))
@@ -187,6 +192,20 @@ void SpaceshipMovement::Rotate(float deltaTime)
 
 	meshTransform->RecalculateLocalMatrix();
 	meshTransform->UpdateTransformMatrices();
+}
+
+void SpaceshipMovement::SetIsPaused(bool paused)
+{
+	isPaused = paused;
+	if (paused) 
+	{
+		Stop();
+	}
+	else
+	{
+		btRigidbody->setLinearVelocity(movement);
+		ownerRigidbody->GetRigidBody()->setLinearVelocity(btVector3(0, 0, forwardSpeed));
+	}
 }
 
 void SpaceshipMovement::Stop()

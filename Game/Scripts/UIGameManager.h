@@ -11,6 +11,7 @@ class ComponentPlayer;
 class ComponentSlider;
 class HealthSystem;
 class ModuleUI;
+class SceneLoadingScript;
 
 class UIGameManager : public Script
 {
@@ -58,6 +59,7 @@ protected:
 	float uiTime = 0.0f;
 	float currentInputTime = 0.0f;
 	float gameOverTimer = 0.0f;
+	float actualLevel;
 
 	int selectedPositon = -1;
 
@@ -68,7 +70,8 @@ protected:
 	GameObject* imgController;
 
 	GameObject* gameStates;
-	std::string loadRetryScene;
+	SceneLoadingScript* retryLoadingScreenScript;
+	SceneLoadingScript* mainMenuLoadingScreenScript;
 
 	GameObject* sliderHudHealthBixFront;
 	GameObject* sliderHudHealthBixBack;
@@ -97,11 +100,3 @@ protected:
 	HealthSystem* healthSystemClassAllura;
 
 };
-
-
-
-
-
-
-
-

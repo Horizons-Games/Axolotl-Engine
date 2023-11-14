@@ -6,6 +6,8 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentTransform2D;
+class ComponentVideo;
+class SceneLoadingScript;
 
 class UIVideoControl : public Script
 {
@@ -15,6 +17,8 @@ public:
 
 	void Start() override;
 	void Update(float deltaTime) override;
+	
+	void ChangeVideoTransform();
 
 private:
 
@@ -22,6 +26,12 @@ private:
 	float3 endPosition;
 	float3 currentPositon;
 
-	GameObject* optionMenuObject;
+	bool playingVideo;
+	bool changeVideoTransform;
+	bool playVideo;
+
+	GameObject* videoObject;
 	ComponentTransform2D* imageTransform;
+	ComponentVideo* videoImage;
+	SceneLoadingScript* loadingScreenScript;
 };
