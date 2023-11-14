@@ -91,6 +91,7 @@ void OnLoadedScene()
 	ModuleScene* scene = App->GetModule<ModuleScene>();
 	scene->InitAndStartScriptingComponents();
 	scene->InitParticlesComponents();
+	scene->InitVideoComponents();
 
 	ModuleUI* ui = App->GetModule<ModuleUI>();
 	ui->SetUpButtons();
