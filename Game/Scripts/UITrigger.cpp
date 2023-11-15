@@ -44,6 +44,7 @@ timer(0.0f), timerImg(2.0f), damageTimer(0.0f)
 	REGISTER_FIELD(setLoadingScreenImage, GameObject*);
 	REGISTER_FIELD(loadingScreenScript, SceneLoadingScript*);
 	REGISTER_FIELD(hackZoneScript, HackZoneScript*);
+	REGISTER_FIELD(timerImg, float);
 }
 
 UITrigger::~UITrigger()
