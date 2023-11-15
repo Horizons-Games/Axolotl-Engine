@@ -30,5 +30,5 @@ void main()
 		result += textureLod(sourceTexture, TexCoord + blurDirection * OFFSETS[i] * invSize, mipmapSource) * WEIGHTS[i];
 	}
 
-	color = vec4(result.rgb, 1.0);
+	color = result;
 }
