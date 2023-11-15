@@ -122,29 +122,29 @@ void UITrigger::OnCollisionExit(ComponentRigidBody* other)
 
 void UITrigger::LoadScene(float deltaTime)
 {
-	if (timerImg <= 0.0f)
-	{
-		timerImg = 2.0f;
-	}
-	else
-	{
-		timerImg -= deltaTime;
-		return;
-	}
-
 	if (hackZoneScript && hackZoneScript->IsCompleted() || !hackZoneScript && noRestrictions)
 	{
-		if (setLoadingScreenImage)
+		if (timerImg <= 0.0f)
 		{
-			setLoadingScreenImage->Enable();
-		}
+			if (setLoadingScreenImage)
+			{
+				setLoadingScreenImage->Enable();
+			}
 
-		if (loadingScreenScript)
-		{
-			LOG_INFO("STARTING LOAD SCRIPT");
+			timerImg = 2.0f;
+
+			if (loadingScreenScript)
+			{
+				LOG_INFO("STARTING LOAD SCRIPT");
 #ifndef ENGINE
-			loadingScreenScript->StartLoad();
+				loadingScreenScript->StartLoad();
 #endif // 
+			}
+		}
+		else
+		{
+			timerImg -= deltaTime;
+			return;
 		}
 	}
 }
