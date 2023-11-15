@@ -58,7 +58,6 @@ bool ModuleResources::Init()
 	animationImporter = std::make_unique<AnimationImporter>();
 	stateMachineImporter = std::make_unique<StateMachineImporter>();
 	particleSystemImporter = std::make_unique<ParticleSystemImporter>();
-	CreateAssetAndLibFolders();
 
 #ifdef ENGINE
 	CreateAssetAndLibFolders();
