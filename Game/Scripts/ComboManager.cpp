@@ -109,6 +109,7 @@ void ComboManager::ClearComboForSwitch(bool finisher)
 	uiComboManager->SetComboBarValue(0);
 	comboCount = 0;
 	specialCount = 0.f;
+	specialActivated = false;
 }
 
 AttackType ComboManager::CheckAttackInput(bool jumping)
