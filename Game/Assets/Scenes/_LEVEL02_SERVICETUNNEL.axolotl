@@ -20550,6 +20550,11 @@
                                     "name": "HackZoneScript",
                                     "value": 0,
                                     "type": 2
+                                },
+                                {
+                                    "name": "TimerImg",
+                                    "value": 1.5,
+                                    "type": 0
                                 }
                             ]
                         }
