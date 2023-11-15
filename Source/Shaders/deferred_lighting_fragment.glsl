@@ -95,7 +95,6 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
     return (Cd*(1-f0)+0.25*FS*SV*GGXND)*directionalColor.rgb*directionalColor.a*dotNL;
 }
 
-
 vec3 calculateAmbientIBL(vec3 N, vec3 R, float NdotV, vec3 Cd, vec3 f0, float roughness, vec3 fragPos, vec4 planarColor)
 {
     vec3 color = vec3(0.0);
@@ -144,7 +143,7 @@ vec3 calculateAmbientIBL(vec3 N, vec3 R, float NdotV, vec3 Cd, vec3 f0, float ro
     return color;
 }
 
-// take the first reflection
+// takes the first reflection
 vec4 calculatePlanarReflections(float roughness, vec3 normal, vec3 fragPos)
 {
     for (int i = 0; i < num_planes; ++i)

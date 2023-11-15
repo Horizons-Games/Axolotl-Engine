@@ -122,6 +122,32 @@ void MeshEffect::DisappearBodyEffect()
 	}
 }
 
+void MeshEffect::MakeNonReflective()
+{
+	if (meshes.empty())
+	{
+		FillMeshes(owner);
+	}
+
+	for (auto mesh : meshes)
+	{
+		mesh->SetReflective(true);
+	}
+}
+
+void MeshEffect::MakeReflective()
+{
+	if (meshes.empty())
+	{
+		FillMeshes(owner);
+	}
+
+	for (auto mesh : meshes)
+	{
+		mesh->SetReflective(false);
+	}
+}
+
 void MeshEffect::EnableDisableMeshes(bool enable)
 {
 	if (meshes.empty())

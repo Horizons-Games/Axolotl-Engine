@@ -15,7 +15,7 @@
     "specularColor_y": 0.30000001192092896,
     "specularColor_z": 0.5,
     "normalStrength": 1.0,
-    "smoothness": 0.2800000011920929,
+    "smoothness": 0.5,
     "metalness": 0.0,
     "isTransparent": false,
     "tilingx": 1.0,

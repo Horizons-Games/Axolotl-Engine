@@ -44,6 +44,17 @@ void WindowComponentPlanarReflection::DrawWindowContents()
 			ImGui::PopStyleVar();
 			ImGui::SameLine();
 
+			ImGui::Text("y:");
+			ImGui::SameLine();
+			ImGui::SetNextItemWidth(80.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(5.0f, 1.0f));
+			if (ImGui::DragFloat("##Planar_YScale", &scale.y, 0.01f, 0.01f, std::numeric_limits<float>::max(), "%.2f"))
+			{
+				planar->ScaleInfluenceAABB(scale);
+			}
+			ImGui::PopStyleVar();
+			ImGui::SameLine();
+
 			ImGui::Text("z:");
 			ImGui::SameLine();
 			ImGui::SetNextItemWidth(80.0f);

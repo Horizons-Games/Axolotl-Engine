@@ -12,6 +12,7 @@
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioSource.h"
+#include "MeshEffect.h"
 
 #include "../Scripts/FinalBossScript.h"
 #include "../Scripts/HealthSystem.h"
@@ -115,6 +116,7 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 			animator->SetParameter("IsEndingMissilesJump", true);
 			animator->SetParameter("IsMissilesLanding", true);
 			MoveUserToPosition(safePositionSelected->GetGlobalPosition());
+			owner->GetComponent<MeshEffect>()->MakeNonReflective();
 		}
 	}
 	else if (missilesAttackState == AttackState::ENDING_SAFE_JUMP)
@@ -158,6 +160,7 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 			animator->SetParameter("IsEndingMissilesJump", true);
 			animator->SetParameter("IsMissilesLanding", true);
 			MoveUserToPosition(backPositionSelected->GetGlobalPosition());
+			owner->GetComponent<MeshEffect>()->MakeReflective();
 		}
 	}
 	else if (missilesAttackState == AttackState::ENDING_BACK_JUMP)
