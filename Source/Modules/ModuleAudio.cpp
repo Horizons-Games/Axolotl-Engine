@@ -246,10 +246,9 @@ bool ModuleAudio::InitializeBanks()
 	return true;
 }
 
-void ModuleAudio::StopAllAudio()
+void ModuleAudio::StopAllSFX()
 {
-	AK::SoundEngine::StopAll();
-	AK::SoundEngine::UnregisterAllGameObj();
+	AK::SoundEngine::PostEvent(AUDIO::SFX::STOPALLSFX, musicID);
 	AK::SoundEngine::RenderAudio();
 }
 

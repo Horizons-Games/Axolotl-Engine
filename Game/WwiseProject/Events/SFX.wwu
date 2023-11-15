@@ -7,6 +7,33 @@
 				<WorkUnit Name="NPC" ID="{DA6DFEB4-9E33-4AA8-8321-65EA7BC79F93}" PersistMode="Reference"/>
 				<WorkUnit Name="UI" ID="{250B2123-F35C-41A5-B28F-CFF376514726}" PersistMode="Reference"/>
 				<WorkUnit Name="Ambient" ID="{3220227D-B782-4EAB-9D58-F9E0C5F8F212}" PersistMode="Reference"/>
+				<Event Name="StopAllSFX" ID="{F3C78A44-1767-4EFE-811E-054DD57A035E}">
+					<ChildrenList>
+						<Action Name="" ID="{589C223F-2C62-4A85-BE71-FE0466C424BA}" ShortID="708511475">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="3"/>
+								<Property Name="Scope" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList/>
+							<ChildrenList>
+								<EventActionException Name="" ID="{7D70644E-E67B-4C00-8C72-C6325F21F8D9}">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="MusicSwitch" ID="{ABC59D38-D3EE-4AF7-8B03-C8EE82056400}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}"/>
+										</Reference>
+									</ReferenceList>
+								</EventActionException>
+								<EventActionException Name="" ID="{55A19446-0489-4748-A684-381C5BA03A5C}">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="MusicSwitchPart02" ID="{C7D3FB11-D08E-496E-813F-75C404121ABE}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}"/>
+										</Reference>
+									</ReferenceList>
+								</EventActionException>
+							</ChildrenList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

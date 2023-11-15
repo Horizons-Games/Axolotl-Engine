@@ -20,11 +20,14 @@ State	ID	Name	State Group			Notes
 	58265312	BossIntro	Zone			
 	425131515	SpaceStation	Zone			
 	554650843	Spaceship	Zone			
+	706698089	SecondCutscene	Zone			
 	748895195	None	Zone			
+	985442775	LoadingScreen	Zone			
 	1560169506	Boss	Zone			
 	2192450996	Hangar	Zone			
 	3390261832	Sewers	Zone			
 	3434002879	Cantina	Zone			
+	4040034477	FirstCutscene	Zone			
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	643041354	1M5-Spaceship_Escape_165bpm1-4_L109M-P0B	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\1M5-Spaceship_Escape_165bpm1-4_L109M-P0B_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitchPart02\1M5-Spaceship_Escape_165bpm1-4_L109M\1M5-Spaceship_Escape_165bpm1-4_L109M-P0B_Intro\1M5-Spaceship_Escape_165bpm1-4_L109M-P0B		9177432

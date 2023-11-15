@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ValidationCache Version="1" SchemaVersion="110">
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\WwiseProject.wproj" DateLow="1699555166" DateHigh="0"/>
-	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\WwiseProject.User.wsettings" DateLow="1699903905" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\WwiseProject.User.wsettings" DateLow="1700072467" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Virtual Acoustics\Factory Acoustic Textures.wwu" DateLow="1683917436" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Virtual Acoustics\Default Work Unit.wwu" DateLow="1683917436" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Triggers\Default Work Unit.wwu" DateLow="1683917436" DateHigh="0"/>
@@ -24,7 +24,7 @@
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Metadata\Default Work Unit.wwu" DateLow="1683917435" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Master-Mixer Hierarchy\Default Work Unit.wwu" DateLow="1699738343" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Interactive Music Hierarchy\MusicNico.wwu" DateLow="1696520723" DateHigh="0"/>
-	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Interactive Music Hierarchy\Music.wwu" DateLow="1699735647" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Interactive Music Hierarchy\Music.wwu" DateLow="1699907138" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Interactive Music Hierarchy\Default Work Unit.wwu" DateLow="1698868515" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Game Parameters\Default Work Unit.wwu" DateLow="1699704793" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Events\Weapons.wwu" DateLow="1699718125" DateHigh="0"/>
@@ -51,11 +51,11 @@
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Conversion Settings\Default Work Unit.wwu" DateLow="1683917435" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Control Surface Sessions\Default Work Unit.wwu" DateLow="1683917435" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Audio Devices\Default Work Unit.wwu" DateLow="1683917435" DateHigh="0"/>
-	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Attenuations\Default Work Unit.wwu" DateLow="1699737488" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Attenuations\Default Work Unit.wwu" DateLow="1699907008" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\Venomite.wwu" DateLow="1699732740" DateHigh="0"/>
-	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\UI.wwu" DateLow="1699703519" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\UI.wwu" DateLow="1699904991" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\SFX.wwu" DateLow="1699703550" DateHigh="0"/>
-	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\Player.wwu" DateLow="1699732979" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\Player.wwu" DateLow="1699907618" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\NPCsCantina.wwu" DateLow="1699745497" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\NPC.wwu" DateLow="1699734139" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\MiniBoss2.wwu" DateLow="1699732740" DateHigh="0"/>
@@ -64,5 +64,5 @@
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\Enemies.wwu" DateLow="1699469981" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\Drone.wwu" DateLow="1699732690" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\Default Work Unit.wwu" DateLow="1698868515" DateHigh="0"/>
-	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\Ambient.wwu" DateLow="1699738253" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Master Uri\Engine\Game\WwiseProject\Actor-Mixer Hierarchy\Ambient.wwu" DateLow="1699906278" DateHigh="0"/>
 </ValidationCache>

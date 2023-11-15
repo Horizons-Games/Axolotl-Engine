@@ -20,7 +20,7 @@ public:
 	void Suspend() const;
 	void WakeUp() const;
 
-	void StopAllAudio();
+	void StopAllSFX();
 
 	void SetMasterVolume(float value);
 	void SetMusicVolume(float value);

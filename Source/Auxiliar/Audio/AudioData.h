@@ -4,6 +4,7 @@ namespace AUDIO
 {
 namespace SFX
 {
+static const wchar_t* STOPALLSFX = L"StopAllSFX";
 namespace NPC
 {
 static const wchar_t* FOOTSTEPS = L"EnemyFootsteps";
@@ -214,6 +215,9 @@ static const wchar_t* BOSS_INTRO = L"BossIntro";
 static const wchar_t* HANGAR = L"Hangar";
 static const wchar_t* SEWERS = L"Sewers";
 static const wchar_t* CANTINA = L"Cantina";
+static const wchar_t* CUTSCENE01 = L"FirstCutscene";
+static const wchar_t* CUTSCENE02 = L"SecondCutscene";
+static const wchar_t* LOADINGSCREEN = L"LoadingScreen";
 static const wchar_t* NONE = L"None";
 } // namespace ZONE
 } // namespace ID

@@ -20,6 +20,9 @@
 						<State Name="SpaceStation" ID="{DA04FE5C-33D3-46B9-B62D-EEFD32F6872B}"/>
 						<State Name="Boss" ID="{65FDE6F7-080B-4E92-98FD-00E6E6BF07CA}"/>
 						<State Name="BossIntro" ID="{F4C42366-A074-42D8-AA2F-EF7356C3920F}"/>
+						<State Name="FirstCutscene" ID="{A5C3E81E-0C27-43E0-8923-916D8D5542A7}"/>
+						<State Name="SecondCutscene" ID="{172B300C-B27E-4399-BBF7-26678944EFC5}"/>
+						<State Name="LoadingScreen" ID="{7B94A949-0FAA-4291-857B-57D6BA206EFE}"/>
 					</ChildrenList>
 				</StateGroup>
 			</ChildrenList>
