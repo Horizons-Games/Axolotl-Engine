@@ -46,13 +46,7 @@ void UIComboManager::Init()
 		transparency = noFillBar->GetComponent<ComponentImage>()->GetColor().w;
 	}
 
-	GameObject* specialBoxGO = owner->GetChildren()[2];
-	specialBoxGO->Disable();
-	specialBox.text = specialBoxGO->GetChildren()[1];
-	GameObject* buttonsGO = specialBoxGO->GetChildren()[2];
-	specialBox.lb = buttonsGO->GetChildren()[0];
-	specialBox.separator = buttonsGO->GetChildren()[1];
-	specialBox.rb = buttonsGO->GetChildren()[2];
+	specialBox.text->GetParent()->Disable();
 }
 
 void UIComboManager::Update(float deltaTime)

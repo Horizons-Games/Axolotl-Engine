@@ -11,6 +11,7 @@ class ComponentPlayer;
 class ComponentRigidBody;
 class ComponentScript;
 class UIImageDisplacementControl;
+class HackZoneScript;
 
 class UIMissionTrigger : public Script
 {
@@ -37,6 +38,7 @@ private:
 	bool waitForNotInCombat;
 	bool waitForSwitch;
 	bool missionCondition;
+	bool waitForHack;
 
 	ComponentPlayer* player;
 	ComponentRigidBody* componentRigidBody;
@@ -46,4 +48,5 @@ private:
 	GameObject* switchManager;
 	UIImageDisplacementControl* missionImageDisplacement;
 	UIImageDisplacementControl* missionImageDisplacementExit;
+	HackZoneScript* hackZoneScript;
 };

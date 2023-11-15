@@ -16,8 +16,8 @@
 ComponentAgent::ComponentAgent(bool active, GameObject* owner) :
 	Component(ComponentType::AGENT, active, owner, true)
 {
-	transform = GetOwner()->GetComponent<ComponentTransform>();
-	rb = GetOwner()->GetComponent<ComponentRigidBody>();
+	transform = GetOwner()->GetComponentInternal<ComponentTransform>();
+	rb = GetOwner()->GetComponentInternal<ComponentRigidBody>();
 	isFirstAdded = true;
 }
 

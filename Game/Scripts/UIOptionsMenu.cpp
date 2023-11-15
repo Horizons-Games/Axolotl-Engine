@@ -70,9 +70,6 @@ void UIOptionsMenu::Start()
 	videoOptionComponentButton->Disable();
 	audioOptionComponentButton->Disable();
 	controlsOptionComponentButton->Disable();
-
-	buttonsAndCanvas[0].canvas->Enable();
-	buttonsAndCanvas[0].hovered->Enable();
 	
 	// InitOptionMenu();
 	IsSizeOptionEnabled();
@@ -86,6 +83,13 @@ void UIOptionsMenu::Update(float deltaTime)
 
 void UIOptionsMenu::ControllerMenuMode(float deltaTime)
 {
+	if (headerMenuPosition == 0 && !buttonsAndCanvas[0].canvas->IsEnabled())
+	{
+		buttonsAndCanvas[0].canvas->Enable();
+		buttonsAndCanvas[0].hovered->Enable();
+		headerMenuPosition = 0;
+	}
+
 	if (resetButtonIndex)
 	{
 		ui->ResetCurrentButtonIndex();
@@ -335,6 +339,10 @@ void UIOptionsMenu::LoadOptions()
 {
 	actualConfig.clear();
 	std::string optionMenuPath = "Settings/OptionsConfig.txt";
+#ifndef ENGINE
+	optionMenuPath = "OptionsConfig.txt";
+#endif // GAME
+
 	rapidjson::Document doc;
 	Json optionsMenu(doc, doc);
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
@@ -421,6 +429,9 @@ void UIOptionsMenu::LoadDefaultOptions()
 void UIOptionsMenu::SaveOptions()
 {
 	std::string optionMenuPath = "Settings/OptionsConfig.txt";
+#ifndef ENGINE
+	optionMenuPath = "OptionsConfig.txt";
+#endif // GAME
 	rapidjson::Document doc;
 	Json optionsMenu(doc, doc);
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
@@ -713,6 +724,9 @@ void UIOptionsMenu::SaveOptionsFeedback(float deltaTime)
 		saveOptionsImg->Disable();
 		isSavingActive = false;
 		buttonBackMenu->SetClicked(true);
+		buttonsAndCanvas[headerMenuPosition].canvas->Disable();
+		buttonsAndCanvas[headerMenuPosition].hovered->Disable();
+		headerMenuPosition = 0;
 		return;
 	}
 	else

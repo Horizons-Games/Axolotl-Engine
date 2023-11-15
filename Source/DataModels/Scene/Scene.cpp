@@ -1845,11 +1845,11 @@ void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObje
 
 	if (gameObject->HasComponent<ComponentLine>())
 	{
-		AddComponentLines(static_cast<ComponentLine*>(gameObject->GetComponent<ComponentLine>()));
+		AddComponentLines(static_cast<ComponentLine*>(gameObject->GetComponentInternal<ComponentLine>()));
 	}
 	if (gameObject->HasComponent<ComponentParticleSystem>())
 	{
-		AddParticleSystem(static_cast<ComponentParticleSystem*>(gameObject->GetComponent<ComponentParticleSystem>()));
+		AddParticleSystem(static_cast<ComponentParticleSystem*>(gameObject->GetComponentInternal<ComponentParticleSystem>()));
 	}
 
 	if (gameObject->IsRendereable() && is3D)
@@ -2064,7 +2064,7 @@ std::vector<float> Scene::GetVertices()
 		GameObject* go = meshRenderer->GetOwner();
 		if (mesh != nullptr && go->CompareTag("NAVIGABLE"))
 		{
-			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+			ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
 			//for (const ResourceMesh::Vertex& vertex : mesh->vertices)
 			//{
 			//	float4 transformedVertex = transform->GetGlobalMatrix() * float4(vertex.position, 1.0f);
@@ -2133,7 +2133,7 @@ std::vector<float> Scene::GetNormals()
 		GameObject* go = meshRenderer->GetOwner();
 		if (mesh != nullptr && go->CompareTag("NAVIGABLE"))
 		{
-			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+			ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
 			for (const float3 normal : mesh->GetNormals())
 			{
 				float4 transformedVertex = transform->GetGlobalMatrix() * float4(normal, 1.0f);

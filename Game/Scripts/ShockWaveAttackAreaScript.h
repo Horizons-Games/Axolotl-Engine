@@ -2,10 +2,12 @@
 
 #include "Scripting\Script.h"
 #include "RuntimeInclude.h"
+#include "../Scripts/MeshEffect.h"
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentRigidBody;
+class ComponentTransform;
 
 enum class AreaState
 {
@@ -32,12 +34,20 @@ public:
 	bool IsPlayerDetected() const;
 	GameObject* GetPlayerDetected() const;
 
+	void InitVFX();
+
 private:
 	void ExpandArea(float deltaTime) const;
 	void ResetAreaSize();
+	void ExpandVFX(float deltaTime) const;
+	
 
 	AreaState areaState;
 	ComponentRigidBody* rigidBody;
+	ComponentTransform* transform;
+	MeshEffect* meshEffect;
+
+	GameObject* VFX;
 
 	GameObject* player;
 	bool playerDetected;
@@ -46,4 +56,6 @@ private:
 	float minSizeArea;
 	float maxSizeArea;
 	float areaGrowingFactor;
+	float minsizeVfxX;
+	float minsizeVfxY;
 };

@@ -32,6 +32,9 @@ public:
 	
 	void DisappearBodyEffect();
 
+	void MakeNonReflective();
+	void MakeReflective();
+
 	void EnableDisableMeshes(bool enable);
 
 	void SetTimeBetween(float timeBetween);

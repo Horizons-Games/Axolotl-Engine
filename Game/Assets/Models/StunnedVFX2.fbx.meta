@@ -1,0 +1,11 @@
+{
+    "UID": 13538909161186749781,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/StunnedVFX2.Cylinder_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/StunnedVFX2DefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

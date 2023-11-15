@@ -1,7 +1,7 @@
 {
     "UID": 11731344734254509166,
     "Type": "Materials",
-    "DiffuseAssetPath": "Assets/Textures/sable_LightSaberEmission_BaseColor.png",
+    "DiffuseAssetPath": "",
     "NormalAssetPath": "",
     "OcclusionAssetPath": "",
     "MetalicAssetPath": "",
@@ -23,5 +23,6 @@
     "offsetx": 0.0,
     "offsety": 0.0,
     "percentagex": 100.0,
-    "percentagey": 100.0
+    "percentagey": 100.0,
+    "reflective": 0.0
 }

@@ -1,0 +1,31 @@
+{
+    "UID": 7707434820778137543,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Shockwave3.Cylinder.002_0.mesh",
+        "Assets/Meshes/Shockwave3.Cylinder.004_0.mesh",
+        "Assets/Meshes/Shockwave3.Cylinder.005_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Shockwave3DefaultMaterial_0.mat",
+        "Assets/Materials/Shockwave3DefaultMaterial_0.mat",
+        "Assets/Materials/Shockwave3DefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": [
+        "Assets/Animation/Shockwave3.Cylinder.002_Cylinder.002Action.anim",
+        "Assets/Animation/Shockwave3.Cylinder.002_Cylinder.003Action.anim",
+        "Assets/Animation/Shockwave3.Cylinder.002_Cylinder.004Action.anim",
+        "Assets/Animation/Shockwave3.Cylinder.002_InitialWaveAction.anim",
+        "Assets/Animation/Shockwave3.Cylinder.002_PlaneAction.anim",
+        "Assets/Animation/Shockwave3.Cylinder.003_Cylinder.002Action.anim",
+        "Assets/Animation/Shockwave3.Cylinder.003_Cylinder.003Action.anim",
+        "Assets/Animation/Shockwave3.Cylinder.003_Cylinder.004Action.anim",
+        "Assets/Animation/Shockwave3.Cylinder.003_InitialWaveAction.anim",
+        "Assets/Animation/Shockwave3.Cylinder.003_PlaneAction.anim",
+        "Assets/Animation/Shockwave3.Cylinder.004_Cylinder.002Action.anim",
+        "Assets/Animation/Shockwave3.Cylinder.004_Cylinder.003Action.anim",
+        "Assets/Animation/Shockwave3.Cylinder.004_Cylinder.004Action.anim",
+        "Assets/Animation/Shockwave3.Cylinder.004_InitialWaveAction.anim",
+        "Assets/Animation/Shockwave3.Cylinder.004_PlaneAction.anim"
+    ]
+}

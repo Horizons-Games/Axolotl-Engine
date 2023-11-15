@@ -47,6 +47,7 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 	REGISTER_FIELD(wallChecker, BossWallChecker*);
 
 	REGISTER_FIELD(propulsorVFX, GameObject*);
+	REGISTER_FIELD(hitWallVFX, GameObject*);
 }
 
 void BossChargeAttackScript::Start()
@@ -189,6 +190,8 @@ void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
 			rocksSpawned.clear();
 
 			chargeState = ChargeState::NONE;
+			animator->SetParameter("IsChargingHitWall", false);
+			hitWallVFX->Disable();
 			healthSystem->SetIsImmortal(false);
 		}
 		else
@@ -266,6 +269,8 @@ void BossChargeAttackScript::WallHitAfterCharge() const
 
 	propulsorVFX->GetChildren()[1]->Disable();
 	propulsorVFX->GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+
+	hitWallVFX->Enable();
 }
 
 bool BossChargeAttackScript::CanPerformChargeAttack() const

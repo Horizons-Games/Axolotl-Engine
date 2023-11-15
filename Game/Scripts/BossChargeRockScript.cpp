@@ -42,6 +42,10 @@ void BossChargeRockScript::Start()
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	audioSource = owner->GetComponent<ComponentAudioSource>();
 	rockGravity = rigidBody->GetRigidBody()->getGravity();
+	preAreaEffectVFX = owner->GetChildren()[1]->GetComponent<ComponentParticleSystem>();
+
+	preAreaEffectVFX->Enable();
+	preAreaEffectVFX->Play();
 }
 
 void BossChargeRockScript::Update(float deltaTime)
@@ -105,6 +109,7 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 		else if (otherRock->WasRockHitAndRemained() || otherRock->GetRockState() != RockStates::SKY)
 		{
 			DeactivateRock();
+			preAreaEffectVFX->Stop();
 		}
 
 		LOG_DEBUG("Rock deactivated");
@@ -121,6 +126,7 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 			
 			audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_ROCKS_IMPACT);
 			// VFX Here: Rock hit an enemy on the head while falling
+			preAreaEffectVFX->Stop();
 		}
 		else if (other->GetOwner()->CompareTag("Waypoint"))
 		{
@@ -136,13 +142,14 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 			rockState = RockStates::FLOOR;
 
 			audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_ROCKS_IMPACT);
+			preAreaEffectVFX->Stop();
 			// VFX Here: Rock hit the floor
 		}
 	}
 	else
 	{
 		triggerRockDespawn = true;
-	}
+	}	
 }
 
 void BossChargeRockScript::SetRockState(RockStates newState)
@@ -189,6 +196,10 @@ void BossChargeRockScript::DestroyRock() const
 void BossChargeRockScript::SetPauseRock(bool isPaused)
 {
 	this->isPaused = isPaused;
+	if (preAreaEffectVFX) 
+	{
+		preAreaEffectVFX->Pause();
+	}
 }
 
 bool BossChargeRockScript::WasRockHitAndRemained() const

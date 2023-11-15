@@ -439,6 +439,12 @@
     <ClCompile Include="..\Game\Scripts\CantinaNPCAnimationManager.cpp">
       <Filter>UserScripts\Level</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\TriggerSewersMusic.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\TriggerSewersMusicExit.cpp">
+      <Filter>UserScripts\Level</Filter>
+    </ClCompile>
     <ClCompile Include="..\Game\Scripts\MenuMusic.cpp">
       <Filter>UserScripts\Audio</Filter>
     </ClCompile>
@@ -941,23 +947,8 @@
     <ClCompile Include="..\Game\Scripts\UIGameManagerSpaceship.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Game\Scripts\FireObstaclePermanentAudio.cpp">
-      <Filter>UserScripts\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\TurbineSpaceshipEscapeAudio.cpp">
-      <Filter>UserScripts\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\WaterBubblesAudio.cpp">
-      <Filter>UserScripts\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\TriggerSewersMusic.cpp">
-      <Filter>UserScripts\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\TriggerSewersMusicExit.cpp">
-      <Filter>UserScripts\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Game\Scripts\TriggerHangarMusic.cpp">
-      <Filter>UserScripts\Audio</Filter>
+    <ClCompile Include="..\Game\Scripts\UIGameManagerMainMenu.cpp">
+      <Filter>UserScripts\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1401,6 +1392,12 @@
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\CantinaNPCAnimationManager.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\TriggerSewersMusic.h">
+      <Filter>UserScripts\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\TriggerSewersMusicExit.h">
       <Filter>UserScripts\Level</Filter>
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\MenuMusic.h">
@@ -1947,23 +1944,8 @@
     <ClInclude Include="EngineResources\resource.h">
       <Filter>EngineResources</Filter>
     </ClInclude>
-    <ClInclude Include="..\Game\Scripts\FireObstaclePermanentAudio.h">
-      <Filter>UserScripts\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\TurbineSpaceshipEscapeAudio.h">
-      <Filter>UserScripts\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\WaterBubblesAudio.h">
-      <Filter>UserScripts\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\TriggerSewersMusic.h">
-      <Filter>UserScripts\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\TriggerSewersMusicExit.h">
-      <Filter>UserScripts\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Game\Scripts\TriggerHangarMusic.h">
-      <Filter>UserScripts\Audio</Filter>
+    <ClInclude Include="..\Game\Scripts\UIGameManagerMainMenu.h">
+      <Filter>UserScripts\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

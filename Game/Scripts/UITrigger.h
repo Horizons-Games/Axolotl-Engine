@@ -15,6 +15,7 @@ class UIGameManager;
 class HealthSystem;
 class ModulePlayer;
 class SceneLoadingScript;
+class HackZoneScript;
 
 // Little fix until we could check if an audio is being reproduced
 enum class ActiveActions
@@ -35,8 +36,11 @@ public:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
 	void OnCollisionExit(ComponentRigidBody* other) override;
 
+	void SetNextSceneTrigger(bool isEnable);
+	bool IsNextSceneTriggerEnable() const;
+
 private:
-	void LoadScene(const std::string& sceneToLoadIfNoLoadingScreen);
+	void LoadScene(float deltaTime);
 
 private:
 	bool isLoseTrigger;
@@ -44,17 +48,23 @@ private:
 	bool isNextSceneTrigger;
 	bool isLoseByDamage;
 	bool onTriggerState;
+	bool noRestrictions;
+
 	float damageTaken;
-	float damageTimer = 0;
-	float timer = 0;
+	float damageTimer;
+	float timer;
+	float timerImg;
+
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;
 	ActiveActions activeState;
 	ComponentRigidBody* componentRigidBody;
-	UIGameManager* UIGameManagerClass;
+	UIGameManager* uiGameManagerClass;
 	HealthSystem* playerHealthSystem;
-	GameObject* setGameStateObject;
+	GameObject* setUiGameManager;
 	GameObject* setPlayer;
 	ModulePlayer* modulePlayer;
 	SceneLoadingScript* loadingScreenScript;
+	GameObject* setLoadingScreenImage;
+	HackZoneScript* hackZoneScript;
 };

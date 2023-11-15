@@ -109,6 +109,7 @@ void ComboManager::ClearComboForSwitch(bool finisher)
 	uiComboManager->SetComboBarValue(0);
 	comboCount = 0;
 	specialCount = 0.f;
+	specialActivated = false;
 }
 
 AttackType ComboManager::CheckAttackInput(bool jumping)
@@ -118,7 +119,7 @@ AttackType ComboManager::CheckAttackInput(bool jumping)
 	bool lightSpecialInput = input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN;
 	bool heavySpecialInput = input->GetKey(SDL_SCANCODE_Z) == KeyState::DOWN;
 
-	if (jumping && leftClick)
+	if (jumping && (leftClick || rightClick))
 	{
 		if (specialActivated)
 		{

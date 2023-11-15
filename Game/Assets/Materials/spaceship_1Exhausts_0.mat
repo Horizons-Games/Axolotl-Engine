@@ -2,6 +2,6 @@
     "DiffuseAssetPath": "Assets/Textures/spaceshipModel1_Exhausts_BaseColor.1001.png",
     "NormalAssetPath": "Assets/Textures/spaceshipModel1_Exhausts_Normal.1001.png",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/spaceshipModel1_Exhausts_Metallic.1001.png",
+    "MetalicAssetPath": "",
     "EmissiveAssetPath": ""
 }

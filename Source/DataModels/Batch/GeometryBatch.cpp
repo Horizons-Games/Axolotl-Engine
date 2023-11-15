@@ -950,7 +950,7 @@ void GeometryBatch::BindBatch(std::vector<GameObject*>& objects)
 		unsigned int paletteIndex = paletteIndexes[component];
 
 		transformData[frame][instanceIndex] =
-			component->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalMatrix();
+			component->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalMatrix();
 
 		if (component->GetMesh()->GetNumBones() > 0)
 		{
@@ -1119,8 +1119,8 @@ void GeometryBatch::SortByDistanceFarToClose(const float3& position)
 	std::sort(componentsInBatch.begin(), componentsInBatch.end(),
 		[position](ComponentMeshRenderer*& a, ComponentMeshRenderer*& b) -> bool
 		{
-			float aDist = a->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition().DistanceSq(position);
-			float bDist = b->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition().DistanceSq(position);
+			float aDist = a->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition().DistanceSq(position);
+			float bDist = b->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition().DistanceSq(position);
 
 			return aDist > bDist;
 		});
@@ -1131,8 +1131,8 @@ void GeometryBatch::SortByDistanceCloseToFar(const float3& position)
 	std::sort(componentsInBatch.begin(), componentsInBatch.end(),
 		[position](ComponentMeshRenderer*& a, ComponentMeshRenderer*& b) -> bool
 		{
-			float aDist = a->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition().DistanceSq(position);
-			float bDist = b->GetOwner()->GetComponent<ComponentTransform>()->GetGlobalPosition().DistanceSq(position);
+			float aDist = a->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition().DistanceSq(position);
+			float bDist = b->GetOwner()->GetComponentInternal<ComponentTransform>()->GetGlobalPosition().DistanceSq(position);
 
 			return aDist < bDist;
 		});

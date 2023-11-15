@@ -55,6 +55,10 @@ void UITextTrigger::Update(float deltaTime)
 	{
 		return;
 	}
+	if (!playerManager->IsParalyzed() && wasInside)
+	{
+		playerManager->PausePlayer(true);
+	}
 
 	if(textBoxCurrent < textBoxSize)
 	{

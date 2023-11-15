@@ -82,6 +82,7 @@ void ShockWaveAttackScript::TriggerNormalShockWaveAttack()
 
 	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::HAMMER_HIT);
 	// VFX Here: This should trigger the effect of the shockwave appearing and expanding
+	outerArea->InitVFX();
 }
 
 void ShockWaveAttackScript::TriggerSeekingShockWaveAttack(ComponentTransform* targetPosition)
