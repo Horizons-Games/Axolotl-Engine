@@ -10,10 +10,11 @@
 REGISTERCLASS(UIVideoControl);
 
 UIVideoControl::UIVideoControl() : Script(), imageTransform(nullptr), videoObject(nullptr), playingVideo(false),
-playVideo(false), changeVideoTransform(false)
+playVideo(false), changeVideoTransform(false), object(nullptr)
 {
 	REGISTER_FIELD(playVideo, bool);
 	REGISTER_FIELD(videoObject, GameObject*);
+	REGISTER_FIELD(object, GameObject*);
 	REGISTER_FIELD(changeVideoTransform, bool);
 	REGISTER_FIELD(startPosition, float3);
 	REGISTER_FIELD(endPosition, float3);
@@ -64,14 +65,30 @@ void UIVideoControl::ChangeVideoTransform()
 {
 	currentPositon = imageTransform->GetRotationXYZ();
 
-	if (!videoObject->IsEnabled() && currentPositon.y != endPosition.y)
+	if (object)
 	{
-		imageTransform->SetRotation(endPosition);
-		imageTransform->CalculateMatrices();
+		if (!object->IsEnabled() && currentPositon.y != endPosition.y)
+		{
+			imageTransform->SetRotation(endPosition);
+			imageTransform->CalculateMatrices();
+		}
+		else if (object->IsEnabled() && currentPositon.y != startPosition.y)
+		{
+			imageTransform->SetRotation(startPosition);
+			imageTransform->CalculateMatrices();
+		}
 	}
-	else if (videoObject->IsEnabled() && currentPositon.y != startPosition.y)
+	else
 	{
-		imageTransform->SetRotation(startPosition);
-		imageTransform->CalculateMatrices();
+		if (currentPositon.y != endPosition.y)
+		{
+			imageTransform->SetRotation(endPosition);
+			imageTransform->CalculateMatrices();
+		}
+		else if (currentPositon.y != startPosition.y)
+		{
+			imageTransform->SetRotation(startPosition);
+			imageTransform->CalculateMatrices();
+		}
 	}
 }

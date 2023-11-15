@@ -12364,6 +12364,11 @@
                                     "type": 2
                                 },
                                 {
+                                    "name": "Object",
+                                    "value": 0,
+                                    "type": 2
+                                },
+                                {
                                     "name": "ChangeVideoTransform",
                                     "value": false,
                                     "type": 5
@@ -12507,6 +12512,11 @@
                                 },
                                 {
                                     "name": "VideoObject",
+                                    "value": 3044439000735692911,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Object",
                                     "value": 13392629973447689559,
                                     "type": 2
                                 },
@@ -12774,6 +12784,11 @@
                                 {
                                     "name": "VideoObject",
                                     "value": 10649645037417626473,
+                                    "type": 2
+                                },
+                                {
+                                    "name": "Object",
+                                    "value": 0,
                                     "type": 2
                                 },
                                 {

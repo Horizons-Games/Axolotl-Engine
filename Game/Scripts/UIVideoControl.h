@@ -31,6 +31,7 @@ private:
 	bool playVideo;
 
 	GameObject* videoObject;
+	GameObject* object;
 	ComponentTransform2D* imageTransform;
 	ComponentVideo* videoImage;
 	SceneLoadingScript* loadingScreenScript;
