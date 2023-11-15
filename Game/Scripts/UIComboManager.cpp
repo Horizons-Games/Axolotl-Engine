@@ -76,7 +76,10 @@ void UIComboManager::Update(float deltaTime)
 		float4 newColor = float4(1.f, 1.f, 1.f, transparency);
 		noFillBar->GetComponent<ComponentImage>()->SetColor(newColor);
 
-		specialBox.text->GetParent()->Disable();
+		specialBox.text->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.lb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.separator->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
+		specialBox.rb->GetChildren()[0]->GetComponent<ComponentImage>()->SetColor(newColor);
 
 		ComponentTransform2D* transformText = specialBox.text->GetComponent<ComponentTransform2D>();
 		ComponentTransform2D* transformButtons = specialBox.lb->GetParent()->GetComponent<ComponentTransform2D>();
