@@ -66,9 +66,12 @@ private:
 	float missileAttackDuration;
 	float missileAttackCooldown;
 	float timeSinceLastMissile;
+	float jumpingTimer;
 
 	ComponentTransform* safePositionSelected;
 	ComponentTransform* backPositionSelected;
+
+	bool isPaused;
 
 	//Modifiable values
 	std::vector<ComponentTransform*> safePositionsTransforms; // Places to where the boss jumps for the attack
@@ -81,5 +84,6 @@ private:
 	float missileSpawningHeight;
 
 	GameObject* missilePrefab;
-	bool isPaused;
+
+	float maxJumpingTimer;
 };
