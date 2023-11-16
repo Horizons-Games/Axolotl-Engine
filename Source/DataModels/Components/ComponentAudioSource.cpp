@@ -28,6 +28,12 @@ ComponentAudioSource::~ComponentAudioSource()
 
 void ComponentAudioSource::OnTransformChanged()
 {
+	if (sourceID != GetOwner()->GetUID()) // owner changed
+	{
+		sourceID = GetOwner()->GetUID();
+		AK::SoundEngine::RegisterGameObj(sourceID, GetOwner()->GetName().c_str());
+		transform = GetOwner()->GetComponent<ComponentTransform>();
+	}
 	if (!IsEnabled() || transform == nullptr)
 	{
 		return;

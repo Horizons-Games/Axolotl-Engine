@@ -1,31 +1,120 @@
 Event	ID	Name			Wwise Object Path	Notes
-	109215266	sfx_turbine			\SFX\Ambient\sfx_turbine	
-	611136124	sfx_bigDoor_close			\SFX\Ambient\sfx_bigDoor_close	
-	2073224732	sfx_ambient_crowd_talking_01			\SFX\Ambient\sfx_ambient_crowd_talking_01	
-	2455846751	cantina_music			\SFX\Ambient\cantina_music	
-	3108491752	sfx_bigDoor_open			\SFX\Ambient\sfx_bigDoor_open	
-	3476965308	sfx_sewers_ambient_stop			\SFX\Ambient\sfx_sewers_ambient_stop	
-	3620056585	sfx_sewers_ambient			\SFX\Ambient\sfx_sewers_ambient	
-	3718347529	sewers_ambient			\SFX\Ambient\sewers_ambient	
-	3747747529	ambient_cantina_stop			\SFX\Ambient\ambient_cantina_stop	
-	4023591154	sfx_water_falling			\SFX\Ambient\sfx_water_falling	
-	4136005308	sewers_ambient_stop			\SFX\Ambient\sewers_ambient_stop	
+	109215266	sfx_turbine			\SFX\Ambient\CantinaSewers\sfx_turbine	
+	128376010	SmallDoorClose			\SFX\Ambient\SpaceStation\SmallDoorClose	
+	189709005	WindAmbient			\SFX\Ambient\SpaceshipEscape\WindAmbient	
+	240894527	PowerGenerator			\SFX\Ambient\SpaceStation\PowerGenerator	
+	611136124	sfx_bigDoor_close			\SFX\Ambient\CantinaSewers\sfx_bigDoor_close	
+	891848566	ElevatorEnd			\SFX\Ambient\SpaceStation\ElevatorEnd	
+	1137833821	ElevatorStart			\SFX\Ambient\SpaceStation\ElevatorStart	
+	1145768666	BigTurbine			\SFX\Ambient\SpaceshipEscape\BigTurbine	
+	1827811565	HackingMachine			\SFX\Ambient\SpaceStation\HackingMachine	
+	1845492013	SpaceStationAmbientStop			\SFX\Ambient\SpaceStation\SpaceStationAmbientStop	
+	2073224732	sfx_ambient_crowd_talking_01			\SFX\Ambient\CantinaSewers\sfx_ambient_crowd_talking_01	
+	2455846751	cantina_music			\SFX\Ambient\CantinaSewers\cantina_music	
+	2504879228	FireThrowerBurstStop			\SFX\Ambient\SpaceshipEscape\FireThrowerBurstStop	
+	3108491752	sfx_bigDoor_open			\SFX\Ambient\CantinaSewers\sfx_bigDoor_open	
+	3144899822	SmallDoorOpen			\SFX\Ambient\SpaceStation\SmallDoorOpen	
+	3447410370	sfx_water_bubbles			\SFX\Ambient\CantinaSewers\sfx_water_bubbles	
+	3476965308	sfx_sewers_ambient_stop			\SFX\Ambient\CantinaSewers\sfx_sewers_ambient_stop	
+	3620056585	sfx_sewers_ambient			\SFX\Ambient\CantinaSewers\sfx_sewers_ambient	
+	3681248044	BigFireThrowerBurst			\SFX\Ambient\SpaceshipEscape\BigFireThrowerBurst	
+	3718347529	sewers_ambient			\SFX\Ambient\CantinaSewers\sewers_ambient	
+	3747747529	ambient_cantina_stop			\SFX\Ambient\CantinaSewers\ambient_cantina_stop	
+	3968187189	SpaceStationAmbient			\SFX\Ambient\SpaceStation\SpaceStationAmbient	
+	4023591154	sfx_water_falling			\SFX\Ambient\CantinaSewers\sfx_water_falling	
+	4120404276	FireThrowerBurst			\SFX\Ambient\SpaceshipEscape\FireThrowerBurst	
+	4136005308	sewers_ambient_stop			\SFX\Ambient\CantinaSewers\sewers_ambient_stop	
 
-Game Parameter	ID	Name			Wwise Object Path	Notes
-	2427480993	ListenerOrientation			\Default Work Unit\ListenerOrientation	
+Switch Group	ID	Name			Wwise Object Path	Notes
+	89505537	Gameplay			\Default Work Unit\Gameplay	
 
-Effect plug-ins	ID	Name	Type				Notes
-	829913711	Matrix Reverb (Custom)	Wwise Matrix Reverb			
-	1904434771	Medium_Room1	Wwise Matrix Reverb			
+Switch	ID	Name	Switch Group			Notes
+	2582085496	Exploration	Gameplay			
+	2764240573	Combat	Gameplay			
+	3604647259	MainMenu	Gameplay			
+
+State Group	ID	Name			Wwise Object Path	Notes
+	444815956	PlayerLife			\Default Work Unit\PlayerLife	
+	832057375	Zone			\Default Work Unit\Zone	
+
+State	ID	Name	State Group			Notes
+	655265632	Alive	PlayerLife			
+	748895195	None	PlayerLife			
+	2791675679	Defeated	PlayerLife			
+	58265312	BossIntro	Zone			
+	425131515	SpaceStation	Zone			
+	554650843	Spaceship	Zone			
+	706698089	SecondCutscene	Zone			
+	748895195	None	Zone			
+	985442775	LoadingScreen	Zone			
+	1560169506	Boss	Zone			
+	2192450996	Hangar	Zone			
+	3390261832	Sewers	Zone			
+	3434002879	Cantina	Zone			
+	4040034477	FirstCutscene	Zone			
+
+Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
+	127683097	Silence	Wwise Silence		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\Turbine\Silence\Silence	
+	762925611	Silence	Wwise Silence		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\Bubbles\1s_silence\Silence	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	68185993	Canteen	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Canteen_4B134FD5.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaAmbient\Canteen		24901552
-	106158711	cantina_music	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\cantina_music_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaAmbient\cantina_music		29636192
-	263142635	sfx_ambient_water_falling	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ambient_water_falling_7A8F70FB.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\3DAmbient\sfx_ambient_water_falling		2811776
-	397861920	sfx_ambient_sewers_001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\182680-amb-doomdrones-ripley-hall_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\2DAmbient\sfx_ambient_sewers_001		5710084
-	649108800	sfx_bigDoor_close-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_bigDoor_close-001_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\3DAmbient\sfx_bigDoor_close-001		957624
-	652056130	sfx_ambient_crowd_talking_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ambient_crowd_talking_01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaAmbient\sfx_ambient_crowd_talking_01		5539784
-	699998174	sfx_ambient_sewers_002	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ambient_sewers_002_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\2DAmbient\sfx_ambient_sewers_002		10451796
-	739829471	sfx_ambient_turbine	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ambient_turbine_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\3DAmbient\sfx_ambient_turbine		412788
-	789177941	sfx_bigDoor_open-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_bigDoor_open-001_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\3DAmbient\sfx_bigDoor_open-001		980520
+	5640303	as_ab_so_fire_burst_rr01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_so_fire_burst_rr01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\FireThrower\FireThrowerBurst\as_ab_so_fire_burst_rr01		120946
+	10014200	as_ab_ao_big_mechanical_door_open_rr01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_big_mechanical_door_open_rr01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\BigMechanicalDoor\BigDoorOpen\BigMechanicalDoorOpen\as_ab_ao_big_mechanical_door_open_rr01		262238
+	14628986	as_ab_ao_turbine_rr_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Deprecated\as_ab_ao_turbine_rr_01_D207DBC2.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\Turbine\Turbine_01\as_ab_ao_turbine_rr_01		34726
+	27018474	as_ab_ao_small_automatic_door_open_rr_02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_small_automatic_door_rr_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceStation\SmallAutomaticDoor\SmallAutomaticDoorClose\as_ab_ao_small_automatic_door_open_rr_02		123396
+	28013945	as_ab_ao_bubbles_rr07	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_bubbles_rr07_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\Bubbles\Bubbles\as_ab_ao_bubbles_rr07		128854
+	41607935	as_ab_sl_hacking	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ab_sl_hacking_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceStation\as_ab_sl_hacking		3072096
+	43591575	as_ab_ao_turbine_rr_04	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Deprecated\as_ab_ao_turbine_rr_04_FFC87E95.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\Turbine\Turbine_01\as_ab_ao_turbine_rr_04		34998
+	71245673	as_ab_ao_turbine_rr_02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Deprecated\as_ab_ao_turbine_rr_02_53F4D5C9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\Turbine\Turbine_01\as_ab_ao_turbine_rr_02		34108
+	86435111	as_ab_ao_turbine_rr_05	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Deprecated\as_ab_ao_turbine_rr_05_A8A7EA13.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\Turbine\Turbine_01\as_ab_ao_turbine_rr_05		32324
+	91871275	as_ab_ao_bubbles_rr03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_bubbles_rr03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\Bubbles\Bubbles\as_ab_ao_bubbles_rr03		244070
+	95920813	as_ab_ao_turbine_rr_03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Deprecated\as_ab_ao_turbine_rr_03_D7D234E4.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\Turbine\Turbine\as_ab_ao_turbine_rr_03		34276
+	163565891	as_ab_ao_turbine_rr_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Deprecated\as_ab_ao_turbine_rr_01_54D1DA82.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\Turbine\Turbine\as_ab_ao_turbine_rr_01		34112
+	183939974	as_ab_so_fire_burst_rr02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_so_fire_burst_rr02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\FireThrower\FireThrowerBurst\as_ab_so_fire_burst_rr02		131096
+	205001569	as_ab_al_turbine_rr04	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_al_turbine_rr04_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\AmbientTurbine\as_ab_al_turbine_rr04		226096
+	244272910	as_ab_al_turbine_rr03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_al_turbine_rr03_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\AmbientTurbine\as_ab_al_turbine_rr03		266096
+	253185104	Sewers-B-A-Trasition	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Sewers-B-A-Trasition_D79FB2B7.wem		\Interactive Music Hierarchy\Music\Transitions\Sewers-B-A-Transition\Sewers-B-A-Trasition		1146696
+	263142635	as_ab_al_water_fall	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ambient_water_falling_7A8F70FB.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\as_ab_al_water_fall		2811776
+	281062720	as_ab_ao_big_mechanical_door_close_rr02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_big_mechanical_door_close_rr02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\BigMechanicalDoor\BigDoorClose\BigMechanicalDoorClose\as_ab_ao_big_mechanical_door_close_rr02		182196
+	299252987	as_ab_ao_small_automatic_door_open_rr_03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_small_automatic_door_rr_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceStation\SmallAutomaticDoor\SmallAutomaticDoorClose\as_ab_ao_small_automatic_door_open_rr_03		128686
+	319965634	as_ab_so_elevator_start	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ab_so_elevator_start_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceStation\Elevator\as_ab_so_elevator_start		27222
+	356857217	as_ab_al_turbine_rr01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_al_turbine_rr01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\AmbientTurbine\as_ab_al_turbine_rr01		264096
+	366252739	as_ab_ao_turbine_rr_06	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Deprecated\as_ab_ao_turbine_rr_06_AABE9368.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\Turbine\Turbine_01\as_ab_ao_turbine_rr_06		34024
+	382863968	as_ab_ao_turbine_rr_02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Deprecated\as_ab_ao_turbine_rr_02_FD83414F.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\Turbine\Turbine\as_ab_ao_turbine_rr_02		34480
+	387993546	as_ab_ao_small_automatic_door_close_rr_02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_small_automatic_door_close_rr_02_ECADED2F.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceStation\SmallAutomaticDoor\SmallAutomaticDoorOpen\as_ab_ao_small_automatic_door_close_rr_02		99260
+	391955015	as_ab_sl_fire_thrower_rr03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_sl_fire_thrower_rr03_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\FireThrower\FireThrowerLoop\as_ab_sl_fire_thrower_rr03		576096
+	397861920	sfx_ambient_sewers_001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\182680-amb-doomdrones-ripley-hall_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\2DAmbient\Sewers Ambience\sfx_ambient_sewers_001		5710084
+	462868040	as_ab_ao_bubbles_rr08	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_bubbles_rr08_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\Bubbles\Bubbles\as_ab_ao_bubbles_rr08		61192
+	469072811	as_ab_ao_small_automatic_door_open_rr_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_small_automatic_door_rr_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceStation\SmallAutomaticDoor\SmallAutomaticDoorClose\as_ab_ao_small_automatic_door_open_rr_01		116236
+	505824316	as_ab_ao_turbine_rr_03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Deprecated\as_ab_ao_turbine_rr_03_2A6E3CB2.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\Turbine\Turbine_01\as_ab_ao_turbine_rr_03		34468
+	577156729	as_ab_ao_turbine_rr_06	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Deprecated\as_ab_ao_turbine_rr_06_CB743E7B.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\Turbine\Turbine\as_ab_ao_turbine_rr_06		34460
+	582001194	as_ab_al_turbine_rr02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_al_turbine_rr02_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\AmbientTurbine\as_ab_al_turbine_rr02		266096
+	588039926	as_ab_ao_turbine_rr_05	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Deprecated\as_ab_ao_turbine_rr_05_F515628A.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\Turbine\Turbine\as_ab_ao_turbine_rr_05		32324
+	603595281	Canteen	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Canteen_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitch\CanteenAmbinent\1M0-Canteen_Intro_144bpm4-4_L5M_P0B\Canteen		27103440
+	606864926	as_ab_ao_wind	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ab_ao_wind_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\as_ab_ao_wind		960096
+	628217826	as_ab_ao_big_mechanical_door_close_rr03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_big_mechanical_door_close_rr03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\BigMechanicalDoor\BigDoorClose\BigMechanicalDoorClose\as_ab_ao_big_mechanical_door_close_rr03		183046
+	637370873	as_ab_ao_big_mechanical_door_close_rr01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_big_mechanical_door_close_rr01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\BigMechanicalDoor\BigDoorClose\BigMechanicalDoorClose\as_ab_ao_big_mechanical_door_close_rr01		239384
+	646900479	Sewers-A-B-Trasition	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Sewers-A-B-Trasition_D79FB2B7.wem		\Interactive Music Hierarchy\Music\Transitions\Sewers-A-B-Transition\Sewers-A-B-Trasition		617496
+	649108800	sfx_bigDoor_close-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_bigDoor_close-001_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\BigMechanicalDoor\BigDoorClose\sfx_bigDoor_close-001		957624
+	669449363	as_ab_sl_fire_thrower_rr01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_sl_fire_thrower_rr01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\FireThrower\FireThrowerLoop\as_ab_sl_fire_thrower_rr01		576096
+	699998174	sfx_ambient_sewers_002	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ambient_sewers_002_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\2DAmbient\Sewers Ambience\sfx_ambient_sewers_002		10451796
+	747122415	as_ab_so_fire_burst_rr03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_so_fire_burst_rr03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\FireThrower\FireThrowerBurst\as_ab_so_fire_burst_rr03		152196
+	748459583	as_ab_so_elevator_end	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ab_so_elevator_end_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceStation\Elevator\as_ab_so_elevator_end		68848
+	759015336	as_ab_sl_fire_thrower_rr02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_sl_fire_thrower_rr02_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\FireThrower\FireThrowerLoop\as_ab_sl_fire_thrower_rr02		576096
+	789177941	sfx_bigDoor_open-001	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_bigDoor_open-001_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\BigMechanicalDoor\BigDoorOpen\sfx_bigDoor_open-001		980520
+	792260739	as_ab_ao_small_automatic_door_close_rr_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_small_automatic_door_close_rr_01_1897D654.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceStation\SmallAutomaticDoor\SmallAutomaticDoorOpen\as_ab_ao_small_automatic_door_close_rr_01		92058
+	796635383	as_ab_ao_bubbles_rr02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_bubbles_rr02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\Bubbles\Bubbles\as_ab_ao_bubbles_rr02		160768
+	798649021	as_ab_al_generator	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ab_al_generator_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceStation\as_ab_al_generator		3377912
+	845534030	as_ab_al_space	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ab_al_space_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceStation\as_ab_al_space		11338420
+	866154153	as_ab_ao_bubbles_rr05	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_bubbles_rr05_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\Bubbles\Bubbles\as_ab_ao_bubbles_rr05		82022
+	876002557	as_ab_al_crowd_talking	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ab_al_crowd_talking_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\as_ab_al_crowd_talking		10204356
+	885824052	as_ab_ao_bubbles_rr06	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_bubbles_rr06_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\Bubbles\Bubbles\as_ab_ao_bubbles_rr06		254178
+	902393655	as_ab_ao_small_automatic_door_close_rr_03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_small_automatic_door_close_rr_03_C28E1886.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceStation\SmallAutomaticDoor\SmallAutomaticDoorOpen\as_ab_ao_small_automatic_door_close_rr_03		94916
+	910790262	as_ab_ao_big_mechanical_door_open_rr03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_big_mechanical_door_open_rr03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\BigMechanicalDoor\BigDoorOpen\BigMechanicalDoorOpen\as_ab_ao_big_mechanical_door_open_rr03		187446
+	913701362	as_ab_ao_bubbles_rr09	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_bubbles_rr09_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\Bubbles\Bubbles\as_ab_ao_bubbles_rr09		37052
+	972995575	as_ab_ao_turbine_rr_04	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Deprecated\as_ab_ao_turbine_rr_04_D74E9077.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\Turbine\Turbine\as_ab_ao_turbine_rr_04		34642
+	1006298303	as_ab_ao_big_mechanical_door_open_rr02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_big_mechanical_door_open_rr02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\BigMechanicalDoor\BigDoorOpen\BigMechanicalDoorOpen\as_ab_ao_big_mechanical_door_open_rr02		262240
+	1042615329	as_ab_ao_bubbles_rr01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_bubbles_rr01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\Bubbles\Bubbles\as_ab_ao_bubbles_rr01		213002
+	1046063325	as_ab_ao_bubbles_rr04	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\Bounces\as_ab_ao_bubbles_rr04_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\CantinaSewers\Bubbles\Bubbles\as_ab_ao_bubbles_rr04		89862
+	1048921628	as_ab_sl_elevator	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ab_sl_elevator_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\Ambient\SpaceshipEscape\Turbine\as_ab_sl_elevator		94042
 

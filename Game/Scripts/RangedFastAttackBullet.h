@@ -24,6 +24,7 @@ public:
 	void SetBulletDamage(float damage);
 	void SetInitPos(ComponentTransform* nInitTransform);
 	void SetPauseBullet(bool isPaused);
+	void SetImpactSound(const wchar_t* sound);
 	void ResetValues();
 	void ShotBullet(float3 nForward);
 
@@ -38,6 +39,7 @@ private:
 	float rayAttackSize;
 	bool waitParticlesToDestroy;
 	float particlesDuration;
+	const wchar_t* impactSFX;
 	float3 currentForward;
 
 	std::string targetTag;

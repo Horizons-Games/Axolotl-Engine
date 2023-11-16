@@ -4,8 +4,10 @@
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentParticleSystem.h"
+#include "Components/ComponentAudioSource.h"
 #include "Application.h"
 #include "ModuleInput.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/EnemyClass.h"
@@ -23,7 +25,7 @@ REGISTERCLASS(HealthSystem);
 
 HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), componentAnimation(nullptr), 
 	isImmortal(false), enemyParticleSystem(nullptr), attackScript(nullptr),	damageTaken(false), playerManager(nullptr),
-	immortalTimer(0.0f)
+	immortalTimer(0.0f), audioSource(nullptr)
 {
 	REGISTER_FIELD(currentHealth, float);
 	REGISTER_FIELD(maxHealth, float);
@@ -36,6 +38,7 @@ HealthSystem::HealthSystem() : Script(), currentHealth(100), maxHealth(100), com
 void HealthSystem::Start()
 {
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
 	//componentParticleSystem = enemyParticleSystem->GetComponent<ComponentParticleSystem>();
 
 	//--- This was done because in the gameplay scene there is no particle system
@@ -118,6 +121,14 @@ void HealthSystem::TakeDamage(float damage)
 		}
 		else if (owner->CompareTag("Player") && !attackScript->IsPerformingJumpAttack())
 		{
+			if (attackScript->IsMelee())
+			{
+				audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::RECEIVEDAMAGE_BIX);
+			}
+			else
+			{
+				audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::RECEIVEDAMAGE_ALLURA);
+			}
 			float playerDefense = owner->GetComponent<PlayerManagerScript>()->GetPlayerDefense();
 			float actualDamage = std::max(damage - playerDefense, 0.f);
 

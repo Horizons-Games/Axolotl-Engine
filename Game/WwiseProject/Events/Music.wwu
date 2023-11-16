@@ -26,6 +26,27 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
+						<Action Name="" ID="{F80F1871-598B-47C0-BF4A-F390D4ACAF9A}" ShortID="429550586">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MusicSwitchPart02" ID="{C7D3FB11-D08E-496E-813F-75C404121ABE}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Music_Part02" ID="{F5DB991F-390F-425B-8785-D21B9CD31365}">
+					<ChildrenList>
+						<Action Name="" ID="{F96D1B5B-78FC-425E-8817-7D54BAC96285}" ShortID="296713058">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MusicSwitchPart02" ID="{C7D3FB11-D08E-496E-813F-75C404121ABE}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
 					</ChildrenList>
 				</Event>
 			</ChildrenList>

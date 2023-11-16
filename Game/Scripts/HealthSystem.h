@@ -7,6 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAnimation;
 class ComponentParticleSystem;
+class ComponentAudioSource;
 
 class PlayerAttackScript;
 class MeshEffect;
@@ -48,6 +49,7 @@ private:
 	GameObject* enemyParticleSystem;
 
 	ComponentAnimation* componentAnimation;
+	ComponentAudioSource* audioSource;
 	ComponentParticleSystem* componentParticleSystem;
 
 	PlayerAttackScript* attackScript;

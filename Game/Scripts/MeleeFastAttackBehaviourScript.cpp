@@ -27,7 +27,6 @@ void MeleeFastAttackBehaviourScript::Start()
 
 void MeleeFastAttackBehaviourScript::PerformAttack(GameObject* target)
 {
-	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_SWING);//Change sound
 	lastAttackTime = SDL_GetTicks() / 1000.0f;
 	HealthSystem* healthScript = target->GetRootGO()->GetComponent<HealthSystem>();
 	healthScript->TakeDamage(damageAttack);

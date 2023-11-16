@@ -97,13 +97,13 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 			MakeRocksFall();
 		}
 
+		audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_HIT);
+		// VFX Here: The boss hit the wall after a charge attack
 	}
 	else if (chargeState == ChargeState::CHARGING && !chargeHitPlayer && other->GetOwner()->CompareTag("Player"))
 	{
 		other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(chargeDamage);
 		chargeHitPlayer = true;
-
-		audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_HIT);
 	}
 	else if (chargeState == ChargeState::BOUNCING_WALL && other->GetOwner()->CompareTag("Floor"))
 	{
@@ -125,7 +125,7 @@ void BossChargeAttackScript::TriggerChargeAttack(ComponentTransform* targetPosit
 	chargeThroughPosition = targetPosition;
 	chargeHitPlayer = false;
 
-	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_LOAD);
+	//audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_LOAD);
 
 	// VFX Here: The boss started the charge attack (going backwards or yelling, whatever you want to add)
 }
@@ -186,7 +186,7 @@ void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
 			/*rigidBody->SetXRotationAxisBlocked(false);
 			rigidBody->SetYRotationAxisBlocked(false);
 			rigidBody->SetZRotationAxisBlocked(false);*/
-
+			audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_STUNNED_STOP);
 			rocksSpawned.clear();
 
 			chargeState = ChargeState::NONE;
@@ -262,7 +262,7 @@ void BossChargeAttackScript::WallHitAfterCharge() const
 	enemyScript->SetStunnedTime(attackStunTime);
 
 	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_HIT);
-	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_STUNT);
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_STUNNED);
 
 	propulsorVFX->GetChildren()[0]->Disable();
 	propulsorVFX->GetChildren()[0]->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();

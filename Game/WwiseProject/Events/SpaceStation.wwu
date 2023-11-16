@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{652E62D4-B6B5-431C-BAC1-14C971C5CC2B}" SchemaVersion="110" RootDocumentID="{AA397C40-3770-4439-AC7E-10F711A90387}" ParentDocumentID="{3220227D-B782-4EAB-9D58-F9E0C5F8F212}">
+	<Events>
+		<WorkUnit Name="SpaceStation" ID="{652E62D4-B6B5-431C-BAC1-14C971C5CC2B}" OwnerID="{3220227D-B782-4EAB-9D58-F9E0C5F8F212}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="ElevatorStart" ID="{F7530E37-A4DA-4C30-B0E2-3260EA9080B1}">
+					<ChildrenList>
+						<Action Name="" ID="{11219965-2E52-40EA-9C88-B1DCF630D8F5}" ShortID="624805334">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_ab_sl_elevator" ID="{51299214-33C7-44D8-BDDA-D4E3D268E206}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{F8857CB1-16AA-4DC8-A8E3-A1B4D614A61F}" ShortID="491270680">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_ab_so_elevator_start" ID="{ED53E1FE-9D37-41E8-9651-81920FFDBF10}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="ElevatorEnd" ID="{96648A1F-F074-4294-8A4B-A4005E9A985A}">
+					<ChildrenList>
+						<Action Name="" ID="{25AA234F-88ED-456E-B5DA-B2C2519816EA}" ShortID="1062756393">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_ab_sl_elevator" ID="{51299214-33C7-44D8-BDDA-D4E3D268E206}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{F15BDCFB-3356-42F5-98DC-4C49FC352335}" ShortID="92107455">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_ab_so_elevator_end" ID="{B4D58BFE-BF8C-47C8-9434-C6064286F1D1}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="SmallDoorOpen" ID="{0E5CDCFC-B5AA-4D94-9788-51330E8EE29C}">
+					<ChildrenList>
+						<Action Name="" ID="{A3A5C759-3B16-4E6E-88CF-3B7535007AA5}" ShortID="732799852">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SmallAutomaticDoorOpen" ID="{4F03A2D7-2590-4E2B-88DF-461F2A548067}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="SmallDoorClose" ID="{2FD79B8C-F82C-4107-820C-D25D289E11F6}">
+					<ChildrenList>
+						<Action Name="" ID="{80F7B75A-8C8E-45F9-B23B-688CE4243BD8}" ShortID="583553967">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SmallAutomaticDoorClose" ID="{8646BCAE-0936-4C00-B317-0C0CE485D41F}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="PowerGenerator" ID="{EFACFA95-9188-4655-86F2-C051D649AACB}">
+					<ChildrenList>
+						<Action Name="" ID="{A2BF0924-0480-4E30-B938-32F3306E6BC5}" ShortID="71336709">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_ab_al_generator" ID="{5B1450DA-FAD3-4A9D-B0CD-04913CD6E0CD}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="SpaceStationAmbient" ID="{0E6FE23E-FD2F-4D5A-B30D-79E278A46BCC}">
+					<ChildrenList>
+						<Action Name="" ID="{951BF9CF-A4BB-4D06-AF3C-FA82D881D344}" ShortID="534952798">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_ab_al_space" ID="{644C159E-615D-4666-A92D-0B0E0C3D65DF}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="HackingMachine" ID="{E21C2337-68DC-4FAE-93C5-52AFA4AD3D4A}">
+					<ChildrenList>
+						<Action Name="" ID="{E82C5E39-6339-4184-883E-7D60FD07A1F2}" ShortID="112248020">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_ab_sl_hacking" ID="{8DC18156-4869-4928-907E-88C4B9157924}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="SpaceStationAmbientStop" ID="{37194794-E31E-4E0D-A4E5-CFD850736E48}">
+					<ChildrenList>
+						<Action Name="" ID="{6CC3670A-CDF4-4B13-964F-A502897FFEE8}" ShortID="680921989">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_ab_al_space" ID="{644C159E-615D-4666-A92D-0B0E0C3D65DF}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

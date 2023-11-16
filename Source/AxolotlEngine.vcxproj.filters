@@ -950,6 +950,18 @@
     <ClCompile Include="..\Game\Scripts\UIGameManagerMainMenu.cpp">
       <Filter>UserScripts\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Game\Scripts\TriggerHangarMusic.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\TurbineSpaceshipEscapeAudio.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\WaterBubblesAudio.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Game\Scripts\FireObstaclePermanentAudio.cpp">
+      <Filter>UserScripts\Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataModels\Timer\Timer.h">
@@ -1946,6 +1958,18 @@
     </ClInclude>
     <ClInclude Include="..\Game\Scripts\UIGameManagerMainMenu.h">
       <Filter>UserScripts\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\WaterBubblesAudio.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\TriggerHangarMusic.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\TurbineSpaceshipEscapeAudio.h">
+      <Filter>UserScripts\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\Scripts\FireObstaclePermanentAudio.h">
+      <Filter>UserScripts\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

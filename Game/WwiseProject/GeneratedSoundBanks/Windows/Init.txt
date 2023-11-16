@@ -26,6 +26,7 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	2058049674	Wood			\Factory Acoustic Textures\Textures\Wood	
 	2346531308	MusicVolume			\Default Work Unit\MusicVolume	
 	2412606308	Carpet			\Factory Acoustic Textures\Textures\Carpet	
+	2502887749	LowPassFilterOnAction			\Default Work Unit\LowPassFilterOnAction	
 	2637588553	Tile			\Factory Acoustic Textures\Textures\Tile	
 	2918011349	MasterVolume			\Default Work Unit\MasterVolume	
 	2928161104	Curtains			\Factory Acoustic Textures\Textures\Curtains	

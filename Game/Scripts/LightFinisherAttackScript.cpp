@@ -2,6 +2,7 @@
 #include "LightFinisherAttackScript.h"
 
 #include "Application.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "Scripting/ScriptFactory.h"
 #include "ModuleInput.h"
@@ -9,10 +10,12 @@
 #include "Scene/Scene.h"
 
 #include "Components/ComponentScript.h"
+#include "Components/ComponentAudioSource.h"
 #include "Components/ComponentTransform.h"
 
 #include "../Scripts/LightAttackBullet.h"
 #include "../Scripts/EntityDetection.h"
+#include "../Scripts/PlayerAttackScript.h"
 
 REGISTERCLASS(LightFinisherAttackScript);
 
@@ -35,8 +38,9 @@ void LightFinisherAttackScript::Start()
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 }
 
-void LightFinisherAttackScript::ThrowStunItem()
+void LightFinisherAttackScript::ThrowStunItem(bool isMelee)
 {
+	ComponentAudioSource* audioSource = owner->GetComponent<ComponentAudioSource>();
 	// Create a new bullet
 	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
 
@@ -51,6 +55,16 @@ void LightFinisherAttackScript::ThrowStunItem()
 	ligthAttackBulletScript->SetVelocity(50);
 	ligthAttackBulletScript->SetDamage(10);
 	ligthAttackBulletScript->StartMoving();
+	if (isMelee)
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ROCKS_THROW);
+		bullet->GetComponent<LightAttackBullet>()->SetImpactSound(AUDIO::SFX::PLAYER::WEAPON::ROCKS_THROW_IMPACT);
+	}
+	else
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CHARGED_SHOT);
+		bullet->GetComponent<LightAttackBullet>()->SetImpactSound(AUDIO::SFX::PLAYER::WEAPON::CHARGED_SHOT_IMPACT);
+	}
 }
 
 bool LightFinisherAttackScript::IsAttacking()

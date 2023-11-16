@@ -185,6 +185,14 @@ void HeavyFinisherAttack::HitEnemy()
 
 void HeavyFinisherAttack::PerformHeavyFinisher(ComponentTransform* target, ComponentTransform* attackOwner)
 {
+	if (playerAttackScript->IsMelee())
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_THROW);
+	}
+	else
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ELECTRIC_SHOT); // Provisional sfx
+	}
 	this->target = target;
 	this->attackOwner = attackOwner;
 
@@ -206,6 +214,14 @@ void HeavyFinisherAttack::PerformHeavyFinisher(ComponentTransform* target, Compo
 
 void HeavyFinisherAttack::PerformEmptyHeavyFinisher(ComponentTransform* attackOwner)
 {
+	if (playerAttackScript->IsMelee())
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_THROW);
+	}
+	else
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ELECTRIC_SHOT); // Provisional sfx
+	}
 	this->attackOwner = attackOwner;
 
 	emptyAttackTargetPos = attackOwner->GetGlobalPosition() + attackOwner->GetGlobalForward().Normalized() * defaultThrowDistance;
@@ -278,6 +294,8 @@ void HeavyFinisherAttack::SeekNextEnemy()
 
 void HeavyFinisherAttack::ResetValues()
 {
+	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_THROW_STOP);
+
 	transform->SetLocalPosition(attackOwner->GetGlobalPosition());
 	transform->UpdateTransformMatrices();
 	owner->SetParent(attackOwner->GetOwner());

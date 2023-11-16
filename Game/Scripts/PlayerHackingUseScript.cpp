@@ -126,6 +126,7 @@ void PlayerHackingUseScript::Update(float deltaTime)
 			{
 				LOG_DEBUG("Hacking completed");
 				audioSource->PostEvent(AUDIO::SFX::UI::HACKING::FINISHED);
+				App->GetModule<ModuleAudio>()->SetLowPassFilter(0.0f);
 				hackZone->SetCompleted();
 				FinishHack();
 			}
@@ -186,6 +187,7 @@ void PlayerHackingUseScript::InitHack()
 
 	hackingManager->EnableHackingTimer();
 
+	App->GetModule<ModuleAudio>()->SetLowPassFilter(60.0f);
 	// PrintCombination();
 	LOG_DEBUG("Hacking is active");
 }

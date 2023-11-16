@@ -174,7 +174,7 @@ void ActivationLogic::OpenDoor()
 	}
 	else
 	{
-		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::SMALL_DOOR);
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::SMALL_DOOR_OPEN);
 	}
 }
 

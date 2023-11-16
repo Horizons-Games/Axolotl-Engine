@@ -11,11 +11,14 @@
 #include "../Scripts/AIMovement.h"
 #include "../Scripts/WaypointStateScript.h"
 #include "../Scripts/EnemyVenomiteScript.h"
+#include "../Scripts/EnemyClass.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
 #include "debugdraw.h"
 #include "AxoLog.h"
+#include "EnemyMiniBossTwo.h"
+#include "FinalBossScript.h"
 
 REGISTERCLASS(PatrolBehaviourScript);
 
@@ -43,7 +46,8 @@ void PatrolBehaviourScript::Start()
 		waypointsPatrol.push_back(ownerTransform);
 	}
 
-	if (owner->HasComponent<EnemyVenomiteScript>())
+	EnemyTypes enemyType = owner->GetComponent<EnemyClass>()->GetEnemyType();
+	if (enemyType == EnemyTypes::FINAL_BOSS || enemyType == EnemyTypes::MINI_BOSS || enemyType == EnemyTypes::VENOMITE)
 	{
 		hasWalkAnim = true;
 	}
@@ -73,7 +77,10 @@ void PatrolBehaviourScript::Update(float deltaTime)
 				aiMovement->SetRotationTargetPosition(target);
 				aiMovement->SetMovementStatuses(true, true);
 
-				audioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS);
+				if (hasWalkAnim)
+				{
+					audioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS);
+				}
 
 				componentAnimation->SetParameter(patrolAnimationParamater, true);
 			}
@@ -89,7 +96,10 @@ void PatrolBehaviourScript::StartPatrol()
 	aiMovement->SetRotationTargetPosition(target);
 	aiMovement->SetMovementStatuses(true, true);
 	componentAnimation->SetParameter(patrolAnimationParamater, true);
-	audioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS);
+	if (hasWalkAnim)
+	{
+		audioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS);
+	}
 	patrolStateActivated = true;
 	isStoppedAtPatrol = false;
 }
@@ -97,7 +107,10 @@ void PatrolBehaviourScript::StartPatrol()
 void PatrolBehaviourScript::StopPatrol()
 {
 	aiMovement->SetMovementStatuses(false, false);
-	audioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS_STOP);
+	if (hasWalkAnim)
+	{
+		audioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS_STOP);
+	}
 	patrolStateActivated = false;
 	CheckNextWaypoint();
 }
@@ -112,7 +125,10 @@ void PatrolBehaviourScript::Patrolling()
 		aiMovement->SetRotationTargetPosition(target);
 		aiMovement->SetMovementStatuses(false, false);
 
-		audioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS_STOP);
+		if (hasWalkAnim)
+		{
+			audioSource->PostEvent(AUDIO::SFX::NPC::FOOTSTEPS_STOP);
+		}
 
 		isStoppedAtPatrol = true;
 		if (patrolAnimationParamater != "")
