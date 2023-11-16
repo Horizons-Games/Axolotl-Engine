@@ -24,7 +24,8 @@ BossMissilesAttackScript::BossMissilesAttackScript() : Script(), missilePrefab(n
 	transform(nullptr), missilesAttackState(AttackState::NONE), missileAttackDuration(0.0f), 
 	missileAttackMaxDuration(15.0f), missileAttackCooldown(0.0f), missileAttackMaxCooldown(30.0f),
 	timeSinceLastMissile(0.0f), missileMaxSpawnTime(1.0f), battleArenaAreaSize(nullptr), missileSpawningHeight(10.0f),
-	animator(nullptr), backPositionSelected(nullptr), midJumpPositionBack(float3::zero), audioSource(nullptr)
+	animator(nullptr), backPositionSelected(nullptr), midJumpPositionBack(float3::zero), audioSource(nullptr),
+	jumpingTimer(-0.1f), maxJumpingTimer(2.0f)
 {
 	REGISTER_FIELD(safePositionsTransforms, std::vector<ComponentTransform*>);
 	REGISTER_FIELD(backPositionsTransforms, std::vector<ComponentTransform*>);
@@ -36,6 +37,8 @@ BossMissilesAttackScript::BossMissilesAttackScript() : Script(), missilePrefab(n
 	REGISTER_FIELD(missileSpawningHeight, float);
 
 	REGISTER_FIELD(missilePrefab, GameObject*);
+
+	REGISTER_FIELD(maxJumpingTimer, float);
 }
 
 void BossMissilesAttackScript::Start()
@@ -58,6 +61,12 @@ void BossMissilesAttackScript::Update(float deltaTime)
 	{
 		return;
 	}
+
+	if (jumpingTimer >= 0.0f)
+	{
+		jumpingTimer -= deltaTime;
+	}
+
 	SwapBetweenAttackStates(deltaTime);
 }
 
@@ -66,6 +75,7 @@ void BossMissilesAttackScript::TriggerMissilesAttack()
 	LOG_INFO("The missiles attack was triggered");
 
 	missilesAttackState = AttackState::STARTING_SAFE_JUMP;
+	jumpingTimer = maxJumpingTimer;
 	healthSystem->SetIsImmortal(true);
 	animator->SetParameter("IsStartingMissilesJump", true);
 	animator->SetParameter("IsMissilesAttack", true);
@@ -109,9 +119,11 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 	{
 		RotateToTarget(midJumpPositionStart);
 
-		if (transform->GetGlobalPosition().Equals(midJumpPositionStart, 0.5f))
+		if (transform->GetGlobalPosition().Equals(midJumpPositionStart, 0.5f) || 
+			jumpingTimer <= 0.0f)
 		{
 			missilesAttackState = AttackState::ENDING_SAFE_JUMP;
+			jumpingTimer = maxJumpingTimer;
 			animator->SetParameter("IsStartingMissilesJump", false);
 			animator->SetParameter("IsEndingMissilesJump", true);
 			animator->SetParameter("IsMissilesLanding", true);
@@ -123,7 +135,8 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 	{
 		RotateToTarget(safePositionSelected->GetGlobalPosition());
 
-		if (transform->GetGlobalPosition().Equals(safePositionSelected->GetGlobalPosition(), 0.5f))
+		if (transform->GetGlobalPosition().Equals(safePositionSelected->GetGlobalPosition(), 0.5f) || 
+			jumpingTimer <= 0.0f)
 		{
 			missilesAttackState = AttackState::EXECUTING_ATTACK;
 			audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKETS_LAUNCH);
@@ -143,6 +156,7 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 		{
 			missileAttackDuration = missileAttackMaxDuration;
 			missilesAttackState = AttackState::STARTING_BACK_JUMP;
+			jumpingTimer = maxJumpingTimer;
 			MoveUserToPosition(midJumpPositionBack);
 			animator->SetParameter("IsMissilesAttack", false);
 			animator->SetParameter("IsStartingMissilesJump", true);
@@ -154,9 +168,11 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 	{
 		RotateToTarget(midJumpPositionBack);
 
-		if (transform->GetGlobalPosition().Equals(midJumpPositionBack, 0.5f))
+		if (transform->GetGlobalPosition().Equals(midJumpPositionBack, 0.5f) ||
+			jumpingTimer <= 0.0f)
 		{
 			missilesAttackState = AttackState::ENDING_BACK_JUMP;
+			jumpingTimer = maxJumpingTimer;
 			animator->SetParameter("IsStartingMissilesJump", false);
 			animator->SetParameter("IsEndingMissilesJump", true);
 			animator->SetParameter("IsMissilesLanding", true);
@@ -168,7 +184,8 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 	{
 		RotateToTarget(initialPosition);
 
-		if (transform->GetGlobalPosition().Equals(backPositionSelected->GetGlobalPosition(), 0.5f))
+		if (transform->GetGlobalPosition().Equals(backPositionSelected->GetGlobalPosition(), 0.5f) ||
+			jumpingTimer <= 0.0f)
 		{
 			missilesAttackState = AttackState::ON_COOLDOWN;
 			healthSystem->SetIsImmortal(false);
