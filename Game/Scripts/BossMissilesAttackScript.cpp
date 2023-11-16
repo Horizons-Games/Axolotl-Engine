@@ -126,6 +126,7 @@ void BossMissilesAttackScript::SwapBetweenAttackStates(float deltaTime)
 		if (transform->GetGlobalPosition().Equals(safePositionSelected->GetGlobalPosition(), 0.5f))
 		{
 			missilesAttackState = AttackState::EXECUTING_ATTACK;
+			audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKETS_LAUNCH);
 			RotateToTarget(midJumpPositionStart);
 		}
 	}
@@ -250,7 +251,7 @@ void BossMissilesAttackScript::SpawnMissileInPosition(GameObject* selectedEnemy,
 	newMissileRigidBody->SetDefaultPosition();
 	newMissileRigidBody->Enable();
 
-	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKETS_FALLING);
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKET_FALLING);
 }
 
 void BossMissilesAttackScript::SetIsPaused(bool isPaused)

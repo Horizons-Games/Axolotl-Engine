@@ -3,7 +3,10 @@
 #include "GameObject/GameObject.h"
 #include "Components/Component.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentAudioSource.h"
 #include "Components/ComponentTransform.h"
+
+#include "Auxiliar/Audio/AudioData.h"
 
 REGISTERCLASS(FireMovingObstacle);
 
@@ -20,6 +23,7 @@ void FireMovingObstacle::Start()
 	transform = owner->GetComponent<ComponentTransform>();
 	currentPosTarget = xLimit;
 
+	owner->GetComponent<ComponentAudioSource>()->PostEvent(AUDIO::SFX::AMBIENT::SPACESHIPESCAPE::FIRE);
 }
 
 void FireMovingObstacle::Update(float deltaTime)

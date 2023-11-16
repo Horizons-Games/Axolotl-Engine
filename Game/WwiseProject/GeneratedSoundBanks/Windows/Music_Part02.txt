@@ -1,0 +1,37 @@
+Event	ID	Name			Wwise Object Path	Notes
+	2686860940	Music_Part02			\Music\Music_Part02	
+
+Switch Group	ID	Name			Wwise Object Path	Notes
+	89505537	Gameplay			\Default Work Unit\Gameplay	
+
+Switch	ID	Name	Switch Group			Notes
+	2582085496	Exploration	Gameplay			
+	2764240573	Combat	Gameplay			
+	3604647259	MainMenu	Gameplay			
+
+State Group	ID	Name			Wwise Object Path	Notes
+	444815956	PlayerLife			\Default Work Unit\PlayerLife	
+	832057375	Zone			\Default Work Unit\Zone	
+
+State	ID	Name	State Group			Notes
+	655265632	Alive	PlayerLife			
+	748895195	None	PlayerLife			
+	2791675679	Defeated	PlayerLife			
+	58265312	BossIntro	Zone			
+	425131515	SpaceStation	Zone			
+	554650843	Spaceship	Zone			
+	706698089	SecondCutscene	Zone			
+	748895195	None	Zone			
+	985442775	LoadingScreen	Zone			
+	1560169506	Boss	Zone			
+	2192450996	Hangar	Zone			
+	3390261832	Sewers	Zone			
+	3434002879	Cantina	Zone			
+	4040034477	FirstCutscene	Zone			
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	643041354	1M5-Spaceship_Escape_165bpm1-4_L109M-P0B	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\1M5-Spaceship_Escape_165bpm1-4_L109M-P0B_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitchPart02\1M5-Spaceship_Escape_165bpm1-4_L109M\1M5-Spaceship_Escape_165bpm1-4_L109M-P0B_Intro\1M5-Spaceship_Escape_165bpm1-4_L109M-P0B		9177432
+	757900444	1M8-Boss_190bpm1-4_LxM-PxB	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\1M8-Boss_190bpm1-4_LxM-PxB_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitchPart02\1M8-Boss_190bpm1-4_LxM-PxB_Fight\1M8-Boss_190bpm1-4_LxM-PxB_Trigger\1M8-Boss_190bpm1-4_LxM-PxB		10881364
+	957325397	1M7-Station_Interior_170bpm1-4_L154M-P0B	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\1M7-Station_Interior_170bpm1-4_L154M-P0B_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitchPart02\1M7-Station_Interior_170bpm1-4_L154M\1M7-Station_Interior_170bpm1-4_L154M-A\1M7-Station_Interior_170bpm1-4_L154M-P0B		12454224
+	1053497374	Defeated	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\273567-Game-Over-Robot-Hit-8_D79FB2B7.wem		\Interactive Music Hierarchy\Music\MusicSwitchPart02\Defeated\Defeated\Defeated		662084
+

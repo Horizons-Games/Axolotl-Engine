@@ -99,18 +99,7 @@ void PlayerForceUseScript::Update(float deltaTime)
 		distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(nextPosition);
 		if (distancePointGameObjectAttached < minDistanceForce)
 		{
-			hittedRigidBody->DisablePositionController();
-			hittedRigidBody->DisableRotationController();
-			hittedRigidBody->SetIsStatic(objectStaticness);
-			hittedRigidBody->GetRigidBody()->setLinearVelocity({ 0.0f, 0.0f, 0.0f });
-			hittedRigidBody->SetGravity({ 0.0f, gravity, 0.0f });
-
-			if (gameObjectAttached->GetChildren()[0]->HasComponent<ComponentParticleSystem>())
-			{
-				gameObjectAttached->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
-			}
-
-			gameObjectAttached = nullptr;
+			FinishForce();
 		}
 		
 		float3 desiredRotation = float3::zero;
@@ -171,7 +160,6 @@ void PlayerForceUseScript::InitForce()
 	componentAnimation->SetParameter("IsDashing", false);
 
 	componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
-	componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_USE);
 
 	componentAnimation->SetParameter("IsStartingForce", true);
 	componentAnimation->SetParameter("IsStoppingForce", false);
@@ -190,6 +178,9 @@ void PlayerForceUseScript::InitForce()
 
 		if (Physics::RaycastToTag(line, hit, owner, forceTag))
 		{
+			App->GetModule<ModuleAudio>()->SetLowPassFilter(50.0f);
+			componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_USE);
+
 			gameObjectAttached = hit.gameObject;
 			forceZoneObject = gameObjectAttached->GetParent();
 			ForceZoneScript* forceZoneScript = forceZoneObject->GetComponent<ForceZoneScript>();
@@ -240,6 +231,8 @@ void PlayerForceUseScript::FinishForce()
 	gameObjectAttached = nullptr;
 
 	componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_STOP);
+	App->GetModule<ModuleAudio>()->SetLowPassFilter(0.0f);
+
 	componentAnimation->SetParameter("IsStoppingForce", true);
 	componentAnimation->SetParameter("IsStartingForce", false);
 }

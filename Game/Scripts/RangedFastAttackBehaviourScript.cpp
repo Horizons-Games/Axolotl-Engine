@@ -111,6 +111,7 @@ void RangedFastAttackBehaviourScript::Update(float deltaTime)
 				audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_CHARGE);
 				break;
 			case EnemyTypes::VENOMITE:
+				audioSource->PostEvent(AUDIO::SFX::NPC::VENOMITE::SHOT_CHARGE);
 			case EnemyTypes::MINI_BOSS:
 				audioSource->PostEvent(AUDIO::SFX::NPC::VENOMITE::SHOT_CHARGE);
 				break;
@@ -157,6 +158,7 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 	bulletScript->SetBulletVelocity(bulletVelocity);
 	bulletScript->SetTargetTag("Player");
 	bulletScript->SetBulletDamage(attackDamage);
+	bulletScript->SetImpactSound(AUDIO::SFX::NPC::SHOT_IMPACT);
 	bulletScript->ResetValues();
 	bulletScript->ShotBullet(transform->GetGlobalForward());
 
@@ -166,6 +168,7 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT);
 		break;
 	case EnemyTypes::VENOMITE:
+		audioSource->PostEvent(AUDIO::SFX::NPC::VENOMITE::SHOT);
 	case EnemyTypes::MINI_BOSS:
 		audioSource->PostEvent(AUDIO::SFX::NPC::VENOMITE::SHOT);
 		break;

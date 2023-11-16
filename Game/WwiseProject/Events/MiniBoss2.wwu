@@ -5,10 +5,10 @@
 			<ChildrenList>
 				<Event Name="sfx_boostOfEnergy_aiming" ID="{A14D30C6-E4F8-43F6-BF5C-0F271181BCAC}">
 					<ChildrenList>
-						<Action Name="" ID="{EA609FC0-BFBB-4C2E-8CE0-9D27D5E37D20}" ShortID="1009507030">
+						<Action Name="" ID="{D502263A-BD05-4586-9C3B-83E5CD062C90}" ShortID="359066576">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_miniBoss2_aiming-001" ID="{60B7CFD0-EAA5-4E8E-86D7-6471D3D6EA4F}" WorkUnitID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}"/>
+									<ObjectRef Name="as_npc_sl_miniboss_2_aiming" ID="{6904FEDC-AA6B-4D3C-A02D-DCCF85171C0B}" WorkUnitID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -16,10 +16,10 @@
 				</Event>
 				<Event Name="sfx_boostOfEnergy_preShot" ID="{2B5C714B-1DB6-49E0-9D56-44B924183C42}">
 					<ChildrenList>
-						<Action Name="" ID="{1D3C6DAE-03D3-46CD-A341-914862D2EC87}" ShortID="565838030">
+						<Action Name="" ID="{255978A6-475B-48F0-B6FC-45FD230EB58A}" ShortID="70369896">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_miniBoss2_preShot-001" ID="{01223F00-7C82-43E5-AAC0-C0220588DB97}" WorkUnitID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}"/>
+									<ObjectRef Name="MinibossCharging" ID="{E6BAC6FE-74C2-4D3A-9764-36674F4BB6E5}" WorkUnitID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -27,10 +27,10 @@
 				</Event>
 				<Event Name="sfx_boostOfEnergy_shot" ID="{5B08699F-3F2B-49CB-8EA3-37C2E29B6FD7}">
 					<ChildrenList>
-						<Action Name="" ID="{FA3DFF49-1CAE-4FD1-90E7-39677FD268A4}" ShortID="689173404">
+						<Action Name="" ID="{EEEB28A7-4AD6-4624-A550-73A650D074D8}" ShortID="76872982">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_miniBoss2_shot-001" ID="{A9BBE772-C25B-471F-9D53-A9F5BE25E507}" WorkUnitID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}"/>
+									<ObjectRef Name="MinibossLaserShot" ID="{55FCFD9E-69A6-4D8B-B9A8-29C7EC4AE496}" WorkUnitID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -38,13 +38,20 @@
 				</Event>
 				<Event Name="sfx_boostOfEnergy_shot_stop" ID="{90EA0421-69A3-4DC0-A9F6-A449EC4122A7}">
 					<ChildrenList>
-						<Action Name="" ID="{960DF5E5-A399-458C-9D93-0C4BEBDB7806}" ShortID="401897803">
+						<Action Name="" ID="{181A465A-65A7-4845-8BDC-D35EAFC65D67}" ShortID="142825475">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_miniBoss2_shot-001" ID="{A9BBE772-C25B-471F-9D53-A9F5BE25E507}" WorkUnitID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}"/>
+									<ObjectRef Name="MinibossLaserShot" ID="{55FCFD9E-69A6-4D8B-B9A8-29C7EC4AE496}" WorkUnitID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{7DA7529A-C435-4899-B61E-4FBAAE955545}" ShortID="585731723">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_npc_so_miniboss_2_laser_shot_end" ID="{2061F4FD-0F2E-422F-9818-29A3E734ABAD}" WorkUnitID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -52,13 +59,13 @@
 				</Event>
 				<Event Name="sfx_boostOfEnergy_aiming_stop" ID="{2A0E2D09-EEAD-49F0-AA68-63AB0B96D8C4}">
 					<ChildrenList>
-						<Action Name="" ID="{5BC9F693-E253-4E9D-B8BA-53D52852FCBF}" ShortID="355420262">
+						<Action Name="" ID="{8070F1A2-B9E3-4F35-BE63-A8EBB1F8EB38}" ShortID="956638888">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="sfx_miniBoss2_aiming-001" ID="{60B7CFD0-EAA5-4E8E-86D7-6471D3D6EA4F}" WorkUnitID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}"/>
+									<ObjectRef Name="as_npc_sl_miniboss_2_aiming" ID="{6904FEDC-AA6B-4D3C-A02D-DCCF85171C0B}" WorkUnitID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

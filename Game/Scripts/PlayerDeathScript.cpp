@@ -49,6 +49,7 @@ void PlayerDeathScript::ManagePlayerDeath() const
 	componentAnimation->SetParameter("IsDead", true);
 	if (componentAnimation->GetActualStateName() == "Dying")
 	{
+		AK::SoundEngine::SetState(AUDIO::STATES::GROUP::LIFE, AUDIO::STATES::ID::PLAYERLIFE::DEFEATED);
 		DisablePlayerActions();
 	}
 }

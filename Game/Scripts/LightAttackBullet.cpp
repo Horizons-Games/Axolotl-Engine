@@ -35,6 +35,7 @@ LightAttackBullet::LightAttackBullet() :
 	particleSystemTimer(1.0f), 
 	triggerParticleSystemTimer(false), 
 	particleSystemCurrentTimer(0.0f),
+	impactSFX(nullptr),
 	lifeTime(0.0f),
 	parentTransform(nullptr),
 	targetTransform(nullptr)
@@ -211,6 +212,11 @@ void LightAttackBullet::SetDamage(float nDamageAttack)
 	damageAttack = nDamageAttack;
 }
 
+void LightAttackBullet::SetImpactSound(const wchar_t* sound)
+{
+	impactSFX = sound;
+}
+
 void LightAttackBullet::SetVelocity(float nVelocity)
 {
 	velocity = nVelocity;
@@ -245,16 +251,16 @@ void LightAttackBullet::ResetDefaultValues()
 
 void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 {
+	
+
+
 	if (other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("PriorityTarget"))
 	{
-		if (playerAttackScript->IsMelee())
+		if (impactSFX != nullptr)
 		{
-			audioSource->PostEvent(AUDIO::SFX::NPC::SHOT_IMPACT); // Provisional sfx
+			audioSource->PostEvent(impactSFX);
 		}
-		else
-		{
-			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ELECTRIC_SHOT); // Provisional sfx
-		}
+
 		other->GetOwner()->GetComponent<HealthSystem>()->TakeDamage(damageAttack);
 		other->GetOwner()->GetComponent<EnemyClass>()->SetStunnedTime(stunTime);
 
@@ -277,20 +283,16 @@ void LightAttackBullet::OnCollisionEnter(ComponentRigidBody* other)
 
 	else if (!other->IsTrigger() && !other->GetOwner()->CompareTag("Player"))
 	{
-		if (playerAttackScript->IsMelee())
+		if (impactSFX != nullptr)
 		{
-			audioSource->PostEvent(AUDIO::SFX::NPC::SHOT_IMPACT); // Provisional sfx
-		}
-		else
-		{
-			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ELECTRIC_SHOT); // Provisional sfx
+			audioSource->PostEvent(impactSFX);
 		}
 		owner->Disable();
 	}
 }
 
 void LightAttackBullet::DestroyBullet()
-{	
+{
 	if (particleSystem)
 	{
 		particleSystem->Disable();

@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "Modules/ModuleRandom.h"
 #include "Modules/ModulePlayer.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
@@ -130,6 +131,7 @@ void FinalBossScript::CheckIfIsInDamageAnimation()
 
 void FinalBossScript::SetReadyToDie()
 {
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::DEATH);
 	PauseEnemy(true);
 
 	std::unordered_map<std::string, TypeFieldPairParameter> componentAnimationParameters =

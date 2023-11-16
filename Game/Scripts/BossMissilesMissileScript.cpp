@@ -4,9 +4,11 @@
 #include "Application.h"
 #include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentRigidBody.h"
+#include "Components/ComponentAudioSource.h"
 #include "Components/ComponentParticleSystem.h"
 
 #include "../Scripts/HealthSystem.h"
@@ -14,7 +16,8 @@
 REGISTERCLASS(BossMissilesMissileScript);
 
 BossMissilesMissileScript::BossMissilesMissileScript() : Script(), rigidBody(nullptr), missileDamage(10.0f),
-	hasHitPlayer(false), explosionTime(4.0f), hasHitGround(false), maxSizeExplosion(7.5f), areaGrowingFactor(5.0f)
+	hasHitPlayer(false), explosionTime(4.0f), hasHitGround(false), maxSizeExplosion(7.5f), areaGrowingFactor(5.0f),
+	audioSource(nullptr)
 {
 	REGISTER_FIELD(missileDamage, float);
 	REGISTER_FIELD(explosionTime, float);
@@ -32,6 +35,9 @@ void BossMissilesMissileScript::Start()
 	rigidBody->SetDrawCollider(true);
 	missileGravity = rigidBody->GetGravity();
 
+	audioSource = owner->GetComponent<ComponentAudioSource>();
+
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKET_FALLING);
 	// VFX Here: Missile falling warning (the missile spawns on top of where it is going to fall, 
 										// that's why its in the Start)
 	areaEffectParticle = owner->GetChildren()[1]->GetComponent<ComponentParticleSystem>();
@@ -78,6 +84,8 @@ void BossMissilesMissileScript::OnCollisionEnter(ComponentRigidBody* other)
 		rigidBody->SetIsTrigger(true);
 		rigidBody->SetIsKinematic(true);
 		rigidBody->SetUpMobility();
+
+		audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ROCKET_IMPACT);
 
 		hasHitGround = true;
 	}

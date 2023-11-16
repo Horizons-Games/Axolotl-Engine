@@ -29,6 +29,7 @@ private:
 	bool playingVideo;
 	bool changeVideoTransform;
 	bool playVideo;
+	bool isFirstCutscene;
 
 	GameObject* videoObject;
 	GameObject* object;

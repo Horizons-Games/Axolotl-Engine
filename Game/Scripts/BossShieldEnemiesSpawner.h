@@ -9,6 +9,7 @@ class ComponentAnimation;
 
 class BossLevelElevator;
 class BossShieldAttackScript;
+class ComponentAudioSource;
 
 constexpr int ENEMIES_PER_WAVE = 4;
 
@@ -38,6 +39,7 @@ private:
 	BossShieldAttackScript* bossShieldAttackScript;
 
 	ComponentAnimation* animator;
+	ComponentAudioSource* audioSource;
 
 	bool isPaused;
 };

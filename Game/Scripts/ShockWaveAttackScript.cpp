@@ -6,6 +6,9 @@
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentAgent.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAudioSource.h"
+
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "../Scripts/ShockWaveAttackAreaScript.h"
 #include "../Scripts/HealthSystem.h"
@@ -17,7 +20,7 @@ REGISTERCLASS(ShockWaveAttackScript);
 ShockWaveAttackScript::ShockWaveAttackScript() : Script(), outerArea(nullptr), innerArea(nullptr),
 	shockWaveCooldown(0.0f), shockWaveMaxCooldown(5.0f), shockWaveHitPlayer(false), shockWaveDamage(10.0f),
 	/*rigidBody(nullptr),*/ transform(nullptr), targetPosition(nullptr), isSeeking(false), animator(nullptr),
-	isPreparingShockwave(false), patrolScript(nullptr)
+	isPreparingShockwave(false), patrolScript(nullptr), audioSource(nullptr)
 {
 	REGISTER_FIELD(shockWaveMaxCooldown, float);
 	REGISTER_FIELD(shockWaveDamage, float);
@@ -35,6 +38,7 @@ void ShockWaveAttackScript::Start()
 	aiMovement = owner->GetComponent<AIMovement>();
 	agent = owner->GetComponent<ComponentAgent>();
 	animator = owner->GetComponent<ComponentAnimation>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
 	patrolScript = owner->GetComponent<PatrolBehaviourScript>();
 }
 
@@ -76,6 +80,7 @@ void ShockWaveAttackScript::TriggerNormalShockWaveAttack()
 	// During the shockwave attack, the final boss would not be able to rotate
 	DisableRotation();
 
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::HAMMER_HIT);
 	// VFX Here: This should trigger the effect of the shockwave appearing and expanding
 	outerArea->InitVFX();
 }

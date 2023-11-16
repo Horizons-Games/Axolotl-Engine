@@ -24,6 +24,7 @@ public:
 	void StartMoving();
 	void RepositionBullet();
 	void SetPauseBullet(bool isPaused);
+	void SetImpactSound(const wchar_t* sound);
 	void ResetDefaultValues();
 
 private:
@@ -34,6 +35,10 @@ private:
 	float velocity;
 	float stunTime;
 	float damageAttack;
+	float maxDistanceBullet;
+	const wchar_t* impactSFX;
+
+	float3 defaultTargetPos;
 	float maxLifeTimeBullet;
 	float lifeTime;
 

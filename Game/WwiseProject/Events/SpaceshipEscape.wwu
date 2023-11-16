@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{DCD13B3B-8923-4849-AF54-492C69AB2C95}" SchemaVersion="110" RootDocumentID="{AA397C40-3770-4439-AC7E-10F711A90387}" ParentDocumentID="{3220227D-B782-4EAB-9D58-F9E0C5F8F212}">
+	<Events>
+		<WorkUnit Name="SpaceshipEscape" ID="{DCD13B3B-8923-4849-AF54-492C69AB2C95}" OwnerID="{3220227D-B782-4EAB-9D58-F9E0C5F8F212}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="FireThrowerBurst" ID="{A7D5D060-B369-4317-9C76-49AD167514E3}">
+					<ChildrenList>
+						<Action Name="" ID="{82BC75F5-C28B-4912-85FB-E264B039CEF1}" ShortID="641703150">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FireThrowerBurst" ID="{4CB1CC47-ECCC-44AA-8E62-5EF25A8F9C04}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{924E89CC-8434-4196-942F-E27D6AC9D349}" ShortID="273858928">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FireThrowerLoop" ID="{C3D5B616-2359-42A4-8A96-8CDE99099116}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="BigTurbine" ID="{DB86C735-D996-42AC-ADEF-E667E2155260}">
+					<ChildrenList>
+						<Action Name="" ID="{9BBA1965-315C-47C0-9EAC-1696E4767A98}" ShortID="282706160">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Turbine" ID="{85CABD46-C6EF-4B07-A521-778F1E53F30C}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="WindAmbient" ID="{DBE7A4CC-7CC5-432D-98C1-102A6225EB95}">
+					<ChildrenList>
+						<Action Name="" ID="{5F3AC72E-A7B4-4C3D-B331-1597AADBE308}" ShortID="961124125">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_ab_ao_wind" ID="{412042C0-058F-4AE2-81FA-E9B43F593872}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="FireThrowerBurstStop" ID="{155FCDAC-0F7B-4CBC-B600-E21D908C7AFD}">
+					<ChildrenList>
+						<Action Name="" ID="{A0F4D091-69F8-4200-8D2F-8F900BFCD839}" ShortID="731324123">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="FireThrowerLoop" ID="{C3D5B616-2359-42A4-8A96-8CDE99099116}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{85512AFF-FA45-45C8-875C-2AF25420D9F7}" ShortID="843783277">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BigFireThrowerLoop" ID="{42A25B58-5A5B-4F95-A1FC-84CCF6B7A906}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="BigFireThrowerBurst" ID="{6E72B4CC-FBA4-4117-8496-E289F1AF0A4D}">
+					<ChildrenList>
+						<Action Name="" ID="{AB129C65-79D3-4197-AD98-8068C5D31705}" ShortID="368692593">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BigFireThrowerBurst" ID="{9B6A8A70-6665-4672-83B2-8AFBD8E2ABA0}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{F74F3EA1-98A2-4202-B580-454152339B7B}" ShortID="376275093">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BigFireThrowerLoop" ID="{42A25B58-5A5B-4F95-A1FC-84CCF6B7A906}" WorkUnitID="{9E125C31-5B52-4B36-95B5-03B95E4BA7C2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

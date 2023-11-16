@@ -12,6 +12,7 @@
 #include "Modules/ModuleRender.h"
 #include "Modules/ModuleScene.h"
 #include "Modules/ModuleUI.h"
+#include "Modules/ModuleAudio.h"
 #include "ModuleNavigation.h"
 
 #include "DataModels/Batch/BatchManager.h"
@@ -30,6 +31,7 @@
 
 #include "Defines/ExtensionDefines.h"
 #include "Defines/FileSystemDefines.h"
+#include <Auxiliar/Audio/AudioData.h>
 
 namespace loader
 {
@@ -410,6 +412,9 @@ void StartJsonLoad(Json&& sceneJson)
 
 void StartLoadScene()
 {
+	AK::SoundEngine::SetState(AUDIO::STATES::GROUP::ZONE, AUDIO::STATES::ID::ZONE::LOADINGSCREEN);
+	App->GetModule<ModuleAudio>()->StopAllSFX();
+
 	ModuleRender* moduleRender = App->GetModule<ModuleRender>();
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
 	ModuleUI* ui = App->GetModule<ModuleUI>();

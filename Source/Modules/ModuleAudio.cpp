@@ -120,6 +120,7 @@ bool ModuleAudio::Init()
 
 bool ModuleAudio::Start()
 {
+	SetLowPassFilter(0.0f);
 	return true;
 }
 
@@ -245,9 +246,15 @@ bool ModuleAudio::InitializeBanks()
 	return true;
 }
 
+void ModuleAudio::StopAllSFX()
+{
+	AK::SoundEngine::PostEvent(AUDIO::SFX::STOPALLSFX, musicID);
+	AK::SoundEngine::RenderAudio();
+}
+
+
 void ModuleAudio::SetMasterVolume(float value)
 {
-
 	AK::SoundEngine::SetRTPCValue(AUDIO::CONTROLLERS::MASTERVOLUME, value);
 }
 
@@ -259,6 +266,11 @@ void ModuleAudio::SetMusicVolume(float value)
 void ModuleAudio::SetSFXVolume(float value)
 {
 	AK::SoundEngine::SetRTPCValue(AUDIO::CONTROLLERS::SFXVOLUME, value);
+}
+
+void ModuleAudio::SetLowPassFilter(float value)
+{
+	AK::SoundEngine::SetRTPCValue(AUDIO::CONTROLLERS::LOWPASSFILTER, value);
 }
 
 void ModuleAudio::SetMusicID(uint64_t sourceID)

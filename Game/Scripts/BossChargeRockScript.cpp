@@ -123,6 +123,8 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 			triggerRockDespawnbyFalling = true;
 			owner->GetComponent<ComponentBreakable>()->BreakComponentFalling();
 			meshEffect->StartEffect(fallingTimer*2.5f,0.f);
+			
+			audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_ROCKS_IMPACT);
 			// VFX Here: Rock hit an enemy on the head while falling
 			preAreaEffectVFX->Stop();
 		}
@@ -138,6 +140,8 @@ void BossChargeRockScript::OnCollisionEnter(ComponentRigidBody* other)
 			/*breakRockVFX->Enable();
 			breakRockVFX->Play();*/
 			rockState = RockStates::FLOOR;
+
+			audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_ROCKS_IMPACT);
 			preAreaEffectVFX->Stop();
 			// VFX Here: Rock hit the floor
 		}
@@ -181,7 +185,6 @@ void BossChargeRockScript::DeactivateRock()
 		waypointCovered->SetWaypointState(WaypointStates::AVAILABLE);
 	}
 
-	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_ROCKS_IMPACT);
 	triggerRockDespawn = true;
 }
 

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{26EE286D-9253-4C5F-974D-225C23F53581}" SchemaVersion="110" RootDocumentID="{4D2D502C-0683-46CA-93AE-C19E110AB138}" ParentDocumentID="{FB93C944-6051-4C4C-9714-5FAA354E7D11}">
+	<AudioObjects>
+		<WorkUnit Name="Venomite" ID="{26EE286D-9253-4C5F-974D-225C23F53581}" OwnerID="{FB93C944-6051-4C4C-9714-5FAA354E7D11}" PersistMode="Nested">
+			<ChildrenList>
+				<RandomSequenceContainer Name="VenomiteCharging" ID="{ADA3DEFC-EB4F-48A0-B90F-164F6502BE86}" ShortID="250753178">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+						<Property Name="Color" Type="int16" Value="9"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+						<Property Name="Pitch" Type="int32">
+							<ModifierList>
+								<ModifierInfo>
+									<Modifier Name="" ID="{F3AA8CBA-B5F5-4E5B-82C3-921509FEF331}">
+										<PropertyList>
+											<Property Name="Enabled" Type="bool" Value="True"/>
+											<Property Name="Max" Type="Real64" Value="150"/>
+											<Property Name="Min" Type="Real64" Value="-150"/>
+										</PropertyList>
+									</Modifier>
+								</ModifierInfo>
+							</ModifierList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-2</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+						</Reference>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="NPCMaster" ID="{972B9C9F-6B1E-4B0E-8EE7-1CF44D5BEE6D}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="as_npc_so_venomite_charging_rr01" ID="{FDF2FBF5-AA01-4788-89CB-3CC996B4ACCE}" ShortID="1041307300">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_npc_so_venomite_charging_rr01" ID="{4CCC0225-FB88-4BC7-AEE3-105A35ED0DA7}">
+									<Language>SFX</Language>
+									<AudioFile>as_npc_so_venomite_charging_rr01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="372871143"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_npc_so_venomite_charging_rr01" ID="{4CCC0225-FB88-4BC7-AEE3-105A35ED0DA7}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_npc_so_venomite_charging_rr02" ID="{10A3FBA1-2640-453C-9773-4ACD79A33FB2}" ShortID="923867814">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_npc_so_venomite_charging_rr02" ID="{8F42F36B-871C-4F3F-A1C2-A132DC1ED191}">
+									<Language>SFX</Language>
+									<AudioFile>as_npc_so_venomite_charging_rr02.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="433778274"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_npc_so_venomite_charging_rr02" ID="{8F42F36B-871C-4F3F-A1C2-A132DC1ED191}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_npc_so_venomite_charging_rr03" ID="{05D73AF4-4D36-4032-8399-687509542DB8}" ShortID="986128234">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_npc_so_venomite_charging_rr03" ID="{10AAD726-13C0-4EE2-8EA2-BE0168618C32}">
+									<Language>SFX</Language>
+									<AudioFile>as_npc_so_venomite_charging_rr03.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="788083634"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_npc_so_venomite_charging_rr03" ID="{10AAD726-13C0-4EE2-8EA2-BE0168618C32}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</RandomSequenceContainer>
+				<RandomSequenceContainer Name="VenomiteShot" ID="{15C75913-AE79-49AA-910B-BC57AEED5AE0}" ShortID="154711988">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+						</Reference>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="NPCMaster" ID="{972B9C9F-6B1E-4B0E-8EE7-1CF44D5BEE6D}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="as_npc_so_venomite_shot_rr01" ID="{C9DB21BB-7C23-4DD9-AAF2-A42129DBA859}" ShortID="922201519">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_npc_so_venomite_shot_rr01" ID="{099149DA-B4D2-445D-9589-A6E3E5434A6E}">
+									<Language>SFX</Language>
+									<AudioFile>as_npc_so_venomite_shot_rr01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1035424545"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_npc_so_venomite_shot_rr01" ID="{099149DA-B4D2-445D-9589-A6E3E5434A6E}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_npc_so_venomite_shot_rr02" ID="{86E31C56-22D6-4A6F-B4D6-814B01B1153E}" ShortID="915084467">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_npc_so_venomite_shot_rr02" ID="{744BC9E5-FAB4-4517-B58D-F68C0981B7E0}">
+									<Language>SFX</Language>
+									<AudioFile>as_npc_so_venomite_shot_rr02.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1029983749"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_npc_so_venomite_shot_rr02" ID="{744BC9E5-FAB4-4517-B58D-F68C0981B7E0}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_npc_so_venomite_shot_rr03" ID="{FA570402-8D9B-4D0F-AD21-830A3E299C62}" ShortID="1026496940">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_npc_so_venomite_shot_rr03" ID="{C96705C3-06D7-471D-94D7-710A294C526E}">
+									<Language>SFX</Language>
+									<AudioFile>as_npc_so_venomite_shot_rr03.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="380919934"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_npc_so_venomite_shot_rr03" ID="{C96705C3-06D7-471D-94D7-710A294C526E}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_npc_so_venomite_shot_rr05" ID="{4C589F94-F074-4EFF-9154-308A72E2A440}" ShortID="56761235">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_npc_so_venomite_shot_rr05" ID="{423CC789-4E94-4FE9-B1D7-FD55BBF643CF}">
+									<Language>SFX</Language>
+									<AudioFile>as_npc_so_venomite_shot_rr05.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="456950538"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_npc_so_venomite_shot_rr05" ID="{423CC789-4E94-4FE9-B1D7-FD55BBF643CF}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_npc_so_venomite_shot_rr06" ID="{10566DA9-6248-4E90-9052-502035D490A0}" ShortID="577359334">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_npc_so_venomite_shot_rr06" ID="{FF80BC4B-D2EF-44A7-8029-71C70EBB3D6D}">
+									<Language>SFX</Language>
+									<AudioFile>as_npc_so_venomite_shot_rr06.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="607925147"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_npc_so_venomite_shot_rr06" ID="{FF80BC4B-D2EF-44A7-8029-71C70EBB3D6D}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</RandomSequenceContainer>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

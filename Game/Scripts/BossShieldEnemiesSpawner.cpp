@@ -3,9 +3,11 @@
 
 #include "Application.h"
 #include "Modules/ModuleRandom.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAudioSource.h"
 
 #include "../Scripts/BossLevelElevator.h"
 #include "../Scripts/BossShieldAttackScript.h"
@@ -15,7 +17,7 @@
 
 REGISTERCLASS(BossShieldEnemiesSpawner);
 
-BossShieldEnemiesSpawner::BossShieldEnemiesSpawner() : Script(), animator(nullptr)
+BossShieldEnemiesSpawner::BossShieldEnemiesSpawner() : Script(), animator(nullptr), audioSource(nullptr)
 {
 	REGISTER_FIELD(enemiesToSpawnParent, GameObject*);
 	REGISTER_FIELD(elevatorOne, BossLevelElevator*);
@@ -34,6 +36,7 @@ void BossShieldEnemiesSpawner::Start()
 
 	bossShieldAttackScript = owner->GetComponent<BossShieldAttackScript>();
 	animator = owner->GetComponent<ComponentAnimation>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
 }
 
 void BossShieldEnemiesSpawner::Update(float deltaTime)
@@ -72,6 +75,7 @@ void BossShieldEnemiesSpawner::StartSpawner()
 
 	animator->SetParameter("IsInvoking", true);
 
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::SUMMON_ENEMIES);
 	// VFX Here: Add the yell effect for when the boss invokes enemies
 
 	GameObject* enemy1 = SelectRandomEnemy();

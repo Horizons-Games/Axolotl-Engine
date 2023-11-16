@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{527D5037-5ADC-4418-8BFB-35D86EDE089E}" SchemaVersion="110" RootDocumentID="{AA397C40-3770-4439-AC7E-10F711A90387}" ParentDocumentID="{DA6DFEB4-9E33-4AA8-8321-65EA7BC79F93}">
+	<Events>
+		<WorkUnit Name="Venomite" ID="{527D5037-5ADC-4418-8BFB-35D86EDE089E}" OwnerID="{DA6DFEB4-9E33-4AA8-8321-65EA7BC79F93}" PersistMode="Nested">
+			<ChildrenList>
+				<Event Name="VenomitePreShot" ID="{D582D743-08E3-44F4-A6EB-ABB1B36E4D85}">
+					<ChildrenList>
+						<Action Name="" ID="{3E457657-3F42-4754-BD6C-4BC6BF7DC6BA}" ShortID="71677438">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VenomiteCharging" ID="{ADA3DEFC-EB4F-48A0-B90F-164F6502BE86}" WorkUnitID="{26EE286D-9253-4C5F-974D-225C23F53581}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="VenomiteShot" ID="{3C59DEB5-F44A-4151-A3F3-7729E4DC7C1C}">
+					<ChildrenList>
+						<Action Name="" ID="{15695FF3-0E97-4C2B-BF21-40E795DF9C3F}" ShortID="1010088689">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VenomiteShot" ID="{15C75913-AE79-49AA-910B-BC57AEED5AE0}" WorkUnitID="{26EE286D-9253-4C5F-974D-225C23F53581}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>
