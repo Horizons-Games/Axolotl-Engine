@@ -159,11 +159,13 @@ void MeshEffect::EnableDisableMeshes(bool enable)
 	{
 		if (!enable)
 		{
+			mesh->SetReflective(true);
 			mesh->Disable();
 		}
 		else
 		{
 			mesh->Enable();
+			mesh->SetReflective(false);
 		}
 	}
 }
