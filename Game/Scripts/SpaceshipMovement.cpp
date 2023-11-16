@@ -55,9 +55,8 @@ void SpaceshipMovement::Move(float deltaTime)
 		(horizontalDirection != JoystickHorizontalDirection::NONE ||
 			verticalDirection != JoystickVerticalDirection::NONE))
 	{
-		btVector3 newMovement = btVector3(-input->GetLeftJoystickMovement().horizontalMovement,
-			-input->GetLeftJoystickMovement().verticalMovement, 0.0f) * deltaTime * XYSpeed;
-
+		btVector3 newMovement = btVector3(static_cast<float>(-input->GetLeftJoystickMovement().horizontalMovement),
+			static_cast<float>(-input->GetLeftJoystickMovement().verticalMovement), 0.0f) * deltaTime * XYSpeed;
 
 		movement = btVector3(newMovement.getX(), newMovement.getY(), movement.getZ());
 	}

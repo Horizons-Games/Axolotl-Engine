@@ -26,7 +26,7 @@ REGISTERCLASS(RangedFastAttackBullet);
 RangedFastAttackBullet::RangedFastAttackBullet() : Script(), parentTransform(nullptr), rigidBody(nullptr), 
 	velocity(15.0f), audioSource(nullptr), bulletLifeTime(10.0f), damageAttack(10.0f), rayAttackSize(100.0f), 
 	originTime(0.0f), particleSystem(nullptr), waitParticlesToDestroy(false), particlesDuration(1.0f), 
-	mesh(nullptr), targetTag("Not Selected"), initPos(nullptr), bulletTransform(nullptr), currentForward((0,0,0))
+	mesh(nullptr), targetTag("Not Selected"), initPos(nullptr), bulletTransform(nullptr), currentForward((0.f,0.f,0.f))
 {
 }
 
