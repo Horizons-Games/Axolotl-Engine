@@ -339,10 +339,6 @@ void UIOptionsMenu::LoadOptions()
 {
 	actualConfig.clear();
 	std::string optionMenuPath = "Settings/OptionsConfig.txt";
-#ifndef ENGINE
-	optionMenuPath = "OptionsConfig.txt";
-#endif // GAME
-
 	rapidjson::Document doc;
 	Json optionsMenu(doc, doc);
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();
@@ -429,9 +425,6 @@ void UIOptionsMenu::LoadDefaultOptions()
 void UIOptionsMenu::SaveOptions()
 {
 	std::string optionMenuPath = "Settings/OptionsConfig.txt";
-#ifndef ENGINE
-	optionMenuPath = "OptionsConfig.txt";
-#endif // GAME
 	rapidjson::Document doc;
 	Json optionsMenu(doc, doc);
 	ModuleFileSystem* fileSystem = App->GetModule<ModuleFileSystem>();

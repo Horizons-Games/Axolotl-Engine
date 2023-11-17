@@ -30,8 +30,6 @@ bool ModuleFileSystem::Init()
 		return false;
 	}
 	PHYSFS_mount("Assets.zip", nullptr, 0);
-	PHYSFS_mount("Settings", nullptr, 0);
-	PHYSFS_setWriteDir("Settings");
 	PHYSFS_unmount(".");
 #endif // GAME
 	return true;
@@ -302,6 +300,7 @@ void ModuleFileSystem::ZipLibFolder() const
 	zip_t* zip = zip_open("Assets.zip", ZIP_DEFAULT_COMPRESSION_LEVEL, 'w');
 	ZipFolder(zip, "Lib");
 	ZipFolder(zip, "WwiseProject");
+	ZipFolder(zip, "Settings");
 	zip_close(zip);
 }
 
