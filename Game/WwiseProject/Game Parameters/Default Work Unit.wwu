@@ -4,6 +4,15 @@
 		<WorkUnit Name="Default Work Unit" ID="{2CF8BCEB-2271-4245-B45E-25E43F0E79B4}" PersistMode="Standalone">
 			<ChildrenList>
 				<GameParameter Name="ListenerOrientation" ID="{65102F9C-5A37-4143-8856-B08D069BD536}"/>
+				<GameParameter Name="MusicVolume" ID="{9DD6387F-F2E7-47E5-8AED-7ED01567BC7D}"/>
+				<GameParameter Name="SFXVolume" ID="{83779EB1-B9F9-42CD-9196-BB21B4C965F5}"/>
+				<GameParameter Name="MasterVolume" ID="{D03F8B50-5002-46A8-9072-67FDCE53E672}"/>
+				<GameParameter Name="LowPassFilterOnAction" ID="{85E82098-6B28-41BC-A4EC-BA692352DAB6}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
+						<Property Name="RTPCRamping" Type="int16" Value="1"/>
+					</PropertyList>
+				</GameParameter>
 			</ChildrenList>
 		</WorkUnit>
 	</GameParameters>

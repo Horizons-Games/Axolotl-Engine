@@ -13,14 +13,16 @@ public:
 
 	void Start() override;
 
-	void ThrowStunItem();
+	void ThrowStunItem(bool isMelee);
+	bool IsAttacking();
+	
 
 private:
 	GameObject* bulletPrefab;
-	float bulletVelocity;	
 	float stunTime;
 	float currentCooldown;
 	float cooldown;
+	bool isActivated;
 
 	Scene* loadedScene;
 	EntityDetection* enemyDetection;

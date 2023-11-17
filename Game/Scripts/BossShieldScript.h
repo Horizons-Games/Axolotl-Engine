@@ -6,6 +6,8 @@
 RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentRigidBody;
+class ComponentAudioSource;
+class ComponentParticleSystem;
 
 class BossShieldScript : public Script
 {
@@ -27,6 +29,10 @@ public:
 private:
 	ComponentRigidBody* rigidBody;
 	ComponentRigidBody* parentRigidBody;
+	ComponentAudioSource* audioSource;
 
 	bool hitBySpecialTarget;
+
+	// Modifiable values
+	ComponentParticleSystem* particleSystem;
 };

@@ -168,12 +168,6 @@ bool ModuleRender::Init()
 
 	backgroundColor = float4(0.f, 0.f, 0.f, 1.f);
 
-	batchManager = new BatchManager();
-	gBuffer = new GBuffer();
-	shadows = new Shadows();
-	ssao = new SSAO();
-	lightPass = new LightPass();
-
 	GLenum err = glewInit();
 	// check for errors
 	LOG_INFO("glew error {}", glewGetErrorString(err));
@@ -197,6 +191,12 @@ bool ModuleRender::Init()
 
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+
+	batchManager = new BatchManager();
+	gBuffer = new GBuffer();
+	shadows = new Shadows();
+	ssao = new SSAO();
+	lightPass = new LightPass();
 
 	glGenFramebuffers(1, &frameBuffer[0]);
 	glGenTextures(1, &renderedTexture[0]);
@@ -326,8 +326,8 @@ UpdateStatus ModuleRender::Update()
 
 	// -------- DEFERRED GEOMETRY -----------
 	gBuffer->BindFrameBuffer();
+	gBuffer->ClearFrameBuffer();
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glStencilMask(0x00); // disable writing to the stencil buffer 
 
 	bool isRoot = goSelected != nullptr ? goSelected->GetParent() == nullptr : false;
@@ -370,8 +370,7 @@ UpdateStatus ModuleRender::Update()
 		BindCameraToProgram(program, frustum);
 		ssao->CalculateSSAO(program, w, h);
 
-		program = modProgram->GetProgram(ProgramType::GAUSSIAN_BLUR);
-		ssao->BlurSSAO(program, w, h);
+		ssao->BlurSSAO(w, h);
 	}
 
 	// -------- DEFERRED LIGHTING ---------------
@@ -397,7 +396,7 @@ UpdateStatus ModuleRender::Update()
 		shadows->BindShadowMaps(program);
 
 		ComponentDirLight* directLight = static_cast<ComponentDirLight*>(
-			App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight()->GetComponent<ComponentLight>());
+			App->GetModule<ModuleScene>()->GetLoadedScene()->GetDirectionalLight()->GetComponentInternal<ComponentLight>());
 		
 		float2 shadowBias = directLight->GetShadowBias();
 
@@ -1010,16 +1009,6 @@ void ModuleRender::DrawQuadtree(const Quadtree* quadtree)
 		DrawQuadtree(quadtree->GetFrontRightNode());
 	}
 #endif // ENGINE
-}
-
-void ModuleRender::FillCharactersBatches()
-{
-	batchManager->FillCharactersBacthes();
-}
-
-void ModuleRender::RelocateGOInBatches(GameObject* go)
-{
-	batchManager->SwapBatchParentAndChildren(go);
 }
 
 void ModuleRender::DrawMeshesByFilter(std::vector<GameObject*>& objects, ProgramType type, bool normalBehaviour)

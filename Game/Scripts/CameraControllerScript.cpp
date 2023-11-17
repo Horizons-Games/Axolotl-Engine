@@ -11,7 +11,6 @@
 #include "Auxiliar/Audio/AudioData.h"
 
 #include "Camera/CameraGameObject.h"
-
 #include "Application.h"
 
 REGISTERCLASS(CameraControllerScript);
@@ -25,7 +24,6 @@ CameraControllerScript::CameraControllerScript() : Script(),
 	REGISTER_FIELD(zOffset, float);
 	REGISTER_FIELD(xFocusOffset, float);
 	REGISTER_FIELD(yFocusOffset, float);
-	REGISTER_FIELD(inCombat, bool);
 }
 
 void CameraControllerScript::Start()
@@ -51,6 +49,15 @@ void CameraControllerScript::Start()
 	finalTargetOrientation = transform->GetGlobalRotation();
 	CalculateOffsetVector();
 	CalculateFocusOffsetVector();
+
+	if (camera->GetCamera()->GetZFar() == 0.0f)
+	{
+		camera->GetCamera()->SetPlaneDistance(camera->GetCamera()->GetZNear(), 100.0f);
+	}
+	if (camera->GetCamera()->GetZNear() == 0.0f)
+	{
+		camera->GetCamera()->SetPlaneDistance(0.1f, camera->GetCamera()->GetZFar());
+	}
 }
 
 void CameraControllerScript::PreUpdate(float deltaTime)
@@ -205,7 +212,7 @@ ComponentCameraSample* CameraControllerScript::FindClosestSample(float3 position
 		}
 	}
 
-	if (inCombat && closestCombatSample)
+	if (App->GetModule<ModulePlayer>()->IsInCombat() && closestCombatSample)
 	{
 		return closestCombatSample;
 	}
@@ -214,19 +221,4 @@ ComponentCameraSample* CameraControllerScript::FindClosestSample(float3 position
 		return closestSample;
 	}
 
-}
-
-void CameraControllerScript::SetInCombat(bool newmode)
-{
-	inCombat = newmode;
-	if (inCombat)
-	{
-		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentAudioSource>()->
-			SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::COMBAT);
-	}
-	else
-	{
-		App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<ComponentAudioSource>()->
-			SetSwitch(AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
-	}
 }

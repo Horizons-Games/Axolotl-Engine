@@ -49,9 +49,10 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	comboCountHeavy(3.0f), comboCountLight(7.0f), comboCountJump(5.0f), triggerNextAttackDuration(0.5f), 
 	triggerNextAttackTimer(0.0f), isNextAttackTriggered(false), currentAttackAnimation(""),
 	numAttackComboAnimation(0.0f), isHeavyFinisherReceivedAux(false), jumpAttackCooldown(0.8f), timeSinceLastJumpAttack(0.0f),
-	jumpBeforeJumpAttackCooldown(0.1f), isGroundParalyzed(false), attackSoftDamage(10.0f), attackHeavyDamage(20.0f)
+	jumpBeforeJumpAttackCooldown(0.1f), isGroundParalyzed(false), attackLightDamage(10.0f), attackHeavyDamage(20.0f),
+	isHeavyFinisherAvailable(true)
 {
-	REGISTER_FIELD(attackSoftDamage, float);
+	REGISTER_FIELD(attackLightDamage, float);
 	REGISTER_FIELD(attackHeavyDamage, float);
 	REGISTER_FIELD(normalAttackDistance, float);
 
@@ -62,7 +63,8 @@ PlayerAttackScript::PlayerAttackScript() : Script(),
 	REGISTER_FIELD(heavyFinisherAttack, HeavyFinisherAttack*);
 	REGISTER_FIELD(lightWeapon, GameObject*);
 
-	REGISTER_FIELD(bulletPrefab, GameObject*);
+	REGISTER_FIELD(bulletInitPosition, ComponentTransform*);
+	REGISTER_FIELD(bulletLoader, GameObject*);
 	REGISTER_FIELD(bulletVelocity, float);
 
 	REGISTER_FIELD(pistolGameObject, GameObject*);
@@ -103,6 +105,16 @@ void PlayerAttackScript::Start()
 
 void PlayerAttackScript::Update(float deltaTime)
 {
+	// Mark the enemy that is going to be attacked
+	UpdateEnemyDetection();
+
+	if (!canAttack && !jumpFinisherScript->IsActive())
+	{
+		isNextAttackTriggered = false;
+		ResetAttackAnimations(deltaTime);
+		return;
+	}
+	
 	if (isMelee && timeSinceLastJumpAttack < jumpAttackCooldown)
 	{
 		playerManager->ParalyzePlayer(true);
@@ -115,15 +127,6 @@ void PlayerAttackScript::Update(float deltaTime)
 	}
 
 	timeSinceLastJumpAttack += deltaTime;
-
-
-	// Mark the enemy that is going to be attacked
-	UpdateEnemyDetection();
-
-	if (!canAttack)
-	{
-		return;
-	}
 
 	// Check if the special was activated
 	comboSystem->CheckSpecial(deltaTime);
@@ -215,12 +218,15 @@ void PlayerAttackScript::PerformCombos()
 				break;
 
 			case AttackType::HEAVYFINISHER:
-				triggerNextAttackTimer = triggerNextAttackDuration;
-				currentAttackAnimation = animation->GetController()->GetStateName();
-				numAttackComboAnimation = 0.0f;
-				animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
-				animation->SetParameter("HeavyFinisherInit", true);
-				isAttacking = false;
+				if(isHeavyFinisherAvailable)
+				{
+					triggerNextAttackTimer = triggerNextAttackDuration;
+					currentAttackAnimation = animation->GetController()->GetStateName();
+					numAttackComboAnimation = 0.0f;
+					animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
+					animation->SetParameter("HeavyFinisherInit", true);
+					isAttacking = false;
+				}
 				break;
 			case AttackType::JUMPFINISHER:
 				break;
@@ -246,7 +252,7 @@ void PlayerAttackScript::PerformCombos()
 			case AttackType::LIGHTNORMAL:
 				if (!isNextAttackTriggered) //Calling only when is not currently attacking
 				{
-					LOG_VERBOSE("Normal Normal Attack Soft");
+					LOG_VERBOSE("Normal Light Attack");
 					numAttackComboAnimation = 0.0f;
 					animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
 					LightNormalAttack();
@@ -259,7 +265,7 @@ void PlayerAttackScript::PerformCombos()
 			case AttackType::HEAVYNORMAL:
 				if (!isNextAttackTriggered) //Calling only when is not currently attacking
 				{
-					LOG_VERBOSE("Normal Normal Attack Soft");
+					LOG_VERBOSE("Normal Heavy Attack");
 					numAttackComboAnimation = 0.0f;
 					animation->SetParameter("NumAttackCombo", numAttackComboAnimation);
 					HeavyNormalAttack();
@@ -270,28 +276,29 @@ void PlayerAttackScript::PerformCombos()
 				break;
 
 			case AttackType::JUMPNORMAL:
-				LOG_VERBOSE("Normal Attack Jump");
+				LOG_VERBOSE("Normal Jump Attack");
 				InitJumpAttack();
 				lastAttack = currentAttack;
 				currentAttackAnimation = "JumpAttack";
 				break;
 
 			case AttackType::LIGHTFINISHER:
-				LOG_VERBOSE("Finisher Soft");
+				LOG_VERBOSE("Light Finisher");
 				LightFinisher();
 				lastAttack = currentAttack;
 				currentAttackAnimation = "LightAttackFinish";
 				break;
 
 			case AttackType::HEAVYFINISHER:
-				LOG_VERBOSE("Finisher Heavy");
+				LOG_VERBOSE("Heavy Finisher");
 				HeavyFinisher();
 				lastAttack = currentAttack;
 				currentAttackAnimation = "HeavyAttackFinish";
+				isHeavyFinisherAvailable = false;
 				break;
 
 			case AttackType::JUMPFINISHER:
-				LOG_VERBOSE("Finisher Jump");
+				LOG_VERBOSE("Jump Finisher");
 				InitJumpAttack();
 				lastAttack = currentAttack;
 				currentAttackAnimation = "JumpAttack";
@@ -319,7 +326,7 @@ void PlayerAttackScript::LightNormalAttack()
 			LOG_VERBOSE("Enemy hit with light attack");
 			comboSystem->SuccessfulAttack(comboCountLight * 
 				(comboSystem->GetComboCount() + 1.f), AttackType::LIGHTNORMAL);
-			DamageEnemy(enemyAttacked, attackSoftDamage);
+			DamageEnemy(enemyAttacked, attackLightDamage);
 		}
 		else
 		{
@@ -328,13 +335,12 @@ void PlayerAttackScript::LightNormalAttack()
 	}
 	else
 	{
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CANNON_SHOT);
 		if (enemyAttacked != nullptr)
 		{
 			comboSystem->SuccessfulAttack(comboCountLight * 
 				(comboSystem->GetComboCount() + 1.f), AttackType::LIGHTNORMAL);
 		}
-		ThrowBasicAttack(enemyAttacked, attackSoftDamage);
+		ThrowBasicAttack(enemyAttacked, attackLightDamage);
 	}
 	isAttacking = true;
 }
@@ -364,7 +370,6 @@ void PlayerAttackScript::HeavyNormalAttack()
 	}
 	else
 	{
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CHARGED_SHOT);
 		if (enemyAttacked != nullptr)
 		{
 			comboSystem->SuccessfulAttack(comboCountHeavy * 
@@ -378,14 +383,35 @@ void PlayerAttackScript::HeavyNormalAttack()
 
 void PlayerAttackScript::ThrowBasicAttack(GameObject* enemyAttacked, float nDamage)
 {
-	// Create a new bullet
-	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
+	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::SHOT);
+	
+	GameObject* bullet = SelectBullet();
+
+	assert(bullet);
 	LightAttackBullet* ligthAttackBulletScript = bullet->GetComponent<LightAttackBullet>();
 
-	ligthAttackBulletScript->SetBulletVelocity(bulletVelocity);
-	ligthAttackBulletScript->SetEnemy(enemyDetection->GetEnemySelected());
+	bullet->Enable();
+	bullet->SetTag("AlluraBullet");
+	ligthAttackBulletScript->SetInitPos(bulletInitPosition);
+	ligthAttackBulletScript->ResetDefaultValues();
+	ligthAttackBulletScript->SetEnemy(enemyAttacked);
 	ligthAttackBulletScript->SetStunTime(0);
+	ligthAttackBulletScript->SetVelocity(bulletVelocity);
 	ligthAttackBulletScript->SetDamage(nDamage);
+	ligthAttackBulletScript->SetImpactSound(AUDIO::SFX::PLAYER::WEAPON::SHOT_IMPACT);
+	ligthAttackBulletScript->StartMoving();
+}
+
+GameObject* PlayerAttackScript::SelectBullet() const
+{
+	for (GameObject* bullet : bulletLoader->GetChildren())
+	{
+		if (!bullet->IsEnabled())
+		{
+			return bullet;
+		}
+	}
+	return nullptr;
 }
 
 void PlayerAttackScript::InitJumpAttack()
@@ -399,10 +425,12 @@ void PlayerAttackScript::InitJumpAttack()
 	{
 		jumpFinisherScript->PerformGroundSmash(); // Bix jumping attack
 		timeSinceLastJumpAttack = 0.0f;
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_DOWN_ATTACK);
 	}
 	else
 	{
 		jumpFinisherScript->ShootForceBullet(10.0f, 2.0f); // Allura jumping attack, placed it here for now
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ALLURA_DOWN_ATTACK);
 	}
 }
 
@@ -432,7 +460,12 @@ void PlayerAttackScript::UpdateJumpAttack()
 
 		if (!isMelee)
 		{
+			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::GRANADE_EXPLOSION);
 			jumpFinisherScript->SetBulletHitTheFloor(false);
+		}
+		else
+		{
+			audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_DOWN_ATTACK_IMPACT);
 		}
 		currentAttack = AttackType::NONE;
 	}
@@ -495,11 +528,7 @@ void PlayerAttackScript::LightFinisher()
 
 	isAttacking = true;
 
-	if (!isMelee)
-	{
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ELECTRIC_SHOT);
-	}
-	lightFinisherScript->ThrowStunItem();
+	lightFinisherScript->ThrowStunItem(isMelee);
 
 	comboSystem->SuccessfulAttack(-comboCountLight * 10, AttackType::LIGHTFINISHER);
 }
@@ -514,7 +543,6 @@ void PlayerAttackScript::HeavyFinisher()
 	animation->SetParameter("HeavyFinisherEnd", false);
 	animation->SetParameter("HeavyFinisherInit", true);
 	isAttacking = true;
-	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CANNON_SHOT);
 	if (enemyAttacked != nullptr)
 	{
 		heavyFinisherAttack->PerformHeavyFinisher(enemyAttacked->GetComponent<ComponentTransform>(), 
@@ -557,7 +585,7 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 				if (isNextAttackTriggered)
 				{
 					currentAttackAnimation = animation->GetController()->GetStateName();
-					LOG_VERBOSE("Normal Attack Soft");
+					LOG_VERBOSE("Normal Basic Attack");
 					if (lastAttack == AttackType::LIGHTNORMAL)
 					{
 						LightNormalAttack();
@@ -651,6 +679,7 @@ void PlayerAttackScript::ResetAttackAnimations(float deltaTime)
 						isAttacking = false;
 						lastAttack = AttackType::NONE;
 						isHeavyFinisherReceivedAux = false;
+						isHeavyFinisherAvailable = true;
 						break;
 					}
 				}
@@ -729,7 +758,7 @@ void PlayerAttackScript::PlayWeaponSounds() const
 {
 	if (isMelee)
 	{
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_OPEN);
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);
+		/*audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_OPEN);
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_HUM);*/
 	}
 }

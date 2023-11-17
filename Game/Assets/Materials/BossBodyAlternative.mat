@@ -2,6 +2,6 @@
     "DiffuseAssetPath": "Assets/Textures/BossV5_BodyNoScar_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/BossV5_Body_NoScarNormal.png",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/BossV5_BodyNoScar_MetallicSmoothness.png",
+    "MetalicAssetPath": "",
     "EmissiveAssetPath": "Assets/Textures/BossV5_BodyNoScar_Emission.png"
 }

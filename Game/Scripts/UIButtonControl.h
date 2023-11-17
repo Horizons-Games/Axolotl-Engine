@@ -22,29 +22,17 @@ public:
 	void Update(float deltaTime) override;
 
 private:
-	ModuleInput* input;
 	ModuleUI* ui;
+	ModuleInput* input;
+	UIGameManager* uiGameManager;
+	SceneLoadingScript* loadingScreenScript;
 	ComponentButton* buttonComponent;
-	UIGameManager* UIGameManagerClass;
-
-	bool isGameExit;
-	bool isGameResume;
-	bool isBackButton;
-
 	GameObject* disableObject;
 	GameObject* enableObject;
 	GameObject* buttonHover;
-	GameObject* setUiGameManagerObject;
-	SceneLoadingScript* loadingScreenScript;
+
+	bool isGameExit;
+	bool isGameResume;
+	bool isOptionMenuButton;
+	bool isButtonB;
 };
-
-
-
-
-
-
-
-
-
-
-

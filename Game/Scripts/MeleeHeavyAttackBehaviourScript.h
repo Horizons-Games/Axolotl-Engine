@@ -20,6 +20,7 @@ class ComponentAudioSource;
 class ComponentAnimation;
 class ComponentParticleSystem;
 class EnemyDeathScript;
+class HealthSystem;
 class AIMovement;
 
 class MeleeHeavyAttackBehaviourScript : public Script
@@ -35,6 +36,9 @@ public:
 	void UpdateDroneColor();
 
 	ExplosionState HasExploded() const;
+	
+	void SetIsPaused(bool isPaused);
+
 
 private:
 	void OnCollisionEnter(ComponentRigidBody* other) override;
@@ -52,8 +56,10 @@ private:
 	ComponentAnimation* componentAnimation;
 	ComponentParticleSystem* particleSystem;
 	AIMovement* aiMovement;
+	HealthSystem* parentHealth;
 
 	float explosionDamage;
 	float explosionTime;
 	float explosionDistance;
+	bool isPaused;
 };

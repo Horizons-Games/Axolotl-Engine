@@ -5,7 +5,16 @@
 			<ChildrenList>
 				<SoundBank Name="Music" ID="{F3BD5133-554B-44F3-AF06-006ABD86FA0D}">
 					<ObjectInclusionList>
-						<ObjectRef Name="Music" ID="{94700702-0A85-46B8-BF7D-8CDF5AB86D01}" WorkUnitID="{94700702-0A85-46B8-BF7D-8CDF5AB86D01}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Sewers-A-B-Transition" ID="{E2F7B79A-4BC0-409B-968C-EC01D921C615}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Sewers-B-A-Transition" ID="{5B83A433-0CCD-4965-A255-AB9D85B19F9C}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="MusicSwitch" ID="{ABC59D38-D3EE-4AF7-8B03-C8EE82056400}" WorkUnitID="{7DCFD40A-7160-4AD1-AA50-CD0BBB49F977}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+				<SoundBank Name="Music_Part02" ID="{43CD40F1-2906-449F-9422-89D96D5B7104}">
+					<ObjectInclusionList>
+						<ObjectRef Name="Music_Part02" ID="{F5DB991F-390F-425B-8785-D21B9CD31365}" WorkUnitID="{94700702-0A85-46B8-BF7D-8CDF5AB86D01}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

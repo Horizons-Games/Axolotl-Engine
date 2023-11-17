@@ -119,7 +119,7 @@ void ComponentParticleSystem::Stop()
 void ComponentParticleSystem::Update()
 {
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 
 	if (IsEnabled() && isPlaying && !pause && camera->GetSelectedCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
@@ -135,10 +135,10 @@ void ComponentParticleSystem::Draw() const
 	for (EmitterInstance* instance : emitters)
 	{
 #ifdef ENGINE
-		instance->DrawDD();
+		//instance->DrawDD();
 		//instance->SimulateParticles();
 		//Draw the BoundingBox of ComponentParticle
-		ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+		ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 		if (transform->IsDrawBoundingBoxes())
 		{
 			App->GetModule<ModuleDebugDraw>()->DrawBoundingBox(transform->GetObjectOBB());
@@ -150,7 +150,7 @@ void ComponentParticleSystem::Draw() const
 void ComponentParticleSystem::Render()
 {
 	ModuleCamera* camera = App->GetModule<ModuleCamera>();
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 
 	if (IsEnabled() &&	camera->GetSelectedCamera()->IsInside(transform->GetEncapsuledAABB()))
 	{
@@ -213,7 +213,7 @@ void ComponentParticleSystem::SetResource(const std::shared_ptr<ResourceParticle
 	{
 		InitEmitterInstances();
 	}
-	ComponentTransform* transform = GetOwner()->GetComponent<ComponentTransform>();
+	ComponentTransform* transform = GetOwner()->GetComponentInternal<ComponentTransform>();
 	//set the origin to translate and scale the BoundingBox
 	transform->SetOriginScaling({0.5,0.5,0.5});
 	transform->SetOriginCenter({ 0.0, 0.0, 0.0 });

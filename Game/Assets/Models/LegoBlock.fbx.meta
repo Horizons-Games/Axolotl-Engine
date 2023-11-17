@@ -1,0 +1,11 @@
+{
+    "UID": 3955770250524545838,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/LegoBlock.Cube.011_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/LegoBlockMaterial.001_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

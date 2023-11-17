@@ -3,9 +3,11 @@
 
 #include "Application.h"
 #include "Modules/ModuleRandom.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAudioSource.h"
 
 #include "../Scripts/BossLevelElevator.h"
 #include "../Scripts/BossShieldAttackScript.h"
@@ -15,7 +17,7 @@
 
 REGISTERCLASS(BossShieldEnemiesSpawner);
 
-BossShieldEnemiesSpawner::BossShieldEnemiesSpawner() : Script(), animator(nullptr)
+BossShieldEnemiesSpawner::BossShieldEnemiesSpawner() : Script(), animator(nullptr), audioSource(nullptr)
 {
 	REGISTER_FIELD(enemiesToSpawnParent, GameObject*);
 	REGISTER_FIELD(elevatorOne, BossLevelElevator*);
@@ -34,10 +36,16 @@ void BossShieldEnemiesSpawner::Start()
 
 	bossShieldAttackScript = owner->GetComponent<BossShieldAttackScript>();
 	animator = owner->GetComponent<ComponentAnimation>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
 }
 
 void BossShieldEnemiesSpawner::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		return;
+	}
+
 	if (elevatorOne->GetHasEnemies() && elevatorOne->GetPositionState() == PositionState::UP)
 	{
 		elevatorOne->ReleaseEnemies();
@@ -60,12 +68,15 @@ void BossShieldEnemiesSpawner::Update(float deltaTime)
 
 void BossShieldEnemiesSpawner::StartSpawner()
 {
-	if (enemiesReadyToSpawn.size() <= 0)
+	if (enemiesReadyToSpawn.size() < ENEMIES_PER_WAVE)
 	{
 		ReactivateEnemies();
 	}
 
 	animator->SetParameter("IsInvoking", true);
+
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::SUMMON_ENEMIES);
+	// VFX Here: Add the yell effect for when the boss invokes enemies
 
 	GameObject* enemy1 = SelectRandomEnemy();
 	GameObject* enemy2 = SelectRandomEnemy();
@@ -119,11 +130,17 @@ void BossShieldEnemiesSpawner::ReactivateEnemies()
 	for (std::vector<GameObject*>::iterator it = (enemiesNotReadyToSpawn).begin(); it < (enemiesNotReadyToSpawn).end();
 		++it)
 	{
-		// TODO: check if there is something else to reset
 		EnemyClass* enemyClass = (*it)->GetComponent<EnemyClass>();
 		enemyClass->ActivateNeedsToBeReset();
 
 		enemiesReadyToSpawn.push_back(*it);
-		enemiesNotReadyToSpawn.erase(it);
 	}
+	enemiesNotReadyToSpawn.clear();
+}
+
+void BossShieldEnemiesSpawner::SetIsPaused(bool isPaused)
+{
+	this->isPaused = isPaused;
+	elevatorOne->SetIsPaused(isPaused);
+	elevatorTwo->SetIsPaused(isPaused);
 }

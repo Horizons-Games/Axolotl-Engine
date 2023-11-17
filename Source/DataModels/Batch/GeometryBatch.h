@@ -62,9 +62,10 @@ private:
 		int has_normal_map = 0;					//20 //4
 		int has_metallic_map = 0;				//24 //4
 		int has_emissive_map = 0;				//28 //4
-		float smoothness = 0;					//32 //4
-		float metalness = 0;					//36 //4
-		float normal_strength = 0;				//40 //4
+		int is_reflective = 0;					//32 //4
+		float smoothness = 0;					//36 //4
+		float metalness = 0;					//40 //4
+		float normal_strength = 0;				//44 //4
 		uint64_t diffuse_map;					//48 //8
 		uint64_t normal_map;					//56 //8
 		uint64_t metallic_map;					//64 //8
@@ -79,13 +80,14 @@ private:
 		int has_normal_map = 0;					//36 //4
 		int has_specular_map = 0;				//40 //4
 		int has_emissive_map = 0;				//44 //4
-		float smoothness = 0;					//48 //4
-		float normal_strength = 0;				//52 //4
-		uint64_t diffuse_map;					//56 //8
-		uint64_t normal_map;					//64 //8
-		uint64_t specular_map;					//72 //8
-		uint64_t emissive_map;					//80 //8
-		int padding1, padding2;					//88 //8 --> 96
+		int is_reflective = 0;					//48 //4
+		float smoothness = 0;					//52 //4
+		float normal_strength = 0;				//56 //4
+		int padding1;							//60 //4
+		uint64_t diffuse_map;					//64 //8
+		uint64_t normal_map;					//72 //8
+		uint64_t specular_map;					//80 //8
+		uint64_t emissive_map;					//88 //8 --> 96
 	};
 
 	struct ResourceInfo
@@ -112,8 +114,10 @@ private:
 
 	struct Effect
 	{
-		float3 color;
+		float4 color;
 		int discard; // works like a boolean
+		int padding1;
+		float2 padding2;
 	};
 
 	struct uint4

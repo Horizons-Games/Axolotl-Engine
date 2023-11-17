@@ -24,6 +24,9 @@
 #include "Components/UI/ComponentButton.h"
 #include "Components/UI/ComponentCanvas.h"
 #include "Components/UI/ComponentImage.h"
+
+#include "Components/UI/ComponentVideo.h"
+
 #include "Components/UI/ComponentSlider.h"
 #include "Components/UI/ComponentTransform2D.h"
 
@@ -57,9 +60,7 @@ Scene::Scene() :
 	ssboSpot(0),
 	rootQuadtree(nullptr),
 	rootQuadtreeAABB(AABB(float3(-QUADTREE_INITIAL_SIZE / 2, -QUADTREE_INITIAL_ALTITUDE, -QUADTREE_INITIAL_SIZE / 2),
-						  float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2))),
-	combatMode(false),
-	enemiesToDefeat(0)
+						  float3(QUADTREE_INITIAL_SIZE / 2, QUADTREE_INITIAL_ALTITUDE, QUADTREE_INITIAL_SIZE / 2)))
 {
 }
 
@@ -69,6 +70,7 @@ Scene::~Scene()
 	sceneCameras.clear();
 	sceneParticleSystems.clear();
 	sceneComponentLines.clear();
+	sceneComponentPlanarReflection.clear();
 	nonStaticObjects.clear();
 
 	pointLights.clear();
@@ -76,18 +78,21 @@ Scene::~Scene()
 	sphereLights.clear();
 	tubeLights.clear();
 	localIBLs.clear();
+	planarReflections.clear();
 
 	cachedPoints.clear();
 	cachedSpots.clear();
 	cachedSpheres.clear();
 	cachedTubes.clear();
 	cachedLocalIBLs.clear();
+	cachedPlanarReflections.clear();
 
 	glDeleteBuffers(1, &ssboPoint);
 	glDeleteBuffers(1, &ssboSpot);
 	glDeleteBuffers(1, &ssboSphere);
 	glDeleteBuffers(1, &ssboTube);
 	glDeleteBuffers(1, &ssboLocalIBL);
+	glDeleteBuffers(1, &ssboPlanarReflection);
 }
 
 void Scene::FillQuadtree(const std::vector<GameObject*>& gameObjects)
@@ -119,20 +124,20 @@ bool Scene::IsInsideACamera(const AABB& aabb) const
 	return IsInsideACamera(aabb.ToOBB());
 }
 
-std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frustum)
+std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frustum, const int& filter)
 {
 	std::vector<GameObject*> objectsInFrustum;
 
-	CalculateObjectsInFrustum(frustum, rootQuadtree.get(), objectsInFrustum);
+	CalculateObjectsInFrustum(frustum, rootQuadtree.get(), objectsInFrustum, filter);
 
 	for (GameObject* go : nonStaticObjects)
 	{
-		CalculateNonStaticObjectsInFrustum(frustum, go, objectsInFrustum);
+		CalculateNonStaticObjectsInFrustum(frustum, go, objectsInFrustum, filter);
 	}
 
 #ifdef ENGINE
 	GameObject* selected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
-	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum);
+	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum, filter);
 
 	//for (auto childSelected : selected->GetChildren())
 	//{
@@ -143,23 +148,40 @@ std::vector<GameObject*> Scene::ObtainObjectsInFrustum(const math::Frustum* frus
 	return objectsInFrustum;
 }
 
-std::vector<GameObject*> Scene::ObtainStaticObjectsInFrustum(const math::Frustum* frustum)
+std::vector<GameObject*> Scene::ObtainStaticObjectsInFrustum(const math::Frustum* frustum, const int& filter)
 {
 	std::vector<GameObject*> objectsInFrustum;
 
-	CalculateObjectsInFrustum(frustum, rootQuadtree.get(), objectsInFrustum);
+	CalculateObjectsInFrustum(frustum, rootQuadtree.get(), objectsInFrustum, filter);
 
 #ifdef ENGINE
 	GameObject* selected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
-	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum);
+	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum, filter);
 
 #endif
 
 	return objectsInFrustum;
 }
 
+std::vector<GameObject*> Scene::ObtainDynamicObjectsInFrustum(const math::Frustum* frustum, const int& filter)
+{
+	std::vector<GameObject*> objectsInFrustum;
+	
+	for (GameObject* go : nonStaticObjects)
+	{
+		CalculateNonStaticObjectsInFrustum(frustum, go, objectsInFrustum, filter);
+	}
+
+#ifdef ENGINE
+	GameObject* selected = App->GetModule<ModuleScene>()->GetSelectedGameObject();
+	CalculateNonStaticObjectsInFrustum(frustum, selected, objectsInFrustum, filter);
+#endif
+
+	return objectsInFrustum;
+}
+
 void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad, 
-									  std::vector<GameObject*>& gos)
+									  std::vector<GameObject*>& gos, const int& filter)
 {
 	if (FrustumInQuadTree(frustum, quad))
 	{
@@ -178,6 +200,10 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 						ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
 						if (mesh != nullptr && mesh->IsEnabled())
 						{
+							if (filter & NON_REFLECTIVE && mesh->GetMaterial() && mesh->IsReflective())
+							{
+								return;
+							}
 							gos.push_back(gameObject);
 						}
 					}
@@ -197,6 +223,10 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 						ComponentMeshRenderer* mesh = gameObject->GetComponentInternal<ComponentMeshRenderer>();
 						if (mesh != nullptr && mesh->IsEnabled())
 						{
+							if (filter & NON_REFLECTIVE && mesh->GetMaterial() && mesh->IsReflective())
+							{
+								return;
+							}
 							gos.push_back(gameObject);
 						}
 					}
@@ -219,7 +249,7 @@ void Scene::CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtr
 }
 
 void Scene::CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, GameObject* go,
-										       std::vector<GameObject*>& gos)
+										       std::vector<GameObject*>& gos, const int& filter)
 {
 	if (go->GetParent() == nullptr)
 	{
@@ -240,6 +270,10 @@ void Scene::CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, Gam
 			ComponentMeshRenderer* mesh = go->GetComponentInternal<ComponentMeshRenderer>();
 			if (go->IsActive() && (mesh != nullptr || mesh->IsEnabled()))
 			{
+				if (filter & NON_REFLECTIVE && mesh->GetMaterial() && mesh->IsReflective())
+				{
+					return;
+				}
 				gos.push_back(go);
 			}
 		}
@@ -397,10 +431,18 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 		case ComponentType::IMAGE:
 			gameObject->CreateComponent<ComponentImage>();
 			break;
+		case ComponentType::VIDEO:
+		{
+			ComponentVideo* video = gameObject->CreateComponent<ComponentVideo>();
+			sceneVideos.push_back(video);
+			break;
+		}
 		case ComponentType::BUTTON:
+		{
 			gameObject->CreateComponent<ComponentImage>();
 			sceneInteractableComponents.push_back(gameObject->CreateComponent<ComponentButton>());
 			break;
+		}
 		case ComponentType::SLIDER:
 		{
 			ComponentSlider* slider = gameObject->CreateComponent<ComponentSlider>();
@@ -409,7 +451,7 @@ GameObject* Scene::CreateUIGameObject(const std::string& name, GameObject* paren
 			ComponentTransform2D* backgroundTransform = background->GetComponentInternal<ComponentTransform2D>();
 			backgroundTransform->SetSize(float2(400, 50));
 			backgroundTransform->CalculateMatrices();
-			background->GetComponentInternal<ComponentImage>()->SetColor(float4(1.0f,0.0f,0.0f,1.0f));
+			background->GetComponentInternal<ComponentImage>()->SetColor(float4(1.0f, 0.0f, 0.0f, 1.0f));
 			slider->SetBackground(background);
 
 			GameObject* fill = CreateUIGameObject("Fill", gameObject, ComponentType::IMAGE);
@@ -641,6 +683,23 @@ GameObject* Scene::SearchGameObjectByID(UID gameObjectID) const
 	return nullptr;
 }
 
+std::vector<GameObject*> Scene::SearchGameObjectByTag(const std::string& gameObjectTag) const
+{
+	std::vector<GameObject*> tagGameObjects;
+	for (GameObject* gameObject : sceneGameObjects)
+	{
+		if (gameObject && gameObject->CompareTag(gameObjectTag))
+		{
+			tagGameObjects.push_back(gameObject);
+		}
+	}
+	if (tagGameObjects.empty())
+	{
+		assert(false && "Wrong Tag introduced, GameObject not found");
+	}
+	return tagGameObjects;
+}
+
 GameObject* Scene::FindRootBone(GameObject* node, const std::vector<Bone>& bones)
 {
 	if (node->GetParent())
@@ -764,6 +823,14 @@ void Scene::RemoveFatherAndChildren(const GameObject* gameObject)
 			return componentLine->GetOwner() == gameObject;
 		}),
 		std::end(sceneComponentLines));
+	
+	sceneComponentPlanarReflection.erase(std::remove_if(std::begin(sceneComponentPlanarReflection),
+		std::end(sceneComponentPlanarReflection),
+		[gameObject](const ComponentPlanarReflection* componentPlanarReflection)
+		{
+			return componentPlanarReflection->GetOwner() == gameObject;
+		}),
+		std::end(sceneComponentPlanarReflection));
 
 	sceneInteractableComponents.erase(std::remove_if(std::begin(sceneInteractableComponents),
 													 std::end(sceneInteractableComponents),
@@ -947,6 +1014,19 @@ void Scene::GenerateLights()
 
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingLocalIBL, ssboLocalIBL);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+
+	// Planar Reflection
+
+	size_t numPlanar = planarReflections.size();
+
+	glGenBuffers(1, &ssboPlanarReflection);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPlanarReflection);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PlanarReflection) * numPlanar, nullptr, GL_DYNAMIC_DRAW);
+
+	const unsigned bindingPlanar = 15;
+
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPlanar, ssboPlanarReflection);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
 void Scene::RenderDirectionalLight() const
@@ -1087,6 +1167,23 @@ void Scene::RenderLocalIBLs() const
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
+void Scene::RenderPlanarReflections() const
+{
+	// PlanarReflection
+	size_t numPlanar = planarReflections.size();
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPlanarReflection);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PlanarReflection) * numPlanar, nullptr, GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(unsigned), &numPlanar);
+
+	if (numPlanar > 0)
+	{
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16, sizeof(PlanarReflection) * numPlanar, &planarReflections[0]);
+	}
+
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+}
+
 void Scene::RenderPointLight(const ComponentPointLight* compPoint)
 {	
 	if (pointLights.empty())
@@ -1158,6 +1255,26 @@ void Scene::RenderLocalIBL(const ComponentLocalIBL* compLocal) const
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboLocalIBL);
 			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(LocalIBL) * pos, sizeof(LocalIBL),
 				&localIBLs[pos]);
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		}
+	}
+}
+
+void Scene::RenderPlanarReflection(const ComponentPlanarReflection* compPlanar) const
+{
+	bool found = false;
+
+	for (int i = 0; !found && i < cachedPlanarReflections.size(); ++i)
+	{
+		if (cachedPlanarReflections[i].first == compPlanar)
+		{
+			found = true;
+
+			unsigned int pos = cachedPlanarReflections[i].second;
+
+			glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssboPlanarReflection);
+			glBufferSubData(GL_SHADER_STORAGE_BUFFER, 16 + sizeof(PlanarReflection) * pos, sizeof(PlanarReflection),
+				&planarReflections[pos]);
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 		}
 	}
@@ -1459,6 +1576,38 @@ void Scene::UpdateSceneLocalIBLs()
 				++pos;
 			}
 		}
+	}
+}
+
+void Scene::UpdateScenePlanarReflections()
+{
+	planarReflections.clear();
+	cachedPlanarReflections.clear();
+
+	unsigned int pos = 0;
+
+	for (auto planarReflection : sceneComponentPlanarReflection)
+	{
+		if (planarReflection->IsEnabled() && !planarReflection->IsDeleting())
+		{
+			PlanarReflection planar;
+			float4x4 toLocal = planarReflection->GetTransform();
+			toLocal.InverseOrthonormal();
+			planar.toLocal = toLocal;
+			planar.viewProj = planarReflection->GetViewProjMatrix().Transposed();
+			AABB influence = planarReflection->GetInfluenceAABB();
+			planar.maxInfluence = float4(influence.maxPoint, 0);
+			planar.minInfluence = float4(influence.minPoint, 0);
+			planar.reflection = planarReflection->GetHandleReflection();
+			planar.numMipMaps = planarReflection->GetNumMipMaps();
+			planar.distortionAmount = planarReflection->GetDistortionAmount();
+			planar.planeNormal = float4(planarReflection->GetPlaneNormal(), 0.f);
+
+			planarReflections.push_back(planar);
+			cachedPlanarReflections.push_back(std::make_pair(planarReflection, pos));
+
+			++pos;
+		}
 
 	}
 }
@@ -1555,7 +1704,6 @@ void Scene::UpdateSceneAreaTube(const ComponentAreaLight* compTube)
 void Scene::UpdateSceneLocalIBL(ComponentLocalIBL* compLocal)
 {
 	bool found = false;
-	const GameObject* go = compLocal->GetOwner();
 
 	for (int i = 0; !found && i < cachedLocalIBLs.size(); ++i)
 	{
@@ -1579,6 +1727,35 @@ void Scene::UpdateSceneLocalIBL(ComponentLocalIBL* compLocal)
 			localIBL.minInfluence = float4(influence.minPoint, 0);
 
 			localIBLs[cachedLocalIBLs[i].second] = localIBL;
+		}
+	}
+}
+
+void Scene::UpdateScenePlanarReflection(ComponentPlanarReflection* compPlanar)
+{
+	bool found = false;
+
+	for (int i = 0; !found && i < cachedPlanarReflections.size(); ++i)
+	{
+		if (cachedPlanarReflections[i].first == compPlanar)
+		{
+			found = true;
+
+			PlanarReflection planar;
+
+			float4x4 toLocal = compPlanar->GetTransform();
+			toLocal.InverseOrthonormal();
+			planar.toLocal = toLocal;
+			planar.viewProj = compPlanar->GetViewProjMatrix().Transposed();
+			AABB influence = compPlanar->GetInfluenceAABB();
+			planar.maxInfluence = float4(influence.maxPoint, 0);
+			planar.minInfluence = float4(influence.minPoint, 0);
+			planar.reflection = compPlanar->GetHandleReflection();
+			planar.numMipMaps = compPlanar->GetNumMipMaps();
+			planar.distortionAmount = compPlanar->GetDistortionAmount();
+			planar.planeNormal = float4(compPlanar->GetPlaneNormal(), 0.f);
+
+			planarReflections[cachedPlanarReflections[i].second] = planar;
 		}
 	}
 }
@@ -1630,12 +1807,14 @@ void Scene::InitLights()
 	UpdateSceneSpotLights();
 	UpdateSceneAreaLights();
 	UpdateSceneLocalIBLs();
+	UpdateScenePlanarReflections();
 
 	RenderDirectionalLight();
 	RenderPointLights();
 	RenderSpotLights();
 	RenderAreaLights();
 	RenderLocalIBLs();
+	RenderPlanarReflections();
 
 	App->GetModule<ModuleRender>()->GetLightProxy()->CleanUp();
 }
@@ -1666,11 +1845,11 @@ void Scene::InsertGameObjectAndChildrenIntoSceneGameObjects(GameObject* gameObje
 
 	if (gameObject->HasComponent<ComponentLine>())
 	{
-		AddComponentLines(static_cast<ComponentLine*>(gameObject->GetComponent<ComponentLine>()));
+		AddComponentLines(static_cast<ComponentLine*>(gameObject->GetComponentInternal<ComponentLine>()));
 	}
 	if (gameObject->HasComponent<ComponentParticleSystem>())
 	{
-		AddParticleSystem(static_cast<ComponentParticleSystem*>(gameObject->GetComponent<ComponentParticleSystem>()));
+		AddParticleSystem(static_cast<ComponentParticleSystem*>(gameObject->GetComponentInternal<ComponentParticleSystem>()));
 	}
 
 	if (gameObject->IsRendereable() && is3D)
@@ -1723,9 +1902,15 @@ void Scene::UpdateLightsFromCopiedGameObjects(const int& filter)
 		UpdateSceneLocalIBLs();
 		RenderLocalIBLs();
 	}
+
+	if (filter & HAS_PLANAR_REFLECTION)
+	{
+		UpdateScenePlanarReflections();
+		RenderPlanarReflections();
+	}
 }
 
-int& Scene::SearchForLights(GameObject* gameObject)
+int Scene::SearchForLights(GameObject* gameObject)
 {
 	int filter = 0;
 	
@@ -1760,6 +1945,11 @@ int& Scene::SearchForLights(GameObject* gameObject)
 		}
 		case LightType::LOCAL_IBL:
 			filter = HAS_LOCAL_IBL;
+			break;
+
+		case LightType::PLANAR_REFLECTION:
+			filter = HAS_PLANAR_REFLECTION;
+			sceneComponentPlanarReflection.push_back(static_cast<ComponentPlanarReflection*>(light));
 			break;
 		}
 	}
@@ -1836,11 +2026,6 @@ void Scene::AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& 
 	sceneParticleSystems.insert(std::end(sceneParticleSystems), std::begin(particleSystems), std::end(particleSystems));
 }
 
-void Scene::AddSceneComponentLines(const std::vector<ComponentLine*>& componentLines)
-{
-	sceneComponentLines.insert(std::end(sceneComponentLines), std::begin(componentLines), std::end(componentLines));
-}
-
 void Scene::InitRender()
 {
 	if (root->GetComponentInternal<ComponentRender>() == nullptr)
@@ -1879,7 +2064,7 @@ std::vector<float> Scene::GetVertices()
 		GameObject* go = meshRenderer->GetOwner();
 		if (mesh != nullptr && go->CompareTag("NAVIGABLE"))
 		{
-			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+			ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
 			//for (const ResourceMesh::Vertex& vertex : mesh->vertices)
 			//{
 			//	float4 transformedVertex = transform->GetGlobalMatrix() * float4(vertex.position, 1.0f);
@@ -1948,7 +2133,7 @@ std::vector<float> Scene::GetNormals()
 		GameObject* go = meshRenderer->GetOwner();
 		if (mesh != nullptr && go->CompareTag("NAVIGABLE"))
 		{
-			ComponentTransform* transform = go->GetComponent<ComponentTransform>();
+			ComponentTransform* transform = go->GetComponentInternal<ComponentTransform>();
 			for (const float3 normal : mesh->GetNormals())
 			{
 				float4 transformedVertex = transform->GetGlobalMatrix() * float4(normal, 1.0f);
@@ -1962,20 +2147,7 @@ std::vector<float> Scene::GetNormals()
 	return result;
 }
 
-void Scene::SetCombatMode(bool newCombatMode)
-{
-	combatMode = newCombatMode;
-	//App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<ComponentCameraSample>()->SetCombatCameraEnabled(combatMode);
-}
-
-void Scene::SetEnemiesToDefeat(float newEnemiesToDefeat)
-{
-	enemiesToDefeat = newEnemiesToDefeat;
-	if (newEnemiesToDefeat <= 0.0)
-		SetCombatMode(false);
-}
-
-const SpotLight& Scene::GetSpotLightsStruct(int index) const
+SpotLight Scene::GetSpotLightsStruct(int index) const
 {
 	if (index >= 0 && index < spotLights.size())
 	{
@@ -1988,7 +2160,7 @@ const SpotLight& Scene::GetSpotLightsStruct(int index) const
 	}
 }
 
-const PointLight& Scene::GetPointLightsStruct(int index) const
+PointLight Scene::GetPointLightsStruct(int index) const
 {
 	if (index >= 0 && index < pointLights.size())
 	{

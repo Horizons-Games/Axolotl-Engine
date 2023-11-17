@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "UITrigger.h"
 
 #include "Application.h"
@@ -12,6 +13,7 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentPlayer.h"
+#include "Components/UI/ComponentVideo.h"
 
 #include "GameObject/GameObject.h"
 
@@ -21,21 +23,28 @@
 #include "UIGameManager.h"
 #include "HealthSystem.h"
 #include "SceneLoadingScript.h"
+#include "HackZoneScript.h"
 #include "Components/ComponentScript.h"
 
 REGISTERCLASS(UITrigger);
 
-UITrigger::UITrigger() : Script(),componentAudio(nullptr), activeState(ActiveActions::INACTIVE), setGameStateObject(nullptr),
-UIGameManagerClass(nullptr), isLoseTrigger (nullptr), isWinTrigger(nullptr), isNextSceneTrigger(nullptr), isLoseByDamage(false), 
-playerHealthSystem(nullptr), onTriggerState(false), damageTaken(1)
+UITrigger::UITrigger() : Script(), componentAudio(nullptr), activeState(ActiveActions::INACTIVE), setUiGameManager(nullptr),
+uiGameManagerClass(nullptr), isLoseTrigger(nullptr), isWinTrigger(nullptr), isNextSceneTrigger(nullptr), isLoseByDamage(false),
+playerHealthSystem(nullptr), onTriggerState(false), damageTaken(1), setLoadingScreenImage(nullptr), noRestrictions(nullptr),
+timer(0.0f), timerImg(2.0f), damageTimer(0.0f)
 {
-	REGISTER_FIELD(isWinTrigger, bool);
 	REGISTER_FIELD(isLoseTrigger, bool);
-	REGISTER_FIELD(isNextSceneTrigger, bool);
+	REGISTER_FIELD(setUiGameManager, GameObject*);
+
 	REGISTER_FIELD(isLoseByDamage, bool);
-	REGISTER_FIELD(setGameStateObject, GameObject*);
 	REGISTER_FIELD(damageTaken, float);
+
+	REGISTER_FIELD(isNextSceneTrigger, bool);
+	REGISTER_FIELD(noRestrictions, bool);
+	REGISTER_FIELD(setLoadingScreenImage, GameObject*);
 	REGISTER_FIELD(loadingScreenScript, SceneLoadingScript*);
+	REGISTER_FIELD(hackZoneScript, HackZoneScript*);
+	REGISTER_FIELD(timerImg, float);
 }
 
 UITrigger::~UITrigger()
@@ -50,9 +59,9 @@ void UITrigger::Start()
 	//componentAnimation = static_cast<ComponentAnimation*>(owner->GetComponent(ComponentType::ANIMATION));
 	componentRigidBody = owner->GetComponent<ComponentRigidBody>();
 
-	if (setGameStateObject != nullptr)
+	if (setUiGameManager)
 	{
-		UIGameManagerClass = setGameStateObject->GetComponent<UIGameManager>();
+		uiGameManagerClass = setUiGameManager->GetComponent<UIGameManager>();
 	}
 
 	if (isLoseByDamage)
@@ -66,18 +75,18 @@ void UITrigger::Update(float deltaTime)
 	if (setPlayer != modulePlayer->GetPlayer())
 	{
 		setPlayer = App->GetModule<ModulePlayer>()->GetPlayer();
+		if (isLoseByDamage)
+		{
+			playerHealthSystem = setPlayer->GetComponent<HealthSystem>();
+		}
 	}
 
 	if(onTriggerState)
 	{
-		if (isWinTrigger)
+		if (isLoseTrigger)
 		{
-			LoadScene("Lib/Scenes/00_WinScene_VS3.axolotl");
-
-		}
-		else if (isLoseTrigger)
-		{
-
+			uiGameManagerClass->LoseGameState(0.0f);
+			return;
 		}
 		else if (isLoseByDamage)
 		{
@@ -87,18 +96,17 @@ void UITrigger::Update(float deltaTime)
 				timer++;
 				playerHealthSystem->TakeDamage(damageTaken);
 			}
-			//UIGameManagerClass->LoseStateScene(true);
 		}
 		else if (isNextSceneTrigger)
 		{
-			App->GetModule<ModuleScene>()->LoadScene("Lib/Scenes/_LEVEL02_ALFA.axolotl");
+			LoadScene(deltaTime);	
 		}
 	}
 }
 
 void UITrigger::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->CompareTag("Player"))
+	if (other->GetOwner()->CompareTag("Player") || other->GetOwner()->CompareTag("PlayerSpaceship"))
 	{
 		onTriggerState = true;
 	}
@@ -106,20 +114,47 @@ void UITrigger::OnCollisionEnter(ComponentRigidBody* other)
 
 void UITrigger::OnCollisionExit(ComponentRigidBody* other)
 {
-	if (other->GetOwner()->CompareTag("Player"))
+	if (other->GetOwner()->CompareTag("Player") || other->GetOwner()->CompareTag("PlayerSpaceship"))
 	{
 		onTriggerState = false;
 	}
 }
 
-void UITrigger::LoadScene(const std::string& sceneToLoadIfNoLoadingScreen)
+void UITrigger::LoadScene(float deltaTime)
 {
-	if (loadingScreenScript != nullptr)
+	if (hackZoneScript && hackZoneScript->IsCompleted() || !hackZoneScript && noRestrictions)
 	{
-		loadingScreenScript->StartLoad();
+		if (timerImg <= 0.0f)
+		{
+			if (setLoadingScreenImage)
+			{
+				setLoadingScreenImage->Enable();
+			}
+
+			timerImg = 2.0f;
+
+			if (loadingScreenScript)
+			{
+				LOG_INFO("STARTING LOAD SCRIPT");
+#ifndef ENGINE
+				loadingScreenScript->StartLoad();
+#endif // 
+			}
+		}
+		else
+		{
+			timerImg -= deltaTime;
+			return;
+		}
 	}
-	else
-	{
-		App->GetModule<ModuleScene>()->SetSceneToLoad(sceneToLoadIfNoLoadingScreen);
-	}
+}
+
+void UITrigger::SetNextSceneTrigger(bool isEnable)
+{
+	isNextSceneTrigger = isEnable;
+}
+
+bool UITrigger::IsNextSceneTriggerEnable() const
+{
+	return isNextSceneTrigger;
 }

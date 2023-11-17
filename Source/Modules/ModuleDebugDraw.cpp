@@ -582,7 +582,7 @@ const char* DDRenderInterfaceCoreGL::textFragShaderSrc =
 
 DDRenderInterfaceCoreGL* ModuleDebugDraw::implementation = 0;
 
-ModuleDebugDraw::ModuleDebugDraw() : showBoundingBoxes(false),showRigidBody(false)
+ModuleDebugDraw::ModuleDebugDraw() : showBoundingBoxes(false), showRigidBody(false), showGrid(true)
 {
 }
 
@@ -610,7 +610,10 @@ bool ModuleDebugDraw::CleanUp()
 UpdateStatus ModuleDebugDraw::Update()
 {
 #ifdef ENGINE
-	dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
+	if (showGrid)
+	{
+		dd::xzSquareGrid(-50, 50, 0.0f, 0.8f, dd::colors::Gray);
+	}
 #endif // ENGINE
 
 	return UpdateStatus::UPDATE_CONTINUE;

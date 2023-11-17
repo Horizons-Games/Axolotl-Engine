@@ -42,7 +42,6 @@ private:
 
 	bool isFalling;
 	bool isGrounded;
-	bool doubleJumpAvailable;
 	float coyoteTime;
 	float coyoteTimerCount;
 	float jumpParameter;

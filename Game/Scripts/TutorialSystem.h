@@ -17,8 +17,6 @@ class UIImageDisplacementControl;
 class HealthSystem;
 class PlayerMoveScript;
 
-
-
 class TutorialSystem : public Script
 {
 public:
@@ -35,6 +33,7 @@ public:
 	void TutorialSkip();
 	int GetTutorialCurrentState() const;
 	float GetNumControllableState() const;
+	void SetNumControllableState(int controllableState);
 
 	int GetTutorialSlideSize() const;
 	void SetTutorialSlideSize(int tutorialTotalStates);
@@ -42,8 +41,8 @@ public:
 	UIImageDisplacementControl* GetDisplacementControl();
 
 private:
-	int tutorialCurrentState;
-	int tutorialTotalStates;
+	float tutorialCurrentState;
+	float tutorialTotalStates;
 	bool userControllable;
 	bool isWaiting;
 	float numNotControllableStates;
@@ -58,6 +57,7 @@ private:
 	PlayerMoveScript* componentMoveScript;
 
 	float3 initialPos;
+	float3 stayPos;
 
 	ComponentAudioSource* componentAudio;
 	ComponentAnimation* componentAnimation;

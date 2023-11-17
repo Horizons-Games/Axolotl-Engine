@@ -21,6 +21,7 @@ private:
 
 	float3 rotation;
 	float velocity;
+	bool local;
 };
 
 

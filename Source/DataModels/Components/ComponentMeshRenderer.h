@@ -51,12 +51,15 @@ public:
 	void SetTiling(const float2& tiling);
 	void SetOffset(const float2& offset);
 	
-	const float3& GetEffectColor() const;
-	void SetEffectColor(float3 effectColor);
+	const float4& GetEffectColor() const;
+	void SetEffectColor(float4 effectColor);
 	
 	bool IsDiscarded();
 	void SetDiscard(bool discard);
-	
+
+	const bool IsReflective() const;
+	void SetReflective(bool reflective) const;
+
 	// Default shader attributes (setters)
 	void SetMetalness(float metalness);
 
@@ -120,7 +123,7 @@ private:
 	WindowMeshInput* inputMesh;
 	WindowMaterialInput* inputMaterial;
 
-	float3 effectColor;
+	float4 effectColor;
 	bool discard;
 
 	GeometryBatch* batch;

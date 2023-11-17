@@ -176,7 +176,7 @@ void HeavyFinisherAttack::HitEnemy()
 	}
 	else
 	{
-		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::CANNON_SHOT_IMPACT); // Provisional sfx
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ELECTRIC_SHOT_IMPACT); // Provisional sfx
 	}
 	vfx->SetPlayAtStart(true);
 	vfx->Play();
@@ -185,6 +185,14 @@ void HeavyFinisherAttack::HitEnemy()
 
 void HeavyFinisherAttack::PerformHeavyFinisher(ComponentTransform* target, ComponentTransform* attackOwner)
 {
+	if (playerAttackScript->IsMelee())
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_THROW);
+	}
+	else
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ELECTRIC_SHOT); // Provisional sfx
+	}
 	this->target = target;
 	this->attackOwner = attackOwner;
 
@@ -192,6 +200,11 @@ void HeavyFinisherAttack::PerformHeavyFinisher(ComponentTransform* target, Compo
 
 	mesh->Enable();
 	rigidBody->Disable();
+
+	if (mesh->HasComponent<ComponentParticleSystem>())
+	{
+		mesh->GetComponent<ComponentParticleSystem>()->Play();
+	}
 
 	owner->SetParent(loadedScene->GetRoot());
 
@@ -201,6 +214,14 @@ void HeavyFinisherAttack::PerformHeavyFinisher(ComponentTransform* target, Compo
 
 void HeavyFinisherAttack::PerformEmptyHeavyFinisher(ComponentTransform* attackOwner)
 {
+	if (playerAttackScript->IsMelee())
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_THROW);
+	}
+	else
+	{
+		audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::ELECTRIC_SHOT); // Provisional sfx
+	}
 	this->attackOwner = attackOwner;
 
 	emptyAttackTargetPos = attackOwner->GetGlobalPosition() + attackOwner->GetGlobalForward().Normalized() * defaultThrowDistance;
@@ -273,6 +294,8 @@ void HeavyFinisherAttack::SeekNextEnemy()
 
 void HeavyFinisherAttack::ResetValues()
 {
+	audioSource->PostEvent(AUDIO::SFX::PLAYER::WEAPON::LIGHTSABER_THROW_STOP);
+
 	transform->SetLocalPosition(attackOwner->GetGlobalPosition());
 	transform->UpdateTransformMatrices();
 	owner->SetParent(attackOwner->GetOwner());
@@ -297,7 +320,7 @@ void HeavyFinisherAttack::OnCollisionEnter(ComponentRigidBody* other)
 		return;
 	}
 
-	if (other->GetOwner()->CompareTag("Enemy") && other->GetOwner()->IsEnabled())
+	if ((other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("PriorityTarget")) && other->GetOwner()->IsEnabled())
 	{
 		enemiesInTheArea.push_back(other->GetOwner()->GetComponent<ComponentTransform>());
 	}

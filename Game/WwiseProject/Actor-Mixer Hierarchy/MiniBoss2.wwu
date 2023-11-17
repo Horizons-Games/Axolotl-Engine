@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}" SchemaVersion="110" RootDocumentID="{4D2D502C-0683-46CA-93AE-C19E110AB138}" ParentDocumentID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}">
+<WwiseDocument Type="WorkUnit" ID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}" SchemaVersion="110" RootDocumentID="{4D2D502C-0683-46CA-93AE-C19E110AB138}" ParentDocumentID="{FB93C944-6051-4C4C-9714-5FAA354E7D11}">
 	<AudioObjects>
-		<WorkUnit Name="MiniBoss2" ID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}" OwnerID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}" PersistMode="Nested">
+		<WorkUnit Name="MiniBoss2" ID="{4F6F540A-8675-4B92-AB45-C2C2F3E151D5}" OwnerID="{FB93C944-6051-4C4C-9714-5FAA354E7D11}" PersistMode="Nested">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="9"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
 			<ChildrenList>
-				<Sound Name="sfx_miniBoss2_preShot-001" ID="{01223F00-7C82-43E5-AAC0-C0220588DB97}" ShortID="387462399">
+				<Sound Name="as_npc_sl_miniboss_2_aiming" ID="{6904FEDC-AA6B-4D3C-A02D-DCCF85171C0B}" ShortID="1034314593">
 					<PropertyList>
 						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+						<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-10</Value>
+								<Value>-1</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -20,28 +25,28 @@
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+							<ObjectRef Name="NPCMaster" ID="{972B9C9F-6B1E-4B0E-8EE7-1CF44D5BEE6D}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<AudioFileSource Name="162107-SFX-Whoosh-Hi-Tech_Power_Boost" ID="{D3668054-7BF3-4123-9C6B-14D2C4A00D5D}">
+						<AudioFileSource Name="as_npc_sl_miniboss_2_aiming" ID="{6599C729-2492-47EF-B5D6-CA171D1B1955}">
 							<Language>SFX</Language>
-							<AudioFile>162107-SFX-Whoosh-Hi-Tech_Power_Boost.wav</AudioFile>
+							<AudioFile>as_npc_sl_miniboss_2_aiming.wav</AudioFile>
 							<MediaIDList>
-								<MediaID ID="244928591"/>
+								<MediaID ID="506278050"/>
 							</MediaIDList>
 						</AudioFileSource>
 					</ChildrenList>
 					<ActiveSourceList>
-						<ActiveSource Name="162107-SFX-Whoosh-Hi-Tech_Power_Boost" ID="{D3668054-7BF3-4123-9C6B-14D2C4A00D5D}" Platform="Linked"/>
+						<ActiveSource Name="as_npc_sl_miniboss_2_aiming" ID="{6599C729-2492-47EF-B5D6-CA171D1B1955}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
-				<Sound Name="sfx_miniBoss2_shot-001" ID="{A9BBE772-C25B-471F-9D53-A9F5BE25E507}" ShortID="557661924">
+				<Sound Name="as_npc_so_miniboss_2_laser_shot_end" ID="{2061F4FD-0F2E-422F-9818-29A3E734ABAD}" ShortID="974272326">
 					<PropertyList>
 						<Property Name="3DSpatialization" Type="int16" Value="1"/>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-16</Value>
+								<Value>-3</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -53,28 +58,28 @@
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+							<ObjectRef Name="NPCMaster" ID="{972B9C9F-6B1E-4B0E-8EE7-1CF44D5BEE6D}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<AudioFileSource Name="259042-Energy_-electric_centrifuge-hi_pitch_up" ID="{E0AF6CEB-5F82-4D58-B952-F463B8457741}">
+						<AudioFileSource Name="as_npc_so_miniboss_2_laser_shot_end" ID="{B61F0DD6-D7BE-4E12-A0DB-30C73802CF72}">
 							<Language>SFX</Language>
-							<AudioFile>259042-Energy_-electric_centrifuge-hi_pitch_up.wav</AudioFile>
+							<AudioFile>as_npc_so_miniboss_2_laser_shot_end.wav</AudioFile>
 							<MediaIDList>
-								<MediaID ID="586038170"/>
+								<MediaID ID="408893029"/>
 							</MediaIDList>
 						</AudioFileSource>
 					</ChildrenList>
 					<ActiveSourceList>
-						<ActiveSource Name="259042-Energy_-electric_centrifuge-hi_pitch_up" ID="{E0AF6CEB-5F82-4D58-B952-F463B8457741}" Platform="Linked"/>
+						<ActiveSource Name="as_npc_so_miniboss_2_laser_shot_end" ID="{B61F0DD6-D7BE-4E12-A0DB-30C73802CF72}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
-				<Sound Name="sfx_miniBoss2_aiming-001" ID="{60B7CFD0-EAA5-4E8E-86D7-6471D3D6EA4F}" ShortID="645489055">
+				<BlendContainer Name="MinibossLaserShot" ID="{55FCFD9E-69A6-4D8B-B9A8-29C7EC4AE496}" ShortID="375281756">
 					<PropertyList>
 						<Property Name="3DSpatialization" Type="int16" Value="1"/>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-8</Value>
+								<Value>1</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -86,22 +91,214 @@
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+							<ObjectRef Name="NPCMaster" ID="{972B9C9F-6B1E-4B0E-8EE7-1CF44D5BEE6D}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<AudioFileSource Name="305119-RE201_033C_EMF_MOTOR_Doppler_Passes_Sustained_Slow_High_Rate_ELEKTROSLUCH" ID="{9E9ED6E6-8BF4-426E-8D3A-763301EDC401}">
-							<Language>SFX</Language>
-							<AudioFile>305119-RE201_033C_EMF_MOTOR_Doppler_Passes_Sustained_Slow_High_Rate_ELEKTROSLUCH.wav</AudioFile>
-							<MediaIDList>
-								<MediaID ID="820488217"/>
-							</MediaIDList>
-						</AudioFileSource>
+						<Sound Name="as_npc_sl_miniboss_2_laser_shot" ID="{09A3B516-F88E-4D21-89AD-0219F70969DE}" ShortID="861159630">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_npc_sl_miniboss_2_laser_shot" ID="{19562203-FDCB-4C46-A598-40C677106351}">
+									<Language>SFX</Language>
+									<AudioFile>as_npc_sl_miniboss_2_laser_shot.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="519785527"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_npc_sl_miniboss_2_laser_shot" ID="{19562203-FDCB-4C46-A598-40C677106351}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="as_npc_so_miniboss_2_laser_shot_start" ID="{5583F6B4-3CF7-4F07-AAB0-C0295F57109F}" ShortID="417525131">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="as_npc_so_miniboss_2_laser_shot_start" ID="{0A34A3C7-ADB0-4B1D-8447-C9970DD094A7}">
+									<Language>SFX</Language>
+									<AudioFile>as_npc_so_miniboss_2_laser_shot_start.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="349506919"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="as_npc_so_miniboss_2_laser_shot_start" ID="{0A34A3C7-ADB0-4B1D-8447-C9970DD094A7}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
-					<ActiveSourceList>
-						<ActiveSource Name="305119-RE201_033C_EMF_MOTOR_Doppler_Passes_Sustained_Slow_High_Rate_ELEKTROSLUCH" ID="{9E9ED6E6-8BF4-426E-8D3A-763301EDC401}" Platform="Linked"/>
-					</ActiveSourceList>
-				</Sound>
+				</BlendContainer>
+				<BlendContainer Name="MinibossCharging" ID="{E6BAC6FE-74C2-4D3A-9764-36674F4BB6E5}" ShortID="833973496">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>5</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+						</Reference>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="NPCMaster" ID="{972B9C9F-6B1E-4B0E-8EE7-1CF44D5BEE6D}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<RandomSequenceContainer Name="MinibossCharging" ID="{1FB9B8ED-ED54-4E3A-AE2F-35A0514D3E98}" ShortID="329481565">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="as_npc_so_miniboss_2_charging_rr01" ID="{CDAD0B2B-C290-4D61-9FF8-CE6C8195EFFB}" ShortID="213475743">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_miniboss_2_charging_rr01" ID="{ED379E3C-DE11-4763-8B6E-BE7E1D84B892}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="1.04263799643016"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="1.49609298304328"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_miniboss_2_charging_rr01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="660134457"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_miniboss_2_charging_rr01" ID="{ED379E3C-DE11-4763-8B6E-BE7E1D84B892}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_so_miniboss_2_charging_rr02" ID="{0D557FC4-2185-41F1-B583-DC2757DD64B1}" ShortID="558192756">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_miniboss_2_charging_rr02" ID="{C3001C4B-CA12-46AA-97C4-434968C274D2}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="1.01586211512718"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="1.49774542614904"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_miniboss_2_charging_rr02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1030486482"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_miniboss_2_charging_rr02" ID="{C3001C4B-CA12-46AA-97C4-434968C274D2}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="as_npc_so_miniboss_2_charging_rr03" ID="{3AEF4256-975E-4B5A-A4D0-E417458F671C}" ShortID="712764274">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="as_npc_so_miniboss_2_charging_rr03" ID="{B915D465-A329-4D66-BC9D-BBC4766C5446}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.990782295850067"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="1.5097634984382"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>as_npc_so_miniboss_2_charging_rr03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="802260950"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="as_npc_so_miniboss_2_charging_rr03" ID="{B915D465-A329-4D66-BC9D-BBC4766C5446}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<Sound Name="sfx_miniBoss2_preShot-001" ID="{01223F00-7C82-43E5-AAC0-C0220588DB97}" ShortID="387462399">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-6</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="AttenuationOnly" ID="{DED1FEF3-235B-41B1-800A-96150DAD49EB}" WorkUnitID="{78AF5D70-654A-455B-AE6C-C7664C47AB96}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{1B9CF30D-FA1B-462A-B053-4AE3BB7EFEF8}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{44C0B489-1B63-4D42-83C2-E430E53B8CE9}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="162107-SFX-Whoosh-Hi-Tech_Power_Boost" ID="{D3668054-7BF3-4123-9C6B-14D2C4A00D5D}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.5403302097278"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="1.12149933065596"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.13508255243195"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>162107-SFX-Whoosh-Hi-Tech_Power_Boost.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="244928591"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="162107-SFX-Whoosh-Hi-Tech_Power_Boost" ID="{D3668054-7BF3-4123-9C6B-14D2C4A00D5D}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</BlendContainer>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>

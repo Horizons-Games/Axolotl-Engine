@@ -1,0 +1,16 @@
+{
+    "UID": 3700698442427411459,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": [
+        "Assets/Textures/Circle23.png",
+        "Assets/Textures/FlareTransparent.png",
+        "Assets/Textures/Circle27.png",
+        "Assets/Textures/MaskForShader2.png"
+    ],
+    "ConfigEmitters": [
+        true,
+        true,
+        true,
+        true
+    ]
+}

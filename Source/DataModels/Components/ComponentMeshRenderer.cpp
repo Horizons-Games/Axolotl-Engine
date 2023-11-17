@@ -38,13 +38,13 @@
 #endif
 
 ComponentMeshRenderer::ComponentMeshRenderer(const bool active, GameObject* owner) :
-	Component(ComponentType::MESHRENDERER, active, owner, true), effectColor(0.f, 0.f, 0.f), discard(false)
+	Component(ComponentType::MESHRENDERER, active, owner, true), effectColor(0.f, 0.f, 0.f, 0.f), discard(false)
 {
 }
 
 ComponentMeshRenderer::ComponentMeshRenderer(const ComponentMeshRenderer& componentMeshRenderer) :
 	Component(componentMeshRenderer),
-	material(componentMeshRenderer.GetMaterial()), effectColor(0.f, 0.f, 0.f), discard(false)
+	material(componentMeshRenderer.GetMaterial()), effectColor(0.f, 0.f, 0.f, 0.f), discard(false)
 {
 	SetOwner(componentMeshRenderer.GetOwner());
 	SetMesh(componentMeshRenderer.GetMesh());
@@ -638,12 +638,12 @@ void ComponentMeshRenderer::SetOffset(const float2& offset)
 	material->SetOffset(offset);
 }
 
-const float3& ComponentMeshRenderer::GetEffectColor() const
+const float4& ComponentMeshRenderer::GetEffectColor() const
 {
 	return effectColor;
 }
 
-void ComponentMeshRenderer::SetEffectColor(float3 effectColor)
+void ComponentMeshRenderer::SetEffectColor(float4 effectColor)
 {
 	this->effectColor = effectColor;
 }
@@ -705,6 +705,16 @@ const float ComponentMeshRenderer::GetSmoothness() const
 const float ComponentMeshRenderer::GetNormalStrenght() const
 {
 	return material->GetNormalStrength();
+}
+
+const bool ComponentMeshRenderer::IsReflective() const
+{
+	return material->IsReflective();
+}
+
+void ComponentMeshRenderer::SetReflective(bool reflective) const
+{
+	material->SetReflective(reflective);
 }
 
 // Default shader attributes (getters)

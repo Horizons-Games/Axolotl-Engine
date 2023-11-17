@@ -2,6 +2,6 @@
     "DiffuseAssetPath": "Assets/Textures/HOD_GR_Structure_Floor_DefaultMaterial_AlbedoTransparency.png",
     "NormalAssetPath": "Assets/Textures/HOD_GR_Structure_Floor_DefaultMaterial_Normal.png",
     "OcclusionAssetPath": "",
-    "MetalicAssetPath": "Assets/Textures/HOD_GR_Structure_Floor_DefaultMaterial_MetallicSmoothness.png",
+    "MetalicAssetPath": "",
     "EmissiveAssetPath": "Assets/Textures/HOD_GR_Structure_Floor_DefaultMaterial_Emission.png"
 }

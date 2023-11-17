@@ -6,6 +6,66 @@
 				<WorkUnit Name="NPCsCantina" ID="{FE576376-BB94-4EB1-84EF-142998372586}" PersistMode="Reference"/>
 				<WorkUnit Name="DRON" ID="{8BF6C5A8-C367-42AE-8C83-BAE60E304659}" PersistMode="Reference"/>
 				<WorkUnit Name="MiniBoss2" ID="{1A4E0FA7-87FC-4E7B-9672-FD69A89FDDCB}" PersistMode="Reference"/>
+				<WorkUnit Name="Venomite" ID="{527D5037-5ADC-4418-8BFB-35D86EDE089E}" PersistMode="Reference"/>
+				<WorkUnit Name="FinalBoss" ID="{D386B685-0AD3-493F-AD8D-D822FB0FFB8C}" PersistMode="Reference"/>
+				<Event Name="EnemyShotImpact" ID="{C6A7F5AF-1C77-4263-8D8F-C15091719DD2}">
+					<ChildrenList>
+						<Action Name="" ID="{ED3390CB-B5A2-45DC-BD11-02CE30FD38E2}" ShortID="466829541">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="ShotImpact" ID="{404CFE8F-8889-4570-9422-09CD8535DFE4}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="EnemyFootsteps" ID="{A46326E0-B86D-4169-BC1D-5D107F0C656A}">
+					<ChildrenList>
+						<Action Name="" ID="{12AFD698-F1FF-4537-8936-91989027B992}" ShortID="578718119">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Footsteps" ID="{220E0B33-D068-494D-A318-B927D14CE84F}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="EnemyDeath" ID="{694E60DA-D53B-44C7-88E1-4432FC9E3612}">
+					<ChildrenList>
+						<Action Name="" ID="{D06B739D-9EAF-4271-91B3-A9D63ADA29D9}" ShortID="903000184">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="NPC_Death" ID="{EB058037-1E79-4437-BBB1-973E49C08230}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="EnemyAlert" ID="{337FDBE2-A637-4741-8425-2EAC69F32C0B}">
+					<ChildrenList>
+						<Action Name="" ID="{7B84D72E-86E1-4460-B48F-17CFCF3295B9}" ShortID="982374485">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="as_npc_so_alert" ID="{5FB37BD3-19CD-4812-9FA8-1FF1D26E3247}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="EnemyFootstepsStop" ID="{6FF60E85-9207-42E8-A052-2E7B70A29769}">
+					<ChildrenList>
+						<Action Name="" ID="{D9E62FCF-F76B-4B41-BF19-A85011144C78}" ShortID="973401061">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Footsteps" ID="{220E0B33-D068-494D-A318-B927D14CE84F}" WorkUnitID="{BCBFFF4A-A077-49D0-B50B-6C21BC80ACB9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

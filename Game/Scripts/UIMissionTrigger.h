@@ -11,6 +11,7 @@ class ComponentPlayer;
 class ComponentRigidBody;
 class ComponentScript;
 class UIImageDisplacementControl;
+class HackZoneScript;
 
 class UIMissionTrigger : public Script
 {
@@ -26,18 +27,26 @@ public:
 	void OnCollisionExit(ComponentRigidBody* other) override;
 
 	void DisableTextBox(float time);
+	void ActivateTextBoxManually();
 
 private:
 
 	float maxTimeTextImageOn;
 	float currentTime;
 	bool wasInside = false;
+	bool hasTimer;
+	bool waitForNotInCombat;
+	bool waitForSwitch;
+	bool missionCondition;
+	bool waitForHack;
 
 	ComponentPlayer* player;
 	ComponentRigidBody* componentRigidBody;
 	GameObject* missionLevel;
 	GameObject* lastMissionLevel;
 	GameObject* textBox;
+	GameObject* switchManager;
 	UIImageDisplacementControl* missionImageDisplacement;
 	UIImageDisplacementControl* missionImageDisplacementExit;
+	HackZoneScript* hackZoneScript;
 };

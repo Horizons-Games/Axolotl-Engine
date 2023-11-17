@@ -1,0 +1,11 @@
+{
+    "UID": 15423573653258393917,
+    "Type": "Models",
+    "MeshesAssetPaths": [
+        "Assets/Meshes/Hangar_sign.Text.001_0.mesh"
+    ],
+    "MatAssetPaths": [
+        "Assets/Materials/Hangar_signDefaultMaterial_0.mat"
+    ],
+    "AnimAssetPaths": null
+}

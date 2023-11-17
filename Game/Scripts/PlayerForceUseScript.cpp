@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleScene.h"
+#include "ModulePlayer.h"
 
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
@@ -10,6 +11,7 @@
 #include "Components/ComponentScript.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentAudioSource.h"
+#include "Components/ComponentParticleSystem.h"
 #include "DataModels/Camera/CameraGameObject.h"
 
 #include "Scene/Scene.h"
@@ -19,241 +21,245 @@
 #include "MathGeoLib/Include/Geometry/Ray.h"
 #include "Auxiliar/Audio/AudioData.h"
 
-#include "../Scripts/PlayerRotationScript.h"
+#include "ForceZoneScript.h"
+
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/CameraControllerScript.h"
 #include "../Scripts/PlayerMoveScript.h"
 
-
-#include "AxoLog.h"
-
 REGISTERCLASS(PlayerForceUseScript);
 
-PlayerForceUseScript::PlayerForceUseScript() : Script(), gameObjectAttached(nullptr),
-	gameObjectAttachedParent(nullptr), tag("Forceable"), tag2("ForceableDoors"), distancePointGameObjectAttached(0.0f),
-	maxDistanceForce(20.0f), minDistanceForce(1.f), maxTimeForce(20.0f), isForceActive(false),
-	currentTimeForce(0.0f), breakForce(false), componentAnimation(nullptr), componentAudioSource(nullptr),
-	playerManagerScript(nullptr)
+PlayerForceUseScript::PlayerForceUseScript() : Script(), 
+	gameObjectAttached(nullptr), forceTag("Forceable"), distancePointGameObjectAttached(0.0f), 
+	minDistanceForce(1.0f), componentAnimation(nullptr), componentAudioSource(nullptr), 
+	playerManager(nullptr), gravity(0.0f), isForceActive(false), forceZone(nullptr),
+	forceZoneObject(nullptr)
 {
-	REGISTER_FIELD(maxDistanceForce, float);
 	REGISTER_FIELD(minDistanceForce, float);
-	REGISTER_FIELD(maxTimeForce, float);
-
 }
 
 void PlayerForceUseScript::Start()
 {
 	componentAudioSource = owner->GetComponent<ComponentAudioSource>();
 	componentAnimation = owner->GetComponent<ComponentAnimation>();
-	currentTimeForce = maxTimeForce;
 
-	rotationHorizontalScript = owner->GetComponent<PlayerRotationScript>();
-	playerManagerScript = owner->GetComponent<PlayerManagerScript>();
+	playerManager = owner->GetComponent<PlayerManagerScript>();
 	moveScript = owner->GetComponent<PlayerMoveScript>();
 
 	input = App->GetModule<ModuleInput>();
 	transform = owner->GetComponent<ComponentTransform>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
+	gravity = rigidBody->GetGravity().getY();
 }
 
 void PlayerForceUseScript::Update(float deltaTime)
 {
-	if (input->GetKey(SDL_SCANCODE_E) != KeyState::IDLE && !gameObjectAttached && currentTimeForce > 14.0f)
+	if (insideForceZone && !App->GetModule<ModulePlayer>()->IsInCombat() && input->GetKey(SDL_SCANCODE_E) == KeyState::DOWN && playerManager->IsGrounded() &&
+		playerManager->GetPlayerState() != PlayerActions::DASHING)
 	{
-		componentAnimation->SetParameter("IsStartingForce", true);
-		componentAnimation->SetParameter("IsStoppingForce", false);
-		RaycastHit hit;
-		btVector3 rigidBodyOrigin = rigidBody->GetRigidBodyOrigin();
-		float3 origin = float3(rigidBodyOrigin.getX(), rigidBodyOrigin.getY(), rigidBodyOrigin.getZ());
-		int raytries = 0;
-		
-		while (gameObjectAttached == nullptr && raytries < 4)
+		if (!gameObjectAttached)
 		{
-			Ray ray(origin + float3(0.f, 1.f * static_cast<float>(raytries), 0.f), transform->GetGlobalForward());
-			LineSegment line(ray, 300);
-			raytries++;
-
-			if (Physics::RaycastToTag(line, hit, owner, tag) || Physics::RaycastToTag(line, hit, owner, tag2))
-			{
-				gameObjectAttached = hit.gameObject;
-				ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
-				distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hit.hitPoint);
-				ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
-				objectStaticness = rigidBody->IsStatic();
-				rigidBody->SetIsStatic(false);
-				offsetFromPickedPoint = hittedTransform->GetGlobalPosition() - hit.hitPoint;
-				pickedRotation = hittedTransform->GetGlobalRotation();
-				pickedPlayerPosition = owner->GetComponent<ComponentTransform>()->GetGlobalPosition();
-
-				if (gameObjectAttached->GetTag() == "ForceableDoors" && !rigidBody->IsTrigger())
-				{
-					rigidBody->SetIsTrigger(true);
-				}
-
-				if (distancePointGameObjectAttached > maxDistanceForce)
-				{
-					gameObjectAttached = nullptr;
-					return;
-				}
-
-				else if (distancePointGameObjectAttached < minDistanceForce)
-				{
-					distancePointGameObjectAttached = minDistanceForce;
-				}
-
-				if (rotationHorizontalScript)
-				{
-					lastHorizontalSensitivity = rotationHorizontalScript->GetHorizontalSensitivity();
-					rotationHorizontalScript->SetHorizontalSensitivity(lastHorizontalSensitivity / 2.0f);
-					lastVerticalSensitivity = rotationHorizontalScript->GetVerticalSensitivity();
-					rotationHorizontalScript->SetVerticalSensitivity(lastVerticalSensitivity / 2.0f);
-				}
-
-				if (playerManagerScript)
-				{
-					lastMoveSpeed = playerManagerScript->GetPlayerSpeed();
-					playerManagerScript->SetPlayerSpeed(lastMoveSpeed / 2.0f);
-				}
-
-
-				rigidBody->SetKpForce(50.0f);
-				rigidBody->SetKpTorque(50.0f);
-
-
-			}
+			InitForce();
 		}
-	}
-
-	else if ((input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE
-		&& gameObjectAttached)
-		|| currentTimeForce < 0.0f
-		|| breakForce)
-	{
-		ComponentRigidBody* rigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
-		if (gameObjectAttached->GetTag() == "ForceableDoors" && rigidBody->IsTrigger())
+		else
 		{
-			rigidBody->SetIsTrigger(false);
+			FinishForce();
 		}
-		gameObjectAttached = nullptr;
-		rigidBody->DisablePositionController();
-		rigidBody->DisableRotationController();
-		rigidBody->SetIsStatic(objectStaticness);
-
-		/*
-		if (rotationHorizontalScript)
-		{
-			rotationHorizontalScript->GetField<float>("RotationSensitivity")->setter(lastHorizontalSensitivity);
-		}
-
-		if (rotationVerticalScript)
-		{
-			rotationVerticalScript->GetField<float>("RotationSensitivity")->setter(lastVerticalSensitivity);
-		}
-		*/
-
-		if (playerManagerScript)
-		{
-			playerManagerScript->SetPlayerSpeed(lastMoveSpeed);
-			rotationHorizontalScript->SetHorizontalSensitivity(lastHorizontalSensitivity);
-			rotationHorizontalScript->SetVerticalSensitivity(lastVerticalSensitivity);
-		}
-
-		if (isForceActive)
-		{
-			componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_STOP);
-			isForceActive = false;
-		}
-
-		breakForce = false;
-	}
-
-	if (input->GetKey(SDL_SCANCODE_E) == KeyState::IDLE)
-	{
-		componentAnimation->SetParameter("IsStoppingForce", true);
-		componentAnimation->SetParameter("IsStartingForce", false);
 	}
 
 	if (gameObjectAttached)
 	{
-		
-		if (!isForceActive)
-		{
-			componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_USE);
-			isForceActive = true;
-		}
 		ComponentRigidBody* hittedRigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
 		ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
 
-		if (input->IsMouseWheelScrolled())
+		float3 nextPosition = hittedTransform->GetGlobalPosition();
+
+		InputMethod inputMethod = input->GetCurrentInputMethod();
+		if (inputMethod == InputMethod::KEYBOARD)
 		{
-			distancePointGameObjectAttached += (input->GetMouseWheel().y) / 3.0f;
-			distancePointGameObjectAttached = std::min(distancePointGameObjectAttached, maxDistanceForce);
-			distancePointGameObjectAttached = std::max(distancePointGameObjectAttached, minDistanceForce);
+			if (input->IsMouseWheelScrolled())
+			{
+				nextPosition.x -= input->GetMouseWheel().y * 20 * deltaTime;
+				nextPosition.y += input->GetMouseWheel().y * 20 * deltaTime;
+			}
+
+			float2 mouseMotion = input->GetMouseMotion();
+			nextPosition.x += mouseMotion.x * 0.2f * deltaTime;
+			nextPosition.y -= mouseMotion.y * 0.2f * deltaTime;
 		}
-		// Get next rotation of game object
-		Quat targetRotation =
-			Quat::RotateFromTo(hittedTransform->GetGlobalForward(),
-				(transform->GetGlobalPosition() - hittedTransform->GetGlobalPosition()).Normalized());
-
-		// Set rotation
-		hittedRigidBody->SetRotationTarget(targetRotation);
-
-		/*
-		targetRotation= hittedTransform->GetGlobalRotation();
-		float anglechanged = pickedRotation.AngleBetween(targetRotation);
-		
-		LOG_DEBUG("CurrentRot: x:{} y:{} z:{}", targetRotation.x, targetRotation.y, targetRotation.z);
-		LOG_DEBUG("PickedRot: x:{} y:{} z:{}", pickedRotation.x, pickedRotation.y, pickedRotation.z);
-		LOG_DEBUG("Angle: {}", anglechanged);
-
-		float anglechanged = pickedRotation.ToEulerXYZ().AngleBetween(targetRotationXYZ);
-		float3 OffsetAfterRotation = float3(  offsetFromPickedPoint.x * math::Cos(anglechanged) - offsetFromPickedPoint.z * math::Sin(anglechanged)
-											, offsetFromPickedPoint.y
-											, offsetFromPickedPoint.z* math::Cos(anglechanged) + offsetFromPickedPoint.x * math::Sin(anglechanged)
-											);
-		*/
-		// Get next position of the gameObject
-		float3 nextPosition = transform->GetGlobalForward();
-		nextPosition.Normalize();
-		nextPosition *= distancePointGameObjectAttached;
-		nextPosition += transform->GetGlobalPosition();
-		nextPosition += offsetFromPickedPoint;
-
-		nextPosition.y = hittedTransform->GetGlobalPosition().y;
-
-		float3 currentDistance = hittedTransform->GetGlobalPosition() - nextPosition;
-		
-		if ( std::abs(currentDistance.x) > 2 && std::abs(currentDistance.z) > 2 && currentTimeForce < 14.5f )
+		else if (inputMethod == InputMethod::GAMEPAD)
 		{
-			breakForce = true;
-			currentTimeForce = 10;
-			return;
-		} 
-		float difX = pickedPlayerPosition.x - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().x;
-		float difY = pickedPlayerPosition.y - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().y;
-		float difZ = pickedPlayerPosition.z - owner->GetComponent<ComponentTransform>()->GetGlobalPosition().z;
-		if ( abs(difX) + abs(difY) + abs(difZ) > 0.2f)
-		{
-			breakForce = true;
-			currentTimeForce = 10;
-			return;
+			// We divide by 1000 (*0.001) to move at aprox same speed as if we were using the mouse
+			Sint16 horizontalMovement = int(input->GetLeftJoystickMovement().horizontalMovement * 0.001f);
+			nextPosition.x += horizontalMovement * 0.2f * deltaTime;
+			Sint16 verticalMovement = int(input->GetLeftJoystickMovement().verticalMovement * 0.001f);
+			nextPosition.y -= verticalMovement * 0.2f * deltaTime;
 		}
+		
+		distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(nextPosition);
+		if (distancePointGameObjectAttached < minDistanceForce)
+		{
+			FinishForce();
+		}
+		
+		float3 desiredRotation = float3::zero;
+		float3 vecForward = transform->GetGlobalForward().Normalized();
+		float3 vecTowardsBox = (hittedTransform->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized();
+		desiredRotation = vecForward + vecTowardsBox;
+		desiredRotation.y = 0;
+		desiredRotation = desiredRotation.Normalized();
 
-		float2 mouseMotion = input->GetMouseMotion();
-		nextPosition.y = nextPosition.y -= mouseMotion.y * 0.2f * deltaTime;
+		btTransform playerWorldTransform = rigidBody->GetRigidBody()->getWorldTransform();
+		Quat lookAtRotation = Quat::LookAt(vecForward, desiredRotation, float3::unitY, float3::unitY);
+		Quat targetRotation = lookAtRotation * transform->GetGlobalRotation();
 
+		playerWorldTransform.setRotation({
+			targetRotation.x,
+			targetRotation.y,
+			targetRotation.z,
+			targetRotation.w
+		});
 
+		rigidBody->GetRigidBody()->setWorldTransform(playerWorldTransform);
+		rigidBody->GetRigidBody()->getMotionState()->setWorldTransform(playerWorldTransform);
+		
+		if (forceZone)
+		{
+			ComponentTransform* forceZoneTransform = forceZone->GetOwner()->GetComponent<ComponentTransform>();
 
+			float3 forceZonePosition = forceZoneTransform->GetGlobalPosition();
+			float boxDistance = (forceZonePosition - nextPosition).Length();
 
-		// Set position
-		hittedRigidBody->SetPositionTarget(nextPosition);
-
-
-
-		currentTimeForce -= deltaTime;
+			if (boxDistance < forceZone->GetInfluenceRadius())
+			{
+				// using a threshold to avoid jiggle on the forceable box movement
+				if (fabs(nextPosition.x - hittedTransform->GetGlobalPosition().x) > 0.1f ||
+					fabs(nextPosition.y - hittedTransform->GetGlobalPosition().y) > 0.1f)
+				{
+					hittedRigidBody->SetPositionTarget(nextPosition);
+				}
+			}
+		}
 	}
-	else if (currentTimeForce < maxTimeForce)
+	else if (isForceActive)
 	{
-		currentTimeForce = std::min(maxTimeForce, currentTimeForce + (deltaTime * 4));
+		isForceActive = false;
+		forceZone = nullptr;
+		EnableAllInteractions();
+		rigidBody->SetGravity({ 0.0f, gravity, 0.0f });
+		componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_STOP);
+		componentAnimation->SetParameter("IsStoppingForce", true);
+		componentAnimation->SetParameter("IsStartingForce", false);
 	}
+}
+
+void PlayerForceUseScript::InitForce() 
+{
+	playerManager->SetPlayerState(PlayerActions::IDLE);
+	componentAnimation->SetParameter("IsRunning", false);
+	componentAnimation->SetParameter("IsDashing", false);
+
+	componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
+
+	componentAnimation->SetParameter("IsStartingForce", true);
+	componentAnimation->SetParameter("IsStoppingForce", false);
+	RaycastHit hit;
+	btVector3 rigidBodyOrigin = rigidBody->GetRigidBodyOrigin();
+	rigidBody->SetGravity({ 0.0f, 0.0f, 0.0f });
+	float3 origin = float3(rigidBodyOrigin.getX(), rigidBodyOrigin.getY(), rigidBodyOrigin.getZ());
+	int raytries = 0;
+	isForceActive = true;
+
+	while (!gameObjectAttached && raytries < 4)
+	{
+		Ray ray(origin + float3(0.f, 1.f * static_cast<float>(raytries), 0.f), transform->GetGlobalForward());
+		LineSegment line(ray, 300);
+		raytries++;
+
+		if (Physics::RaycastToTag(line, hit, owner, forceTag))
+		{
+			App->GetModule<ModuleAudio>()->SetLowPassFilter(50.0f);
+			componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_USE);
+
+			gameObjectAttached = hit.gameObject;
+			forceZoneObject = gameObjectAttached->GetParent();
+			ForceZoneScript* forceZoneScript = forceZoneObject->GetComponent<ForceZoneScript>();
+			forceZone = forceZoneScript;
+			
+			if (gameObjectAttached->GetChildren()[0]->HasComponent<ComponentParticleSystem>())
+			{
+				gameObjectAttached->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+			}
+
+			distancePointGameObjectAttached = transform->GetGlobalPosition().Distance(hit.hitPoint);
+			ComponentRigidBody* hittedRigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
+			ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
+			hittedRigidBody->GetRigidBody()->setLinearVelocity({ 0.0f, 0.0f, 0.0f });
+			hittedRigidBody->SetGravity({ 0.0f, 0.0f, 0.0f });
+			objectStaticness = hittedRigidBody->IsStatic();
+			hittedRigidBody->SetIsStatic(false);
+			hittedRigidBody->SetPositionTarget(hittedTransform->GetGlobalPosition());
+
+			hittedRigidBody->SetKpForce(50.0f);
+			hittedRigidBody->SetKpTorque(50.0f);
+		}
+	}
+
+	DisableAllInteractions();
+}
+
+void PlayerForceUseScript::FinishForce()
+{
+	isForceActive = false;
+	forceZone = nullptr;
+	EnableAllInteractions();
+	rigidBody->SetGravity({ 0.0f, gravity, 0.0f });
+	ComponentRigidBody* hittedRigidBody = gameObjectAttached->GetComponent<ComponentRigidBody>();
+	ComponentTransform* hittedTransform = gameObjectAttached->GetComponent<ComponentTransform>();
+
+	if (gameObjectAttached->GetChildren()[0]->HasComponent<ComponentParticleSystem>())
+	{
+		gameObjectAttached->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
+	}
+
+	hittedRigidBody->DisablePositionController();
+	hittedRigidBody->DisableRotationController();
+	hittedRigidBody->SetIsStatic(objectStaticness);
+	hittedRigidBody->GetRigidBody()->setLinearVelocity({ 0.0f, 0.0f, 0.0f });
+	hittedRigidBody->SetGravity({ 0.0f, gravity, 0.0f });
+	hittedRigidBody->SetPositionTarget(hittedTransform->GetGlobalPosition());
+	gameObjectAttached = nullptr;
+
+	componentAudioSource->PostEvent(AUDIO::SFX::PLAYER::ABILITIES::FORCE_STOP);
+	App->GetModule<ModuleAudio>()->SetLowPassFilter(0.0f);
+
+	componentAnimation->SetParameter("IsStoppingForce", true);
+	componentAnimation->SetParameter("IsStartingForce", false);
+}
+
+void PlayerForceUseScript::DisableAllInteractions() const
+{
+	playerManager->SetPlayerState(PlayerActions::IDLE);
+	playerManager->PausePlayer(true);
+}
+
+void PlayerForceUseScript::EnableAllInteractions() const
+{
+	playerManager->SetPlayerState(PlayerActions::IDLE);
+	playerManager->PausePlayer(false);
+}
+
+bool PlayerForceUseScript::IsForceActive() const
+{
+	return isForceActive;
+}
+
+void PlayerForceUseScript::SetInsideForceZone(bool insideForceZone)
+{
+	this->insideForceZone = insideForceZone;
+}
+
+bool PlayerForceUseScript::IsInsideForceZone() const
+{
+	return insideForceZone;
 }

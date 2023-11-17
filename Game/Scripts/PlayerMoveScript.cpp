@@ -11,6 +11,7 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
+#include "Components/ComponentParticleSystem.h"
 
 #include "Auxiliar/Audio/AudioData.h"
 
@@ -19,6 +20,7 @@
 #include "../Scripts/PlayerManagerScript.h"
 #include "../Scripts/PlayerForceUseScript.h"
 
+#include "GameObject/GameObject.h"
 #include "AxoLog.h"
 
 REGISTERCLASS(PlayerMoveScript);
@@ -28,14 +30,18 @@ componentAudio(nullptr), componentAnimation(nullptr), dashForce(30.0f),
 playerManager(nullptr), isParalyzed(false), desiredRotation(float3::zero), waterCounter(0),
 lightAttacksMoveFactor(2.0f), heavyAttacksMoveFactor(3.0f), dashRollTime(0.0f), 
 dashRollCooldown(0.1f), timeSinceLastDash(0.0f), dashRollDuration(0.2f), totalDirection(float3::zero),
-isTriggeringStoredDash(false)
+isTriggeringStoredDash(false), rotationAttackVelocity(100.0f), dashBix(nullptr), ghostBixDashing(false), rollAllura(nullptr)
 {
 	REGISTER_FIELD(dashForce, float);
 	REGISTER_FIELD(isParalyzed, bool);
 	REGISTER_FIELD(lightAttacksMoveFactor, float);
 	REGISTER_FIELD(heavyAttacksMoveFactor, float);
+	REGISTER_FIELD(rotationAttackVelocity, float);
 	REGISTER_FIELD(dashRollCooldown, float);
 	REGISTER_FIELD(dashRollDuration, float);
+	REGISTER_FIELD(dashBix, GameObject*);
+	REGISTER_FIELD(rollAllura, GameObject*);
+	
 }
 
 void PlayerMoveScript::Start()
@@ -74,11 +80,17 @@ void PlayerMoveScript::PreUpdate(float deltaTime)
 		{
 			return;
 		}
+		else
+		{
+			btRigidbody->setAngularVelocity({ 0.0f,0.0f,0.0f });
+		}
 
 		if (isParalyzed)
 		{
 			componentAnimation->SetParameter("IsRunning", false);
 			componentAnimation->SetParameter("IsDashing", false);
+			rigidBody->GetRigidBody()->setLinearVelocity(btVector3(0.f,
+				rigidBody->GetRigidBody()->getLinearVelocity().getY(), 0.f));
 			componentAudio->PostEvent(AUDIO::SFX::PLAYER::LOCOMOTION::FOOTSTEPS_WALK_STOP);
 			return;
 		}
@@ -94,6 +106,7 @@ void PlayerMoveScript::Move(float deltaTime)
 	desiredRotation = owner->GetComponent<ComponentTransform>()->GetGlobalForward();
 
 	btRigidbody->setAngularFactor(btVector3(0.0f, 0.0f, 0.0f));
+	btRigidbody->setAngularVelocity(btVector3(0.0f, 0.0f, 0.0f));
 
 	btVector3 movement(0, 0, 0);
 
@@ -193,9 +206,14 @@ void PlayerMoveScript::Move(float deltaTime)
 
 			totalDirection.y = 0;
 			totalDirection = totalDirection.Normalized();
-			desiredRotation = totalDirection;
 
-			movement = btVector3(desiredRotation.x, desiredRotation.y, desiredRotation.z) * deltaTime * newSpeed;
+			if (!IsMovementAttacking())
+			{
+				desiredRotation = totalDirection;
+			}
+
+			
+			movement = btVector3(totalDirection.x, totalDirection.y, totalDirection.z) * deltaTime * newSpeed;
 		}
 	}
 	else if (playerManager->GetPlayerState() == PlayerActions::IDLE && !totalDirection.IsZero())
@@ -235,22 +253,17 @@ void PlayerMoveScript::Move(float deltaTime)
 
 void PlayerMoveScript::MoveRotate(float deltaTime)
 {
-	// Look at enemy selected while attacking
-	AttackType currentAttack = playerAttackScript->GetCurrentAttackType();
-	GameObject* enemyGO = playerAttackScript->GetEnemyDetected();
-	if (enemyGO != nullptr && currentAttack != AttackType::NONE)
+	float desiredVelocity = playerManager->GetPlayerRotationSpeed();
+	//Look at enemy selected while attacking
+	if (IsMovementAttacking())
 	{
+		GameObject* enemyGO = playerAttackScript->GetEnemyDetected();
 		ComponentTransform* enemy = enemyGO->GetComponent<ComponentTransform>();
-		float3 vecForward = componentTransform->GetGlobalForward().Normalized();
+
 		float3 vecTowardsEnemy = (enemy->GetGlobalPosition() - componentTransform->GetGlobalPosition()).Normalized();
-		switch (currentAttack)
-		{
-		case AttackType::LIGHTNORMAL:
-		case AttackType::HEAVYNORMAL:
-		case AttackType::LIGHTFINISHER:
-			desiredRotation = vecForward + vecTowardsEnemy;
-			break;
-		}
+		desiredRotation = vecTowardsEnemy;
+
+		desiredVelocity *= rotationAttackVelocity * deltaTime;
 	}
 
 	desiredRotation.y = 0;
@@ -271,7 +284,7 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 		rotationError.ToAxisAngle(axis, angle);
 		axis.Normalize();
 
-		float3 velocityRotation = axis * angle * playerManager->GetPlayerRotationSpeed();
+		float3 velocityRotation = axis * angle * desiredVelocity;
 		Quat angularVelocityQuat(velocityRotation.x, velocityRotation.y, velocityRotation.z, 0.0f);
 		Quat wq_0 = angularVelocityQuat * rotation;
 
@@ -303,23 +316,63 @@ void PlayerMoveScript::MoveRotate(float deltaTime)
 		}
 	}
 
+	btMatrix3x3 rbmatrix = worldTransform.getBasis();
+
+	btQuaternion quat;
+	rbmatrix.extractRotation(quat);
+
 	btRigidbody->setWorldTransform(worldTransform);
 	btRigidbody->getMotionState()->setWorldTransform(worldTransform);
 }
 
+bool PlayerMoveScript::CheckRightTrigger() 
+{
+	if (input->GetRightTriggerIntensity() == 0)
+	{
+		rightTrigger = false;
+		return false;
+	}
+	else if (!rightTrigger && input->GetRightTriggerIntensity() > 16.383)
+	{
+		rightTrigger = true;
+		return true;
+	}
+	return false;
+}
+
 void PlayerMoveScript::DashRoll(float deltaTime)
 {
+	if(ghostBixDashing) 
+	{
+		for (GameObject* child : dashBix->GetChildren()) 
+		{
+			if (child->GetTag() == "Effect" && child->GetComponent<ComponentAnimation>()->GetActualStateName() != "DashingInit" &&
+				child->GetComponent<ComponentAnimation>()->GetActualStateName() != "DashingKeep" &&
+				child->GetComponent<ComponentAnimation>()->GetActualStateName() != "DashingEnd")
+			{
+				dashBix->Disable();
+				ghostBixDashing = false;
+			}
+		}
+	}
 	if (playerAttackScript->IsAttackAvailable() &&
 		timeSinceLastDash > dashRollCooldown &&
 		(playerManager->GetPlayerState() == PlayerActions::IDLE ||
 		playerManager->GetPlayerState() == PlayerActions::WALKING) &&
-		(input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN ||
+		(CheckRightTrigger() ||
 		isTriggeringStoredDash))
 	{
 		// Start a dash
 		dashRollTime = 0.0f;
 		timeSinceLastDash = 0.0f;
 		isTriggeringStoredDash = false;
+		if(dashBix != nullptr) dashBix->Enable();
+		if (rollAllura != nullptr)
+		{
+			rollAllura->GetComponent<ComponentParticleSystem>()->Stop();
+			rollAllura->Enable();
+			rollAllura->GetComponent<ComponentParticleSystem>()->Play();
+		}
 		componentAnimation->SetParameter("IsDashing", true);
 		componentAnimation->SetParameter("IsRunning", false);
 		playerManager->SetPlayerState(PlayerActions::DASHING);
@@ -351,7 +404,7 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 	}
 	else
 	{
-		if (input->GetKey(SDL_SCANCODE_LSHIFT) == KeyState::DOWN &&
+		if (CheckRightTrigger() &&
 			(playerManager->GetPlayerState() == PlayerActions::IDLE ||
 			playerManager->GetPlayerState() == PlayerActions::WALKING))
 		{
@@ -375,6 +428,14 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 			}
 			timeSinceLastDash = 0.0f;
 			componentAnimation->SetParameter("IsDashing", false);
+			if (dashBix != nullptr) 
+			{
+				ghostBixDashing = true;
+			}
+			if(rollAllura != nullptr) 
+			{
+				rollAllura->Disable();
+			}
 			btRigidbody->setLinearVelocity(btVector3(0.0f, 0.0f, 0.0f));
 		}
 		else
@@ -386,6 +447,7 @@ void PlayerMoveScript::DashRoll(float deltaTime)
 
 void PlayerMoveScript::OnCollisionEnter(ComponentRigidBody* other)
 {
+	
 	if (other->GetOwner()->CompareTag("Water"))
 	{
 		waterCounter++;
@@ -446,6 +508,22 @@ PlayerJumpScript* PlayerMoveScript::GetJumpScript() const
 	return jumpScript;
 }
 
+bool PlayerMoveScript::IsMovementAttacking() const
+{
+	AttackType currentAttack = playerAttackScript->GetCurrentAttackType();
+	GameObject* enemyGO = playerAttackScript->GetEnemyDetected();
+	if (enemyGO != nullptr && currentAttack != AttackType::NONE)
+	{
+		switch (currentAttack)
+		{
+		case AttackType::LIGHTNORMAL:
+		case AttackType::HEAVYNORMAL:
+		case AttackType::LIGHTFINISHER:
+			return true;
+		}
+	}
+	return false;
+}
 bool PlayerMoveScript::IsTriggeringStoredDash() const
 {
 	return isTriggeringStoredDash;

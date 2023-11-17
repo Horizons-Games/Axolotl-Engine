@@ -26,7 +26,7 @@ void UIImageDisplacementControl::Update(float deltaTime)
 		}
 		else
 		{
-			MoveImageToStarPosition();
+			MoveImageToStartPosition();
 		}
 	}
 
@@ -51,10 +51,16 @@ void UIImageDisplacementControl::MoveImageToEndPosition()
 			isMoving = false;
 		}
 	}
-
 }
 
-void UIImageDisplacementControl::MoveImageToStarPosition()
+void UIImageDisplacementControl::SetImageToEndPosition()
+{
+	imageTransform->SetPosition(endPosition);
+	imageTransform->CalculateMatrices();
+	isMoving = false;
+}
+
+void UIImageDisplacementControl::MoveImageToStartPosition()
 {
 	if (imageTransform)
 	{
@@ -76,6 +82,27 @@ void UIImageDisplacementControl::MoveImageToStarPosition()
 	}
 }
 
+void UIImageDisplacementControl::SetImageToStartPosition()
+{
+	imageTransform->SetPosition(startPosition);
+	imageTransform->CalculateMatrices();
+	isMoving = false;
+}
+
+bool UIImageDisplacementControl::IsImageInStartPosition() const
+{
+	return imageTransform->GetPosition().x == startPosition.x &&
+		imageTransform->GetPosition().y == startPosition.y && 
+		imageTransform->GetPosition().z == startPosition.z;
+}
+
+bool UIImageDisplacementControl::IsImageInEndPosition() const
+{
+	return imageTransform->GetPosition().x == endPosition.x &&
+		imageTransform->GetPosition().y == endPosition.y &&
+		imageTransform->GetPosition().z == endPosition.z;
+}
+
 bool UIImageDisplacementControl::IsMovingToEnd() const
 {
 	return isMovingToEnd;
@@ -94,4 +121,9 @@ bool UIImageDisplacementControl::IsMoving() const
 void UIImageDisplacementControl::SetIsMoving(bool moving)
 {
 	this->isMoving = moving;
+}
+
+void UIImageDisplacementControl::SetEndPosition(float3 endPosition)
+{
+	this->endPosition = endPosition;
 }

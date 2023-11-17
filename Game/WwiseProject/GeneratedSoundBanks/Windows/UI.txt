@@ -1,10 +1,18 @@
 Event	ID	Name			Wwise Object Path	Notes
 	797520661	sfx_button_back_01			\SFX\UI\sfx_button_back_01	
+	1132051760	HackingFinished			\SFX\UI\HackingFinished	
+	1423964993	HackingWrong			\SFX\UI\HackingWrong	
+	1878365588	HackingCorrect			\SFX\UI\HackingCorrect	
 	2910963833	sfx_button_press_01			\SFX\UI\sfx_button_press_01	
 	3449466020	sfx_button_hover_01			\SFX\UI\sfx_button_hover_01	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	48055455	sfx_button_hover_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ui_buttonHover_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\sfx_button_hover_01		51876
-	872873447	sfx_button_back_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ui_buttonBack_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\sfx_button_back_01		51876
-	979155077	sfx_button_press_01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ui_buttonPress_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\sfx_button_press_01		68840
+	10606744	as_ui_so_hacking_wrong	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ui_so_hacking_wrong_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\HackingSpace\HackingWrong\as_ui_so_hacking_wrong		14654
+	48055455	sfx_button_hover	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ui_buttonHover_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\Menu\sfx_button_hover		28250
+	128244481	as_ui_so_hacking_correct_rr02	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ui_so_hacking_correct_rr02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\HackingSpace\HackingCorrect\as_ui_so_hacking_correct_rr02		20034
+	558670214	as_ui_so_hacking_finished	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ui_so_hacking_finished_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\HackingSpace\as_ui_so_hacking_finished		28760
+	872873447	sfx_button_cancel	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ui_buttonBack_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\Menu\sfx_button_cancel		28250
+	957715770	as_ui_so_hacking_correct_rr01	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ui_so_hacking_correct_rr01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\HackingSpace\HackingCorrect\as_ui_so_hacking_correct_rr01		18372
+	979155077	sfx_button_confirm	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\sfx_ui_buttonPress_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\Menu\sfx_button_confirm		37482
+	1055335549	as_ui_so_hacking_correct_rr03	C:\Master Uri\Engine\Game\WwiseProject\.cache\Windows\SFX\as_ui_so_hacking_correct_rr03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\UI\HackingSpace\HackingCorrect\as_ui_so_hacking_correct_rr03		19836
 

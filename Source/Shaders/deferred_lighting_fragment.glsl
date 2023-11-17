@@ -9,7 +9,7 @@
 
 #include "/Common/Structs/lights.glsl"
 
-#include "/Common/Structs/local_IBL.glsl"
+#include "/Common/Structs/reflections.glsl"
 
 #define CASCADES 3
 
@@ -48,6 +48,12 @@ readonly layout(std430, binding=14) buffer LocalIBLs
 {
 	uint num_samplers;
 	LocalIBL localIBL[];
+};
+
+readonly layout(std430, binding=15) buffer PlanarReflections
+{
+	uint num_planes;
+	PlanarReflection planarReflection[];
 };
 
 // IBL
@@ -89,16 +95,17 @@ vec3 calculateDirectionalLight(vec3 N, vec3 V, vec3 Cd, vec3 f0, float roughness
     return (Cd*(1-f0)+0.25*FS*SV*GGXND)*directionalColor.rgb*directionalColor.a*dotNL;
 }
 
-
-vec3 calculateLocalIBLs(vec3 N, vec3 R, float NdotV, vec3 Cd, vec3 f0, float roughness, vec3 fragPos)
+vec3 calculateAmbientIBL(vec3 N, vec3 R, float NdotV, vec3 Cd, vec3 f0, float roughness, vec3 fragPos, vec4 planarColor)
 {
     vec3 color = vec3(0.0);
     float totalWeight = 0.0;
+    
     if (num_samplers == 0)
     {
         return GetAmbientLight(N, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
-                environmentBRDF, numLevels_IBL) * cubemap_intensity;
+                environmentBRDF, numLevels_IBL, planarColor) * cubemap_intensity;
     }
+
     for (int i = 0; i < num_samplers; ++i)
     {
         samplerCube diffuse = localIBL[i].diffuse;
@@ -111,29 +118,61 @@ vec3 calculateLocalIBLs(vec3 N, vec3 R, float NdotV, vec3 Cd, vec3 f0, float rou
         vec3 maxInfluence = localIBL[i].maxInfluence.rgb;
         
         vec3 localPos = (toLocal * vec4(fragPos, 1.0)).xyz; // convert fragment pos to ibl local space
-        if(InsideBox(localPos, minInfluence, maxInfluence)) 
+        if (InsideBox(localPos, minInfluence, maxInfluence))
         {
             vec3 closer = min(localPos - minInfluence.xyz, maxInfluence.xyz - localPos);
             float weight = min(closer.x, min(closer.y, closer.z));
             weight = weight * weight; // smoother than linear
             // evaluates diffuse and specular ibl and returns an ambient colour
             vec3 newR = ParallaxCorrection(localPos, mat3(toLocal) * R, maxParallax, minParallax) - position;
-            color += GetAmbientLight(N, newR, NdotV, roughness, Cd, f0, diffuse, prefiltered, environmentBRDF, 
-                numLevels_IBL) * weight;
+            color += GetAmbientLight(N, newR, NdotV, roughness, Cd, f0, diffuse, prefiltered, environmentBRDF,
+                numLevels_IBL, planarColor) * weight;
             totalWeight += weight;
         }
     }
     // if totalWeight == 0 use skybox as fallback
-    if(totalWeight == 0.0) 
+    if (totalWeight == 0.0)
     {
-        color = GetAmbientLight(N, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL, 
-                environmentBRDF, numLevels_IBL) * cubemap_intensity;
+        color = GetAmbientLight(N, R, NdotV, roughness, Cd, f0, diffuse_IBL, prefiltered_IBL,
+                environmentBRDF, numLevels_IBL, planarColor) * cubemap_intensity;
     }
-    else 
+    else
     {
         color = color * cubemap_intensity / totalWeight;
     }
     return color;
+}
+
+// takes the first reflection
+vec4 calculatePlanarReflections(float roughness, vec3 normal, vec3 fragPos)
+{
+    for (int i = 0; i < num_planes; ++i)
+    {
+        mat4 toLocal = planarReflection[i].toLocal;
+        mat4 viewProj = planarReflection[i].viewProj;
+        vec3 minInfluence = planarReflection[i].minInfluence.rgb;
+        vec3 maxInfluence = planarReflection[i].maxInfluence.rgb;
+        sampler2D reflection = planarReflection[i].reflection;
+        int numMipMaps = planarReflection[i].numMipMaps;
+        float distortionAmount = planarReflection[i].distortionAmount;
+        vec3 planeNormal = planarReflection[i].planeNormal.xyz;
+
+        vec3 localPos = (toLocal * vec4(fragPos, 1.0)).xyz; // convert fragment pos to planar space
+        if (InsideBox(localPos, minInfluence, maxInfluence)) 
+        {
+            vec4 clipPos = viewProj * vec4(fragPos, 1.0);
+            vec2 planarUV = (clipPos.xy / clipPos.w) * 0.5 + 0.5;
+
+            if (planarUV.x >= 0.0 && planarUV.x <= 1.0 &&
+                planarUV.y >= 0.0 && planarUV.y <= 1.0)
+            {
+                mat3 tangent = CreateTangentSpace(planeNormal);
+                vec3 local = tangent * normal;
+                return textureLod(reflection, planarUV + local.xy * distortionAmount, roughness * numMipMaps);
+            }
+        }
+    }
+    return vec4(0.0);
 }
 
 float ShadowCalculation(vec4 posFromLight, vec3 normal, int layer)
@@ -259,9 +298,15 @@ void main()
         // Lights
         vec3 Lo = shadow * calculateDirectionalLight(norm, viewDir, Cd, f0, roughness);
 
+        vec4 planarColor = vec4(0.0);
+        if (num_planes > 0)
+        {
+            planarColor = calculatePlanarReflections(roughness, norm, fragPos);
+        }
+
         vec3 R = reflect(-viewDir, norm);
         float NdotV = max(dot(norm, viewDir), EPSILON);
-        vec3 ambient = calculateLocalIBLs(norm, R, NdotV, Cd, f0, roughness, fragPos);
+        vec3 ambient = calculateAmbientIBL(norm, R, NdotV, Cd, f0, roughness, fragPos, planarColor);
 
         vec3 color = ambient + Lo + emissiveMat.rgb;
         color += toggleCSMDebug == 1 ? layerColor : vec3(0.0, 0.0, 0.0);

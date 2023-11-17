@@ -29,6 +29,7 @@ public:
 
 	bool UseShadows() const;
 	bool UseVSM() const;
+	bool UseCSMDebug() const;
 
 	void ToggleShadows();
 	void ToggleVSM();
@@ -94,6 +95,11 @@ inline bool Shadows::UseShadows() const
 inline bool Shadows::UseVSM() const
 {
 	return useVarianceShadowMapping;
+}
+
+inline bool Shadows::UseCSMDebug() const
+{
+	return useCSMDebug;
 }
 
 inline void Shadows::ToggleShadows()

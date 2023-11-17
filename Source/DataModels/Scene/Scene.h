@@ -7,6 +7,7 @@
 #include "Components/ComponentPointLight.h"
 #include "Components/ComponentSpotLight.h"
 #include "Components/ComponentLocalIBL.h"
+#include "Components/ComponentPlanarReflection.h"
 
 class Component;
 class ComponentCamera;
@@ -32,6 +33,11 @@ enum class Premade3D
 	CHARACTER
 };
 
+enum SearchingMeshes
+{
+	NON_REFLECTIVE = 0x00000001,
+};
+
 class Scene
 {
 public:
@@ -42,15 +48,10 @@ public:
 	bool IsInsideACamera(const OBB& obb) const;
 	bool IsInsideACamera(const AABB& aabb) const;
 
-	std::vector<GameObject*> ObtainObjectsInFrustum(const math::Frustum* frustum);
-	std::vector<GameObject*> ObtainStaticObjectsInFrustum(const math::Frustum* frustum);
-	void CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad, 
-								   std::vector<GameObject*>& gos);
-	void CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, GameObject* go,
-										    std::vector<GameObject*>& gos);
-	bool FrustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad);
-	bool ObjectInFrustum(const math::Frustum* frustum, const AABB& aabb);
-
+	std::vector<GameObject*> ObtainObjectsInFrustum(const math::Frustum* frustum, const int& filter = 0);
+	std::vector<GameObject*> ObtainStaticObjectsInFrustum(const math::Frustum* frustum, const int& filter = 0);
+	std::vector<GameObject*> ObtainDynamicObjectsInFrustum(const math::Frustum* frustum, const int& filter = 0);
+	
 	GameObject* CreateGameObject(const std::string& name, GameObject* parent, bool is3D = true);
 	GameObject* DuplicateGameObject(const std::string& name, GameObject*, GameObject* parent);
 	GameObject* CreateCameraGameObject(const std::string& name, GameObject* parent);
@@ -70,6 +71,7 @@ public:
 	void ConvertModelIntoGameObject(const std::string& model);
 
 	GameObject* SearchGameObjectByID(UID gameObjectID) const;
+	std::vector<GameObject*> SearchGameObjectByTag(const std::string& gameObjectTag) const;
 
 	void RenderDirectionalLight() const;
 	void RenderPointLights() const;
@@ -78,11 +80,13 @@ public:
 	void RenderAreaSpheres() const;
 	void RenderAreaTubes() const;
 	void RenderLocalIBLs() const;
-	void RenderLocalIBL(const ComponentLocalIBL* compLocal) const;
+	void RenderPlanarReflections() const;
 	void RenderPointLight(const ComponentPointLight* compPoint);
 	void RenderSpotLight(const ComponentSpotLight* compSpot);
 	void RenderAreaSphere(const ComponentAreaLight* compSphere);
 	void RenderAreaTube(const ComponentAreaLight* compTube);
+	void RenderLocalIBL(const ComponentLocalIBL* compLocal) const;
+	void RenderPlanarReflection(const ComponentPlanarReflection* compPlanar) const;
 
 	void UpdateScenePointLights();
 	void UpdateSceneSpotLights();
@@ -93,18 +97,18 @@ public:
 	void UpdateSceneAreaSpheres();
 	void UpdateSceneAreaTubes();
 	void UpdateSceneLocalIBLs();
+	void UpdateScenePlanarReflections();
 	void UpdateScenePointLight(const ComponentPointLight* compPoint);
 	void UpdateSceneSpotLight(const ComponentSpotLight* compSpot);
 	void UpdateSceneAreaSphere(const ComponentAreaLight* compSphere);
 	void UpdateSceneAreaTube(const ComponentAreaLight* compTube);
 	void UpdateSceneLocalIBL(ComponentLocalIBL* compLocal);
+	void UpdateScenePlanarReflection(ComponentPlanarReflection* compPlanar);
 
 	
 	GameObject* GetRoot() const;
 	Quadtree* GetRootQuadtree() const;
 	Cubemap* GetCubemap() const;
-	const bool GetCombatMode() const;
-	const float GetEnemiesToDefeat() const;
 	const size_t GetSizeSpotLights() const;
 	const size_t GetSizePointLights() const;
 	const int GetPointIndex(const ComponentPointLight* point);
@@ -112,17 +116,18 @@ public:
 	const int GetSpotIndex(const ComponentSpotLight* spot);
 	const int GetTubeIndex(const ComponentAreaLight* tube);
 	const GameObject* GetDirectionalLight() const;
-	const SpotLight& GetSpotLightsStruct(int index) const;
-	const PointLight& GetPointLightsStruct(int index) const;
+	SpotLight GetSpotLightsStruct(int index) const;
+	PointLight GetPointLightsStruct(int index) const;
 	const std::vector<GameObject*>& GetNonStaticObjects() const;
 	const std::vector<GameObject*>& GetSceneGameObjects() const;
 	const std::vector<ComponentCamera*>& GetSceneCameras() const;
 	const std::vector<ComponentCanvas*>& GetSceneCanvas() const;
 	const std::vector<Component*>& GetSceneInteractable() const;
 	const std::vector<Updatable*>& GetSceneUpdatable() const;
+	const std::vector<ComponentVideo*>& GetSceneVideos() const;
 	const std::vector<ComponentParticleSystem*>& GetSceneParticleSystems() const;
 	const std::vector<ComponentLine*>& GetSceneComponentLines() const;
-	std::vector<ComponentMeshRenderer*> GetMeshRenderers() const;
+	const std::vector<ComponentPlanarReflection*>& GetScenePlanarReflections() const;
 	std::vector<AABB> GetBoundingBoxes() const;
 	std::vector<ComponentAgent*> GetAgentComponents() const;
 	std::vector<float> GetVertices();
@@ -141,18 +146,13 @@ public:
 	void SetSceneCameras(const std::vector<ComponentCamera*>& cameras);
 	void SetSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void SetSceneInteractable(const std::vector<Component*>& interactable);
-	void SetSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems); // unused
-	void SetComponentLines(const std::vector<ComponentLine*>& componentLines); // unused
 	void SetDirectionalLight(GameObject* directionalLight);
-	void SetCombatMode(bool combatMode);
-	void SetEnemiesToDefeat(float enemiesToDefeat);
 
 	void AddSceneGameObjects(const std::vector<GameObject*>& gameObjects);
 	void AddSceneCameras(const std::vector<ComponentCamera*>& cameras);
 	void AddSceneCanvas(const std::vector<ComponentCanvas*>& canvas);
 	void AddSceneInteractable(const std::vector<Component*>& interactable);
 	void AddSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems);
-	void AddSceneComponentLines(const std::vector<ComponentLine*>& componentLines); // unused
 
 	void AddStaticObject(GameObject* gameObject);
 	void RemoveStaticObject(const GameObject* gameObject);
@@ -160,11 +160,14 @@ public:
 	void RemoveNonStaticObject(const GameObject* gameObject);
 	void AddUpdatableObject(Updatable* updatable);
 	
+	void AddVideoComponent(ComponentVideo* componentVideo);
 	void AddParticleSystem(ComponentParticleSystem* particleSystem);
 	void AddComponentLines(ComponentLine* componentLine);
+	void AddPlanarReflection(ComponentPlanarReflection* componentPlanarReflection, bool updateBuffer);
 	
 	void RemoveParticleSystem(const ComponentParticleSystem* particleSystem);
 	void RemoveComponentLine(const ComponentLine* componentLine);
+	void RemovePlanarReflection(const ComponentPlanarReflection* componentPlanarReflection);
 
 	void InitNewEmptyScene();
 	void InitLights();
@@ -182,10 +185,11 @@ private:
 		HAS_POINT = 0x00000002,
 		HAS_AREA_TUBE = 0x00000004,
 		HAS_AREA_SPHERE = 0X00000008,
-		HAS_LOCAL_IBL = 0X00000010
+		HAS_LOCAL_IBL = 0X00000010,
+		HAS_PLANAR_REFLECTION = 0X00000020
 	};
 
-	int& SearchForLights(GameObject* gameObject);
+	int SearchForLights(GameObject* gameObject);
 
 	GameObject* FindRootBone(GameObject* node, const std::vector<Bone>& bones);
 	const std::vector<GameObject*> CacheBoneHierarchy(GameObject* gameObjectNode, const std::vector<Bone>& bones);
@@ -193,18 +197,27 @@ private:
 	void GenerateLights();
 	void RemoveGameObjectFromScripts(const GameObject* gameObject);
 
+	void CalculateObjectsInFrustum(const math::Frustum* frustum, const Quadtree* quad,
+		std::vector<GameObject*>& gos, const int& filter = 0);
+	void CalculateNonStaticObjectsInFrustum(const math::Frustum* frustum, GameObject* go,
+		std::vector<GameObject*>& gos, const int& filter = 0);
+	bool FrustumInQuadTree(const math::Frustum* frustum, const Quadtree* quad);
+	bool ObjectInFrustum(const math::Frustum* frustum, const AABB& aabb);
+
 	std::unique_ptr<Cubemap> cubemap;
 	std::unique_ptr<GameObject> root;
 
 	std::vector<GameObject*> sceneGameObjects;
 	std::vector<ComponentCamera*> sceneCameras;
 	std::vector<ComponentCanvas*> sceneCanvas;
+	std::vector<ComponentVideo*> sceneVideos;
 	std::vector<Component*> sceneInteractableComponents;
 	std::vector<Updatable*> sceneUpdatableObjects;
 
 	// Draw is const so I need this vector
 	std::vector<ComponentParticleSystem*> sceneParticleSystems;
 	std::vector<ComponentLine*> sceneComponentLines;
+	std::vector<ComponentPlanarReflection*> sceneComponentPlanarReflection;
 	
 	GameObject* directionalLight;
 	GameObject* cubeMapGameObject;
@@ -214,16 +227,18 @@ private:
 	std::vector<AreaLightSphere> sphereLights;
 	std::vector<AreaLightTube> tubeLights;
 	std::vector<LocalIBL> localIBLs;
+	std::vector<PlanarReflection> planarReflections;
 	
 	std::vector<ComponentMeshRenderer*> meshRenderers;
 	std::vector<AABB> boundingBoxes;
 	std::vector<ComponentAgent*> agentComponents;
 
-	std::vector<std::pair<const ComponentLocalIBL*, unsigned int>> cachedLocalIBLs;
 	std::unordered_map<const ComponentPointLight*, unsigned int> cachedPoints;
 	std::unordered_map<const ComponentSpotLight*, unsigned int> cachedSpots;
 	std::unordered_map<const ComponentAreaLight*, unsigned int> cachedSpheres;
 	std::unordered_map<const ComponentAreaLight*, unsigned int> cachedTubes;
+	std::vector<std::pair<const ComponentLocalIBL*, unsigned int>> cachedLocalIBLs;
+	std::vector<std::pair<const ComponentPlanarReflection*, unsigned int>> cachedPlanarReflections;
 
 	unsigned uboDirectional;
 	unsigned ssboPoint;
@@ -231,9 +246,7 @@ private:
 	unsigned ssboSphere;
 	unsigned ssboTube;
 	unsigned ssboLocalIBL;
-
-	bool combatMode;
-	float enemiesToDefeat;
+	unsigned ssboPlanarReflection;
 
 	AABB rootQuadtreeAABB;
 	// Render Objects
@@ -286,9 +299,20 @@ inline const std::vector<ComponentParticleSystem*>& Scene::GetSceneParticleSyste
 	return sceneParticleSystems;
 }
 
+inline const std::vector<ComponentVideo*>& Scene::GetSceneVideos() const
+{
+	return sceneVideos;
+}
+
+
 inline const std::vector<ComponentLine*>& Scene::GetSceneComponentLines() const
 {
 	return sceneComponentLines;
+}
+
+inline const std::vector<ComponentPlanarReflection*>& Scene::GetScenePlanarReflections() const
+{
+	return sceneComponentPlanarReflection;
 }
 
 inline void Scene::SetSceneCameras(const std::vector<ComponentCamera*>& cameras)
@@ -306,16 +330,6 @@ inline void Scene::SetSceneInteractable(const std::vector<Component*>& interacta
 	sceneInteractableComponents = interactable;
 }
 
-inline void Scene::SetSceneParticleSystem(const std::vector<ComponentParticleSystem*>& particleSystems)
-{
-	sceneParticleSystems = particleSystems;
-}
-
-inline void Scene::SetComponentLines(const std::vector<ComponentLine*>& componentLines)
-{
-	sceneComponentLines = componentLines;
-}
-
 inline void Scene::SetDirectionalLight(GameObject* directionalLight)
 {
 	this->directionalLight = directionalLight;
@@ -329,11 +343,6 @@ inline Quadtree* Scene::GetRootQuadtree() const
 inline Cubemap* Scene::GetCubemap() const
 {
 	return cubemap.get();
-}
-
-inline std::vector<ComponentMeshRenderer*> Scene::GetMeshRenderers() const
-{
-	return meshRenderers;
 }
 
 inline std::vector<ComponentAgent*> Scene::GetAgentComponents() const
@@ -366,6 +375,21 @@ inline void Scene::AddComponentLines(ComponentLine* componentLine)
 	sceneComponentLines.push_back(componentLine);
 }
 
+inline void Scene::AddPlanarReflection(ComponentPlanarReflection* componentPlanarReflection, bool updateBuffer)
+{
+	sceneComponentPlanarReflection.push_back(componentPlanarReflection);
+	if (updateBuffer)
+	{
+		UpdateScenePlanarReflections();
+		RenderPlanarReflections();
+	}
+}
+
+inline void Scene::AddVideoComponent(ComponentVideo* componentVideo)
+{
+	sceneVideos.push_back(componentVideo);
+}
+
 inline void Scene::RemoveParticleSystem(const ComponentParticleSystem* particleSystem)
 {
 	if (this)
@@ -391,24 +415,30 @@ inline void Scene::RemoveComponentLine(const ComponentLine* componentLine)
 		std::end(sceneComponentLines));
 }
 
-inline const bool Scene::GetCombatMode() const
+inline void Scene::RemovePlanarReflection(const ComponentPlanarReflection* componentPlanarReflection)
 {
-	return combatMode;
-}
-
-inline const float Scene::GetEnemiesToDefeat() const
-{
-	return enemiesToDefeat;
+	if (this)
+	{
+		sceneComponentPlanarReflection.erase(std::remove_if(std::begin(sceneComponentPlanarReflection),
+			std::end(sceneComponentPlanarReflection),
+			[&componentPlanarReflection](ComponentPlanarReflection* planar)
+			{
+				return planar == componentPlanarReflection;
+			}),
+			std::end(sceneComponentPlanarReflection));
+		UpdateScenePlanarReflections();
+		RenderPlanarReflections();
+	}
 }
 
 inline const size_t Scene::GetSizeSpotLights() const
 {
-	return spotLights.size();
+	return static_cast<int>(spotLights.size());
 }
 
 inline const size_t Scene::GetSizePointLights() const
 {
-	return pointLights.size();
+	return static_cast<int>(pointLights.size());
 }
 
 inline std::unordered_map<const ComponentPointLight*, unsigned int>& Scene::GetCachedPointLights()

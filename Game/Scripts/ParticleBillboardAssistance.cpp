@@ -7,8 +7,9 @@
 
 REGISTERCLASS(ParticleBillboardAssistance);
 
-ParticleBillboardAssistance::ParticleBillboardAssistance() : Script()
+ParticleBillboardAssistance::ParticleBillboardAssistance() : Script() , blockY(false)
 {
+	REGISTER_FIELD(blockY, bool);
 }
 
 void ParticleBillboardAssistance::Start()
@@ -25,6 +26,11 @@ void ParticleBillboardAssistance::UpdateTransform()
 {
 	ComponentTransform* objective = App->GetModule<ModulePlayer>()->GetCameraPlayerObject()->GetComponent<ComponentTransform>();
 	float3 vecTowards = (objective->GetGlobalPosition() - ownerTransform->GetGlobalPosition()).Normalized();
+
+	if (blockY) 
+	{
+		vecTowards.y = 0.0f;
+	}
 
 	Quat rot = Quat::LookAt(ownerTransform->GetGlobalForward().Normalized(), vecTowards, ownerTransform->GetGlobalUp().Normalized(), float3::unitY);
 	Quat rotation = ownerTransform->GetGlobalRotation();

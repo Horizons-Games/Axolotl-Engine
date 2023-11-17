@@ -16,7 +16,6 @@
 #include "../Scripts/PlayerAttackScript.h"
 #include "../Scripts/PlayerMoveScript.h"
 #include "../Scripts/PlayerJumpScript.h"
-#include "../Scripts/PlayerRotationScript.h"
 #include "../Scripts/PowerUpLogicScript.h"
 #include "../Scripts/GameManager.h"
 #include "../Scripts/ComboManager.h"
@@ -48,7 +47,6 @@ void DebugGame::Start()
 	playerAttackScript = player->GetComponent<PlayerAttackScript>();
 	playerMoveScript = player->GetComponent<PlayerMoveScript>();
 	playerJumpScript = player->GetComponent<PlayerJumpScript>();
-	playerRotationScript = player->GetComponent<PlayerRotationScript>();
 	comboSystemScript = player->GetComponent<ComboManager>();
 
 	playerRigidBody = player->GetComponent<ComponentRigidBody>();
@@ -72,7 +70,7 @@ void DebugGame::Update(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_F1) == KeyState::DOWN)
 	{
 #ifndef ENGINE
-		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/__LEVEL1_ALFA.axolotl");
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_LEVEL01_ALFA.axolotl");
 		LOG_INFO("LOADING LEVEL 1");
 #endif // ENGINE
 	}

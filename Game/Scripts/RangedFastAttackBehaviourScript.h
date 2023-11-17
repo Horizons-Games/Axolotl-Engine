@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Scripting\Script.h"
+#include "..\Scripts\EnemyClass.h"
 
 class ModuleInput;
 class ComponentAudioSource;
 class ComponentTransform;
-class ComponentAnimation;
 class Scene;
 class ComponentParticleSystem;
 class ComponentAgent;
@@ -36,6 +36,7 @@ public:
 
 private:
 	void ShootBullet();
+	GameObject* SelectBullet() const;
 
 	float attackCooldown;
 	float lastAttackTime;
@@ -45,7 +46,6 @@ private:
 
 	ComponentAudioSource* audioSource;
 	ComponentTransform* transform;
-	ComponentAnimation* animation;
 	AIMovement* aiMovement;
 	ComponentRigidBody* rb;
 	ComponentParticleSystem* particleSystemShot;
@@ -54,7 +54,7 @@ private:
 	ComponentTransform* particlePreShotTransform;
 	ComponentTransform* shootPosition;
 
-	GameObject* bulletPrefab;
+	GameObject* bulletLoader;
 	float bulletVelocity;
 	float attackDamage;
 
@@ -74,4 +74,6 @@ private:
 	Scene* loadedScene;
 
 	float3 newReposition;
+
+	EnemyTypes enemyType;
 };

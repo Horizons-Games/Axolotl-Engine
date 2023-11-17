@@ -6,6 +6,7 @@
 
 RUNTIME_MODIFIABLE_INCLUDE;
 
+class GameObject;
 class Camera;
 class ModuleInput;
 class ComponentAudioSource;
@@ -42,6 +43,8 @@ public:
 
 	void Move(float deltaTime);
 	void MoveRotate(float deltaTime);
+
+	bool CheckRightTrigger();
 
 	bool IsTriggeringStoredDash() const;
 	void SetIsTriggeringStoredDash(bool isTriggeringStoredDash);
@@ -87,8 +90,14 @@ private:
 	int currentMovements;
 
 	float3 desiredRotation;
-
+	float rotationAttackVelocity;
+	
 	int waterCounter;
 
+	bool IsMovementAttacking() const;
+	bool rightTrigger;
 	void DashRoll(float deltaTime);
+	GameObject* dashBix;
+	GameObject* rollAllura;
+	bool ghostBixDashing;
 };

@@ -1,0 +1,10 @@
+{
+    "UID": 14178662922432786843,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": [
+        "Assets/Textures/Circle.png"
+    ],
+    "ConfigEmitters": [
+        false
+    ]
+}

@@ -70,6 +70,11 @@ void ElevatorCore::Update(float deltaTime)
 {
 	if (activeState == ActiveActionsElevator::ACTIVE)
 	{
+		if (App->GetModule<ModulePlayer>()->GetPlayer()->GetComponent<PlayerManagerScript>()->IsPaused())
+		{
+			return;
+		}
+
 		if (positionState == PositionState::UP)
 		{
 			MoveDownElevator(true, deltaTime);
@@ -132,13 +137,16 @@ void ElevatorCore::MoveUpElevator(bool isGOInside, float deltaTime)
 		activeState = ActiveActionsElevator::INACTIVE;
 		booked = false;
 		currentTime = coolDown;
+
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::ELEVATOR_END);
+
 		if (isGOInside)
 		{
 			if (go->CompareTag("Player"))
 			{
 				SetDisableInteractions(false);
 			}
-			else if (go->CompareTag("Enemy"))
+			else if (go->CompareTag("Enemy") || go->CompareTag("PriorityTarget"))
 			{
 				SetDisableInteractionsEnemies(go, false, false, false);
 			}
@@ -181,13 +189,16 @@ void ElevatorCore::MoveDownElevator(bool isGOInside, float deltaTime)
 		activeState = ActiveActionsElevator::INACTIVE;
 		booked = false;
 		currentTime = coolDown;
+
+		componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::ELEVATOR_END);
+
 		if (isGOInside)
 		{
 			if (go->CompareTag("Player"))
 			{
 				SetDisableInteractions(false);
 			}
-			else if (go->CompareTag("Enemy"))
+			else if (go->CompareTag("Enemy") || go->CompareTag("PriorityTarget"))
 			{
 				SetDisableInteractionsEnemies(go, false, false, false);
 			}
@@ -208,10 +219,10 @@ void ElevatorCore::MoveDownElevator(bool isGOInside, float deltaTime)
 
 void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (!App->GetModule<ModuleScene>()->GetLoadedScene()->GetCombatMode() 
-		&& activeState == ActiveActionsElevator::INACTIVE)
+	if (activeState == ActiveActionsElevator::INACTIVE)
 	{
-		if (other->GetOwner()->CompareTag("Player"))
+		if (!App->GetModule<ModulePlayer>()->IsInCombat()
+			&&  other->GetOwner()->CompareTag("Player"))
 		{
 			go = other->GetOwner();
 			goTransform = go->GetComponentInternal<ComponentTransform>();
@@ -225,13 +236,14 @@ void ElevatorCore::OnCollisionEnter(ComponentRigidBody* other)
 			{
 				booked = true;
 				//componentAnimation->SetParameter("IsActive", true);
-				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SEWERS::BIGDOOR_OPEN);
+				componentAudio->PostEvent(AUDIO::SFX::AMBIENT::SPACESTATION::ELEVATOR_START);
 				activeState = ActiveActionsElevator::ACTIVE;
 
 				SetDisableInteractions(true);
 			}
 		}
-		else if (other->GetOwner()->CompareTag("Enemy") && currentTime <= 0.0f)
+		else if ((other->GetOwner()->CompareTag("Enemy") || other->GetOwner()->CompareTag("PriorityTarget")) 
+			&& currentTime <= 0.0f)
 		{
 			go = other->GetOwner();
 			goTransform = go->GetComponentInternal<ComponentTransform>();

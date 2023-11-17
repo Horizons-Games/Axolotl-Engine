@@ -14,7 +14,6 @@
 #include "Components/ComponentAudioSource.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentTransform.h"
-#include "Components/ComponentAnimation.h"
 #include "Components/ComponentScript.h"
 #include "Components/ComponentParticleSystem.h"
 
@@ -27,15 +26,17 @@ REGISTERCLASS(RangedFastAttackBehaviourScript);
 
 RangedFastAttackBehaviourScript::RangedFastAttackBehaviourScript() : Script(), attackCooldown(5.f), 
 	lastAttackTime(0.f), particleSystemShot(nullptr), particleSystemPreShot(nullptr), audioSource(nullptr), shootPosition(nullptr),
-	particleTransform(nullptr), animation(nullptr), transform(nullptr), loadedScene(nullptr), preShotDuration(0.0f),
-	bulletVelocity(0.2f), bulletPrefab(nullptr), needReposition(false), newReposition(0,0,0), isPreShooting(false),
+	particleTransform(nullptr), transform(nullptr), loadedScene(nullptr), preShotDuration(0.0f),
+	bulletVelocity(0.2f), bulletLoader(nullptr), needReposition(false), newReposition(0,0,0), isPreShooting(false),
 	preShootingTime(0.0f), particlePreShotTransform(nullptr), numConsecutiveShots(0.0f), minTimeConsecutiveShot(0.0f),
 	maxTimeConsecutiveShot(0.0f), currentConsecutiveShots(0.0f), nextShotDuration(0.0f), shotTime(0.0f),
-	isWaitingForConsecutiveShot(false), isConsecutiveShooting(false), attackDamage(10.0f), aiMovement(nullptr)
+	isWaitingForConsecutiveShot(false), isConsecutiveShooting(false), attackDamage(10.0f), aiMovement(nullptr),
+	enemyType(EnemyTypes::NONE)
 {
 	REGISTER_FIELD(attackCooldown, float);
 
-	REGISTER_FIELD(bulletPrefab, GameObject*);
+	REGISTER_FIELD(bulletLoader, GameObject*);
+
 	REGISTER_FIELD(bulletVelocity, float);
 	REGISTER_FIELD(attackDamage, float);
 	REGISTER_FIELD(shootPosition, ComponentTransform*);
@@ -59,13 +60,17 @@ void RangedFastAttackBehaviourScript::Start()
 	{
 		particlePreShotTransform = particleSystemPreShot->GetOwner()->GetComponent<ComponentTransform>();
 	}
-	animation = owner->GetComponent<ComponentAnimation>();
 	aiMovement = owner->GetComponent<AIMovement>();
 	rb = owner->GetComponent<ComponentRigidBody>();
 
 	loadedScene = App->GetModule<ModuleScene>()->GetLoadedScene();
 
 	isPreShooting = false;
+
+	if (owner->HasComponent<EnemyClass>())
+	{
+		enemyType = owner->GetComponent<EnemyClass>()->GetEnemyType();
+	}
 }
 
 void RangedFastAttackBehaviourScript::Update(float deltaTime)
@@ -99,6 +104,18 @@ void RangedFastAttackBehaviourScript::Update(float deltaTime)
 			{
 				particleSystemPreShot->Play();
 			}
+
+			switch (enemyType)
+			{
+			case EnemyTypes::DRONE:
+				audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_CHARGE);
+				break;
+			case EnemyTypes::VENOMITE:
+				audioSource->PostEvent(AUDIO::SFX::NPC::VENOMITE::SHOT_CHARGE);
+			case EnemyTypes::MINI_BOSS:
+				audioSource->PostEvent(AUDIO::SFX::NPC::VENOMITE::SHOT_CHARGE);
+				break;
+			}
 		}
 	}
 }
@@ -130,27 +147,32 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 		particleSystemShot->Play();
 	}
 
-	animation->SetParameter("IsAttacking", true);
-
-	// Create a new bullet
-	GameObject* bullet = loadedScene->DuplicateGameObject(bulletPrefab->GetName(), bulletPrefab, owner);
+	// Select a new bullet
+	GameObject* bullet = SelectBullet();
 	
-	bullet->GetComponent<ComponentTransform>()->SetGlobalPosition(shootPosition->GetGlobalPosition());
+	bullet->Enable();
 
-	// Attach the RangedFastAttackBullet script to the new bullet to give it its logic
-	ComponentScript* script = bullet->CreateComponent<ComponentScript>();
-	script->SetScript(App->GetScriptFactory()->ConstructScript("RangedFastAttackBullet"));
-	script->SetConstuctor("RangedFastAttackBullet");
-	script->GetScript()->SetOwner(bullet);
+	RangedFastAttackBullet* bulletScript = bullet->GetComponent<RangedFastAttackBullet>();
 
-	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletVelocity(bulletVelocity);
-	bullet->GetComponent<RangedFastAttackBullet>()->SetTargetTag("Player");
-	bullet->GetComponent<RangedFastAttackBullet>()->SetBulletDamage(attackDamage);
+	bulletScript->SetInitPos(shootPosition);
+	bulletScript->SetBulletVelocity(bulletVelocity);
+	bulletScript->SetTargetTag("Player");
+	bulletScript->SetBulletDamage(attackDamage);
+	bulletScript->SetImpactSound(AUDIO::SFX::NPC::SHOT_IMPACT);
+	bulletScript->ResetValues();
+	bulletScript->ShotBullet(transform->GetGlobalForward());
 
-	// Once the engine automatically runs the Start() for newly created objects, delete this line
-	script->Start();
-
-	audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT_01);
+	switch (enemyType)
+	{
+	case EnemyTypes::DRONE:
+		audioSource->PostEvent(AUDIO::SFX::NPC::DRON::SHOT);
+		break;
+	case EnemyTypes::VENOMITE:
+		audioSource->PostEvent(AUDIO::SFX::NPC::VENOMITE::SHOT);
+	case EnemyTypes::MINI_BOSS:
+		audioSource->PostEvent(AUDIO::SFX::NPC::VENOMITE::SHOT);
+		break;
+	}
 
 	currentConsecutiveShots += 1.0f;
 	if (currentConsecutiveShots < numConsecutiveShots)
@@ -165,6 +187,18 @@ void RangedFastAttackBehaviourScript::ShootBullet()
 		currentConsecutiveShots = 0.0f;
 		lastAttackTime = SDL_GetTicks() / 1000.0f;
 	}
+}
+
+GameObject* RangedFastAttackBehaviourScript::SelectBullet() const
+{
+	for (GameObject* bullet : bulletLoader->GetChildren())
+	{
+		if (!bullet->IsEnabled())
+		{
+			return bullet;
+		}
+	}
+	return nullptr;
 }
 
 void RangedFastAttackBehaviourScript::Reposition(float3 nextPosition)

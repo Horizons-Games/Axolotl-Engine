@@ -1,0 +1,12 @@
+{
+    "UID": 911015614745657974,
+    "Type": "ParticleSystem",
+    "TexturesAssetPaths": [
+        "Assets/Textures/MaskForShader2.png",
+        "Assets/Textures/MaskForShader2.png"
+    ],
+    "ConfigEmitters": [
+        false,
+        false
+    ]
+}

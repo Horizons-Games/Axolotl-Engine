@@ -9,9 +9,11 @@ class ComponentRigidBody;
 class ComponentTransform;
 class ComponentAgent;
 class ComponentAnimation;
+class ComponentAudioSource;
 
 class AIMovement;
 class ShockWaveAttackAreaScript;
+class PatrolBehaviourScript;
 
 class ShockWaveAttackScript : public Script
 {
@@ -27,6 +29,7 @@ public:
 	bool CanPerformShockWaveAttack() const;
 
 	bool IsAttacking() const;
+	void SetIsPaused(bool isPaused);
 
 private:
 	void ManageAreaBehaviour(float deltaTime);
@@ -48,9 +51,11 @@ private:
 	ComponentTransform* transform;
 	AIMovement* aiMovement;
 	ComponentAgent* agent;
+	PatrolBehaviourScript* patrolScript;
 
 	ComponentTransform* targetPosition;
 	ComponentAnimation* animator;
+	ComponentAudioSource* audioSource;
 
 	bool isSeeking;
 	bool isPreparingShockwave;
@@ -61,4 +66,6 @@ private:
 
 	ShockWaveAttackAreaScript* outerArea;
 	ShockWaveAttackAreaScript* innerArea;
+
+	bool isPaused;
 };

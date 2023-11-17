@@ -50,6 +50,7 @@ ComponentRigidBody::ComponentRigidBody(const ComponentRigidBody& toCopy) :
 	isKinematic(toCopy.isKinematic),
 	isTrigger(toCopy.isTrigger),
 	currentShape(toCopy.currentShape),
+	translation(toCopy.translation),
 	boxSize(toCopy.boxSize),
 	radius(toCopy.radius),
 	factor(toCopy.factor),
@@ -377,12 +378,12 @@ void ComponentRigidBody::InternalLoad(const Json& meta)
 	SetZRotationAxisBlocked(static_cast<bool>(meta["zRotationAxisBlocked"]));
 }
 
-void ComponentRigidBody::SignalEnable(bool isSceneLoading)
+void ComponentRigidBody::SignalEnable()
 {
 	AddRigidBodyToDynamics();
 }
 
-void ComponentRigidBody::SignalDisable(bool isSceneLoading)
+void ComponentRigidBody::SignalDisable()
 {
 	RemoveRigidBodyFromDynamics();
 }

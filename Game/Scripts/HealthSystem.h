@@ -7,6 +7,7 @@ RUNTIME_MODIFIABLE_INCLUDE;
 
 class ComponentAnimation;
 class ComponentParticleSystem;
+class ComponentAudioSource;
 
 class PlayerAttackScript;
 class MeshEffect;
@@ -26,11 +27,13 @@ public:
 
 	float GetCurrentHealth() const;
 	float GetMaxHealth() const;
+	void SetMaxHealth(float maxHealth);
 
 	bool EntityIsAlive() const;
 
 	bool IsImmortal() const;
 	void SetIsImmortal(bool isImmortal);
+	void SetImmortalTimer(float duration);
 	
 	void SetDeathCallback(std::function<void(void)>&& callDeath);
 
@@ -42,9 +45,11 @@ private:
 	float maxHealth;
 	bool isImmortal;
 	bool damageTaken;
+	float immortalTimer;
 	GameObject* enemyParticleSystem;
 
 	ComponentAnimation* componentAnimation;
+	ComponentAudioSource* audioSource;
 	ComponentParticleSystem* componentParticleSystem;
 
 	PlayerAttackScript* attackScript;

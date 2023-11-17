@@ -17,7 +17,8 @@ enum class ResourceType
 	Cubemap,
 	Animation,
 	StateMachine,
-	ParticleSystem
+	ParticleSystem,
+	Video
 };
 
 class Resource

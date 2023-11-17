@@ -6,10 +6,13 @@
 //#include "Modules/ModuleScene.h"
 //#include "Scene/Scene.h"
 
+#include "Auxiliar/Audio/AudioData.h"
+
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidBody.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentAudioSource.h"
 
 #include "../Scripts/EnemyClass.h"
 #include "../Scripts/BossShieldScript.h"
@@ -18,6 +21,7 @@
 #include "../Scripts/EnemyVenomiteScript.h"
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/PathBehaviourScript.h"
+#include "../Scripts/AIMovement.h"
 
 REGISTERCLASS(BossShieldAttackScript);
 
@@ -25,7 +29,7 @@ BossShieldAttackScript::BossShieldAttackScript() : Script(), bossShieldObject(nu
 	shieldingTime(0.0f), shieldingMaxTime(20.0f), triggerShieldAttackCooldown(false), shieldAttackCooldown(0.0f),
 	shieldAttackMaxCooldown(50.0f), triggerEnemySpawning(false), enemiesToSpawnParent(nullptr),
 	enemySpawnTime(0.0f), enemyMaxSpawnTime(2.0f), battleArenaAreaSize(nullptr), healthSystemScript(nullptr),
-	currentPath(0), animator(nullptr)
+	currentPath(0), animator(nullptr), audioSource(nullptr), needsToSyncAnims(true)
 {
 	REGISTER_FIELD(shieldingMaxTime, float);
 	REGISTER_FIELD(shieldAttackMaxCooldown, float);
@@ -69,10 +73,16 @@ void BossShieldAttackScript::Start()
 	}
 
 	animator = owner->GetComponent<ComponentAnimation>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
 }
 
 void BossShieldAttackScript::Update(float deltaTime)
 {
+	if (isPaused)
+	{
+		return;
+	}
+
 	if (bossShieldObject->WasHitBySpecialTarget())
 	{
 		shieldingTime = 0.0f;
@@ -92,19 +102,22 @@ void BossShieldAttackScript::Update(float deltaTime)
 	}
 }
 
-void BossShieldAttackScript::TriggerShieldAttack()
+void BossShieldAttackScript::TriggerShieldAttack(bool needsToSyncAnims)
 {
 	LOG_INFO("The shield attack was triggered");
 
-	bossShieldObject->ActivateShield();
 	healthSystemScript->SetIsImmortal(true);
 	//bossShieldEnemiesSpawner->StartSpawner();
+	owner->GetComponent< AIMovement>()->SetMovementStatuses(false, false);
 
 	isShielding = true;
 	animator->SetParameter("IsShieldAttack", true);
 	shieldAttackCooldown = shieldAttackMaxCooldown;
 
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ENERGYSHIELD);
+
 	triggerEnemySpawning = true;
+	this->needsToSyncAnims = needsToSyncAnims;
 }
 
 bool BossShieldAttackScript::CanPerformShieldAttack() const
@@ -121,6 +134,16 @@ void BossShieldAttackScript::ManageShield(float deltaTime)
 {
 	if (isShielding)
 	{
+		bool isFinalBossShieldAnimReady = animator->GetActualStateName() == "BossShieldIdle" ||
+			animator->GetActualStateName() == "BossShieldInvokeEnemy";
+
+		if ((isFinalBossShieldAnimReady || !needsToSyncAnims) // Miniboss does not need to wait to sync animations
+			&& !bossShieldObject->GetOwner()->IsEnabled())
+		{
+			bossShieldObject->ActivateShield();
+
+		}
+
 		shieldingTime -= deltaTime;
 		healthSystemScript->HealLife(deltaTime * 3);
 
@@ -179,7 +202,7 @@ void BossShieldAttackScript::ManageRespawnOfEnemies()
 	for (int i = 0; i < enemiesNotReadyToSpawn.size(); ++i)
 	{
 		GameObject* enemy = enemiesNotReadyToSpawn[i];
-		if (enemy->GetComponent<HealthSystem>()->EntityIsAlive())
+		if (enemy->IsEnabled())
 		{
 			continue;
 		}
@@ -189,6 +212,7 @@ void BossShieldAttackScript::ManageRespawnOfEnemies()
 
 		enemiesReadyToSpawn.push_back(enemy);
 		enemiesNotReadyToSpawn.erase(enemiesNotReadyToSpawn.begin() + i);
+		--i;
 	}
 }
 
@@ -202,10 +226,13 @@ void BossShieldAttackScript::DisableShielding()
 	bossShieldObject->DeactivateShield();
 
 	healthSystemScript->SetIsImmortal(false);
+	owner->GetComponent< AIMovement>()->SetMovementStatuses(true, true);
 	if (!manageEnemySpawner)
 	{
 		bossShieldEnemiesSpawner->StopSpawner();
 	}
+
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::ENERGYSHIELD_STOP);
 
 	triggerShieldAttackCooldown = true;
 	triggerEnemySpawning = false;
@@ -297,4 +324,10 @@ void BossShieldAttackScript::SpawnEnemyInPosition(GameObject* selectedEnemy, con
 	newEnemyRigidBody->Enable();
 	*/
 	// ** UNUSABLE FOR NOW **
+}
+
+void BossShieldAttackScript::SetIsPaused(bool isPaused)
+{
+	this->isPaused = isPaused;
+	bossShieldEnemiesSpawner->SetIsPaused(isPaused);
 }

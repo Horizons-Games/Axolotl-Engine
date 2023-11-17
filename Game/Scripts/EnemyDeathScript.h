@@ -18,9 +18,12 @@ public:
 	void ManageEnemyDeath();
 
 	void ResetDespawnTimerAndEnableActions();
+	void SetChanceToGivePowerUp(bool nChanceToGivePowerUp);
 
 private:
 	GameObject* RequestPowerUp() const;
+	
+	GameObject* RequestDeadBody();
 
 	void DisableEnemyActions();
 	void EnableEnemyActions();
@@ -28,10 +31,13 @@ private:
 	void DespawnEnemy() const;
 
 	GameObject* powerUpParent;
+	GameObject* deadParent;
 
 	float despawnTimer;
 	bool startDespawnTimer;
 	bool chanceToGivePowerUp;
+
+	GameObject* deadBody;
 
 	ComponentParticleSystem* particleSystem;
 };

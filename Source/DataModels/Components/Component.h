@@ -35,9 +35,9 @@ public:
 
 private:
 	// Use this to send the necessary signals when the component is enabled
-	virtual void SignalEnable(bool isSceneLoading = false){};
+	virtual void SignalEnable(){};
 	// Use this to send the necessary signals when the component is disabled
-	virtual void SignalDisable(bool isSceneLoading = false){};
+	virtual void SignalDisable(){};
 
 	virtual void InternalSave(Json& meta) = 0;
 	virtual void InternalLoad(const Json& meta) = 0;
@@ -102,6 +102,8 @@ const std::string GetNameByType(ComponentType type)
 			return "Component_Slider";
 		case ComponentType::IMAGE:
 			return "Component_Image";
+		case ComponentType::VIDEO:
+			return "Component_Video";
 		case ComponentType::BUTTON:
 			return "Component_Button";
 		case ComponentType::RIGIDBODY:
@@ -188,6 +190,11 @@ const ComponentType GetTypeByName(const std::string& typeName)
 	if (typeName == "Component_Image")
 	{
 		return ComponentType::IMAGE;
+	}
+
+	if (typeName == "Component_Video")
+	{
+		return ComponentType::VIDEO;
 	}
 
 	if (typeName == "Component_Button")

@@ -14,12 +14,20 @@
 #include "Components/ComponentCamera.h"
 #include "Components/ComponentPlayer.h"
 #include "GameObject/GameObject.h"
+#include "Components/ComponentAudioSource.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "DataStructures/Quadtree.h"
 
 #include "Components/ComponentTransform.h"
 
-ModulePlayer::ModulePlayer() : cameraPlayer(nullptr), player(nullptr), componentPlayer(nullptr)
+ModulePlayer::ModulePlayer() :
+	cameraPlayer(nullptr),
+	player(nullptr),
+	componentPlayer(nullptr),
+	inCombat(false),
+	inBossCombat(false),
+	enemiesToDefeat(0)
 {
 }
 
@@ -120,4 +128,44 @@ void ModulePlayer::CheckIfActivateMouse()
 	{
 		App->GetModule<ModuleInput>()->SetShowCursor(false);
 	}
+}
+
+
+void ModulePlayer::SetInCombat(bool newmode)
+{
+	inCombat = newmode;
+	if (inCombat)
+	{
+		App->GetModule<ModuleAudio>()->SetMusicSwitch(
+			AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::COMBAT);
+	}
+	else
+	{
+		App->GetModule<ModuleAudio>()->SetMusicSwitch(
+			AUDIO::MUSIC::SWITCH::GROUP::GAMEPLAY, AUDIO::MUSIC::SWITCH::ID::GAMEPLAY::EXPLORATION);
+	}
+}
+
+void ModulePlayer::SetInBossCombat(bool newmode)
+{
+	inBossCombat = newmode;
+	SetInCombat(newmode);
+}
+
+bool ModulePlayer::IsInCombat()
+{
+	return inCombat || inBossCombat;
+}
+
+bool ModulePlayer::IsInBossCombat()
+{
+	return inBossCombat;
+}
+
+
+void ModulePlayer::SetEnemiesToDefeat(float newEnemiesToDefeat)
+{
+	enemiesToDefeat = static_cast<int>(newEnemiesToDefeat);
+	if (newEnemiesToDefeat <= 0.0f && !inBossCombat)
+		SetInCombat(false);
 }

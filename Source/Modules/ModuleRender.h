@@ -69,6 +69,7 @@ public:
 	bool IsVSMEnabled() const;
 	bool IsSsaoEnabled() const;
 	bool IsBloomEnabled() const;
+	bool IsCSMDebugEnabled() const;
 	LightPass* GetLightProxy() const;
 
 	void SetBloomIntensity(float color);
@@ -82,16 +83,13 @@ public:
 	bool IsObjectInsideFrustrum(const GameObject* gameObject);
 
 	void DrawQuadtree(const Quadtree* quadtree);
-
-	void FillCharactersBatches();
-	void RelocateGOInBatches(GameObject* go);
-
 	void DrawMeshesByFilter(std::vector<GameObject*>& objects, ProgramType type, bool normalBehaviour = true);
 
 	void SortOpaques(std::vector<GameObject*>& sceneGameObjects, const float3& pos);
 	void SortTransparents(std::vector<GameObject*>& sceneGameObjects, const float3& pos);
 	
 	void BindCameraToProgram(Program* program, Frustum& frustum);
+	void BindCubemapToProgram(Program* program);
 
 private:
 
@@ -115,8 +113,6 @@ private:
 	bool CheckIfTransparent(const GameObject* gameObject);
 
 	void DrawHighlight(GameObject* gameObject);
-
-	void BindCubemapToProgram(Program* program);
 
 	void KawaseDualFiltering();
 
@@ -284,4 +280,9 @@ inline bool ModuleRender::IsSsaoEnabled() const
 inline bool ModuleRender::IsBloomEnabled() const
 {
 	return bloomActivation;
+}
+
+inline bool ModuleRender::IsCSMDebugEnabled() const
+{
+	return shadows->UseCSMDebug();
 }

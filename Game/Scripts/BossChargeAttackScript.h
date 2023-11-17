@@ -8,8 +8,11 @@ RUNTIME_MODIFIABLE_INCLUDE;
 class ComponentTransform;
 class ComponentRigidBody;
 class ComponentAnimation;
+class ComponentAudioSource;
 
 class FinalBossScript;
+class BossWallChecker;
+class HealthSystem;
 
 enum class ChargeState
 {
@@ -34,6 +37,7 @@ public:
 	bool CanPerformChargeAttack() const;
 
 	bool IsAttacking() const;
+	void SetIsPaused(bool isPaused);
 
 private:
 	void ManageChargeAttackStates(float deltaTime);
@@ -52,7 +56,9 @@ private:
 	ComponentTransform* transform;
 	ComponentRigidBody* rigidBody;
 	ComponentAnimation* animator;
+	ComponentAudioSource* audioSource;
 	FinalBossScript* finalBossScript;
+	HealthSystem* healthSystem;
 
 	ComponentTransform* chargeThroughPosition;
 
@@ -68,6 +74,7 @@ private:
 	float prepareChargeMaxTime;
 	float chargeMaxCooldown;
 	float attackStunTime;
+	float chargeForce;
 	float chargeDamage;
 
 	float spawningRockChance;
@@ -76,4 +83,10 @@ private:
 	GameObject* rockPrefab;
 
 	bool isRockAttackVariant;
+
+	bool isPaused;
+	BossWallChecker* wallChecker;
+
+	GameObject* propulsorVFX;
+	GameObject* hitWallVFX;
 };

@@ -6,16 +6,21 @@
 #include "Modules/ModuleScene.h"
 #include "Scene/Scene.h"
 #include "Physics/Physics.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "Components/ComponentScript.h"
 #include "Components/ComponentTransform.h"
 #include "Components/ComponentRigidbody.h"
+#include "Components/ComponentBreakable.h"
 #include "Components/ComponentAnimation.h"
+#include "Components/ComponentObstacle.h"
+#include "Components/ComponentAudioSource.h"
 
 #include "../Scripts/EnemyClass.h"
 #include "../Scripts/HealthSystem.h"
 #include "../Scripts/BossChargeRockScript.h"
 #include "../Scripts/FinalBossScript.h"
+#include "../Scripts/BossWallChecker.h"
 
 REGISTERCLASS(BossChargeAttackScript);
 
@@ -23,12 +28,13 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 	chargeCooldown(0.0f), transform(nullptr), rigidBody(nullptr), chargeState(ChargeState::NONE),
 	chargeHitPlayer(false), bounceBackForce(5.0f), prepareChargeMaxTime(2.0f), chargeMaxCooldown(5.0f),
 	attackStunTime(4.0f), chargeDamage(20.0f), rockPrefab(nullptr), spawningRockChance(5.0f), rockSpawningHeight(7.0f),
-	isRockAttackVariant(false), animator(nullptr)
+	isRockAttackVariant(false), animator(nullptr), chargeForce(1.25f), wallChecker(nullptr), healthSystem(nullptr)
 {
 	REGISTER_FIELD(bounceBackForce, float);
 	REGISTER_FIELD(prepareChargeMaxTime, float);
 	REGISTER_FIELD(chargeMaxCooldown, float);
 	REGISTER_FIELD(attackStunTime, float);
+	REGISTER_FIELD(chargeForce, float);
 	REGISTER_FIELD(chargeDamage, float);
 
 	REGISTER_FIELD(spawningRockChance, float);
@@ -37,27 +43,43 @@ BossChargeAttackScript::BossChargeAttackScript() : Script(), chargeThroughPositi
 	REGISTER_FIELD(rockPrefab, GameObject*);
 
 	REGISTER_FIELD(isRockAttackVariant, bool);
+
+	REGISTER_FIELD(wallChecker, BossWallChecker*);
+
+	REGISTER_FIELD(propulsorVFX, GameObject*);
+	REGISTER_FIELD(hitWallVFX, GameObject*);
 }
 
 void BossChargeAttackScript::Start()
 {
 	prepareChargeTime = prepareChargeMaxTime;
+	chargeCooldown = 5.0f;
 
 	transform = owner->GetComponent<ComponentTransform>();
 	rigidBody = owner->GetComponent<ComponentRigidBody>();
 	animator = owner->GetComponent<ComponentAnimation>();
+	audioSource = owner->GetComponent<ComponentAudioSource>();
+	healthSystem = owner->GetComponent<HealthSystem>();
 
 	finalBossScript = owner->GetComponent<FinalBossScript>();
 }
 
 void BossChargeAttackScript::Update(float deltaTime)
 {
-	ManageChargeAttackStates(deltaTime);
+	if (!isPaused)
+	{
+		if (chargeState == ChargeState::CHARGING)
+		{
+			rigidBody->SetKpForce(chargeForce);
+		}
+		ManageChargeAttackStates(deltaTime);
+	}
 }
 
 void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 {
-	if (chargeState == ChargeState::PREPARING_CHARGE && other->GetOwner()->CompareTag("Wall"))
+	if (chargeState == ChargeState::PREPARING_CHARGE && 
+		(other->GetOwner()->CompareTag("Wall") || other->GetOwner()->CompareTag("Rock")))
 	{
 		prepareChargeTime = 0.0f;
 	}
@@ -74,6 +96,9 @@ void BossChargeAttackScript::OnCollisionEnter(ComponentRigidBody* other)
 		{
 			MakeRocksFall();
 		}
+
+		audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_HIT);
+		// VFX Here: The boss hit the wall after a charge attack
 	}
 	else if (chargeState == ChargeState::CHARGING && !chargeHitPlayer && other->GetOwner()->CompareTag("Player"))
 	{
@@ -99,6 +124,10 @@ void BossChargeAttackScript::TriggerChargeAttack(ComponentTransform* targetPosit
 
 	chargeThroughPosition = targetPosition;
 	chargeHitPlayer = false;
+
+	//audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_LOAD);
+
+	// VFX Here: The boss started the charge attack (going backwards or yelling, whatever you want to add)
 }
 
 void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
@@ -123,7 +152,7 @@ void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
 		rigidBody->SetIsTrigger(true);
 		rigidBody->SetYAxisBlocked(true);
 		rigidBody->SetUpMobility();
-		if (isRockAttackVariant)
+		if (isRockAttackVariant && !wallChecker->IsFacingNearWall())
 		{
 			float spawnRockActualChange = App->GetModule<ModuleRandom>()->RandomNumberInRange(100.0f);
 
@@ -157,10 +186,13 @@ void BossChargeAttackScript::ManageChargeAttackStates(float deltaTime)
 			/*rigidBody->SetXRotationAxisBlocked(false);
 			rigidBody->SetYRotationAxisBlocked(false);
 			rigidBody->SetZRotationAxisBlocked(false);*/
-
+			audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_STUNNED_STOP);
 			rocksSpawned.clear();
 
 			chargeState = ChargeState::NONE;
+			animator->SetParameter("IsChargingHitWall", false);
+			hitWallVFX->Disable();
+			healthSystem->SetIsImmortal(false);
 		}
 		else
 		{
@@ -177,10 +209,10 @@ void BossChargeAttackScript::PrepareCharge() const
 	float3 forward = transform->GetGlobalForward();
 	forward.Normalize();
 
+
+
 	rigidBody->SetKpForce(0.5f);
-	rigidBody->SetPositionTarget(float3(forward.x * -5.0f + transform->GetGlobalPosition().x,
-										transform->GetGlobalPosition().y,
-										forward.z * -5.0f + transform->GetGlobalPosition().z));
+	rigidBody->SetPositionTarget(transform->GetGlobalPosition() - 5.0f*forward);
 }
 
 void BossChargeAttackScript::PerformChargeAttack()
@@ -192,15 +224,22 @@ void BossChargeAttackScript::PerformChargeAttack()
 	rigidBody->SetYRotationAxisBlocked(true);
 	rigidBody->SetZRotationAxisBlocked(true);*/
 
-	rigidBody->SetKpForce(0.5f);
-	rigidBody->SetPositionTarget(float3(forward.x * 50.0f,
-										transform->GetGlobalPosition().y,
-										forward.z * 50.0f));
+	rigidBody->SetKpForce(chargeForce);
+	rigidBody->SetPositionTarget(transform->GetGlobalPosition() + 150.0f *forward);
 
 	prepareChargeTime = prepareChargeMaxTime;
 	chargeState = ChargeState::CHARGING;
+	healthSystem->SetIsImmortal(true);
 	animator->SetParameter("IsPreparingChargeAttack", false);
 	animator->SetParameter("IsCharging", true);
+
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_ATTACK);
+	
+	propulsorVFX->GetChildren()[0]->Enable();
+	propulsorVFX->GetChildren()[0]->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
+
+	propulsorVFX->GetChildren()[1]->Enable();
+	propulsorVFX->GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Play();
 }
 
 void BossChargeAttackScript::WallHitAfterCharge() const
@@ -221,6 +260,17 @@ void BossChargeAttackScript::WallHitAfterCharge() const
 
 	EnemyClass* enemyScript = owner->GetComponent<EnemyClass>();
 	enemyScript->SetStunnedTime(attackStunTime);
+
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_HIT);
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_WALL_STUNNED);
+
+	propulsorVFX->GetChildren()[0]->Disable();
+	propulsorVFX->GetChildren()[0]->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+
+	propulsorVFX->GetChildren()[1]->Disable();
+	propulsorVFX->GetChildren()[1]->GetChildren()[0]->GetComponent<ComponentParticleSystem>()->Stop();
+
+	hitWallVFX->Enable();
 }
 
 bool BossChargeAttackScript::CanPerformChargeAttack() const
@@ -242,14 +292,29 @@ void BossChargeAttackScript::SpawnRock(const float3& spawnPosition)
 
 	ComponentTransform* newRockTransform = newRock->GetComponent<ComponentTransform>();
 	newRockTransform->SetGlobalPosition(spawnPosition);
+	newRockTransform->SetGlobalRotation(
+		float3(newRockTransform->GetGlobalRotation().x, 
+			App->GetModule<ModuleRandom>()->RandomNumberInRange(360.f),
+			newRockTransform->GetGlobalRotation().z));
 	newRockTransform->RecalculateLocalMatrix();
+	newRockTransform->UpdateTransformMatrices();
 
-	newRock->Enable();
 	ComponentRigidBody* newRockRigidBody = newRock->GetComponent<ComponentRigidBody>();
-	newRockRigidBody->SetDefaultPosition();
+	newRockRigidBody->UpdateRigidBody();
 	newRockRigidBody->Enable();
 
+	ComponentBreakable* newRockBreakable = newRock->GetComponent<ComponentBreakable>();
+
+	
+
+	if (!newRock->GetChildren().empty())
+	{
+		newRock->GetChildren().front()->Enable();
+	}
+
 	rocksSpawned.push_back(newRock);
+
+	audioSource->PostEvent(AUDIO::SFX::NPC::FINALBOSS::CHARGE_ROCKS);
 }
 
 void BossChargeAttackScript::MakeRocksFall() const
@@ -258,8 +323,11 @@ void BossChargeAttackScript::MakeRocksFall() const
 	{
 		if (!spawnedRock->IsEnabled())
 		{
+			spawnedRock->GetComponent<BossChargeRockScript>()->DestroyRock();
 			continue;
 		}
+
+		spawnedRock->GetComponent<ComponentObstacle>()->RemoveObstacle();
 
 		ComponentRigidBody* rockRigidBody = spawnedRock->GetComponent<ComponentRigidBody>();
 		rockRigidBody->SetIsTrigger(false);
@@ -268,8 +336,7 @@ void BossChargeAttackScript::MakeRocksFall() const
 
 		spawnedRock->GetComponent<BossChargeRockScript>()->SetRockState(RockStates::FALLING);
 
-		// This will need any kind of warning for the player in the future
-		// Maybe a particle in the floor that shows where the rock is going to land
+		// VFX Here: Rock falling warning
 	}
 }
 
@@ -280,4 +347,15 @@ void BossChargeAttackScript::RotateToTarget(ComponentTransform* target) const
 			(target->GetGlobalPosition() - transform->GetGlobalPosition()).Normalized());
 
 	rigidBody->SetRotationTarget(errorRotation);
+}
+
+void BossChargeAttackScript::SetIsPaused(bool isPaused)
+{
+	rigidBody->SetKpForce(0.f);
+	this->isPaused = isPaused;
+
+	if (!isPaused && chargeState == ChargeState::CHARGING)
+	{
+		rigidBody->SetKpForce(0.5f);
+	}
 }

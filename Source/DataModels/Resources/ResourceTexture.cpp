@@ -32,12 +32,6 @@ void ResourceTexture::InternalUnload()
 	glMakeTextureHandleNonResidentARB(handle);
 	glDeleteTextures(1, &glTexture);
 
-	// check OpenGL error
-	GLenum error = glGetError();
-	if (error != GL_NO_ERROR) {
-		SDL_assert(SDL_FALSE && "Problem with texture delete");
-	}
-
 	glTexture = 0;
 }
 

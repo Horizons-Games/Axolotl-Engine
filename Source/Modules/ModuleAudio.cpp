@@ -4,6 +4,7 @@
 
 #include "Application.h"
 #include "FileSystem/ModuleFileSystem.h"
+#include "Auxiliar/Audio/AudioData.h"
 
 #include "AK/MusicEngine/Common/AkMusicEngine.h" // Music Engine
 #include "AK/SoundEngine/Common/AkMemoryMgr.h"	 // Memory Manager interface
@@ -119,6 +120,7 @@ bool ModuleAudio::Init()
 
 bool ModuleAudio::Start()
 {
+	SetLowPassFilter(0.0f);
 	return true;
 }
 
@@ -242,4 +244,41 @@ bool ModuleAudio::InitializeBanks()
 	}
 	
 	return true;
+}
+
+void ModuleAudio::StopAllSFX()
+{
+	AK::SoundEngine::PostEvent(AUDIO::SFX::STOPALLSFX, musicID);
+	AK::SoundEngine::RenderAudio();
+}
+
+
+void ModuleAudio::SetMasterVolume(float value)
+{
+	AK::SoundEngine::SetRTPCValue(AUDIO::CONTROLLERS::MASTERVOLUME, value);
+}
+
+void ModuleAudio::SetMusicVolume(float value)
+{
+	AK::SoundEngine::SetRTPCValue(AUDIO::CONTROLLERS::MUSICVOLUME, value);
+}
+
+void ModuleAudio::SetSFXVolume(float value)
+{
+	AK::SoundEngine::SetRTPCValue(AUDIO::CONTROLLERS::SFXVOLUME, value);
+}
+
+void ModuleAudio::SetLowPassFilter(float value)
+{
+	AK::SoundEngine::SetRTPCValue(AUDIO::CONTROLLERS::LOWPASSFILTER, value);
+}
+
+void ModuleAudio::SetMusicID(uint64_t sourceID)
+{
+	musicID = sourceID;
+}
+
+void ModuleAudio::SetMusicSwitch(const wchar_t* switchGroup, const wchar_t* switchSound)
+{
+	AK::SoundEngine::SetSwitch(switchGroup, switchSound, musicID);
 }

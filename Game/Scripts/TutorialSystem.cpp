@@ -30,11 +30,14 @@
 REGISTERCLASS(TutorialSystem);
 
 TutorialSystem::TutorialSystem() :
-	Script(), tutorialCurrentState(0), tutorialTotalStates(0), stateWaitTime(0.0f), 
-	totalStateWaitTime(0.0f), dummy(nullptr), numNotControllableStates(0.0f), initialPos(45.0f, -195.0f, 0.0f), isWaiting(false)
+	Script(), tutorialCurrentState(1), tutorialTotalStates(0), stateWaitTime(0.0f), 
+	totalStateWaitTime(0.0f), dummy(nullptr), numNotControllableStates(0.0f), initialPos(-46.0f, -208.665f, 0.0f), isWaiting(false),
+	stayPos(-46.0f, 208.665f, 0.0f)
 {
 	REGISTER_FIELD(totalStateWaitTime, float);
 	REGISTER_FIELD(stateWaitTime, float); 
+	REGISTER_FIELD(tutorialCurrentState, float);
+	REGISTER_FIELD(tutorialTotalStates, float);
 
 	REGISTER_FIELD(numNotControllableStates, float);
 
@@ -50,7 +53,7 @@ void TutorialSystem::Start()
 	currentTutorialUI = tutorialUI.front();
 	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
 	transform2D = currentTutorialUI->GetComponent<ComponentTransform2D>();
-	
+	tutorialTotalStates = static_cast<float>(tutorialUI.size()) - 1.f;
 	stateWaitTime = totalStateWaitTime;
 
 	if (dummy)
@@ -66,64 +69,51 @@ void TutorialSystem::Update(float deltaTime)
 	{
 		stateWaitTime-= deltaTime;
 		if (stateWaitTime <= 0)
-	        {
-		     isWaiting = false;
-		     stateWaitTime = totalStateWaitTime;
-		     DeployUI();
-	        }
+	    {
+			isWaiting = false;
+			stateWaitTime = totalStateWaitTime;
+			DeployUI();
+	    }
 	}
 }
 
 void TutorialSystem::TutorialStart()
 {
-	tutorialCurrentState = 0;
-	tutorialTotalStates = static_cast<int>(tutorialUI.size()) - 1;
 	currentTutorialUI->Enable();
-	transform2D->SetPosition(initialPos);
-	transform2D->CalculateMatrices();
 	displacementControl->SetMovingToEnd(true);
 	displacementControl->MoveImageToEndPosition();
-	//componentMoveScript->SetIsParalyzed(true);
-
 }
 
 void TutorialSystem::DeployUI()
 {
-	transform2D->SetPosition(initialPos);
-	transform2D->CalculateMatrices();
 	currentTutorialUI->Enable();
-	
-	displacementControl->SetMovingToEnd(true);
-	displacementControl->MoveImageToEndPosition();
+	ComponentTransform2D* transform2D = currentTutorialUI->GetComponent<ComponentTransform2D>();
+	transform2D->SetPosition(stayPos);
+	transform2D->CalculateMatrices();
 
-	if (tutorialCurrentState == int(numNotControllableStates) && dummy)
+	/*if (tutorialCurrentState == int(numNotControllableStates) && dummy)
 	{
 		dummyHealthSystem->SetIsImmortal(false);
-	}	
+	}	*/
 }
 
 void TutorialSystem::UnDeployUI()
 {
 	if (tutorialCurrentState < tutorialTotalStates)
 	{
+		totalStateWaitTime = 0.05f;	
+		stateWaitTime = 0.05f;
 		isWaiting = true;
-		currentTutorialUI->Enable();
-		displacementControl->SetMovingToEnd(false);
-		displacementControl->MoveImageToStarPosition();
-
-		displacementControl->SetIsMoving(true);
+		currentTutorialUI->Disable();
 
 		tutorialCurrentState++;
-		currentTutorialUI = tutorialUI[tutorialCurrentState];
+		currentTutorialUI = tutorialUI[static_cast<size_t>(tutorialCurrentState)];
 		displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
-		displacementControl->SetIsMoving(true);
-		if (dummy)
+		/*if (dummy)
 		{
 			dummyHealthSystem->SetIsImmortal(true);
-		}
+		}*/
 	}
-
-
 	else
 	{
 		TutorialEnd();
@@ -133,29 +123,31 @@ void TutorialSystem::UnDeployUI()
 
 void TutorialSystem::TutorialEnd()
 {
+	totalStateWaitTime = 2.0f;
+	stateWaitTime = 2.0f;
 	displacementControl->SetMovingToEnd(false);
-	displacementControl->MoveImageToStarPosition();
-	currentTutorialUI = tutorialUI[tutorialCurrentState];
+	displacementControl->MoveImageToStartPosition();
 	componentMoveScript->SetIsParalyzed(false);
 	LOG_INFO("TutorialExit");
 }
 
 void TutorialSystem::TutorialSkip()
 {
+	totalStateWaitTime = 2.0f;
+	stateWaitTime = 2.0f;
 	displacementControl->SetMovingToEnd(false);
-	displacementControl->MoveImageToStarPosition();
-	//currentTutorialUI->Disable();
+	displacementControl->MoveImageToStartPosition();
 	tutorialCurrentState = 0;
 	currentTutorialUI = tutorialUI.front();
 	displacementControl = currentTutorialUI->GetComponent<UIImageDisplacementControl>();
-	currentTutorialUI = tutorialUI[tutorialCurrentState];
 	componentMoveScript->SetIsParalyzed(false);
+	owner->Disable();
 	LOG_INFO("TutorialSkipped");
 }
 
 int TutorialSystem::GetTutorialCurrentState() const
 {
-	return tutorialCurrentState;
+	return static_cast<int>(tutorialCurrentState);
 }
 
 float TutorialSystem::GetNumControllableState() const
@@ -163,14 +155,19 @@ float TutorialSystem::GetNumControllableState() const
 	return numNotControllableStates;
 }
 
+void TutorialSystem::SetNumControllableState(int controllableState) 
+{
+	numNotControllableStates = static_cast<float>(controllableState);
+}
+
 int TutorialSystem::GetTutorialSlideSize() const
 {
-	return tutorialTotalStates;
+	return static_cast<int>(tutorialTotalStates);
 }
 
 void TutorialSystem::SetTutorialSlideSize(int tutorialTotalStates)
 {
-	this->tutorialTotalStates = tutorialTotalStates;
+	this->tutorialTotalStates = static_cast<float>(tutorialTotalStates);
 }
 
 
