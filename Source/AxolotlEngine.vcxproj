@@ -195,6 +195,7 @@
     <ClCompile Include="..\Game\Scripts\CameraBossControllerScript.cpp" />
     <ClCompile Include="..\Game\Scripts\CombatZoneScript.cpp" />
     <ClCompile Include="..\Game\Scripts\ComboManager.cpp" />
+    <ClCompile Include="..\Game\Scripts\DebugGameMenu.cpp" />
     <ClCompile Include="..\Game\Scripts\ElevatorCore.cpp" />
     <ClCompile Include="..\Game\Scripts\EnemyClass.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseEngine|x64'">NotUsing</PrecompiledHeader>
@@ -940,6 +941,7 @@
     <ClInclude Include="..\Game\Scripts\CameraBossControllerScript.h" />
     <ClInclude Include="..\Game\Scripts\CombatZoneScript.h" />
     <ClInclude Include="..\Game\Scripts\ComboManager.h" />
+    <ClInclude Include="..\Game\Scripts\DebugGameMenu.h" />
     <ClInclude Include="..\Game\Scripts\ElevatorCore.h" />
     <ClInclude Include="..\Game\Scripts\EnemyClass.h" />
     <ClInclude Include="..\Game\Scripts\EnemyMiniBossTwo.h" />
