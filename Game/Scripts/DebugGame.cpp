@@ -1,3 +1,4 @@
+#include "StdAfx.h"
 #include "DebugGame.h"
 
 #include "Application.h"
@@ -70,28 +71,28 @@ void DebugGame::Update(float deltaTime)
 	if (input->GetKey(SDL_SCANCODE_F1) == KeyState::DOWN)
 	{
 #ifndef ENGINE
-		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_LEVEL01_ALFA.axolotl");
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_LEVEL01_CANTINA.axolotl");
 		LOG_INFO("LOADING LEVEL 1");
 #endif // ENGINE
 	}
 	else if (input->GetKey(SDL_SCANCODE_F2) == KeyState::DOWN)
 	{
 #ifndef ENGINE
-		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_LEVEL02_ALFA.axolotl");
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_LEVEL02_SERVICETUNNEL.axolotl");
 		LOG_INFO("LOADING LEVEL 2");
 #endif // ENGINE
 	}
 	else if (input->GetKey(SDL_SCANCODE_F3) == KeyState::DOWN)
 	{
 #ifndef ENGINE
-		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_LEVEL_BOSS.axolotl");
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_LEVEL03_SPACESTATION.axolotl");
 		LOG_INFO("LOADING BOSS FIGHT");
 #endif // ENGINE
 	}
 	else if (input->GetKey(SDL_SCANCODE_F4) == KeyState::DOWN)
 	{
 #ifndef ENGINE
-		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/00_MainMenu_VS3.axolotl");
+		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_LEVEL04_HANDOFDOMINION.axolotl");
 		LOG_INFO("LOADING LEVEL 2");
 #endif // ENGINE
 	}
