@@ -39,4 +39,16 @@ void UIGameManagerMainMenu::Update(float deltaTime)
 	}
 	InputMethodImg(inputMethod);
 
+	// DEBUG MODE
+	if (input->GetKey(SDL_SCANCODE_B) == KeyState::DOWN && debugModeObject)
+	{
+		if (!debugModeObject->IsEnabled())
+		{
+			debugModeObject->Enable();
+		}
+		else
+		{
+			debugModeObject->Disable();
+		}
+	}
 }

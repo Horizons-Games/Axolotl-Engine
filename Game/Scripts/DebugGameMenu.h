@@ -15,6 +15,6 @@ public:
 	void Update(float deltaTime) override;
 
 private:
-	bool isDebugModeActive;
+
 	ModuleInput* input;
 };

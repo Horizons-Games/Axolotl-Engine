@@ -34,7 +34,7 @@ public:
 	void Teleport();
 	bool IsTeleporting() const;
 
-private:
+protected:
 	bool isDebugModeActive;
 	bool isDead;
 	int debugCurrentPosIndex;

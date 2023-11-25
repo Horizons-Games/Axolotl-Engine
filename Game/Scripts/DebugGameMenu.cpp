@@ -27,9 +27,8 @@
 
 REGISTERCLASS(DebugGameMenu);
 
-DebugGameMenu::DebugGameMenu() : DebugGame(), isDebugModeActive(false)
+DebugGameMenu::DebugGameMenu() : DebugGame()
 {
-	REGISTER_FIELD(isDebugModeActive, bool);
 }
 
 void DebugGameMenu::Start()
@@ -53,28 +52,28 @@ void DebugGameMenu::Update(float deltaTime)
 	{
 #ifndef ENGINE
 		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_LEVEL01_CANTINA.axolotl");
-		LOG_INFO("LOADING LEVEL 1");
 #endif // ENGINE
+		LOG_INFO("LOADING LEVEL 1");
 	}
 	else if (input->GetKey(SDL_SCANCODE_F2) == KeyState::DOWN)
 	{
 #ifndef ENGINE
 		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_LEVEL02_SERVICETUNNEL.axolotl");
-		LOG_INFO("LOADING LEVEL 2");
 #endif // ENGINE
+		LOG_INFO("LOADING LEVEL 2");
 	}
 	else if (input->GetKey(SDL_SCANCODE_F3) == KeyState::DOWN)
 	{
 #ifndef ENGINE
 		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_LEVEL03_SPACESTATION.axolotl");
-		LOG_INFO("LOADING BOSS FIGHT");
 #endif // ENGINE
+		LOG_INFO("LOADING BOSS FIGHT");
 	}
 	else if (input->GetKey(SDL_SCANCODE_F4) == KeyState::DOWN)
 	{
 #ifndef ENGINE
 		App->GetModule<ModuleScene>()->SetSceneToLoad("Lib/Scenes/_LEVEL04_HANDOFDOMINION.axolotl");
-		LOG_INFO("LOADING LEVEL 2");
 #endif // ENGINE
+		LOG_INFO("LOADING LEVEL 2");
 	}
 }

@@ -12941,7 +12941,7 @@
                             "type": "Component_Transform2D",
                             "active": true,
                             "removed": true,
-                            "localPositionX": 857.9905395507813,
+                            "localPositionX": 1300.0,
                             "localPositionY": -407.0,
                             "localPositionZ": 0.0,
                             "localRot_X": 0.0,
@@ -12956,9 +12956,9 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 991.1871337890625,
+                            "worldAABB_min_x": 1374.4921875,
                             "worldAABB_min_y": 779.40625,
-                            "worldAABB_max_x": 1121.2652587890625,
+                            "worldAABB_max_x": 1504.5703125,
                             "worldAABB_max_y": 909.484375
                         }
                     },
@@ -12994,7 +12994,7 @@
                             "type": "Component_Transform2D",
                             "active": true,
                             "removed": true,
-                            "localPositionX": 861.8672485351563,
+                            "localPositionX": 1300.0,
                             "localPositionY": -408.7623291015625,
                             "localPositionZ": 0.0,
                             "localRot_X": 0.0,
@@ -13009,9 +13009,9 @@
                             "localAABB_min_y": -0.5,
                             "localAABB_max_x": 0.5,
                             "localAABB_max_y": 0.5,
-                            "worldAABB_min_x": 992.988037109375,
+                            "worldAABB_min_x": 1372.9312744140625,
                             "worldAABB_min_y": 779.37353515625,
-                            "worldAABB_max_x": 1126.18798828125,
+                            "worldAABB_max_x": 1506.1312255859375,
                             "worldAABB_max_y": 912.5736083984375
                         }
                     },
